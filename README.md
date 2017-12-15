@@ -29,4 +29,5 @@ To meld these frameworks together, we looked at how Mitre mapped their ATT&CK da
 |Malware|	Adversary Malware|
 |Tool	|Adversary Tool|
 
+If you want to try this tool out, view it here: https://pan-unit42.github.io/playbook_viewer/
 
