@@ -5,6 +5,7 @@ var total_indicators = null;
 var total_attackpatterns = null;
 var total_campaigns = null;
 
+
 String.prototype.replaceAll = function(search, replacement) {
 	var target = this;
 	return target.split(search).join(replacement);
@@ -61,14 +62,14 @@ jQuery(document).ready(function($) {
 
 
 
-$('#playbook_button').on('click', function() {
+$('#playbook_button').on('click' , function() {
 	var pb_file = $(this).attr("pb_file");
 	var playbook;
 	loadPlaybook(pb_url + pb_file, playbook);
 });
 
 
-$(document).on('click', '.btn-report', function(event) {
+$(document).on('click touchstart', '.btn-report', function(event) {
 	var report_id = $(this).attr("report_id");
 	highlightLink(report_id);
 	displayReportByID(report_id, current_playbook);
@@ -137,7 +138,7 @@ function addInfobox(playbook) {
 	total_indicators = getTypeFromPlaybook("indicator", playbook).length;
 	//How Many Attack Patterns
 	total_attackpatterns = getTypeFromPlaybook("attack-pattern", playbook).length;
-	ib_markup = '<div class="left">' + ib_markup + '</div>' + '<div class="middle">' + "<span>Total Campaigns:</span> " + total_campaigns + '</div>' + '<div class="middle2">' + "<span>Total Indicators:</span> " + total_indicators + '</div>' + '<div class="right">' + "<span>Total Attack Patterns:</span> " + total_attackpatterns + '</div>';
+	ib_markup = '<div class="left">' + ib_markup + '</div>' + '<div class="middle">' + "<span>Campaigns:</span> " + total_campaigns + '</div>' + '<div class="middle2">' + "<span>Indicators:</span> " + total_indicators + '</div>' + '<div class="right">' + "<span>Attack Patterns:</span> " + total_attackpatterns + '</div>';
 	$('.info').empty();
 	$('.info').append(ib_markup);
 }
@@ -218,8 +219,8 @@ function addReportLinks(playbook) {
 		start_text = (months[rep.first_seen.getMonth()]) + " " + rep.first_seen.getFullYear()
 		end_text = (months[rep.last_seen.getMonth()]) + " " + rep.last_seen.getFullYear()
 		date_text = start_text + " to " + end_text
-		rep_width = Math.max(Math.floor(rep.campaign_length / total_days * 90), 30);
-		report_markup = '<div class="timeline_btn btn btn-report" ' + 'report_id="' + rep.id + '" style="width:' + rep_width + '%;">' + date_text + '</div>'
+		rep_width = Math.max(Math.floor(rep.campaign_length / total_days * 1), 95);
+		report_markup = '<div class="timeline_btn btn btn-report" ' + 'onclick=""' + 'report_id="' + rep.id + '">' + date_text + '</div>'
 		$('.timeline').append(report_markup);
 	}
 
@@ -262,7 +263,7 @@ function buildPhaseContainer(report, playbook) {
 		for (c in columns) {
 			column = columns[c];
 			if (column.length > i) {
-				ap_markup = ap_markup + '<div class="phases ap_button" ap_id=' + column[i].id + '>' + column[i].name + '</div>';
+				ap_markup = ap_markup + '<div class="phases ap_button" ap_id=' + column[i].id + ' onclick=""' + '>' + column[i].name + '</div>';
 				writeAPModal(column[i], playbook);
 			} else {
 				ap_markup = ap_markup + '<div class="phasesblank"></div>';
@@ -311,7 +312,7 @@ $(document).on('click', '.close', function() {
 
 
 
-$(document).on("click", function(event) {
+$(document).on('click touchend' , function(event) {
 	if ($(event.target).has(".modal-content").length) {
 		$(".modal").hide();
 	}
@@ -329,3 +330,4 @@ function escapeHtml(text) {
 		}[a];
 	});
 }
+

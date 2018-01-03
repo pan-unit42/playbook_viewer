@@ -50,16 +50,22 @@ table {
   background-color: #7e7e7e;
   margin-top: 10px;
   font-size: 100%;
-  padding:10px;
-  overflow: scroll;
-  max-height: 300px;
+  padding:20px;
+
+}
+
+.description {
+  overflow-y:scroll;
+  -webkit-overflow-scrolling: touch;
 }
 
 .timeline {
   grid-area: timeline;
   background-color: #7e7e7e;
   margin-top: 10px;
-  padding:10px;
+  padding:20px;
+  text-align:center;
+
 }
 
 .sidebar {
@@ -77,8 +83,11 @@ table {
   color: #95989a;
   font-size:12px;
   padding-left:20px;
+ 
+}
 
-  
+.sidebar .btn {
+  padding-left:18px;
 }
 
 .header {
@@ -88,10 +97,11 @@ table {
   font-size:30px;
   color: #95989a;
   align-self:flex-end;
+  margin-bottom:7px;
 }
 
  .sidebar img {
-  height:50px;
+  height:40px;
   padding-bottom:20px;
 }
 
@@ -102,11 +112,12 @@ table {
 
 
 
+
 }
 
 .wrapper {
   display: grid;
-  grid-template-columns: 250px 1fr;
+  grid-template-columns: 200px 1fr;
   grid-template-areas: 
   "sidebar header" 
   "sidebar inside" 
@@ -117,7 +128,7 @@ table {
   color: #444;
   grid-template-rows: 
   70px 
-  minmax(300px,max-content)
+  350px
   40px 
   50px 
   1fr
@@ -128,7 +139,7 @@ table {
 
 .inside {
   display: grid;
-  grid-template-columns: 40% auto;
+  grid-template-columns: 65% auto;
   grid-template-rows: 
   1fr;
   grid-template-areas: "description timeline";
@@ -194,19 +205,19 @@ table {
   font-size:24px;
   background: #393939;
   height:40px;
-  width:200px;
+  width:100%;
   text-decoration: none;
   justify-self: left;
   vertical-align: middle;
   line-height:40px;
-  padding-left:18px;
   font-family: 'Jura', sans-serif;
+  display: inline-block;
 }
 
 
 .btn-report {
   font-size: 16px;
-  margin:2px;
+  margin-bottom:6px;
 }
 
 
@@ -273,4 +284,28 @@ a:active {
   color: black;
   text-decoration: none;
   cursor: pointer;
+}
+
+
+::-webkit-scrollbar {
+  width: 6px; /* 1px wider than Lion. */
+  /* This is more usable for users trying to click it. */
+  background-color: rgba(0,0,0,0);
+  -webkit-border-radius: 100px;
+}
+/* hover effect for both scrollbar area, and scrollbar 'thumb' */
+::-webkit-scrollbar:hover {
+  background-color: rgba(0, 0, 0, 0.09);
+}
+
+/* The scrollbar 'thumb' ...that marque oval shape in a scrollbar */
+::-webkit-scrollbar-thumb:vertical {
+  /* This is the EXACT color of Mac OS scrollbars. 
+     Yes, I pulled out digital color meter */
+  background: rgba(0,0,0,0.5);
+  -webkit-border-radius: 100px;
+}
+::-webkit-scrollbar-thumb:vertical:active {
+  background: rgba(0,0,0,0.61); /* Some darker color when you click it */
+  -webkit-border-radius: 100px;
 }
