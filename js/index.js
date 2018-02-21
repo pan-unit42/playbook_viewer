@@ -220,15 +220,9 @@ function addReportLinks(playbook) {
 		end_text = (months[rep.last_seen.getMonth()]) + " " + rep.last_seen.getFullYear()
 		date_text = start_text + " to " + end_text
 		rep_width = Math.max(Math.floor(rep.campaign_length / total_days * 1), 95);
-<<<<<<< Updated upstream
 		report_markup = '<div class="timeline_btn btn btn-report" ' + 'onclick=""' + 'report_id="' + rep.id + '">' + date_text + '</div>'
-=======
-<<<<<<< HEAD
 		report_markup = '<div class="timeline_btn btn btn-report" ' + 'onclick=""' + 'report_id="' + rep.id + '" style="width:95%;">' + date_text + '</div>'
-=======
 		report_markup = '<div class="timeline_btn btn btn-report" ' + 'onclick=""' + 'report_id="' + rep.id + '">' + date_text + '</div>'
->>>>>>> origin/master
->>>>>>> Stashed changes
 		$('.timeline').append(report_markup);
 	}
 
@@ -272,16 +266,10 @@ function buildPhaseContainer(report, playbook) {
 		for (c in columns) {
 			column = columns[c];
 			if (column.length > i) {
-<<<<<<< Updated upstream
-=======
-<<<<<<< HEAD
 				ap_markup = ap_markup + '<div class="phases ap_button" ap_id=' + column[i].id + ' camp_id='+campaign.id + ' onclick=""' + '>' + column[i].name + '</div>';
 				writeAPModal(column[i], report, playbook);
-=======
->>>>>>> Stashed changes
 				ap_markup = ap_markup + '<div class="phases ap_button" ap_id=' + column[i].id + ' onclick=""' + '>' + column[i].name + '</div>';
 				writeAPModal(column[i], playbook);
->>>>>>> origin/master
 			} else {
 				ap_markup = ap_markup + '<div class="phasesblank"></div>';
 			}
