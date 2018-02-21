@@ -92,6 +92,7 @@ function getRelatedIndicators(in_id, playbook) {
 	return related_indicators;
 }
 
+
 function loadPlaybook(pb_url, playbook) {
 	$.getJSON(pb_url, function(data) {
 		playbook = data;
@@ -118,7 +119,6 @@ function highlightLoadFirstLink(playbook) {
 function highlightLink(report_id) {
 	var links = document.getElementsByClassName('timeline_btn');
 	for (len = links.length, i = 0; i < len; ++i) {
-		console.log(links[i]);
 		if (links[i].getAttribute("report_id") == report_id) {
 			links[i].style.background = "#ef9124";
 		} else {
@@ -220,7 +220,15 @@ function addReportLinks(playbook) {
 		end_text = (months[rep.last_seen.getMonth()]) + " " + rep.last_seen.getFullYear()
 		date_text = start_text + " to " + end_text
 		rep_width = Math.max(Math.floor(rep.campaign_length / total_days * 1), 95);
+<<<<<<< Updated upstream
 		report_markup = '<div class="timeline_btn btn btn-report" ' + 'onclick=""' + 'report_id="' + rep.id + '">' + date_text + '</div>'
+=======
+<<<<<<< HEAD
+		report_markup = '<div class="timeline_btn btn btn-report" ' + 'onclick=""' + 'report_id="' + rep.id + '" style="width:95%;">' + date_text + '</div>'
+=======
+		report_markup = '<div class="timeline_btn btn btn-report" ' + 'onclick=""' + 'report_id="' + rep.id + '">' + date_text + '</div>'
+>>>>>>> origin/master
+>>>>>>> Stashed changes
 		$('.timeline').append(report_markup);
 	}
 
@@ -246,6 +254,7 @@ function filterByKCP(phase, attack_patterns) {
 
 function buildPhaseContainer(report, playbook) {
 	attack_patterns = getTypeFromReport("attack-pattern", report, playbook)
+	var campaign = getTypeFromReport("campaign", report, playbook)[0];
 	var recon = filterByKCP("recon", attack_patterns);
 	var del = filterByKCP("delivery", attack_patterns);
 	var weap = filterByKCP("weaponization", attack_patterns);
@@ -263,8 +272,16 @@ function buildPhaseContainer(report, playbook) {
 		for (c in columns) {
 			column = columns[c];
 			if (column.length > i) {
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+				ap_markup = ap_markup + '<div class="phases ap_button" ap_id=' + column[i].id + ' camp_id='+campaign.id + ' onclick=""' + '>' + column[i].name + '</div>';
+				writeAPModal(column[i], report, playbook);
+=======
+>>>>>>> Stashed changes
 				ap_markup = ap_markup + '<div class="phases ap_button" ap_id=' + column[i].id + ' onclick=""' + '>' + column[i].name + '</div>';
 				writeAPModal(column[i], playbook);
+>>>>>>> origin/master
 			} else {
 				ap_markup = ap_markup + '<div class="phasesblank"></div>';
 			}
@@ -273,10 +290,20 @@ function buildPhaseContainer(report, playbook) {
 	$('.phasescontainer').append(ap_markup);
 }
 
-function writeAPModal(ap, playbook) {
+var intersection = function(){
+	return Array.from(arguments).reduce(function(previous, current){
+		return previous.filter(function(element){
+			return current.indexOf(element) > -1;
+		});
+	});
+};
 
-	var indicators = getRelatedIndicators(ap.id, playbook);
-	var markup = '<div id="' + ap.id + '" class="modal">';
+function writeAPModal(ap, report, playbook) {
+	var ap_indicators = getRelatedIndicators(ap.id, playbook);
+	var campaign = getTypeFromReport("campaign", report, playbook)[0];
+	var campaign_indicators = getRelatedIndicators(campaign.id, playbook);
+	var indicators = intersection(ap_indicators,campaign_indicators);
+	var markup = '<div id="' + ap.id+"_"+campaign.id + '" class="modal">';
 	markup = markup + '<div class="modal-content"> <span class="close">&times;</span>';
 	markup = markup + '<p><b>Technique:</b> ' + ap.name + '<a href="' + ap['external_references'][0].url + '" target="_blank"> <sup>REFERENCE</sup></a></p><br>';
 	if (indicators.length == 0) {
@@ -296,7 +323,8 @@ function writeAPModal(ap, playbook) {
 
 $(document).on('click', '.ap_button', function() {
 	var ap_id = $(this).attr("ap_id");
-	$('#' + ap_id).css({
+	var camp_id = $(this).attr("camp_id");
+	$('#' + ap_id+"_"+camp_id).css({
 		"display": "block"
 	});
 
