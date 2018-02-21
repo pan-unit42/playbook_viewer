@@ -220,7 +220,6 @@ function addReportLinks(playbook) {
 		end_text = (months[rep.last_seen.getMonth()]) + " " + rep.last_seen.getFullYear()
 		date_text = start_text + " to " + end_text
 		rep_width = Math.max(Math.floor(rep.campaign_length / total_days * 1), 95);
-		report_markup = '<div class="timeline_btn btn btn-report" ' + 'onclick=""' + 'report_id="' + rep.id + '">' + date_text + '</div>'
 		report_markup = '<div class="timeline_btn btn btn-report" ' + 'onclick=""' + 'report_id="' + rep.id + '" style="width:95%;">' + date_text + '</div>'
 		report_markup = '<div class="timeline_btn btn btn-report" ' + 'onclick=""' + 'report_id="' + rep.id + '">' + date_text + '</div>'
 		$('.timeline').append(report_markup);
@@ -268,8 +267,6 @@ function buildPhaseContainer(report, playbook) {
 			if (column.length > i) {
 				ap_markup = ap_markup + '<div class="phases ap_button" ap_id=' + column[i].id + ' camp_id='+campaign.id + ' onclick=""' + '>' + column[i].name + '</div>';
 				writeAPModal(column[i], report, playbook);
-				ap_markup = ap_markup + '<div class="phases ap_button" ap_id=' + column[i].id + ' onclick=""' + '>' + column[i].name + '</div>';
-				writeAPModal(column[i], playbook);
 			} else {
 				ap_markup = ap_markup + '<div class="phasesblank"></div>';
 			}
@@ -287,6 +284,7 @@ var intersection = function(){
 };
 
 function writeAPModal(ap, report, playbook) {
+	//Need to find the intersection of indicators that use the attack pattern, and are in the report. 
 	var ap_indicators = getRelatedIndicators(ap.id, playbook);
 	var campaign = getTypeFromReport("campaign", report, playbook)[0];
 	var campaign_indicators = getRelatedIndicators(campaign.id, playbook);
