@@ -60,9 +60,16 @@ jQuery(document).ready(function($) {
 
 });
 
+$(document).on('click', '.ap_button', function() {
+	var ap_id = $(this).attr("ap_id");
+	var camp_id = $(this).attr("camp_id");
+	$('#' + ap_id+"_"+camp_id).css({
+		"display": "block"
+	});
 
+});
 
-$('#playbook_button').on('click' , function() {
+$(document).on('click', ".playbook", function() {
 	var pb_file = $(this).attr("pb_file");
 	var playbook;
 	loadPlaybook(pb_url + pb_file, playbook);
@@ -257,8 +264,8 @@ function buildPhaseContainer(report, playbook) {
 	var objective = filterByKCP("act-on-objectives", attack_patterns);
 	var delivery = del.concat(weap);
 	var table_width = 6;
-	var table_length = Math.max(recon.length, delivery.length, exploit.length, install.length, command.length, objective.length);
-	columns = [recon, delivery, exploit, install, command, objective];
+	var table_length = Math.max(recon.length, weap.length, delivery.length, exploit.length, install.length, command.length, objective.length);
+	columns = [recon, weap, delivery, exploit, install, command, objective];
 	$('.phasescontainer').empty();
 	var ap_markup = "";
 	for (var i = 0; i < table_length; i++) {
@@ -344,4 +351,3 @@ function escapeHtml(text) {
 		}[a];
 	});
 }
-
