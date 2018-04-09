@@ -256,14 +256,13 @@ function buildPhaseContainer(report, playbook) {
 	attack_patterns = getTypeFromReport("attack-pattern", report, playbook)
 	var campaign = getTypeFromReport("campaign", report, playbook)[0];
 	var recon = filterByKCP("recon", attack_patterns);
-	var del = filterByKCP("delivery", attack_patterns);
+	var delivery = filterByKCP("delivery", attack_patterns);
 	var weap = filterByKCP("weaponization", attack_patterns);
 	var exploit = filterByKCP("exploitation", attack_patterns);
 	var install = filterByKCP("installation", attack_patterns);
 	var command = filterByKCP("command-and-control", attack_patterns);
 	var objective = filterByKCP("act-on-objectives", attack_patterns);
-	var delivery = del.concat(weap);
-	var table_width = 6;
+	var table_width = 7;
 	var table_length = Math.max(recon.length, weap.length, delivery.length, exploit.length, install.length, command.length, objective.length);
 	columns = [recon, weap, delivery, exploit, install, command, objective];
 	$('.phasescontainer').empty();
