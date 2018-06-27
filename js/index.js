@@ -127,10 +127,6 @@ function addReportLinks(playbook) {
     $('.timeline').empty();
     //The Main report is only going to contain other reports
     //The other reports contain a campaign object with a date inside it.
-    // let playbook_markup = "";
-    // let report_markup = "";
-    let earliest = null;
-    let latest = null;
     let parsed_reports = [];
 
     reports.forEach(r => {
@@ -140,23 +136,19 @@ function addReportLinks(playbook) {
         } else {
             let campaign = getTypeFromReport("campaign", r, playbook);
             const first_seen = new Date(campaign[0]['first_seen']);
-            if (earliest === null || first_seen < earliest) {
-                earliest = first_seen;
-            }
             const last_seen = new Date(campaign[0]['last_seen']);
-            if (latest === null || last_seen > latest) {
-                latest = last_seen;
-            }
-            let campaign_length = Math.floor((last_seen - first_seen) / 86400000);
+            let campaign_length_in_days = Math.floor((last_seen - first_seen) / 86400000);
             parsed_reports.push({
                 "id": r.id,
                 "first_seen": first_seen,
                 "last_seen": last_seen,
-                "campaign_length": campaign_length,
+                "campaign_length": campaign_length_in_days,
                 "name": r['name']
             })
         }
     });
+
+    parsed_reports.sort((a, b) => a.first_seen.getTime() - b.first_seen.getTime()).reverse();
 
     parsed_reports.forEach(r => {
         const months = ['January', 'February', 'March', 'April', 'May', 'June',
@@ -165,11 +157,12 @@ function addReportLinks(playbook) {
         const start_text = (months[r.first_seen.getMonth()]) + " " + r.first_seen.getFullYear();
         const end_text = (months[r.last_seen.getMonth()]) + " " + r.last_seen.getFullYear();
         const date_text = start_text + " to " + end_text;
-        const debug_text = r['name'] + " : " + date_text;
+        // const debug_text = r['name'] + " : " + date_text;
         const report_markup =
             `<div class="timeline_btn btn btn-report" 
                   onclick="" report_id="${r.id}" 
-                  style="width:95%">${debug_text}</div>`;
+                  style="width:95%"
+                  title=${r['name']}>${date_text}</div>`;
         $('.timeline').append(report_markup);
     });
 }
