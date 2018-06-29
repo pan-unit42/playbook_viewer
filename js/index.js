@@ -226,6 +226,9 @@ function writeAPModal(ap, report, playbook) {
     const campaign_indicators = getRelatedIndicators(campaign.id, playbook);
     const indicators = Array.from(new Set(intersection(ap_indicators, campaign_indicators)));
 
+    // Retrieve the indicator description from the relationship between indicator and attack-pattern
+    const relationships = getTypeFromReport("relationship", report, playbook);
+
     let markup = `<div id="${ap.id}_${campaign.id}" class="modal">`;
     markup += '<div class="modal-content"><span class="close">&times;</span>';
     markup += `<p><b>Technique:</b> ${ap.name} <a href="${ap['external_references'][0].url}" target="_blank"><sup>REFERENCE</sup></a></p><br>`;
@@ -234,7 +237,10 @@ function writeAPModal(ap, report, playbook) {
     } else {
         markup += '<table><tr><th>Description</th><th>Indicator Pattern</th></tr>';
         indicators.forEach(i => {
-            markup += `<tr><td>${i.name}</td><td class="indicators">${escapeHtml(i.pattern)}</td></tr>`;
+            // Retrieve the indicator description from the relationship between indicator and attack-pattern
+            const description = relationships.filter(r => (r && (r.source_ref === i.id) && (r.target_ref === ap.id)))[0].description;
+            markup += `<tr><td>${description}</td><td class="indicators">${escapeHtml(i.pattern)}</td></tr>`;
+            // markup += `<tr><td>${i.name}</td><td class="indicators">${escapeHtml(i.pattern)}</td></tr>`;
         });
         markup += '</table>';
     }
