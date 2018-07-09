@@ -157,7 +157,7 @@ function addReportLinks(playbook) {
         const start_text = (months[r.first_seen.getMonth()]) + " " + r.first_seen.getFullYear();
         const end_text = (months[r.last_seen.getMonth()]) + " " + r.last_seen.getFullYear();
         const date_text = start_text + " to " + end_text;
-        // const debug_text = r['name'] + " : " + date_text;
+        // const debug_text = date_text + " (" + r['name'] + ")";
         const report_markup =
             `<div class="timeline_btn btn btn-report" 
                   onclick="" report_id="${r.id}" 
@@ -219,6 +219,10 @@ let intersection = function () {
     });
 };
 
+function compare(a, b) {
+    return (a > b ? 1 : ((b > a) ? -1 : 0));
+}
+
 function writeAPModal(ap, report, playbook) {
     //Need to find the intersection of indicators that use the attack pattern, and are in the report.
     const ap_indicators = getRelatedIndicators(ap.id, playbook);
@@ -226,21 +230,48 @@ function writeAPModal(ap, report, playbook) {
     const campaign_indicators = getRelatedIndicators(campaign.id, playbook);
     const indicators = Array.from(new Set(intersection(ap_indicators, campaign_indicators)));
 
+    // There is no javascript library for parsing STIX2 indicator patterns
+    indicators.forEach(i => {
+        i['p'] = {
+            type: "",
+            key: "",
+            value: ""
+        };
+        try {
+            i.p.type = i.pattern.match(/\[\\?"(.*?):/)[1];
+            i.p.key = i.pattern.match(/:(.*?) (=|LIKE)/)[1];
+            i.p.value = i.pattern.match(/(=|LIKE)( )?'(.*?)'/)[3];
+        } catch (e) {
+
+        }
+    });
+    indicators.sort((a, b) => compare(`${a.p.type}:${a.p.key}`, `${b.p.type}:${b.p.key}`) || compare(a.p.value, b.p.value));
+
     // Retrieve the indicator description from the relationship between indicator and attack-pattern
     const relationships = getTypeFromReport("relationship", report, playbook);
 
     let markup = `<div id="${ap.id}_${campaign.id}" class="modal">`;
     markup += '<div class="modal-content"><span class="close">&times;</span>';
-    markup += `<p><b>Technique:</b> ${ap.name} <a href="${ap['external_references'][0].url}" target="_blank"><sup>REFERENCE</sup></a></p><br>`;
+    try {
+        markup += `<p><b>Technique:</b> ${ap.name} <a href="${ap['external_references'][0].url}" target="_blank"><sup>REFERENCE</sup></a></p><br>`;
+    } catch (e) {
+        // The playbook contains an incomplete attack-pattern
+        // console.log(JSON.stringify({ap: ap, e: e}));
+    }
     if (indicators.length === 0) {
         markup += '<span>No Indicators Available</span><br>';
     } else {
         markup += '<table><tr><th>Description</th><th>Indicator Pattern</th></tr>';
         indicators.forEach(i => {
             // Retrieve the indicator description from the relationship between indicator and attack-pattern
-            const description = relationships.filter(r => (r && (r.source_ref === i.id) && (r.target_ref === ap.id)))[0].description;
-            markup += `<tr><td>${description}</td><td class="indicators">${escapeHtml(i.pattern)}</td></tr>`;
-            // markup += `<tr><td>${i.name}</td><td class="indicators">${escapeHtml(i.pattern)}</td></tr>`;
+            // Provide backwards-compatibility with playbooks that stored the description in the indicator object
+            const description = relationships.filter(r => (r && (r.source_ref === i.id) && (r.target_ref === ap.id)))[0].description || i.name;
+            try {
+                markup += `<tr><td>${description}</td><td class="indicators">${escapeHtml(i.pattern)}</td></tr>`;
+            } catch (e) {
+                // The playbook contains a malformed relationship or description
+                // console.log(JSON.stringify({text: text, e: e}));
+            }
         });
         markup += '</table>';
     }
