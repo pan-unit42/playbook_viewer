@@ -38,7 +38,7 @@
       "kill_chain_phases": [
         {
           "kill_chain_name": "mitre-attack",
-          "phase_name": "Persistence"
+          "phase_name": "persistence"
         },
         {
           "kill_chain_name": "lockheed",
@@ -154,7 +154,7 @@
       "kill_chain_phases": [
         {
           "kill_chain_name": "mitre-attack",
-          "phase_name": "Build Capabilities"
+          "phase_name": "build-capabilities"
         },
         {
           "kill_chain_name": "lockheed",
@@ -212,7 +212,7 @@
       "kill_chain_phases": [
         {
           "kill_chain_name": "mitre-attack",
-          "phase_name": "Adversary-OPSEC"
+          "phase_name": "adversary-opsec"
         },
         {
           "kill_chain_name": "lockheed",
@@ -309,7 +309,7 @@
       "kill_chain_phases": [
         {
           "kill_chain_name": "mitre-attack",
-          "phase_name": "Execution"
+          "phase_name": "execution"
         },
         {
           "kill_chain_name": "lockheed",
@@ -507,7 +507,7 @@
       "created": "2018-08-01T18:18:13.552Z",
       "modified": "2018-08-01T19:18:26.308Z",
       "name": "Powershell Command by ISSpace",
-      "pattern": "[process:command_line = 'C:\\Windows\\system32\\cmd.exe /C Powershell.exe New-ItemProperty -Path  HKCU:SOFTWARE\\MICROSOFT\\Windows\\CurrentVersion\\Run -Name Identity - PropertyType String -Value c:\\users\\[USERNAME]\\appdata\\local\\bfsuc.exe  -force']",
+      "pattern": "[process:command_line = 'C:\\\\Windows\\\\system32\\\\cmd.exe /C Powershell.exe New-ItemProperty -Path  HKCU:SOFTWARE\\\\MICROSOFT\\\\Windows\\\\CurrentVersion\\\\Run -Name Identity - PropertyType String -Value c:\\\\users\\\\[USERNAME]\\\\appdata\\\\local\\\\bfsuc.exe  -force']",
       "valid_from": "2018-08-01T18:18:13.552Z",
       "labels": [
         "malicious-activity"
@@ -627,7 +627,7 @@
       "created": "2018-08-02T14:25:28.160Z",
       "modified": "2018-08-02T14:40:18.161Z",
       "name": "Batch Script",
-      "pattern": "@echo off :t timeout 1 for /f %%i in ('tasklist /FI \"IMAGENAME eq [original_executable_name]\" ^| find /v /c \"\"' ) do set YO=%%i if %%YO%%==4 goto :t del /F \"[original_executable_path]\" del /F \"[tmp_file]\" start /B cmd /c \"[startup_winlogon.exe]\" del /F \"[self]\" exit",
+      "pattern": "[process:command_line = '@echo off :t timeout 1 for /f %%i in (\\'tasklist /FI \"IMAGENAME eq [original_executable_name]\" ^| find /v /c \"\"\\' ) do set YO=%%i if %%YO%%==4 goto :t del /F \"[original_executable_path]\" del /F \"[tmp_file]\" start /B cmd /c \"[startup_winlogon.exe]\" del /F \"[self]\" exit']",
       "valid_from": "2018-08-02T14:25:28.160Z",
       "labels": [
         "malicious-activity"
@@ -2091,7 +2091,7 @@
       "kill_chain_phases": [
         {
           "kill_chain_name": "mitre-attack",
-          "phase_name": "discovery "
+          "phase_name": "discovery"
         },
         {
           "kill_chain_name": "lockheed",
@@ -2100,7 +2100,7 @@
       ],
       "external_references": [
         {
-          "source_name": "mitre-attack ",
+          "source_name": "mitre-attack",
           "url": "https://attack.mitre.org/wiki/Technique/T1033",
           "external_id": "T1033"
         }
@@ -2173,12 +2173,12 @@
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
       "created": "2018-06-26T13:52:20.314Z",
       "modified": "2018-07-03T14:52:09.064Z",
-      "name": "System Network Configuration Discovery ",
+      "name": "System Network Configuration Discovery",
       "description": " Adversaries will likely look for details about the network configuration and settings of systems they access or through information discovery of remote systems. Several operating system administration utilities exist that can be used to gather this information. Examples include Arp, ipconfig/ifconfig, nbtstat, and route. ",
       "kill_chain_phases": [
         {
           "kill_chain_name": "mitre-attack",
-          "phase_name": "Discovery"
+          "phase_name": "discovery"
         },
         {
           "kill_chain_name": "lockheed",
@@ -2306,7 +2306,7 @@
       "created": "2018-07-24T19:10:23.177Z",
       "modified": "2018-07-24T19:10:23.177Z",
       "name": "Command run Sysget/HelloBridge",
-      "pattern": "[process:command_line = 'reg add hkcu\\software\\microsoft\\windows\\currentversion\\run /v netshare /f /d %temp%\\notilv.exe /t REG_EXPAND_SZ']",
+      "pattern": "[process:command_line = 'reg add hkcu\\\\software\\\\microsoft\\\\windows\\\\currentversion\\\\run /v netshare /f /d %temp%\\\\notilv.exe /t REG_EXPAND_SZ']",
       "valid_from": "2018-07-24T19:10:23.177Z",
       "labels": [
         "malicious-activity"
@@ -2317,7 +2317,7 @@
       "id": "indicator--d1a396be-fb40-4cc2-900f-63b9075c10d3",
       "created": "2018-07-24T17:23:52.298Z",
       "modified": "2018-07-24T17:27:22.295Z",
-      "name": "HKCU\\\\SOFTWARE\\\\Microsoft\\\\Windows\\\\CurrentVersion\\\\Run\\\\update : [current_executable_filename]",
+      "name": "HKCU\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run\\update : [current_executable_filename]",
       "pattern": "[windows_registry_key:key = 'HKCU\\\\SOFTWARE\\\\Microsoft\\\\Windows\\\\CurrentVersion\\\\Run\\\\update : [current_executable_filename]']",
       "valid_from": "2018-07-24T17:23:52.298Z",
       "labels": [
@@ -2342,7 +2342,7 @@
       "created": "2018-08-01T14:17:14.876Z",
       "modified": "2018-08-01T17:21:32.140Z",
       "name": "HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Run\\WmdmPmSp",
-      "pattern": "[windows_registry_key:key = 'HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Run\\WmdmPmSp']",
+      "pattern": "[windows_registry_key:key = 'HKCU\\\\Software\\\\Microsoft\\\\Windows\\\\CurrentVersion\\\\Run\\\\WmdmPmSp']",
       "valid_from": "2018-08-01T14:17:14.876Z",
       "labels": [
         "malicious-activity"
@@ -2354,7 +2354,7 @@
       "created": "2018-07-31T20:23:22.989Z",
       "modified": "2018-07-31T20:32:55.626Z",
       "name": "%WINDIR%\\Temp",
-      "pattern": "[directory:path = '%WINDIR%\\Temp']",
+      "pattern": "[directory:path = '%WINDIR%\\\\Temp']",
       "valid_from": "2018-07-31T20:23:22.989Z",
       "labels": [
         "malicious-activity"
@@ -2450,7 +2450,7 @@
       "created": "2018-07-24T18:55:53.112Z",
       "modified": "2018-07-24T18:55:53.112Z",
       "name": "HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Run\\RasTls - %windir%\\system32\\svchost.exe",
-      "pattern": "[windows_registry_key:key = 'HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Run\\RasTls - %windir%\\system32\\svchost.exe']",
+      "pattern": "[windows_registry_key:key = 'HKCU\\\\Software\\\\Microsoft\\\\Windows\\\\CurrentVersion\\\\Run\\\\RasTls - %windir%\\\\system32\\\\svchost.exe']",
       "valid_from": "2018-07-24T18:55:53.112Z",
       "labels": [
         "malicious-activity"
