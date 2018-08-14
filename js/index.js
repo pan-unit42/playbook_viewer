@@ -53,9 +53,11 @@ $(document).on('click', '.ap_button', function () {
 
 $(document).on('click', ".playbook", function () {
     const pb_file = $(this).attr("pb_file");
+            $('.playbook').removeClass('activebtn');
+            $(this).addClass('activebtn');        
     loadPlaybook(`${pb_url}${pb_file}`);
 });
-
+  
 
 $(document).on('click touchstart', '.btn-report', function (event) {
     let report_id = $(this).attr("report_id");
