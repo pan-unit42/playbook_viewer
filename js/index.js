@@ -53,11 +53,11 @@ $(document).on('click', '.ap_button', function () {
 
 $(document).on('click', ".playbook", function () {
     const pb_file = $(this).attr("pb_file");
-            $('.playbook').removeClass('activebtn');
-            $(this).addClass('activebtn');        
+    $('.playbook').removeClass('activebtn');
+    $(this).addClass('activebtn');
     loadPlaybook(`${pb_url}${pb_file}`);
 });
-  
+
 
 $(document).on('click touchstart', '.btn-report', function (event) {
     let report_id = $(this).attr("report_id");
@@ -162,7 +162,9 @@ function addReportLinks(playbook) {
         // const debug_text = date_text + " (" + r['name'] + ")";
         const report_markup =
             `<div class="timeline_btn btn btn-report" 
-                  onclick="" report_id="${r.id}" 
+                  onclick="" 
+                  id = "${r.id}"
+                  report_id="${r.id}" 
                   style="width:95%"
                   title=${r['name']}>${date_text}</div>`;
         $('.timeline').append(report_markup);
@@ -263,7 +265,7 @@ function writeAPModal(ap, report, playbook) {
     if (indicators.length === 0) {
         markup += '<span>No Indicators Available</span><br>';
     } else {
-        markup += '<table><tr><th>Description</th><th>Indicator Pattern</th></tr>';
+        markup += '<table id="indicator-table"><tr><th id="indicator-description">Description</th><th id="indicator-pattern">Indicator Pattern</th></tr>';
         indicators.forEach(i => {
             // Retrieve the indicator description from the relationship between indicator and attack-pattern
             // Provide backwards-compatibility with playbooks that stored the description in the indicator object
@@ -314,3 +316,91 @@ function escapeHtml(text) {
         }[a];
     });
 }
+
+// Demo
+
+let tour = new Tour({
+    template: function (i, step) {
+        return `
+            <div class='popover tour'>
+                <div class='arrow'></div>
+                <h3 class='popover-title'> ${step.title} </h3>
+                <div class='popover-content'> ${step.content} </div>
+                <div class='popover-navigation'>
+                    <div class='btn-group'>
+                        <button class='btn btn-default' data-role='prev'>Prev</button>
+                        <button class='btn btn-default' data-role='next' style="margin-left:20px;">Next</button>
+                        <button class='btn btn-default' data-role='end' style="margin-left:20px;">End</button>
+                    </div>
+                </div>
+            </div>`
+    },
+    steps: [
+        {
+            element: "#playbook_oilrig",
+            title: "Select a Playbook",
+            content: "A Playbook is a collection of Plays (Campaigns) by a Threat Actor",
+            // Use Oilrig for the demo
+            onNext: () => $('#playbook_oilrig').trigger('click')
+        },
+        {
+            element: ".description",
+            title: "Each Playbook has a description",
+            content: "that provides a general overview as well as background information"
+        },
+        {
+            element: ".timeline",
+            title: "Playbooks Contain one or more Plays",
+            content: "A Play is an action usually distinguished by Target or Time Frame"
+        },
+        {
+            element: "#report--13c8d40e-29a8-4e64-86d1-d8ff8b084ee9",
+            title: "The newest Play is shown first",
+            content: "",
+            // the newest play is selected by default
+            // switch to the oldest play
+            onNext: () => $('#report--492261c1-a132-4dde-bb7d-fd109767456e').trigger('click')
+        },
+        {
+            element: "#report--492261c1-a132-4dde-bb7d-fd109767456e",
+            title: "The oldest Play is shown last",
+            content: "",
+            // switch back to the newest play (Oilrig campaign January 2018 to January 2018)
+            onNext: () => $('#report--13c8d40e-29a8-4e64-86d1-d8ff8b084ee9').trigger('click')
+        },
+        {
+            element: ".bottomheader",
+            title: "Structure of a Play",
+            content: "Plays consist of Mitre ATT&CK techniques across the Lockheed Martin Kill Chain",
+            // Technique: Spear phishing messages with malicious attachments
+            onNext: () => $("[ap_id='attack-pattern--8f4a7bb7-5f27-48da-95b9-8ad46b365b1e']").trigger('click')
+        },
+        {
+            element: "#indicator-table",
+            title: "ATT&CK cards contain a STIX2 indicator pattern and a description",
+            content: ""
+        },
+        {
+            element: "#indicator-description",
+            title: "Description",
+            content: "A description provides context about an indicator seen by an analyst"
+        },
+        {
+            element: "#indicator-pattern",
+            title: "Pattern",
+            content: "An indicator pattern provides a structured way to share observed intelligence",
+            onNext: () => $('.close').trigger('click')
+        },
+        {
+            element: ".sidebar",
+            title: "View additional Playbooks",
+            content: "You can continue viewing Oilrig or choose another Playbook. Additional Playbooks will be added over time so please check back!",
+        }
+    ],
+    onEnd: () => $("html, body").animate({scrollTop: 0}, "slow")
+});
+
+tour.init();
+tour.start();
+// always start the tour
+// tour.restart();
