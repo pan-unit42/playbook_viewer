@@ -318,7 +318,8 @@ function escapeHtml(text) {
 }
 
 // Demo
-
+let step0link =
+    'https://researchcenter.paloaltonetworks.com/2017/12/unit42-introducing-the-adversary-playbook-first-up-oilrig/';
 let tour = new Tour({
     template: function (i, step) {
         return `
@@ -337,9 +338,18 @@ let tour = new Tour({
     },
     steps: [
         {
+            element: "",
+            title: "Welcome to the Playbook Viewer",
+            content: "The Playbook viewer is a system for parsing STIX2 content that contains an Adversary Playbook." +
+                "You can read more about this <a href='" + step0link + "' target='_blank' >here</a>" +
+                " or follow the prompts to check it out.",
+            orphan: true
+        },
+        {
             element: "#playbook_oilrig",
             title: "Select a Playbook",
-            content: "A Playbook is a collection of Plays (Campaigns) by a Threat Actor",
+            content: "A Playbook is a collection of Plays (Campaigns)" +
+                " that were launched by an actor, you can select them from this list.",
             // Use Oilrig for the demo
             onNext: () => $('#playbook_oilrig').trigger('click')
         },
@@ -350,8 +360,8 @@ let tour = new Tour({
         },
         {
             element: ".timeline",
-            title: "Playbooks Contain one or more Plays",
-            content: "A Play is an action usually distinguished by Target or Time Frame"
+            title: "Playbooks Contain one or more 'plays'",
+            content: "The 'play' is a representation of campaign the adversary launched based on observed attacks."
         },
         {
             element: "#report--13c8d40e-29a8-4e64-86d1-d8ff8b084ee9",
@@ -371,30 +381,34 @@ let tour = new Tour({
         {
             element: ".bottomheader",
             title: "Structure of a Play",
-            content: "Plays consist of Mitre ATT&CK techniques across the Lockheed Martin Kill Chain",
+            content: "Plays consist of the specific Mitre ATT&CK techniques used by the adversary.",
+            placement: "top",
             // Technique: Spear phishing messages with malicious attachments
             onNext: () => $("[ap_id='attack-pattern--8f4a7bb7-5f27-48da-95b9-8ad46b365b1e']").trigger('click')
         },
         {
             element: "#indicator-table",
-            title: "ATT&CK cards contain a STIX2 indicator pattern and a description",
-            content: ""
+            title: "Technique cards contain a STIX2 indicator pattern and a description.",
+            content: "",
+            placement: "top"
         },
         {
             element: "#indicator-description",
             title: "Description",
-            content: "A description provides context about an indicator seen by an analyst"
+            content: "The description provides context about an indicator seen by an analyst."
         },
         {
             element: "#indicator-pattern",
             title: "Pattern",
-            content: "An indicator pattern provides a structured way to share observed intelligence",
+            content: "The indicator pattern tells you what to look for" +
+                " on your hosts or network to identify this technique or adversary in action.",
             onNext: () => $('.close').trigger('click')
         },
         {
             element: ".sidebar",
             title: "View additional Playbooks",
-            content: "You can continue viewing Oilrig or choose another Playbook. Additional Playbooks will be added over time so please check back!",
+            content: "You can continue viewing OilRig or choose another adversary." +
+                " We will continue adding new and updating old playbooks, so please check back.",
         }
     ],
     onEnd: () => $("html, body").animate({scrollTop: 0}, "slow")
