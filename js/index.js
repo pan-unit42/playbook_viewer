@@ -348,20 +348,20 @@ let tour = new Tour({
         {
             element: "#playbook_oilrig",
             title: "Select a Playbook",
-            content: "A Playbook is a collection of Plays (Campaigns)" +
-                " that were launched by an actor, you can select them from this list.",
+            content: "A Playbook is a collection of Plays" +
+                "Plays are campaigns that were conducted by an adversary, you can select them from this list.",
             // Use Oilrig for the demo
             onNext: () => $('#playbook_oilrig').trigger('click')
         },
         {
             element: ".description",
             title: "Each Playbook has a description",
-            content: "that provides a general overview as well as background information"
+            content: "The description provides a general overview as well as background information on the adversary"
         },
         {
             element: ".timeline",
-            title: "Playbooks Contain one or more 'plays'",
-            content: "The 'play' is a representation of campaign the adversary launched based on observed attacks."
+            title: "Playbooks Contain one or more Plays",
+            content: "The Play is a representation of campaign the adversary conducted using specific techniques and tools."
         },
         {
             element: "#report--13c8d40e-29a8-4e64-86d1-d8ff8b084ee9",
@@ -381,7 +381,7 @@ let tour = new Tour({
         {
             element: ".bottomheader",
             title: "Structure of a Play",
-            content: "Plays consist of the specific Mitre ATT&CK techniques used by the adversary.",
+            content: "Plays contain the specific Mitre ATT&CK techniques used by the adversary.",
             placement: "top",
             // Technique: Spear phishing messages with malicious attachments
             onNext: () => $("[ap_id='attack-pattern--8f4a7bb7-5f27-48da-95b9-8ad46b365b1e']").trigger('click')
@@ -395,7 +395,7 @@ let tour = new Tour({
         {
             element: "#indicator-description",
             title: "Description",
-            content: "The description provides context about an indicator seen by an analyst."
+            content: "The description provides context about an indicator identified by an analyst."
         },
         {
             element: "#indicator-pattern",
