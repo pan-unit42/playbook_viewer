@@ -318,9 +318,8 @@ function escapeHtml(text) {
 }
 
 // Demo
-let step0link =
-    'https://researchcenter.paloaltonetworks.com/2017/12/unit42-introducing-the-adversary-playbook-first-up-oilrig/';
-let tour = new Tour({
+const step0link = 'https://unit42.paloaltonetworks.com/unit42-introducing-the-adversary-playbook-first-up-oilrig/';
+const tour = new Tour({
     template: function (i, step) {
         return `
             <div class='popover tour'>
@@ -328,10 +327,10 @@ let tour = new Tour({
                 <h3 class='popover-title'> ${step.title} </h3>
                 <div class='popover-content'> ${step.content} </div>
                 <div class='popover-navigation'>
-                    <div class='btn-group'>
-                        <button class='btn btn-default' data-role='prev'>Prev</button>
-                        <button class='btn btn-default' data-role='next' style="margin-left:20px;">Next</button>
-                        <button class='btn btn-default' data-role='end' style="margin-left:20px;">End</button>
+                    <div class='popover-btn-group'>
+                        <button class='popover-btn-tour-control' data-role='prev'>Prev</button>
+                        <button class='popover-btn-tour-control' data-role='next'>Next</button>
+                        <button class='popover-btn-tour-control' data-role='end'>End</button>
                     </div>
                 </div>
             </div>`
@@ -339,8 +338,8 @@ let tour = new Tour({
     steps: [
         {
             element: "",
-            title: "Welcome to the Playbook Viewer",
-            content: "The Playbook viewer is a system for parsing STIX2 content that contains an Adversary Playbook." +
+            title: "Welcome to the Unit 42 Playbook Viewer",
+            content: "The Playbook viewer is a system for parsing STIX2 content that contains an Adversary Playbook. " +
                 "You can read more about this <a href='" + step0link + "' target='_blank' >here</a>" +
                 " or follow the prompts to check it out.",
             orphan: true
@@ -348,9 +347,9 @@ let tour = new Tour({
         {
             element: "#playbook_oilrig",
             title: "Select a Playbook",
-            content: "A Playbook is a collection of Plays" +
+            content: "A Playbook is a collection of Plays. " +
                 "Plays are campaigns that were conducted by an adversary, you can select them from this list.",
-            // Use Oilrig for the demo
+            // Use the Oilrig Playbook for the demo
             onNext: () => $('#playbook_oilrig').trigger('click')
         },
         {
@@ -360,31 +359,31 @@ let tour = new Tour({
         },
         {
             element: ".timeline",
-            title: "Playbooks Contain one or more Plays",
-            content: "The Play is a representation of campaign the adversary conducted using specific techniques and tools."
+            title: "Playbooks contain one or more Plays",
+            content: "The Play is a representation of a campaign the adversary conducted using specific techniques and tools."
         },
         {
-            element: "#report--13c8d40e-29a8-4e64-86d1-d8ff8b084ee9",
+            element: "#report--e76e88c8-699a-4eeb-a8e5-3645826d6455",
             title: "The newest Play is shown first",
             content: "",
             // the newest play is selected by default
             // switch to the oldest play
-            onNext: () => $('#report--492261c1-a132-4dde-bb7d-fd109767456e').trigger('click')
+            onNext: () => $('#report--418eec9b-ca2d-48d6-92cc-7cf47b159e8c').trigger('click')
         },
         {
-            element: "#report--492261c1-a132-4dde-bb7d-fd109767456e",
+            element: "#report--418eec9b-ca2d-48d6-92cc-7cf47b159e8c",
             title: "The oldest Play is shown last",
             content: "",
-            // switch back to the newest play (Oilrig campaign January 2018 to January 2018)
-            onNext: () => $('#report--13c8d40e-29a8-4e64-86d1-d8ff8b084ee9').trigger('click')
+            // switch back to the newest play
+            onNext: () => $('#report--e76e88c8-699a-4eeb-a8e5-3645826d6455').trigger('click')
         },
         {
             element: ".bottomheader",
             title: "Structure of a Play",
             content: "Plays contain the specific Mitre ATT&CK techniques used by the adversary.",
             placement: "top",
-            // Technique: Spear phishing messages with malicious attachments
-            onNext: () => $("[ap_id='attack-pattern--8f4a7bb7-5f27-48da-95b9-8ad46b365b1e']").trigger('click')
+            // technique: T1367: Spear phishing messages with malicious attachments
+            onNext: () => $("[ap_id='attack-pattern--e24a9f99-cb76-42a3-a50b-464668773e97']").trigger('click')
         },
         {
             element: "#indicator-table",
@@ -399,7 +398,7 @@ let tour = new Tour({
         },
         {
             element: "#indicator-pattern",
-            title: "Pattern",
+            title: "Indicator Pattern",
             content: "The indicator pattern tells you what to look for" +
                 " on your hosts or network to identify this technique or adversary in action.",
             onNext: () => $('.close').trigger('click')
