@@ -137,8 +137,10 @@ function addReportLinks(playbook) {
             current_intrusion_set = getTypeFromReport("intrusion-set", r, playbook)[0].name;
         } else {
             let campaign = getTypeFromReport("campaign", r, playbook);
-            const first_seen = new Date(campaign[0]['first_seen']);
-            const last_seen = new Date(campaign[0]['last_seen']);
+            // const first_seen = new Date(campaign[0]['first_seen']);
+            // const last_seen = new Date(campaign[0]['last_seen']);
+            const first_seen = new Date(campaign[0]['first_seen'].substring(0, 8));
+            const last_seen = new Date(campaign[0]['last_seen'].substring(0, 8));
             let campaign_length_in_days = Math.floor((last_seen - first_seen) / 86400000);
             parsed_reports.push({
                 "id": r.id,
@@ -150,7 +152,7 @@ function addReportLinks(playbook) {
         }
     });
 
-    parsed_reports.sort((a, b) => a.first_seen.getTime() - b.first_seen.getTime()).reverse();
+    parsed_reports.sort((a, b) => new Date(b.last_seen) - new Date(a.last_seen));
 
     parsed_reports.forEach(r => {
         const months = ['January', 'February', 'March', 'April', 'May', 'June',
@@ -350,12 +352,13 @@ const tour = new Tour({
             content: "A Playbook is a collection of Plays. " +
                 "Plays are campaigns that were conducted by an adversary, you can select them from this list.",
             // Use the Oilrig Playbook for the demo
-            onNext: () => $('#playbook_oilrig').trigger('click')
+            // onNext: () => $('#playbook_oilrig').trigger('click')
+            onNext: () => $('.box.sidebar div:first-of-type').trigger('click')
         },
         {
             element: ".description",
             title: "Each Playbook has a description",
-            content: "The description provides a general overview as well as background information on the adversary"
+            content: "The description provides a general overview as well as background information on the adversary."
         },
         {
             element: ".timeline",
@@ -363,19 +366,23 @@ const tour = new Tour({
             content: "The Play is a representation of a campaign the adversary conducted using specific techniques and tools."
         },
         {
-            element: "#report--e76e88c8-699a-4eeb-a8e5-3645826d6455",
+            // element: "#report--e76e88c8-699a-4eeb-a8e5-3645826d6455",
+            element: ".box.timeline :first-child",
             title: "The newest Play is shown first",
             content: "",
             // the newest play is selected by default
             // switch to the oldest play
-            onNext: () => $('#report--418eec9b-ca2d-48d6-92cc-7cf47b159e8c').trigger('click')
+            // onNext: () => $('#report--418eec9b-ca2d-48d6-92cc-7cf47b159e8c').trigger('click')
+            onNext: () => $('.box.timeline :last-child').trigger('click')
         },
         {
-            element: "#report--418eec9b-ca2d-48d6-92cc-7cf47b159e8c",
+            // element: "#report--418eec9b-ca2d-48d6-92cc-7cf47b159e8c",
+            element: '.box.timeline :last-child',
             title: "The oldest Play is shown last",
             content: "",
             // switch back to the newest play
-            onNext: () => $('#report--e76e88c8-699a-4eeb-a8e5-3645826d6455').trigger('click')
+            // onNext: () => $('#report--e76e88c8-699a-4eeb-a8e5-3645826d6455').trigger('click')
+            onNext: () => $('.box.timeline :first-child').trigger('click')
         },
         {
             element: ".bottomheader",
@@ -383,6 +390,7 @@ const tour = new Tour({
             content: "Plays contain the specific Mitre ATT&CK techniques used by the adversary.",
             placement: "top",
             // technique: T1367: Spear phishing messages with malicious attachments
+            // hardcding the id here is not ideal
             onNext: () => $("[ap_id='attack-pattern--e24a9f99-cb76-42a3-a50b-464668773e97']").trigger('click')
         },
         {
@@ -414,6 +422,6 @@ const tour = new Tour({
 });
 
 tour.init();
-tour.start();
+// tour.start();
 // always start the tour
-// tour.restart();
+tour.restart();
