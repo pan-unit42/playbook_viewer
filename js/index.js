@@ -53,11 +53,11 @@ $(document).on('click', '.ap_button', function () {
 
 $(document).on('click', ".playbook", function () {
     const pb_file = $(this).attr("pb_file");
-            $('.playbook').removeClass('activebtn');
-            $(this).addClass('activebtn');        
+    $('.playbook').removeClass('activebtn');
+    $(this).addClass('activebtn');
     loadPlaybook(`${pb_url}${pb_file}`);
 });
-  
+
 
 $(document).on('click touchstart', '.btn-report', function (event) {
     let report_id = $(this).attr("report_id");
@@ -137,8 +137,10 @@ function addReportLinks(playbook) {
             current_intrusion_set = getTypeFromReport("intrusion-set", r, playbook)[0].name;
         } else {
             let campaign = getTypeFromReport("campaign", r, playbook);
-            const first_seen = new Date(campaign[0]['first_seen']);
-            const last_seen = new Date(campaign[0]['last_seen']);
+            // const first_seen = new Date(campaign[0]['first_seen']);
+            // const last_seen = new Date(campaign[0]['last_seen']);
+            const first_seen = new Date(campaign[0]['first_seen'].substring(0, 8));
+            const last_seen = new Date(campaign[0]['last_seen'].substring(0, 8));
             let campaign_length_in_days = Math.floor((last_seen - first_seen) / 86400000);
             parsed_reports.push({
                 "id": r.id,
@@ -150,7 +152,7 @@ function addReportLinks(playbook) {
         }
     });
 
-    parsed_reports.sort((a, b) => a.first_seen.getTime() - b.first_seen.getTime()).reverse();
+    parsed_reports.sort((a, b) => new Date(b.last_seen) - new Date(a.last_seen));
 
     parsed_reports.forEach(r => {
         const months = ['January', 'February', 'March', 'April', 'May', 'June',
@@ -162,7 +164,9 @@ function addReportLinks(playbook) {
         // const debug_text = date_text + " (" + r['name'] + ")";
         const report_markup =
             `<div class="timeline_btn btn btn-report" 
-                  onclick="" report_id="${r.id}" 
+                  onclick="" 
+                  id = "${r.id}"
+                  report_id="${r.id}" 
                   style="width:95%"
                   title=${r['name']}>${date_text}</div>`;
         $('.timeline').append(report_markup);
@@ -263,7 +267,7 @@ function writeAPModal(ap, report, playbook) {
     if (indicators.length === 0) {
         markup += '<span>No Indicators Available</span><br>';
     } else {
-        markup += '<table><tr><th>Description</th><th>Indicator Pattern</th></tr>';
+        markup += '<table id="indicator-table"><tr><th id="indicator-description">Description</th><th id="indicator-pattern">Indicator Pattern</th></tr>';
         indicators.forEach(i => {
             // Retrieve the indicator description from the relationship between indicator and attack-pattern
             // Provide backwards-compatibility with playbooks that stored the description in the indicator object
@@ -314,3 +318,110 @@ function escapeHtml(text) {
         }[a];
     });
 }
+
+// Demo
+const step0link = 'https://unit42.paloaltonetworks.com/unit42-introducing-the-adversary-playbook-first-up-oilrig/';
+const tour = new Tour({
+    template: function (i, step) {
+        return `
+            <div class='popover tour'>
+                <div class='arrow'></div>
+                <h3 class='popover-title'> ${step.title} </h3>
+                <div class='popover-content'> ${step.content} </div>
+                <div class='popover-navigation'>
+                    <div class='popover-btn-group'>
+                        <button class='popover-btn-tour-control' data-role='prev'>Prev</button>
+                        <button class='popover-btn-tour-control' data-role='next'>Next</button>
+                        <button class='popover-btn-tour-control' data-role='end'>End</button>
+                    </div>
+                </div>
+            </div>`
+    },
+    steps: [
+        {
+            element: "",
+            title: "Welcome to the Unit 42 Playbook Viewer",
+            content: "The Playbook viewer is a system for parsing STIX2 content that contains an Adversary Playbook. " +
+                "You can read more about this <a href='" + step0link + "' target='_blank' >here</a>" +
+                " or follow the prompts to check it out.",
+            orphan: true
+        },
+        {
+            element: "#playbook_oilrig",
+            title: "Select a Playbook",
+            content: "A Playbook is a collection of Plays. " +
+                "Plays are campaigns that were conducted by an adversary, you can select them from this list.",
+            // Use the Oilrig Playbook for the demo
+            // onNext: () => $('#playbook_oilrig').trigger('click')
+            onNext: () => $('.box.sidebar div:first-of-type').trigger('click')
+        },
+        {
+            element: ".description",
+            title: "Each Playbook has a description",
+            content: "The description provides a general overview as well as background information on the adversary."
+        },
+        {
+            element: ".timeline",
+            title: "Playbooks contain one or more Plays",
+            content: "The Play is a representation of a campaign the adversary conducted using specific techniques and tools."
+        },
+        {
+            // element: "#report--e76e88c8-699a-4eeb-a8e5-3645826d6455",
+            element: ".box.timeline :first-child",
+            title: "The newest Play is shown first",
+            content: "",
+            // the newest play is selected by default
+            // switch to the oldest play
+            // onNext: () => $('#report--418eec9b-ca2d-48d6-92cc-7cf47b159e8c').trigger('click')
+            onNext: () => $('.box.timeline :last-child').trigger('click')
+        },
+        {
+            // element: "#report--418eec9b-ca2d-48d6-92cc-7cf47b159e8c",
+            element: '.box.timeline :last-child',
+            title: "The oldest Play is shown last",
+            content: "",
+            // switch back to the newest play
+            // onNext: () => $('#report--e76e88c8-699a-4eeb-a8e5-3645826d6455').trigger('click')
+            onNext: () => $('.box.timeline :first-child').trigger('click')
+        },
+        {
+            element: ".bottomheader",
+            title: "Structure of a Play",
+            content: "Plays contain the specific Mitre ATT&CK techniques used by the adversary.",
+            placement: "top",
+            // technique: T1367: Spear phishing messages with malicious attachments
+            // hardcding the id here is not ideal
+            onNext: () => $("[ap_id='attack-pattern--e24a9f99-cb76-42a3-a50b-464668773e97']").trigger('click')
+        },
+        {
+            element: "#indicator-table",
+            title: "Technique cards contain a STIX2 indicator pattern and a description.",
+            content: "",
+            placement: "top"
+        },
+        {
+            element: "#indicator-description",
+            title: "Description",
+            content: "The description provides context about an indicator identified by an analyst."
+        },
+        {
+            element: "#indicator-pattern",
+            title: "Indicator Pattern",
+            content: "The indicator pattern tells you what to look for" +
+                " on your hosts or network to identify this technique or adversary in action.",
+            onNext: () => $('.close').trigger('click')
+        },
+        {
+            element: ".sidebar",
+            title: "View additional Playbooks",
+            content: "You can continue viewing OilRig or choose another adversary." +
+                " We will continue adding new and updating old playbooks, so please check back.",
+        }
+    ],
+    onEnd: () => $("html, body").animate({scrollTop: 0}, "slow")
+});
+
+tour.init();
+// tour.start();
+// always start the tour
+tour.restart();
