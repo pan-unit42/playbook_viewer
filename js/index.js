@@ -422,6 +422,6 @@ const tour = new Tour({
 });
 
 tour.init();
-// tour.start();
+tour.start();
 // always start the tour
-tour.restart();
+// tour.restart();
