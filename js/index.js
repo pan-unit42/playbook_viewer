@@ -7,6 +7,66 @@ String.prototype.replaceAll = function (search, replacement) {
     return target.split(search).join(replacement);
 };
 
+jQuery(document).ready(function ($) {
+
+});
+
+// Select a Playbook
+$(document).on('click', ".playbook", function () {
+    const pb_file = $(this).attr("pb_file");
+    $('.playbook').removeClass('activebtn');
+    $(this).addClass('activebtn');
+    loadPlaybook(`${pb_url}${pb_file}`);
+});
+
+// Select a Campaign within a Playbook
+$(document).on('click touchstart', '.btn-report', function (event) {
+    const report_id = $(this).attr("report_id");
+    highlightLink(report_id);
+    displayReportByID(report_id, current_playbook);
+});
+
+// Open an Attack Pattern within a Campaign
+$(document).on('click', '.ap_button', function () {
+    const ap_id = $(this).attr("ap_id");
+    const camp_id = $(this).attr("camp_id");
+    $('#' + ap_id + "_" + camp_id).css({
+        "display": "block"
+    });
+
+});
+
+// Open the Indicator list
+$(document).on('click', '.middle2', function () {
+    $('.indicator-list').css({
+        "display": "block"
+    });
+});
+
+// Hide on close
+$(document).on('click', '.close', function () {
+    $('.modal').css({
+        "display": "none"
+    });
+
+    $('.indicator-list').css({
+        "display": "none"
+    });
+});
+
+// Hide on click off
+$(document).on('click touchend', function (event) {
+    const et = $(event.target);
+    if (et.has(".modal-content").length) {
+        $(".modal").hide();
+    }
+
+    if ($(".indicator-list").is(":visible") && !et.is(".middle2") &&
+        !et.is(".indicator-list") && !et.is(".indicator-list-inner") && !et.is(".indicator-list-entry")) {
+        $(".indicator-list").hide();
+    }
+});
+
 function addDescription(report, playbook) {
     const descriptionElement = $('.description');
     if (report === null) {
@@ -39,32 +99,6 @@ function getTypeFromReport(type, report, playbook) {
     return report.object_refs.filter(o => o.startsWith(type)).map(o => getObjectFromPlaybook(o, playbook));
 }
 
-jQuery(document).ready(function ($) {
-
-});
-
-$(document).on('click', '.ap_button', function () {
-    const ap_id = $(this).attr("ap_id");
-    const camp_id = $(this).attr("camp_id");
-    $('#' + ap_id + "_" + camp_id).css({
-        "display": "block"
-    });
-});
-
-$(document).on('click', ".playbook", function () {
-    const pb_file = $(this).attr("pb_file");
-    $('.playbook').removeClass('activebtn');
-    $(this).addClass('activebtn');
-    loadPlaybook(`${pb_url}${pb_file}`);
-});
-
-
-$(document).on('click touchstart', '.btn-report', function (event) {
-    let report_id = $(this).attr("report_id");
-    highlightLink(report_id);
-    displayReportByID(report_id, current_playbook);
-});
-
 function getRelatedIndicators(in_id, playbook) {
     const all_relationships = playbook['objects'].filter(o => o.type === 'relationship');
     return all_relationships
@@ -96,16 +130,84 @@ function highlightLink(report_id) {
     });
 }
 
+function addInfoboxIndicatorTable(playbook) {
+    const indicators = getTypeFromPlaybook("indicator", playbook);
+
+    indicators.forEach(i => {
+        i['p'] = {
+            type: "",
+            key: "",
+            value: ""
+        };
+        try {
+            i.p.type = i.pattern.match(/\[\\?(.*?):/)[1];
+            i.p.key = i.pattern.match(/:(.*?) (=|LIKE)/)[1];
+            i.p.value = i.pattern.match(/(=|LIKE)( )?'(.*?)'/)[3];
+        } catch (e) {
+            console.log('error parsing values from STIX2 pattern');
+        }
+    });
+    indicators.sort((a, b) =>
+        compare(`${a.p.type}:${a.p.key}`, `${b.p.type}:${b.p.key}`) || compare(a.p.value, b.p.value)
+    );
+
+    const indicatorTypesForList = ['file', 'domain-name', 'url', 'ipv4-addr', 'ipv6-addr'];
+    const indicatorList = indicators.filter(i => indicatorTypesForList.includes(i.p.type));
+    const indicatorListByType = indicatorList.reduce((r, i, idx) => {
+        const ks = Object.keys(r);
+        const type = i.p.type;
+        const value = i.p.value;
+        i.li = `<li class="indicator-list-entry" id="${idx}"><pre class="indicator-list-inner">${value}</pre></li>`;
+        if (type === 'file' && value.match(/\b[A-Fa-f0-9]{64}\b/)) {
+            r['hashes'].push(i.li);
+        } else if (type === 'domain-name' || type === 'ipv4-addr' || type === 'ipv6-addr' || type === 'url') {
+            if (!(value.indexOf('%') > -1)) {
+                r['network'].push(i.li);
+            }
+        }
+        return r;
+    }, {hashes: [], network: []});
+
+
+    const listHashes = indicatorListByType['hashes'].join('');
+    const listNetwork = indicatorListByType['network'].join('');
+
+    const hashesSection = (`<section class="indicator-list-inner">` +
+        `<h2 class="indicator-list-inner">File Hashes</h2><hr/>` +
+        `<ul class="indicator-list-inner">${listHashes}</ul>` +
+        `</section>`);
+    const networkSection = (`<section class="indicator-list-inner">` +
+        `<h2 class="indicator-list-inner">Network Indicators</h2><hr/>` +
+        `<ul class="indicator-list-inner">${listNetwork}</ul>` +
+        `</section>`);
+    const msg = `File Hashes and exact Network Indicators are listed here. ` +
+        `The Playbook may contain additional unlisted indicators.`;
+    const indicatorListFinal = (
+        `<div class="indicator-list-inner">` +
+        `<h3 class="indicator-list-inner">${msg}</h3><hr/>` +
+        `<br/>${hashesSection}<br/>${networkSection}` +
+        `</div>`
+    );
+
+    return indicatorListFinal;
+}
+
+
 function addInfobox(playbook) {
+    const indicatorTable = addInfoboxIndicatorTable(playbook);
     const total_campaigns = getTypeFromPlaybook("campaign", playbook).length;
     const total_indicators = getTypeFromPlaybook("indicator", playbook).length;
     const total_attackpatterns = getTypeFromPlaybook("attack-pattern", playbook).length;
-    const ib_markup =
+    const ib_markup = (
         `<div class="left"><span>Intrusion Set: ${current_intrusion_set}</span></div>` +
         `<div class="middle"><span>Campaigns: ${total_campaigns}</span></div>` +
-        `<div class="middle2"><span>Indicators: ${total_indicators}</span></div>` +
-        `<div class="right"><span>Attack Patterns: ${total_attackpatterns}</span></div>`;
+        `<div class="middle2"><span class="middle2">Indicators: ${total_indicators} (Click For Overview)</span></div>` +
+        `<div class="right"><span>Attack Patterns: ${total_attackpatterns}</span></div>`
+    );
     $('.info').empty().append(ib_markup);
+    $('body').append(
+        `<div class="indicator-list"><span class="close">&times;</span> ${indicatorTable}</div>`
+    );
 }
 
 function storeCurrentPlaybook(playbook) {
@@ -163,12 +265,13 @@ function addReportLinks(playbook) {
         const date_text = start_text + " to " + end_text;
         // const debug_text = date_text + " (" + r['name'] + ")";
         const report_markup =
-            `<div class="timeline_btn btn btn-report" 
-                  onclick="" 
-                  id = "${r.id}"
-                  report_id="${r.id}" 
-                  style="width:95%"
-                  title=${r['name']}>${date_text}</div>`;
+
+            `<div class="timeline_btn btn btn-report"
+    onclick=""
+    id = "${r.id}"
+    report_id="${r.id}"
+    style="width:95%"
+    title=${r['name']}>${date_text}</div>`;
         $('.timeline').append(report_markup);
     });
 }
@@ -244,11 +347,11 @@ function writeAPModal(ap, report, playbook) {
             value: ""
         };
         try {
-            i.p.type = i.pattern.match(/\[\\?"(.*?):/)[1];
+            i.p.type = i.pattern.match(/\[\\?(.*?):/)[1];
             i.p.key = i.pattern.match(/:(.*?) (=|LIKE)/)[1];
             i.p.value = i.pattern.match(/(=|LIKE)( )?'(.*?)'/)[3];
         } catch (e) {
-
+            // console.log('error parsing values from STIX2 pattern');
         }
     });
     indicators.sort((a, b) => compare(`${a.p.type}:${a.p.key}`, `${b.p.type}:${b.p.key}`) || compare(a.p.value, b.p.value));
@@ -259,7 +362,7 @@ function writeAPModal(ap, report, playbook) {
     let markup = `<div id="${ap.id}_${campaign.id}" class="modal">`;
     markup += '<div class="modal-content"><span class="close">&times;</span>';
     try {
-        markup += `<p><b>Technique:</b> ${ap.name} <a href="${ap['external_references'][0].url}" target="_blank"><sup>REFERENCE</sup></a></p><br>`;
+        markup += `<p><b>Technique:</b> ${ap.name}<a href="${ap['external_references'][0].url}" target="_blank"><sup>REFERENCE</sup></a></p><br>`;
     } catch (e) {
         // The playbook contains an incomplete attack-pattern
         // console.log(JSON.stringify({ap: ap, e: e}));
@@ -285,28 +388,6 @@ function writeAPModal(ap, report, playbook) {
     $('body').append(markup);
 }
 
-$(document).on('click', '.ap_button', function () {
-    const ap_id = $(this).attr("ap_id");
-    const camp_id = $(this).attr("camp_id");
-    $('#' + ap_id + "_" + camp_id).css({
-        "display": "block"
-    });
-
-});
-
-$(document).on('click', '.close', function () {
-    $('.modal').css({
-        "display": "none"
-    });
-
-});
-
-$(document).on('click touchend', function (event) {
-    if ($(event.target).has(".modal-content").length) {
-        $(".modal").hide();
-    }
-});
-
 function escapeHtml(text) {
     'use strict';
     return text.replace(/["&<>]/g, function (a) {
@@ -323,19 +404,13 @@ function escapeHtml(text) {
 const step0link = 'https://unit42.paloaltonetworks.com/unit42-introducing-the-adversary-playbook-first-up-oilrig/';
 const tour = new Tour({
     template: function (i, step) {
-        return `
-            <div class='popover tour'>
-                <div class='arrow'></div>
-                <h3 class='popover-title'> ${step.title} </h3>
-                <div class='popover-content'> ${step.content} </div>
-                <div class='popover-navigation'>
-                    <div class='popover-btn-group'>
-                        <button class='popover-btn-tour-control' data-role='prev'>Prev</button>
-                        <button class='popover-btn-tour-control' data-role='next'>Next</button>
-                        <button class='popover-btn-tour-control' data-role='end'>End</button>
-                    </div>
-                </div>
-            </div>`
+        return (
+            `<div class='popover tour'><div class='arrow'></div><h3 class='popover-title'> ${step.title}</h3>` +
+            `<div class='popover-content'> ${step.content}</div><div class='popover-navigation'>` +
+            `<div class='popover-btn-group'><button class='popover-btn-tour-control' data-role='prev'>Prev</button>` +
+            `<button class='popover-btn-tour-control' data-role='next'>Next</button>` +
+            `<button class='popover-btn-tour-control' data-role='end'>End</button></div></div></div>`
+        );
     },
     steps: [
         {
@@ -382,6 +457,7 @@ const tour = new Tour({
             content: "",
             // switch back to the newest play
             // onNext: () => $('#report--e76e88c8-699a-4eeb-a8e5-3645826d6455').trigger('click')
+            onPrev: () => $('.box.timeline :first-child').trigger('click'),
             onNext: () => $('.box.timeline :first-child').trigger('click')
         },
         {
@@ -390,14 +466,16 @@ const tour = new Tour({
             content: "Plays contain the specific Mitre ATT&CK techniques used by the adversary.",
             placement: "top",
             // technique: T1367: Spear phishing messages with malicious attachments
-            // hardcding the id here is not ideal
+            // hardcoding the id here is not ideal
+            onPrev: () => $('.box.timeline :last-child').trigger('click'),
             onNext: () => $("[ap_id='attack-pattern--e24a9f99-cb76-42a3-a50b-464668773e97']").trigger('click')
         },
         {
             element: "#indicator-table",
             title: "Technique cards contain a STIX2 indicator pattern and a description.",
             content: "",
-            placement: "top"
+            placement: "top",
+            onPrev: () => $('.close').trigger('click'),
         },
         {
             element: "#indicator-description",
