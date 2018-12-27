@@ -264,14 +264,10 @@ function addReportLinks(playbook) {
         const end_text = (months[r.last_seen.getMonth()]) + " " + r.last_seen.getFullYear();
         const date_text = start_text + " to " + end_text;
         // const debug_text = date_text + " (" + r['name'] + ")";
-        const report_markup =
-
-            `<div class="timeline_btn btn btn-report"
-    onclick=""
-    id = "${r.id}"
-    report_id="${r.id}"
-    style="width:95%"
-    title=${r['name']}>${date_text}</div>`;
+        const report_markup = (
+            `<div class="timeline_btn btn btn-report" onclick=""` +
+            ` id = "${r.id}" report_id="${r.id}" style="width:95%" title=${r['name']}>${date_text}</div>`
+        );
         $('.timeline').append(report_markup);
     });
 }
@@ -310,7 +306,8 @@ function buildPhaseContainer(report, playbook) {
     for (let i = 0; i < table_length; i++) {
         columns.forEach(c => {
             if (c.length > i) {
-                ap_markup += `<div class="phases ap_button" ap_id='${c[i].id}' camp_id='${campaign.id}' onclick="">${c[i].name}</div>`;
+                ap_markup += `<div class="phases ap_button"` +
+                    ` ap_id='${c[i].id}' camp_id='${campaign.id}' onclick="">${c[i].name}</div>`;
                 writeAPModal(c[i], report, playbook);
             } else {
                 ap_markup += '<div class="phasesblank"></div>';
@@ -320,7 +317,7 @@ function buildPhaseContainer(report, playbook) {
     phase_container.append(ap_markup);
 }
 
-let intersection = function () {
+const intersection = function () {
     return Array.from(arguments).reduce((previous, current) => {
         return previous.filter(element => {
             return current.indexOf(element) > -1;
@@ -354,7 +351,9 @@ function writeAPModal(ap, report, playbook) {
             // console.log('error parsing values from STIX2 pattern');
         }
     });
-    indicators.sort((a, b) => compare(`${a.p.type}:${a.p.key}`, `${b.p.type}:${b.p.key}`) || compare(a.p.value, b.p.value));
+    indicators.sort((a, b) =>
+        compare(`${a.p.type}:${a.p.key}`, `${b.p.type}:${b.p.key}`) || compare(a.p.value, b.p.value)
+    );
 
     // Retrieve the indicator description from the relationship between indicator and attack-pattern
     const relationships = getTypeFromReport("relationship", report, playbook);
@@ -362,7 +361,8 @@ function writeAPModal(ap, report, playbook) {
     let markup = `<div id="${ap.id}_${campaign.id}" class="modal">`;
     markup += '<div class="modal-content"><span class="close">&times;</span>';
     try {
-        markup += `<p><b>Technique:</b> ${ap.name}<a href="${ap['external_references'][0].url}" target="_blank"><sup>REFERENCE</sup></a></p><br>`;
+        markup += `<p><b>Technique:</b> ${ap.name}` +
+            `<a href="${ap['external_references'][0].url}" target="_blank"><sup>REFERENCE</sup></a></p><br>`;
     } catch (e) {
         // The playbook contains an incomplete attack-pattern
         // console.log(JSON.stringify({ap: ap, e: e}));
@@ -370,11 +370,13 @@ function writeAPModal(ap, report, playbook) {
     if (indicators.length === 0) {
         markup += '<span>No Indicators Available</span><br>';
     } else {
-        markup += '<table id="indicator-table"><tr><th id="indicator-description">Description</th><th id="indicator-pattern">Indicator Pattern</th></tr>';
+        markup += '<table id="indicator-table">' +
+            '<tr><th id="indicator-description">Description</th><th id="indicator-pattern">Indicator Pattern</th></tr>';
         indicators.forEach(i => {
             // Retrieve the indicator description from the relationship between indicator and attack-pattern
             // Provide backwards-compatibility with playbooks that stored the description in the indicator object
-            const description = relationships.filter(r => (r && (r.source_ref === i.id) && (r.target_ref === ap.id)))[0].description || i.name;
+            const description = relationships
+                .filter(r => (r && (r.source_ref === i.id) && (r.target_ref === ap.id)))[0].description || i.name;
             try {
                 markup += `<tr><td>${description}</td><td class="indicators">${escapeHtml(i.pattern)}</td></tr>`;
             } catch (e) {
@@ -438,7 +440,8 @@ const tour = new Tour({
         {
             element: ".timeline",
             title: "Playbooks contain one or more Plays",
-            content: "The Play is a representation of a campaign the adversary conducted using specific techniques and tools."
+            content: "The Play is a representation of a campaign" +
+                " the adversary conducted using specific techniques and tools."
         },
         {
             // element: "#report--e76e88c8-699a-4eeb-a8e5-3645826d6455",
