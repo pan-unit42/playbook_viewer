@@ -241,8 +241,8 @@ function addReportLinks(playbook) {
             let campaign = getTypeFromReport("campaign", r, playbook);
             // const first_seen = new Date(campaign[0]['first_seen']);
             // const last_seen = new Date(campaign[0]['last_seen']);
-            const first_seen = new Date(campaign[0]['first_seen'].substring(0, 8));
-            const last_seen = new Date(campaign[0]['last_seen'].substring(0, 8));
+            const first_seen = new Date(campaign[0]['first_seen'].substring(0, 7));
+            const last_seen = new Date(campaign[0]['last_seen'].substring(0, 7));
             let campaign_length_in_days = Math.floor((last_seen - first_seen) / 86400000);
             parsed_reports.push({
                 "id": r.id,
