@@ -7,8 +7,13 @@ String.prototype.replaceAll = function (search, replacement) {
     return target.split(search).join(replacement);
 };
 
-jQuery(document).ready(function ($) {
+jQuery(document).ready(function () {
+    const url = new URL(window.location.href);
+    const pb_name = url.searchParams.get('pb');
 
+    if (pb_name) {
+        loadPlaybook(`${pb_url}${pb_name}.json`);
+    }
 });
 
 // Select a Playbook
