@@ -13,7 +13,19 @@ jQuery(document).ready(function () {
 
     if (pb_name) {
         loadPlaybook(`${pb_url}${pb_name}.json`);
+    } else {
+        // Only start the tour if a Playbook is not specified
+        tour.init();
+        tour.start();
+        // tour.restart(); // always start the tour
     }
+});
+
+// Start the tour on button click
+$(document).on('click', ".walkthrough", function () {
+    location.reload();
+    tour.init();
+    tour.restart();
 });
 
 // Select a Playbook
@@ -506,8 +518,3 @@ const tour = new Tour({
     ],
     onEnd: () => $("html, body").animate({scrollTop: 0}, "slow")
 });
-
-tour.init();
-tour.start();
-// always start the tour
-// tour.restart();
