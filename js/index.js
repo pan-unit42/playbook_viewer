@@ -7,23 +7,41 @@ String.prototype.replaceAll = function (search, replacement) {
     return target.split(search).join(replacement);
 };
 
-jQuery(document).ready(function () {
+function emptyPlaybook() {
+    $('.playbook').removeClass('activebtn');
+    $('.description').html("Welcome to the Unit 42 Playbook Viewer. <br><br>Please select a playbook to begin.");
+    $('.timeline').empty();
+    $('.info').empty();
+    $('.phasescontainer').empty();
+    current_playbook = null;
+}
+
+function showPlaybook() {
     const url = new URL(window.location.href);
     const pb_name = url.searchParams.get('pb');
 
     if (pb_name) {
-        loadPlaybook(`${pb_url}${pb_name}.json`);
+        // Load the Playbook indicated by the pb parameter
+        const pb_file = `${pb_name}.json`;
+        $('.playbook').removeClass('activebtn');
+        $(`div[pb_file='${pb_file}']`).addClass('activebtn');
+        loadPlaybook(`${pb_url}${pb_file}`);
     } else {
         // Only start the tour if a Playbook is not specified
+        emptyPlaybook();
         tour.init();
         tour.start();
         // tour.restart(); // always start the tour
     }
-});
+}
+
+window.addEventListener('popstate', showPlaybook);
+
+jQuery(document).ready(showPlaybook);
 
 // Start the tour on button click
 $(document).on('click', ".walkthrough", function () {
-    location.reload();
+    emptyPlaybook();
     tour.init();
     tour.restart();
 });
@@ -31,6 +49,10 @@ $(document).on('click', ".walkthrough", function () {
 // Select a Playbook
 $(document).on('click', ".playbook", function () {
     const pb_file = $(this).attr("pb_file");
+    const pb_name = pb_file.split(".")[0];
+
+    history.pushState({}, "", `?pb=${pb_name}`);
+
     $('.playbook').removeClass('activebtn');
     $(this).addClass('activebtn');
     loadPlaybook(`${pb_url}${pb_file}`);
