@@ -37,4 +37,4 @@ For example, Oilrig is oilrig.json, and the direct link is: https://pan-unit42.g
 
 # Playbook Structure
 
-The structure of a Playbook is described in detail [here](./docs/Playbook Structure.md).
+The structure of a Playbook is described in detail [here](./docs/Playbook%20Structure.md).
