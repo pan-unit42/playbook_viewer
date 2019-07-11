@@ -31,3 +31,10 @@ To meld these frameworks together, we looked at how Mitre mapped their ATT&CK da
 
 If you want to try this tool out, view it here: https://pan-unit42.github.io/playbook_viewer/
 
+If you want to link directly to a Playbook, you can do so by appending `?pb=playbook_name` to the URL.
+
+For example, Oilrig is oilrig.json, and the direct link is: https://pan-unit42.github.io/playbook_viewer/?pb=oilrig
+
+# Playbook Structure
+
+The structure of a Playbook is described in detail [here](./docs/Playbook Structure.md).

@@ -1,19 +1,19 @@
 {
   "type": "bundle",
-  "id": "bundle--ce373215-5000-4879-9a32-92fe9dbefbe4",
+  "id": "bundle--64e83256-077b-41e7-a729-357ad21ce60c",
   "spec_version": "2.0",
   "objects": [
     {
       "type": "report",
-      "id": "report--ce373215-5000-4879-9a32-92fe9dbefbe4",
+      "id": "report--64e83256-077b-41e7-a729-357ad21ce60c",
       "created": "2019-05-21T18:21:23.421Z",
-      "modified": "2019-05-28T16:02:46.050Z",
+      "modified": "2019-07-11T14:18:45.824Z",
       "name": "Emissary Panda",
       "description": "Emissary Panda (AKA, APT27, TG-3390, Bronze Union, Lucky Mouse) a Chinese threat group that has extensively used strategic Web compromises to target victims. The group has been active since at least 2010 and has targeted organizations in the aerospace, government, defense, technology, energy, and manufacturing sectors. As well as targeted attacks against other miscellaneous organizations around the world.\n\nIn 2015 and 2016 they continued to use known backdoors associated with them previously, including OwaShell & Wonknu. In 2017 & 2018 they have been notable for their targeting of Turkish organizations, and their use of older backdoors such as ZxShell and Gh0st.",
-      "published": "2019-05-28T16:02:46.050Z",
+      "published": "2019-07-11T14:18:45.824Z",
       "object_refs": [
-        "intrusion-set--553787f4-6c00-4fb9-ab93-43398167fb8e",
-        "report--cde99f5f-7ae4-40e7-9bf1-e1f8eab5d14b"
+        "intrusion-set--eeef6603-d891-476a-a600-0096b6fe072f",
+        "report--443fc92f-1712-444e-872b-fd76106e61c2"
       ],
       "labels": [
         "intrusion-set"
@@ -21,9 +21,9 @@
     },
     {
       "type": "intrusion-set",
-      "id": "intrusion-set--553787f4-6c00-4fb9-ab93-43398167fb8e",
+      "id": "intrusion-set--eeef6603-d891-476a-a600-0096b6fe072f",
       "created": "2019-05-21T18:21:23.550Z",
-      "modified": "2019-05-28T16:02:46.051Z",
+      "modified": "2019-07-11T14:18:45.824Z",
       "name": "Emissary Panda"
     },
     {
@@ -314,6 +314,82 @@
     },
     {
       "type": "attack-pattern",
+      "id": "attack-pattern--e6919abc-99f9-4c6c-95a5-14761e7b2add",
+      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "created": "2018-08-03T19:54:02.821Z",
+      "modified": "2018-12-17T14:32:23.644Z",
+      "name": "T1105: Remote File Copy",
+      "description": "Files may be copied from one system to another to stage adversary tools or other files over the course of an operation. Files may be copied from an external adversary-controlled system through the Command and Control channel to bring tools into the victim network or through alternate protocols with another tool such as [FTP](https://attack.mitre.org/software/S0095). Files can also be copied over on Mac and Linux with native tools like scp, rsync, and sftp.\n\nAdversaries may also copy files laterally between internal victim systems to support Lateral Movement with remote Execution using inherent file sharing protocols such as file sharing over SMB to connected network shares or with authenticated connections with [Windows Admin Shares](https://attack.mitre.org/techniques/T1077) or [Remote Desktop Protocol](https://attack.mitre.org/techniques/T1076).",
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "command-and-control"
+        },
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "lateral-movement"
+        },
+        {
+          "kill_chain_name": "lockheed",
+          "phase_name": "command-and-control"
+        },
+        {
+          "kill_chain_name": "lockheed",
+          "phase_name": "act-on-objectives"
+        }
+      ],
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1105",
+          "external_id": "T1105"
+        },
+        {
+          "source_name": "University of Birmingham C2",
+          "url": "https://arxiv.org/ftp/arxiv/papers/1408/1408.1136.pdf",
+          "description": "Gardiner, J.,  Cova, M., Nagaraja, S. (2014, February). Command & Control Understanding, Denying and Detecting. Retrieved April 20, 2016."
+        }
+      ],
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "id": "attack-pattern--f879d51c-5476-431c-aedf-f14d207e4d1e",
+      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "created": "2018-08-03T19:54:02.821Z",
+      "modified": "2018-12-17T14:32:54.733Z",
+      "name": "T1043: Commonly Used Port",
+      "description": "Adversaries may communicate over a commonly used port to bypass firewalls or network detection systems and to blend with normal network activity to avoid more detailed inspection. They may use commonly open ports such as\n\n* TCP:80 (HTTP)\n* TCP:443 (HTTPS)\n* TCP:25 (SMTP)\n* TCP/UDP:53 (DNS)\n\nThey may use the protocol associated with the port or a completely different protocol. \n\nFor connections that occur internally within an enclave (such as those between a proxy or pivot node and other nodes), examples of common ports are \n\n* TCP/UDP:135 (RPC)\n* TCP/UDP:22 (SSH)\n* TCP/UDP:3389 (RDP)",
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "command-and-control"
+        },
+        {
+          "kill_chain_name": "lockheed",
+          "phase_name": "command-and-control"
+        }
+      ],
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1043",
+          "external_id": "T1043"
+        },
+        {
+          "source_name": "University of Birmingham C2",
+          "url": "https://arxiv.org/ftp/arxiv/papers/1408/1408.1136.pdf",
+          "description": "Gardiner, J.,  Cova, M., Nagaraja, S. (2014, February). Command & Control Understanding, Denying and Detecting. Retrieved April 20, 2016."
+        }
+      ],
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ]
+    },
+    {
+      "type": "attack-pattern",
       "id": "attack-pattern--355be19c-ffc9-46d5-8d50-d6a036c675b6",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
       "created": "2018-08-03T19:54:02.821Z",
@@ -401,86 +477,10 @@
       ]
     },
     {
-      "type": "attack-pattern",
-      "id": "attack-pattern--f879d51c-5476-431c-aedf-f14d207e4d1e",
-      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2018-12-17T14:32:54.733Z",
-      "name": "T1043: Commonly Used Port",
-      "description": "Adversaries may communicate over a commonly used port to bypass firewalls or network detection systems and to blend with normal network activity to avoid more detailed inspection. They may use commonly open ports such as\n\n* TCP:80 (HTTP)\n* TCP:443 (HTTPS)\n* TCP:25 (SMTP)\n* TCP/UDP:53 (DNS)\n\nThey may use the protocol associated with the port or a completely different protocol. \n\nFor connections that occur internally within an enclave (such as those between a proxy or pivot node and other nodes), examples of common ports are \n\n* TCP/UDP:135 (RPC)\n* TCP/UDP:22 (SSH)\n* TCP/UDP:3389 (RDP)",
-      "kill_chain_phases": [
-        {
-          "kill_chain_name": "mitre-attack",
-          "phase_name": "command-and-control"
-        },
-        {
-          "kill_chain_name": "lockheed",
-          "phase_name": "command-and-control"
-        }
-      ],
-      "external_references": [
-        {
-          "source_name": "mitre-attack",
-          "url": "https://attack.mitre.org/techniques/T1043",
-          "external_id": "T1043"
-        },
-        {
-          "source_name": "University of Birmingham C2",
-          "url": "https://arxiv.org/ftp/arxiv/papers/1408/1408.1136.pdf",
-          "description": "Gardiner, J.,  Cova, M., Nagaraja, S. (2014, February). Command & Control Understanding, Denying and Detecting. Retrieved April 20, 2016."
-        }
-      ],
-      "object_marking_refs": [
-        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
-      ]
-    },
-    {
-      "type": "attack-pattern",
-      "id": "attack-pattern--e6919abc-99f9-4c6c-95a5-14761e7b2add",
-      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2018-12-17T14:32:23.644Z",
-      "name": "T1105: Remote File Copy",
-      "description": "Files may be copied from one system to another to stage adversary tools or other files over the course of an operation. Files may be copied from an external adversary-controlled system through the Command and Control channel to bring tools into the victim network or through alternate protocols with another tool such as [FTP](https://attack.mitre.org/software/S0095). Files can also be copied over on Mac and Linux with native tools like scp, rsync, and sftp.\n\nAdversaries may also copy files laterally between internal victim systems to support Lateral Movement with remote Execution using inherent file sharing protocols such as file sharing over SMB to connected network shares or with authenticated connections with [Windows Admin Shares](https://attack.mitre.org/techniques/T1077) or [Remote Desktop Protocol](https://attack.mitre.org/techniques/T1076).",
-      "kill_chain_phases": [
-        {
-          "kill_chain_name": "mitre-attack",
-          "phase_name": "command-and-control"
-        },
-        {
-          "kill_chain_name": "mitre-attack",
-          "phase_name": "lateral-movement"
-        },
-        {
-          "kill_chain_name": "lockheed",
-          "phase_name": "command-and-control"
-        },
-        {
-          "kill_chain_name": "lockheed",
-          "phase_name": "act-on-objectives"
-        }
-      ],
-      "external_references": [
-        {
-          "source_name": "mitre-attack",
-          "url": "https://attack.mitre.org/techniques/T1105",
-          "external_id": "T1105"
-        },
-        {
-          "source_name": "University of Birmingham C2",
-          "url": "https://arxiv.org/ftp/arxiv/papers/1408/1408.1136.pdf",
-          "description": "Gardiner, J.,  Cova, M., Nagaraja, S. (2014, February). Command & Control Understanding, Denying and Detecting. Retrieved April 20, 2016."
-        }
-      ],
-      "object_marking_refs": [
-        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
-      ]
-    },
-    {
       "type": "indicator",
-      "id": "indicator--9ea5c22a-b2ec-4b78-bf95-ce56db3342ed",
+      "id": "indicator--53b54f55-da15-4e12-a00b-3b83e5c2ab38",
       "created": "2019-04-17T20:48:21.251Z",
-      "modified": "2019-05-28T16:02:46.051Z",
+      "modified": "2019-07-11T14:18:45.825Z",
       "name": "04f48ed27a83a57a971e73072ac5c769709306f2714022770fb364fd575fd462",
       "pattern": "[file:hashes.'SHA-256' = '04f48ed27a83a57a971e73072ac5c769709306f2714022770fb364fd575fd462']",
       "valid_from": "2019-04-17T20:48:21.251Z",
@@ -490,9 +490,9 @@
     },
     {
       "type": "indicator",
-      "id": "indicator--86982686-c210-4300-a8ae-6af6564c9876",
+      "id": "indicator--3a48a376-b6d7-46ff-ab33-6871a1bf3898",
       "created": "2019-05-21T19:33:24.890Z",
-      "modified": "2019-05-28T16:02:46.051Z",
+      "modified": "2019-07-11T14:18:45.825Z",
       "name": "006569f0a7e501e58fe15a4323eedc08f9865239131b28dc5f95f750b4767b38",
       "pattern": "[file:hashes.'SHA-256' = '006569f0a7e501e58fe15a4323eedc08f9865239131b28dc5f95f750b4767b38']",
       "valid_from": "2019-05-21T19:33:24.890Z",
@@ -502,9 +502,9 @@
     },
     {
       "type": "indicator",
-      "id": "indicator--511c6560-c527-45ec-b50e-a807e32f194f",
+      "id": "indicator--96927049-9253-46ef-bdc1-31199c709a31",
       "created": "2019-04-17T20:48:21.251Z",
-      "modified": "2019-05-28T16:02:46.051Z",
+      "modified": "2019-07-11T14:18:45.825Z",
       "name": "b279a41359367408c627ffa8d80051ed0f04c76fbf6aed79b3b2963203e08ade",
       "pattern": "[file:hashes.'SHA-256' = 'b279a41359367408c627ffa8d80051ed0f04c76fbf6aed79b3b2963203e08ade']",
       "valid_from": "2019-04-17T20:48:21.251Z",
@@ -514,9 +514,9 @@
     },
     {
       "type": "indicator",
-      "id": "indicator--92d1aadd-48b1-40e5-a073-5617d339961c",
+      "id": "indicator--7b2f62a0-cf1b-41ef-85fb-53c0b3b01ba3",
       "created": "2019-04-17T20:48:21.251Z",
-      "modified": "2019-05-28T16:02:46.051Z",
+      "modified": "2019-07-11T14:18:45.825Z",
       "name": "7eea6e15bb13a3b65cca9405829123761bf7d12c6dc3b81ce499d8f6a0b25fb7",
       "pattern": "[file:hashes.'SHA-256' = '7eea6e15bb13a3b65cca9405829123761bf7d12c6dc3b81ce499d8f6a0b25fb7']",
       "valid_from": "2019-04-17T20:48:21.251Z",
@@ -526,9 +526,9 @@
     },
     {
       "type": "indicator",
-      "id": "indicator--7695a9ea-e94c-4725-b8c4-725660e67cf6",
+      "id": "indicator--6f8e562a-7a94-4a41-9389-9211949b6e95",
       "created": "2019-04-17T20:48:21.251Z",
-      "modified": "2019-05-28T16:02:46.051Z",
+      "modified": "2019-07-11T14:18:45.825Z",
       "name": "38fa396770e0ecf60fe1ce089422283e2dc8599489bd18d5eb033255dd8e370c",
       "pattern": "[file:hashes.'SHA-256' = '38fa396770e0ecf60fe1ce089422283e2dc8599489bd18d5eb033255dd8e370c']",
       "valid_from": "2019-04-17T20:48:21.251Z",
@@ -538,9 +538,9 @@
     },
     {
       "type": "indicator",
-      "id": "indicator--052ea4c6-6593-4e9f-94d6-bcd4faf476c3",
+      "id": "indicator--197a86c5-43e4-42a7-aa87-48e55cadf1fb",
       "created": "2019-05-21T19:33:24.890Z",
-      "modified": "2019-05-28T16:02:46.051Z",
+      "modified": "2019-07-11T14:18:45.825Z",
       "name": "2feae7574a2cc4dea2bff4eceb92e3a77cf682c0a1e78ee70be931a251794b86",
       "pattern": "[file:hashes.'SHA-256' = '2feae7574a2cc4dea2bff4eceb92e3a77cf682c0a1e78ee70be931a251794b86']",
       "valid_from": "2019-05-21T19:33:24.890Z",
@@ -550,9 +550,9 @@
     },
     {
       "type": "indicator",
-      "id": "indicator--e25437d2-2a96-4bb5-8f2e-7d8ab543f0ed",
+      "id": "indicator--df875612-0ae2-46e8-9dc5-fcd45372be11",
       "created": "2019-05-21T19:33:24.890Z",
-      "modified": "2019-05-28T16:02:46.051Z",
+      "modified": "2019-07-11T14:18:45.825Z",
       "name": "d1ab0dff44508bac9005e95299704a887b0ffc42734a34b30ebf6d3916053dbe",
       "pattern": "[file:hashes.'SHA-256' = 'd1ab0dff44508bac9005e95299704a887b0ffc42734a34b30ebf6d3916053dbe']",
       "valid_from": "2019-05-21T19:33:24.890Z",
@@ -562,9 +562,9 @@
     },
     {
       "type": "indicator",
-      "id": "indicator--5aaf58ec-7bf7-4198-b5c5-1289119efbe2",
+      "id": "indicator--d206fc48-9690-4566-a9f2-1034513d54fa",
       "created": "2019-04-17T20:48:21.251Z",
-      "modified": "2019-05-28T16:02:46.051Z",
+      "modified": "2019-07-11T14:18:45.825Z",
       "name": "090cefebef655be7f879f2f14bd849ac20c4051d0c13e55410a49789738fad98",
       "pattern": "[file:hashes.'SHA-256' = '090cefebef655be7f879f2f14bd849ac20c4051d0c13e55410a49789738fad98']",
       "valid_from": "2019-04-17T20:48:21.251Z",
@@ -574,9 +574,9 @@
     },
     {
       "type": "indicator",
-      "id": "indicator--54be198a-8445-4581-9d7f-824496cf7214",
+      "id": "indicator--b8f6b6f9-3563-4b87-9e80-a209d1fb59ce",
       "created": "2019-05-21T19:33:24.890Z",
-      "modified": "2019-05-28T16:02:46.051Z",
+      "modified": "2019-07-11T14:18:45.825Z",
       "name": "6b3f835acbd954af168184f57c9d8e6798898e9ee650bd543ea6f2e9d5cf6378",
       "pattern": "[file:hashes.'SHA-256' = '6b3f835acbd954af168184f57c9d8e6798898e9ee650bd543ea6f2e9d5cf6378']",
       "valid_from": "2019-05-21T19:33:24.890Z",
@@ -586,9 +586,9 @@
     },
     {
       "type": "indicator",
-      "id": "indicator--81f455cd-4a94-472f-af50-1df148da2c94",
+      "id": "indicator--1c0cb436-4572-450f-afdb-2d8c6a954e08",
       "created": "2019-04-17T20:56:01.042Z",
-      "modified": "2019-05-28T16:02:46.051Z",
+      "modified": "2019-07-11T14:18:45.825Z",
       "name": "3bca0bb708c5dad1c683c6ead857a5ebfa15928a59211432459a3efa6a1afc59",
       "pattern": "[file:hashes.'SHA-256' = '3bca0bb708c5dad1c683c6ead857a5ebfa15928a59211432459a3efa6a1afc59']",
       "valid_from": "2019-04-17T20:56:01.042Z",
@@ -598,9 +598,9 @@
     },
     {
       "type": "indicator",
-      "id": "indicator--92bae539-09c1-4a9c-a28f-726bf1d11f2f",
+      "id": "indicator--6d70ffd0-24c0-4be2-9147-f512fc94c5e5",
       "created": "2019-04-17T20:56:01.042Z",
-      "modified": "2019-05-28T16:02:46.051Z",
+      "modified": "2019-07-11T14:18:45.825Z",
       "name": "4a26ec5fd16ee13d869d6b0b6177e570444f6a007759ea94f1aa18fa831290a8",
       "pattern": "[file:hashes.'SHA-256' = '4a26ec5fd16ee13d869d6b0b6177e570444f6a007759ea94f1aa18fa831290a8']",
       "valid_from": "2019-04-17T20:56:01.042Z",
@@ -610,9 +610,9 @@
     },
     {
       "type": "indicator",
-      "id": "indicator--94cad811-30f4-4f8b-9ed5-bc1565581a16",
+      "id": "indicator--6560e685-0059-4030-a2ed-d4f8f32deba7",
       "created": "2019-04-17T20:48:21.251Z",
-      "modified": "2019-05-28T16:02:46.051Z",
+      "modified": "2019-07-11T14:18:45.825Z",
       "name": "2dde8881cd9b43633d69dfa60f23713d7375913845ac3fe9b4d8a618660c4528",
       "pattern": "[file:hashes.'SHA-256' = '2dde8881cd9b43633d69dfa60f23713d7375913845ac3fe9b4d8a618660c4528']",
       "valid_from": "2019-04-17T20:48:21.251Z",
@@ -622,9 +622,9 @@
     },
     {
       "type": "indicator",
-      "id": "indicator--82af4351-46aa-49f3-bc09-be89678268aa",
+      "id": "indicator--2ffd1609-57aa-498b-904f-808a0887a66b",
       "created": "2019-04-17T20:56:01.042Z",
-      "modified": "2019-05-28T16:02:46.051Z",
+      "modified": "2019-07-11T14:18:45.825Z",
       "name": "88027a44dc82a97e21f04121eea2e86b4ddf1bd7bbaa4ad009b97b50307570bd",
       "pattern": "[file:hashes.'SHA-256' = '88027a44dc82a97e21f04121eea2e86b4ddf1bd7bbaa4ad009b97b50307570bd']",
       "valid_from": "2019-04-17T20:56:01.042Z",
@@ -634,9 +634,9 @@
     },
     {
       "type": "indicator",
-      "id": "indicator--0b0e70aa-4008-4e03-aea2-dac370d23d26",
+      "id": "indicator--5650dcab-6d01-406e-8b60-98b6f639eb11",
       "created": "2019-04-17T20:56:01.042Z",
-      "modified": "2019-05-28T16:02:46.052Z",
+      "modified": "2019-07-11T14:18:45.825Z",
       "name": "738128b4f42c8d2335d68383d72734130c0c4184725c06851498a4cf0374a841",
       "pattern": "[file:hashes.'SHA-256' = '738128b4f42c8d2335d68383d72734130c0c4184725c06851498a4cf0374a841']",
       "valid_from": "2019-04-17T20:56:01.042Z",
@@ -646,9 +646,9 @@
     },
     {
       "type": "indicator",
-      "id": "indicator--a9f90e21-df10-4511-878c-128e2179087a",
+      "id": "indicator--32a5812d-8a34-497e-adf3-2252c33f74c4",
       "created": "2019-04-17T20:56:01.042Z",
-      "modified": "2019-05-28T16:02:46.052Z",
+      "modified": "2019-07-11T14:18:45.825Z",
       "name": "29897f2ae25017455f904595872f2430b5f7fedd00ff1a46f1ea77e50940128e",
       "pattern": "[file:hashes.'SHA-256' = '29897f2ae25017455f904595872f2430b5f7fedd00ff1a46f1ea77e50940128e']",
       "valid_from": "2019-04-17T20:56:01.042Z",
@@ -658,9 +658,9 @@
     },
     {
       "type": "indicator",
-      "id": "indicator--993e8cb6-2497-4009-b834-eee3a087ab2c",
+      "id": "indicator--7ee20d3d-3123-4727-b596-2ce2ec4d224f",
       "created": "2019-04-17T20:56:01.042Z",
-      "modified": "2019-05-28T16:02:46.052Z",
+      "modified": "2019-07-11T14:18:45.825Z",
       "name": "d0df8e1dcf30785a964ecdda9bd86374d35960e1817b25a6b0963da38e0b1333",
       "pattern": "[file:hashes.'SHA-256' = 'd0df8e1dcf30785a964ecdda9bd86374d35960e1817b25a6b0963da38e0b1333']",
       "valid_from": "2019-04-17T20:56:01.042Z",
@@ -670,9 +670,9 @@
     },
     {
       "type": "indicator",
-      "id": "indicator--52d73247-113a-4006-aed6-6e2fb22b3491",
+      "id": "indicator--06d9479b-a762-49c0-b3e3-fe8e51f2d1fd",
       "created": "2019-04-17T20:56:01.042Z",
-      "modified": "2019-05-28T16:02:46.052Z",
+      "modified": "2019-07-11T14:18:45.825Z",
       "name": "a18326f929229da53d4cc340bde830f75e810122c58b523460c8d6ba62ede0e5",
       "pattern": "[file:hashes.'SHA-256' = 'a18326f929229da53d4cc340bde830f75e810122c58b523460c8d6ba62ede0e5']",
       "valid_from": "2019-04-17T20:56:01.042Z",
@@ -682,9 +682,9 @@
     },
     {
       "type": "indicator",
-      "id": "indicator--f9871ff6-9ac4-4edd-a080-f9f8b519ff00",
+      "id": "indicator--2af15166-8333-4601-b906-ae2295dfe004",
       "created": "2019-04-17T20:56:01.042Z",
-      "modified": "2019-05-28T16:02:46.052Z",
+      "modified": "2019-07-11T14:18:45.825Z",
       "name": "b2b2e900aa2e96ff44610032063012aa0435a47a5b416c384bd6e4e58a048ac9",
       "pattern": "[file:hashes.'SHA-256' = 'b2b2e900aa2e96ff44610032063012aa0435a47a5b416c384bd6e4e58a048ac9']",
       "valid_from": "2019-04-17T20:56:01.042Z",
@@ -694,9 +694,9 @@
     },
     {
       "type": "indicator",
-      "id": "indicator--9d3e38a4-1577-4c45-825f-cbabc79c6ed4",
+      "id": "indicator--3652eeba-c8a5-420d-b508-22937e14cd3b",
       "created": "2019-04-17T20:56:01.042Z",
-      "modified": "2019-05-28T16:02:46.052Z",
+      "modified": "2019-07-11T14:18:45.825Z",
       "name": "475c7e88a6d73e619ec585a7c9e6e57d2efc8298b688ebc10a3c703322f1a4a7",
       "pattern": "[file:hashes.'SHA-256' = '475c7e88a6d73e619ec585a7c9e6e57d2efc8298b688ebc10a3c703322f1a4a7']",
       "valid_from": "2019-04-17T20:56:01.042Z",
@@ -706,9 +706,9 @@
     },
     {
       "type": "indicator",
-      "id": "indicator--e0441870-0271-4397-8319-5cfc62cad068",
+      "id": "indicator--58c69985-3400-4f27-970a-ec0b7eff29b7",
       "created": "2019-04-17T20:56:01.042Z",
-      "modified": "2019-05-28T16:02:46.052Z",
+      "modified": "2019-07-11T14:18:45.825Z",
       "name": "9f5f3a9ce156213445d08d1a9ea99356d2136924dc28a8ceca6d528f9dbd718b",
       "pattern": "[file:hashes.'SHA-256' = '9f5f3a9ce156213445d08d1a9ea99356d2136924dc28a8ceca6d528f9dbd718b']",
       "valid_from": "2019-04-17T20:56:01.042Z",
@@ -718,9 +718,9 @@
     },
     {
       "type": "indicator",
-      "id": "indicator--f23c4e3b-c265-4a25-bbf0-3af6e3546ca6",
+      "id": "indicator--56797037-d55b-4d30-9b8a-816431e8bde8",
       "created": "2019-05-21T19:40:26.619Z",
-      "modified": "2019-05-28T16:02:46.052Z",
+      "modified": "2019-07-11T14:18:45.825Z",
       "name": "e781ce2d795c5dd6b0a5b849a414f5bd05bb99785f2ebf36edb70399205817ee",
       "pattern": "[file:hashes.'SHA-256' = 'e781ce2d795c5dd6b0a5b849a414f5bd05bb99785f2ebf36edb70399205817ee']",
       "valid_from": "2019-05-21T19:40:26.619Z",
@@ -730,9 +730,9 @@
     },
     {
       "type": "indicator",
-      "id": "indicator--d0001977-14f3-4d05-ad17-5687568171b5",
+      "id": "indicator--b14d6f10-3f8f-4399-81f1-4b221d6e6eb8",
       "created": "2018-03-23T12:08:31.682Z",
-      "modified": "2019-05-28T16:02:46.052Z",
+      "modified": "2019-07-11T14:18:45.825Z",
       "name": "c9d5dc956841e000bfd8762e2f0b48b66c79b79500e894b4efa7fb9ba17e4e9e",
       "pattern": "[file:hashes.'SHA-256' = 'c9d5dc956841e000bfd8762e2f0b48b66c79b79500e894b4efa7fb9ba17e4e9e']",
       "valid_from": "2018-03-23T12:08:31.682Z",
@@ -742,9 +742,9 @@
     },
     {
       "type": "indicator",
-      "id": "indicator--31507f76-091c-4b5a-a6f8-4a87323f4052",
+      "id": "indicator--3053d82e-b1ea-4c0b-a9f7-97fd3af6b018",
       "created": "2019-04-17T20:56:01.042Z",
-      "modified": "2019-05-28T16:02:46.052Z",
+      "modified": "2019-07-11T14:18:45.825Z",
       "name": "a6cad2d0f8dc05246846d2a9618fc93b7d97681331d5826f8353e7c3a3206e86",
       "pattern": "[file:hashes.'SHA-256' = 'a6cad2d0f8dc05246846d2a9618fc93b7d97681331d5826f8353e7c3a3206e86']",
       "valid_from": "2019-04-17T20:56:01.042Z",
@@ -754,9 +754,9 @@
     },
     {
       "type": "indicator",
-      "id": "indicator--9d285cd2-71df-4c41-813c-424bce45f754",
+      "id": "indicator--45428c43-9673-436f-a000-35be3f4c2318",
       "created": "2019-04-17T20:57:05.012Z",
-      "modified": "2019-05-28T16:02:46.053Z",
+      "modified": "2019-07-11T14:18:45.825Z",
       "name": "06510504f30feb1adc7e423d5a24e67e5b97acbfafe40f253a054be8b1c4e8d7",
       "pattern": "[file:hashes.'SHA-256' = '06510504f30feb1adc7e423d5a24e67e5b97acbfafe40f253a054be8b1c4e8d7']",
       "valid_from": "2019-04-17T20:57:05.012Z",
@@ -766,531 +766,513 @@
     },
     {
       "type": "relationship",
-      "id": "relationship--cf3abfef-1523-4040-8741-e1d3a3ef234f",
+      "id": "relationship--2da26877-2383-400e-a38f-c9a7f630c4e8",
       "created": "2019-05-21T19:36:59.758Z",
-      "modified": "2019-05-28T16:02:46.056Z",
+      "modified": "2019-07-11T14:18:45.826Z",
       "relationship_type": "indicates",
-      "source_ref": "indicator--9ea5c22a-b2ec-4b78-bf95-ce56db3342ed",
-      "target_ref": "campaign--cde99f5f-7ae4-40e7-9bf1-e1f8eab5d14b"
+      "source_ref": "indicator--53b54f55-da15-4e12-a00b-3b83e5c2ab38",
+      "target_ref": "campaign--443fc92f-1712-444e-872b-fd76106e61c2"
     },
     {
       "type": "relationship",
-      "id": "relationship--f393459e-7845-4b92-80a2-a2a2e8be99ff",
+      "id": "relationship--f6ce0697-055a-47c8-97f5-1c969a0ec0ec",
       "created": "2019-05-21T19:35:09.316Z",
-      "modified": "2019-05-28T16:02:46.056Z",
+      "modified": "2019-07-11T14:18:45.826Z",
       "relationship_type": "indicates",
-      "source_ref": "indicator--86982686-c210-4300-a8ae-6af6564c9876",
-      "target_ref": "campaign--cde99f5f-7ae4-40e7-9bf1-e1f8eab5d14b"
+      "source_ref": "indicator--3a48a376-b6d7-46ff-ab33-6871a1bf3898",
+      "target_ref": "campaign--443fc92f-1712-444e-872b-fd76106e61c2"
     },
     {
       "type": "relationship",
-      "id": "relationship--8570b3b1-2662-43fc-96a4-6e8445ca31c8",
+      "id": "relationship--5698587a-bf1c-4bc2-a8ee-1df22e4a87e2",
       "created": "2019-05-21T19:36:47.335Z",
-      "modified": "2019-05-28T16:02:46.056Z",
+      "modified": "2019-07-11T14:18:45.826Z",
       "relationship_type": "indicates",
-      "source_ref": "indicator--511c6560-c527-45ec-b50e-a807e32f194f",
-      "target_ref": "campaign--cde99f5f-7ae4-40e7-9bf1-e1f8eab5d14b"
+      "source_ref": "indicator--96927049-9253-46ef-bdc1-31199c709a31",
+      "target_ref": "campaign--443fc92f-1712-444e-872b-fd76106e61c2"
     },
     {
       "type": "relationship",
-      "id": "relationship--f7ec0078-8868-418d-91d9-c33dbff9411d",
+      "id": "relationship--2841df79-8e3b-4083-90a8-9a74cf27a446",
       "created": "2019-05-21T19:36:50.854Z",
-      "modified": "2019-05-28T16:02:46.056Z",
+      "modified": "2019-07-11T14:18:45.826Z",
       "relationship_type": "indicates",
-      "source_ref": "indicator--92d1aadd-48b1-40e5-a073-5617d339961c",
-      "target_ref": "campaign--cde99f5f-7ae4-40e7-9bf1-e1f8eab5d14b"
+      "source_ref": "indicator--7b2f62a0-cf1b-41ef-85fb-53c0b3b01ba3",
+      "target_ref": "campaign--443fc92f-1712-444e-872b-fd76106e61c2"
     },
     {
       "type": "relationship",
-      "id": "relationship--60a1c824-0f36-4ea6-9175-a3ba3651832c",
+      "id": "relationship--20465180-b79e-45d9-9249-e8ac4bad2fc3",
       "created": "2019-05-21T19:37:44.745Z",
-      "modified": "2019-05-28T16:02:46.056Z",
+      "modified": "2019-07-11T14:18:45.826Z",
       "relationship_type": "indicates",
-      "source_ref": "indicator--7695a9ea-e94c-4725-b8c4-725660e67cf6",
-      "target_ref": "campaign--cde99f5f-7ae4-40e7-9bf1-e1f8eab5d14b"
+      "source_ref": "indicator--6f8e562a-7a94-4a41-9389-9211949b6e95",
+      "target_ref": "campaign--443fc92f-1712-444e-872b-fd76106e61c2"
     },
     {
       "type": "relationship",
-      "id": "relationship--c0036ef2-ab61-4ef5-99c5-3fd088c01228",
+      "id": "relationship--ae073543-3a1d-4f48-9f60-4df78a6f4884",
       "created": "2019-05-21T19:34:12.034Z",
-      "modified": "2019-05-28T16:02:46.056Z",
+      "modified": "2019-07-11T14:18:45.826Z",
       "relationship_type": "indicates",
-      "source_ref": "indicator--052ea4c6-6593-4e9f-94d6-bcd4faf476c3",
-      "target_ref": "campaign--cde99f5f-7ae4-40e7-9bf1-e1f8eab5d14b"
+      "source_ref": "indicator--197a86c5-43e4-42a7-aa87-48e55cadf1fb",
+      "target_ref": "campaign--443fc92f-1712-444e-872b-fd76106e61c2"
     },
     {
       "type": "relationship",
-      "id": "relationship--2cac8f9a-8e22-41ef-97fa-43640be36d7d",
+      "id": "relationship--321116a9-79ee-4974-ad66-4be1bb5763a3",
       "created": "2019-05-21T19:34:31.933Z",
-      "modified": "2019-05-28T16:02:46.056Z",
+      "modified": "2019-07-11T14:18:45.826Z",
       "relationship_type": "indicates",
-      "source_ref": "indicator--e25437d2-2a96-4bb5-8f2e-7d8ab543f0ed",
-      "target_ref": "campaign--cde99f5f-7ae4-40e7-9bf1-e1f8eab5d14b"
+      "source_ref": "indicator--df875612-0ae2-46e8-9dc5-fcd45372be11",
+      "target_ref": "campaign--443fc92f-1712-444e-872b-fd76106e61c2"
     },
     {
       "type": "relationship",
-      "id": "relationship--79ca61fe-2993-4bca-8558-af56fc8113bf",
+      "id": "relationship--0678beb8-83f8-4909-94aa-dc5a4cf9483f",
       "created": "2019-05-21T19:37:37.890Z",
-      "modified": "2019-05-28T16:02:46.056Z",
+      "modified": "2019-07-11T14:18:45.826Z",
       "relationship_type": "indicates",
-      "source_ref": "indicator--5aaf58ec-7bf7-4198-b5c5-1289119efbe2",
-      "target_ref": "campaign--cde99f5f-7ae4-40e7-9bf1-e1f8eab5d14b"
+      "source_ref": "indicator--d206fc48-9690-4566-a9f2-1034513d54fa",
+      "target_ref": "campaign--443fc92f-1712-444e-872b-fd76106e61c2"
     },
     {
       "type": "relationship",
-      "id": "relationship--3f98fa4a-e814-46af-bcde-37d20a04ac8a",
+      "id": "relationship--f2d07f9d-9193-4558-bd37-308454623a48",
       "created": "2019-05-21T19:34:41.651Z",
-      "modified": "2019-05-28T16:02:46.056Z",
+      "modified": "2019-07-11T14:18:45.826Z",
       "relationship_type": "indicates",
-      "source_ref": "indicator--54be198a-8445-4581-9d7f-824496cf7214",
-      "target_ref": "campaign--cde99f5f-7ae4-40e7-9bf1-e1f8eab5d14b"
+      "source_ref": "indicator--b8f6b6f9-3563-4b87-9e80-a209d1fb59ce",
+      "target_ref": "campaign--443fc92f-1712-444e-872b-fd76106e61c2"
     },
     {
       "type": "relationship",
-      "id": "relationship--db8f7c13-8307-4221-a72e-721aaba2b471",
+      "id": "relationship--1b59ef43-d858-47fc-b2c3-3a832d2da064",
       "created": "2019-05-21T19:38:36.946Z",
-      "modified": "2019-05-28T16:02:46.056Z",
+      "modified": "2019-07-11T14:18:45.826Z",
       "relationship_type": "indicates",
-      "source_ref": "indicator--81f455cd-4a94-472f-af50-1df148da2c94",
-      "target_ref": "campaign--cde99f5f-7ae4-40e7-9bf1-e1f8eab5d14b"
+      "source_ref": "indicator--1c0cb436-4572-450f-afdb-2d8c6a954e08",
+      "target_ref": "campaign--443fc92f-1712-444e-872b-fd76106e61c2"
     },
     {
       "type": "relationship",
-      "id": "relationship--f66f7344-d964-4d69-b702-cd5a5a8a44cf",
+      "id": "relationship--e3a91490-9bea-4297-a679-991098fc8b8a",
       "created": "2019-05-21T19:39:47.840Z",
-      "modified": "2019-05-28T16:02:46.056Z",
+      "modified": "2019-07-11T14:18:45.826Z",
       "relationship_type": "indicates",
-      "source_ref": "indicator--92bae539-09c1-4a9c-a28f-726bf1d11f2f",
-      "target_ref": "campaign--cde99f5f-7ae4-40e7-9bf1-e1f8eab5d14b"
+      "source_ref": "indicator--6d70ffd0-24c0-4be2-9147-f512fc94c5e5",
+      "target_ref": "campaign--443fc92f-1712-444e-872b-fd76106e61c2"
     },
     {
       "type": "relationship",
-      "id": "relationship--67c53924-65da-4937-934e-f77a86e5552a",
+      "id": "relationship--fec55ae0-7f4c-46c3-8ed8-63c24d58e0bf",
       "created": "2019-05-21T19:38:10.080Z",
-      "modified": "2019-05-28T16:02:46.056Z",
+      "modified": "2019-07-11T14:18:45.826Z",
       "relationship_type": "indicates",
-      "source_ref": "indicator--94cad811-30f4-4f8b-9ed5-bc1565581a16",
-      "target_ref": "campaign--cde99f5f-7ae4-40e7-9bf1-e1f8eab5d14b"
+      "source_ref": "indicator--6560e685-0059-4030-a2ed-d4f8f32deba7",
+      "target_ref": "campaign--443fc92f-1712-444e-872b-fd76106e61c2"
     },
     {
       "type": "relationship",
-      "id": "relationship--da73d34f-1a1d-4037-9cf7-25129a8e6391",
+      "id": "relationship--3994c0a4-926c-496a-b427-50ff22f31a43",
       "created": "2019-05-21T19:38:22.791Z",
-      "modified": "2019-05-28T16:02:46.056Z",
+      "modified": "2019-07-11T14:18:45.826Z",
       "relationship_type": "indicates",
-      "source_ref": "indicator--82af4351-46aa-49f3-bc09-be89678268aa",
-      "target_ref": "campaign--cde99f5f-7ae4-40e7-9bf1-e1f8eab5d14b"
+      "source_ref": "indicator--2ffd1609-57aa-498b-904f-808a0887a66b",
+      "target_ref": "campaign--443fc92f-1712-444e-872b-fd76106e61c2"
     },
     {
       "type": "relationship",
-      "id": "relationship--2f2991c9-7743-44eb-840d-870487e8b51d",
+      "id": "relationship--263254cd-23c8-44bb-9ff7-f45fcdc0d221",
       "created": "2019-05-21T19:38:29.710Z",
-      "modified": "2019-05-28T16:02:46.056Z",
+      "modified": "2019-07-11T14:18:45.826Z",
       "relationship_type": "indicates",
-      "source_ref": "indicator--0b0e70aa-4008-4e03-aea2-dac370d23d26",
-      "target_ref": "campaign--cde99f5f-7ae4-40e7-9bf1-e1f8eab5d14b"
+      "source_ref": "indicator--5650dcab-6d01-406e-8b60-98b6f639eb11",
+      "target_ref": "campaign--443fc92f-1712-444e-872b-fd76106e61c2"
     },
     {
       "type": "relationship",
-      "id": "relationship--031fb0b0-d067-417c-a522-0c29dbb9ddd6",
+      "id": "relationship--9bea2512-bd06-4c79-99de-970e8c438f6d",
       "created": "2019-05-21T19:38:43.741Z",
-      "modified": "2019-05-28T16:02:46.056Z",
+      "modified": "2019-07-11T14:18:45.826Z",
       "relationship_type": "indicates",
-      "source_ref": "indicator--a9f90e21-df10-4511-878c-128e2179087a",
-      "target_ref": "campaign--cde99f5f-7ae4-40e7-9bf1-e1f8eab5d14b"
+      "source_ref": "indicator--32a5812d-8a34-497e-adf3-2252c33f74c4",
+      "target_ref": "campaign--443fc92f-1712-444e-872b-fd76106e61c2"
     },
     {
       "type": "relationship",
-      "id": "relationship--54c7dd04-ad3e-4a94-b355-1089b22db936",
+      "id": "relationship--3669f268-1e42-42e6-8ac1-b7842d9efa69",
       "created": "2019-05-21T19:38:51.148Z",
-      "modified": "2019-05-28T16:02:46.056Z",
+      "modified": "2019-07-11T14:18:45.826Z",
       "relationship_type": "indicates",
-      "source_ref": "indicator--993e8cb6-2497-4009-b834-eee3a087ab2c",
-      "target_ref": "campaign--cde99f5f-7ae4-40e7-9bf1-e1f8eab5d14b"
+      "source_ref": "indicator--7ee20d3d-3123-4727-b596-2ce2ec4d224f",
+      "target_ref": "campaign--443fc92f-1712-444e-872b-fd76106e61c2"
     },
     {
       "type": "relationship",
-      "id": "relationship--c1883440-6cc8-4b27-8287-2bcb40922a8d",
+      "id": "relationship--d9b195f9-e95c-4196-9cda-1ea1890473d9",
       "created": "2019-05-21T19:38:59.425Z",
-      "modified": "2019-05-28T16:02:46.056Z",
+      "modified": "2019-07-11T14:18:45.826Z",
       "relationship_type": "indicates",
-      "source_ref": "indicator--52d73247-113a-4006-aed6-6e2fb22b3491",
-      "target_ref": "campaign--cde99f5f-7ae4-40e7-9bf1-e1f8eab5d14b"
+      "source_ref": "indicator--06d9479b-a762-49c0-b3e3-fe8e51f2d1fd",
+      "target_ref": "campaign--443fc92f-1712-444e-872b-fd76106e61c2"
     },
     {
       "type": "relationship",
-      "id": "relationship--f9b0dea2-e968-4c9e-9222-fbf2ec0ba07a",
+      "id": "relationship--0cddcde4-dbe9-4f73-a56f-1bf68b6b1815",
       "created": "2019-05-21T19:39:55.005Z",
-      "modified": "2019-05-28T16:02:46.056Z",
+      "modified": "2019-07-11T14:18:45.826Z",
       "relationship_type": "indicates",
-      "source_ref": "indicator--f9871ff6-9ac4-4edd-a080-f9f8b519ff00",
-      "target_ref": "campaign--cde99f5f-7ae4-40e7-9bf1-e1f8eab5d14b"
+      "source_ref": "indicator--2af15166-8333-4601-b906-ae2295dfe004",
+      "target_ref": "campaign--443fc92f-1712-444e-872b-fd76106e61c2"
     },
     {
       "type": "relationship",
-      "id": "relationship--6e7bbfb1-64b8-4bbd-bec8-33e86af72f18",
+      "id": "relationship--8a520ba6-4cac-4e2d-90ce-4fd68edb8f28",
       "created": "2019-05-21T19:40:01.669Z",
-      "modified": "2019-05-28T16:02:46.056Z",
+      "modified": "2019-07-11T14:18:45.826Z",
       "relationship_type": "indicates",
-      "source_ref": "indicator--9d3e38a4-1577-4c45-825f-cbabc79c6ed4",
-      "target_ref": "campaign--cde99f5f-7ae4-40e7-9bf1-e1f8eab5d14b"
+      "source_ref": "indicator--3652eeba-c8a5-420d-b508-22937e14cd3b",
+      "target_ref": "campaign--443fc92f-1712-444e-872b-fd76106e61c2"
     },
     {
       "type": "relationship",
-      "id": "relationship--c068fb77-ea99-4a9a-9190-109cee05388b",
+      "id": "relationship--e42ef913-2393-44c8-b21f-50b6840c6e1b",
       "created": "2019-05-21T19:40:07.712Z",
-      "modified": "2019-05-28T16:02:46.056Z",
+      "modified": "2019-07-11T14:18:45.826Z",
       "relationship_type": "indicates",
-      "source_ref": "indicator--e0441870-0271-4397-8319-5cfc62cad068",
-      "target_ref": "campaign--cde99f5f-7ae4-40e7-9bf1-e1f8eab5d14b"
+      "source_ref": "indicator--58c69985-3400-4f27-970a-ec0b7eff29b7",
+      "target_ref": "campaign--443fc92f-1712-444e-872b-fd76106e61c2"
     },
     {
       "type": "relationship",
-      "id": "relationship--b25dca6a-9b62-4e54-9806-36f8c5d5eaa2",
+      "id": "relationship--fc32c2cf-98bf-45bc-b8b3-b951dd042e88",
       "created": "2019-05-21T19:40:26.763Z",
-      "modified": "2019-05-28T16:02:46.057Z",
+      "modified": "2019-07-11T14:18:45.826Z",
       "relationship_type": "indicates",
-      "source_ref": "indicator--f23c4e3b-c265-4a25-bbf0-3af6e3546ca6",
-      "target_ref": "campaign--cde99f5f-7ae4-40e7-9bf1-e1f8eab5d14b"
+      "source_ref": "indicator--56797037-d55b-4d30-9b8a-816431e8bde8",
+      "target_ref": "campaign--443fc92f-1712-444e-872b-fd76106e61c2"
     },
     {
       "type": "relationship",
-      "id": "relationship--f7745203-4c49-4a65-add8-3b5e07aff2f1",
+      "id": "relationship--d24221d8-1841-4c6c-933f-3933cdce7e97",
       "created": "2019-05-21T19:40:14.540Z",
-      "modified": "2019-05-28T16:02:46.057Z",
+      "modified": "2019-07-11T14:18:45.826Z",
       "relationship_type": "indicates",
-      "source_ref": "indicator--d0001977-14f3-4d05-ad17-5687568171b5",
-      "target_ref": "campaign--cde99f5f-7ae4-40e7-9bf1-e1f8eab5d14b"
+      "source_ref": "indicator--b14d6f10-3f8f-4399-81f1-4b221d6e6eb8",
+      "target_ref": "campaign--443fc92f-1712-444e-872b-fd76106e61c2"
     },
     {
       "type": "relationship",
-      "id": "relationship--edb637dd-ef32-4d4a-ad37-fa3883e357d3",
+      "id": "relationship--fea3a646-5cb6-4b24-8941-3f7a392c92c5",
       "created": "2019-05-21T19:40:20.380Z",
-      "modified": "2019-05-28T16:02:46.057Z",
+      "modified": "2019-07-11T14:18:45.826Z",
       "relationship_type": "indicates",
-      "source_ref": "indicator--31507f76-091c-4b5a-a6f8-4a87323f4052",
-      "target_ref": "campaign--cde99f5f-7ae4-40e7-9bf1-e1f8eab5d14b"
+      "source_ref": "indicator--3053d82e-b1ea-4c0b-a9f7-97fd3af6b018",
+      "target_ref": "campaign--443fc92f-1712-444e-872b-fd76106e61c2"
     },
     {
       "type": "relationship",
-      "id": "relationship--dc12c74e-e682-4049-9ce2-cb71c0ee89d4",
+      "id": "relationship--bd24e442-8ac6-4a7c-a256-a073eb58bed0",
       "created": "2019-05-21T19:40:48.439Z",
-      "modified": "2019-05-28T16:02:46.057Z",
+      "modified": "2019-07-11T14:18:45.826Z",
       "relationship_type": "indicates",
-      "source_ref": "indicator--9d285cd2-71df-4c41-813c-424bce45f754",
-      "target_ref": "campaign--cde99f5f-7ae4-40e7-9bf1-e1f8eab5d14b"
+      "source_ref": "indicator--45428c43-9673-436f-a000-35be3f4c2318",
+      "target_ref": "campaign--443fc92f-1712-444e-872b-fd76106e61c2"
     },
     {
       "type": "relationship",
-      "id": "relationship--0c82ff20-82df-423e-a5d6-8a5682978312",
+      "id": "relationship--638b5cec-87bc-407e-aa03-662a048bab52",
       "created": "2019-05-21T19:36:59.758Z",
-      "modified": "2019-05-28T13:00:53.206Z",
+      "modified": "2019-07-11T14:18:45.828Z",
       "relationship_type": "uses",
       "description": "HyperBro backdoor",
-      "source_ref": "indicator--9ea5c22a-b2ec-4b78-bf95-ce56db3342ed",
+      "source_ref": "indicator--53b54f55-da15-4e12-a00b-3b83e5c2ab38",
       "target_ref": "attack-pattern--e6919abc-99f9-4c6c-95a5-14761e7b2add"
     },
     {
       "type": "relationship",
-      "id": "relationship--73831eea-1509-4fb6-af24-a99bc5de559a",
+      "id": "relationship--ec0bf97e-f3fa-4e84-9bbd-43eebae268d6",
       "created": "2019-05-21T19:35:09.316Z",
-      "modified": "2019-05-28T16:02:46.059Z",
+      "modified": "2019-07-11T14:18:45.827Z",
       "relationship_type": "uses",
       "description": "Antak webshell 'error2.aspx'",
-      "source_ref": "indicator--86982686-c210-4300-a8ae-6af6564c9876",
+      "source_ref": "indicator--3a48a376-b6d7-46ff-ab33-6871a1bf3898",
       "target_ref": "attack-pattern--c16e5409-ee53-4d79-afdc-4099dc9292df"
     },
     {
       "type": "relationship",
-      "id": "relationship--cb9baaa4-a2c2-4885-a538-d2c3cdc5f548",
+      "id": "relationship--68fa9c5a-7c43-4f95-8c01-502b03d5af97",
       "created": "2019-05-21T19:36:47.335Z",
-      "modified": "2019-05-28T13:00:53.206Z",
+      "modified": "2019-07-11T14:18:45.828Z",
       "relationship_type": "uses",
       "description": "Packed Mimikatz",
-      "source_ref": "indicator--511c6560-c527-45ec-b50e-a807e32f194f",
+      "source_ref": "indicator--96927049-9253-46ef-bdc1-31199c709a31",
       "target_ref": "attack-pattern--e6919abc-99f9-4c6c-95a5-14761e7b2add"
     },
     {
       "type": "relationship",
-      "id": "relationship--323f68a4-5bdb-47e9-bd8a-3807bd7a150f",
+      "id": "relationship--2a090591-7bf3-47f8-bd13-7d850d6da011",
       "created": "2019-05-21T19:36:50.854Z",
-      "modified": "2019-05-28T13:00:53.206Z",
+      "modified": "2019-07-11T14:18:45.828Z",
       "relationship_type": "uses",
       "description": "Compiled Impacket psexec",
-      "source_ref": "indicator--92d1aadd-48b1-40e5-a073-5617d339961c",
+      "source_ref": "indicator--7b2f62a0-cf1b-41ef-85fb-53c0b3b01ba3",
       "target_ref": "attack-pattern--e6919abc-99f9-4c6c-95a5-14761e7b2add"
     },
     {
       "type": "relationship",
-      "id": "relationship--c5c16285-a026-4f5c-8cf1-9d4acfc7f539",
+      "id": "relationship--569a21f2-11e5-46cb-942a-312c6513027f",
       "created": "2019-05-21T19:37:44.745Z",
-      "modified": "2019-05-28T13:00:53.206Z",
+      "modified": "2019-07-11T14:18:45.828Z",
       "relationship_type": "uses",
       "description": "C# Netview tool",
-      "source_ref": "indicator--7695a9ea-e94c-4725-b8c4-725660e67cf6",
+      "source_ref": "indicator--6f8e562a-7a94-4a41-9389-9211949b6e95",
       "target_ref": "attack-pattern--e6919abc-99f9-4c6c-95a5-14761e7b2add"
     },
     {
       "type": "relationship",
-      "id": "relationship--44ef06e2-3b39-410b-be14-2dfa0d4b6166",
+      "id": "relationship--679146de-e056-4fe9-ac3e-6bbe6d11362d",
       "created": "2019-05-21T19:34:12.034Z",
-      "modified": "2019-05-28T16:02:46.059Z",
+      "modified": "2019-07-11T14:18:45.827Z",
       "relationship_type": "uses",
       "description": "China Chopper 'stylecs.aspx'",
-      "source_ref": "indicator--052ea4c6-6593-4e9f-94d6-bcd4faf476c3",
+      "source_ref": "indicator--197a86c5-43e4-42a7-aa87-48e55cadf1fb",
       "target_ref": "attack-pattern--c16e5409-ee53-4d79-afdc-4099dc9292df"
     },
     {
       "type": "relationship",
-      "id": "relationship--c408811c-dd7f-4b17-94e6-a0328b6525a3",
+      "id": "relationship--c6e5ab32-f58b-4593-8177-a7473dfcf78c",
       "created": "2019-05-21T19:34:31.933Z",
-      "modified": "2019-05-28T16:02:46.059Z",
+      "modified": "2019-07-11T14:18:45.827Z",
       "relationship_type": "uses",
       "description": "China Chopper 'stylecss.aspx'",
-      "source_ref": "indicator--e25437d2-2a96-4bb5-8f2e-7d8ab543f0ed",
+      "source_ref": "indicator--df875612-0ae2-46e8-9dc5-fcd45372be11",
       "target_ref": "attack-pattern--c16e5409-ee53-4d79-afdc-4099dc9292df"
     },
     {
       "type": "relationship",
-      "id": "relationship--c985f56e-c967-453b-b81d-3ac1e7073fe5",
+      "id": "relationship--8ae890e7-ed99-48e6-acba-1376b5977080",
       "created": "2019-05-21T19:37:37.890Z",
-      "modified": "2019-05-28T13:00:53.206Z",
+      "modified": "2019-07-11T14:18:45.828Z",
       "relationship_type": "uses",
       "description": "Compiled EternalBlue checker script",
-      "source_ref": "indicator--5aaf58ec-7bf7-4198-b5c5-1289119efbe2",
+      "source_ref": "indicator--d206fc48-9690-4566-a9f2-1034513d54fa",
       "target_ref": "attack-pattern--e6919abc-99f9-4c6c-95a5-14761e7b2add"
     },
     {
       "type": "relationship",
-      "id": "relationship--fadca767-c293-4048-a464-e3afc9f6d037",
+      "id": "relationship--8e892ae9-4590-487a-b9d7-f223a8cf852b",
       "created": "2019-05-21T19:34:41.651Z",
-      "modified": "2019-05-28T16:02:46.059Z",
+      "modified": "2019-07-11T14:18:45.827Z",
       "relationship_type": "uses",
       "description": "China Chopper 'test.aspx'",
-      "source_ref": "indicator--54be198a-8445-4581-9d7f-824496cf7214",
+      "source_ref": "indicator--b8f6b6f9-3563-4b87-9e80-a209d1fb59ce",
       "target_ref": "attack-pattern--c16e5409-ee53-4d79-afdc-4099dc9292df"
     },
     {
       "type": "relationship",
-      "id": "relationship--d0ce4972-4cb3-418b-a34b-b7eb5679a3f8",
+      "id": "relationship--e780c50c-e73c-4e3b-bffd-e914fd61b856",
       "created": "2019-05-21T19:38:36.946Z",
-      "modified": "2019-05-28T13:00:53.205Z",
+      "modified": "2019-07-11T14:18:45.827Z",
       "relationship_type": "uses",
       "description": "Compiled zzz_exploit.py MS17-010 exploit script",
-      "source_ref": "indicator--81f455cd-4a94-472f-af50-1df148da2c94",
+      "source_ref": "indicator--1c0cb436-4572-450f-afdb-2d8c6a954e08",
       "target_ref": "attack-pattern--e6919abc-99f9-4c6c-95a5-14761e7b2add"
     },
     {
       "type": "relationship",
-      "id": "relationship--f447407f-f901-4e25-9c9b-0eb5f5e3ddfc",
+      "id": "relationship--5093e78e-00e7-4ee1-989e-1c4b445ba23e",
       "created": "2019-05-21T19:39:47.840Z",
-      "modified": "2019-05-28T13:00:53.206Z",
+      "modified": "2019-07-11T14:18:45.827Z",
       "relationship_type": "uses",
       "description": "SMB backdoor based on smbrelay3",
-      "source_ref": "indicator--92bae539-09c1-4a9c-a28f-726bf1d11f2f",
+      "source_ref": "indicator--6d70ffd0-24c0-4be2-9147-f512fc94c5e5",
       "target_ref": "attack-pattern--e6919abc-99f9-4c6c-95a5-14761e7b2add"
     },
     {
       "type": "relationship",
-      "id": "relationship--e442ce5a-a345-4ccc-bb72-cea4e601003d",
+      "id": "relationship--81bf35f9-4481-4408-8dfa-3bc0b5f4a8fa",
       "created": "2019-05-21T19:38:10.080Z",
-      "modified": "2019-05-28T13:00:53.205Z",
+      "modified": "2019-07-11T14:18:45.827Z",
       "relationship_type": "uses",
       "description": "PYTHON33.dll - Sideloaded DLL loaded by Sublime Text",
-      "source_ref": "indicator--94cad811-30f4-4f8b-9ed5-bc1565581a16",
+      "source_ref": "indicator--6560e685-0059-4030-a2ed-d4f8f32deba7",
       "target_ref": "attack-pattern--e6919abc-99f9-4c6c-95a5-14761e7b2add"
     },
     {
       "type": "relationship",
-      "id": "relationship--41b48c52-6921-4749-b036-8019d13fbb0e",
+      "id": "relationship--303ee053-751c-4698-97d4-a41c5fd5bc10",
       "created": "2019-05-21T19:38:22.791Z",
-      "modified": "2019-05-28T13:00:53.206Z",
+      "modified": "2019-07-11T14:18:45.827Z",
       "relationship_type": "uses",
       "description": "SMB backdoor based on smbrelay3",
-      "source_ref": "indicator--82af4351-46aa-49f3-bc09-be89678268aa",
+      "source_ref": "indicator--2ffd1609-57aa-498b-904f-808a0887a66b",
       "target_ref": "attack-pattern--e6919abc-99f9-4c6c-95a5-14761e7b2add"
     },
     {
       "type": "relationship",
-      "id": "relationship--d19eef59-cc95-41d3-8569-aa0914a6c4ff",
+      "id": "relationship--df9d50f8-e7e5-4410-853a-ec489c7ae62e",
       "created": "2019-05-21T19:38:29.710Z",
-      "modified": "2019-05-28T13:00:53.205Z",
+      "modified": "2019-07-11T14:18:45.827Z",
       "relationship_type": "uses",
       "description": "Compiled zzz_exploit.py MS17-010 exploit script",
-      "source_ref": "indicator--0b0e70aa-4008-4e03-aea2-dac370d23d26",
+      "source_ref": "indicator--5650dcab-6d01-406e-8b60-98b6f639eb11",
       "target_ref": "attack-pattern--e6919abc-99f9-4c6c-95a5-14761e7b2add"
     },
     {
       "type": "relationship",
-      "id": "relationship--04a5030a-1ccc-4646-9ba7-3420b752b74d",
+      "id": "relationship--324c2f2b-b87e-4d96-a945-961df04008e5",
       "created": "2019-05-21T19:38:43.741Z",
-      "modified": "2019-05-28T13:00:53.206Z",
+      "modified": "2019-07-11T14:18:45.828Z",
       "relationship_type": "uses",
       "description": "pwdump tool",
-      "source_ref": "indicator--a9f90e21-df10-4511-878c-128e2179087a",
+      "source_ref": "indicator--32a5812d-8a34-497e-adf3-2252c33f74c4",
       "target_ref": "attack-pattern--e6919abc-99f9-4c6c-95a5-14761e7b2add"
     },
     {
       "type": "relationship",
-      "id": "relationship--dda27e4f-3e8d-40bc-aacf-5c774fa1f8fc",
+      "id": "relationship--4d702cc1-f066-44f3-8400-a797e7289000",
       "created": "2019-05-21T19:38:51.148Z",
-      "modified": "2019-05-28T13:00:53.206Z",
+      "modified": "2019-07-11T14:18:45.828Z",
       "relationship_type": "uses",
       "description": "Compiled MS17-010 checker tool",
-      "source_ref": "indicator--993e8cb6-2497-4009-b834-eee3a087ab2c",
+      "source_ref": "indicator--7ee20d3d-3123-4727-b596-2ce2ec4d224f",
       "target_ref": "attack-pattern--e6919abc-99f9-4c6c-95a5-14761e7b2add"
     },
     {
       "type": "relationship",
-      "id": "relationship--82d54bae-2306-45fd-af7f-a219e0d25b75",
+      "id": "relationship--832e1b98-2a31-4ae2-9d77-3fc238da0a1f",
       "created": "2019-05-21T19:38:59.425Z",
-      "modified": "2019-05-28T13:00:53.206Z",
+      "modified": "2019-07-11T14:18:45.828Z",
       "relationship_type": "uses",
       "description": "Packed Mimikatz",
-      "source_ref": "indicator--52d73247-113a-4006-aed6-6e2fb22b3491",
+      "source_ref": "indicator--06d9479b-a762-49c0-b3e3-fe8e51f2d1fd",
       "target_ref": "attack-pattern--e6919abc-99f9-4c6c-95a5-14761e7b2add"
     },
     {
       "type": "relationship",
-      "id": "relationship--4ab3c79e-d541-46cd-bb28-1a7a3f13918d",
+      "id": "relationship--ee5d0fd2-bd2d-4a0e-9c25-642b71481031",
       "created": "2019-05-21T19:39:55.005Z",
-      "modified": "2019-05-28T13:00:53.205Z",
+      "modified": "2019-07-11T14:18:45.827Z",
       "relationship_type": "uses",
       "description": "Termite tool",
-      "source_ref": "indicator--f9871ff6-9ac4-4edd-a080-f9f8b519ff00",
+      "source_ref": "indicator--2af15166-8333-4601-b906-ae2295dfe004",
       "target_ref": "attack-pattern--e6919abc-99f9-4c6c-95a5-14761e7b2add"
     },
     {
       "type": "relationship",
-      "id": "relationship--d347beb3-633c-4a76-a9ee-afb0f4889657",
+      "id": "relationship--9a66c67e-f6a7-4f4f-98e4-52cc92e0581e",
       "created": "2019-05-21T19:40:01.669Z",
-      "modified": "2019-05-28T13:00:53.205Z",
+      "modified": "2019-07-11T14:18:45.827Z",
       "relationship_type": "uses",
       "description": "httprelay tool",
-      "source_ref": "indicator--9d3e38a4-1577-4c45-825f-cbabc79c6ed4",
+      "source_ref": "indicator--3652eeba-c8a5-420d-b508-22937e14cd3b",
       "target_ref": "attack-pattern--e6919abc-99f9-4c6c-95a5-14761e7b2add"
     },
     {
       "type": "relationship",
-      "id": "relationship--cd732c48-f469-4052-abad-46f67965c6cc",
+      "id": "relationship--86dff2d2-5777-4808-aae8-f162bb1b7ed2",
       "created": "2019-05-21T19:40:07.712Z",
-      "modified": "2019-05-28T13:00:53.205Z",
+      "modified": "2019-07-11T14:18:45.827Z",
       "relationship_type": "uses",
       "description": "Incognito tool",
-      "source_ref": "indicator--e0441870-0271-4397-8319-5cfc62cad068",
+      "source_ref": "indicator--58c69985-3400-4f27-970a-ec0b7eff29b7",
       "target_ref": "attack-pattern--e6919abc-99f9-4c6c-95a5-14761e7b2add"
     },
     {
       "type": "relationship",
-      "id": "relationship--ebd08f6b-c3c9-4fa2-9b5a-c65708b35cff",
+      "id": "relationship--f1cdd2d1-e195-4ef7-a48d-838f6472d94b",
       "created": "2019-05-21T19:40:26.763Z",
-      "modified": "2019-05-28T13:00:53.206Z",
+      "modified": "2019-07-11T14:18:45.828Z",
       "relationship_type": "uses",
       "description": "Compiled Impacket smbexec tool",
-      "source_ref": "indicator--f23c4e3b-c265-4a25-bbf0-3af6e3546ca6",
+      "source_ref": "indicator--56797037-d55b-4d30-9b8a-816431e8bde8",
       "target_ref": "attack-pattern--e6919abc-99f9-4c6c-95a5-14761e7b2add"
     },
     {
       "type": "relationship",
-      "id": "relationship--98af7603-1d30-4b76-969d-f0760c8dcd73",
+      "id": "relationship--7aa6a18f-16e6-4a17-a18a-ba68580661ff",
       "created": "2019-05-21T19:40:14.540Z",
-      "modified": "2019-05-28T13:00:53.205Z",
+      "modified": "2019-07-11T14:18:45.827Z",
       "relationship_type": "uses",
       "description": "nbtscan tool",
-      "source_ref": "indicator--d0001977-14f3-4d05-ad17-5687568171b5",
+      "source_ref": "indicator--b14d6f10-3f8f-4399-81f1-4b221d6e6eb8",
       "target_ref": "attack-pattern--e6919abc-99f9-4c6c-95a5-14761e7b2add"
     },
     {
       "type": "relationship",
-      "id": "relationship--e7213a0a-dfe8-4345-87f3-890caaada4b7",
+      "id": "relationship--7abd7a31-7ca3-47b7-9cc9-33fa66ff6195",
       "created": "2019-05-21T19:40:20.380Z",
-      "modified": "2019-05-28T13:00:53.205Z",
+      "modified": "2019-07-11T14:18:45.827Z",
       "relationship_type": "uses",
       "description": "pwdump tool",
-      "source_ref": "indicator--31507f76-091c-4b5a-a6f8-4a87323f4052",
+      "source_ref": "indicator--3053d82e-b1ea-4c0b-a9f7-97fd3af6b018",
       "target_ref": "attack-pattern--e6919abc-99f9-4c6c-95a5-14761e7b2add"
     },
     {
       "type": "relationship",
-      "id": "relationship--d11412d2-5db8-4b91-91bf-df41787e2fb9",
+      "id": "relationship--49211099-fe42-4649-b433-708a663b0ca9",
       "created": "2019-05-21T19:40:48.439Z",
-      "modified": "2019-05-28T13:00:53.205Z",
+      "modified": "2019-07-11T14:18:45.827Z",
       "relationship_type": "uses",
       "description": "CreateTsMediaAdm.dll - Sideloaded DLL loaded by CreateMedia.exe",
-      "source_ref": "indicator--9d285cd2-71df-4c41-813c-424bce45f754",
+      "source_ref": "indicator--45428c43-9673-436f-a000-35be3f4c2318",
       "target_ref": "attack-pattern--e6919abc-99f9-4c6c-95a5-14761e7b2add"
     },
     {
       "type": "relationship",
-      "id": "relationship--24fe6d18-3f8e-401f-a230-f514601da6fb",
+      "id": "relationship--56284eef-3fbd-46b4-af1d-9951ef904c6b",
       "created": "2019-05-21T18:38:33.385Z",
-      "modified": "2019-05-28T16:02:46.055Z",
+      "modified": "2019-07-11T14:18:45.825Z",
       "relationship_type": "uses",
-      "source_ref": "campaign--cde99f5f-7ae4-40e7-9bf1-e1f8eab5d14b",
+      "source_ref": "campaign--443fc92f-1712-444e-872b-fd76106e61c2",
       "target_ref": "attack-pattern--92d7da27-2d91-488e-a00c-059dc162766d"
     },
     {
       "type": "relationship",
-      "id": "relationship--03b96c08-d150-43ca-8727-12147d4bcd6d",
+      "id": "relationship--682c11ab-4e15-4634-84a3-93da9069b935",
       "created": "2019-05-21T18:38:33.385Z",
-      "modified": "2019-05-28T16:02:46.055Z",
+      "modified": "2019-07-11T14:18:45.825Z",
       "relationship_type": "uses",
-      "source_ref": "campaign--cde99f5f-7ae4-40e7-9bf1-e1f8eab5d14b",
+      "source_ref": "campaign--443fc92f-1712-444e-872b-fd76106e61c2",
       "target_ref": "attack-pattern--e3a12395-188d-4051-9a16-ea8e14d07b88"
     },
     {
       "type": "relationship",
-      "id": "relationship--399751ae-d58c-4f51-bc81-623a9aea1619",
+      "id": "relationship--03661ec9-e0f9-4f0b-be19-2f5e44691bc9",
       "created": "2019-05-21T18:38:33.385Z",
-      "modified": "2019-05-28T16:02:46.055Z",
+      "modified": "2019-07-11T14:18:45.825Z",
       "relationship_type": "uses",
-      "source_ref": "campaign--cde99f5f-7ae4-40e7-9bf1-e1f8eab5d14b",
+      "source_ref": "campaign--443fc92f-1712-444e-872b-fd76106e61c2",
       "target_ref": "attack-pattern--c23b740b-a42b-47a1-aec2-9d48ddd547ff"
     },
     {
       "type": "relationship",
-      "id": "relationship--6a4b1433-3342-43ba-b5c0-e3930722da6a",
+      "id": "relationship--3cc1628d-3d17-4f65-b8fa-e3e08f546c4d",
       "created": "2019-05-21T18:38:33.385Z",
-      "modified": "2019-05-28T16:02:46.055Z",
+      "modified": "2019-07-11T14:18:45.825Z",
       "relationship_type": "uses",
-      "source_ref": "campaign--cde99f5f-7ae4-40e7-9bf1-e1f8eab5d14b",
+      "source_ref": "campaign--443fc92f-1712-444e-872b-fd76106e61c2",
       "target_ref": "attack-pattern--ffe742ed-9100-4686-9e00-c331da544787"
     },
     {
       "type": "relationship",
-      "id": "relationship--e5b8a79d-cb3c-4cb4-9669-3af47394b9e5",
+      "id": "relationship--259334d9-1853-4e0c-89b6-7a89728dec5e",
       "created": "2019-05-21T18:38:33.385Z",
-      "modified": "2019-05-28T16:02:46.056Z",
+      "modified": "2019-07-11T14:18:45.826Z",
       "relationship_type": "uses",
-      "source_ref": "campaign--cde99f5f-7ae4-40e7-9bf1-e1f8eab5d14b",
+      "source_ref": "campaign--443fc92f-1712-444e-872b-fd76106e61c2",
       "target_ref": "attack-pattern--9db0cf3a-a3c9-4012-8268-123b9db6fd82"
     },
     {
       "type": "relationship",
-      "id": "relationship--088a81ac-6440-4674-a29c-2af95845c410",
+      "id": "relationship--8512abce-0216-46b4-9d6e-49eb371d4c39",
       "created": "2019-05-21T18:25:00.293Z",
-      "modified": "2019-05-28T16:02:46.056Z",
+      "modified": "2019-07-11T14:18:45.826Z",
       "relationship_type": "uses",
-      "source_ref": "campaign--cde99f5f-7ae4-40e7-9bf1-e1f8eab5d14b",
+      "source_ref": "campaign--443fc92f-1712-444e-872b-fd76106e61c2",
       "target_ref": "attack-pattern--4aeafdb3-eb0b-4e8e-b93f-95cd499088b4"
-    },
-    {
-      "type": "relationship",
-      "id": "relationship--0d2b9c4f-3a22-483d-8328-dd75f84a0187",
-      "created": "2019-05-21T18:29:33.230Z",
-      "modified": "2019-05-28T16:02:46.056Z",
-      "relationship_type": "uses",
-      "source_ref": "campaign--cde99f5f-7ae4-40e7-9bf1-e1f8eab5d14b",
-      "target_ref": "attack-pattern--355be19c-ffc9-46d5-8d50-d6a036c675b6"
-    },
-    {
-      "type": "relationship",
-      "id": "relationship--b61b2d8a-4253-41ec-b4e2-45b3006a875c",
-      "created": "2019-05-21T18:23:36.131Z",
-      "modified": "2019-05-28T16:02:46.056Z",
-      "relationship_type": "uses",
-      "source_ref": "campaign--cde99f5f-7ae4-40e7-9bf1-e1f8eab5d14b",
-      "target_ref": "attack-pattern--3f886f2a-874f-4333-b794-aa6075009b1c"
     },
     {
       "type": "relationship",
@@ -1298,70 +1280,88 @@
       "created": "2019-05-21T18:29:33.230Z",
       "modified": "2019-05-23T15:34:43.810Z",
       "relationship_type": "uses",
-      "source_ref": "campaign--cde99f5f-7ae4-40e7-9bf1-e1f8eab5d14b",
+      "source_ref": "campaign--443fc92f-1712-444e-872b-fd76106e61c2",
       "target_ref": "attack-pattern--f879d51c-5476-431c-aedf-f14d207e4d1e"
     },
     {
       "type": "relationship",
-      "id": "relationship--cde99f5f-7ae4-40e7-9bf1-e1f8eab5d14b",
-      "created": "2019-05-21T18:21:23.550Z",
-      "modified": "2019-05-28T16:02:46.051Z",
+      "id": "relationship--712e9e40-9bbe-4592-9636-309c7c09d2bb",
+      "created": "2019-05-21T18:29:33.230Z",
+      "modified": "2019-06-20T21:53:52.576Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--443fc92f-1712-444e-872b-fd76106e61c2",
+      "target_ref": "attack-pattern--355be19c-ffc9-46d5-8d50-d6a036c675b6"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--150f0208-5193-48aa-bcf2-5ab2933292b2",
+      "created": "2019-05-21T18:23:36.131Z",
+      "modified": "2019-06-20T21:53:52.576Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--443fc92f-1712-444e-872b-fd76106e61c2",
+      "target_ref": "attack-pattern--3f886f2a-874f-4333-b794-aa6075009b1c"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--64e83256-077b-41e7-a729-357ad21ce60c",
+      "created": "2019-05-21T18:21:23.421Z",
+      "modified": "2019-07-11T14:18:45.824Z",
       "relationship_type": "attributed-to",
-      "source_ref": "campaign--cde99f5f-7ae4-40e7-9bf1-e1f8eab5d14b",
-      "target_ref": "intrusion-set--553787f4-6c00-4fb9-ab93-43398167fb8e"
+      "source_ref": "report--64e83256-077b-41e7-a729-357ad21ce60c",
+      "target_ref": "intrusion-set--eeef6603-d891-476a-a600-0096b6fe072f"
     },
     {
       "type": "relationship",
       "id": "relationship--c16e5409-ee53-4d79-afdc-4099dc9292df",
       "created": "2019-05-21T18:21:23.550Z",
-      "modified": "2019-05-28T16:02:46.051Z",
+      "modified": "2019-07-11T14:18:45.824Z",
       "relationship_type": "uses",
-      "source_ref": "campaign--cde99f5f-7ae4-40e7-9bf1-e1f8eab5d14b",
+      "source_ref": "campaign--443fc92f-1712-444e-872b-fd76106e61c2",
       "target_ref": "attack-pattern--c16e5409-ee53-4d79-afdc-4099dc9292df"
     },
     {
       "type": "relationship",
       "id": "relationship--e6919abc-99f9-4c6c-95a5-14761e7b2add",
       "created": "2019-05-21T18:21:23.550Z",
-      "modified": "2019-05-28T16:02:46.051Z",
+      "modified": "2019-07-11T14:18:45.824Z",
       "relationship_type": "uses",
-      "source_ref": "campaign--cde99f5f-7ae4-40e7-9bf1-e1f8eab5d14b",
+      "source_ref": "campaign--443fc92f-1712-444e-872b-fd76106e61c2",
       "target_ref": "attack-pattern--e6919abc-99f9-4c6c-95a5-14761e7b2add"
     },
     {
       "type": "report",
-      "id": "report--cde99f5f-7ae4-40e7-9bf1-e1f8eab5d14b",
+      "id": "report--443fc92f-1712-444e-872b-fd76106e61c2",
       "created": "2019-05-21T18:21:23.550Z",
-      "modified": "2019-05-28T16:02:46.051Z",
+      "modified": "2019-07-11T14:18:45.824Z",
       "name": "SharePoint Webshells - APT27",
-      "published": "2019-05-28T16:02:46.051Z",
+      "published": "2019-07-11T14:18:45.824Z",
       "object_refs": [
-        "campaign--cde99f5f-7ae4-40e7-9bf1-e1f8eab5d14b",
-        "intrusion-set--553787f4-6c00-4fb9-ab93-43398167fb8e",
-        "indicator--9ea5c22a-b2ec-4b78-bf95-ce56db3342ed",
-        "indicator--86982686-c210-4300-a8ae-6af6564c9876",
-        "indicator--511c6560-c527-45ec-b50e-a807e32f194f",
-        "indicator--92d1aadd-48b1-40e5-a073-5617d339961c",
-        "indicator--7695a9ea-e94c-4725-b8c4-725660e67cf6",
-        "indicator--052ea4c6-6593-4e9f-94d6-bcd4faf476c3",
-        "indicator--e25437d2-2a96-4bb5-8f2e-7d8ab543f0ed",
-        "indicator--5aaf58ec-7bf7-4198-b5c5-1289119efbe2",
-        "indicator--54be198a-8445-4581-9d7f-824496cf7214",
-        "indicator--81f455cd-4a94-472f-af50-1df148da2c94",
-        "indicator--92bae539-09c1-4a9c-a28f-726bf1d11f2f",
-        "indicator--94cad811-30f4-4f8b-9ed5-bc1565581a16",
-        "indicator--82af4351-46aa-49f3-bc09-be89678268aa",
-        "indicator--0b0e70aa-4008-4e03-aea2-dac370d23d26",
-        "indicator--a9f90e21-df10-4511-878c-128e2179087a",
-        "indicator--993e8cb6-2497-4009-b834-eee3a087ab2c",
-        "indicator--52d73247-113a-4006-aed6-6e2fb22b3491",
-        "indicator--f9871ff6-9ac4-4edd-a080-f9f8b519ff00",
-        "indicator--9d3e38a4-1577-4c45-825f-cbabc79c6ed4",
-        "indicator--e0441870-0271-4397-8319-5cfc62cad068",
-        "indicator--f23c4e3b-c265-4a25-bbf0-3af6e3546ca6",
-        "indicator--d0001977-14f3-4d05-ad17-5687568171b5",
-        "indicator--31507f76-091c-4b5a-a6f8-4a87323f4052",
-        "indicator--9d285cd2-71df-4c41-813c-424bce45f754",
+        "campaign--443fc92f-1712-444e-872b-fd76106e61c2",
+        "intrusion-set--eeef6603-d891-476a-a600-0096b6fe072f",
+        "indicator--53b54f55-da15-4e12-a00b-3b83e5c2ab38",
+        "indicator--3a48a376-b6d7-46ff-ab33-6871a1bf3898",
+        "indicator--96927049-9253-46ef-bdc1-31199c709a31",
+        "indicator--7b2f62a0-cf1b-41ef-85fb-53c0b3b01ba3",
+        "indicator--6f8e562a-7a94-4a41-9389-9211949b6e95",
+        "indicator--197a86c5-43e4-42a7-aa87-48e55cadf1fb",
+        "indicator--df875612-0ae2-46e8-9dc5-fcd45372be11",
+        "indicator--d206fc48-9690-4566-a9f2-1034513d54fa",
+        "indicator--b8f6b6f9-3563-4b87-9e80-a209d1fb59ce",
+        "indicator--1c0cb436-4572-450f-afdb-2d8c6a954e08",
+        "indicator--6d70ffd0-24c0-4be2-9147-f512fc94c5e5",
+        "indicator--6560e685-0059-4030-a2ed-d4f8f32deba7",
+        "indicator--2ffd1609-57aa-498b-904f-808a0887a66b",
+        "indicator--5650dcab-6d01-406e-8b60-98b6f639eb11",
+        "indicator--32a5812d-8a34-497e-adf3-2252c33f74c4",
+        "indicator--7ee20d3d-3123-4727-b596-2ce2ec4d224f",
+        "indicator--06d9479b-a762-49c0-b3e3-fe8e51f2d1fd",
+        "indicator--2af15166-8333-4601-b906-ae2295dfe004",
+        "indicator--3652eeba-c8a5-420d-b508-22937e14cd3b",
+        "indicator--58c69985-3400-4f27-970a-ec0b7eff29b7",
+        "indicator--56797037-d55b-4d30-9b8a-816431e8bde8",
+        "indicator--b14d6f10-3f8f-4399-81f1-4b221d6e6eb8",
+        "indicator--3053d82e-b1ea-4c0b-a9f7-97fd3af6b018",
+        "indicator--45428c43-9673-436f-a000-35be3f4c2318",
         "attack-pattern--92d7da27-2d91-488e-a00c-059dc162766d",
         "attack-pattern--e3a12395-188d-4051-9a16-ea8e14d07b88",
         "attack-pattern--c23b740b-a42b-47a1-aec2-9d48ddd547ff",
@@ -1369,68 +1369,68 @@
         "attack-pattern--9db0cf3a-a3c9-4012-8268-123b9db6fd82",
         "attack-pattern--4aeafdb3-eb0b-4e8e-b93f-95cd499088b4",
         "attack-pattern--c16e5409-ee53-4d79-afdc-4099dc9292df",
+        "attack-pattern--e6919abc-99f9-4c6c-95a5-14761e7b2add",
+        "attack-pattern--f879d51c-5476-431c-aedf-f14d207e4d1e",
         "attack-pattern--355be19c-ffc9-46d5-8d50-d6a036c675b6",
         "attack-pattern--3f886f2a-874f-4333-b794-aa6075009b1c",
-        "attack-pattern--f879d51c-5476-431c-aedf-f14d207e4d1e",
-        "attack-pattern--e6919abc-99f9-4c6c-95a5-14761e7b2add",
-        "relationship--cf3abfef-1523-4040-8741-e1d3a3ef234f",
-        "relationship--f393459e-7845-4b92-80a2-a2a2e8be99ff",
-        "relationship--8570b3b1-2662-43fc-96a4-6e8445ca31c8",
-        "relationship--f7ec0078-8868-418d-91d9-c33dbff9411d",
-        "relationship--60a1c824-0f36-4ea6-9175-a3ba3651832c",
-        "relationship--c0036ef2-ab61-4ef5-99c5-3fd088c01228",
-        "relationship--2cac8f9a-8e22-41ef-97fa-43640be36d7d",
-        "relationship--79ca61fe-2993-4bca-8558-af56fc8113bf",
-        "relationship--3f98fa4a-e814-46af-bcde-37d20a04ac8a",
-        "relationship--db8f7c13-8307-4221-a72e-721aaba2b471",
-        "relationship--f66f7344-d964-4d69-b702-cd5a5a8a44cf",
-        "relationship--67c53924-65da-4937-934e-f77a86e5552a",
-        "relationship--da73d34f-1a1d-4037-9cf7-25129a8e6391",
-        "relationship--2f2991c9-7743-44eb-840d-870487e8b51d",
-        "relationship--031fb0b0-d067-417c-a522-0c29dbb9ddd6",
-        "relationship--54c7dd04-ad3e-4a94-b355-1089b22db936",
-        "relationship--c1883440-6cc8-4b27-8287-2bcb40922a8d",
-        "relationship--f9b0dea2-e968-4c9e-9222-fbf2ec0ba07a",
-        "relationship--6e7bbfb1-64b8-4bbd-bec8-33e86af72f18",
-        "relationship--c068fb77-ea99-4a9a-9190-109cee05388b",
-        "relationship--b25dca6a-9b62-4e54-9806-36f8c5d5eaa2",
-        "relationship--f7745203-4c49-4a65-add8-3b5e07aff2f1",
-        "relationship--edb637dd-ef32-4d4a-ad37-fa3883e357d3",
-        "relationship--dc12c74e-e682-4049-9ce2-cb71c0ee89d4",
-        "relationship--0c82ff20-82df-423e-a5d6-8a5682978312",
-        "relationship--73831eea-1509-4fb6-af24-a99bc5de559a",
-        "relationship--cb9baaa4-a2c2-4885-a538-d2c3cdc5f548",
-        "relationship--323f68a4-5bdb-47e9-bd8a-3807bd7a150f",
-        "relationship--c5c16285-a026-4f5c-8cf1-9d4acfc7f539",
-        "relationship--44ef06e2-3b39-410b-be14-2dfa0d4b6166",
-        "relationship--c408811c-dd7f-4b17-94e6-a0328b6525a3",
-        "relationship--c985f56e-c967-453b-b81d-3ac1e7073fe5",
-        "relationship--fadca767-c293-4048-a464-e3afc9f6d037",
-        "relationship--d0ce4972-4cb3-418b-a34b-b7eb5679a3f8",
-        "relationship--f447407f-f901-4e25-9c9b-0eb5f5e3ddfc",
-        "relationship--e442ce5a-a345-4ccc-bb72-cea4e601003d",
-        "relationship--41b48c52-6921-4749-b036-8019d13fbb0e",
-        "relationship--d19eef59-cc95-41d3-8569-aa0914a6c4ff",
-        "relationship--04a5030a-1ccc-4646-9ba7-3420b752b74d",
-        "relationship--dda27e4f-3e8d-40bc-aacf-5c774fa1f8fc",
-        "relationship--82d54bae-2306-45fd-af7f-a219e0d25b75",
-        "relationship--4ab3c79e-d541-46cd-bb28-1a7a3f13918d",
-        "relationship--d347beb3-633c-4a76-a9ee-afb0f4889657",
-        "relationship--cd732c48-f469-4052-abad-46f67965c6cc",
-        "relationship--ebd08f6b-c3c9-4fa2-9b5a-c65708b35cff",
-        "relationship--98af7603-1d30-4b76-969d-f0760c8dcd73",
-        "relationship--e7213a0a-dfe8-4345-87f3-890caaada4b7",
-        "relationship--d11412d2-5db8-4b91-91bf-df41787e2fb9",
-        "relationship--24fe6d18-3f8e-401f-a230-f514601da6fb",
-        "relationship--03b96c08-d150-43ca-8727-12147d4bcd6d",
-        "relationship--399751ae-d58c-4f51-bc81-623a9aea1619",
-        "relationship--6a4b1433-3342-43ba-b5c0-e3930722da6a",
-        "relationship--e5b8a79d-cb3c-4cb4-9669-3af47394b9e5",
-        "relationship--088a81ac-6440-4674-a29c-2af95845c410",
-        "relationship--0d2b9c4f-3a22-483d-8328-dd75f84a0187",
-        "relationship--b61b2d8a-4253-41ec-b4e2-45b3006a875c",
+        "relationship--2da26877-2383-400e-a38f-c9a7f630c4e8",
+        "relationship--f6ce0697-055a-47c8-97f5-1c969a0ec0ec",
+        "relationship--5698587a-bf1c-4bc2-a8ee-1df22e4a87e2",
+        "relationship--2841df79-8e3b-4083-90a8-9a74cf27a446",
+        "relationship--20465180-b79e-45d9-9249-e8ac4bad2fc3",
+        "relationship--ae073543-3a1d-4f48-9f60-4df78a6f4884",
+        "relationship--321116a9-79ee-4974-ad66-4be1bb5763a3",
+        "relationship--0678beb8-83f8-4909-94aa-dc5a4cf9483f",
+        "relationship--f2d07f9d-9193-4558-bd37-308454623a48",
+        "relationship--1b59ef43-d858-47fc-b2c3-3a832d2da064",
+        "relationship--e3a91490-9bea-4297-a679-991098fc8b8a",
+        "relationship--fec55ae0-7f4c-46c3-8ed8-63c24d58e0bf",
+        "relationship--3994c0a4-926c-496a-b427-50ff22f31a43",
+        "relationship--263254cd-23c8-44bb-9ff7-f45fcdc0d221",
+        "relationship--9bea2512-bd06-4c79-99de-970e8c438f6d",
+        "relationship--3669f268-1e42-42e6-8ac1-b7842d9efa69",
+        "relationship--d9b195f9-e95c-4196-9cda-1ea1890473d9",
+        "relationship--0cddcde4-dbe9-4f73-a56f-1bf68b6b1815",
+        "relationship--8a520ba6-4cac-4e2d-90ce-4fd68edb8f28",
+        "relationship--e42ef913-2393-44c8-b21f-50b6840c6e1b",
+        "relationship--fc32c2cf-98bf-45bc-b8b3-b951dd042e88",
+        "relationship--d24221d8-1841-4c6c-933f-3933cdce7e97",
+        "relationship--fea3a646-5cb6-4b24-8941-3f7a392c92c5",
+        "relationship--bd24e442-8ac6-4a7c-a256-a073eb58bed0",
+        "relationship--638b5cec-87bc-407e-aa03-662a048bab52",
+        "relationship--ec0bf97e-f3fa-4e84-9bbd-43eebae268d6",
+        "relationship--68fa9c5a-7c43-4f95-8c01-502b03d5af97",
+        "relationship--2a090591-7bf3-47f8-bd13-7d850d6da011",
+        "relationship--569a21f2-11e5-46cb-942a-312c6513027f",
+        "relationship--679146de-e056-4fe9-ac3e-6bbe6d11362d",
+        "relationship--c6e5ab32-f58b-4593-8177-a7473dfcf78c",
+        "relationship--8ae890e7-ed99-48e6-acba-1376b5977080",
+        "relationship--8e892ae9-4590-487a-b9d7-f223a8cf852b",
+        "relationship--e780c50c-e73c-4e3b-bffd-e914fd61b856",
+        "relationship--5093e78e-00e7-4ee1-989e-1c4b445ba23e",
+        "relationship--81bf35f9-4481-4408-8dfa-3bc0b5f4a8fa",
+        "relationship--303ee053-751c-4698-97d4-a41c5fd5bc10",
+        "relationship--df9d50f8-e7e5-4410-853a-ec489c7ae62e",
+        "relationship--324c2f2b-b87e-4d96-a945-961df04008e5",
+        "relationship--4d702cc1-f066-44f3-8400-a797e7289000",
+        "relationship--832e1b98-2a31-4ae2-9d77-3fc238da0a1f",
+        "relationship--ee5d0fd2-bd2d-4a0e-9c25-642b71481031",
+        "relationship--9a66c67e-f6a7-4f4f-98e4-52cc92e0581e",
+        "relationship--86dff2d2-5777-4808-aae8-f162bb1b7ed2",
+        "relationship--f1cdd2d1-e195-4ef7-a48d-838f6472d94b",
+        "relationship--7aa6a18f-16e6-4a17-a18a-ba68580661ff",
+        "relationship--7abd7a31-7ca3-47b7-9cc9-33fa66ff6195",
+        "relationship--49211099-fe42-4649-b433-708a663b0ca9",
+        "relationship--56284eef-3fbd-46b4-af1d-9951ef904c6b",
+        "relationship--682c11ab-4e15-4634-84a3-93da9069b935",
+        "relationship--03661ec9-e0f9-4f0b-be19-2f5e44691bc9",
+        "relationship--3cc1628d-3d17-4f65-b8fa-e3e08f546c4d",
+        "relationship--259334d9-1853-4e0c-89b6-7a89728dec5e",
+        "relationship--8512abce-0216-46b4-9d6e-49eb371d4c39",
         "relationship--58ed7796-c47b-46b2-9f7c-b7bfbde6c98a",
-        "relationship--cde99f5f-7ae4-40e7-9bf1-e1f8eab5d14b",
+        "relationship--712e9e40-9bbe-4592-9636-309c7c09d2bb",
+        "relationship--150f0208-5193-48aa-bcf2-5ab2933292b2",
+        "relationship--64e83256-077b-41e7-a729-357ad21ce60c",
         "relationship--c16e5409-ee53-4d79-afdc-4099dc9292df",
         "relationship--e6919abc-99f9-4c6c-95a5-14761e7b2add"
       ],
@@ -1440,13 +1440,13 @@
     },
     {
       "type": "campaign",
-      "id": "campaign--cde99f5f-7ae4-40e7-9bf1-e1f8eab5d14b",
+      "id": "campaign--443fc92f-1712-444e-872b-fd76106e61c2",
       "created": "2019-05-21T18:21:23.550Z",
-      "modified": "2019-05-28T16:02:46.051Z",
+      "modified": "2019-07-11T14:18:45.824Z",
       "name": "SharePoint Webshells - APT27",
       "description": "In April 2019, we observed the APT27 threat group installing webshells on Sharepoint servers to compromise Government Organizations of two different countries in the Middle East. We believe the adversary exploited a recent vulnerability in Microsoft SharePoint tracked by CVE-2019-0604, which is a remote code execution vulnerability used to compromise the server and eventually install a webshell. We were able to detect the presence of the China Chopper webshell on the SharePoint servers, which has also been used by the APT27 threat group. We observed this webshell activity across three SharePoint servers between April 1, 2019 and April 16, 2019, where actors uploaded a total of 24 unique executables across the three SharePoint servers. Based on the functionality of the various tools uploaded to the webshells, we believe the threat actors breach the SharePoint servers to use as a beachhead, then attempt to move laterally across the network via stolen credentials and exploiting vulnerabilities. ",
-      "first_seen": "2019-04-01T00:00:00.000Z",
-      "last_seen": "2019-04-16T00:00:00.000Z"
+      "first_seen": "2019-04-01",
+      "last_seen": "2019-04-16"
     }
   ]
 }

@@ -1,0 +1,229 @@
+{
+  "type": "bundle",
+  "id": "bundle--a5fa69e1-bcb4-43a6-b7d6-eda102017f77",
+  "spec_version": "2.0",
+  "objects": [
+    {
+      "type": "report",
+      "id": "report--a5fa69e1-bcb4-43a6-b7d6-eda102017f77",
+      "created": "2019-06-26T13:42:34.268Z",
+      "modified": "2019-06-26T13:46:06.886Z",
+      "name": "Very Simple Playbook",
+      "description": "A very simple Playbook with one Campaign, two Attack Patterns, and one Indicator.",
+      "published": "2019-06-26T13:46:06.886Z",
+      "object_refs": [
+        "intrusion-set--f7fa709b-a740-4bdc-b48c-3ea69ed39cdf",
+        "report--b3e138d1-6ef7-4bdc-924a-285f588330d7"
+      ],
+      "labels": [
+        "intrusion-set"
+      ]
+    },
+    {
+      "type": "intrusion-set",
+      "id": "intrusion-set--f7fa709b-a740-4bdc-b48c-3ea69ed39cdf",
+      "created": "2019-06-26T13:42:34.372Z",
+      "modified": "2019-06-26T13:46:06.887Z",
+      "name": "Very Simple Playbook"
+    },
+    {
+      "type": "attack-pattern",
+      "id": "attack-pattern--20138b9d-1aac-4a26-8654-a36b6bbf2bba",
+      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "created": "2019-01-16T17:39:59.787Z",
+      "modified": "2019-01-16T17:39:59.787Z",
+      "name": "T1192: Spearphishing Link",
+      "description": "Spearphishing with a link is a specific variant of spearphishing. It is different from other forms of spearphishing in that it employs the use of links to download malware contained in email, instead of attaching malicious files to the email itself, to avoid defenses that may inspect email attachments. \n\nAll forms of spearphishing are electronically delivered social engineering targeted at a specific individual, company, or industry. In this case, the malicious emails contain links. Generally, the links will be accompanied by social engineering text and require the user to actively click or copy and paste a URL into a browser, leveraging [User Execution](https://attack.mitre.org/techniques/T1204). The visited website may compromise the web browser using an exploit, or the user will be prompted to download applications, documents, zip files, or even executables depending on the pretext for the email in the first place. Adversaries may also include links that are intended to interact directly with an email reader, including embedded images intended to exploit the end system directly or verify the receipt of an email (i.e. web bugs/web beacons).",
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "initial-access"
+        },
+        {
+          "kill_chain_name": "lockheed",
+          "phase_name": "delivery"
+        }
+      ],
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1192",
+          "external_id": "T1192"
+        },
+        {
+          "source_name": "capec",
+          "url": "https://capec.mitre.org/data/definitions/163.html",
+          "external_id": "CAPEC-163"
+        }
+      ],
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "id": "attack-pattern--389735f1-f21c-4208-b8f0-f8031e7169b8",
+      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "created": "2019-01-16T17:39:39.364Z",
+      "modified": "2019-01-16T17:39:39.364Z",
+      "name": "T1176: Browser Extensions",
+      "description": "Browser extensions or plugins are small programs that can add functionality and customize aspects of internet browsers. They can be installed directly or through a browser's app store. Extensions generally have access and permissions to everything that the browser can access. (Citation: Wikipedia Browser Extension) (Citation: Chrome Extensions Definition)\n\nMalicious extensions can be installed into a browser through malicious app store downloads masquerading as legitimate extensions, through social engineering, or by an adversary that has already compromised a system. Security can be limited on browser app stores so may not be difficult for malicious extensions to defeat automated scanners and be uploaded. (Citation: Malicious Chrome Extension Numbers) Once the extension is installed, it can browse to websites in the background, (Citation: Chrome Extension Crypto Miner) (Citation: ICEBRG Chrome Extensions) steal all information that a user enters into a browser, to include credentials, (Citation: Banker Google Chrome Extension Steals Creds) (Citation: Catch All Chrome Extension) and be used as an installer for a RAT for persistence. There have been instances of botnets using a persistent backdoor through malicious Chrome extensions. (Citation: Stantinko Botnet) There have also been similar examples of extensions being used for command & control  (Citation: Chrome Extension C2 Malware).",
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "persistence"
+        },
+        {
+          "kill_chain_name": "lockheed",
+          "phase_name": "installation"
+        }
+      ],
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1176",
+          "external_id": "T1176"
+        },
+        {
+          "source_name": "Chrome Extensions Definition",
+          "url": "https://developer.chrome.com/extensions",
+          "description": "Chrome. (n.d.). What are Extensions?. Retrieved November 16, 2017."
+        },
+        {
+          "source_name": "Malicious Chrome Extension Numbers",
+          "url": "https://static.googleusercontent.com/media/research.google.com/en//pubs/archive/43824.pdf",
+          "description": "Jagpal, N., et al. (2015, August). Trends and Lessons from Three Years Fighting Malicious Extensions. Retrieved November 17, 2017."
+        },
+        {
+          "source_name": "Chrome Extension Crypto Miner",
+          "url": "https://www.ghacks.net/2017/09/19/first-chrome-extension-with-javascript-crypto-miner-detected/",
+          "description": "Brinkmann, M. (2017, September 19). First Chrome extension with JavaScript Crypto Miner detected. Retrieved November 16, 2017."
+        },
+        {
+          "source_name": "Banker Google Chrome Extension Steals Creds",
+          "url": "https://isc.sans.edu/forums/diary/BankerGoogleChromeExtensiontargetingBrazil/22722/",
+          "description": "Marinho, R. (n.d.). (Banker(GoogleChromeExtension)).targeting. Retrieved November 18, 2017."
+        },
+        {
+          "source_name": "Catch All Chrome Extension",
+          "url": "https://isc.sans.edu/forums/diary/CatchAll+Google+Chrome+Malicious+Extension+Steals+All+Posted+Data/22976/https:/threatpost.com/malicious-chrome-extension-steals-data-posted-to-any-website/128680/)",
+          "description": "Marinho, R. (n.d.). \"Catch-All\" Google Chrome Malicious Extension Steals All Posted Data. Retrieved November 16, 2017."
+        },
+        {
+          "source_name": "Chrome Extension C2 Malware",
+          "url": "https://kjaer.io/extension-malware/",
+          "description": "Kjaer, M. (2016, July 18). Malware in the browser: how you might get hacked by a Chrome extension. Retrieved November 22, 2017."
+        },
+        {
+          "source_name": "Stantinko Botnet",
+          "url": "https://www.welivesecurity.com/2017/07/20/stantinko-massive-adware-campaign-operating-covertly-since-2012/",
+          "description": "Vachon, F., Faou, M. (2017, July 20). Stantinko: A massive adware campaign operating covertly since 2012. Retrieved November 16, 2017."
+        },
+        {
+          "source_name": "Wikipedia Browser Extension",
+          "url": "https://en.wikipedia.org/wiki/Browser_extension",
+          "description": "Wikipedia. (2017, October 8). Browser Extension. Retrieved January 11, 2018."
+        },
+        {
+          "source_name": "ICEBRG Chrome Extensions",
+          "url": "https://www.icebrg.io/blog/malicious-chrome-extensions-enable-criminals-to-impact-over-half-a-million-users-and-global-businesses",
+          "description": "De Tore, M., Warner, J. (2018, January 15). MALICIOUS CHROME EXTENSIONS ENABLE CRIMINALS TO IMPACT OVER HALF A MILLION USERS AND GLOBAL BUSINESSES. Retrieved January 17, 2018."
+        }
+      ],
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ]
+    },
+    {
+      "type": "indicator",
+      "id": "indicator--7d72d620-9720-4457-897d-7030d1a972df",
+      "created": "2019-06-25T18:15:42.452Z",
+      "modified": "2019-06-25T18:24:15.157Z",
+      "name": "https://dailymemes.net",
+      "pattern": "[url:value = 'https://dailymemes.net']",
+      "valid_from": "2019-06-25T18:15:42.452Z",
+      "labels": [
+        "malicious-activity"
+      ]
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--c141c773-338c-4575-a26a-c0dc3f156ad3",
+      "created": "2019-06-26T13:44:14.536Z",
+      "modified": "2019-06-26T13:46:06.887Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--7d72d620-9720-4457-897d-7030d1a972df",
+      "target_ref": "campaign--b3e138d1-6ef7-4bdc-924a-285f588330d7"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--5d399937-d736-413f-a6ec-f77cdf824032",
+      "created": "2019-06-25T18:15:42.578Z",
+      "modified": "2019-06-26T13:44:48.412Z",
+      "relationship_type": "uses",
+      "description": "Cat pictures with bonus malware",
+      "source_ref": "indicator--7d72d620-9720-4457-897d-7030d1a972df",
+      "target_ref": "attack-pattern--20138b9d-1aac-4a26-8654-a36b6bbf2bba"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--29e639c6-4bcf-49c7-b637-3bce69b5e1f6",
+      "created": "2019-06-26T13:45:54.754Z",
+      "modified": "2019-06-26T13:46:06.887Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--b3e138d1-6ef7-4bdc-924a-285f588330d7",
+      "target_ref": "attack-pattern--389735f1-f21c-4208-b8f0-f8031e7169b8"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--a5fa69e1-bcb4-43a6-b7d6-eda102017f77",
+      "created": "2019-06-26T13:42:34.268Z",
+      "modified": "2019-06-26T13:46:06.886Z",
+      "relationship_type": "attributed-to",
+      "source_ref": "report--a5fa69e1-bcb4-43a6-b7d6-eda102017f77",
+      "target_ref": "intrusion-set--f7fa709b-a740-4bdc-b48c-3ea69ed39cdf"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--20138b9d-1aac-4a26-8654-a36b6bbf2bba",
+      "created": "2019-06-26T13:42:34.372Z",
+      "modified": "2019-06-26T13:46:06.887Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--b3e138d1-6ef7-4bdc-924a-285f588330d7",
+      "target_ref": "attack-pattern--20138b9d-1aac-4a26-8654-a36b6bbf2bba"
+    },
+    {
+      "type": "report",
+      "id": "report--b3e138d1-6ef7-4bdc-924a-285f588330d7",
+      "created": "2019-06-26T13:42:34.372Z",
+      "modified": "2019-06-26T13:46:06.887Z",
+      "name": "Campaign 1 - Very Simple Playbook",
+      "published": "2019-06-26T13:46:06.887Z",
+      "object_refs": [
+        "campaign--b3e138d1-6ef7-4bdc-924a-285f588330d7",
+        "intrusion-set--f7fa709b-a740-4bdc-b48c-3ea69ed39cdf",
+        "indicator--7d72d620-9720-4457-897d-7030d1a972df",
+        "attack-pattern--20138b9d-1aac-4a26-8654-a36b6bbf2bba",
+        "attack-pattern--389735f1-f21c-4208-b8f0-f8031e7169b8",
+        "relationship--c141c773-338c-4575-a26a-c0dc3f156ad3",
+        "relationship--5d399937-d736-413f-a6ec-f77cdf824032",
+        "relationship--29e639c6-4bcf-49c7-b637-3bce69b5e1f6",
+        "relationship--a5fa69e1-bcb4-43a6-b7d6-eda102017f77",
+        "relationship--20138b9d-1aac-4a26-8654-a36b6bbf2bba"
+      ],
+      "labels": [
+        "campaign"
+      ]
+    },
+    {
+      "type": "campaign",
+      "id": "campaign--b3e138d1-6ef7-4bdc-924a-285f588330d7",
+      "created": "2019-06-26T13:42:34.372Z",
+      "modified": "2019-06-26T13:46:06.887Z",
+      "name": "Campaign 1 - Very Simple Playbook",
+      "description": "",
+      "first_seen": "1970-01-01T00:00:00.000Z",
+      "last_seen": "1970-01-01T00:00:00.000Z"
+    }
+  ]
+}

@@ -13,8 +13,8 @@
       "published": "2018-08-22T12:38:49.553Z",
       "object_refs": [
         "intrusion-set--a2e26576-a391-4b84-86fb-ddbe10b7c066",
-        "report--be7cda7f-8a8a-4bf6-9ba3-5c713664ecdf",
-        "report--358b5915-2a63-4406-828f-890558e27a1f"
+        "report--358b5915-2a63-4406-828f-890558e27a1f",
+        "report--be7cda7f-8a8a-4bf6-9ba3-5c713664ecdf"
       ],
       "labels": [
         "intrusion-set"
@@ -26,465 +26,6 @@
       "created": "2018-08-22T12:38:49.553Z",
       "modified": "2018-08-22T12:38:49.553Z",
       "name": "Tick"
-    },
-    {
-      "type": "attack-pattern",
-      "id": "attack-pattern--9422fc14-1c43-410d-ab0f-a709b76c72dc",
-      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2018-12-17T14:34:03.911Z",
-      "name": "T1060: Registry Run Keys / Startup Folder",
-      "description": "Adding an entry to the \"run keys\" in the Registry or startup folder will cause the program referenced to be executed when a user logs in. (Citation: Microsoft Run Key) These programs will be executed under the context of the user and will have the account's associated permissions level.\n\nThe following run keys are created by default on Windows systems:\n* <code>HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Run</code>\n* <code>HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\RunOnce</code>\n* <code>HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Run</code>\n* <code>HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\RunOnce</code>\n\nThe <code>HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\RunOnceEx</code> is also available but is not created by default on Windows Visa and newer. Registry run key entries can reference programs directly or list them as a dependency. (Citation: Microsoft RunOnceEx APR 2018) For example, it is possible to load a DLL at logon using a \"Depend\" key with RunOnceEx: <code>reg add HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\RunOnceEx\\0001\\Depend /v 1 /d \"C:\\temp\\evil[.]dll\"</code> (Citation: Oddvar Moe RunOnceEx Mar 2018)\n\nThe following Registry keys can be used to set startup folder items for persistence:\n* <code>HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\User Shell Folders</code>\n* <code>HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders</code>\n* <code>HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders</code>\n* <code>HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\User Shell Folders</code>\n\nAdversaries can use these configuration locations to execute malware, such as remote access tools, to maintain persistence through system reboots. Adversaries may also use [Masquerading](https://attack.mitre.org/techniques/T1036) to make the Registry entries look as if they are associated with legitimate programs.",
-      "kill_chain_phases": [
-        {
-          "kill_chain_name": "mitre-attack",
-          "phase_name": "persistence"
-        },
-        {
-          "kill_chain_name": "lockheed",
-          "phase_name": "installation"
-        }
-      ],
-      "external_references": [
-        {
-          "source_name": "mitre-attack",
-          "url": "https://attack.mitre.org/techniques/T1060",
-          "external_id": "T1060"
-        },
-        {
-          "source_name": "capec",
-          "url": "https://capec.mitre.org/data/definitions/270.html",
-          "external_id": "CAPEC-270"
-        },
-        {
-          "source_name": "Microsoft Run Key",
-          "url": "http://msdn.microsoft.com/en-us/library/aa376977",
-          "description": "Microsoft. (n.d.). Run and RunOnce Registry Keys. Retrieved November 12, 2014."
-        },
-        {
-          "source_name": "Microsoft RunOnceEx APR 2018",
-          "url": "https://support.microsoft.com/help/310593/description-of-the-runonceex-registry-key",
-          "description": "Microsoft. (2018, August 20). Description of the RunOnceEx Registry Key. Retrieved June 29, 2018."
-        },
-        {
-          "source_name": "Oddvar Moe RunOnceEx Mar 2018",
-          "url": "https://oddvar.moe/2018/03/21/persistence-using-runonceex-hidden-from-autoruns-exe/",
-          "description": "Moe, O. (2018, March 21). Persistence using RunOnceEx - Hidden from Autoruns.exe. Retrieved June 29, 2018."
-        },
-        {
-          "source_name": "TechNet Autoruns",
-          "url": "https://technet.microsoft.com/en-us/sysinternals/bb963902",
-          "description": "Russinovich, M. (2016, January 4). Autoruns for Windows v13.51. Retrieved June 6, 2016."
-        }
-      ],
-      "object_marking_refs": [
-        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
-      ]
-    },
-    {
-      "type": "attack-pattern",
-      "id": "attack-pattern--eacadff4-164b-451c-bacc-7b29ebfd0c3f",
-      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2018-12-17T14:32:30.615Z",
-      "name": "T1355: Create infected removable media",
-      "description": "Use of removable media as part of the Launch phase requires an adversary to determine type, format, and content of the media and associated malware. (Citation: BadUSB)",
-      "kill_chain_phases": [
-        {
-          "kill_chain_name": "mitre-pre-attack",
-          "phase_name": "build-capabilities"
-        },
-        {
-          "kill_chain_name": "lockheed",
-          "phase_name": "weaponization"
-        }
-      ],
-      "external_references": [
-        {
-          "source_name": "mitre-pre-attack",
-          "url": "https://attack.mitre.org/techniques/T1355",
-          "external_id": "T1355"
-        }
-      ],
-      "object_marking_refs": [
-        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
-      ]
-    },
-    {
-      "type": "attack-pattern",
-      "id": "attack-pattern--354a7f88-63fb-41b5-a801-ce3b377b36f1",
-      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2018-12-17T14:32:40.713Z",
-      "name": "T1082: System Information Discovery",
-      "description": "An adversary may attempt to get detailed information about the operating system and hardware, including version, patches, hotfixes, service packs, and architecture.\n\n### Windows\n\nExample commands and utilities that obtain this information include <code>ver</code>, [Systeminfo](https://attack.mitre.org/software/S0096), and <code>dir</code> within [cmd](https://attack.mitre.org/software/S0106) for identifying information based on present files and directories.\n\n### Mac\n\nOn Mac, the <code>systemsetup</code> command gives a detailed breakdown of the system, but it requires administrative privileges. Additionally, the <code>system_profiler</code> gives a very detailed breakdown of configurations, firewall rules, mounted volumes, hardware, and many other things without needing elevated permissions.",
-      "kill_chain_phases": [
-        {
-          "kill_chain_name": "mitre-attack",
-          "phase_name": "discovery"
-        },
-        {
-          "kill_chain_name": "lockheed",
-          "phase_name": "act-on-objectives"
-        }
-      ],
-      "external_references": [
-        {
-          "source_name": "mitre-attack",
-          "url": "https://attack.mitre.org/techniques/T1082",
-          "external_id": "T1082"
-        },
-        {
-          "source_name": "capec",
-          "url": "https://capec.mitre.org/data/definitions/311.html",
-          "external_id": "CAPEC-311"
-        }
-      ],
-      "object_marking_refs": [
-        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
-      ]
-    },
-    {
-      "type": "attack-pattern",
-      "id": "attack-pattern--fddd81e9-dd3d-477e-9773-4fb8ae227234",
-      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2018-12-17T14:32:48.218Z",
-      "name": "T1345: Create custom payloads",
-      "description": "A payload is the part of the malware which performs a malicious action. The adversary may create custom payloads when none exist with the needed capability or when targeting a specific environment. (Citation: APT1)",
-      "kill_chain_phases": [
-        {
-          "kill_chain_name": "mitre-pre-attack",
-          "phase_name": "build-capabilities"
-        },
-        {
-          "kill_chain_name": "lockheed",
-          "phase_name": "weaponization"
-        }
-      ],
-      "external_references": [
-        {
-          "source_name": "mitre-pre-attack",
-          "url": "https://attack.mitre.org/techniques/T1345",
-          "external_id": "T1345"
-        }
-      ],
-      "object_marking_refs": [
-        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
-      ]
-    },
-    {
-      "type": "attack-pattern",
-      "id": "attack-pattern--348f1eef-964b-4eb6-bb53-69b3dcb0c643",
-      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2018-12-17T14:33:37.528Z",
-      "name": "T1120: Peripheral Device Discovery",
-      "description": "Adversaries may attempt to gather information about attached peripheral devices and components connected to a computer system. The information may be used to enhance their awareness of the system and network environment or may be used for further actions.",
-      "kill_chain_phases": [
-        {
-          "kill_chain_name": "mitre-attack",
-          "phase_name": "discovery"
-        },
-        {
-          "kill_chain_name": "lockheed",
-          "phase_name": "act-on-objectives"
-        }
-      ],
-      "external_references": [
-        {
-          "source_name": "mitre-attack",
-          "url": "https://attack.mitre.org/techniques/T1120",
-          "external_id": "T1120"
-        }
-      ],
-      "object_marking_refs": [
-        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
-      ]
-    },
-    {
-      "type": "attack-pattern",
-      "id": "attack-pattern--3b744087-9945-4a6f-91e8-9dbceda417a4",
-      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2018-12-17T14:32:38.938Z",
-      "name": "T1091: Replication Through Removable Media",
-      "description": "Adversaries may move onto systems, possibly those on disconnected or air-gapped networks, by copying malware to removable media and taking advantage of Autorun features when the media is inserted into a system and executes. In the case of Lateral Movement, this may occur through modification of executable files stored on removable media or by copying malware and renaming it to look like a legitimate file to trick users into executing it on a separate system. In the case of Initial Access, this may occur through manual manipulation of the media, modification of systems used to initially format the media, or modification to the media's firmware itself.",
-      "kill_chain_phases": [
-        {
-          "kill_chain_name": "mitre-attack",
-          "phase_name": "lateral-movement"
-        },
-        {
-          "kill_chain_name": "mitre-attack",
-          "phase_name": "initial-access"
-        },
-        {
-          "kill_chain_name": "lockheed",
-          "phase_name": "delivery"
-        },
-        {
-          "kill_chain_name": "lockheed",
-          "phase_name": "act-on-objectives"
-        }
-      ],
-      "external_references": [
-        {
-          "source_name": "mitre-attack",
-          "url": "https://attack.mitre.org/techniques/T1091",
-          "external_id": "T1091"
-        }
-      ],
-      "object_marking_refs": [
-        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
-      ]
-    },
-    {
-      "type": "indicator",
-      "id": "indicator--feaf907a-4e95-4946-b199-a104c6c58127",
-      "created": "2018-08-06T23:33:15.928Z",
-      "modified": "2018-08-06T23:33:15.928Z",
-      "name": "[windows_registry_key:key = 'HKLM\\\\Software\\\\Microsof\\\\Windows\\\\CurrentVersion\\\\run\\\\”xml” = %ProgramFiles%\\\\Windows NT\\\\Accessories\\\\Microsoft\\\\msxml.exe']",
-      "pattern": "[windows_registry_key:key = 'HKLM\\\\Software\\\\Microsof\\\\Windows\\\\CurrentVersion\\\\run\\\\”xml” = %ProgramFiles%\\\\Windows NT\\\\Accessories\\\\Microsoft\\\\msxml.exe']",
-      "valid_from": "2018-08-06T23:33:15.928Z",
-      "labels": [
-        "malicious-activity"
-      ]
-    },
-    {
-      "type": "indicator",
-      "id": "indicator--4213f451-f0dc-430e-b12e-eccfb541403f",
-      "created": "2018-02-16T04:56:28.441Z",
-      "modified": "2018-08-06T23:33:17.741Z",
-      "name": "31aea8630d5d2fcbb37a8e72fe4e096d0f2d8f05e03234645c69d7e8b59bb0e8",
-      "pattern": "[file:hashes.'SHA-256' = '31aea8630d5d2fcbb37a8e72fe4e096d0f2d8f05e03234645c69d7e8b59bb0e8']",
-      "valid_from": "2018-02-16T04:56:28.441Z",
-      "labels": [
-        "malicious-activity"
-      ]
-    },
-    {
-      "type": "indicator",
-      "id": "indicator--7a46bd29-dd8f-4cdc-98ab-5d7a84c9729d",
-      "created": "2018-08-06T23:33:15.928Z",
-      "modified": "2018-08-06T23:33:15.928Z",
-      "name": "[windows_registry_key:key = 'HKCU\\\\Software\\\\Microsof\\\\Windows\\\\CurrentVersion\\\\run\\\\”xml” = %UserProfile%\\\\Applications\\\\Microsoft\\\\msxml.exe']",
-      "pattern": "[windows_registry_key:key = 'HKCU\\\\Software\\\\Microsof\\\\Windows\\\\CurrentVersion\\\\run\\\\”xml” = %UserProfile%\\\\Applications\\\\Microsoft\\\\msxml.exe']",
-      "valid_from": "2018-08-06T23:33:15.928Z",
-      "labels": [
-        "malicious-activity"
-      ]
-    },
-    {
-      "type": "relationship",
-      "id": "relationship--4a879996-aab1-419a-9390-62e2cdb7a388",
-      "created": "2018-08-06T23:33:18.673Z",
-      "modified": "2018-08-22T12:38:50.620Z",
-      "relationship_type": "indicates",
-      "source_ref": "indicator--feaf907a-4e95-4946-b199-a104c6c58127",
-      "target_ref": "campaign--be7cda7f-8a8a-4bf6-9ba3-5c713664ecdf"
-    },
-    {
-      "type": "relationship",
-      "id": "relationship--ad627a9d-a9d2-465a-9624-f8cd7cd36318",
-      "created": "2018-08-06T23:33:18.673Z",
-      "modified": "2018-08-22T12:38:50.620Z",
-      "relationship_type": "indicates",
-      "source_ref": "indicator--4213f451-f0dc-430e-b12e-eccfb541403f",
-      "target_ref": "campaign--be7cda7f-8a8a-4bf6-9ba3-5c713664ecdf"
-    },
-    {
-      "type": "relationship",
-      "id": "relationship--c17a2549-7977-4e7b-a997-a925536e83bd",
-      "created": "2018-08-06T23:33:18.673Z",
-      "modified": "2018-08-22T12:38:50.620Z",
-      "relationship_type": "indicates",
-      "source_ref": "indicator--7a46bd29-dd8f-4cdc-98ab-5d7a84c9729d",
-      "target_ref": "campaign--be7cda7f-8a8a-4bf6-9ba3-5c713664ecdf"
-    },
-    {
-      "type": "relationship",
-      "id": "relationship--94f9538e-afa9-480a-b55b-bb412c0ee9c3",
-      "created": "2018-08-06T23:33:18.673Z",
-      "modified": "2018-08-06T23:33:18.673Z",
-      "relationship_type": "uses",
-      "description": "HKLM\\Software\\Microsof\\Windows\\CurrentVersion\\run\\”xml” = %ProgramFiles%\\Windows NT\\Accessories\\Microsoft\\msxml.exe",
-      "source_ref": "indicator--feaf907a-4e95-4946-b199-a104c6c58127",
-      "target_ref": "attack-pattern--9422fc14-1c43-410d-ab0f-a709b76c72dc"
-    },
-    {
-      "type": "relationship",
-      "id": "relationship--09328ed2-c082-452e-b9d2-8c4312176e70",
-      "created": "2018-08-06T23:33:18.673Z",
-      "modified": "2018-08-06T23:33:18.673Z",
-      "relationship_type": "uses",
-      "description": "Tick group compromised South Korean certified USB drives and loaded malicious files onto an unknown number of them. ",
-      "source_ref": "indicator--4213f451-f0dc-430e-b12e-eccfb541403f",
-      "target_ref": "attack-pattern--eacadff4-164b-451c-bacc-7b29ebfd0c3f"
-    },
-    {
-      "type": "relationship",
-      "id": "relationship--75456c42-ddb2-448f-8212-81739b271c83",
-      "created": "2018-08-06T23:33:18.673Z",
-      "modified": "2018-08-06T23:33:18.673Z",
-      "relationship_type": "uses",
-      "description": " Malware on this attack detects system OS. ",
-      "source_ref": "indicator--4213f451-f0dc-430e-b12e-eccfb541403f",
-      "target_ref": "attack-pattern--354a7f88-63fb-41b5-a801-ce3b377b36f1"
-    },
-    {
-      "type": "relationship",
-      "id": "relationship--f77d4c22-b403-4e43-87c4-42e5d8f49b9a",
-      "created": "2018-12-04T16:12:04.901Z",
-      "modified": "2018-12-04T16:12:04.901Z",
-      "relationship_type": "uses",
-      "description": "Tick group created Symonloader that attacks only Windows XP or Windows Server 2003. ",
-      "source_ref": "indicator--4213f451-f0dc-430e-b12e-eccfb541403f",
-      "target_ref": "attack-pattern--fddd81e9-dd3d-477e-9773-4fb8ae227234"
-    },
-    {
-      "type": "relationship",
-      "id": "relationship--9994d904-24b3-4cfc-927c-7e36d520e64d",
-      "created": "2018-08-06T23:33:18.673Z",
-      "modified": "2018-08-06T23:33:18.673Z",
-      "relationship_type": "uses",
-      "description": "SymonLoader detects the targeted type of secure USB drive, and attempts to access the storage through the device driver corresponding to the secure USB. ",
-      "source_ref": "indicator--4213f451-f0dc-430e-b12e-eccfb541403f",
-      "target_ref": "attack-pattern--348f1eef-964b-4eb6-bb53-69b3dcb0c643"
-    },
-    {
-      "type": "relationship",
-      "id": "relationship--a20dc5e1-afbe-4a01-b4c8-324ce334833b",
-      "created": "2018-08-06T23:33:18.673Z",
-      "modified": "2018-08-06T23:33:18.673Z",
-      "relationship_type": "uses",
-      "description": "After SymonLoader detects the targeted type of secure USB drive, it accesses a predifined location of the storage on the USB and extracts an unknown PE File. ",
-      "source_ref": "indicator--4213f451-f0dc-430e-b12e-eccfb541403f",
-      "target_ref": "attack-pattern--3b744087-9945-4a6f-91e8-9dbceda417a4"
-    },
-    {
-      "type": "relationship",
-      "id": "relationship--de86d431-063a-4d09-874b-04487319fc3c",
-      "created": "2018-08-06T23:33:18.673Z",
-      "modified": "2018-08-06T23:33:18.673Z",
-      "relationship_type": "uses",
-      "description": "HKCU\\Software\\Microsof\\Windows\\CurrentVersion\\run\\”xml” = %UserProfile%\\Applications\\Microsoft\\msxml.exe",
-      "source_ref": "indicator--7a46bd29-dd8f-4cdc-98ab-5d7a84c9729d",
-      "target_ref": "attack-pattern--9422fc14-1c43-410d-ab0f-a709b76c72dc"
-    },
-    {
-      "type": "relationship",
-      "id": "relationship--be7cda7f-8a8a-4bf6-9ba3-5c713664ecdf",
-      "created": "2018-08-06T23:33:15.928Z",
-      "modified": "2018-08-06T23:33:15.928Z",
-      "relationship_type": "attributed-to",
-      "source_ref": "campaign--be7cda7f-8a8a-4bf6-9ba3-5c713664ecdf",
-      "target_ref": "intrusion-set--a2e26576-a391-4b84-86fb-ddbe10b7c066"
-    },
-    {
-      "type": "relationship",
-      "id": "relationship--9422fc14-1c43-410d-ab0f-a709b76c72dc",
-      "created": "2018-08-06T23:33:15.928Z",
-      "modified": "2018-08-06T23:33:15.928Z",
-      "relationship_type": "uses",
-      "source_ref": "campaign--be7cda7f-8a8a-4bf6-9ba3-5c713664ecdf",
-      "target_ref": "attack-pattern--9422fc14-1c43-410d-ab0f-a709b76c72dc"
-    },
-    {
-      "type": "relationship",
-      "id": "relationship--eacadff4-164b-451c-bacc-7b29ebfd0c3f",
-      "created": "2018-08-06T23:33:15.928Z",
-      "modified": "2018-08-06T23:33:15.928Z",
-      "relationship_type": "uses",
-      "source_ref": "campaign--be7cda7f-8a8a-4bf6-9ba3-5c713664ecdf",
-      "target_ref": "attack-pattern--eacadff4-164b-451c-bacc-7b29ebfd0c3f"
-    },
-    {
-      "type": "relationship",
-      "id": "relationship--354a7f88-63fb-41b5-a801-ce3b377b36f1",
-      "created": "2018-08-06T23:33:15.928Z",
-      "modified": "2018-08-06T23:33:15.928Z",
-      "relationship_type": "uses",
-      "source_ref": "campaign--be7cda7f-8a8a-4bf6-9ba3-5c713664ecdf",
-      "target_ref": "attack-pattern--354a7f88-63fb-41b5-a801-ce3b377b36f1"
-    },
-    {
-      "type": "relationship",
-      "id": "relationship--fddd81e9-dd3d-477e-9773-4fb8ae227234",
-      "created": "2018-08-06T23:33:15.928Z",
-      "modified": "2018-08-06T23:33:15.928Z",
-      "relationship_type": "uses",
-      "source_ref": "campaign--be7cda7f-8a8a-4bf6-9ba3-5c713664ecdf",
-      "target_ref": "attack-pattern--fddd81e9-dd3d-477e-9773-4fb8ae227234"
-    },
-    {
-      "type": "relationship",
-      "id": "relationship--348f1eef-964b-4eb6-bb53-69b3dcb0c643",
-      "created": "2018-08-06T23:33:15.928Z",
-      "modified": "2018-08-06T23:33:15.928Z",
-      "relationship_type": "uses",
-      "source_ref": "campaign--be7cda7f-8a8a-4bf6-9ba3-5c713664ecdf",
-      "target_ref": "attack-pattern--348f1eef-964b-4eb6-bb53-69b3dcb0c643"
-    },
-    {
-      "type": "relationship",
-      "id": "relationship--3b744087-9945-4a6f-91e8-9dbceda417a4",
-      "created": "2018-08-06T23:33:15.928Z",
-      "modified": "2018-08-06T23:33:15.928Z",
-      "relationship_type": "uses",
-      "source_ref": "campaign--be7cda7f-8a8a-4bf6-9ba3-5c713664ecdf",
-      "target_ref": "attack-pattern--3b744087-9945-4a6f-91e8-9dbceda417a4"
-    },
-    {
-      "type": "report",
-      "id": "report--be7cda7f-8a8a-4bf6-9ba3-5c713664ecdf",
-      "created": "2018-08-06T23:33:15.928Z",
-      "modified": "2018-08-06T23:33:15.928Z",
-      "name": "January 2018",
-      "published": "2018-08-06T23:33:15.928Z",
-      "object_refs": [
-        "campaign--be7cda7f-8a8a-4bf6-9ba3-5c713664ecdf",
-        "intrusion-set--a2e26576-a391-4b84-86fb-ddbe10b7c066",
-        "indicator--feaf907a-4e95-4946-b199-a104c6c58127",
-        "indicator--4213f451-f0dc-430e-b12e-eccfb541403f",
-        "indicator--7a46bd29-dd8f-4cdc-98ab-5d7a84c9729d",
-        "attack-pattern--9422fc14-1c43-410d-ab0f-a709b76c72dc",
-        "attack-pattern--eacadff4-164b-451c-bacc-7b29ebfd0c3f",
-        "attack-pattern--354a7f88-63fb-41b5-a801-ce3b377b36f1",
-        "attack-pattern--fddd81e9-dd3d-477e-9773-4fb8ae227234",
-        "attack-pattern--348f1eef-964b-4eb6-bb53-69b3dcb0c643",
-        "attack-pattern--3b744087-9945-4a6f-91e8-9dbceda417a4",
-        "relationship--4a879996-aab1-419a-9390-62e2cdb7a388",
-        "relationship--ad627a9d-a9d2-465a-9624-f8cd7cd36318",
-        "relationship--c17a2549-7977-4e7b-a997-a925536e83bd",
-        "relationship--94f9538e-afa9-480a-b55b-bb412c0ee9c3",
-        "relationship--09328ed2-c082-452e-b9d2-8c4312176e70",
-        "relationship--75456c42-ddb2-448f-8212-81739b271c83",
-        "relationship--f77d4c22-b403-4e43-87c4-42e5d8f49b9a",
-        "relationship--9994d904-24b3-4cfc-927c-7e36d520e64d",
-        "relationship--a20dc5e1-afbe-4a01-b4c8-324ce334833b",
-        "relationship--de86d431-063a-4d09-874b-04487319fc3c",
-        "relationship--be7cda7f-8a8a-4bf6-9ba3-5c713664ecdf",
-        "relationship--9422fc14-1c43-410d-ab0f-a709b76c72dc",
-        "relationship--eacadff4-164b-451c-bacc-7b29ebfd0c3f",
-        "relationship--354a7f88-63fb-41b5-a801-ce3b377b36f1",
-        "relationship--fddd81e9-dd3d-477e-9773-4fb8ae227234",
-        "relationship--348f1eef-964b-4eb6-bb53-69b3dcb0c643",
-        "relationship--3b744087-9945-4a6f-91e8-9dbceda417a4"
-      ],
-      "labels": [
-        "campaign"
-      ]
-    },
-    {
-      "type": "campaign",
-      "id": "campaign--be7cda7f-8a8a-4bf6-9ba3-5c713664ecdf",
-      "created": "2018-08-06T23:33:15.928Z",
-      "modified": "2018-08-06T23:33:15.928Z",
-      "name": "January 2018",
-      "description": "\nTick group targeted a specific type of secure USB drive created by a South Korean defense company. The USB drive and its management system have various features to follow security guidelines in South Korea.\nThe weaponization of a secure USB drive is an uncommon attack technique and likely done in an effort to spread to air-gapped systems, which are systems that do not connect to the public internet. In addition, our research shows that the malware used in these attacks will only try to infect systems running Microsoft Windows XP or Windows Server 2003. This is despite the fact that the malware appears to have been created when newer versions of Windows software were available. This would seem to indicate an intentional targeting of older, out-of-support versions of Microsoft Windows installed on systems with no internet connectivity. Air-gapped systems are common practice in many countries for government, military, and defense contractors, as well as other industry verticals.\n\n\nhttps://researchcenter.paloaltonetworks.com/2018/06/unit42-tick-group-weaponized-secure-usb-drives-target-air-gapped-critical-systems/",
-      "first_seen": "2018-01-01",
-      "last_seen": "2018-01-12"
     },
     {
       "type": "attack-pattern",
@@ -514,6 +55,88 @@
           "source_name": "Wikipedia Command-Line Interface",
           "url": "https://en.wikipedia.org/wiki/Command-line_interface",
           "description": "Wikipedia. (2016, June 26). Command-line interface. Retrieved June 27, 2016."
+        }
+      ],
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "id": "attack-pattern--bb5a00de-e086-4859-a231-fa793f6797e2",
+      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "created": "2018-08-03T19:54:02.821Z",
+      "modified": "2018-12-17T14:33:39.234Z",
+      "name": "T1056: Input Capture",
+      "description": "Adversaries can use methods of capturing user input for obtaining credentials for [Valid Accounts](https://attack.mitre.org/techniques/T1078) and information Collection that include keylogging and user input field interception.\n\nKeylogging is the most prevalent type of input capture, with many different ways of intercepting keystrokes, (Citation: Adventures of a Keystroke) but other methods exist to target information for specific purposes, such as performing a UAC prompt or wrapping the Windows default credential provider. (Citation: Wrightson 2012)\n\nKeylogging is likely to be used to acquire credentials for new access opportunities when [Credential Dumping](https://attack.mitre.org/techniques/T1003) efforts are not effective, and may require an adversary to remain passive on a system for a period of time before an opportunity arises.\n\nAdversaries may also install code on externally facing portals, such as a VPN login page, to capture and transmit credentials of users who attempt to log into the service. This variation on input capture may be conducted post-compromise using legitimate administrative access as a backup measure to maintain network access through [External Remote Services](https://attack.mitre.org/techniques/T1133) and [Valid Accounts](https://attack.mitre.org/techniques/T1078) or as part of the initial compromise by exploitation of the externally facing web service. (Citation: Volexity Virtual Private Keylogging)",
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "collection"
+        },
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "credential-access"
+        },
+        {
+          "kill_chain_name": "lockheed",
+          "phase_name": "act-on-objectives"
+        }
+      ],
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1056",
+          "external_id": "T1056"
+        },
+        {
+          "source_name": "capec",
+          "url": "https://capec.mitre.org/data/definitions/569.html",
+          "external_id": "CAPEC-569"
+        },
+        {
+          "source_name": "Adventures of a Keystroke",
+          "url": "http://opensecuritytraining.info/Keylogging_files/The%20Adventures%20of%20a%20Keystroke.pdf",
+          "description": "Tinaztepe,  E. (n.d.). The Adventures of a Keystroke:  An in-depth look into keyloggers on Windows. Retrieved April 27, 2016."
+        },
+        {
+          "source_name": "Volexity Virtual Private Keylogging",
+          "url": "https://www.volexity.com/blog/2015/10/07/virtual-private-keylogging-cisco-web-vpns-leveraged-for-access-and-persistence/",
+          "description": "Adair, S. (2015, October 7). Virtual Private Keylogging: Cisco Web VPNs Leveraged for Access and Persistence. Retrieved March 20, 2017."
+        },
+        {
+          "source_name": "Wrightson 2012",
+          "url": "http://blog.leetsys.com/2012/01/02/capturing-windows-7-credentials-at-logon-using-custom-credential-provider/",
+          "description": "Wrightson, T. (2012, January 2). CAPTURING WINDOWS 7 CREDENTIALS AT LOGON USING CUSTOM CREDENTIAL PROVIDER. Retrieved November 12, 2014."
+        }
+      ],
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "id": "attack-pattern--4886e3c2-468b-4e26-b7e5-2031d995d13a",
+      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "created": "2018-08-03T19:54:02.821Z",
+      "modified": "2018-12-17T14:32:13.547Z",
+      "name": "T1349: Build or acquire exploits",
+      "description": "An exploit takes advantage of a bug or vulnerability in order to cause unintended or unanticipated behavior to occur on computer hardware or software. The adversary may use or modify existing exploits when those exploits are still relevant to the environment they are trying to compromise. (Citation: NYTStuxnet) (Citation: NationsBuying)",
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-pre-attack",
+          "phase_name": "build-capabilities"
+        },
+        {
+          "kill_chain_name": "lockheed",
+          "phase_name": "weaponization"
+        }
+      ],
+      "external_references": [
+        {
+          "source_name": "mitre-pre-attack",
+          "url": "https://attack.mitre.org/techniques/T1349",
+          "external_id": "T1349"
         }
       ],
       "object_marking_refs": [
@@ -580,146 +203,6 @@
     },
     {
       "type": "attack-pattern",
-      "id": "attack-pattern--784ff1bc-1483-41fe-a172-4cd9ae25c06b",
-      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2018-12-17T14:32:43.614Z",
-      "name": "T1247: Acquire OSINT data sets and information",
-      "description": "Open source intelligence (OSINT) is intelligence gathered from publicly available sources. This can include both information gathered on-line, such as from search engines, as well as in the physical world. (Citation: RSA-APTRecon)",
-      "kill_chain_phases": [
-        {
-          "kill_chain_name": "mitre-pre-attack",
-          "phase_name": "technical-information-gathering"
-        },
-        {
-          "kill_chain_name": "lockheed",
-          "phase_name": "recon"
-        }
-      ],
-      "external_references": [
-        {
-          "source_name": "mitre-pre-attack",
-          "url": "https://attack.mitre.org/techniques/T1247",
-          "external_id": "T1247"
-        }
-      ],
-      "object_marking_refs": [
-        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
-      ]
-    },
-    {
-      "type": "attack-pattern",
-      "id": "attack-pattern--4886e3c2-468b-4e26-b7e5-2031d995d13a",
-      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2018-12-17T14:32:13.547Z",
-      "name": "T1349: Build or acquire exploits",
-      "description": "An exploit takes advantage of a bug or vulnerability in order to cause unintended or unanticipated behavior to occur on computer hardware or software. The adversary may use or modify existing exploits when those exploits are still relevant to the environment they are trying to compromise. (Citation: NYTStuxnet) (Citation: NationsBuying)",
-      "kill_chain_phases": [
-        {
-          "kill_chain_name": "mitre-pre-attack",
-          "phase_name": "build-capabilities"
-        },
-        {
-          "kill_chain_name": "lockheed",
-          "phase_name": "weaponization"
-        }
-      ],
-      "external_references": [
-        {
-          "source_name": "mitre-pre-attack",
-          "url": "https://attack.mitre.org/techniques/T1349",
-          "external_id": "T1349"
-        }
-      ],
-      "object_marking_refs": [
-        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
-      ]
-    },
-    {
-      "type": "attack-pattern",
-      "id": "attack-pattern--bb5a00de-e086-4859-a231-fa793f6797e2",
-      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2018-12-17T14:33:39.234Z",
-      "name": "T1056: Input Capture",
-      "description": "Adversaries can use methods of capturing user input for obtaining credentials for [Valid Accounts](https://attack.mitre.org/techniques/T1078) and information Collection that include keylogging and user input field interception.\n\nKeylogging is the most prevalent type of input capture, with many different ways of intercepting keystrokes, (Citation: Adventures of a Keystroke) but other methods exist to target information for specific purposes, such as performing a UAC prompt or wrapping the Windows default credential provider. (Citation: Wrightson 2012)\n\nKeylogging is likely to be used to acquire credentials for new access opportunities when [Credential Dumping](https://attack.mitre.org/techniques/T1003) efforts are not effective, and may require an adversary to remain passive on a system for a period of time before an opportunity arises.\n\nAdversaries may also install code on externally facing portals, such as a VPN login page, to capture and transmit credentials of users who attempt to log into the service. This variation on input capture may be conducted post-compromise using legitimate administrative access as a backup measure to maintain network access through [External Remote Services](https://attack.mitre.org/techniques/T1133) and [Valid Accounts](https://attack.mitre.org/techniques/T1078) or as part of the initial compromise by exploitation of the externally facing web service. (Citation: Volexity Virtual Private Keylogging)",
-      "kill_chain_phases": [
-        {
-          "kill_chain_name": "mitre-attack",
-          "phase_name": "collection"
-        },
-        {
-          "kill_chain_name": "mitre-attack",
-          "phase_name": "credential-access"
-        },
-        {
-          "kill_chain_name": "lockheed",
-          "phase_name": "act-on-objectives"
-        }
-      ],
-      "external_references": [
-        {
-          "source_name": "mitre-attack",
-          "url": "https://attack.mitre.org/techniques/T1056",
-          "external_id": "T1056"
-        },
-        {
-          "source_name": "capec",
-          "url": "https://capec.mitre.org/data/definitions/569.html",
-          "external_id": "CAPEC-569"
-        },
-        {
-          "source_name": "Adventures of a Keystroke",
-          "url": "http://opensecuritytraining.info/Keylogging_files/The%20Adventures%20of%20a%20Keystroke.pdf",
-          "description": "Tinaztepe,  E. (n.d.). The Adventures of a Keystroke:  An in-depth look into keyloggers on Windows. Retrieved April 27, 2016."
-        },
-        {
-          "source_name": "Volexity Virtual Private Keylogging",
-          "url": "https://www.volexity.com/blog/2015/10/07/virtual-private-keylogging-cisco-web-vpns-leveraged-for-access-and-persistence/",
-          "description": "Adair, S. (2015, October 7). Virtual Private Keylogging: Cisco Web VPNs Leveraged for Access and Persistence. Retrieved March 20, 2017."
-        },
-        {
-          "source_name": "Wrightson 2012",
-          "url": "http://blog.leetsys.com/2012/01/02/capturing-windows-7-credentials-at-logon-using-custom-credential-provider/",
-          "description": "Wrightson, T. (2012, January 2). CAPTURING WINDOWS 7 CREDENTIALS AT LOGON USING CUSTOM CREDENTIAL PROVIDER. Retrieved November 12, 2014."
-        }
-      ],
-      "object_marking_refs": [
-        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
-      ]
-    },
-    {
-      "type": "attack-pattern",
-      "id": "attack-pattern--9755ecdc-deb0-40e6-af49-713cb0f8ed92",
-      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2018-12-17T14:32:26.176Z",
-      "name": "T1351: Remote access tool development",
-      "description": "A remote access tool (RAT) is a piece of software that allows a remote user to control a system as if they had physical access to that system. An adversary may utilize existing RATs, modify existing RATs, or create their own RAT. (Citation: ActiveMalwareEnergy)",
-      "kill_chain_phases": [
-        {
-          "kill_chain_name": "mitre-pre-attack",
-          "phase_name": "build-capabilities"
-        },
-        {
-          "kill_chain_name": "lockheed",
-          "phase_name": "weaponization"
-        }
-      ],
-      "external_references": [
-        {
-          "source_name": "mitre-pre-attack",
-          "url": "https://attack.mitre.org/techniques/T1351",
-          "external_id": "T1351"
-        }
-      ],
-      "object_marking_refs": [
-        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
-      ]
-    },
-    {
-      "type": "attack-pattern",
       "id": "attack-pattern--0259baeb-9f63-4c69-bf10-eb038c390688",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
       "created": "2018-08-03T19:54:02.821Z",
@@ -746,6 +229,127 @@
           "source_name": "Antiquated Mac Malware",
           "url": "https://blog.malwarebytes.com/threat-analysis/2017/01/new-mac-backdoor-using-antiquated-code/",
           "description": "Thomas Reed. (2017, January 18). New Mac backdoor using antiquated code. Retrieved July 5, 2017."
+        }
+      ],
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "id": "attack-pattern--5a68c603-d7f9-4535-927e-ab56819eaa85",
+      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "created": "2018-08-03T19:54:02.821Z",
+      "modified": "2018-12-17T14:35:09.223Z",
+      "name": "T1354: Compromise 3rd party or closed-source vulnerability/exploit information",
+      "description": "There is usually a delay between when a vulnerability or exploit is discovered and when it is made public. An adversary may target the systems of those known to research vulnerabilities in order to gain that knowledge for use during a different attack. (Citation: TempertonDarkHotel)",
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-pre-attack",
+          "phase_name": "build-capabilities"
+        },
+        {
+          "kill_chain_name": "lockheed",
+          "phase_name": "weaponization"
+        }
+      ],
+      "external_references": [
+        {
+          "source_name": "mitre-pre-attack",
+          "url": "https://attack.mitre.org/techniques/T1354",
+          "external_id": "T1354"
+        }
+      ],
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "id": "attack-pattern--e3a12395-188d-4051-9a16-ea8e14d07b88",
+      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "created": "2018-08-03T19:54:02.821Z",
+      "modified": "2018-12-17T14:33:20.739Z",
+      "name": "T1046: Network Service Scanning",
+      "description": "Adversaries may attempt to get a listing of services running on remote hosts, including those that may be vulnerable to remote software exploitation. Methods to acquire this information include port scans and vulnerability scans using tools that are brought onto a system.",
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "discovery"
+        },
+        {
+          "kill_chain_name": "lockheed",
+          "phase_name": "act-on-objectives"
+        }
+      ],
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1046",
+          "external_id": "T1046"
+        }
+      ],
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "id": "attack-pattern--8f4a33ec-8b1f-4b80-a2f6-642b2e479580",
+      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "created": "2018-08-03T19:54:02.821Z",
+      "modified": "2018-12-17T14:34:29.528Z",
+      "name": "T1057: Process Discovery",
+      "description": "Adversaries may attempt to get information about running processes on a system. Information obtained could be used to gain an understanding of common software running on systems within the network.\n\n### Windows\n\nAn example command that would obtain details on processes is \"tasklist\" using the [Tasklist](https://attack.mitre.org/software/S0057) utility.\n\n### Mac and Linux\n\nIn Mac and Linux, this is accomplished with the <code>ps</code> command.",
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "discovery"
+        },
+        {
+          "kill_chain_name": "lockheed",
+          "phase_name": "act-on-objectives"
+        }
+      ],
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1057",
+          "external_id": "T1057"
+        },
+        {
+          "source_name": "capec",
+          "url": "https://capec.mitre.org/data/definitions/573.html",
+          "external_id": "CAPEC-573"
+        }
+      ],
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "id": "attack-pattern--784ff1bc-1483-41fe-a172-4cd9ae25c06b",
+      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "created": "2018-08-03T19:54:02.821Z",
+      "modified": "2018-12-17T14:32:43.614Z",
+      "name": "T1247: Acquire OSINT data sets and information",
+      "description": "Open source intelligence (OSINT) is intelligence gathered from publicly available sources. This can include both information gathered on-line, such as from search engines, as well as in the physical world. (Citation: RSA-APTRecon)",
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-pre-attack",
+          "phase_name": "technical-information-gathering"
+        },
+        {
+          "kill_chain_name": "lockheed",
+          "phase_name": "recon"
+        }
+      ],
+      "external_references": [
+        {
+          "source_name": "mitre-pre-attack",
+          "url": "https://attack.mitre.org/techniques/T1247",
+          "external_id": "T1247"
         }
       ],
       "object_marking_refs": [
@@ -851,12 +455,12 @@
     },
     {
       "type": "attack-pattern",
-      "id": "attack-pattern--5a68c603-d7f9-4535-927e-ab56819eaa85",
+      "id": "attack-pattern--9755ecdc-deb0-40e6-af49-713cb0f8ed92",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
       "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2018-12-17T14:35:09.223Z",
-      "name": "T1354: Compromise 3rd party or closed-source vulnerability/exploit information",
-      "description": "There is usually a delay between when a vulnerability or exploit is discovered and when it is made public. An adversary may target the systems of those known to research vulnerabilities in order to gain that knowledge for use during a different attack. (Citation: TempertonDarkHotel)",
+      "modified": "2018-12-17T14:32:26.176Z",
+      "name": "T1351: Remote access tool development",
+      "description": "A remote access tool (RAT) is a piece of software that allows a remote user to control a system as if they had physical access to that system. An adversary may utilize existing RATs, modify existing RATs, or create their own RAT. (Citation: ActiveMalwareEnergy)",
       "kill_chain_phases": [
         {
           "kill_chain_name": "mitre-pre-attack",
@@ -870,71 +474,8 @@
       "external_references": [
         {
           "source_name": "mitre-pre-attack",
-          "url": "https://attack.mitre.org/techniques/T1354",
-          "external_id": "T1354"
-        }
-      ],
-      "object_marking_refs": [
-        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
-      ]
-    },
-    {
-      "type": "attack-pattern",
-      "id": "attack-pattern--e3a12395-188d-4051-9a16-ea8e14d07b88",
-      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2018-12-17T14:33:20.739Z",
-      "name": "T1046: Network Service Scanning",
-      "description": "Adversaries may attempt to get a listing of services running on remote hosts, including those that may be vulnerable to remote software exploitation. Methods to acquire this information include port scans and vulnerability scans using tools that are brought onto a system.",
-      "kill_chain_phases": [
-        {
-          "kill_chain_name": "mitre-attack",
-          "phase_name": "discovery"
-        },
-        {
-          "kill_chain_name": "lockheed",
-          "phase_name": "act-on-objectives"
-        }
-      ],
-      "external_references": [
-        {
-          "source_name": "mitre-attack",
-          "url": "https://attack.mitre.org/techniques/T1046",
-          "external_id": "T1046"
-        }
-      ],
-      "object_marking_refs": [
-        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
-      ]
-    },
-    {
-      "type": "attack-pattern",
-      "id": "attack-pattern--8f4a33ec-8b1f-4b80-a2f6-642b2e479580",
-      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2018-12-17T14:34:29.528Z",
-      "name": "T1057: Process Discovery",
-      "description": "Adversaries may attempt to get information about running processes on a system. Information obtained could be used to gain an understanding of common software running on systems within the network.\n\n### Windows\n\nAn example command that would obtain details on processes is \"tasklist\" using the [Tasklist](https://attack.mitre.org/software/S0057) utility.\n\n### Mac and Linux\n\nIn Mac and Linux, this is accomplished with the <code>ps</code> command.",
-      "kill_chain_phases": [
-        {
-          "kill_chain_name": "mitre-attack",
-          "phase_name": "discovery"
-        },
-        {
-          "kill_chain_name": "lockheed",
-          "phase_name": "act-on-objectives"
-        }
-      ],
-      "external_references": [
-        {
-          "source_name": "mitre-attack",
-          "url": "https://attack.mitre.org/techniques/T1057",
-          "external_id": "T1057"
-        },
-        {
-          "source_name": "capec",
-          "url": "https://capec.mitre.org/data/definitions/573.html",
-          "external_id": "CAPEC-573"
+          "url": "https://attack.mitre.org/techniques/T1351",
+          "external_id": "T1351"
         }
       ],
       "object_marking_refs": [
@@ -1011,90 +552,6 @@
     },
     {
       "type": "indicator",
-      "id": "indicator--4babc071-6324-41eb-9a33-da8a383b58e3",
-      "created": "2018-08-06T23:33:15.928Z",
-      "modified": "2018-08-06T23:33:15.928Z",
-      "name": "sansei.jpn.com",
-      "pattern": "[domain-name:value = 'sansei.jpn.com']",
-      "valid_from": "2018-08-06T23:33:15.928Z",
-      "labels": [
-        "malicious-activity"
-      ]
-    },
-    {
-      "type": "indicator",
-      "id": "indicator--4cf4a36e-a159-4ef7-b516-261a5767fcfa",
-      "created": "2018-08-06T23:33:15.928Z",
-      "modified": "2018-08-06T23:33:15.928Z",
-      "name": "news.softfix.co.kr",
-      "pattern": "[domain-name:value = 'news.softfix.co.kr']",
-      "valid_from": "2018-08-06T23:33:15.928Z",
-      "labels": [
-        "malicious-activity"
-      ]
-    },
-    {
-      "type": "indicator",
-      "id": "indicator--3b05b221-6a7f-4f33-b436-913144528e2e",
-      "created": "2018-08-06T23:33:15.928Z",
-      "modified": "2018-08-06T23:33:15.928Z",
-      "name": "www.gokickes.com",
-      "pattern": "[domain-name:value = 'www.gokickes.com']",
-      "valid_from": "2018-08-06T23:33:15.928Z",
-      "labels": [
-        "malicious-activity"
-      ]
-    },
-    {
-      "type": "indicator",
-      "id": "indicator--e52fdf3a-c319-4217-a6e3-878f8a481f6e",
-      "created": "2018-08-06T23:33:15.928Z",
-      "modified": "2018-08-06T23:33:15.928Z",
-      "name": "lywja.healthsvsolu.com",
-      "pattern": "[domain-name:value = 'lywja.healthsvsolu.com']",
-      "valid_from": "2018-08-06T23:33:15.928Z",
-      "labels": [
-        "malicious-activity"
-      ]
-    },
-    {
-      "type": "indicator",
-      "id": "indicator--4bc27531-807d-4dd2-8e78-48883215fc47",
-      "created": "2018-08-06T23:33:15.928Z",
-      "modified": "2018-08-06T23:33:15.928Z",
-      "name": "9c7a34390e92d4551c26a3feb5b181757b3309995acd1f92e0f63f888aa89423",
-      "pattern": "[file:hashes.'SHA-256' = '9c7a34390e92d4551c26a3feb5b181757b3309995acd1f92e0f63f888aa89423']",
-      "valid_from": "2018-08-06T23:33:15.928Z",
-      "labels": [
-        "malicious-activity"
-      ]
-    },
-    {
-      "type": "indicator",
-      "id": "indicator--5e7530cd-8c00-4514-a616-5d46a655b89f",
-      "created": "2018-08-06T23:33:15.928Z",
-      "modified": "2018-08-06T23:33:15.928Z",
-      "name": "krjregh.sacreeflame.com",
-      "pattern": "[domain-name:value = 'krjregh.sacreeflame.com']",
-      "valid_from": "2018-08-06T23:33:15.928Z",
-      "labels": [
-        "malicious-activity"
-      ]
-    },
-    {
-      "type": "indicator",
-      "id": "indicator--666016c2-cea8-439d-80c6-be7ecba34567",
-      "created": "2018-08-06T23:33:15.928Z",
-      "modified": "2018-08-06T23:33:15.928Z",
-      "name": "blog.softfix.co.kr",
-      "pattern": "[domain-name:value = 'blog.softfix.co.kr']",
-      "valid_from": "2018-08-06T23:33:15.928Z",
-      "labels": [
-        "malicious-activity"
-      ]
-    },
-    {
-      "type": "indicator",
       "id": "indicator--68c74ff9-0774-485f-929b-138d93a3788a",
       "created": "2018-08-06T23:33:15.928Z",
       "modified": "2018-08-06T23:33:15.928Z",
@@ -1116,69 +573,6 @@
       "labels": [
         "malicious-activity"
       ]
-    },
-    {
-      "type": "relationship",
-      "id": "relationship--a992b9ce-268b-491c-bcb3-e7367ae7abb1",
-      "created": "2018-08-06T23:33:18.673Z",
-      "modified": "2018-08-22T12:38:50.620Z",
-      "relationship_type": "indicates",
-      "source_ref": "indicator--4babc071-6324-41eb-9a33-da8a383b58e3",
-      "target_ref": "campaign--358b5915-2a63-4406-828f-890558e27a1f"
-    },
-    {
-      "type": "relationship",
-      "id": "relationship--026c5c75-d173-44e7-ae17-1682cdb405f0",
-      "created": "2018-08-06T23:33:18.673Z",
-      "modified": "2018-08-22T12:38:50.620Z",
-      "relationship_type": "indicates",
-      "source_ref": "indicator--4cf4a36e-a159-4ef7-b516-261a5767fcfa",
-      "target_ref": "campaign--358b5915-2a63-4406-828f-890558e27a1f"
-    },
-    {
-      "type": "relationship",
-      "id": "relationship--055f3613-4172-4c4f-85d4-aad7806a5818",
-      "created": "2018-08-06T23:33:18.673Z",
-      "modified": "2018-08-22T12:38:50.620Z",
-      "relationship_type": "indicates",
-      "source_ref": "indicator--3b05b221-6a7f-4f33-b436-913144528e2e",
-      "target_ref": "campaign--358b5915-2a63-4406-828f-890558e27a1f"
-    },
-    {
-      "type": "relationship",
-      "id": "relationship--d4f7b183-a2c6-4960-8404-d9ab463a290c",
-      "created": "2018-08-06T23:33:18.673Z",
-      "modified": "2018-08-22T12:38:50.620Z",
-      "relationship_type": "indicates",
-      "source_ref": "indicator--e52fdf3a-c319-4217-a6e3-878f8a481f6e",
-      "target_ref": "campaign--358b5915-2a63-4406-828f-890558e27a1f"
-    },
-    {
-      "type": "relationship",
-      "id": "relationship--cd0e4abb-a991-4525-b9e7-d7f88f077dfa",
-      "created": "2018-08-06T23:33:18.673Z",
-      "modified": "2018-08-22T12:38:50.620Z",
-      "relationship_type": "indicates",
-      "source_ref": "indicator--4bc27531-807d-4dd2-8e78-48883215fc47",
-      "target_ref": "campaign--358b5915-2a63-4406-828f-890558e27a1f"
-    },
-    {
-      "type": "relationship",
-      "id": "relationship--2c1c2f46-68ed-407c-b7f0-61977d5ab63e",
-      "created": "2018-08-06T23:33:18.673Z",
-      "modified": "2018-08-22T12:38:50.620Z",
-      "relationship_type": "indicates",
-      "source_ref": "indicator--5e7530cd-8c00-4514-a616-5d46a655b89f",
-      "target_ref": "campaign--358b5915-2a63-4406-828f-890558e27a1f"
-    },
-    {
-      "type": "relationship",
-      "id": "relationship--95b74513-3f33-47a8-a197-d4c7919c96cb",
-      "created": "2018-08-06T23:33:18.673Z",
-      "modified": "2018-08-22T12:38:50.620Z",
-      "relationship_type": "indicates",
-      "source_ref": "indicator--666016c2-cea8-439d-80c6-be7ecba34567",
-      "target_ref": "campaign--358b5915-2a63-4406-828f-890558e27a1f"
     },
     {
       "type": "relationship",
@@ -1229,6 +623,24 @@
     },
     {
       "type": "relationship",
+      "id": "relationship--83d7d5b6-b741-468b-a249-ae1082b2a6a0",
+      "created": "2018-08-06T23:33:18.673Z",
+      "modified": "2018-08-22T12:38:50.620Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--358b5915-2a63-4406-828f-890558e27a1f",
+      "target_ref": "attack-pattern--bb5a00de-e086-4859-a231-fa793f6797e2"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--65cf5646-e205-4426-9e07-8205cc47cad9",
+      "created": "2018-08-06T23:33:18.673Z",
+      "modified": "2018-08-22T12:38:50.620Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--358b5915-2a63-4406-828f-890558e27a1f",
+      "target_ref": "attack-pattern--4886e3c2-468b-4e26-b7e5-2031d995d13a"
+    },
+    {
+      "type": "relationship",
       "id": "relationship--42f61006-bf9b-4851-8003-6170569dbf49",
       "created": "2018-08-06T23:33:18.673Z",
       "modified": "2018-08-22T12:38:50.620Z",
@@ -1247,57 +659,12 @@
     },
     {
       "type": "relationship",
-      "id": "relationship--6f1d9554-9c6f-40e0-ba31-713dfb41bd54",
-      "created": "2018-08-06T23:33:18.673Z",
-      "modified": "2018-08-22T12:38:50.620Z",
-      "relationship_type": "uses",
-      "source_ref": "campaign--358b5915-2a63-4406-828f-890558e27a1f",
-      "target_ref": "attack-pattern--784ff1bc-1483-41fe-a172-4cd9ae25c06b"
-    },
-    {
-      "type": "relationship",
-      "id": "relationship--65cf5646-e205-4426-9e07-8205cc47cad9",
-      "created": "2018-08-06T23:33:18.673Z",
-      "modified": "2018-08-22T12:38:50.620Z",
-      "relationship_type": "uses",
-      "source_ref": "campaign--358b5915-2a63-4406-828f-890558e27a1f",
-      "target_ref": "attack-pattern--4886e3c2-468b-4e26-b7e5-2031d995d13a"
-    },
-    {
-      "type": "relationship",
-      "id": "relationship--83d7d5b6-b741-468b-a249-ae1082b2a6a0",
-      "created": "2018-08-06T23:33:18.673Z",
-      "modified": "2018-08-22T12:38:50.620Z",
-      "relationship_type": "uses",
-      "source_ref": "campaign--358b5915-2a63-4406-828f-890558e27a1f",
-      "target_ref": "attack-pattern--bb5a00de-e086-4859-a231-fa793f6797e2"
-    },
-    {
-      "type": "relationship",
-      "id": "relationship--72f02dca-3f7c-4062-81f9-df7173067cdd",
-      "created": "2018-12-07T22:23:19.219Z",
-      "modified": "2018-12-07T22:24:05.001Z",
-      "relationship_type": "uses",
-      "source_ref": "campaign--358b5915-2a63-4406-828f-890558e27a1f",
-      "target_ref": "attack-pattern--9755ecdc-deb0-40e6-af49-713cb0f8ed92"
-    },
-    {
-      "type": "relationship",
       "id": "relationship--e1b5d240-7c94-4006-93d4-eed25e2720ef",
       "created": "2018-08-06T23:33:18.673Z",
       "modified": "2018-08-22T12:38:50.620Z",
       "relationship_type": "uses",
       "source_ref": "campaign--358b5915-2a63-4406-828f-890558e27a1f",
       "target_ref": "attack-pattern--0259baeb-9f63-4c69-bf10-eb038c390688"
-    },
-    {
-      "type": "relationship",
-      "id": "relationship--bb74d862-228f-4c17-b504-c08a9b41b857",
-      "created": "2018-08-06T23:33:18.673Z",
-      "modified": "2018-08-22T12:38:50.620Z",
-      "relationship_type": "uses",
-      "source_ref": "campaign--358b5915-2a63-4406-828f-890558e27a1f",
-      "target_ref": "attack-pattern--43e7dc91-05b2-474c-b9ac-2ed4fe101f4d"
     },
     {
       "type": "relationship",
@@ -1328,18 +695,45 @@
     },
     {
       "type": "relationship",
-      "id": "relationship--358b5915-2a63-4406-828f-890558e27a1f",
-      "created": "2018-08-06T23:33:15.928Z",
-      "modified": "2018-08-06T23:33:15.928Z",
-      "relationship_type": "attributed-to",
+      "id": "relationship--6f1d9554-9c6f-40e0-ba31-713dfb41bd54",
+      "created": "2018-08-06T23:33:18.673Z",
+      "modified": "2018-08-22T12:38:50.620Z",
+      "relationship_type": "uses",
       "source_ref": "campaign--358b5915-2a63-4406-828f-890558e27a1f",
+      "target_ref": "attack-pattern--784ff1bc-1483-41fe-a172-4cd9ae25c06b"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--bb74d862-228f-4c17-b504-c08a9b41b857",
+      "created": "2018-08-06T23:33:18.673Z",
+      "modified": "2018-08-22T12:38:50.620Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--358b5915-2a63-4406-828f-890558e27a1f",
+      "target_ref": "attack-pattern--43e7dc91-05b2-474c-b9ac-2ed4fe101f4d"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--72f02dca-3f7c-4062-81f9-df7173067cdd",
+      "created": "2018-12-07T22:23:19.219Z",
+      "modified": "2018-12-07T22:24:05.001Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--358b5915-2a63-4406-828f-890558e27a1f",
+      "target_ref": "attack-pattern--9755ecdc-deb0-40e6-af49-713cb0f8ed92"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--c671b3a3-2964-40ae-a80a-382b6598ea43",
+      "created": "2018-08-22T12:38:49.553Z",
+      "modified": "2018-08-22T12:38:49.553Z",
+      "relationship_type": "attributed-to",
+      "source_ref": "report--c671b3a3-2964-40ae-a80a-382b6598ea43",
       "target_ref": "intrusion-set--a2e26576-a391-4b84-86fb-ddbe10b7c066"
     },
     {
       "type": "relationship",
       "id": "relationship--56fca983-1cf1-4fd1-bda0-5e170a37ab59",
       "created": "2018-08-06T23:33:15.928Z",
-      "modified": "2018-08-06T23:33:15.928Z",
+      "modified": "2019-04-26T15:00:52.432Z",
       "relationship_type": "uses",
       "source_ref": "campaign--358b5915-2a63-4406-828f-890558e27a1f",
       "target_ref": "attack-pattern--56fca983-1cf1-4fd1-bda0-5e170a37ab59"
@@ -1348,7 +742,7 @@
       "type": "relationship",
       "id": "relationship--6aac77c4-eaf2-4366-8c13-ce50ab951f38",
       "created": "2018-08-06T23:33:15.928Z",
-      "modified": "2018-08-06T23:33:15.928Z",
+      "modified": "2019-04-26T15:00:52.432Z",
       "relationship_type": "uses",
       "source_ref": "campaign--358b5915-2a63-4406-828f-890558e27a1f",
       "target_ref": "attack-pattern--6aac77c4-eaf2-4366-8c13-ce50ab951f38"
@@ -1357,59 +751,59 @@
       "type": "report",
       "id": "report--358b5915-2a63-4406-828f-890558e27a1f",
       "created": "2018-08-06T23:33:15.928Z",
-      "modified": "2018-08-06T23:33:15.928Z",
+      "modified": "2019-04-26T15:00:52.432Z",
       "name": "July 2017",
-      "published": "2018-08-06T23:33:15.928Z",
+      "published": "2019-04-26T15:00:52.432Z",
       "object_refs": [
         "campaign--358b5915-2a63-4406-828f-890558e27a1f",
         "intrusion-set--a2e26576-a391-4b84-86fb-ddbe10b7c066",
-        "indicator--4babc071-6324-41eb-9a33-da8a383b58e3",
         "indicator--4cf4a36e-a159-4ef7-b516-261a5767fcfa",
-        "indicator--3b05b221-6a7f-4f33-b436-913144528e2e",
-        "indicator--e52fdf3a-c319-4217-a6e3-878f8a481f6e",
         "indicator--4bc27531-807d-4dd2-8e78-48883215fc47",
         "indicator--5e7530cd-8c00-4514-a616-5d46a655b89f",
         "indicator--666016c2-cea8-439d-80c6-be7ecba34567",
+        "indicator--3b05b221-6a7f-4f33-b436-913144528e2e",
+        "indicator--e52fdf3a-c319-4217-a6e3-878f8a481f6e",
         "indicator--68c74ff9-0774-485f-929b-138d93a3788a",
         "indicator--80351e52-eb51-4762-95b6-89488ecdf7a1",
+        "indicator--4babc071-6324-41eb-9a33-da8a383b58e3",
         "attack-pattern--7385dfaf-6886-4229-9ecd-6fd678040830",
+        "attack-pattern--bb5a00de-e086-4859-a231-fa793f6797e2",
+        "attack-pattern--4886e3c2-468b-4e26-b7e5-2031d995d13a",
         "attack-pattern--8c32eb4d-805f-4fc5-bf60-c4d476c131b5",
         "attack-pattern--91a3735f-817a-4450-8ed4-f05a0f5c3877",
-        "attack-pattern--784ff1bc-1483-41fe-a172-4cd9ae25c06b",
-        "attack-pattern--4886e3c2-468b-4e26-b7e5-2031d995d13a",
-        "attack-pattern--bb5a00de-e086-4859-a231-fa793f6797e2",
-        "attack-pattern--9755ecdc-deb0-40e6-af49-713cb0f8ed92",
         "attack-pattern--0259baeb-9f63-4c69-bf10-eb038c390688",
-        "attack-pattern--43e7dc91-05b2-474c-b9ac-2ed4fe101f4d",
         "attack-pattern--5a68c603-d7f9-4535-927e-ab56819eaa85",
         "attack-pattern--e3a12395-188d-4051-9a16-ea8e14d07b88",
         "attack-pattern--8f4a33ec-8b1f-4b80-a2f6-642b2e479580",
+        "attack-pattern--784ff1bc-1483-41fe-a172-4cd9ae25c06b",
+        "attack-pattern--43e7dc91-05b2-474c-b9ac-2ed4fe101f4d",
+        "attack-pattern--9755ecdc-deb0-40e6-af49-713cb0f8ed92",
         "attack-pattern--56fca983-1cf1-4fd1-bda0-5e170a37ab59",
         "attack-pattern--6aac77c4-eaf2-4366-8c13-ce50ab951f38",
-        "relationship--a992b9ce-268b-491c-bcb3-e7367ae7abb1",
         "relationship--026c5c75-d173-44e7-ae17-1682cdb405f0",
-        "relationship--055f3613-4172-4c4f-85d4-aad7806a5818",
-        "relationship--d4f7b183-a2c6-4960-8404-d9ab463a290c",
         "relationship--cd0e4abb-a991-4525-b9e7-d7f88f077dfa",
         "relationship--2c1c2f46-68ed-407c-b7f0-61977d5ab63e",
         "relationship--95b74513-3f33-47a8-a197-d4c7919c96cb",
+        "relationship--055f3613-4172-4c4f-85d4-aad7806a5818",
+        "relationship--d4f7b183-a2c6-4960-8404-d9ab463a290c",
         "relationship--81b70f71-e4e6-4517-897c-a52f4af24ca6",
         "relationship--78e7de55-5f44-4fd7-98bb-f04982dd0f90",
+        "relationship--a992b9ce-268b-491c-bcb3-e7367ae7abb1",
         "relationship--4777025f-eb22-48e9-9805-ab0556ef7eec",
         "relationship--b0369713-8b89-4e2c-b334-24ffcb036c35",
         "relationship--36b1beb8-b0ce-44de-964b-db932342cf45",
+        "relationship--83d7d5b6-b741-468b-a249-ae1082b2a6a0",
+        "relationship--65cf5646-e205-4426-9e07-8205cc47cad9",
         "relationship--42f61006-bf9b-4851-8003-6170569dbf49",
         "relationship--3f791290-c982-47ca-8337-4e4ca4c2346b",
-        "relationship--6f1d9554-9c6f-40e0-ba31-713dfb41bd54",
-        "relationship--65cf5646-e205-4426-9e07-8205cc47cad9",
-        "relationship--83d7d5b6-b741-468b-a249-ae1082b2a6a0",
-        "relationship--72f02dca-3f7c-4062-81f9-df7173067cdd",
         "relationship--e1b5d240-7c94-4006-93d4-eed25e2720ef",
-        "relationship--bb74d862-228f-4c17-b504-c08a9b41b857",
         "relationship--3da17325-42db-4b7c-bfac-68e20ea6b0a8",
         "relationship--e35031d8-e715-4b84-a0bb-866816c10ed8",
         "relationship--bd52c747-3f96-4e05-a2e8-1f890f2dd790",
-        "relationship--358b5915-2a63-4406-828f-890558e27a1f",
+        "relationship--6f1d9554-9c6f-40e0-ba31-713dfb41bd54",
+        "relationship--bb74d862-228f-4c17-b504-c08a9b41b857",
+        "relationship--72f02dca-3f7c-4062-81f9-df7173067cdd",
+        "relationship--c671b3a3-2964-40ae-a80a-382b6598ea43",
         "relationship--56fca983-1cf1-4fd1-bda0-5e170a37ab59",
         "relationship--6aac77c4-eaf2-4366-8c13-ce50ab951f38"
       ],
@@ -1421,11 +815,461 @@
       "type": "campaign",
       "id": "campaign--358b5915-2a63-4406-828f-890558e27a1f",
       "created": "2018-08-06T23:33:15.928Z",
-      "modified": "2018-08-06T23:33:15.928Z",
+      "modified": "2019-04-26T15:00:52.432Z",
       "name": "July 2017",
-      "description": " The “Tick” group has conducted cyber espionage attacks against organizations in the Republic of Korea and Japan for several years. The group focuses on companies that have intellectual property or sensitive information like those in the Defense and High-Tech industries. The group is known to use custom malware called Daserf, but also employs multiple commodity and custom tools, exploit vulnerabilities, and use social engineering techniques. ",
+      "description": "The “Tick” group has conducted cyber espionage attacks against organizations in the Republic of Korea and Japan for several years. The group focuses on companies that have intellectual property or sensitive information like those in the Defense and High-Tech industries. The group is known to use custom malware called Daserf, but also employs multiple commodity and custom tools, exploit vulnerabilities, and use social engineering techniques.",
       "first_seen": "2016-11-01",
       "last_seen": "2017-07-01"
+    },
+    {
+      "type": "attack-pattern",
+      "id": "attack-pattern--9422fc14-1c43-410d-ab0f-a709b76c72dc",
+      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "created": "2018-08-03T19:54:02.821Z",
+      "modified": "2019-05-06T20:46:02.744Z",
+      "name": "T1060: Registry Run Keys / Startup Folder",
+      "description": "Adding an entry to the \"run keys\" in the Registry or startup folder will cause the program referenced to be executed when a user logs in. (Citation: Microsoft Run Key) These programs will be executed under the context of the user and will have the account's associated permissions level.\n\nThe following run keys are created by default on Windows systems:\n* <code>HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Run</code>\n* <code>HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\RunOnce</code>\n* <code>HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Run</code>\n* <code>HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\RunOnce</code>\n\nThe <code>HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\RunOnceEx</code> is also available but is not created by default on Windows Vista and newer. Registry run key entries can reference programs directly or list them as a dependency. (Citation: Microsoft RunOnceEx APR 2018) For example, it is possible to load a DLL at logon using a \"Depend\" key with RunOnceEx: <code>reg add HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\RunOnceEx\\0001\\Depend /v 1 /d \"C:\\temp\\evil[.]dll\"</code> (Citation: Oddvar Moe RunOnceEx Mar 2018)\n\nThe following Registry keys can be used to set startup folder items for persistence:\n* <code>HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\User Shell Folders</code>\n* <code>HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders</code>\n* <code>HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders</code>\n* <code>HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\User Shell Folders</code>\n\nAdversaries can use these configuration locations to execute malware, such as remote access tools, to maintain persistence through system reboots. Adversaries may also use [Masquerading](https://attack.mitre.org/techniques/T1036) to make the Registry entries look as if they are associated with legitimate programs.",
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "persistence"
+        },
+        {
+          "kill_chain_name": "lockheed",
+          "phase_name": "installation"
+        }
+      ],
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1060",
+          "external_id": "T1060"
+        },
+        {
+          "source_name": "capec",
+          "url": "https://capec.mitre.org/data/definitions/270.html",
+          "external_id": "CAPEC-270"
+        },
+        {
+          "source_name": "Microsoft Run Key",
+          "url": "http://msdn.microsoft.com/en-us/library/aa376977",
+          "description": "Microsoft. (n.d.). Run and RunOnce Registry Keys. Retrieved November 12, 2014."
+        },
+        {
+          "source_name": "Microsoft RunOnceEx APR 2018",
+          "url": "https://support.microsoft.com/help/310593/description-of-the-runonceex-registry-key",
+          "description": "Microsoft. (2018, August 20). Description of the RunOnceEx Registry Key. Retrieved June 29, 2018."
+        },
+        {
+          "source_name": "Oddvar Moe RunOnceEx Mar 2018",
+          "url": "https://oddvar.moe/2018/03/21/persistence-using-runonceex-hidden-from-autoruns-exe/",
+          "description": "Moe, O. (2018, March 21). Persistence using RunOnceEx - Hidden from Autoruns.exe. Retrieved June 29, 2018."
+        },
+        {
+          "source_name": "TechNet Autoruns",
+          "url": "https://technet.microsoft.com/en-us/sysinternals/bb963902",
+          "description": "Russinovich, M. (2016, January 4). Autoruns for Windows v13.51. Retrieved June 6, 2016."
+        }
+      ],
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "id": "attack-pattern--eacadff4-164b-451c-bacc-7b29ebfd0c3f",
+      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "created": "2018-08-03T19:54:02.821Z",
+      "modified": "2018-12-17T14:32:30.615Z",
+      "name": "T1355: Create infected removable media",
+      "description": "Use of removable media as part of the Launch phase requires an adversary to determine type, format, and content of the media and associated malware. (Citation: BadUSB)",
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-pre-attack",
+          "phase_name": "build-capabilities"
+        },
+        {
+          "kill_chain_name": "lockheed",
+          "phase_name": "weaponization"
+        }
+      ],
+      "external_references": [
+        {
+          "source_name": "mitre-pre-attack",
+          "url": "https://attack.mitre.org/techniques/T1355",
+          "external_id": "T1355"
+        }
+      ],
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "id": "attack-pattern--348f1eef-964b-4eb6-bb53-69b3dcb0c643",
+      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "created": "2018-08-03T19:54:02.821Z",
+      "modified": "2018-12-17T14:33:37.528Z",
+      "name": "T1120: Peripheral Device Discovery",
+      "description": "Adversaries may attempt to gather information about attached peripheral devices and components connected to a computer system. The information may be used to enhance their awareness of the system and network environment or may be used for further actions.",
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "discovery"
+        },
+        {
+          "kill_chain_name": "lockheed",
+          "phase_name": "act-on-objectives"
+        }
+      ],
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1120",
+          "external_id": "T1120"
+        }
+      ],
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "id": "attack-pattern--3b744087-9945-4a6f-91e8-9dbceda417a4",
+      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "created": "2018-08-03T19:54:02.821Z",
+      "modified": "2018-12-17T14:32:38.938Z",
+      "name": "T1091: Replication Through Removable Media",
+      "description": "Adversaries may move onto systems, possibly those on disconnected or air-gapped networks, by copying malware to removable media and taking advantage of Autorun features when the media is inserted into a system and executes. In the case of Lateral Movement, this may occur through modification of executable files stored on removable media or by copying malware and renaming it to look like a legitimate file to trick users into executing it on a separate system. In the case of Initial Access, this may occur through manual manipulation of the media, modification of systems used to initially format the media, or modification to the media's firmware itself.",
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "lateral-movement"
+        },
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "initial-access"
+        },
+        {
+          "kill_chain_name": "lockheed",
+          "phase_name": "delivery"
+        },
+        {
+          "kill_chain_name": "lockheed",
+          "phase_name": "act-on-objectives"
+        }
+      ],
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1091",
+          "external_id": "T1091"
+        }
+      ],
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "id": "attack-pattern--354a7f88-63fb-41b5-a801-ce3b377b36f1",
+      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "created": "2018-08-03T19:54:02.821Z",
+      "modified": "2018-12-17T14:32:40.713Z",
+      "name": "T1082: System Information Discovery",
+      "description": "An adversary may attempt to get detailed information about the operating system and hardware, including version, patches, hotfixes, service packs, and architecture.\n\n### Windows\n\nExample commands and utilities that obtain this information include <code>ver</code>, [Systeminfo](https://attack.mitre.org/software/S0096), and <code>dir</code> within [cmd](https://attack.mitre.org/software/S0106) for identifying information based on present files and directories.\n\n### Mac\n\nOn Mac, the <code>systemsetup</code> command gives a detailed breakdown of the system, but it requires administrative privileges. Additionally, the <code>system_profiler</code> gives a very detailed breakdown of configurations, firewall rules, mounted volumes, hardware, and many other things without needing elevated permissions.",
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "discovery"
+        },
+        {
+          "kill_chain_name": "lockheed",
+          "phase_name": "act-on-objectives"
+        }
+      ],
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1082",
+          "external_id": "T1082"
+        },
+        {
+          "source_name": "capec",
+          "url": "https://capec.mitre.org/data/definitions/311.html",
+          "external_id": "CAPEC-311"
+        }
+      ],
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "id": "attack-pattern--fddd81e9-dd3d-477e-9773-4fb8ae227234",
+      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "created": "2018-08-03T19:54:02.821Z",
+      "modified": "2018-12-17T14:32:48.218Z",
+      "name": "T1345: Create custom payloads",
+      "description": "A payload is the part of the malware which performs a malicious action. The adversary may create custom payloads when none exist with the needed capability or when targeting a specific environment. (Citation: APT1)",
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-pre-attack",
+          "phase_name": "build-capabilities"
+        },
+        {
+          "kill_chain_name": "lockheed",
+          "phase_name": "weaponization"
+        }
+      ],
+      "external_references": [
+        {
+          "source_name": "mitre-pre-attack",
+          "url": "https://attack.mitre.org/techniques/T1345",
+          "external_id": "T1345"
+        }
+      ],
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ]
+    },
+    {
+      "type": "indicator",
+      "id": "indicator--feaf907a-4e95-4946-b199-a104c6c58127",
+      "created": "2018-08-06T23:33:15.928Z",
+      "modified": "2018-08-06T23:33:15.928Z",
+      "name": "[windows_registry_key:key = 'HKLM\\\\Software\\\\Microsof\\\\Windows\\\\CurrentVersion\\\\run\\\\”xml” = %ProgramFiles%\\\\Windows NT\\\\Accessories\\\\Microsoft\\\\msxml.exe']",
+      "pattern": "[windows_registry_key:key = 'HKLM\\\\Software\\\\Microsof\\\\Windows\\\\CurrentVersion\\\\run\\\\”xml” = %ProgramFiles%\\\\Windows NT\\\\Accessories\\\\Microsoft\\\\msxml.exe']",
+      "valid_from": "2018-08-06T23:33:15.928Z",
+      "labels": [
+        "malicious-activity"
+      ]
+    },
+    {
+      "type": "indicator",
+      "id": "indicator--4213f451-f0dc-430e-b12e-eccfb541403f",
+      "created": "2018-02-16T04:56:28.441Z",
+      "modified": "2018-08-06T23:33:17.741Z",
+      "name": "31aea8630d5d2fcbb37a8e72fe4e096d0f2d8f05e03234645c69d7e8b59bb0e8",
+      "pattern": "[file:hashes.'SHA-256' = '31aea8630d5d2fcbb37a8e72fe4e096d0f2d8f05e03234645c69d7e8b59bb0e8']",
+      "valid_from": "2018-02-16T04:56:28.441Z",
+      "labels": [
+        "malicious-activity"
+      ]
+    },
+    {
+      "type": "indicator",
+      "id": "indicator--7a46bd29-dd8f-4cdc-98ab-5d7a84c9729d",
+      "created": "2018-08-06T23:33:15.928Z",
+      "modified": "2018-08-06T23:33:15.928Z",
+      "name": "[windows_registry_key:key = 'HKCU\\\\Software\\\\Microsof\\\\Windows\\\\CurrentVersion\\\\run\\\\”xml” = %UserProfile%\\\\Applications\\\\Microsoft\\\\msxml.exe']",
+      "pattern": "[windows_registry_key:key = 'HKCU\\\\Software\\\\Microsof\\\\Windows\\\\CurrentVersion\\\\run\\\\”xml” = %UserProfile%\\\\Applications\\\\Microsoft\\\\msxml.exe']",
+      "valid_from": "2018-08-06T23:33:15.928Z",
+      "labels": [
+        "malicious-activity"
+      ]
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--4a879996-aab1-419a-9390-62e2cdb7a388",
+      "created": "2018-08-06T23:33:18.673Z",
+      "modified": "2018-08-22T12:38:50.620Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--feaf907a-4e95-4946-b199-a104c6c58127",
+      "target_ref": "campaign--be7cda7f-8a8a-4bf6-9ba3-5c713664ecdf"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--ad627a9d-a9d2-465a-9624-f8cd7cd36318",
+      "created": "2018-08-06T23:33:18.673Z",
+      "modified": "2018-08-22T12:38:50.620Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--4213f451-f0dc-430e-b12e-eccfb541403f",
+      "target_ref": "campaign--be7cda7f-8a8a-4bf6-9ba3-5c713664ecdf"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--c17a2549-7977-4e7b-a997-a925536e83bd",
+      "created": "2018-08-06T23:33:18.673Z",
+      "modified": "2018-08-22T12:38:50.620Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--7a46bd29-dd8f-4cdc-98ab-5d7a84c9729d",
+      "target_ref": "campaign--be7cda7f-8a8a-4bf6-9ba3-5c713664ecdf"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--94f9538e-afa9-480a-b55b-bb412c0ee9c3",
+      "created": "2018-08-06T23:33:18.673Z",
+      "modified": "2018-08-06T23:33:18.673Z",
+      "relationship_type": "uses",
+      "description": "HKLM\\Software\\Microsof\\Windows\\CurrentVersion\\run\\”xml” = %ProgramFiles%\\Windows NT\\Accessories\\Microsoft\\msxml.exe",
+      "source_ref": "indicator--feaf907a-4e95-4946-b199-a104c6c58127",
+      "target_ref": "attack-pattern--9422fc14-1c43-410d-ab0f-a709b76c72dc"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--09328ed2-c082-452e-b9d2-8c4312176e70",
+      "created": "2018-08-06T23:33:18.673Z",
+      "modified": "2018-08-06T23:33:18.673Z",
+      "relationship_type": "uses",
+      "description": "Tick group compromised South Korean certified USB drives and loaded malicious files onto an unknown number of them. ",
+      "source_ref": "indicator--4213f451-f0dc-430e-b12e-eccfb541403f",
+      "target_ref": "attack-pattern--eacadff4-164b-451c-bacc-7b29ebfd0c3f"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--9994d904-24b3-4cfc-927c-7e36d520e64d",
+      "created": "2018-08-06T23:33:18.673Z",
+      "modified": "2018-08-06T23:33:18.673Z",
+      "relationship_type": "uses",
+      "description": "SymonLoader detects the targeted type of secure USB drive, and attempts to access the storage through the device driver corresponding to the secure USB. ",
+      "source_ref": "indicator--4213f451-f0dc-430e-b12e-eccfb541403f",
+      "target_ref": "attack-pattern--348f1eef-964b-4eb6-bb53-69b3dcb0c643"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--a20dc5e1-afbe-4a01-b4c8-324ce334833b",
+      "created": "2018-08-06T23:33:18.673Z",
+      "modified": "2018-08-06T23:33:18.673Z",
+      "relationship_type": "uses",
+      "description": "After SymonLoader detects the targeted type of secure USB drive, it accesses a predifined location of the storage on the USB and extracts an unknown PE File. ",
+      "source_ref": "indicator--4213f451-f0dc-430e-b12e-eccfb541403f",
+      "target_ref": "attack-pattern--3b744087-9945-4a6f-91e8-9dbceda417a4"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--75456c42-ddb2-448f-8212-81739b271c83",
+      "created": "2018-08-06T23:33:18.673Z",
+      "modified": "2018-08-06T23:33:18.673Z",
+      "relationship_type": "uses",
+      "description": " Malware on this attack detects system OS. ",
+      "source_ref": "indicator--4213f451-f0dc-430e-b12e-eccfb541403f",
+      "target_ref": "attack-pattern--354a7f88-63fb-41b5-a801-ce3b377b36f1"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--f77d4c22-b403-4e43-87c4-42e5d8f49b9a",
+      "created": "2018-12-04T16:12:04.901Z",
+      "modified": "2018-12-04T16:12:04.901Z",
+      "relationship_type": "uses",
+      "description": "Tick group created Symonloader that attacks only Windows XP or Windows Server 2003. ",
+      "source_ref": "indicator--4213f451-f0dc-430e-b12e-eccfb541403f",
+      "target_ref": "attack-pattern--fddd81e9-dd3d-477e-9773-4fb8ae227234"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--de86d431-063a-4d09-874b-04487319fc3c",
+      "created": "2018-08-06T23:33:18.673Z",
+      "modified": "2018-08-06T23:33:18.673Z",
+      "relationship_type": "uses",
+      "description": "HKCU\\Software\\Microsof\\Windows\\CurrentVersion\\run\\”xml” = %UserProfile%\\Applications\\Microsoft\\msxml.exe",
+      "source_ref": "indicator--7a46bd29-dd8f-4cdc-98ab-5d7a84c9729d",
+      "target_ref": "attack-pattern--9422fc14-1c43-410d-ab0f-a709b76c72dc"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--9422fc14-1c43-410d-ab0f-a709b76c72dc",
+      "created": "2018-08-06T23:33:15.928Z",
+      "modified": "2019-04-26T15:02:46.486Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--be7cda7f-8a8a-4bf6-9ba3-5c713664ecdf",
+      "target_ref": "attack-pattern--9422fc14-1c43-410d-ab0f-a709b76c72dc"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--eacadff4-164b-451c-bacc-7b29ebfd0c3f",
+      "created": "2018-08-06T23:33:15.928Z",
+      "modified": "2019-04-26T15:02:46.486Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--be7cda7f-8a8a-4bf6-9ba3-5c713664ecdf",
+      "target_ref": "attack-pattern--eacadff4-164b-451c-bacc-7b29ebfd0c3f"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--348f1eef-964b-4eb6-bb53-69b3dcb0c643",
+      "created": "2018-08-06T23:33:15.928Z",
+      "modified": "2019-04-26T15:02:46.486Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--be7cda7f-8a8a-4bf6-9ba3-5c713664ecdf",
+      "target_ref": "attack-pattern--348f1eef-964b-4eb6-bb53-69b3dcb0c643"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--3b744087-9945-4a6f-91e8-9dbceda417a4",
+      "created": "2018-08-06T23:33:15.928Z",
+      "modified": "2019-04-26T15:02:46.486Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--be7cda7f-8a8a-4bf6-9ba3-5c713664ecdf",
+      "target_ref": "attack-pattern--3b744087-9945-4a6f-91e8-9dbceda417a4"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--354a7f88-63fb-41b5-a801-ce3b377b36f1",
+      "created": "2018-08-06T23:33:15.928Z",
+      "modified": "2019-04-26T15:02:46.486Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--be7cda7f-8a8a-4bf6-9ba3-5c713664ecdf",
+      "target_ref": "attack-pattern--354a7f88-63fb-41b5-a801-ce3b377b36f1"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--fddd81e9-dd3d-477e-9773-4fb8ae227234",
+      "created": "2018-08-06T23:33:15.928Z",
+      "modified": "2019-04-26T15:02:46.486Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--be7cda7f-8a8a-4bf6-9ba3-5c713664ecdf",
+      "target_ref": "attack-pattern--fddd81e9-dd3d-477e-9773-4fb8ae227234"
+    },
+    {
+      "type": "report",
+      "id": "report--be7cda7f-8a8a-4bf6-9ba3-5c713664ecdf",
+      "created": "2018-08-06T23:33:15.928Z",
+      "modified": "2019-04-26T15:02:46.486Z",
+      "name": "January 2018",
+      "published": "2019-04-26T15:02:46.486Z",
+      "object_refs": [
+        "campaign--be7cda7f-8a8a-4bf6-9ba3-5c713664ecdf",
+        "intrusion-set--a2e26576-a391-4b84-86fb-ddbe10b7c066",
+        "indicator--feaf907a-4e95-4946-b199-a104c6c58127",
+        "indicator--4213f451-f0dc-430e-b12e-eccfb541403f",
+        "indicator--7a46bd29-dd8f-4cdc-98ab-5d7a84c9729d",
+        "attack-pattern--9422fc14-1c43-410d-ab0f-a709b76c72dc",
+        "attack-pattern--eacadff4-164b-451c-bacc-7b29ebfd0c3f",
+        "attack-pattern--348f1eef-964b-4eb6-bb53-69b3dcb0c643",
+        "attack-pattern--3b744087-9945-4a6f-91e8-9dbceda417a4",
+        "attack-pattern--354a7f88-63fb-41b5-a801-ce3b377b36f1",
+        "attack-pattern--fddd81e9-dd3d-477e-9773-4fb8ae227234",
+        "relationship--4a879996-aab1-419a-9390-62e2cdb7a388",
+        "relationship--ad627a9d-a9d2-465a-9624-f8cd7cd36318",
+        "relationship--c17a2549-7977-4e7b-a997-a925536e83bd",
+        "relationship--94f9538e-afa9-480a-b55b-bb412c0ee9c3",
+        "relationship--09328ed2-c082-452e-b9d2-8c4312176e70",
+        "relationship--9994d904-24b3-4cfc-927c-7e36d520e64d",
+        "relationship--a20dc5e1-afbe-4a01-b4c8-324ce334833b",
+        "relationship--75456c42-ddb2-448f-8212-81739b271c83",
+        "relationship--f77d4c22-b403-4e43-87c4-42e5d8f49b9a",
+        "relationship--de86d431-063a-4d09-874b-04487319fc3c",
+        "relationship--c671b3a3-2964-40ae-a80a-382b6598ea43",
+        "relationship--9422fc14-1c43-410d-ab0f-a709b76c72dc",
+        "relationship--eacadff4-164b-451c-bacc-7b29ebfd0c3f",
+        "relationship--348f1eef-964b-4eb6-bb53-69b3dcb0c643",
+        "relationship--3b744087-9945-4a6f-91e8-9dbceda417a4",
+        "relationship--354a7f88-63fb-41b5-a801-ce3b377b36f1",
+        "relationship--fddd81e9-dd3d-477e-9773-4fb8ae227234"
+      ],
+      "labels": [
+        "campaign"
+      ]
+    },
+    {
+      "type": "campaign",
+      "id": "campaign--be7cda7f-8a8a-4bf6-9ba3-5c713664ecdf",
+      "created": "2018-08-06T23:33:15.928Z",
+      "modified": "2019-04-26T15:02:46.486Z",
+      "name": "January 2018",
+      "description": "\nTick group targeted a specific type of secure USB drive created by a South Korean defense company. The USB drive and its management system have various features to follow security guidelines in South Korea.\nThe weaponization of a secure USB drive is an uncommon attack technique and likely done in an effort to spread to air-gapped systems, which are systems that do not connect to the public internet. In addition, our research shows that the malware used in these attacks will only try to infect systems running Microsoft Windows XP or Windows Server 2003. This is despite the fact that the malware appears to have been created when newer versions of Windows software were available. This would seem to indicate an intentional targeting of older, out-of-support versions of Microsoft Windows installed on systems with no internet connectivity. Air-gapped systems are common practice in many countries for government, military, and defense contractors, as well as other industry verticals.\n\n\nhttps://researchcenter.paloaltonetworks.com/2018/06/unit42-tick-group-weaponized-secure-usb-drives-target-air-gapped-critical-systems/",
+      "first_seen": "2018-01-01",
+      "last_seen": "2018-01-12"
     }
   ]
 }
