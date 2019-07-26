@@ -23,33 +23,53 @@ def process_playbook(pb, bundle):
         oid = o['id']
         pattern = o.get('pattern', None)
         if pattern:
-            validate_pattern(pb, oid, pattern)
+            try:
+                validate_pattern(pb, oid, pattern)
+            except Exception as e:
+                print '{} - {}\nerror validating: {}\n{}\n'.format(pb, oid, pattern, e)
         else:
             print '{} - {} has no pattern'.format(pb, oid)
 
 
+def process_file(pb, fp):
+    with open(fp, 'r') as raw_json:
+        try:
+            bundle = json.load(raw_json)
+
+            if bundle.get('type', '') == 'bundle' and bundle.get('spec_version', '') == '2.0':
+                process_playbook(pb, bundle)
+            else:
+                print '{} - no valid stix 2.0 bundle found'.format(pb)
+        except Exception as e:
+            print '{} - could not parse json from file\n{}'.format(pb, e)
+
+
 def main():
     if len(sys.argv) == 1:
-        p = os.path.join('.', 'playbook_json')
+        p = os.path.join('.', 'playbooks')
         pb_list = sorted([f for f in os.listdir(p) if os.path.isfile(os.path.join(p, f)) and f.endswith('.json')])
 
         for pb in pb_list:
             fp = os.path.join(p, pb)
-            with open(fp, 'r') as raw_json:
-                try:
-                    bundle = json.load(raw_json)
+            process_file(pb, fp)
 
-                    if bundle.get('type', '') == 'bundle' and bundle.get('spec_version', '') == '2.0':
-                        process_playbook(pb, bundle)
-                    else:
-                        print '{} - no valid stix 2.0 bundle found'.format(pb)
-                except Exception as e:
-                    print '{} - could not parse json from file\n{}'.format(pb, e)
+        print '\n\nprocessed {} files.'.format(len(pb_list))
     elif len(sys.argv) == 2:
-        validate_pattern('-', '-', sys.argv[1])
+        if sys.argv[1] in ["p", "'p'", "P", "'P'"]:
+            # Use raw_input to avoid issues with bash or other shells escaping characters
+            pattern = raw_input('--> ')
+            print 'validating: {}'.format(pattern)
+            validate_pattern('-', '-', pattern)
+        else:
+            pb = os.path.basename(sys.argv[1])
+            fp = sys.argv[1]
+            process_file(pb, fp)
     else:
-        print 'error {} args given - use 0 args (process files) or 1 arg (process pattern)'.format(len(sys.argv))
+        usage = "error {} args given - use 0 args (process playbooks) or " \
+                "1 arg ('p' - process pattern, or './path/to/playbook.json' - process playbook)".format(len(sys.argv))
+        print usage
 
 
 if __name__ == '__main__':
+    # A quick script for debugging STIX 2.0 patterns or validating Playbooks
     main()
