@@ -1,0 +1,684 @@
+{
+  "type": "bundle",
+  "id": "bundle--0e80709c-a2c8-4b54-9769-562f1d0405ef",
+  "spec_version": "2.0",
+  "objects": [
+    {
+      "type": "report",
+      "id": "report--0e80709c-a2c8-4b54-9769-562f1d0405ef",
+      "created": "2019-05-01T15:51:04.377Z",
+      "modified": "2019-07-25T12:33:21.155Z",
+      "name": "[Playbook] Th3Bug",
+      "description": "Threat Group focusing on Energy, Chemical Industry, Healthcare and Pharma industries. Nitro is known for targeted spear phishing campaigns and using Poison Ivy malware. ",
+      "published": "2019-07-25T12:33:21.155Z",
+      "object_refs": [
+        "intrusion-set--90ba5c1f-2704-487c-8da9-523fcd023d5a",
+        "report--352e36e2-33ad-4065-a080-f13778ce9593"
+      ],
+      "labels": [
+        "intrusion-set"
+      ]
+    },
+    {
+      "type": "intrusion-set",
+      "id": "intrusion-set--90ba5c1f-2704-487c-8da9-523fcd023d5a",
+      "created": "2019-05-01T15:51:07.709Z",
+      "modified": "2019-07-25T12:33:21.155Z",
+      "name": "[Playbook] Th3Bug"
+    },
+    {
+      "type": "attack-pattern",
+      "id": "attack-pattern--4900fabf-1142-4c1f-92f5-0b590e049077",
+      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "created": "2018-08-03T19:54:02.821Z",
+      "modified": "2018-12-17T14:34:49.443Z",
+      "name": "T1312: Compromise 3rd party infrastructure to support delivery",
+      "description": "Instead of buying, leasing, or renting infrastructure an adversary may compromise infrastructure and use it for some or all of the attack cycle. (Citation: WateringHole2014) (Citation: FireEye Operation SnowMan)",
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-pre-attack",
+          "phase_name": "adversary-opsec"
+        },
+        {
+          "kill_chain_name": "lockheed",
+          "phase_name": "weaponization"
+        }
+      ],
+      "external_references": [
+        {
+          "source_name": "mitre-pre-attack",
+          "url": "https://attack.mitre.org/techniques/T1312",
+          "external_id": "T1312"
+        }
+      ],
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "id": "attack-pattern--2b9a666e-bd59-4f67-9031-ed41b428e04a",
+      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "created": "2018-08-03T19:54:02.821Z",
+      "modified": "2018-12-17T14:34:07.872Z",
+      "name": "T1266: Acquire OSINT data sets and information",
+      "description": "Open source intelligence (OSINT) provides free, readily available information about a target while providing the target no indication they are of interest.  Such information can assist an adversary in crafting a successful approach for compromise. (Citation: RSA-APTRecon)",
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-pre-attack",
+          "phase_name": "people-information-gathering"
+        },
+        {
+          "kill_chain_name": "lockheed",
+          "phase_name": "recon"
+        }
+      ],
+      "external_references": [
+        {
+          "source_name": "mitre-pre-attack",
+          "url": "https://attack.mitre.org/techniques/T1266",
+          "external_id": "T1266"
+        }
+      ],
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "id": "attack-pattern--d742a578-d70e-4d0e-96a6-02a9c30204e6",
+      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "created": "2018-12-17T14:33:52.372Z",
+      "modified": "2019-05-06T20:46:00.944Z",
+      "name": "T1189: Drive-by Compromise",
+      "description": "A drive-by compromise is when an adversary gains access to a system through a user visiting a website over the normal course of browsing. With this technique, the user's web browser is targeted for exploitation.\n\nMultiple ways of delivering exploit code to a browser exist, including:\n\n* A legitimate website is compromised where adversaries have injected some form of malicious code such as JavaScript, iFrames, cross-site scripting.\n* Malicious ads are paid for and served through legitimate ad providers.\n* Built-in web application interfaces are leveraged for the insertion of any other kind of object that can be used to display web content or contain a script that executes on the visiting client (e.g. forum posts, comments, and other user controllable web content).\n\nOften the website used by an adversary is one visited by a specific community, such as government, a particular industry, or region, where the goal is to compromise a specific user or set of users based on a shared interest. This kind of targeted attack is referred to a strategic web compromise or watering hole attack. There are several known examples of this occurring. (Citation: Shadowserver Strategic Web Compromise)\n\nTypical drive-by compromise process:\n\n1. A user visits a website that is used to host the adversary controlled content.\n2. Scripts automatically execute, typically searching versions of the browser and plugins for a potentially vulnerable version. \n    * The user may be required to assist in this process by enabling scripting or active website components and ignoring warning dialog boxes.\n3. Upon finding a vulnerable version, exploit code is delivered to the browser.\n4. If exploitation is successful, then it will give the adversary code execution on the user's system unless other protections are in place.\n    * In some cases a second visit to the website after the initial scan is required before exploit code is delivered.\n\nUnlike [Exploit Public-Facing Application](https://attack.mitre.org/techniques/T1190), the focus of this technique is to exploit software on a client endpoint upon visiting a website. This will commonly give an adversary access to systems on the internal network instead of external systems that may be in a DMZ.",
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "initial-access"
+        },
+        {
+          "kill_chain_name": "lockheed",
+          "phase_name": "delivery"
+        }
+      ],
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1189",
+          "external_id": "T1189"
+        },
+        {
+          "source_name": "Shadowserver Strategic Web Compromise",
+          "url": "http://blog.shadowserver.org/2012/05/15/cyber-espionage-strategic-web-compromises-trusted-websites-serving-dangerous-results/",
+          "description": "Adair, S., Moran, N. (2012, May 15). Cyber Espionage & Strategic Web Compromises – Trusted Websites Serving Dangerous Results. Retrieved March 13, 2018."
+        }
+      ],
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "id": "attack-pattern--42e8de7b-37b2-4258-905a-6897815e58e0",
+      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "created": "2018-08-03T19:54:02.821Z",
+      "modified": "2019-05-06T20:45:57.041Z",
+      "name": "T1036: Masquerading",
+      "description": "Masquerading occurs when the name or location of an executable, legitimate or malicious, is manipulated or abused for the sake of evading defenses and observation. Several different variations of this technique have been observed.\n\nOne variant is for an executable to be placed in a commonly trusted directory or given the name of a legitimate, trusted program. Alternatively, the filename given may be a close approximation of legitimate programs or something innocuous. An example of this is when a common system utility or program is moved and renamed to avoid detection based on its usage.(Citation: FireEye APT10 Sept 2018) This is done to bypass tools that trust executables by relying on file name or path, as well as to deceive defenders and system administrators into thinking a file is benign by associating the name with something that is thought to be legitimate.\n\nA third variant uses the right-to-left override (RTLO or RLO) character (U+202E) as a means of tricking a user into executing what they think is a benign file type but is actually executable code. RTLO is a non-printing character that causes the text that follows it to be displayed in reverse.(Citation: Infosecinstitute RTLO Technique) For example, a Windows screensaver file named <code>March 25 \\u202Excod.scr</code> will display as <code>March 25 rcs.docx</code>. A JavaScript file named <code>photo_high_re\\u202Egnp.js</code> will be displayed as <code>photo_high_resj.png</code>. A common use of this technique is with spearphishing attachments since it can trick both end users and defenders if they are not aware of how their tools display and render the RTLO character. Use of the RTLO character has been seen in many targeted intrusion attempts and criminal activity.(Citation: Trend Micro PLEAD RTLO)(Citation: Kaspersky RTLO Cyber Crime) RTLO can be used in the Windows Registry as well, where regedit.exe displays the reversed characters but the command line tool reg.exe does not by default. \n\n### Windows\nIn another variation of this technique, an adversary may use a renamed copy of a legitimate utility, such as rundll32.exe. (Citation: Endgame Masquerade Ball) An alternative case occurs when a legitimate utility is moved to a different directory and also renamed to avoid detections based on system utilities executing from non-standard paths. (Citation: F-Secure CozyDuke)\n\nAn example of abuse of trusted locations in Windows would be the <code>C:\\Windows\\System32</code> directory. Examples of trusted binary names that can be given to malicious binares include \"explorer.exe\" and \"svchost.exe\".\n\n### Linux\nAnother variation of this technique includes malicious binaries changing the name of their running process to that of a trusted or benign process, after they have been launched as opposed to before. (Citation: Remaiten)\n\nAn example of abuse of trusted locations in Linux  would be the <code>/bin</code> directory. Examples of trusted binary names that can be given to malicious binares include \"rsyncd\" and \"dbus-inotifier\". (Citation: Fysbis Palo Alto Analysis)  (Citation: Fysbis Dr Web Analysis)",
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "defense-evasion"
+        },
+        {
+          "kill_chain_name": "lockheed",
+          "phase_name": "installation"
+        }
+      ],
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1036",
+          "external_id": "T1036"
+        },
+        {
+          "source_name": "FireEye APT10 Sept 2018",
+          "url": "https://www.fireeye.com/blog/threat-research/2018/09/apt10-targeting-japanese-corporations-using-updated-ttps.html",
+          "description": "Matsuda, A., Muhammad I. (2018, September 13). APT10 Targeting Japanese Corporations Using Updated TTPs. Retrieved September 17, 2018."
+        },
+        {
+          "source_name": "Infosecinstitute RTLO Technique",
+          "url": "https://resources.infosecinstitute.com/spoof-using-right-to-left-override-rtlo-technique-2/",
+          "description": "Security Ninja. (2015, April 16). Spoof Using Right to Left Override (RTLO) Technique. Retrieved April 22, 2019."
+        },
+        {
+          "source_name": "Trend Micro PLEAD RTLO",
+          "url": "https://blog.trendmicro.com/trendlabs-security-intelligence/plead-targeted-attacks-against-taiwanese-government-agencies-2/",
+          "description": "Alintanahin, K.. (2014, May 23). PLEAD Targeted Attacks Against Taiwanese Government Agencies. Retrieved April 22, 2019."
+        },
+        {
+          "source_name": "Kaspersky RTLO Cyber Crime",
+          "url": "https://securelist.com/zero-day-vulnerability-in-telegram/83800/",
+          "description": "Firsh, A.. (2018, February 13). Zero-day vulnerability in Telegram - Cybercriminals exploited Telegram flaw to launch multipurpose attacks. Retrieved April 22, 2019."
+        },
+        {
+          "source_name": "Endgame Masquerade Ball",
+          "url": "https://www.endgame.com/blog/how-hunt-masquerade-ball",
+          "description": "Ewing, P. (2016, October 31). How to Hunt: The Masquerade Ball. Retrieved October 31, 2016."
+        },
+        {
+          "source_name": "F-Secure CozyDuke",
+          "url": "https://www.f-secure.com/documents/996508/1030745/CozyDuke",
+          "description": "F-Secure Labs. (2015, April 22). CozyDuke: Malware Analysis. Retrieved December 10, 2015."
+        },
+        {
+          "source_name": "Remaiten",
+          "url": "https://www.welivesecurity.com/2016/03/30/meet-remaiten-a-linux-bot-on-steroids-targeting-routers-and-potentially-other-iot-devices/",
+          "description": "Michal Malik AND Marc-Etienne M.Léveillé. (2016, March 30). Meet Remaiten – a Linux bot on steroids targeting routers and potentially other IoT devices. Retrieved September 7, 2017."
+        },
+        {
+          "source_name": "Fysbis Palo Alto Analysis",
+          "url": "https://researchcenter.paloaltonetworks.com/2016/02/a-look-into-fysbis-sofacys-linux-backdoor/",
+          "description": "Bryan Lee and Rob Downs. (2016, February 12). A Look Into Fysbis: Sofacy’s Linux Backdoor. Retrieved September 10, 2017."
+        },
+        {
+          "source_name": "Fysbis Dr Web Analysis",
+          "url": "https://vms.drweb.com/virus/?i=4276269",
+          "description": "Doctor Web. (2014, November 21). Linux.BackDoor.Fysbis.1. Retrieved December 7, 2017."
+        },
+        {
+          "source_name": "Twitter ItsReallyNick Masquerading Update",
+          "url": "https://twitter.com/ItsReallyNick/status/1055321652777619457",
+          "description": "Carr, N.. (2018, October 25). Nick Carr Status Update Masquerading. Retrieved April 22, 2019."
+        }
+      ],
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "id": "attack-pattern--e6919abc-99f9-4c6c-95a5-14761e7b2add",
+      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "created": "2018-08-03T19:54:02.821Z",
+      "modified": "2018-12-17T14:32:23.644Z",
+      "name": "T1105: Remote File Copy",
+      "description": "Files may be copied from one system to another to stage adversary tools or other files over the course of an operation. Files may be copied from an external adversary-controlled system through the Command and Control channel to bring tools into the victim network or through alternate protocols with another tool such as [FTP](https://attack.mitre.org/software/S0095). Files can also be copied over on Mac and Linux with native tools like scp, rsync, and sftp.\n\nAdversaries may also copy files laterally between internal victim systems to support Lateral Movement with remote Execution using inherent file sharing protocols such as file sharing over SMB to connected network shares or with authenticated connections with [Windows Admin Shares](https://attack.mitre.org/techniques/T1077) or [Remote Desktop Protocol](https://attack.mitre.org/techniques/T1076).",
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "command-and-control"
+        },
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "lateral-movement"
+        },
+        {
+          "kill_chain_name": "lockheed",
+          "phase_name": "command-and-control"
+        },
+        {
+          "kill_chain_name": "lockheed",
+          "phase_name": "act-on-objectives"
+        }
+      ],
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1105",
+          "external_id": "T1105"
+        },
+        {
+          "source_name": "University of Birmingham C2",
+          "url": "https://arxiv.org/ftp/arxiv/papers/1408/1408.1136.pdf",
+          "description": "Gardiner, J.,  Cova, M., Nagaraja, S. (2014, February). Command & Control Understanding, Denying and Detecting. Retrieved April 20, 2016."
+        }
+      ],
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ]
+    },
+    {
+      "type": "indicator",
+      "id": "indicator--81bf4b2a-4cbf-4a01-bab1-8cea8ac405c5",
+      "created": "2019-05-07T17:42:38.059Z",
+      "modified": "2019-07-25T12:33:21.155Z",
+      "name": "140.112.158 .132/phpmyadmin/test/AppletLow.jar",
+      "pattern": "[url:value = '140.112.158 .132/phpmyadmin/test/AppletLow.jar']",
+      "valid_from": "2019-05-07T17:42:38.059Z",
+      "labels": [
+        "malicious-activity"
+      ]
+    },
+    {
+      "type": "indicator",
+      "id": "indicator--562e634f-b0db-4186-877c-f22561788478",
+      "created": "2019-05-07T17:39:17.214Z",
+      "modified": "2019-07-25T12:33:21.155Z",
+      "name": "www.npec.com.tw/flash/diff.exe",
+      "pattern": "[url:value = 'www.npec.com.tw/flash/diff.exe']",
+      "valid_from": "2019-05-07T17:39:17.214Z",
+      "labels": [
+        "malicious-activity"
+      ]
+    },
+    {
+      "type": "indicator",
+      "id": "indicator--23dc3ecc-5a82-4fc2-817a-eca4b25dcb74",
+      "created": "2019-05-07T17:41:22.432Z",
+      "modified": "2019-07-25T12:33:21.155Z",
+      "name": "www.aanon.com .tw/flash/diff.exewww.npec.com .tw/flash/diff.exeuyghurweb .net/player/gmuweb.exe",
+      "pattern": "[url:value = 'www.aanon.com .tw/flash/diff.exewww.npec.com .tw/flash/diff.exeuyghurweb .net/player/gmuweb.exe']",
+      "valid_from": "2019-05-07T17:41:22.432Z",
+      "labels": [
+        "malicious-activity"
+      ]
+    },
+    {
+      "type": "indicator",
+      "id": "indicator--7400c925-265c-45cd-bbb6-bfde1449520e",
+      "created": "2019-05-07T17:42:06.721Z",
+      "modified": "2019-07-25T12:33:21.155Z",
+      "name": "www.ep66.com .tw/setup.exe",
+      "pattern": "[url:value = 'www.ep66.com .tw/setup.exe']",
+      "valid_from": "2019-05-07T17:42:06.721Z",
+      "labels": [
+        "malicious-activity"
+      ]
+    },
+    {
+      "type": "indicator",
+      "id": "indicator--99df9df1-c265-404f-8f0f-bedba3d45e97",
+      "created": "2019-05-07T17:41:44.935Z",
+      "modified": "2019-07-25T12:33:21.155Z",
+      "name": "uyghurweb .net/player/PYvBte.jar",
+      "pattern": "[url:value = 'uyghurweb .net/player/PYvBte.jar']",
+      "valid_from": "2019-05-07T17:41:44.935Z",
+      "labels": [
+        "malicious-activity"
+      ]
+    },
+    {
+      "type": "indicator",
+      "id": "indicator--cf2518ce-3a5b-444b-8044-b2a900949b5c",
+      "created": "2019-05-07T17:44:23.279Z",
+      "modified": "2019-07-25T12:33:21.156Z",
+      "name": "9d149baceaaff2a67161fec9b8978abc22f0a73a1c8ce87edf6e2fb673ac7374",
+      "pattern": "[file:hashes.'SHA-256' = '9d149baceaaff2a67161fec9b8978abc22f0a73a1c8ce87edf6e2fb673ac7374']",
+      "valid_from": "2019-05-07T17:44:23.279Z",
+      "labels": [
+        "malicious-activity"
+      ]
+    },
+    {
+      "type": "indicator",
+      "id": "indicator--f71d79a7-b9ba-4faa-9ee9-b3d49dc01015",
+      "created": "2019-07-16T16:31:10.881Z",
+      "modified": "2019-07-25T12:33:21.156Z",
+      "name": "ba509a1d752f3165dc2821e0b1c6543c15988fd7abd4e56c6155de09d1640ce9",
+      "pattern": "[file:hashes.'SHA-256' = 'ba509a1d752f3165dc2821e0b1c6543c15988fd7abd4e56c6155de09d1640ce9']",
+      "valid_from": "2019-07-16T16:31:10.881Z",
+      "labels": [
+        "malicious-activity"
+      ]
+    },
+    {
+      "type": "indicator",
+      "id": "indicator--1226ebbd-c85f-4cd1-aa95-914993812bc2",
+      "created": "2019-07-16T16:31:10.881Z",
+      "modified": "2019-07-25T12:33:21.156Z",
+      "name": "ccfe61a28f35161c19340541dfd839075e31cd3b661f0936a4c667d805a65136",
+      "pattern": "[file:hashes.'SHA-256' = 'ccfe61a28f35161c19340541dfd839075e31cd3b661f0936a4c667d805a65136']",
+      "valid_from": "2019-07-16T16:31:10.881Z",
+      "labels": [
+        "malicious-activity"
+      ]
+    },
+    {
+      "type": "indicator",
+      "id": "indicator--2ea18706-2e08-41be-b0d8-0446ac16d14e",
+      "created": "2019-07-16T16:31:10.881Z",
+      "modified": "2019-07-25T12:33:21.156Z",
+      "name": "7f39e5b9d46386dd8142ef40ae526343274bdd5f27e38c07b457d290a277e807",
+      "pattern": "[file:hashes.'SHA-256' = '7f39e5b9d46386dd8142ef40ae526343274bdd5f27e38c07b457d290a277e807']",
+      "valid_from": "2019-07-16T16:31:10.881Z",
+      "labels": [
+        "malicious-activity"
+      ]
+    },
+    {
+      "type": "indicator",
+      "id": "indicator--fcd372a5-ae48-4c4c-8b39-84b3ae14e5a6",
+      "created": "2019-07-16T16:31:10.881Z",
+      "modified": "2019-07-25T12:33:21.156Z",
+      "name": "e3d02e5f69d3c2092657d64c39aa0aea2a16ce804a47f3b5cf44774cde3166fe",
+      "pattern": "[file:hashes.'SHA-256' = 'e3d02e5f69d3c2092657d64c39aa0aea2a16ce804a47f3b5cf44774cde3166fe']",
+      "valid_from": "2019-07-16T16:31:10.881Z",
+      "labels": [
+        "malicious-activity"
+      ]
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--181b970c-5dca-4937-ac0f-30bcca4b4932",
+      "created": "2019-05-07T17:42:38.256Z",
+      "modified": "2019-07-25T12:33:21.157Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--81bf4b2a-4cbf-4a01-bab1-8cea8ac405c5",
+      "target_ref": "campaign--352e36e2-33ad-4065-a080-f13778ce9593"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--5c6da0f1-a447-488f-ae6e-a23d931265a7",
+      "created": "2019-05-07T17:39:17.332Z",
+      "modified": "2019-07-25T12:33:21.157Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--562e634f-b0db-4186-877c-f22561788478",
+      "target_ref": "campaign--352e36e2-33ad-4065-a080-f13778ce9593"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--977f3f9e-e61e-4703-9307-0eb03c7897a6",
+      "created": "2019-05-07T17:41:22.592Z",
+      "modified": "2019-07-25T12:33:21.157Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--23dc3ecc-5a82-4fc2-817a-eca4b25dcb74",
+      "target_ref": "campaign--352e36e2-33ad-4065-a080-f13778ce9593"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--13b67387-cd61-47a5-803c-a6c5f77c9e03",
+      "created": "2019-05-07T17:42:06.945Z",
+      "modified": "2019-07-25T12:33:21.157Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--7400c925-265c-45cd-bbb6-bfde1449520e",
+      "target_ref": "campaign--352e36e2-33ad-4065-a080-f13778ce9593"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--7faf64d7-f4c1-4fa7-a15b-50a9b91cd90f",
+      "created": "2019-05-07T17:41:45.204Z",
+      "modified": "2019-07-25T12:33:21.157Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--99df9df1-c265-404f-8f0f-bedba3d45e97",
+      "target_ref": "campaign--352e36e2-33ad-4065-a080-f13778ce9593"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--af661f55-b3f5-40b3-a03d-0d52e9a656fc",
+      "created": "2019-05-07T17:44:23.424Z",
+      "modified": "2019-07-25T12:33:21.157Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--cf2518ce-3a5b-444b-8044-b2a900949b5c",
+      "target_ref": "campaign--352e36e2-33ad-4065-a080-f13778ce9593"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--49ba3ce9-ac14-4cd7-8c71-8040dc0af86e",
+      "created": "2019-07-16T16:31:11.385Z",
+      "modified": "2019-07-25T12:33:21.157Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--f71d79a7-b9ba-4faa-9ee9-b3d49dc01015",
+      "target_ref": "campaign--352e36e2-33ad-4065-a080-f13778ce9593"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--5387a44c-2972-47cb-bf77-bde968557e20",
+      "created": "2019-07-16T16:31:11.385Z",
+      "modified": "2019-07-25T12:33:21.157Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--1226ebbd-c85f-4cd1-aa95-914993812bc2",
+      "target_ref": "campaign--352e36e2-33ad-4065-a080-f13778ce9593"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--24a16eeb-2ab2-49aa-ade9-1c23bf7da12c",
+      "created": "2019-07-16T16:31:11.385Z",
+      "modified": "2019-07-25T12:33:21.157Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--2ea18706-2e08-41be-b0d8-0446ac16d14e",
+      "target_ref": "campaign--352e36e2-33ad-4065-a080-f13778ce9593"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--0032cd5c-1284-4852-9ab3-9d23a3c98d36",
+      "created": "2019-07-16T16:31:11.385Z",
+      "modified": "2019-07-25T12:33:21.157Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--fcd372a5-ae48-4c4c-8b39-84b3ae14e5a6",
+      "target_ref": "campaign--352e36e2-33ad-4065-a080-f13778ce9593"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--f950a7b7-c7ed-4aab-a32b-5c66185b5655",
+      "created": "2019-05-07T17:42:38.256Z",
+      "modified": "2019-07-25T12:33:21.157Z",
+      "relationship_type": "uses",
+      "description": "Compromised site for Watering hole attacks. ",
+      "source_ref": "indicator--81bf4b2a-4cbf-4a01-bab1-8cea8ac405c5",
+      "target_ref": "attack-pattern--d742a578-d70e-4d0e-96a6-02a9c30204e6"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--c75f376a-8f98-4ba8-8b9f-b93e830b8757",
+      "created": "2019-05-07T17:39:17.332Z",
+      "modified": "2019-07-25T12:33:21.157Z",
+      "relationship_type": "uses",
+      "description": "Compromised site for Watering hole attacks. ",
+      "source_ref": "indicator--562e634f-b0db-4186-877c-f22561788478",
+      "target_ref": "attack-pattern--d742a578-d70e-4d0e-96a6-02a9c30204e6"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--337e66c7-67aa-4e0c-8d7a-1cf28adeb77f",
+      "created": "2019-05-07T17:41:22.592Z",
+      "modified": "2019-07-25T12:33:21.157Z",
+      "relationship_type": "uses",
+      "description": "Compromised site for Watering hole attacks. ",
+      "source_ref": "indicator--23dc3ecc-5a82-4fc2-817a-eca4b25dcb74",
+      "target_ref": "attack-pattern--d742a578-d70e-4d0e-96a6-02a9c30204e6"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--459c3262-49ba-48cf-86ca-e632cc7994f1",
+      "created": "2019-05-07T17:42:06.945Z",
+      "modified": "2019-07-25T12:33:21.157Z",
+      "relationship_type": "uses",
+      "description": "Compromised site for Watering hole attacks. ",
+      "source_ref": "indicator--7400c925-265c-45cd-bbb6-bfde1449520e",
+      "target_ref": "attack-pattern--d742a578-d70e-4d0e-96a6-02a9c30204e6"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--db2924b9-d352-4d92-8fa4-dd6bf40cc4a5",
+      "created": "2019-05-07T17:41:45.204Z",
+      "modified": "2019-07-25T12:33:21.157Z",
+      "relationship_type": "uses",
+      "description": "Compromised site for Watering hole attacks. ",
+      "source_ref": "indicator--99df9df1-c265-404f-8f0f-bedba3d45e97",
+      "target_ref": "attack-pattern--d742a578-d70e-4d0e-96a6-02a9c30204e6"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--df7eee49-8b40-49e5-9a49-22783cc6e2fe",
+      "created": "2019-05-07T17:44:23.424Z",
+      "modified": "2019-07-11T14:18:24.048Z",
+      "relationship_type": "uses",
+      "description": "Shell payload masquerades as a copy of the ApacheBench tool made by the Apache Software Foundation.",
+      "source_ref": "indicator--cf2518ce-3a5b-444b-8044-b2a900949b5c",
+      "target_ref": "attack-pattern--42e8de7b-37b2-4258-905a-6897815e58e0"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--ea152fc4-0689-464d-9297-238e59c4ad9b",
+      "created": "2019-07-16T16:31:11.385Z",
+      "modified": "2019-07-25T12:33:21.158Z",
+      "relationship_type": "uses",
+      "description": "Dropped PoisonIvy variant. ",
+      "source_ref": "indicator--cf2518ce-3a5b-444b-8044-b2a900949b5c",
+      "target_ref": "attack-pattern--e6919abc-99f9-4c6c-95a5-14761e7b2add"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--449d7ee9-b7b3-4a0f-ba31-d24aea6e1afb",
+      "created": "2019-07-16T16:31:11.385Z",
+      "modified": "2019-07-25T12:33:21.157Z",
+      "relationship_type": "uses",
+      "description": "Dropped PoisonIvy variant. ",
+      "source_ref": "indicator--f71d79a7-b9ba-4faa-9ee9-b3d49dc01015",
+      "target_ref": "attack-pattern--e6919abc-99f9-4c6c-95a5-14761e7b2add"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--76b2ee51-168c-4270-96de-97e4e22fd98c",
+      "created": "2019-07-16T16:31:11.385Z",
+      "modified": "2019-07-25T12:33:21.158Z",
+      "relationship_type": "uses",
+      "description": "Dropped PoisonIvy variant. ",
+      "source_ref": "indicator--1226ebbd-c85f-4cd1-aa95-914993812bc2",
+      "target_ref": "attack-pattern--e6919abc-99f9-4c6c-95a5-14761e7b2add"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--469e47cb-817d-4e52-b194-df44dd1a4f5e",
+      "created": "2019-07-16T16:31:11.385Z",
+      "modified": "2019-07-25T12:33:21.157Z",
+      "relationship_type": "uses",
+      "description": "Dropped PoisonIvy variant. ",
+      "source_ref": "indicator--2ea18706-2e08-41be-b0d8-0446ac16d14e",
+      "target_ref": "attack-pattern--e6919abc-99f9-4c6c-95a5-14761e7b2add"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--f4f7917a-9378-4a33-9125-65067c7e2ee1",
+      "created": "2019-07-16T16:31:11.385Z",
+      "modified": "2019-07-25T12:33:21.158Z",
+      "relationship_type": "uses",
+      "description": "Dropped PoisonIvy variant. ",
+      "source_ref": "indicator--fcd372a5-ae48-4c4c-8b39-84b3ae14e5a6",
+      "target_ref": "attack-pattern--e6919abc-99f9-4c6c-95a5-14761e7b2add"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--feac9f78-af74-4e42-9370-5e57ecff80b1",
+      "created": "2019-05-07T17:31:20.851Z",
+      "modified": "2019-07-25T12:33:21.157Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--352e36e2-33ad-4065-a080-f13778ce9593",
+      "target_ref": "attack-pattern--4900fabf-1142-4c1f-92f5-0b590e049077"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--00de5adf-99fd-41fd-b042-ee2f97c5a0b8",
+      "created": "2019-05-07T18:46:51.994Z",
+      "modified": "2019-07-25T12:33:21.157Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--352e36e2-33ad-4065-a080-f13778ce9593",
+      "target_ref": "attack-pattern--2b9a666e-bd59-4f67-9031-ed41b428e04a"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--0e80709c-a2c8-4b54-9769-562f1d0405ef",
+      "created": "2019-05-01T15:51:04.377Z",
+      "modified": "2019-07-25T12:33:21.155Z",
+      "relationship_type": "attributed-to",
+      "source_ref": "report--0e80709c-a2c8-4b54-9769-562f1d0405ef",
+      "target_ref": "intrusion-set--90ba5c1f-2704-487c-8da9-523fcd023d5a"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--d742a578-d70e-4d0e-96a6-02a9c30204e6",
+      "created": "2019-05-01T15:51:07.709Z",
+      "modified": "2019-07-25T12:33:21.155Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--352e36e2-33ad-4065-a080-f13778ce9593",
+      "target_ref": "attack-pattern--d742a578-d70e-4d0e-96a6-02a9c30204e6"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--42e8de7b-37b2-4258-905a-6897815e58e0",
+      "created": "2019-05-01T15:51:07.709Z",
+      "modified": "2019-07-25T12:33:21.155Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--352e36e2-33ad-4065-a080-f13778ce9593",
+      "target_ref": "attack-pattern--42e8de7b-37b2-4258-905a-6897815e58e0"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--e6919abc-99f9-4c6c-95a5-14761e7b2add",
+      "created": "2019-05-01T15:51:07.709Z",
+      "modified": "2019-07-25T12:33:21.155Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--352e36e2-33ad-4065-a080-f13778ce9593",
+      "target_ref": "attack-pattern--e6919abc-99f9-4c6c-95a5-14761e7b2add"
+    },
+    {
+      "type": "report",
+      "id": "report--352e36e2-33ad-4065-a080-f13778ce9593",
+      "created": "2019-05-01T15:51:07.709Z",
+      "modified": "2019-07-25T12:33:21.155Z",
+      "name": "Watering Hole Attack Campaign",
+      "published": "2019-07-25T12:33:21.155Z",
+      "object_refs": [
+        "campaign--352e36e2-33ad-4065-a080-f13778ce9593",
+        "intrusion-set--90ba5c1f-2704-487c-8da9-523fcd023d5a",
+        "indicator--81bf4b2a-4cbf-4a01-bab1-8cea8ac405c5",
+        "indicator--562e634f-b0db-4186-877c-f22561788478",
+        "indicator--23dc3ecc-5a82-4fc2-817a-eca4b25dcb74",
+        "indicator--7400c925-265c-45cd-bbb6-bfde1449520e",
+        "indicator--99df9df1-c265-404f-8f0f-bedba3d45e97",
+        "indicator--cf2518ce-3a5b-444b-8044-b2a900949b5c",
+        "indicator--f71d79a7-b9ba-4faa-9ee9-b3d49dc01015",
+        "indicator--1226ebbd-c85f-4cd1-aa95-914993812bc2",
+        "indicator--2ea18706-2e08-41be-b0d8-0446ac16d14e",
+        "indicator--fcd372a5-ae48-4c4c-8b39-84b3ae14e5a6",
+        "attack-pattern--4900fabf-1142-4c1f-92f5-0b590e049077",
+        "attack-pattern--2b9a666e-bd59-4f67-9031-ed41b428e04a",
+        "attack-pattern--d742a578-d70e-4d0e-96a6-02a9c30204e6",
+        "attack-pattern--42e8de7b-37b2-4258-905a-6897815e58e0",
+        "attack-pattern--e6919abc-99f9-4c6c-95a5-14761e7b2add",
+        "relationship--181b970c-5dca-4937-ac0f-30bcca4b4932",
+        "relationship--5c6da0f1-a447-488f-ae6e-a23d931265a7",
+        "relationship--977f3f9e-e61e-4703-9307-0eb03c7897a6",
+        "relationship--13b67387-cd61-47a5-803c-a6c5f77c9e03",
+        "relationship--7faf64d7-f4c1-4fa7-a15b-50a9b91cd90f",
+        "relationship--af661f55-b3f5-40b3-a03d-0d52e9a656fc",
+        "relationship--49ba3ce9-ac14-4cd7-8c71-8040dc0af86e",
+        "relationship--5387a44c-2972-47cb-bf77-bde968557e20",
+        "relationship--24a16eeb-2ab2-49aa-ade9-1c23bf7da12c",
+        "relationship--0032cd5c-1284-4852-9ab3-9d23a3c98d36",
+        "relationship--f950a7b7-c7ed-4aab-a32b-5c66185b5655",
+        "relationship--c75f376a-8f98-4ba8-8b9f-b93e830b8757",
+        "relationship--337e66c7-67aa-4e0c-8d7a-1cf28adeb77f",
+        "relationship--459c3262-49ba-48cf-86ca-e632cc7994f1",
+        "relationship--db2924b9-d352-4d92-8fa4-dd6bf40cc4a5",
+        "relationship--df7eee49-8b40-49e5-9a49-22783cc6e2fe",
+        "relationship--ea152fc4-0689-464d-9297-238e59c4ad9b",
+        "relationship--449d7ee9-b7b3-4a0f-ba31-d24aea6e1afb",
+        "relationship--76b2ee51-168c-4270-96de-97e4e22fd98c",
+        "relationship--469e47cb-817d-4e52-b194-df44dd1a4f5e",
+        "relationship--f4f7917a-9378-4a33-9125-65067c7e2ee1",
+        "relationship--feac9f78-af74-4e42-9370-5e57ecff80b1",
+        "relationship--00de5adf-99fd-41fd-b042-ee2f97c5a0b8",
+        "relationship--0e80709c-a2c8-4b54-9769-562f1d0405ef",
+        "relationship--d742a578-d70e-4d0e-96a6-02a9c30204e6",
+        "relationship--42e8de7b-37b2-4258-905a-6897815e58e0",
+        "relationship--e6919abc-99f9-4c6c-95a5-14761e7b2add"
+      ],
+      "labels": [
+        "campaign"
+      ]
+    },
+    {
+      "type": "campaign",
+      "id": "campaign--352e36e2-33ad-4065-a080-f13778ce9593",
+      "created": "2019-05-01T15:51:07.709Z",
+      "modified": "2019-07-25T12:33:21.155Z",
+      "name": "Watering Hole Attack Campaign",
+      "description": "The threat group compromised legitimate websites their intended visitors are likely to frequent. Over the summer of 2014 they compromised several sites, including a well-known Uyghur website written in that native language. \n\nAll of the malware dropped by this watering hole attacks were Poison Ivy Remote Administration Tool (RAT). \nUyghur sympathizers\nAn East Asian office for a major US based computer manufacturer\nA major US university\nAn international wholesale and retail telecom provider\n https://unit42.paloaltonetworks.com/recent-watering-hole-attacks-attributed-apt-group-th3bug-using-poison-ivy/ ",
+      "first_seen": "2014-07-01",
+      "last_seen": "2014-10-03"
+    }
+  ]
+}

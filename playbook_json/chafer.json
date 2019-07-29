@@ -1,0 +1,535 @@
+{
+  "type": "bundle",
+  "id": "bundle--ac138246-23c7-4d83-ac03-d991444af59a",
+  "spec_version": "2.0",
+  "objects": [
+    {
+      "type": "report",
+      "id": "report--ac138246-23c7-4d83-ac03-d991444af59a",
+      "created": "2019-03-20T18:45:42.807Z",
+      "modified": "2019-07-25T12:40:56.050Z",
+      "name": "[Playbook] Chafer",
+      "description": "Chafer as an Iranian cyber espionage group responsible for widespread theft of personal information. Chafer has been active since at least July 2014 and its activities were first exposed by Symantec in December 2015, when it was found to be conducting targeted surveillance of domestic and international targets. At the time, many of its targets were individuals located in Iran, and it had already begun compromising telecom providers as well as airline companies in the Middle East region. ",
+      "published": "2019-07-25T12:40:56.050Z",
+      "object_refs": [
+        "intrusion-set--98e7093d-a86a-44b5-b7b3-d89ca457ec78",
+        "report--95c0884b-71e7-40fd-9307-626634425a93"
+      ],
+      "labels": [
+        "intrusion-set"
+      ]
+    },
+    {
+      "type": "intrusion-set",
+      "id": "intrusion-set--98e7093d-a86a-44b5-b7b3-d89ca457ec78",
+      "created": "2019-03-20T18:45:43.010Z",
+      "modified": "2019-07-25T12:40:56.050Z",
+      "name": "[Playbook] Chafer"
+    },
+    {
+      "type": "attack-pattern",
+      "id": "attack-pattern--45242287-2964-4a3e-9373-159fad4d8195",
+      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "created": "2018-08-03T19:54:02.821Z",
+      "modified": "2018-12-17T14:34:26.245Z",
+      "name": "T1328: Buy domain name",
+      "description": "Domain Names are the human readable names used to represent one or more IP addresses. They can be purchased or, in some cases, acquired for free. (Citation: PWCSofacy2014)",
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-pre-attack",
+          "phase_name": "establish-&-maintain-infrastructure"
+        },
+        {
+          "kill_chain_name": "lockheed",
+          "phase_name": "weaponization"
+        }
+      ],
+      "external_references": [
+        {
+          "source_name": "mitre-pre-attack",
+          "url": "https://attack.mitre.org/techniques/T1328",
+          "external_id": "T1328"
+        }
+      ],
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "id": "attack-pattern--f72eb8a8-cd4c-461d-a814-3f862befbf00",
+      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "created": "2018-08-03T19:54:02.821Z",
+      "modified": "2019-03-25T14:44:11.854Z",
+      "name": "T1094: Custom Command and Control Protocol",
+      "description": "Adversaries may communicate using a custom command and control protocol instead of encapsulating commands/data in an existing [Standard Application Layer Protocol](https://attack.mitre.org/techniques/T1071). Implementations include mimicking well-known protocols or developing custom protocols (including raw sockets) on top of fundamental protocols provided by TCP/IP/another standard network stack.",
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "command-and-control"
+        },
+        {
+          "kill_chain_name": "lockheed",
+          "phase_name": "command-and-control"
+        }
+      ],
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1094",
+          "external_id": "T1094"
+        },
+        {
+          "source_name": "University of Birmingham C2",
+          "url": "https://arxiv.org/ftp/arxiv/papers/1408/1408.1136.pdf",
+          "description": "Gardiner, J.,  Cova, M., Nagaraja, S. (2014, February). Command & Control Understanding, Denying and Detecting. Retrieved April 20, 2016."
+        }
+      ],
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "id": "attack-pattern--e6919abc-99f9-4c6c-95a5-14761e7b2add",
+      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "created": "2018-08-03T19:54:02.821Z",
+      "modified": "2018-12-17T14:32:23.644Z",
+      "name": "T1105: Remote File Copy",
+      "description": "Files may be copied from one system to another to stage adversary tools or other files over the course of an operation. Files may be copied from an external adversary-controlled system through the Command and Control channel to bring tools into the victim network or through alternate protocols with another tool such as [FTP](https://attack.mitre.org/software/S0095). Files can also be copied over on Mac and Linux with native tools like scp, rsync, and sftp.\n\nAdversaries may also copy files laterally between internal victim systems to support Lateral Movement with remote Execution using inherent file sharing protocols such as file sharing over SMB to connected network shares or with authenticated connections with [Windows Admin Shares](https://attack.mitre.org/techniques/T1077) or [Remote Desktop Protocol](https://attack.mitre.org/techniques/T1076).",
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "command-and-control"
+        },
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "lateral-movement"
+        },
+        {
+          "kill_chain_name": "lockheed",
+          "phase_name": "command-and-control"
+        },
+        {
+          "kill_chain_name": "lockheed",
+          "phase_name": "act-on-objectives"
+        }
+      ],
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1105",
+          "external_id": "T1105"
+        },
+        {
+          "source_name": "University of Birmingham C2",
+          "url": "https://arxiv.org/ftp/arxiv/papers/1408/1408.1136.pdf",
+          "description": "Gardiner, J.,  Cova, M., Nagaraja, S. (2014, February). Command & Control Understanding, Denying and Detecting. Retrieved April 20, 2016."
+        }
+      ],
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "id": "attack-pattern--7fd87010-3a00-4da3-b905-410525e8ec44",
+      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "created": "2018-08-03T19:54:02.821Z",
+      "modified": "2019-05-06T20:46:05.368Z",
+      "name": "T1064: Scripting",
+      "description": "Adversaries may use scripts to aid in operations and perform multiple actions that would otherwise be manual. Scripting is useful for speeding up operational tasks and reducing the time required to gain access to critical resources. Some scripting languages may be used to bypass process monitoring mechanisms by directly interacting with the operating system at an API level instead of calling other programs. Common scripting languages for Windows include VBScript and PowerShell but could also be in the form of command-line batch scripts.\n\nScripts can be embedded inside Office documents as macros that can be set to execute when files used in [Spearphishing Attachment](https://attack.mitre.org/techniques/T1193) and other types of spearphishing are opened. Malicious embedded macros are an alternative means of execution than software exploitation through [Exploitation for Client Execution](https://attack.mitre.org/techniques/T1203), where adversaries will rely on macros being allowed or that the user will accept to activate them.\n\nMany popular offensive frameworks exist which use forms of scripting for security testers and adversaries alike. (Citation: Metasploit) (Citation: Metasploit),  (Citation: Veil) (Citation: Veil), and PowerSploit (Citation: Powersploit) are three examples that are popular among penetration testers for exploit and post-compromise operations and include many features for evading defenses. Some adversaries are known to use PowerShell. (Citation: Alperovitch 2014)",
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "defense-evasion"
+        },
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "execution"
+        },
+        {
+          "kill_chain_name": "lockheed",
+          "phase_name": "installation"
+        }
+      ],
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1064",
+          "external_id": "T1064"
+        },
+        {
+          "source_name": "Metasploit",
+          "url": "http://www.metasploit.com",
+          "description": "Metasploit. (n.d.). Retrieved December 4, 2014."
+        },
+        {
+          "source_name": "Veil",
+          "url": "https://www.veil-framework.com/framework/",
+          "description": "Veil Framework. (n.d.). Retrieved December 4, 2014."
+        },
+        {
+          "source_name": "Powersploit",
+          "url": "https://github.com/mattifestation/PowerSploit",
+          "description": "PowerSploit. (n.d.). Retrieved December 4, 2014."
+        },
+        {
+          "source_name": "Alperovitch 2014",
+          "url": "https://blog.crowdstrike.com/deep-thought-chinese-targeting-national-security-think-tanks/",
+          "description": "Alperovitch, D. (2014, July 7). Deep in Thought: Chinese Targeting of National Security Think Tanks. Retrieved November 12, 2014."
+        },
+        {
+          "source_name": "Uperesia Malicious Office Documents",
+          "url": "https://www.uperesia.com/analyzing-malicious-office-documents",
+          "description": "Felix. (2016, September). Analyzing Malicious Office Documents. Retrieved April 11, 2018."
+        }
+      ],
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "id": "attack-pattern--fddd81e9-dd3d-477e-9773-4fb8ae227234",
+      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "created": "2018-08-03T19:54:02.821Z",
+      "modified": "2018-12-17T14:32:48.218Z",
+      "name": "T1345: Create custom payloads",
+      "description": "A payload is the part of the malware which performs a malicious action. The adversary may create custom payloads when none exist with the needed capability or when targeting a specific environment. (Citation: APT1)",
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-pre-attack",
+          "phase_name": "build-capabilities"
+        },
+        {
+          "kill_chain_name": "lockheed",
+          "phase_name": "weaponization"
+        }
+      ],
+      "external_references": [
+        {
+          "source_name": "mitre-pre-attack",
+          "url": "https://attack.mitre.org/techniques/T1345",
+          "external_id": "T1345"
+        }
+      ],
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "id": "attack-pattern--cc7b8c4e-9be0-47ca-b0bb-83915ec3ee2f",
+      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "created": "2018-08-03T19:54:02.821Z",
+      "modified": "2018-12-17T14:34:10.599Z",
+      "name": "T1132: Data Encoding",
+      "description": "Command and control (C2) information is encoded using a standard data encoding system. Use of data encoding may be to adhere to existing protocol specifications and includes use of ASCII, Unicode, Base64,  MIME, UTF-8, or other binary-to-text and character encoding systems. (Citation: Wikipedia Binary-to-text Encoding) (Citation: Wikipedia Character Encoding) Some data encoding systems may also result in data compression, such as gzip.",
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "command-and-control"
+        },
+        {
+          "kill_chain_name": "lockheed",
+          "phase_name": "command-and-control"
+        }
+      ],
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1132",
+          "external_id": "T1132"
+        },
+        {
+          "source_name": "Wikipedia Binary-to-text Encoding",
+          "url": "https://en.wikipedia.org/wiki/Binary-to-text_encoding",
+          "description": "Wikipedia. (2016, December 26). Binary-to-text encoding. Retrieved March 1, 2017."
+        },
+        {
+          "source_name": "Wikipedia Character Encoding",
+          "url": "https://en.wikipedia.org/wiki/Character_encoding",
+          "description": "Wikipedia. (2017, February 19). Character Encoding. Retrieved March 1, 2017."
+        },
+        {
+          "source_name": "University of Birmingham C2",
+          "url": "https://arxiv.org/ftp/arxiv/papers/1408/1408.1136.pdf",
+          "description": "Gardiner, J.,  Cova, M., Nagaraja, S. (2014, February). Command & Control Understanding, Denying and Detecting. Retrieved April 20, 2016."
+        }
+      ],
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "id": "attack-pattern--8f4a33ec-8b1f-4b80-a2f6-642b2e479580",
+      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "created": "2018-08-03T19:54:02.821Z",
+      "modified": "2018-12-17T14:34:29.528Z",
+      "name": "T1057: Process Discovery",
+      "description": "Adversaries may attempt to get information about running processes on a system. Information obtained could be used to gain an understanding of common software running on systems within the network.\n\n### Windows\n\nAn example command that would obtain details on processes is \"tasklist\" using the [Tasklist](https://attack.mitre.org/software/S0057) utility.\n\n### Mac and Linux\n\nIn Mac and Linux, this is accomplished with the <code>ps</code> command.",
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "discovery"
+        },
+        {
+          "kill_chain_name": "lockheed",
+          "phase_name": "act-on-objectives"
+        }
+      ],
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1057",
+          "external_id": "T1057"
+        },
+        {
+          "source_name": "capec",
+          "url": "https://capec.mitre.org/data/definitions/573.html",
+          "external_id": "CAPEC-573"
+        }
+      ],
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ]
+    },
+    {
+      "type": "indicator",
+      "id": "indicator--13a5365a-894f-47a3-9ce4-6cf85718419f",
+      "created": "2018-05-30T13:30:36.464Z",
+      "modified": "2019-07-25T12:40:56.050Z",
+      "name": "win10-update.com",
+      "pattern": "[domain-name:value = 'win10-update.com']",
+      "valid_from": "2018-05-30T13:30:36.464Z",
+      "labels": [
+        "malicious-activity"
+      ]
+    },
+    {
+      "type": "indicator",
+      "id": "indicator--f2eb1d6c-df89-49e2-97f8-5c58706e9519",
+      "created": "2018-11-13T14:12:17.661Z",
+      "modified": "2019-07-25T12:40:56.050Z",
+      "name": "0282b7705f13f9d9811b722f8d7ef8fef907bee2ef00bf8ec89df5e7d96d81ff",
+      "pattern": "[file:hashes.'SHA-256' = '0282b7705f13f9d9811b722f8d7ef8fef907bee2ef00bf8ec89df5e7d96d81ff']",
+      "valid_from": "2018-11-13T14:12:17.661Z",
+      "labels": [
+        "malicious-activity"
+      ]
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--7ee32d93-16d6-4300-b2cc-fcd7a191b323",
+      "created": "2019-03-22T12:59:11.930Z",
+      "modified": "2019-07-25T12:40:56.050Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--13a5365a-894f-47a3-9ce4-6cf85718419f",
+      "target_ref": "campaign--95c0884b-71e7-40fd-9307-626634425a93"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--554a9b98-8333-4096-8498-092063847392",
+      "created": "2019-03-22T12:59:11.930Z",
+      "modified": "2019-07-25T12:40:56.050Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--f2eb1d6c-df89-49e2-97f8-5c58706e9519",
+      "target_ref": "campaign--95c0884b-71e7-40fd-9307-626634425a93"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--275bf145-c513-47c9-955e-4faf21a47049",
+      "created": "2019-03-25T16:52:58.499Z",
+      "modified": "2019-07-25T12:40:56.051Z",
+      "relationship_type": "uses",
+      "description": " Chafer related domain registered on 2018-01-04.",
+      "source_ref": "indicator--13a5365a-894f-47a3-9ce4-6cf85718419f",
+      "target_ref": "attack-pattern--45242287-2964-4a3e-9373-159fad4d8195"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--d7acbdab-b577-4d57-9568-72764209d66e",
+      "created": "2019-03-25T17:15:40.238Z",
+      "modified": "2019-07-25T12:40:56.051Z",
+      "relationship_type": "uses",
+      "description": "MechaFlounder generates custom HTTP GET requests. Threat Actors may have a custom server to handle C2. ",
+      "source_ref": "indicator--f2eb1d6c-df89-49e2-97f8-5c58706e9519",
+      "target_ref": "attack-pattern--f72eb8a8-cd4c-461d-a814-3f862befbf00"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--ff0a724d-2a3d-4ac1-9c7f-6340bded0d6f",
+      "created": "2019-03-25T14:43:29.033Z",
+      "modified": "2019-05-02T17:13:56.084Z",
+      "relationship_type": "uses",
+      "description": "MechaFlounder allows the operator to download and upload files on the compromised system. ",
+      "source_ref": "indicator--f2eb1d6c-df89-49e2-97f8-5c58706e9519",
+      "target_ref": "attack-pattern--e6919abc-99f9-4c6c-95a5-14761e7b2add"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--af02ca24-919a-499e-a5e9-c85d74ef15be",
+      "created": "2019-03-25T13:04:22.841Z",
+      "modified": "2019-05-24T17:58:49.931Z",
+      "relationship_type": "uses",
+      "description": " \nA python script compiled using PyInstaller.\nThe actor's script was called \"payload.pyc\"",
+      "source_ref": "indicator--f2eb1d6c-df89-49e2-97f8-5c58706e9519",
+      "target_ref": "attack-pattern--7fd87010-3a00-4da3-b905-410525e8ec44"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--b166471c-774f-4757-aafa-34e617ace6d8",
+      "created": "2019-03-25T14:27:07.751Z",
+      "modified": "2019-07-11T14:21:09.449Z",
+      "relationship_type": "uses",
+      "description": "Python-based payload created by Chafer. ",
+      "source_ref": "indicator--f2eb1d6c-df89-49e2-97f8-5c58706e9519",
+      "target_ref": "attack-pattern--fddd81e9-dd3d-477e-9773-4fb8ae227234"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--99f1efd1-d2d2-4646-a561-fabbc3a41b42",
+      "created": "2019-03-25T14:11:53.384Z",
+      "modified": "2019-07-11T14:19:44.687Z",
+      "relationship_type": "uses",
+      "description": "After carrying out the activities for the command, the trojan will encode the results or output message of the command using Base64. ",
+      "source_ref": "indicator--f2eb1d6c-df89-49e2-97f8-5c58706e9519",
+      "target_ref": "attack-pattern--cc7b8c4e-9be0-47ca-b0bb-83915ec3ee2f"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--32c11587-60b6-48b3-a79d-f9754c3ae9be",
+      "created": "2019-03-25T17:39:56.671Z",
+      "modified": "2019-07-11T14:17:01.730Z",
+      "relationship_type": "uses",
+      "description": "Payload enumerates process in the current system. \n",
+      "source_ref": "indicator--f2eb1d6c-df89-49e2-97f8-5c58706e9519",
+      "target_ref": "attack-pattern--8f4a33ec-8b1f-4b80-a2f6-642b2e479580"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--ac138246-23c7-4d83-ac03-d991444af59a",
+      "created": "2019-03-20T18:45:42.807Z",
+      "modified": "2019-07-25T12:40:56.050Z",
+      "relationship_type": "attributed-to",
+      "source_ref": "report--ac138246-23c7-4d83-ac03-d991444af59a",
+      "target_ref": "intrusion-set--98e7093d-a86a-44b5-b7b3-d89ca457ec78"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--45242287-2964-4a3e-9373-159fad4d8195",
+      "created": "2019-03-20T18:45:43.010Z",
+      "modified": "2019-07-25T12:40:56.050Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--95c0884b-71e7-40fd-9307-626634425a93",
+      "target_ref": "attack-pattern--45242287-2964-4a3e-9373-159fad4d8195"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--f72eb8a8-cd4c-461d-a814-3f862befbf00",
+      "created": "2019-03-20T18:45:43.010Z",
+      "modified": "2019-07-25T12:40:56.050Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--95c0884b-71e7-40fd-9307-626634425a93",
+      "target_ref": "attack-pattern--f72eb8a8-cd4c-461d-a814-3f862befbf00"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--e6919abc-99f9-4c6c-95a5-14761e7b2add",
+      "created": "2019-03-20T18:45:43.010Z",
+      "modified": "2019-07-25T12:40:56.050Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--95c0884b-71e7-40fd-9307-626634425a93",
+      "target_ref": "attack-pattern--e6919abc-99f9-4c6c-95a5-14761e7b2add"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--7fd87010-3a00-4da3-b905-410525e8ec44",
+      "created": "2019-03-20T18:45:43.010Z",
+      "modified": "2019-07-25T12:40:56.050Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--95c0884b-71e7-40fd-9307-626634425a93",
+      "target_ref": "attack-pattern--7fd87010-3a00-4da3-b905-410525e8ec44"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--fddd81e9-dd3d-477e-9773-4fb8ae227234",
+      "created": "2019-03-20T18:45:43.010Z",
+      "modified": "2019-07-25T12:40:56.050Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--95c0884b-71e7-40fd-9307-626634425a93",
+      "target_ref": "attack-pattern--fddd81e9-dd3d-477e-9773-4fb8ae227234"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--cc7b8c4e-9be0-47ca-b0bb-83915ec3ee2f",
+      "created": "2019-03-20T18:45:43.010Z",
+      "modified": "2019-07-25T12:40:56.050Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--95c0884b-71e7-40fd-9307-626634425a93",
+      "target_ref": "attack-pattern--cc7b8c4e-9be0-47ca-b0bb-83915ec3ee2f"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--8f4a33ec-8b1f-4b80-a2f6-642b2e479580",
+      "created": "2019-03-20T18:45:43.010Z",
+      "modified": "2019-07-25T12:40:56.050Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--95c0884b-71e7-40fd-9307-626634425a93",
+      "target_ref": "attack-pattern--8f4a33ec-8b1f-4b80-a2f6-642b2e479580"
+    },
+    {
+      "type": "report",
+      "id": "report--95c0884b-71e7-40fd-9307-626634425a93",
+      "created": "2019-03-20T18:45:43.010Z",
+      "modified": "2019-07-25T12:40:56.050Z",
+      "name": "MechaFlounder",
+      "published": "2019-07-25T12:40:56.050Z",
+      "object_refs": [
+        "campaign--95c0884b-71e7-40fd-9307-626634425a93",
+        "intrusion-set--98e7093d-a86a-44b5-b7b3-d89ca457ec78",
+        "indicator--13a5365a-894f-47a3-9ce4-6cf85718419f",
+        "indicator--f2eb1d6c-df89-49e2-97f8-5c58706e9519",
+        "attack-pattern--45242287-2964-4a3e-9373-159fad4d8195",
+        "attack-pattern--f72eb8a8-cd4c-461d-a814-3f862befbf00",
+        "attack-pattern--e6919abc-99f9-4c6c-95a5-14761e7b2add",
+        "attack-pattern--7fd87010-3a00-4da3-b905-410525e8ec44",
+        "attack-pattern--fddd81e9-dd3d-477e-9773-4fb8ae227234",
+        "attack-pattern--cc7b8c4e-9be0-47ca-b0bb-83915ec3ee2f",
+        "attack-pattern--8f4a33ec-8b1f-4b80-a2f6-642b2e479580",
+        "relationship--7ee32d93-16d6-4300-b2cc-fcd7a191b323",
+        "relationship--554a9b98-8333-4096-8498-092063847392",
+        "relationship--275bf145-c513-47c9-955e-4faf21a47049",
+        "relationship--d7acbdab-b577-4d57-9568-72764209d66e",
+        "relationship--ff0a724d-2a3d-4ac1-9c7f-6340bded0d6f",
+        "relationship--af02ca24-919a-499e-a5e9-c85d74ef15be",
+        "relationship--b166471c-774f-4757-aafa-34e617ace6d8",
+        "relationship--99f1efd1-d2d2-4646-a561-fabbc3a41b42",
+        "relationship--32c11587-60b6-48b3-a79d-f9754c3ae9be",
+        "relationship--ac138246-23c7-4d83-ac03-d991444af59a",
+        "relationship--45242287-2964-4a3e-9373-159fad4d8195",
+        "relationship--f72eb8a8-cd4c-461d-a814-3f862befbf00",
+        "relationship--e6919abc-99f9-4c6c-95a5-14761e7b2add",
+        "relationship--7fd87010-3a00-4da3-b905-410525e8ec44",
+        "relationship--fddd81e9-dd3d-477e-9773-4fb8ae227234",
+        "relationship--cc7b8c4e-9be0-47ca-b0bb-83915ec3ee2f",
+        "relationship--8f4a33ec-8b1f-4b80-a2f6-642b2e479580"
+      ],
+      "labels": [
+        "campaign"
+      ]
+    },
+    {
+      "type": "campaign",
+      "id": "campaign--95c0884b-71e7-40fd-9307-626634425a93",
+      "created": "2019-03-20T18:45:43.010Z",
+      "modified": "2019-07-25T12:40:56.050Z",
+      "name": "MechaFlounder",
+      "description": "In this campaign Chafers is targetting Turkish goverment using a python-based payload that Unit 42 called MechaFlounder. Unit 42 believes that Chafer uses MechaFlounder as a asecondary payload that the group downloads from a first-stage payload to carry out post exploitation activities. Unit 42 also found a domain mirroring the legitimate Turkish Scholarship goverment domain. \n\nhttps://unit42.paloaltonetworks.com/new-python-based-payload-mechaflounder-used-by-chafer/",
+      "first_seen": "1970-01-01T00:00:00.000Z",
+      "last_seen": "1970-01-01T00:00:00.000Z"
+    }
+  ]
+}

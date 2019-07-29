@@ -1,0 +1,1073 @@
+{
+  "type": "bundle",
+  "id": "bundle--ed58bc33-f68d-4385-b555-17e81911277e",
+  "spec_version": "2.0",
+  "objects": [
+    {
+      "type": "report",
+      "id": "report--ed58bc33-f68d-4385-b555-17e81911277e",
+      "created": "2019-05-01T15:48:19.396Z",
+      "modified": "2019-05-28T17:14:16.859Z",
+      "name": "[Playbook]CozyDuke",
+      "description": "CozyDuke is threat group that has been attributed to the Russian government and has operated since at least 2008.  This group reportedly compromised the Democratic National Committee starting in the summer of 2015.\n\n",
+      "published": "2019-05-28T17:14:16.859Z",
+      "object_refs": [
+        "intrusion-set--7402a5fc-a0bb-4f2e-ab06-d147c1306b66",
+        "report--98bcf939-7f72-4912-b495-2f7a4704cf2f"
+      ],
+      "labels": [
+        "intrusion-set"
+      ]
+    },
+    {
+      "type": "intrusion-set",
+      "id": "intrusion-set--7402a5fc-a0bb-4f2e-ab06-d147c1306b66",
+      "created": "2019-05-01T15:48:19.505Z",
+      "modified": "2019-05-02T17:13:56.080Z",
+      "name": "CozyDuke"
+    },
+    {
+      "type": "attack-pattern",
+      "id": "attack-pattern--6aac77c4-eaf2-4366-8c13-ce50ab951f38",
+      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "created": "2018-08-03T19:54:02.821Z",
+      "modified": "2018-12-17T14:33:07.777Z",
+      "name": "T1193: Spearphishing Attachment",
+      "description": "Spearphishing attachment is a specific variant of spearphishing. Spearphishing attachment is different from other forms of spearphishing in that it employs the use of malware attached to an email. All forms of spearphishing are electronically delivered social engineering targeted at a specific individual, company, or industry. In this scenario, adversaries attach a file to the spearphishing email and usually rely upon [User Execution](https://attack.mitre.org/techniques/T1204) to gain execution.\n\nThere are many options for the attachment such as Microsoft Office documents, executables, PDFs, or archived files. Upon opening the attachment (and potentially clicking past protections), the adversary's payload exploits a vulnerability or directly executes on the user's system. The text of the spearphishing email usually tries to give a plausible reason why the file should be opened, and may explain how to bypass system protections in order to do so. The email may also contain instructions on how to decrypt an attachment, such as a zip file password, in order to evade email boundary defenses. Adversaries frequently manipulate file extensions and icons in order to make attached executables appear to be document files, or files exploiting one application appear to be a file for a different one.",
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "initial-access"
+        },
+        {
+          "kill_chain_name": "lockheed",
+          "phase_name": "delivery"
+        }
+      ],
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1193",
+          "external_id": "T1193"
+        },
+        {
+          "source_name": "capec",
+          "url": "https://capec.mitre.org/data/definitions/163.html",
+          "external_id": "CAPEC-163"
+        }
+      ],
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "id": "attack-pattern--e6919abc-99f9-4c6c-95a5-14761e7b2add",
+      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "created": "2018-08-03T19:54:02.821Z",
+      "modified": "2018-12-17T14:32:23.644Z",
+      "name": "T1105: Remote File Copy",
+      "description": "Files may be copied from one system to another to stage adversary tools or other files over the course of an operation. Files may be copied from an external adversary-controlled system through the Command and Control channel to bring tools into the victim network or through alternate protocols with another tool such as [FTP](https://attack.mitre.org/software/S0095). Files can also be copied over on Mac and Linux with native tools like scp, rsync, and sftp.\n\nAdversaries may also copy files laterally between internal victim systems to support Lateral Movement with remote Execution using inherent file sharing protocols such as file sharing over SMB to connected network shares or with authenticated connections with [Windows Admin Shares](https://attack.mitre.org/techniques/T1077) or [Remote Desktop Protocol](https://attack.mitre.org/techniques/T1076).",
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "command-and-control"
+        },
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "lateral-movement"
+        },
+        {
+          "kill_chain_name": "lockheed",
+          "phase_name": "command-and-control"
+        },
+        {
+          "kill_chain_name": "lockheed",
+          "phase_name": "act-on-objectives"
+        }
+      ],
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1105",
+          "external_id": "T1105"
+        },
+        {
+          "source_name": "University of Birmingham C2",
+          "url": "https://arxiv.org/ftp/arxiv/papers/1408/1408.1136.pdf",
+          "description": "Gardiner, J.,  Cova, M., Nagaraja, S. (2014, February). Command & Control Understanding, Denying and Detecting. Retrieved April 20, 2016."
+        }
+      ],
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "id": "attack-pattern--354a7f88-63fb-41b5-a801-ce3b377b36f1",
+      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "created": "2018-08-03T19:54:02.821Z",
+      "modified": "2018-12-17T14:32:40.713Z",
+      "name": "T1082: System Information Discovery",
+      "description": "An adversary may attempt to get detailed information about the operating system and hardware, including version, patches, hotfixes, service packs, and architecture.\n\n### Windows\n\nExample commands and utilities that obtain this information include <code>ver</code>, [Systeminfo](https://attack.mitre.org/software/S0096), and <code>dir</code> within [cmd](https://attack.mitre.org/software/S0106) for identifying information based on present files and directories.\n\n### Mac\n\nOn Mac, the <code>systemsetup</code> command gives a detailed breakdown of the system, but it requires administrative privileges. Additionally, the <code>system_profiler</code> gives a very detailed breakdown of configurations, firewall rules, mounted volumes, hardware, and many other things without needing elevated permissions.",
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "discovery"
+        },
+        {
+          "kill_chain_name": "lockheed",
+          "phase_name": "act-on-objectives"
+        }
+      ],
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1082",
+          "external_id": "T1082"
+        },
+        {
+          "source_name": "capec",
+          "url": "https://capec.mitre.org/data/definitions/311.html",
+          "external_id": "CAPEC-311"
+        }
+      ],
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "id": "attack-pattern--8c32eb4d-805f-4fc5-bf60-c4d476c131b5",
+      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "created": "2018-08-03T19:54:02.821Z",
+      "modified": "2018-12-17T14:33:50.971Z",
+      "name": "T1204: User Execution",
+      "description": "An adversary may rely upon specific actions by a user in order to gain execution. This may be direct code execution, such as when a user opens a malicious executable delivered via [Spearphishing Attachment](https://attack.mitre.org/techniques/T1193) with the icon and apparent extension of a document file. It also may lead to other execution techniques, such as when a user clicks on a link delivered via [Spearphishing Link](https://attack.mitre.org/techniques/T1192) that leads to exploitation of a browser or application vulnerability via [Exploitation for Client Execution](https://attack.mitre.org/techniques/T1203). While User Execution frequently occurs shortly after Initial Access it may occur at other phases of an intrusion, such as when an adversary places a file in a shared directory or on a user's desktop hoping that a user will click on it.",
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "execution"
+        },
+        {
+          "kill_chain_name": "lockheed",
+          "phase_name": "installation"
+        }
+      ],
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1204",
+          "external_id": "T1204"
+        }
+      ],
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "id": "attack-pattern--42e8de7b-37b2-4258-905a-6897815e58e0",
+      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "created": "2018-08-03T19:54:02.821Z",
+      "modified": "2019-05-06T20:45:57.041Z",
+      "name": "T1036: Masquerading",
+      "description": "Masquerading occurs when the name or location of an executable, legitimate or malicious, is manipulated or abused for the sake of evading defenses and observation. Several different variations of this technique have been observed.\n\nOne variant is for an executable to be placed in a commonly trusted directory or given the name of a legitimate, trusted program. Alternatively, the filename given may be a close approximation of legitimate programs or something innocuous. An example of this is when a common system utility or program is moved and renamed to avoid detection based on its usage.(Citation: FireEye APT10 Sept 2018) This is done to bypass tools that trust executables by relying on file name or path, as well as to deceive defenders and system administrators into thinking a file is benign by associating the name with something that is thought to be legitimate.\n\nA third variant uses the right-to-left override (RTLO or RLO) character (U+202E) as a means of tricking a user into executing what they think is a benign file type but is actually executable code. RTLO is a non-printing character that causes the text that follows it to be displayed in reverse.(Citation: Infosecinstitute RTLO Technique) For example, a Windows screensaver file named <code>March 25 \\u202Excod.scr</code> will display as <code>March 25 rcs.docx</code>. A JavaScript file named <code>photo_high_re\\u202Egnp.js</code> will be displayed as <code>photo_high_resj.png</code>. A common use of this technique is with spearphishing attachments since it can trick both end users and defenders if they are not aware of how their tools display and render the RTLO character. Use of the RTLO character has been seen in many targeted intrusion attempts and criminal activity.(Citation: Trend Micro PLEAD RTLO)(Citation: Kaspersky RTLO Cyber Crime) RTLO can be used in the Windows Registry as well, where regedit.exe displays the reversed characters but the command line tool reg.exe does not by default. \n\n### Windows\nIn another variation of this technique, an adversary may use a renamed copy of a legitimate utility, such as rundll32.exe. (Citation: Endgame Masquerade Ball) An alternative case occurs when a legitimate utility is moved to a different directory and also renamed to avoid detections based on system utilities executing from non-standard paths. (Citation: F-Secure CozyDuke)\n\nAn example of abuse of trusted locations in Windows would be the <code>C:\\Windows\\System32</code> directory. Examples of trusted binary names that can be given to malicious binares include \"explorer.exe\" and \"svchost.exe\".\n\n### Linux\nAnother variation of this technique includes malicious binaries changing the name of their running process to that of a trusted or benign process, after they have been launched as opposed to before. (Citation: Remaiten)\n\nAn example of abuse of trusted locations in Linux  would be the <code>/bin</code> directory. Examples of trusted binary names that can be given to malicious binares include \"rsyncd\" and \"dbus-inotifier\". (Citation: Fysbis Palo Alto Analysis)  (Citation: Fysbis Dr Web Analysis)",
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "defense-evasion"
+        },
+        {
+          "kill_chain_name": "lockheed",
+          "phase_name": "installation"
+        }
+      ],
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1036",
+          "external_id": "T1036"
+        },
+        {
+          "source_name": "FireEye APT10 Sept 2018",
+          "url": "https://www.fireeye.com/blog/threat-research/2018/09/apt10-targeting-japanese-corporations-using-updated-ttps.html",
+          "description": "Matsuda, A., Muhammad I. (2018, September 13). APT10 Targeting Japanese Corporations Using Updated TTPs. Retrieved September 17, 2018."
+        },
+        {
+          "source_name": "Infosecinstitute RTLO Technique",
+          "url": "https://resources.infosecinstitute.com/spoof-using-right-to-left-override-rtlo-technique-2/",
+          "description": "Security Ninja. (2015, April 16). Spoof Using Right to Left Override (RTLO) Technique. Retrieved April 22, 2019."
+        },
+        {
+          "source_name": "Trend Micro PLEAD RTLO",
+          "url": "https://blog.trendmicro.com/trendlabs-security-intelligence/plead-targeted-attacks-against-taiwanese-government-agencies-2/",
+          "description": "Alintanahin, K.. (2014, May 23). PLEAD Targeted Attacks Against Taiwanese Government Agencies. Retrieved April 22, 2019."
+        },
+        {
+          "source_name": "Kaspersky RTLO Cyber Crime",
+          "url": "https://securelist.com/zero-day-vulnerability-in-telegram/83800/",
+          "description": "Firsh, A.. (2018, February 13). Zero-day vulnerability in Telegram - Cybercriminals exploited Telegram flaw to launch multipurpose attacks. Retrieved April 22, 2019."
+        },
+        {
+          "source_name": "Endgame Masquerade Ball",
+          "url": "https://www.endgame.com/blog/how-hunt-masquerade-ball",
+          "description": "Ewing, P. (2016, October 31). How to Hunt: The Masquerade Ball. Retrieved October 31, 2016."
+        },
+        {
+          "source_name": "F-Secure CozyDuke",
+          "url": "https://www.f-secure.com/documents/996508/1030745/CozyDuke",
+          "description": "F-Secure Labs. (2015, April 22). CozyDuke: Malware Analysis. Retrieved December 10, 2015."
+        },
+        {
+          "source_name": "Remaiten",
+          "url": "https://www.welivesecurity.com/2016/03/30/meet-remaiten-a-linux-bot-on-steroids-targeting-routers-and-potentially-other-iot-devices/",
+          "description": "Michal Malik AND Marc-Etienne M.Léveillé. (2016, March 30). Meet Remaiten – a Linux bot on steroids targeting routers and potentially other IoT devices. Retrieved September 7, 2017."
+        },
+        {
+          "source_name": "Fysbis Palo Alto Analysis",
+          "url": "https://researchcenter.paloaltonetworks.com/2016/02/a-look-into-fysbis-sofacys-linux-backdoor/",
+          "description": "Bryan Lee and Rob Downs. (2016, February 12). A Look Into Fysbis: Sofacy’s Linux Backdoor. Retrieved September 10, 2017."
+        },
+        {
+          "source_name": "Fysbis Dr Web Analysis",
+          "url": "https://vms.drweb.com/virus/?i=4276269",
+          "description": "Doctor Web. (2014, November 21). Linux.BackDoor.Fysbis.1. Retrieved December 7, 2017."
+        },
+        {
+          "source_name": "Twitter ItsReallyNick Masquerading Update",
+          "url": "https://twitter.com/ItsReallyNick/status/1055321652777619457",
+          "description": "Carr, N.. (2018, October 25). Nick Carr Status Update Masquerading. Retrieved April 22, 2019."
+        }
+      ],
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "id": "attack-pattern--20138b9d-1aac-4a26-8654-a36b6bbf2bba",
+      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "created": "2018-08-03T19:54:02.821Z",
+      "modified": "2018-12-17T14:33:18.623Z",
+      "name": "T1192: Spearphishing Link",
+      "description": "Spearphishing with a link is a specific variant of spearphishing. It is different from other forms of spearphishing in that it employs the use of links to download malware contained in email, instead of attaching malicious files to the email itself, to avoid defenses that may inspect email attachments. \n\nAll forms of spearphishing are electronically delivered social engineering targeted at a specific individual, company, or industry. In this case, the malicious emails contain links. Generally, the links will be accompanied by social engineering text and require the user to actively click or copy and paste a URL into a browser, leveraging [User Execution](https://attack.mitre.org/techniques/T1204). The visited website may compromise the web browser using an exploit, or the user will be prompted to download applications, documents, zip files, or even executables depending on the pretext for the email in the first place. Adversaries may also include links that are intended to interact directly with an email reader, including embedded images intended to exploit the end system directly or verify the receipt of an email (i.e. web bugs/web beacons).",
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "initial-access"
+        },
+        {
+          "kill_chain_name": "lockheed",
+          "phase_name": "delivery"
+        }
+      ],
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1192",
+          "external_id": "T1192"
+        },
+        {
+          "source_name": "capec",
+          "url": "https://capec.mitre.org/data/definitions/163.html",
+          "external_id": "CAPEC-163"
+        }
+      ],
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "id": "attack-pattern--7fd87010-3a00-4da3-b905-410525e8ec44",
+      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "created": "2018-08-03T19:54:02.821Z",
+      "modified": "2019-05-06T20:46:05.368Z",
+      "name": "T1064: Scripting",
+      "description": "Adversaries may use scripts to aid in operations and perform multiple actions that would otherwise be manual. Scripting is useful for speeding up operational tasks and reducing the time required to gain access to critical resources. Some scripting languages may be used to bypass process monitoring mechanisms by directly interacting with the operating system at an API level instead of calling other programs. Common scripting languages for Windows include VBScript and PowerShell but could also be in the form of command-line batch scripts.\n\nScripts can be embedded inside Office documents as macros that can be set to execute when files used in [Spearphishing Attachment](https://attack.mitre.org/techniques/T1193) and other types of spearphishing are opened. Malicious embedded macros are an alternative means of execution than software exploitation through [Exploitation for Client Execution](https://attack.mitre.org/techniques/T1203), where adversaries will rely on macros being allowed or that the user will accept to activate them.\n\nMany popular offensive frameworks exist which use forms of scripting for security testers and adversaries alike. (Citation: Metasploit) (Citation: Metasploit),  (Citation: Veil) (Citation: Veil), and PowerSploit (Citation: Powersploit) are three examples that are popular among penetration testers for exploit and post-compromise operations and include many features for evading defenses. Some adversaries are known to use PowerShell. (Citation: Alperovitch 2014)",
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "defense-evasion"
+        },
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "execution"
+        },
+        {
+          "kill_chain_name": "lockheed",
+          "phase_name": "installation"
+        }
+      ],
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1064",
+          "external_id": "T1064"
+        },
+        {
+          "source_name": "Metasploit",
+          "url": "http://www.metasploit.com",
+          "description": "Metasploit. (n.d.). Retrieved December 4, 2014."
+        },
+        {
+          "source_name": "Veil",
+          "url": "https://www.veil-framework.com/framework/",
+          "description": "Veil Framework. (n.d.). Retrieved December 4, 2014."
+        },
+        {
+          "source_name": "Powersploit",
+          "url": "https://github.com/mattifestation/PowerSploit",
+          "description": "PowerSploit. (n.d.). Retrieved December 4, 2014."
+        },
+        {
+          "source_name": "Alperovitch 2014",
+          "url": "https://blog.crowdstrike.com/deep-thought-chinese-targeting-national-security-think-tanks/",
+          "description": "Alperovitch, D. (2014, July 7). Deep in Thought: Chinese Targeting of National Security Think Tanks. Retrieved November 12, 2014."
+        },
+        {
+          "source_name": "Uperesia Malicious Office Documents",
+          "url": "https://www.uperesia.com/analyzing-malicious-office-documents",
+          "description": "Felix. (2016, September). Analyzing Malicious Office Documents. Retrieved April 11, 2018."
+        }
+      ],
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "id": "attack-pattern--56fca983-1cf1-4fd1-bda0-5e170a37ab59",
+      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "created": "2018-08-03T19:54:02.821Z",
+      "modified": "2018-12-17T14:32:51.204Z",
+      "name": "T1107: File Deletion",
+      "description": "Malware, tools, or other non-native files dropped or created on a system by an adversary may leave traces behind as to what was done within a network and how. Adversaries may remove these files over the course of an intrusion to keep their footprint low or remove them at the end as part of the post-intrusion cleanup process.\n\nThere are tools available from the host operating system to perform cleanup, but adversaries may use other tools as well. Examples include native [cmd](https://attack.mitre.org/software/S0106) functions such as DEL, secure deletion tools such as Windows Sysinternals SDelete, or other third-party file deletion tools. (Citation: Trend Micro APT Attack Tools)",
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "defense-evasion"
+        },
+        {
+          "kill_chain_name": "lockheed",
+          "phase_name": "installation"
+        }
+      ],
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1107",
+          "external_id": "T1107"
+        },
+        {
+          "source_name": "Trend Micro APT Attack Tools",
+          "url": "http://blog.trendmicro.com/trendlabs-security-intelligence/in-depth-look-apt-attack-tools-of-the-trade/",
+          "description": "Wilhoit, K. (2013, March 4). In-Depth Look: APT Attack Tools of the Trade. Retrieved December 2, 2015."
+        }
+      ],
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "id": "attack-pattern--355be19c-ffc9-46d5-8d50-d6a036c675b6",
+      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "created": "2018-08-03T19:54:02.821Z",
+      "modified": "2018-12-17T14:33:49.016Z",
+      "name": "T1071: Standard Application Layer Protocol",
+      "description": "Adversaries may communicate using a common, standardized application layer protocol such as HTTP, HTTPS, SMTP, or DNS to avoid detection by blending in with existing traffic. Commands to the remote system, and often the results of those commands, will be embedded within the protocol traffic between the client and server.\n\nFor connections that occur internally within an enclave (such as those between a proxy or pivot node and other nodes), commonly used protocols are RPC, SSH, or RDP.",
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "command-and-control"
+        },
+        {
+          "kill_chain_name": "lockheed",
+          "phase_name": "command-and-control"
+        }
+      ],
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1071",
+          "external_id": "T1071"
+        },
+        {
+          "source_name": "University of Birmingham C2",
+          "url": "https://arxiv.org/ftp/arxiv/papers/1408/1408.1136.pdf",
+          "description": "Gardiner, J.,  Cova, M., Nagaraja, S. (2014, February). Command & Control Understanding, Denying and Detecting. Retrieved April 20, 2016."
+        }
+      ],
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "id": "attack-pattern--e51398e6-53dc-4e9f-a323-e54683d8672b",
+      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "created": "2018-08-03T19:54:02.821Z",
+      "modified": "2018-12-17T14:32:05.482Z",
+      "name": "T1334: Compromise 3rd party infrastructure to support delivery",
+      "description": "Instead of buying, leasing, or renting infrastructure an adversary may compromise infrastructure and use it for some or all of the attack cycle. (Citation: WateringHole2014) (Citation: FireEye Operation SnowMan)",
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-pre-attack",
+          "phase_name": "establish-&-maintain-infrastructure"
+        },
+        {
+          "kill_chain_name": "lockheed",
+          "phase_name": "weaponization"
+        }
+      ],
+      "external_references": [
+        {
+          "source_name": "mitre-pre-attack",
+          "url": "https://attack.mitre.org/techniques/T1334",
+          "external_id": "T1334"
+        }
+      ],
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "id": "attack-pattern--fddd81e9-dd3d-477e-9773-4fb8ae227234",
+      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "created": "2018-08-03T19:54:02.821Z",
+      "modified": "2018-12-17T14:32:48.218Z",
+      "name": "T1345: Create custom payloads",
+      "description": "A payload is the part of the malware which performs a malicious action. The adversary may create custom payloads when none exist with the needed capability or when targeting a specific environment. (Citation: APT1)",
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-pre-attack",
+          "phase_name": "build-capabilities"
+        },
+        {
+          "kill_chain_name": "lockheed",
+          "phase_name": "weaponization"
+        }
+      ],
+      "external_references": [
+        {
+          "source_name": "mitre-pre-attack",
+          "url": "https://attack.mitre.org/techniques/T1345",
+          "external_id": "T1345"
+        }
+      ],
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ]
+    },
+    {
+      "type": "indicator",
+      "id": "indicator--f5521f4c-989c-464e-9bd2-49aa5fe48c90",
+      "created": "2019-05-01T17:01:06.967Z",
+      "modified": "2019-06-18T18:21:17.869Z",
+      "name": "99c76c3c7f5d14166fe936e509b268f1187c15117f11cb4b166027620b8c8f0f",
+      "pattern": "[file:hashes.'SHA-256' = '99c76c3c7f5d14166fe936e509b268f1187c15117f11cb4b166027620b8c8f0f']",
+      "valid_from": "2019-05-01T17:01:06.967Z",
+      "labels": [
+        "malicious-activity"
+      ]
+    },
+    {
+      "type": "indicator",
+      "id": "indicator--13e95281-be1c-4fd7-acb3-81f61e23f9b5",
+      "created": "2019-05-01T17:01:06.967Z",
+      "modified": "2019-05-02T17:13:56.081Z",
+      "name": "kane-consulting.net",
+      "pattern": "[domain-name:value = 'kane-consulting.net']",
+      "valid_from": "2019-05-01T17:01:06.967Z",
+      "labels": [
+        "malicious-activity"
+      ]
+    },
+    {
+      "type": "indicator",
+      "id": "indicator--702ae480-6a06-4c21-b356-452b66f922b7",
+      "created": "2019-05-01T17:01:06.967Z",
+      "modified": "2019-05-02T17:13:56.081Z",
+      "name": "ff.whitebirchpaper.com",
+      "pattern": "[domain-name:value = 'ff.whitebirchpaper.com']",
+      "valid_from": "2019-05-01T17:01:06.967Z",
+      "labels": [
+        "malicious-activity"
+      ]
+    },
+    {
+      "type": "indicator",
+      "id": "indicator--d100f962-a09a-4d41-ac03-78f761cb694f",
+      "created": "2019-05-01T17:01:06.967Z",
+      "modified": "2019-05-02T17:13:56.081Z",
+      "name": "extranet.qualityplanning.com",
+      "pattern": "[domain-name:value = 'extranet.qualityplanning.com']",
+      "valid_from": "2019-05-01T17:01:06.967Z",
+      "labels": [
+        "malicious-activity"
+      ]
+    },
+    {
+      "type": "indicator",
+      "id": "indicator--3c765c57-6828-4c75-aa1a-7323dfded1f7",
+      "created": "2019-05-01T17:01:06.967Z",
+      "modified": "2019-05-02T17:13:56.081Z",
+      "name": "secure.hgl.com",
+      "pattern": "[domain-name:value = 'secure.hgl.com']",
+      "valid_from": "2019-05-01T17:01:06.967Z",
+      "labels": [
+        "malicious-activity"
+      ]
+    },
+    {
+      "type": "indicator",
+      "id": "indicator--ccf2c7d3-219e-4a8e-a87f-6aa6f885d8da",
+      "created": "2019-05-01T17:01:06.967Z",
+      "modified": "2019-05-02T17:13:56.081Z",
+      "name": "redbluffchamber.com",
+      "pattern": "[domain-name:value = 'redbluffchamber.com']",
+      "valid_from": "2019-05-01T17:01:06.967Z",
+      "labels": [
+        "malicious-activity"
+      ]
+    },
+    {
+      "type": "indicator",
+      "id": "indicator--eb593d8e-46a4-42ee-8b5b-10c6a114dd86",
+      "created": "2019-05-01T17:01:06.967Z",
+      "modified": "2019-05-02T17:13:56.081Z",
+      "name": "staff.shasta.com",
+      "pattern": "[domain-name:value = 'staff.shasta.com']",
+      "valid_from": "2019-05-01T17:01:06.967Z",
+      "labels": [
+        "malicious-activity"
+      ]
+    },
+    {
+      "type": "indicator",
+      "id": "indicator--90f77e91-1204-4362-9d4c-0b21a9b94070",
+      "created": "2019-05-01T17:01:06.967Z",
+      "modified": "2019-05-02T17:13:56.082Z",
+      "name": "betawebservices.ntnonline.com",
+      "pattern": "[domain-name:value = 'betawebservices.ntnonline.com']",
+      "valid_from": "2019-05-01T17:01:06.967Z",
+      "labels": [
+        "malicious-activity"
+      ]
+    },
+    {
+      "type": "indicator",
+      "id": "indicator--247bf048-7621-40db-89ed-9442a954d8b9",
+      "created": "2019-05-01T17:01:06.967Z",
+      "modified": "2019-05-02T17:13:56.082Z",
+      "name": "illuminatistudios.net",
+      "pattern": "[domain-name:value = 'illuminatistudios.net']",
+      "valid_from": "2019-05-01T17:01:06.967Z",
+      "labels": [
+        "malicious-activity"
+      ]
+    },
+    {
+      "type": "indicator",
+      "id": "indicator--4169d5b6-f8f8-4f13-8d8a-dab01910b0a7",
+      "created": "2019-06-18T19:07:57.704Z",
+      "modified": "2019-07-25T12:41:38.401Z",
+      "name": "88a40d5b679bccf9641009514b3d18b09e68b609ffaf414574a6eca6536e8b8f",
+      "pattern": "[file:hashes.'SHA-256' = '88a40d5b679bccf9641009514b3d18b09e68b609ffaf414574a6eca6536e8b8f']",
+      "valid_from": "2019-06-18T19:07:57.704Z",
+      "labels": [
+        "malicious-activity"
+      ]
+    },
+    {
+      "type": "indicator",
+      "id": "indicator--cd20310b-4d23-4374-80b3-14aab6dee975",
+      "created": "2019-06-18T19:09:42.197Z",
+      "modified": "2019-07-25T12:41:38.401Z",
+      "name": "ca0b804c30052456362fe22ae6fa8482f91651c2c18dc41cda4c6e282fdede6f",
+      "pattern": "[file:hashes.'SHA-256' = 'ca0b804c30052456362fe22ae6fa8482f91651c2c18dc41cda4c6e282fdede6f']",
+      "valid_from": "2019-06-18T19:09:42.197Z",
+      "labels": [
+        "malicious-activity"
+      ]
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--01419a6a-7a2f-4d12-b5dc-e688b6ed8df4",
+      "created": "2019-05-01T17:01:07.601Z",
+      "modified": "2019-05-02T17:13:56.083Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--f5521f4c-989c-464e-9bd2-49aa5fe48c90",
+      "target_ref": "campaign--98bcf939-7f72-4912-b495-2f7a4704cf2f"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--a8e7313d-aeba-4978-ae6a-3ef33048dd2b",
+      "created": "2019-05-01T17:01:07.601Z",
+      "modified": "2019-05-02T17:13:56.083Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--13e95281-be1c-4fd7-acb3-81f61e23f9b5",
+      "target_ref": "campaign--98bcf939-7f72-4912-b495-2f7a4704cf2f"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--9935b46c-1728-46a4-8dc9-94506a570b8c",
+      "created": "2019-05-01T17:01:07.601Z",
+      "modified": "2019-05-02T17:13:56.083Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--702ae480-6a06-4c21-b356-452b66f922b7",
+      "target_ref": "campaign--98bcf939-7f72-4912-b495-2f7a4704cf2f"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--606b0b58-9c66-40ac-94e0-e6605fcbea7a",
+      "created": "2019-05-01T17:01:07.601Z",
+      "modified": "2019-05-02T17:13:56.083Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--d100f962-a09a-4d41-ac03-78f761cb694f",
+      "target_ref": "campaign--98bcf939-7f72-4912-b495-2f7a4704cf2f"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--04d74647-a477-4fed-ae5b-c878d1eec540",
+      "created": "2019-05-01T17:01:07.601Z",
+      "modified": "2019-05-02T17:13:56.083Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--3c765c57-6828-4c75-aa1a-7323dfded1f7",
+      "target_ref": "campaign--98bcf939-7f72-4912-b495-2f7a4704cf2f"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--c4e43daf-802f-4a77-b915-018a0d68e1a3",
+      "created": "2019-05-01T17:01:07.601Z",
+      "modified": "2019-05-02T17:13:56.083Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--ccf2c7d3-219e-4a8e-a87f-6aa6f885d8da",
+      "target_ref": "campaign--98bcf939-7f72-4912-b495-2f7a4704cf2f"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--3187ccec-304b-4a14-aafd-4752a71af544",
+      "created": "2019-05-01T17:01:07.601Z",
+      "modified": "2019-05-02T17:13:56.083Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--eb593d8e-46a4-42ee-8b5b-10c6a114dd86",
+      "target_ref": "campaign--98bcf939-7f72-4912-b495-2f7a4704cf2f"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--5385964c-9f17-492d-ba0a-cddbd3fa188e",
+      "created": "2019-05-01T17:01:07.601Z",
+      "modified": "2019-05-02T17:13:56.084Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--90f77e91-1204-4362-9d4c-0b21a9b94070",
+      "target_ref": "campaign--98bcf939-7f72-4912-b495-2f7a4704cf2f"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--28807c8a-fa8c-4a33-9e48-ee4bffc36381",
+      "created": "2019-05-01T17:01:07.601Z",
+      "modified": "2019-05-02T17:13:56.084Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--247bf048-7621-40db-89ed-9442a954d8b9",
+      "target_ref": "campaign--98bcf939-7f72-4912-b495-2f7a4704cf2f"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--40fc73a0-9bb7-437d-a87e-2ccf10740da0",
+      "created": "2019-06-18T19:07:57.909Z",
+      "modified": "2019-07-25T12:41:38.402Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--4169d5b6-f8f8-4f13-8d8a-dab01910b0a7",
+      "target_ref": "campaign--98bcf939-7f72-4912-b495-2f7a4704cf2f"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--c8b6ed74-ff93-4617-8755-9933f2088cbc",
+      "created": "2019-06-18T19:09:42.376Z",
+      "modified": "2019-07-25T12:41:38.402Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--cd20310b-4d23-4374-80b3-14aab6dee975",
+      "target_ref": "campaign--98bcf939-7f72-4912-b495-2f7a4704cf2f"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--dce89097-2760-42a9-a8cd-34fc0745907b",
+      "created": "2019-06-18T18:58:15.667Z",
+      "modified": "2019-07-11T14:18:45.828Z",
+      "relationship_type": "uses",
+      "description": "Decoy swf file",
+      "source_ref": "indicator--f5521f4c-989c-464e-9bd2-49aa5fe48c90",
+      "target_ref": "attack-pattern--e6919abc-99f9-4c6c-95a5-14761e7b2add"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--0d0e5112-5161-47a0-9edf-2a417fd5cc02",
+      "created": "2019-05-02T16:38:25.396Z",
+      "modified": "2019-05-02T17:13:56.085Z",
+      "relationship_type": "uses",
+      "description": " HTTP request to this C2 server ",
+      "source_ref": "indicator--13e95281-be1c-4fd7-acb3-81f61e23f9b5",
+      "target_ref": "attack-pattern--355be19c-ffc9-46d5-8d50-d6a036c675b6"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--2a7ed2d0-15ab-4ffd-b18e-61d8305bfbed",
+      "created": "2019-05-02T16:54:48.949Z",
+      "modified": "2019-05-02T17:13:56.085Z",
+      "relationship_type": "uses",
+      "description": "Compromised website to support delivery",
+      "source_ref": "indicator--13e95281-be1c-4fd7-acb3-81f61e23f9b5",
+      "target_ref": "attack-pattern--e51398e6-53dc-4e9f-a323-e54683d8672b"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--b6431e8f-2434-4414-a2a2-c0a92310d31c",
+      "created": "2019-05-02T16:38:32.806Z",
+      "modified": "2019-05-02T17:13:56.085Z",
+      "relationship_type": "uses",
+      "description": " HTTP request to this C2 server ",
+      "source_ref": "indicator--702ae480-6a06-4c21-b356-452b66f922b7",
+      "target_ref": "attack-pattern--355be19c-ffc9-46d5-8d50-d6a036c675b6"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--8a262795-95c2-431b-904d-591e1f59aed0",
+      "created": "2019-05-02T16:54:55.749Z",
+      "modified": "2019-05-02T17:13:56.085Z",
+      "relationship_type": "uses",
+      "description": "Compromised website to support delivery",
+      "source_ref": "indicator--702ae480-6a06-4c21-b356-452b66f922b7",
+      "target_ref": "attack-pattern--e51398e6-53dc-4e9f-a323-e54683d8672b"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--68797f5d-dd3a-4735-9aaf-c672b93382b8",
+      "created": "2019-05-02T16:43:23.773Z",
+      "modified": "2019-05-02T17:13:56.085Z",
+      "relationship_type": "uses",
+      "description": " HTTP request to this C2 server ",
+      "source_ref": "indicator--d100f962-a09a-4d41-ac03-78f761cb694f",
+      "target_ref": "attack-pattern--355be19c-ffc9-46d5-8d50-d6a036c675b6"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--53ce0945-742e-4884-8f03-dd72f5d9ab28",
+      "created": "2019-05-02T16:55:03.139Z",
+      "modified": "2019-05-02T17:13:56.085Z",
+      "relationship_type": "uses",
+      "description": "Compromised website to support delivery",
+      "source_ref": "indicator--d100f962-a09a-4d41-ac03-78f761cb694f",
+      "target_ref": "attack-pattern--e51398e6-53dc-4e9f-a323-e54683d8672b"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--5631f957-aed0-424c-ac18-6e86a9797ad0",
+      "created": "2019-05-02T16:38:45.579Z",
+      "modified": "2019-05-02T17:13:56.085Z",
+      "relationship_type": "uses",
+      "description": " HTTP request to this C2 server ",
+      "source_ref": "indicator--3c765c57-6828-4c75-aa1a-7323dfded1f7",
+      "target_ref": "attack-pattern--355be19c-ffc9-46d5-8d50-d6a036c675b6"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--c59f3b93-df36-46cc-9f5f-76ad623a0a12",
+      "created": "2019-05-02T16:55:08.710Z",
+      "modified": "2019-05-02T17:13:56.085Z",
+      "relationship_type": "uses",
+      "description": "Compromised website to support delivery",
+      "source_ref": "indicator--3c765c57-6828-4c75-aa1a-7323dfded1f7",
+      "target_ref": "attack-pattern--e51398e6-53dc-4e9f-a323-e54683d8672b"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--5e61daf3-85a2-4ee5-9b41-e8c7f5289ad5",
+      "created": "2019-05-02T16:55:17.924Z",
+      "modified": "2019-05-02T17:13:56.085Z",
+      "relationship_type": "uses",
+      "description": "Compromised website to support delivery",
+      "source_ref": "indicator--ccf2c7d3-219e-4a8e-a87f-6aa6f885d8da",
+      "target_ref": "attack-pattern--e51398e6-53dc-4e9f-a323-e54683d8672b"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--4204b848-059e-4dfe-85f7-06d69a6679c2",
+      "created": "2019-05-02T16:39:24.605Z",
+      "modified": "2019-05-02T17:13:56.085Z",
+      "relationship_type": "uses",
+      "description": " HTTP request to this C2 server ",
+      "source_ref": "indicator--eb593d8e-46a4-42ee-8b5b-10c6a114dd86",
+      "target_ref": "attack-pattern--355be19c-ffc9-46d5-8d50-d6a036c675b6"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--0b28aaff-b38a-4039-86f9-f9aaab907e33",
+      "created": "2019-05-02T16:56:00.165Z",
+      "modified": "2019-05-02T17:13:56.085Z",
+      "relationship_type": "uses",
+      "description": "Compromised website to support delivery",
+      "source_ref": "indicator--eb593d8e-46a4-42ee-8b5b-10c6a114dd86",
+      "target_ref": "attack-pattern--e51398e6-53dc-4e9f-a323-e54683d8672b"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--95f59c34-f764-4c2d-b255-5e3928afbd49",
+      "created": "2019-05-02T16:39:33.567Z",
+      "modified": "2019-05-02T17:13:56.085Z",
+      "relationship_type": "uses",
+      "description": " HTTP request to this C2 server ",
+      "source_ref": "indicator--90f77e91-1204-4362-9d4c-0b21a9b94070",
+      "target_ref": "attack-pattern--355be19c-ffc9-46d5-8d50-d6a036c675b6"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--df1f6f37-612e-42c0-9050-4fbadd736bd2",
+      "created": "2019-05-02T16:55:50.820Z",
+      "modified": "2019-05-02T17:13:56.085Z",
+      "relationship_type": "uses",
+      "description": "Compromised website to support delivery",
+      "source_ref": "indicator--90f77e91-1204-4362-9d4c-0b21a9b94070",
+      "target_ref": "attack-pattern--e51398e6-53dc-4e9f-a323-e54683d8672b"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--3382b48c-af3e-4cec-97c5-d444e97b23fe",
+      "created": "2019-05-02T16:45:42.852Z",
+      "modified": "2019-05-02T17:13:56.085Z",
+      "relationship_type": "uses",
+      "description": " HTTP request to this C2 server ",
+      "source_ref": "indicator--247bf048-7621-40db-89ed-9442a954d8b9",
+      "target_ref": "attack-pattern--355be19c-ffc9-46d5-8d50-d6a036c675b6"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--d8fe0453-e542-4bf5-8ac6-c55388d4ded1",
+      "created": "2019-05-02T16:55:44.823Z",
+      "modified": "2019-05-02T17:13:56.085Z",
+      "relationship_type": "uses",
+      "description": "Compromised website to support delivery",
+      "source_ref": "indicator--247bf048-7621-40db-89ed-9442a954d8b9",
+      "target_ref": "attack-pattern--e51398e6-53dc-4e9f-a323-e54683d8672b"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--f42560fa-942f-44cb-88fa-14fdc460dba5",
+      "created": "2019-06-18T19:07:57.909Z",
+      "modified": "2019-07-11T14:21:09.449Z",
+      "relationship_type": "uses",
+      "description": "miniDionis payload",
+      "source_ref": "indicator--4169d5b6-f8f8-4f13-8d8a-dab01910b0a7",
+      "target_ref": "attack-pattern--fddd81e9-dd3d-477e-9773-4fb8ae227234"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--7f423618-cfcf-4732-a9ef-947c0992cbc5",
+      "created": "2019-06-18T19:09:42.376Z",
+      "modified": "2019-07-11T14:21:09.449Z",
+      "relationship_type": "uses",
+      "description": "miniDionis payload",
+      "source_ref": "indicator--cd20310b-4d23-4374-80b3-14aab6dee975",
+      "target_ref": "attack-pattern--fddd81e9-dd3d-477e-9773-4fb8ae227234"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--21e60c20-d6f7-4d7c-85c3-5be5e958b6de",
+      "created": "2019-05-01T18:55:40.158Z",
+      "modified": "2019-05-02T17:13:56.084Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--98bcf939-7f72-4912-b495-2f7a4704cf2f",
+      "target_ref": "attack-pattern--6aac77c4-eaf2-4366-8c13-ce50ab951f38"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--64e33f54-7e91-407e-a76a-1ef21c753f23",
+      "created": "2019-05-01T19:53:20.100Z",
+      "modified": "2019-05-02T17:13:56.084Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--98bcf939-7f72-4912-b495-2f7a4704cf2f",
+      "target_ref": "attack-pattern--354a7f88-63fb-41b5-a801-ce3b377b36f1"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--3ff05a7d-460b-4d79-a23c-16c397d3d75e",
+      "created": "2019-05-01T19:54:05.248Z",
+      "modified": "2019-05-02T17:13:56.084Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--98bcf939-7f72-4912-b495-2f7a4704cf2f",
+      "target_ref": "attack-pattern--8c32eb4d-805f-4fc5-bf60-c4d476c131b5"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--efb22cf4-6db6-4cae-ac57-a442ce46272b",
+      "created": "2019-05-01T19:16:18.040Z",
+      "modified": "2019-05-02T17:13:56.084Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--98bcf939-7f72-4912-b495-2f7a4704cf2f",
+      "target_ref": "attack-pattern--42e8de7b-37b2-4258-905a-6897815e58e0"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--a751290d-81d4-4081-bf29-56a28d2e5166",
+      "created": "2019-06-18T18:57:43.837Z",
+      "modified": "2019-07-25T12:41:38.402Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--98bcf939-7f72-4912-b495-2f7a4704cf2f",
+      "target_ref": "attack-pattern--20138b9d-1aac-4a26-8654-a36b6bbf2bba"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--c5afdfac-c0e5-41e4-ad34-ecb48654d6de",
+      "created": "2019-06-18T18:25:03.919Z",
+      "modified": "2019-06-20T21:53:52.578Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--98bcf939-7f72-4912-b495-2f7a4704cf2f",
+      "target_ref": "attack-pattern--7fd87010-3a00-4da3-b905-410525e8ec44"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--3bd7f44b-689d-41dd-92cd-9d7745bfa733",
+      "created": "2019-06-18T13:42:13.800Z",
+      "modified": "2019-07-11T14:19:44.687Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--98bcf939-7f72-4912-b495-2f7a4704cf2f",
+      "target_ref": "attack-pattern--56fca983-1cf1-4fd1-bda0-5e170a37ab59"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--ed58bc33-f68d-4385-b555-17e81911277e",
+      "created": "2019-05-01T15:48:19.396Z",
+      "modified": "2019-05-28T17:14:16.859Z",
+      "relationship_type": "attributed-to",
+      "source_ref": "report--ed58bc33-f68d-4385-b555-17e81911277e",
+      "target_ref": "intrusion-set--7402a5fc-a0bb-4f2e-ab06-d147c1306b66"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--e6919abc-99f9-4c6c-95a5-14761e7b2add",
+      "created": "2019-05-01T15:48:19.505Z",
+      "modified": "2019-05-07T19:05:14.530Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--98bcf939-7f72-4912-b495-2f7a4704cf2f",
+      "target_ref": "attack-pattern--e6919abc-99f9-4c6c-95a5-14761e7b2add"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--355be19c-ffc9-46d5-8d50-d6a036c675b6",
+      "created": "2019-05-01T15:48:19.505Z",
+      "modified": "2019-05-07T19:05:14.530Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--98bcf939-7f72-4912-b495-2f7a4704cf2f",
+      "target_ref": "attack-pattern--355be19c-ffc9-46d5-8d50-d6a036c675b6"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--e51398e6-53dc-4e9f-a323-e54683d8672b",
+      "created": "2019-05-01T15:48:19.505Z",
+      "modified": "2019-05-07T19:05:14.530Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--98bcf939-7f72-4912-b495-2f7a4704cf2f",
+      "target_ref": "attack-pattern--e51398e6-53dc-4e9f-a323-e54683d8672b"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--fddd81e9-dd3d-477e-9773-4fb8ae227234",
+      "created": "2019-05-01T15:48:19.505Z",
+      "modified": "2019-05-07T19:05:14.530Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--98bcf939-7f72-4912-b495-2f7a4704cf2f",
+      "target_ref": "attack-pattern--fddd81e9-dd3d-477e-9773-4fb8ae227234"
+    },
+    {
+      "type": "report",
+      "id": "report--98bcf939-7f72-4912-b495-2f7a4704cf2f",
+      "created": "2019-05-01T15:48:19.505Z",
+      "modified": "2019-05-07T19:05:14.530Z",
+      "name": "MiniDionis Campaign",
+      "published": "2019-05-07T19:05:14.530Z",
+      "object_refs": [
+        "campaign--98bcf939-7f72-4912-b495-2f7a4704cf2f",
+        "intrusion-set--7402a5fc-a0bb-4f2e-ab06-d147c1306b66",
+        "indicator--f5521f4c-989c-464e-9bd2-49aa5fe48c90",
+        "indicator--13e95281-be1c-4fd7-acb3-81f61e23f9b5",
+        "indicator--702ae480-6a06-4c21-b356-452b66f922b7",
+        "indicator--d100f962-a09a-4d41-ac03-78f761cb694f",
+        "indicator--3c765c57-6828-4c75-aa1a-7323dfded1f7",
+        "indicator--ccf2c7d3-219e-4a8e-a87f-6aa6f885d8da",
+        "indicator--eb593d8e-46a4-42ee-8b5b-10c6a114dd86",
+        "indicator--90f77e91-1204-4362-9d4c-0b21a9b94070",
+        "indicator--247bf048-7621-40db-89ed-9442a954d8b9",
+        "indicator--4169d5b6-f8f8-4f13-8d8a-dab01910b0a7",
+        "indicator--cd20310b-4d23-4374-80b3-14aab6dee975",
+        "attack-pattern--6aac77c4-eaf2-4366-8c13-ce50ab951f38",
+        "attack-pattern--e6919abc-99f9-4c6c-95a5-14761e7b2add",
+        "attack-pattern--354a7f88-63fb-41b5-a801-ce3b377b36f1",
+        "attack-pattern--8c32eb4d-805f-4fc5-bf60-c4d476c131b5",
+        "attack-pattern--42e8de7b-37b2-4258-905a-6897815e58e0",
+        "attack-pattern--20138b9d-1aac-4a26-8654-a36b6bbf2bba",
+        "attack-pattern--7fd87010-3a00-4da3-b905-410525e8ec44",
+        "attack-pattern--56fca983-1cf1-4fd1-bda0-5e170a37ab59",
+        "attack-pattern--355be19c-ffc9-46d5-8d50-d6a036c675b6",
+        "attack-pattern--e51398e6-53dc-4e9f-a323-e54683d8672b",
+        "attack-pattern--fddd81e9-dd3d-477e-9773-4fb8ae227234",
+        "relationship--01419a6a-7a2f-4d12-b5dc-e688b6ed8df4",
+        "relationship--a8e7313d-aeba-4978-ae6a-3ef33048dd2b",
+        "relationship--9935b46c-1728-46a4-8dc9-94506a570b8c",
+        "relationship--606b0b58-9c66-40ac-94e0-e6605fcbea7a",
+        "relationship--04d74647-a477-4fed-ae5b-c878d1eec540",
+        "relationship--c4e43daf-802f-4a77-b915-018a0d68e1a3",
+        "relationship--3187ccec-304b-4a14-aafd-4752a71af544",
+        "relationship--5385964c-9f17-492d-ba0a-cddbd3fa188e",
+        "relationship--28807c8a-fa8c-4a33-9e48-ee4bffc36381",
+        "relationship--40fc73a0-9bb7-437d-a87e-2ccf10740da0",
+        "relationship--c8b6ed74-ff93-4617-8755-9933f2088cbc",
+        "relationship--dce89097-2760-42a9-a8cd-34fc0745907b",
+        "relationship--0d0e5112-5161-47a0-9edf-2a417fd5cc02",
+        "relationship--2a7ed2d0-15ab-4ffd-b18e-61d8305bfbed",
+        "relationship--b6431e8f-2434-4414-a2a2-c0a92310d31c",
+        "relationship--8a262795-95c2-431b-904d-591e1f59aed0",
+        "relationship--68797f5d-dd3a-4735-9aaf-c672b93382b8",
+        "relationship--53ce0945-742e-4884-8f03-dd72f5d9ab28",
+        "relationship--5631f957-aed0-424c-ac18-6e86a9797ad0",
+        "relationship--c59f3b93-df36-46cc-9f5f-76ad623a0a12",
+        "relationship--5e61daf3-85a2-4ee5-9b41-e8c7f5289ad5",
+        "relationship--4204b848-059e-4dfe-85f7-06d69a6679c2",
+        "relationship--0b28aaff-b38a-4039-86f9-f9aaab907e33",
+        "relationship--95f59c34-f764-4c2d-b255-5e3928afbd49",
+        "relationship--df1f6f37-612e-42c0-9050-4fbadd736bd2",
+        "relationship--3382b48c-af3e-4cec-97c5-d444e97b23fe",
+        "relationship--d8fe0453-e542-4bf5-8ac6-c55388d4ded1",
+        "relationship--f42560fa-942f-44cb-88fa-14fdc460dba5",
+        "relationship--7f423618-cfcf-4732-a9ef-947c0992cbc5",
+        "relationship--21e60c20-d6f7-4d7c-85c3-5be5e958b6de",
+        "relationship--64e33f54-7e91-407e-a76a-1ef21c753f23",
+        "relationship--3ff05a7d-460b-4d79-a23c-16c397d3d75e",
+        "relationship--efb22cf4-6db6-4cae-ac57-a442ce46272b",
+        "relationship--a751290d-81d4-4081-bf29-56a28d2e5166",
+        "relationship--c5afdfac-c0e5-41e4-ad34-ecb48654d6de",
+        "relationship--3bd7f44b-689d-41dd-92cd-9d7745bfa733",
+        "relationship--ed58bc33-f68d-4385-b555-17e81911277e",
+        "relationship--e6919abc-99f9-4c6c-95a5-14761e7b2add",
+        "relationship--355be19c-ffc9-46d5-8d50-d6a036c675b6",
+        "relationship--e51398e6-53dc-4e9f-a323-e54683d8672b",
+        "relationship--fddd81e9-dd3d-477e-9773-4fb8ae227234"
+      ],
+      "labels": [
+        "campaign"
+      ]
+    },
+    {
+      "type": "campaign",
+      "id": "campaign--98bcf939-7f72-4912-b495-2f7a4704cf2f",
+      "created": "2019-05-01T15:48:19.505Z",
+      "modified": "2019-05-07T19:05:14.530Z",
+      "name": "MiniDionis Campaign",
+      "description": "Unit 42 has uncovered a new campaign from the CozyDuke threat actors, aka CozyCar, leveraging malware that appears to be related to the Seaduke malware described earlier this week by Symantec. \n\nThis campaign, which began on July 7, 2015, appears to be targeted at government organizations and think-tanks located in democratic countries, and utilizes compromised, legitimate websites for spear phishing and command and control activity.\n\n https://unit42.paloaltonetworks.com/tracking-minidionis-cozycars-new-ride-is-related-to-seaduke/ ",
+      "first_seen": "2015-07-07",
+      "last_seen": "2015-07-07"
+    }
+  ]
+}
