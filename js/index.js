@@ -255,7 +255,7 @@ function storeCurrentPlaybook(playbook) {
 
 function displayReportByID(report_id, playbook) {
     //Get the report content from the ID
-    let report = getObjectFromPlaybook(report_id, playbook);
+    const report = getObjectFromPlaybook(report_id, playbook);
     displayReport(report, playbook);
 }
 
@@ -266,27 +266,30 @@ function displayReport(report, playbook) {
 
 function addReportLinks(playbook) {
     //For now this just lists the plays, by name, at the bottom, and makes them Buttons
-    let reports = playbook['objects'].filter(o => o.type === 'report');
+    const reports = playbook['objects'].filter(o => o.type === 'report');
     $('.timeline').empty();
     //The Main report is only going to contain other reports
     //The other reports contain a campaign object with a date inside it.
-    let parsed_reports = [];
+    const parsed_reports = [];
 
     reports.forEach(r => {
         const {labels} = r;
         if (labels.includes('intrusion-set')) {
             current_intrusion_set = getTypeFromReport("intrusion-set", r, playbook)[0].name;
         } else {
-            let campaign = getTypeFromReport("campaign", r, playbook);
-            // const first_seen = new Date(campaign[0]['first_seen']);
-            // const last_seen = new Date(campaign[0]['last_seen']);
-            const first_seen = new Date(campaign[0]['first_seen'].substring(0, 7));
-            const last_seen = new Date(campaign[0]['last_seen'].substring(0, 7));
-            let campaign_length_in_days = Math.floor((last_seen - first_seen) / 86400000);
+            const campaign = getTypeFromReport("campaign", r, playbook);
+
+            const first_seen = new Date(campaign[0]['first_seen']);
+            const last_seen = new Date(campaign[0]['last_seen']);
+
+            const offset_first_seen = new Date(first_seen.getTime() + first_seen.getTimezoneOffset() * 60 * 1000);
+            const offset_last_seen = new Date(last_seen.getTime() + last_seen.getTimezoneOffset() * 60 * 1000);
+
+            const campaign_length_in_days = Math.floor((offset_last_seen - offset_first_seen) / 86400000);
             parsed_reports.push({
                 "id": r.id,
-                "first_seen": first_seen,
-                "last_seen": last_seen,
+                "first_seen": offset_first_seen,
+                "last_seen": offset_last_seen,
                 "campaign_length": campaign_length_in_days,
                 "name": r['name']
             })
