@@ -226,11 +226,11 @@ function initPlaybooks(playbooks) {
     initEvents();
 }
 
-function failPlaybooks(a, b, c, d, e, f) {
+function failPlaybooks() {
     console.log('fail');
 }
 
-function finiPlaybooks(a, b, c, d, e, f) {
+function finiPlaybooks() {
     console.log('fini');
 }
 
