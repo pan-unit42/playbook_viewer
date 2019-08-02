@@ -297,15 +297,13 @@ function loadPlaybook(pb_file) {
 function highlightLoadFirstLink(playbook) {
     const phase_links = document.getElementsByClassName('timeline_btn');
     const report_id = phase_links[0].getAttribute("report_id");
-    phase_links[0].style.background = "#ef9124";
+    $(`div.timeline_btn[report_id='${report_id}']`).addClass('activebtn');
     displayReportByID(report_id, playbook);
 }
 
 function highlightLink(report_id) {
-    const phase_links = document.getElementsByClassName('timeline_btn');
-    Array.from(phase_links).forEach(l => {
-        l.getAttribute("report_id") === report_id ? l.style.background = "#ef9124" : l.style.background = null;
-    });
+    $(`div.timeline_btn`).removeClass('activebtn');
+    $(`div.timeline_btn[report_id='${report_id}']`).addClass('activebtn');
 }
 
 function addInfoboxIndicatorTable(playbook) {
