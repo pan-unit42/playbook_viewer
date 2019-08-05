@@ -226,21 +226,11 @@ function initPlaybooks(playbooks) {
     initEvents();
 }
 
-function failPlaybooks() {
-    console.log('fail');
-}
-
-function finiPlaybooks() {
-    console.log('fini');
-}
-
 function loadPlaybooks() {
     $.ajax({
         dataType: "json",
         url: new URL('playbooks.json', window.location.href),
-        success: initPlaybooks,
-        error: failPlaybooks,
-        complete: finiPlaybooks
+        success: initPlaybooks
     });
 }
 
