@@ -1,4 +1,3 @@
-let pb_url = "playbook_json/";
 let current_playbook = null;
 let current_intrusion_set = null;
 
@@ -16,95 +15,234 @@ function emptyPlaybook() {
     current_playbook = null;
 }
 
-function showPlaybook() {
-    const url = new URL(window.location.href);
-    const pb_name = url.searchParams.get('pb');
+function initTour() {
+    const step0link = 'https://unit42.paloaltonetworks.com/unit42-introducing-the-adversary-playbook-first-up-oilrig/';
 
-    if (pb_name) {
-        // Load the Playbook indicated by the pb parameter
-        const pb_file = `${pb_name}.json`;
-        $('.playbook').removeClass('activebtn');
-        $(`div[pb_file='${pb_file}']`).addClass('activebtn');
-        loadPlaybook(`${pb_url}${pb_file}`);
-    } else {
-        // Only start the tour if a Playbook is not specified
-        emptyPlaybook();
-        tour.init();
-        tour.start();
-        // tour.restart(); // always start the tour
-    }
+    return new Tour({
+        template: function (i, step) {
+            return (
+                `<div class='popover tour'><div class='arrow'></div><h3 class='popover-title'> ${step.title}</h3>` +
+                `<div class='popover-content'> ${step.content}</div><div class='popover-navigation'>` +
+                `<div class='popover-btn-group'><button class='popover-btn-tour-control' data-role='prev'>Prev</button>` +
+                `<button class='popover-btn-tour-control' data-role='next'>Next</button>` +
+                `<button class='popover-btn-tour-control' data-role='end'>End</button></div></div></div>`
+            );
+        },
+        steps: [
+            {
+                element: "",
+                title: "Welcome to the Unit 42 Playbook Viewer",
+                content: "The Playbook viewer is a system for parsing STIX2 content that contains an Adversary Playbook. " +
+                    "You can read more about this <a href='" + step0link + "' target='_blank' >here</a>" +
+                    " or follow the prompts to check it out.",
+                orphan: true
+            },
+            {
+                element: "#playbook_oilrig",
+                title: "Select a Playbook",
+                content: "A Playbook is a collection of Plays. " +
+                    "Plays are campaigns that were conducted by an adversary, you can select them from this list.",
+                // Use the Oilrig Playbook for the demo
+                // onNext: () => $('#playbook_oilrig').trigger('click')
+                onNext: () => $('.box.sidebar div:first-of-type').trigger('click')
+            },
+            {
+                element: ".description",
+                title: "Each Playbook has a description",
+                content: "The description provides a general overview as well as background information on the adversary."
+            },
+            {
+                element: ".timeline",
+                title: "Playbooks contain one or more Plays",
+                content: "The Play is a representation of a campaign" +
+                    " the adversary conducted using specific techniques and tools."
+            },
+            {
+                // element: "#report--e76e88c8-699a-4eeb-a8e5-3645826d6455",
+                element: ".box.timeline :first-child",
+                title: "The newest Play is shown first",
+                content: "",
+                // the newest play is selected by default
+                // switch to the oldest play
+                // onNext: () => $('#report--418eec9b-ca2d-48d6-92cc-7cf47b159e8c').trigger('click')
+                onNext: () => $('.box.timeline :last-child').trigger('click')
+            },
+            {
+                // element: "#report--418eec9b-ca2d-48d6-92cc-7cf47b159e8c",
+                element: '.box.timeline :last-child',
+                title: "The oldest Play is shown last",
+                content: "",
+                // switch back to the newest play
+                // onNext: () => $('#report--e76e88c8-699a-4eeb-a8e5-3645826d6455').trigger('click')
+                onPrev: () => $('.box.timeline :first-child').trigger('click'),
+                onNext: () => $('.box.timeline :first-child').trigger('click')
+            },
+            {
+                element: ".bottomheader",
+                title: "Structure of a Play",
+                content: "Plays contain the specific Mitre ATT&CK techniques used by the adversary.",
+                placement: "top",
+                // technique: T1367: Spear phishing messages with malicious attachments
+                // hardcoding the id here is not ideal
+                onPrev: () => $('.box.timeline :last-child').trigger('click'),
+                onNext: () => $("[ap_id='attack-pattern--e24a9f99-cb76-42a3-a50b-464668773e97']").trigger('click')
+            },
+            {
+                element: "#indicator-table",
+                title: "Technique cards contain a STIX2 indicator pattern and a description.",
+                content: "",
+                placement: "top",
+                onPrev: () => $('.close').trigger('click'),
+            },
+            {
+                element: "#indicator-description",
+                title: "Description",
+                content: "The description provides context about an indicator identified by an analyst."
+            },
+            {
+                element: "#indicator-pattern",
+                title: "Indicator Pattern",
+                content: "The indicator pattern tells you what to look for" +
+                    " on your hosts or network to identify this technique or adversary in action.",
+                onNext: () => $('.close').trigger('click')
+            },
+            {
+                element: ".sidebar",
+                title: "View additional Playbooks",
+                content: "You can continue viewing OilRig or choose another adversary." +
+                    " We will continue adding new and updating old playbooks, so please check back.",
+            }
+        ],
+        onEnd: () => $("html, body").animate({scrollTop: 0}, "slow")
+    });
 }
 
-window.addEventListener('popstate', showPlaybook);
+function initEvents() {
+    const tour = initTour();
 
-jQuery(document).ready(showPlaybook);
+    function showPlaybook() {
+        const url = new URL(window.location.href);
+        const pb_name = url.searchParams.get('pb');
 
-// Start the tour on button click
-$(document).on('click', ".walkthrough", function () {
-    emptyPlaybook();
-    tour.init();
-    tour.restart();
-});
-
-// Select a Playbook
-$(document).on('click', ".playbook", function () {
-    const pb_file = $(this).attr("pb_file");
-    const pb_name = pb_file.split(".")[0];
-
-    history.pushState({}, "", `?pb=${pb_name}`);
-
-    $('.playbook').removeClass('activebtn');
-    $(this).addClass('activebtn');
-    loadPlaybook(`${pb_url}${pb_file}`);
-});
-
-// Select a Campaign within a Playbook
-$(document).on('click touchstart', '.btn-report', function (event) {
-    const report_id = $(this).attr("report_id");
-    highlightLink(report_id);
-    displayReportByID(report_id, current_playbook);
-});
-
-// Open an Attack Pattern within a Campaign
-$(document).on('click', '.ap_button', function () {
-    const ap_id = $(this).attr("ap_id");
-    const camp_id = $(this).attr("camp_id");
-    $('#' + ap_id + "_" + camp_id).css({
-        "display": "block"
-    });
-
-});
-
-// Open the Indicator list
-$(document).on('click', '.middle2', function () {
-    $('.indicator-list').css({
-        "display": "block"
-    });
-});
-
-// Hide on close
-$(document).on('click', '.close', function () {
-    $('.modal').css({
-        "display": "none"
-    });
-
-    $('.indicator-list').css({
-        "display": "none"
-    });
-});
-
-// Hide on click off
-$(document).on('click touchend', function (event) {
-    const et = $(event.target);
-    if (et.has(".modal-content").length) {
-        $(".modal").hide();
+        if (pb_name) {
+            // Load the Playbook indicated by the pb parameter
+            const pb_file = `${pb_name}.json`;
+            $('.playbook').removeClass('activebtn');
+            $(`div[pb_file='${pb_file}']`).addClass('activebtn');
+            loadPlaybook(pb_file);
+        } else {
+            // Only start the tour if a Playbook is not specified
+            emptyPlaybook();
+            tour.init();
+            tour.start();
+            // tour.restart(); // always start the tour
+        }
     }
 
-    if ($(".indicator-list").is(":visible") && !et.is(".middle2") &&
-        !et.is(".indicator-list") && !et.is(".indicator-list-inner") && !et.is(".indicator-list-entry")) {
-        $(".indicator-list").hide();
-    }
-});
+    window.addEventListener('popstate', showPlaybook);
+
+    // Start the tour on button click
+    $(document).on('click', ".walkthrough", function () {
+        emptyPlaybook();
+        tour.init();
+        tour.restart();
+    });
+
+    // Select a Playbook
+    $(document).on('click', ".playbook", function () {
+        const pb_file = $(this).attr("pb_file");
+        const pb_name = pb_file.split(".")[0];
+
+        history.pushState({}, "", `?pb=${pb_name}`);
+
+        $('.playbook').removeClass('activebtn');
+        $(this).addClass('activebtn');
+        loadPlaybook(pb_file);
+    });
+
+    // Select a Campaign within a Playbook
+    $(document).on('click touchstart', '.btn-report', function (event) {
+        const report_id = $(this).attr("report_id");
+        highlightLink(report_id);
+        displayReportByID(report_id, current_playbook);
+    });
+
+    // Open an Attack Pattern within a Campaign
+    $(document).on('click', '.ap_button', function () {
+        const ap_id = $(this).attr("ap_id");
+        const camp_id = $(this).attr("camp_id");
+        $('#' + ap_id + "_" + camp_id).css({
+            "display": "block"
+        });
+
+    });
+
+    // Open the Indicator list
+    $(document).on('click', '.middle2', function () {
+        $('.indicator-list').css({
+            "display": "block"
+        });
+    });
+
+    // Hide on close
+    $(document).on('click', '.close', function () {
+        $('.modal').css({
+            "display": "none"
+        });
+
+        $('.indicator-list').css({
+            "display": "none"
+        });
+    });
+
+    // Hide on click off
+    $(document).on('click touchend', function (event) {
+        const et = $(event.target);
+        if (et.has(".modal-content").length) {
+            $(".modal").hide();
+        }
+
+        if ($(".indicator-list").is(":visible") && !et.is(".middle2") &&
+            !et.is(".indicator-list") && !et.is(".indicator-list-inner") && !et.is(".indicator-list-entry")) {
+            $(".indicator-list").hide();
+        }
+    });
+
+    showPlaybook();
+}
+
+function initPlaybooks(playbooks) {
+    const parent = $('.sidebar');
+    const klass = 'btn playbook';
+
+    playbooks.forEach(playbook => {
+        const id = `playbook_${playbook.pb_file.replace('.json', '')}`;
+        const pb_file = playbook.pb_file;
+        const title = playbook.title;
+        const el = `<div class="${klass}" id="${id}" pb_file="${pb_file}" onclick="">${title}</div>`;
+        parent.append(el);
+    });
+
+    initEvents();
+}
+
+function failPlaybooks() {
+    console.log('fail');
+}
+
+function finiPlaybooks() {
+    console.log('fini');
+}
+
+function loadPlaybooks() {
+    $.ajax({
+        dataType: "json",
+        url: new URL('playbooks.json', window.location.href),
+        success: initPlaybooks,
+        error: failPlaybooks,
+        complete: finiPlaybooks
+    });
+}
 
 function addDescription(report, playbook) {
     const descriptionElement = $('.description');
@@ -145,8 +283,9 @@ function getRelatedIndicators(in_id, playbook) {
         .map(r => getObjectFromPlaybook(r.source_ref, playbook));
 }
 
-function loadPlaybook(pb_url) {
-    $.getJSON(pb_url, playbook => {
+function loadPlaybook(pb_file) {
+    const url = new URL(`playbook_json/${pb_file}`, window.location.href);
+    $.getJSON(url, playbook => {
         addDescription(null, playbook);
         addReportLinks(playbook);
         highlightLoadFirstLink(playbook);
@@ -158,15 +297,13 @@ function loadPlaybook(pb_url) {
 function highlightLoadFirstLink(playbook) {
     const phase_links = document.getElementsByClassName('timeline_btn');
     const report_id = phase_links[0].getAttribute("report_id");
-    phase_links[0].style.background = "#ef9124";
+    $(`div.timeline_btn[report_id='${report_id}']`).addClass('activebtn');
     displayReportByID(report_id, playbook);
 }
 
 function highlightLink(report_id) {
-    const phase_links = document.getElementsByClassName('timeline_btn');
-    Array.from(phase_links).forEach(l => {
-        l.getAttribute("report_id") === report_id ? l.style.background = "#ef9124" : l.style.background = null;
-    });
+    $(`div.timeline_btn`).removeClass('activebtn');
+    $(`div.timeline_btn[report_id='${report_id}']`).addClass('activebtn');
 }
 
 function addInfoboxIndicatorTable(playbook) {
@@ -443,103 +580,3 @@ function escapeHtml(text) {
         }[a];
     });
 }
-
-// Demo
-const step0link = 'https://unit42.paloaltonetworks.com/unit42-introducing-the-adversary-playbook-first-up-oilrig/';
-const tour = new Tour({
-    template: function (i, step) {
-        return (
-            `<div class='popover tour'><div class='arrow'></div><h3 class='popover-title'> ${step.title}</h3>` +
-            `<div class='popover-content'> ${step.content}</div><div class='popover-navigation'>` +
-            `<div class='popover-btn-group'><button class='popover-btn-tour-control' data-role='prev'>Prev</button>` +
-            `<button class='popover-btn-tour-control' data-role='next'>Next</button>` +
-            `<button class='popover-btn-tour-control' data-role='end'>End</button></div></div></div>`
-        );
-    },
-    steps: [
-        {
-            element: "",
-            title: "Welcome to the Unit 42 Playbook Viewer",
-            content: "The Playbook viewer is a system for parsing STIX2 content that contains an Adversary Playbook. " +
-                "You can read more about this <a href='" + step0link + "' target='_blank' >here</a>" +
-                " or follow the prompts to check it out.",
-            orphan: true
-        },
-        {
-            element: "#playbook_oilrig",
-            title: "Select a Playbook",
-            content: "A Playbook is a collection of Plays. " +
-                "Plays are campaigns that were conducted by an adversary, you can select them from this list.",
-            // Use the Oilrig Playbook for the demo
-            // onNext: () => $('#playbook_oilrig').trigger('click')
-            onNext: () => $('.box.sidebar div:first-of-type').trigger('click')
-        },
-        {
-            element: ".description",
-            title: "Each Playbook has a description",
-            content: "The description provides a general overview as well as background information on the adversary."
-        },
-        {
-            element: ".timeline",
-            title: "Playbooks contain one or more Plays",
-            content: "The Play is a representation of a campaign" +
-                " the adversary conducted using specific techniques and tools."
-        },
-        {
-            // element: "#report--e76e88c8-699a-4eeb-a8e5-3645826d6455",
-            element: ".box.timeline :first-child",
-            title: "The newest Play is shown first",
-            content: "",
-            // the newest play is selected by default
-            // switch to the oldest play
-            // onNext: () => $('#report--418eec9b-ca2d-48d6-92cc-7cf47b159e8c').trigger('click')
-            onNext: () => $('.box.timeline :last-child').trigger('click')
-        },
-        {
-            // element: "#report--418eec9b-ca2d-48d6-92cc-7cf47b159e8c",
-            element: '.box.timeline :last-child',
-            title: "The oldest Play is shown last",
-            content: "",
-            // switch back to the newest play
-            // onNext: () => $('#report--e76e88c8-699a-4eeb-a8e5-3645826d6455').trigger('click')
-            onPrev: () => $('.box.timeline :first-child').trigger('click'),
-            onNext: () => $('.box.timeline :first-child').trigger('click')
-        },
-        {
-            element: ".bottomheader",
-            title: "Structure of a Play",
-            content: "Plays contain the specific Mitre ATT&CK techniques used by the adversary.",
-            placement: "top",
-            // technique: T1367: Spear phishing messages with malicious attachments
-            // hardcoding the id here is not ideal
-            onPrev: () => $('.box.timeline :last-child').trigger('click'),
-            onNext: () => $("[ap_id='attack-pattern--e24a9f99-cb76-42a3-a50b-464668773e97']").trigger('click')
-        },
-        {
-            element: "#indicator-table",
-            title: "Technique cards contain a STIX2 indicator pattern and a description.",
-            content: "",
-            placement: "top",
-            onPrev: () => $('.close').trigger('click'),
-        },
-        {
-            element: "#indicator-description",
-            title: "Description",
-            content: "The description provides context about an indicator identified by an analyst."
-        },
-        {
-            element: "#indicator-pattern",
-            title: "Indicator Pattern",
-            content: "The indicator pattern tells you what to look for" +
-                " on your hosts or network to identify this technique or adversary in action.",
-            onNext: () => $('.close').trigger('click')
-        },
-        {
-            element: ".sidebar",
-            title: "View additional Playbooks",
-            content: "You can continue viewing OilRig or choose another adversary." +
-                " We will continue adding new and updating old playbooks, so please check back.",
-        }
-    ],
-    onEnd: () => $("html, body").animate({scrollTop: 0}, "slow")
-});
