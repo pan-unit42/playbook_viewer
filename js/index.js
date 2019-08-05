@@ -475,9 +475,9 @@ function buildPhaseContainer(report, playbook) {
     for (let i = 0; i < table_length; i++) {
         columns.forEach(c => {
             if (c.length > i) {
-                ap_markup += `<div class="phases ap_button"` +
-                    ` ap_id='${c[i].id}' camp_id='${campaign.id}' onclick="">${c[i].name}</div>`;
-                writeAPModal(c[i], report, playbook);
+                const numIndicators = writeAPModal(c[i], report, playbook);
+                ap_markup += `<div class="phases ap_button"ap_id='${c[i].id}' camp_id='${campaign.id}' onclick="">` +
+                    `${c[i].name}<div class="ui circular label">${numIndicators}</div></div>`;
             } else {
                 ap_markup += '<div class="phasesblank"></div>';
             }
@@ -557,6 +557,8 @@ function writeAPModal(ap, report, playbook) {
     }
     markup += '</div>';
     $('body').append(markup);
+
+    return indicators.length
 }
 
 function escapeHtml(text) {
