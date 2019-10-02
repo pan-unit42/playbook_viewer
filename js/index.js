@@ -8,9 +8,11 @@ String.prototype.replaceAll = function (search, replacement) {
 
 function emptyPlaybook() {
     $('.playbook').removeClass('activebtn');
-    $('.description').html("Welcome to the Unit 42 Playbook Viewer. <br><br>Please select a playbook to begin.");
+    $('.playbook-description').html("Welcome to the Unit 42 Playbook Viewer. <br><br>Please select a playbook to begin.");
+    $('.campaign-description').empty();
     $('.timeline').empty();
     $('.info').empty();
+    $('.info2').empty();
     $('.phasescontainer').empty();
     current_playbook = null;
 }
@@ -47,7 +49,7 @@ function initTour() {
                 onNext: () => $('.box.sidebar div:first-of-type').trigger('click')
             },
             {
-                element: ".description",
+                element: ".playbook-description",
                 title: "Each Playbook has a description",
                 content: "The description provides a general overview as well as background information on the adversary."
             },
@@ -78,6 +80,11 @@ function initTour() {
                 onNext: () => $('.box.timeline :first-child').trigger('click')
             },
             {
+                element: ".campaign-description",
+                title: "Each Campaign may have a description",
+                content: "The description provides specific details about the campaign."
+            },
+            {
                 element: ".bottomheader",
                 title: "Structure of a Play",
                 content: "Plays contain the specific Mitre ATT&CK techniques used by the adversary.",
@@ -104,6 +111,13 @@ function initTour() {
                 title: "Indicator Pattern",
                 content: "The indicator pattern tells you what to look for" +
                     " on your hosts or network to identify this technique or adversary in action.",
+                // onNext: () => $('.close').trigger('click')
+            },
+            {
+                element: "#indicator-malware",
+                title: "Indicator Malware",
+                content: "The indicator may have related malware." +
+                    "Hovering over this cell will show a tooltip with additional information.",
                 onNext: () => $('.close').trigger('click')
             },
             {
@@ -235,7 +249,7 @@ function loadPlaybooks() {
 }
 
 function addDescription(report, playbook) {
-    const descriptionElement = $('.description');
+    const descriptionElement = $('.playbook-description');
     if (report === null) {
         const reports = playbook['objects'].filter(o => o.type === 'report');
         reports.forEach(r => {
@@ -247,7 +261,7 @@ function addDescription(report, playbook) {
     } else {
         const {description} = report;
         if (description !== undefined) {
-            descriptionElement.html(description.replace("\n", "</br>"));
+            descriptionElement.html(description.replace("\r\n", "</br>"));
         }
     }
 }
@@ -264,6 +278,13 @@ function getTypeFromPlaybook(type, playbook) {
 
 function getTypeFromReport(type, report, playbook) {
     return report.object_refs.filter(o => o.startsWith(type)).map(o => getObjectFromPlaybook(o, playbook));
+}
+
+function getRelatedMalware(in_id, playbook) {
+    const all_relationships = playbook['objects'].filter(o => o.type === 'relationship');
+    return all_relationships
+        .filter(o => (o.target_ref.startsWith("malware--") && o.source_ref === in_id))
+        .map(r => getObjectFromPlaybook(r.target_ref, playbook));
 }
 
 function getRelatedIndicators(in_id, playbook) {
@@ -299,6 +320,7 @@ function highlightLink(report_id) {
 function addInfoboxIndicatorTable(playbook) {
     const indicators = getTypeFromPlaybook("indicator", playbook);
 
+    // This will eventually be replaced by the STIX 2 ANTLR grammar parser
     indicators.forEach(i => {
         i['p'] = {
             type: "",
@@ -310,7 +332,7 @@ function addInfoboxIndicatorTable(playbook) {
             i.p.key = i.pattern.match(/:(.*?) (=|LIKE)/)[1];
             i.p.value = i.pattern.match(/(=|LIKE)( )?'(.*?)'/)[3];
         } catch (e) {
-            console.log('error parsing values from STIX2 pattern');
+            // console.log('error parsing values from STIX2 pattern');
         }
     });
     indicators.sort((a, b) =>
@@ -376,6 +398,34 @@ function addInfobox(playbook) {
     );
 }
 
+function addInfoBox2(report, playbook) {
+    const identityObjects = getTypeFromReport("identity", report, playbook);
+
+    const identityInformation = identityObjects.reduce((r, i) => {
+        r['sectors'].push(...i['sectors']);
+        r['regions'].push(...i['x_cta_country']);
+        r['types'].push(i['identity_class']);
+        return r;
+    }, {'sectors': [], 'regions': [], 'types': []});
+
+    const malwareObjects = getTypeFromReport("malware", report, playbook);
+
+    const identitySectors = identityInformation['sectors'].map(s => s.toUpperCase()).sort().join(', ');
+    const identityRegions = identityInformation['regions'].map(s => s.toUpperCase()).sort().join(', ');
+    const identityTypes = identityInformation['types'].map(s => s.toUpperCase()).sort().join(', ');
+
+    const malwareNames = malwareObjects.map(m => m['name'].toUpperCase()).sort().join(', ');
+
+    const context_markup = (
+        `<div class="bottom-left"><span>Targeted Industries: ${identitySectors}</span></div>` +
+        `<div class="bottom-middle"><span>Targeted Regions: ${identityRegions}</span></div>` +
+        `<div class="bottom-middle2"><span>Target Type: ${identityTypes}</span></div>` +
+        `<div class="bottom-right"><span>Malware Used: ${malwareNames}</span></div>`
+    );
+
+    $('.info2').empty().append(context_markup);
+}
+
 function storeCurrentPlaybook(playbook) {
     current_playbook = playbook;
 }
@@ -388,6 +438,7 @@ function displayReportByID(report_id, playbook) {
 
 function displayReport(report, playbook) {
     //Build the HTML table for this report
+    addInfoBox2(report, playbook);
     buildPhaseContainer(report, playbook);
 }
 
@@ -457,6 +508,17 @@ function buildPhaseContainer(report, playbook) {
     let attack_patterns = getTypeFromReport("attack-pattern", report, playbook);
     let campaign = getTypeFromReport("campaign", report, playbook)[0];
 
+    $('.campaign-description').html(campaign['description'].replaceAll("\r\n", "</br>"));
+
+    // const context_markup = (
+    //     `<div class="bottom-left"><span>Test</span></div>` +
+    //     `<div class="bottom-middle"><span>Test</span></div>` +
+    //     `<div class="bottom-middle2"><span>Test</span></div>` +
+    //     `<div class="bottom-right"><span>Test</span></div>`
+    // );
+    //
+    // $('.info2').empty().append(context_markup);
+
     let recon = filterByKCP("recon", attack_patterns);
     let weap = filterByKCP("weaponization", attack_patterns);
     let delivery = filterByKCP("delivery", attack_patterns);
@@ -505,7 +567,7 @@ function writeAPModal(ap, report, playbook) {
     const campaign_indicators = getRelatedIndicators(campaign.id, playbook);
     const indicators = Array.from(new Set(intersection(ap_indicators, campaign_indicators)));
 
-    // There is no javascript library for parsing STIX2 indicator patterns
+    // This will eventually be replaced by the STIX 2 ANTLR grammar parser
     indicators.forEach(i => {
         i['p'] = {
             type: "",
@@ -540,14 +602,52 @@ function writeAPModal(ap, report, playbook) {
         markup += '<span>No Indicators Available</span><br>';
     } else {
         markup += '<table id="indicator-table">' +
-            '<tr><th id="indicator-description">Description</th><th id="indicator-pattern">Indicator Pattern</th></tr>';
+            '<tr><th id="indicator-description">Description</th>' +
+            '<th id="indicator-pattern">Indicator Pattern</th>' +
+            '<th id="indicator-malware">Malware</th></tr>';
         indicators.forEach(i => {
             // Retrieve the indicator description from the relationship between indicator and attack-pattern
             // Provide backwards-compatibility with playbooks that stored the description in the indicator object
             const description = relationships
                 .filter(r => (r && (r.source_ref === i.id) && (r.target_ref === ap.id)))[0].description || i.name;
+
+            const malwares = getRelatedMalware(i.id, playbook);
+            const malwareNames = getRelatedMalware(i.id, playbook).map(m => m['name']).join(', ');
+
             try {
-                markup += `<tr><td>${description}</td><td class="indicators">${escapeHtml(i.pattern)}</td></tr>`;
+                markup += '<tr>' + `<td>${description}</td>` + `<td class="indicators">${escapeHtml(i.pattern)}</td>`;
+
+                if (malwares.length) {
+                    let malwareToolTip = '<span class="tooltiptext">';
+
+                    malwares.forEach((m, i) => {
+                        malwareToolTip += `<div>Name: ${m['name']}</div>`;
+                        malwareToolTip += `<div></div>Types: ${m['labels'].sort().join(', ')}</div>`;
+
+                        if (m['description']) {
+                            malwareToolTip += `<div>Description: ${m['description']}</div>`;
+                        }
+
+                        const external_refs = m['external_references'];
+                        if (external_refs) {
+                            external_refs.forEach(r => {
+                                malwareToolTip += `<div><a href="${r['url']}" target="_blank">${r['source_name']}</a></div>`;
+                            });
+                        }
+
+                        if (malwares[i + 1]) {
+                            malwareToolTip += '<hr/>';
+                        }
+                    });
+
+                    malwareToolTip += '</span>';
+
+                    markup += `<td class="tooltip" width="20%">${malwareNames}${malwareToolTip}</td>`;
+                } else {
+                    markup += `<td></td>`;
+                }
+
+                markup += `</tr>`;
             } catch (e) {
                 // The playbook contains a malformed relationship or description
                 // console.log(JSON.stringify({text: text, e: e}));

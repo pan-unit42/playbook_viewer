@@ -10,7 +10,6 @@ body {
 
 sup {
     font-size: 8px;
-
 }
 
 th, td {
@@ -28,6 +27,46 @@ table {
     width: 100%;
 }
 
+
+.tooltip {
+    position: relative;
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 100%;
+    top: 100%;
+    left: 50%;
+    margin-left: -50%;
+    background-color: #14181c;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #EF9124;
+
+    position: absolute;
+    z-index: 1;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+}
+
+
+.info2 {
+    display: grid;
+    background-color: #ef9124;
+    color: #fff;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: 40px;
+    grid-template-areas: "bottom-left bottom-middle bottom-middle2 bottom-right";
+    justify-items: center;
+    align-items: center;
+    border-top: 10px;
+    border-radius: 5px;
+
+}
+
 .info {
     display: grid;
     background-color: #ef9124;
@@ -37,34 +76,54 @@ table {
     grid-template-areas: "left middle middle2 right";
     justify-items: center;
     align-items: center;
+    border-top: 10px;
     border-radius: 5px;
-
 }
 
-.left span, .right span, .middle span, .middle2 span {
+.left span, .right span, .middle span, .middle2 span, .bottom-left span, .bottom-right span, .bottom-middle span, .bottom-middle2 span {
     font-family: 'Jura', sans-serif;
     font-weight: 600;
 }
 
-.description {
-    grid-area: description;
+.campaign-description {
+    grid-area: campaign-description;
     background-color: #2b323b;
-    margin-top: 10px;
+    /*margin-top: 10px;*/
+    margin-bottom: 10px;
     font-size: 100%;
-    padding: 20px;
+    padding: 10px;
     border-radius: 5px;
     overflow-y: scroll;
     -webkit-overflow-scrolling: touch;
+}
 
+.playbook-description {
+    grid-area: playbook-description;
+    background-color: #2b323b;
+    margin-top: 10px;
+    font-size: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
 }
 
 .timeline {
     grid-area: timeline;
     background-color: #2b323b;
     margin-top: 10px;
+    margin-bottom: 10px;
     padding: 20px;
     border-radius: 5px;
+    overflow-y: auto;
+}
 
+.inside {
+    display: grid;
+    grid-template-columns: auto 65%;
+    grid-template-rows: 50% 50%;
+    grid-template-areas: "timeline playbook-description" "timeline campaign-description";
+    grid-gap: 10px;
 }
 
 .sidebar {
@@ -75,7 +134,6 @@ table {
     padding-right: 20px;
     padding-top: 20px;
     min-height: calc(100vh - 90px);
-
 }
 
 .sidebar span {
@@ -114,22 +172,12 @@ table {
 
 .wrapper {
     display: grid;
-    /*grid-template-columns: 200px 1fr;*/
     grid-template-columns: min-content;
-    grid-template-areas: "sidebar header" "sidebar inside" "sidebar info" "sidebar bottomheader" "sidebar phasescontainer" "footer ...";
-    color: #fff;
-    grid-template-rows: 70px 350px 40px 50px 1fr 70px;
+    grid-template-areas: "sidebar header" "sidebar inside" "sidebar info" "sidebar info2" "sidebar bottomheader" "sidebar phasescontainer" "footer ...";
+    grid-template-rows: 70px 350px 40px 40px 50px 1fr 70px;
     grid-column-gap: 10px;
-
-}
-
-.inside {
-    display: grid;
-    grid-template-columns: 65% auto;
-    grid-template-rows: 1fr;
-    grid-template-areas: "description timeline";
-    grid-gap: 10px;
-    margin-bottom: 10px;
+    grid-row-gap: 10px;
+    color: #fff;
 }
 
 .bottomheader {
@@ -138,6 +186,7 @@ table {
     grid-template-rows: 50px;
     grid-template-areas: "recon weaponization delivery exploit install command objective";
     grid-gap: 10px;
+    margin-top: 10px;
     margin-bottom: 10px;
 }
 
@@ -232,7 +281,6 @@ table {
     padding-top: 30px;
     font-size: 10px;
     background-color: #2b323b;
-
 }
 
 .btn {
