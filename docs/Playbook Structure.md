@@ -115,7 +115,7 @@ The structure of a Playbook is provided by Relationship objects, which are direc
   * The Indicator 'indicates' the Campaign
 
 * Indicator --> Attack Pattern
-  * The Indicator 'Uses' the Attack Pattern
+  * The Indicator 'uses' the Attack Pattern
   
 * Indicator --> Malware
   * The Indicator 'indicates' the Malware

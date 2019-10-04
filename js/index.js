@@ -1,3 +1,4 @@
+let playbook_information = null;
 let current_playbook = null;
 let current_intrusion_set = null;
 
@@ -198,6 +199,13 @@ function initEvents() {
         });
     });
 
+    // Open the Filter options
+    $(document).on('click', '.filter', function () {
+        $('.filter-options').css({
+            "display": "block"
+        });
+    });
+
     // Hide on close
     $(document).on('click', '.close', function () {
         $('.modal').css({
@@ -205,6 +213,10 @@ function initEvents() {
         });
 
         $('.indicator-list').css({
+            "display": "none"
+        });
+
+        $('.filter-options').css({
             "display": "none"
         });
     });
@@ -222,12 +234,224 @@ function initEvents() {
         }
     });
 
+    buildFilterMenu();
+
+    // Filter
+    $(document).on('click', '.filter-button', function (data) {
+        const multiselectElement = $(".filter-options-inner");
+
+        if (multiselectElement.length === 1) {
+            const selectedOptions = Array.from(multiselectElement[0].selectedOptions);
+
+            const values = selectedOptions.map(opt => opt.value);
+
+            doFilter(values);
+        }
+    });
+
+    // Clear the filter options
+    $(document).on('click', '.clear-filters-button', function (data) {
+        $(".filter-options-inner option:selected").prop("selected", false);
+        doFilter([]);
+    });
+
+    // Clear the filter options
+    $(document).on('click', '.sidebar-clear-filters', function (data) {
+        $(".filter-options-inner option:selected").prop("selected", false);
+        doFilter([]);
+    });
+
     showPlaybook();
+}
+
+function buildSideBar(playbooks) {
+
+    const parent = $('.sidebar');
+    const klass = 'btn playbook';
+    parent.children('.playbook').remove();
+
+    playbooks.forEach(playbook => {
+        const id = `playbook_${playbook.pb_file.replace('.json', '')}`;
+        const pb_file = playbook.pb_file;
+        const title = playbook.title;
+        const el = `<div class="${klass}" id="${id}" pb_file="${pb_file}" onclick="">${title}</div>`;
+        parent.append(el);
+    });
+}
+
+function doFilter(current_filters) {
+    emptyPlaybook();
+
+    const filtersByType = current_filters.reduce((r, i) => {
+        const typeVal = JSON.parse(i);
+        const {filterType, value} = typeVal;
+
+        r[filterType].push(value);
+        return r;
+    }, {industry: [], region: [], malware: []});
+
+    // Options within the same category are OR
+    // Options in different categories are AND
+    // If a category has no options selected, don't use it to filter (same as having all options selected)
+
+    // Filter individually, then take the intersection of the filters
+    let rebuildSideBar = false;
+
+    let playbooks = playbook_information;
+
+    if (filtersByType['industry'].length) {
+        playbooks = playbooks.filter
+        (pb => pb['industries'] && pb['industries'].some(v => filtersByType['industry'].includes(v))
+        );
+        rebuildSideBar = true;
+    }
+
+    if (filtersByType['region'].length) {
+        playbooks = playbooks.filter(
+            pb => pb['regions'] && pb['regions'].some(v => filtersByType['region'].includes(v))
+        );
+        rebuildSideBar = true;
+    }
+
+    if (filtersByType['malware'].length) {
+        playbooks = playbooks.filter(
+            pb => pb['malwares'] && pb['malwares'].some(v => filtersByType['malware'].includes(v))
+        );
+        rebuildSideBar = true;
+    }
+
+    if ((current_filters.length === 0) || rebuildSideBar) {
+        buildSideBar(playbooks);
+
+        // Close the filter options
+        $('.close').trigger('click');
+        // If playbooks.length is one, select and load it
+        if (playbooks.length === 1) {
+            const pb_file = playbooks[0]['pb_file'];
+            $('.playbook').removeClass('activebtn');
+            $(`div[pb_file='${pb_file}']`).addClass('activebtn');
+            loadPlaybook(pb_file);
+        }
+    }
+}
+
+function buildMalwareFilter(usedMalwares) {
+    let malwareFilterHTML = `<optgroup class="used-malware" label="Used Malware">`;
+
+    usedMalwares.forEach(m => {
+        const val = JSON.stringify({"filterType": "malware", "value": m});
+        malwareFilterHTML += `<option class="filter-options-entry" value='${val}'>${m}</option>`;
+    });
+
+    malwareFilterHTML += `</select>`;
+
+    return malwareFilterHTML;
+}
+
+function buildRegionFilter(usedRegions) {
+    let regionFilterHTML = `<optgroup class="targeted-regions" label="Targeted Regions">`;
+
+    usedRegions.forEach(r => {
+        if (r in x_cta_country_ov) {
+            const val = JSON.stringify({"filterType": "region", "value": r});
+            regionFilterHTML += `<option class="filter-options-entry" value='${val}'>${x_cta_country_ov[r]}</option>`;
+        }
+    });
+
+    regionFilterHTML += `</optgroup>`;
+
+    return regionFilterHTML;
+}
+
+function buildIndustryFilter(usedIndustries) {
+    let industryFilterHTML = `<optgroup class="targeted-industries" label="Targeted Industries">`;
+
+    usedIndustries.forEach(i => {
+        if (i in industry_sector_ov) {
+            const val = JSON.stringify({"filterType": "industry", "value": i});
+            industryFilterHTML += `<option class="filter-options-entry" value='${val}'>${industry_sector_ov[i]}</option>`;
+        }
+    });
+
+    industryFilterHTML += `</optgroup>`;
+
+    return industryFilterHTML;
+}
+
+function buildFilterMenu() {
+
+    const usedIndustries = playbook_information.reduce((r, i) => {
+        if ('industries' in i) {
+            i['industries'].forEach(x => {
+                if (!r.includes(x)) {
+                    r.push(x);
+                }
+            });
+        }
+
+        return r;
+    }, []).sort();
+
+    const usedRegions = playbook_information.reduce((r, i) => {
+        if ('regions' in i) {
+            i['regions'].forEach(x => {
+                if (!r.includes(x)) {
+                    r.push(x);
+                }
+            });
+        }
+
+        return r;
+    }, []).sort();
+
+    const usedMalwares = playbook_information.reduce((r, i) => {
+        if ('malwares' in i) {
+            i['malwares'].forEach(x => {
+                if (!r.includes(x)) {
+                    r.push(x);
+                }
+            });
+        }
+
+        return r;
+    }, []).sort();
+
+    const exampleSelections = `<ul><li>Automotive</li><li>Infrastructure</li><li>United States</li><li>New Malware</li></ul>`;
+
+    const details = `<div>Multiple selection within a category are combined with OR. </div>` +
+        `<div>Multiple selections between categories are combined with AND. </div>` + `<br/>` +
+        `<div>For example, selecting: ${exampleSelections}</div>` + `<br/>` +
+        `<div>Will filter on:<br/><br/><b>(Automotive OR Infrastructure) AND (United States) AND (New Malware)</b></div>` + `<br/><br/>` +
+        `<div>Filtering, clearing , or clicking the X in the top corner will close this menu.</div>` + `<br/>` +
+        `<div>If there is only one result after filtering, it will be displayed automatically.</div>` +
+        `<br/><br/><br/>`;
+
+    const instructions = `<span class="filter-tooltiptext">${details}</span>`;
+
+    const howto = `<div class="filter-tooltip">Filters (Hover for additional information)...${instructions}</div>`;
+
+    const industryFilterHTML = buildIndustryFilter(usedIndustries);
+
+    const regionFilterHTML = buildRegionFilter(usedRegions);
+
+    const malwareFilterHTML = buildMalwareFilter(usedMalwares);
+
+    let filters = `<select class="filter-options-inner" multiple="multiple">${industryFilterHTML}${regionFilterHTML}${malwareFilterHTML}</select>`;
+
+    const btn = `<span class="filter-button" onClick="">FILTER PLAYBOOKS</span>`;
+
+    const btn2 = `<span class="clear-filters-button" onClick="">CLEAR FILTERS</span><br/>`;
+
+    const filterMenu = `<div class="filter-options"><span class="close">&times;</span><br/><br/>${howto}${filters}${btn}${btn2}</div>`;
+
+    $('body').append(filterMenu);
 }
 
 function initPlaybooks(playbooks) {
     const parent = $('.sidebar');
     const klass = 'btn playbook';
+
+    playbook_information = playbooks;
 
     playbooks.forEach(playbook => {
         const id = `playbook_${playbook.pb_file.replace('.json', '')}`;
@@ -510,15 +734,6 @@ function buildPhaseContainer(report, playbook) {
 
     $('.campaign-description').html(campaign['description'].replaceAll("\r\n", "</br>"));
 
-    // const context_markup = (
-    //     `<div class="bottom-left"><span>Test</span></div>` +
-    //     `<div class="bottom-middle"><span>Test</span></div>` +
-    //     `<div class="bottom-middle2"><span>Test</span></div>` +
-    //     `<div class="bottom-right"><span>Test</span></div>`
-    // );
-    //
-    // $('.info2').empty().append(context_markup);
-
     let recon = filterByKCP("recon", attack_patterns);
     let weap = filterByKCP("weaponization", attack_patterns);
     let delivery = filterByKCP("delivery", attack_patterns);
@@ -672,3 +887,303 @@ function escapeHtml(text) {
         }[a];
     });
 }
+
+// Consts
+
+const industry_sector_ov = {
+    'agriculture': 'Agriculture',
+    'aerospace': 'Aerospace',
+    'automotive': 'Automotive',
+    'communications': 'Communications',
+    'construction': 'Construction',
+    'defence': 'Defence',
+    'education': 'Education',
+    'energy': 'Energy',
+    'entertainment': 'Entertainment',
+    'financial-services': 'Financial Services',
+    'government-national': 'Government-National',
+    'government-regional': 'Government Regional',
+    'government-local': 'Government Local',
+    'government-public-services': 'Government Public Services',
+    'healthcare': 'Healthcare',
+    'hospitality-leisure': 'Hospitality  & Leisure',
+    'infrastructure': 'Infrastructure',
+    'insurance': 'Insurance',
+    'manufacturing': 'Manufacturing',
+    'mining': 'Mining',
+    'non-profit': 'Non-profit',
+    'pharmaceuticals': 'Pharmaceuticals',
+    'retail': 'Retail',
+    'technology': 'Technology',
+    'telecommunications': 'Telecommunications',
+    'transportation': 'Transportation',
+    'utilities': 'Utilities'
+};
+
+const x_cta_country_ov = {
+    "AF": "Afghanistan",
+    "AX": "Aland Islands",
+    "AL": "Albania",
+    "DZ": "Algeria",
+    "AS": "American Samoa",
+    "AD": "Andorra",
+    "AO": "Angola",
+    "AI": "Anguilla",
+    "AQ": "Antarctica",
+    "AG": "Antigua And Barbuda",
+    "AR": "Argentina",
+    "AM": "Armenia",
+    "AW": "Aruba",
+    "AU": "Australia",
+    "AT": "Austria",
+    "AZ": "Azerbaijan",
+    "BS": "Bahamas",
+    "BH": "Bahrain",
+    "BD": "Bangladesh",
+    "BB": "Barbados",
+    "BY": "Belarus",
+    "BE": "Belgium",
+    "BZ": "Belize",
+    "BJ": "Benin",
+    "BM": "Bermuda",
+    "BT": "Bhutan",
+    "BO": "Bolivia",
+    "BA": "Bosnia And Herzegovina",
+    "BW": "Botswana",
+    "BV": "Bouvet Island",
+    "BR": "Brazil",
+    "IO": "British Indian Ocean Territory",
+    "BN": "Brunei Darussalam",
+    "BG": "Bulgaria",
+    "BF": "Burkina Faso",
+    "BI": "Burundi",
+    "KH": "Cambodia",
+    "CM": "Cameroon",
+    "CA": "Canada",
+    "CV": "Cape Verde",
+    "KY": "Cayman Islands",
+    "CF": "Central African Republic",
+    "TD": "Chad",
+    "CL": "Chile",
+    "CN": "China",
+    "CX": "Christmas Island",
+    "CC": "Cocos (Keeling) Islands",
+    "CO": "Colombia",
+    "KM": "Comoros",
+    "CG": "Congo",
+    "CD": "Congo, Democratic Republic",
+    "CK": "Cook Islands",
+    "CR": "Costa Rica",
+    "CI": "Cote D'Ivoire",
+    "HR": "Croatia",
+    "CU": "Cuba",
+    "CY": "Cyprus",
+    "CZ": "Czech Republic",
+    "DK": "Denmark",
+    "DJ": "Djibouti",
+    "DM": "Dominica",
+    "DO": "Dominican Republic",
+    "EC": "Ecuador",
+    "EG": "Egypt",
+    "SV": "El Salvador",
+    "GQ": "Equatorial Guinea",
+    "ER": "Eritrea",
+    "EE": "Estonia",
+    "ET": "Ethiopia",
+    "FK": "Falkland Islands (Malvinas)",
+    "FO": "Faroe Islands",
+    "FJ": "Fiji",
+    "FI": "Finland",
+    "FR": "France",
+    "GF": "French Guiana",
+    "PF": "French Polynesia",
+    "TF": "French Southern Territories",
+    "GA": "Gabon",
+    "GM": "Gambia",
+    "GE": "Georgia",
+    "DE": "Germany",
+    "GH": "Ghana",
+    "GI": "Gibraltar",
+    "GR": "Greece",
+    "GL": "Greenland",
+    "GD": "Grenada",
+    "GP": "Guadeloupe",
+    "GU": "Guam",
+    "GT": "Guatemala",
+    "GG": "Guernsey",
+    "GN": "Guinea",
+    "GW": "Guinea-Bissau",
+    "GY": "Guyana",
+    "HT": "Haiti",
+    "HM": "Heard Island & Mcdonald Islands",
+    "VA": "Holy See (Vatican City State)",
+    "HN": "Honduras",
+    "HK": "Hong Kong",
+    "HU": "Hungary",
+    "IS": "Iceland",
+    "IN": "India",
+    "ID": "Indonesia",
+    "IR": "Iran, Islamic Republic Of",
+    "IQ": "Iraq",
+    "IE": "Ireland",
+    "IM": "Isle Of Man",
+    "IL": "Israel",
+    "IT": "Italy",
+    "JM": "Jamaica",
+    "JP": "Japan",
+    "JE": "Jersey",
+    "JO": "Jordan",
+    "KZ": "Kazakhstan",
+    "KE": "Kenya",
+    "KI": "Kiribati",
+    "KR": "Korea",
+    "KW": "Kuwait",
+    "KG": "Kyrgyzstan",
+    "LA": "Lao People's Democratic Republic",
+    "LV": "Latvia",
+    "LB": "Lebanon",
+    "LS": "Lesotho",
+    "LR": "Liberia",
+    "LY": "Libyan Arab Jamahiriya",
+    "LI": "Liechtenstein",
+    "LT": "Lithuania",
+    "LU": "Luxembourg",
+    "MO": "Macao",
+    "MK": "Macedonia",
+    "MG": "Madagascar",
+    "MW": "Malawi",
+    "MY": "Malaysia",
+    "MV": "Maldives",
+    "ML": "Mali",
+    "MT": "Malta",
+    "MH": "Marshall Islands",
+    "MQ": "Martinique",
+    "MR": "Mauritania",
+    "MU": "Mauritius",
+    "YT": "Mayotte",
+    "MX": "Mexico",
+    "FM": "Micronesia, Federated States Of",
+    "MD": "Moldova",
+    "MC": "Monaco",
+    "MN": "Mongolia",
+    "ME": "Montenegro",
+    "MS": "Montserrat",
+    "MA": "Morocco",
+    "MZ": "Mozambique",
+    "MM": "Myanmar",
+    "NA": "Namibia",
+    "NR": "Nauru",
+    "NP": "Nepal",
+    "NL": "Netherlands",
+    "AN": "Netherlands Antilles",
+    "NC": "New Caledonia",
+    "NZ": "New Zealand",
+    "NI": "Nicaragua",
+    "NE": "Niger",
+    "NG": "Nigeria",
+    "NU": "Niue",
+    "NF": "Norfolk Island",
+    "MP": "Northern Mariana Islands",
+    "NO": "Norway",
+    "OM": "Oman",
+    "PK": "Pakistan",
+    "PW": "Palau",
+    "PS": "Palestinian Territory, Occupied",
+    "PA": "Panama",
+    "PG": "Papua New Guinea",
+    "PY": "Paraguay",
+    "PE": "Peru",
+    "PH": "Philippines",
+    "PN": "Pitcairn",
+    "PL": "Poland",
+    "PT": "Portugal",
+    "PR": "Puerto Rico",
+    "QA": "Qatar",
+    "RE": "Reunion",
+    "RO": "Romania",
+    "RU": "Russian Federation",
+    "RW": "Rwanda",
+    "BL": "Saint Barthelemy",
+    "SH": "Saint Helena",
+    "KN": "Saint Kitts And Nevis",
+    "LC": "Saint Lucia",
+    "MF": "Saint Martin",
+    "PM": "Saint Pierre And Miquelon",
+    "VC": "Saint Vincent And Grenadines",
+    "WS": "Samoa",
+    "SM": "San Marino",
+    "ST": "Sao Tome And Principe",
+    "SA": "Saudi Arabia",
+    "SN": "Senegal",
+    "RS": "Serbia",
+    "SC": "Seychelles",
+    "SL": "Sierra Leone",
+    "SG": "Singapore",
+    "SK": "Slovakia",
+    "SI": "Slovenia",
+    "SB": "Solomon Islands",
+    "SO": "Somalia",
+    "ZA": "South Africa",
+    "GS": "South Georgia And Sandwich Isl.",
+    "ES": "Spain",
+    "LK": "Sri Lanka",
+    "SD": "Sudan",
+    "SR": "Suriname",
+    "SJ": "Svalbard And Jan Mayen",
+    "SZ": "Swaziland",
+    "SE": "Sweden",
+    "CH": "Switzerland",
+    "SY": "Syrian Arab Republic",
+    "TW": "Taiwan",
+    "TJ": "Tajikistan",
+    "TZ": "Tanzania",
+    "TH": "Thailand",
+    "TL": "Timor-Leste",
+    "TG": "Togo",
+    "TK": "Tokelau",
+    "TO": "Tonga",
+    "TT": "Trinidad And Tobago",
+    "TN": "Tunisia",
+    "TR": "Turkey",
+    "TM": "Turkmenistan",
+    "TC": "Turks And Caicos Islands",
+    "TV": "Tuvalu",
+    "UG": "Uganda",
+    "UA": "Ukraine",
+    "AE": "United Arab Emirates",
+    "GB": "United Kingdom",
+    "US": "United States",
+    "UM": "United States Outlying Islands",
+    "UY": "Uruguay",
+    "UZ": "Uzbekistan",
+    "VU": "Vanuatu",
+    "VE": "Venezuela",
+    "VN": "Viet Nam",
+    "VG": "Virgin Islands, British",
+    "VI": "Virgin Islands, U.S.",
+    "WF": "Wallis And Futuna",
+    "EH": "Western Sahara",
+    "YE": "Yemen",
+    "ZM": "Zambia",
+    "ZW": "Zimbabwe"
+};
+
+const malware_label_ov = {
+    "adware": "Adware",
+    "backdoor": "Backdoor",
+    "bot": "BOT",
+    "ddos": "DDOS",
+    "dropper": "Dropper",
+    "exploit-kit": "Exploit Kit",
+    "keylogger": "Keylogger",
+    "ransomware": "Ransomware",
+    "remote-access-trojan": "Remote Access Trojan",
+    "resource-exploitation": "Resource Exploitation",
+    "rogue-security-software": "Rogue Security Software",
+    "rootkit": "Rootkit",
+    "screen-capture": "Screen Capture",
+    "spyware": "Spyware",
+    "trojan": "Trojan",
+    "virus": "Virus",
+    "worm": "Worm"
+};
