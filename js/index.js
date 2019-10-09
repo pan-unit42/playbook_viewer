@@ -647,20 +647,51 @@ function addInfoBox2(report, playbook) {
 
     const malwareObjects = getTypeFromReport("malware", report, playbook);
 
-    const identitySectors = identityInformation['sectors'].map(s => (s || "").toUpperCase()).sort().join(', ');
-    const identityRegions = identityInformation['regions'].map(s => (s || "").toUpperCase()).sort().join(', ');
-    const identityTypes = identityInformation['types'].map(s => (s || "").toUpperCase()).sort().join(', ');
+    const identitySectors = identityInformation['sectors'].map(s => industry_sector_ov[s] || s).sort().join(', ');
+    const identityRegions = identityInformation['regions'].map(s =>
+        x_cta_country_ov[(s || "").toUpperCase()] || s.toUpperCase()
+    ).sort().join(', ');
+    // const identityTypes = identityInformation['types'].map(t => industry_class_ov[t] || t).sort().join(', ');
+    const identityTypes = '';
 
     const malwareNames = malwareObjects.map(m => m['name'].toUpperCase()).sort().join(', ');
 
-    const context_markup = (
-        `<div class="bottom-left"><span>Targeted Industries: ${identitySectors}</span></div>` +
-        `<div class="bottom-middle"><span>Targeted Regions: ${identityRegions}</span></div>` +
-        `<div class="bottom-middle2"><span>Target Type: ${identityTypes}</span></div>` +
-        `<div class="bottom-right"><span>Malware Used: ${malwareNames}</span></div>`
-    );
+    let context_markup = '';
+    let displayInfoBar2 = false;
 
-    $('.info2').empty().append(context_markup);
+    if (identitySectors.length) {
+        context_markup += `<div class="bottom-left"><span>Targeted Industries: ${identitySectors}</span></div>`;
+        displayInfoBar2 = true;
+    } else {
+        context_markup += `<div class="bottom-left"><span></span></div>`;
+    }
+
+    if (identityRegions.length) {
+        context_markup += `<div class="bottom-middle"><span>Targeted Regions: ${identityRegions}</span></div>`;
+        displayInfoBar2 = true;
+    } else {
+        context_markup += `<div class="bottom-middle"><span></span></div>`;
+    }
+
+    if (identityTypes.length) {
+        context_markup += `<div class="bottom-middle2"><span>Target Type: ${identityTypes}</span></div>`;
+        displayInfoBar2 = true;
+    } else {
+        context_markup += `<div class="bottom-middle2"><span></span></div>`;
+    }
+
+    if (malwareNames.length) {
+        context_markup += `<div class="bottom-right"><span>Malware Used: ${malwareNames}</span></div>`;
+        displayInfoBar2 = true;
+    } else {
+        context_markup += `<div class="bottom-right"><span></span></div>`;
+    }
+
+    if (displayInfoBar2) {
+        $('.info2').empty().show().append(context_markup);
+    } else {
+        $('.info2').hide();
+    }
 }
 
 function storeCurrentPlaybook(playbook) {
@@ -903,6 +934,14 @@ function escapeHtml(text) {
 
 // Consts
 
+// const industry_class_ov = {
+//     'individual': 'Individual',
+//     'group': 'Group',
+//     'organization': 'Organization',
+//     'class': 'Class',
+//     'unknown': 'Unknown'
+// };
+
 const industry_sector_ov = {
     'agriculture': 'Agriculture',
     'aerospace': 'Aerospace',
@@ -914,9 +953,9 @@ const industry_sector_ov = {
     'energy': 'Energy',
     'entertainment': 'Entertainment',
     'financial-services': 'Financial Services',
-    'government-national': 'Government-National',
-    'government-regional': 'Government Regional',
-    'government-local': 'Government Local',
+    'government-national': 'National Government',
+    'government-regional': 'Regional Government',
+    'government-local': 'Local Government',
     'government-public-services': 'Government Public Services',
     'healthcare': 'Healthcare',
     'hospitality-leisure': 'Hospitality  & Leisure',
