@@ -626,17 +626,30 @@ function addInfoBox2(report, playbook) {
     const identityObjects = getTypeFromReport("identity", report, playbook);
 
     const identityInformation = identityObjects.reduce((r, i) => {
-        r['sectors'].push(...i['sectors']);
-        r['regions'].push(...i['x_cta_country']);
-        r['types'].push(i['identity_class']);
+        i['sectors'].forEach(x => {
+            if (!(r['sectors'].includes(x))) {
+                r['sectors'].push(x);
+            }
+        });
+
+        i['x_cta_country'].forEach(x => {
+            if (!(r['regions'].includes(x))) {
+                r['regions'].push(x);
+            }
+        });
+
+        if (!(r['types'].includes(i['identity_class']))) {
+            r['types'].push(i['identity_class']);
+        }
+
         return r;
     }, {'sectors': [], 'regions': [], 'types': []});
 
     const malwareObjects = getTypeFromReport("malware", report, playbook);
 
-    const identitySectors = identityInformation['sectors'].map(s => s.toUpperCase()).sort().join(', ');
-    const identityRegions = identityInformation['regions'].map(s => s.toUpperCase()).sort().join(', ');
-    const identityTypes = identityInformation['types'].map(s => s.toUpperCase()).sort().join(', ');
+    const identitySectors = identityInformation['sectors'].map(s => (s || "").toUpperCase()).sort().join(', ');
+    const identityRegions = identityInformation['regions'].map(s => (s || "").toUpperCase()).sort().join(', ');
+    const identityTypes = identityInformation['types'].map(s => (s || "").toUpperCase()).sort().join(', ');
 
     const malwareNames = malwareObjects.map(m => m['name'].toUpperCase()).sort().join(', ');
 
