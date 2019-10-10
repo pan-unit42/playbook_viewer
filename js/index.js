@@ -349,12 +349,20 @@ function buildMalwareFilter(usedMalwares) {
 }
 
 function buildRegionFilter(usedRegions) {
+    // const identityRegions = identityInformation['regions'].map(s => {
+    //     const title = x_cta_country_ov[(s || "").toUpperCase()] || s.toUpperCase();
+    //     // return `<span><i class="flag ${s.toLowerCase()}" title="${title}"></i></span>`;
+    //     return `<i class="flag ${s.toLowerCase()}" title="${title}"></i>`;
+    // }).sort().join(' ');
+
     let regionFilterHTML = `<optgroup class="targeted-regions" label="Targeted Regions">`;
 
     usedRegions.forEach(r => {
         if (r in x_cta_country_ov) {
             const val = JSON.stringify({"filterType": "region", "value": r});
+
             regionFilterHTML += `<option class="filter-options-entry" value='${val}'>${x_cta_country_ov[r]}</option>`;
+            // regionFilterHTML += `<option class="filter-options-entry" value='${val}'><i class="flag ${r.toLowerCase()}"></i> ${x_cta_country_ov[r]}</option>`;
         }
     });
 
@@ -647,10 +655,32 @@ function addInfoBox2(report, playbook) {
 
     const malwareObjects = getTypeFromReport("malware", report, playbook);
 
-    const identitySectors = identityInformation['sectors'].map(s => industry_sector_ov[s] || s).sort().join(', ');
-    const identityRegions = identityInformation['regions'].map(s =>
-        x_cta_country_ov[(s || "").toUpperCase()] || s.toUpperCase()
-    ).sort().join(', ');
+    // const identitySectors = identityInformation['sectors'].map(s => industry_sector_ov[s] || s).sort().join(', ');
+
+    const identitySectors = identityInformation['sectors'].sort().map(s => {
+        const sectorIcon = industry_sector_ov_to_icon[s] || 'question';
+        const title =  industry_sector_ov[s] || s;
+
+        return `<span class="fas-container"><i class="fas fa-${sectorIcon} fa-lg" title="${title}"></i></span>`;
+    }).join(' ');
+
+
+
+    // const identityRegions = identityInformation['regions'].map(s =>
+    //     x_cta_country_ov[(s || "").toUpperCase()] || s.toUpperCase()
+    // ).sort().join(', ');
+
+    const identityRegions = identityInformation['regions'].sort().map(s => {
+        const title = x_cta_country_ov[(s || "").toUpperCase()] || s.toUpperCase();
+        // return `<span><i class="flag ${s.toLowerCase()}" title="${title}"></i></span>`;
+        // <span class="flag-icon flag-icon-gr"></span>
+
+        // return `<i class="flag ${s.toLowerCase()}" title="${title}"></i>`;
+        // return `<i class="flag ${s.toLowerCase()}" title="${title}"></i>`;
+
+        return `<span class="flag-icon flag-icon-${s.toLowerCase()}" title="${title}"></span>`;
+    }).join(' ');
+
     // const identityTypes = identityInformation['types'].map(t => industry_class_ov[t] || t).sort().join(', ');
     const identityTypes = '';
 
@@ -660,21 +690,22 @@ function addInfoBox2(report, playbook) {
     let displayInfoBar2 = false;
 
     if (identitySectors.length) {
-        context_markup += `<div class="bottom-left"><span>Targeted Industries: ${identitySectors}</span></div>`;
+        context_markup += `<div class="bottom-left"><span>Industries: ${identitySectors}</span></div>`;
         displayInfoBar2 = true;
     } else {
         context_markup += `<div class="bottom-left"><span></span></div>`;
     }
 
     if (identityRegions.length) {
-        context_markup += `<div class="bottom-middle"><span>Targeted Regions: ${identityRegions}</span></div>`;
+        // context_markup += `<div class="bottom-middle"><span>Regions: ${identityRegions}</span></div>`;
+        context_markup += `<div class="bottom-middle"><span>Regions: </span>${identityRegions}</div>`;
         displayInfoBar2 = true;
     } else {
         context_markup += `<div class="bottom-middle"><span></span></div>`;
     }
 
     if (identityTypes.length) {
-        context_markup += `<div class="bottom-middle2"><span>Target Type: ${identityTypes}</span></div>`;
+        context_markup += `<div class="bottom-middle2"><span>Type: ${identityTypes}</span></div>`;
         displayInfoBar2 = true;
     } else {
         context_markup += `<div class="bottom-middle2"><span></span></div>`;
@@ -970,6 +1001,36 @@ const industry_sector_ov = {
     'telecommunications': 'Telecommunications',
     'transportation': 'Transportation',
     'utilities': 'Utilities'
+};
+
+const industry_sector_ov_to_icon = {
+    'agriculture': 'tractor',
+    'aerospace': 'plane',
+    'automotive': 'car',
+    'communications': 'satellite-dish',
+    'construction': 'hard-hat',
+    'defence': 'shield-alt',
+    'education': 'graduation-cap',
+    'energy': 'lightbulb',
+    'entertainment': 'theater-masks',
+    'financial-services': 'money-bill-alt',
+    'government-national': 'landmark',
+    'government-regional': 'landmark',
+    'government-local': 'landmark',
+    'government-public-services': 'landmark',
+    'healthcare': 'plus-square',
+    'hospitality-leisure': 'bed',
+    'infrastructure': 'building',
+    'insurance': 'house-damage',
+    'manufacturing': 'industry',
+    'mining': 'gem',
+    'non-profit': 'users',
+    'pharmaceuticals': 'pills',
+    'retail': 'capsules',
+    'technology': 'microchip',
+    'telecommunications': 'broadcast-tower',
+    'transportation': 'bus',
+    'utilities': 'water'
 };
 
 const x_cta_country_ov = {
