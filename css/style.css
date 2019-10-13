@@ -2,9 +2,7 @@ body {
     background-color: #14181c;
     font-family: 'Rajdhani', sans-serif;
     font-size: 16px;
-    margin-left: 0;
-    margin-top: 0;
-    margin-bottom: 0;
+    margin: 0;
     overflow-y: scroll;
 }
 
@@ -28,6 +26,15 @@ table {
 }
 
 /*For filter options menu*/
+
+.action {
+    cursor: pointer;
+}
+
+.action > span:hover {
+    color: #804d13;
+    text-decoration: underline #804d13;
+}
 
 .clear-filters-button {
     color: #ffffff;
@@ -80,14 +87,13 @@ table {
     height: 800px;
     overflow: auto;
     background-color: #14181c;
-    margin: 15% auto;
     padding: 20px;
     color: white;
     border-radius: 5px;
     border: 1px solid #EF9124;
     left: 50% !important;
     top: 50% !important;
-    margin-top: 0;
+    margin: 0 auto 15%;
     position: absolute;
     transform: translate(-50%, -50%) !important;
 }
@@ -165,35 +171,32 @@ option {
 }
 
 
-.info2 {
-    display: grid;
-    background-color: #ef9124;
-    color: #fff;
-    grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: 40px;
-    grid-template-areas: "bottom-left bottom-middle bottom-middle2 bottom-right";
-    justify-items: center;
-    align-items: center;
-    border-top: 10px;
-    border-radius: 5px;
-}
-
 .info {
-    display: grid;
-    background-color: #ef9124;
+    background-color: #804d13;
     color: #fff;
-    grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: 40px;
-    grid-template-areas: "left middle middle2 right";
-    justify-items: center;
     align-items: center;
     border-top: 10px;
     border-radius: 5px;
+    display: flex;
+    padding: 0 5px 0 5px;
+    min-height: 27px;
 }
 
-.left span, .right span, .middle span, .middle2 span, .bottom-left span, .bottom-right span, .bottom-middle span, .bottom-middle2 span {
+.info > div {
+    display: flex;
+    flex-grow: 1;
+    flex-basis: 0;
+    align-items: center;
+}
+
+.info > div > div {
+    display: inline-block;
+}
+
+.info > div > div:first-child {
     font-family: 'Jura', sans-serif;
     font-weight: 600;
+    margin-right: 5px;
 }
 
 .campaign-description {
@@ -211,7 +214,6 @@ option {
 .playbook-description {
     grid-area: playbook-description;
     background-color: #2b323b;
-    margin-top: 10px;
     font-size: 100%;
     padding: 10px;
     border-radius: 5px;
@@ -222,11 +224,10 @@ option {
 .timeline {
     grid-area: timeline;
     background-color: #2b323b;
-    margin-top: 10px;
     margin-bottom: 10px;
-    padding: 20px;
+    padding: 0px;
     border-radius: 5px;
-    overflow-y: auto;
+    overflow: auto;
 }
 
 .inside {
@@ -235,6 +236,7 @@ option {
     grid-template-rows: 50% 50%;
     grid-template-areas: "timeline playbook-description" "timeline campaign-description";
     grid-gap: 10px;
+    height: 350px;
 }
 
 .sidebar {
@@ -245,6 +247,10 @@ option {
     padding-right: 20px;
     padding-top: 20px;
     min-height: calc(100vh - 90px);
+}
+
+.sidebar img {
+    width: 200px;
 }
 
 .sidebar span {
@@ -261,19 +267,10 @@ option {
 }
 
 .header {
-    grid-area: header;
     background-color: #2b323b;
-    max-width: 100%;
-    font-size: 30px;
-    color: #95989a;
     border-radius: 0px 0px 5px 5px;
     padding-left: 10px;
-    padding-top: 8px;
-}
-
-.sidebar img {
-    width: 100%;
-    padding-bottom: 20px;
+    height: 70px;
 }
 
 .header span {
@@ -282,19 +279,43 @@ option {
 }
 
 .wrapper {
-    display: grid;
-    grid-template-columns: min-content;
-    grid-template-areas: "sidebar header" "sidebar inside" "sidebar info" "sidebar info2" "sidebar bottomheader" "sidebar phasescontainer" "footer ...";
-    grid-template-rows: 70px 350px 40px 40px 50px 1fr 70px;
-    grid-column-gap: 10px;
-    grid-row-gap: 10px;
+    display: flex;
+    flex-direction: row;
     color: #fff;
+}
+
+.wrapper > div {
+    display: flex;
+    flex-direction: column;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.wrapper > div:first-child {
+    margin-left: 0;
+}
+
+.wrapper > div:last-child {
+    flex-grow: 1;
+    margin-right: 0;
+}
+
+.wrapper > div > div {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.wrapper > div > div:first-child {
+    margin-top: 0;
+}
+
+.wrapper > div > div:last-child {
+    margin-bottom: 0;
 }
 
 .bottomheader {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    grid-template-rows: 50px;
     grid-template-areas: "recon weaponization delivery exploit install command objective";
     grid-gap: 10px;
     margin-top: 10px;
@@ -348,7 +369,6 @@ option {
     overflow: auto;
     background-color: #14181c;
     /*background-color: rgba(0, 0, 0, 0.4);*/
-    margin: 15% auto;
     padding: 20px;
     color: white;
     border-radius: 5px;
@@ -356,7 +376,7 @@ option {
 
     left: 50% !important;
     top: 50% !important;
-    margin-top: 0;
+    margin: 0 auto 15%;
     position: absolute;
     transform: translate(-50%, -50%) !important;
 }
@@ -399,12 +419,11 @@ option {
     font-size: 24px;
     background: #2b323b;
     height: 40px;
-    width: 100%;
     text-decoration: none;
     vertical-align: middle;
     line-height: 40px;
     font-family: 'Jura', sans-serif;
-    display: inline-block;
+    display: block;
     border-radius: 5px;
     padding-left: 10px;
     /*padding-right: 10px;*/
@@ -494,7 +513,7 @@ a:active {
 ::-webkit-scrollbar {
     width: 6px; /* 1px wider than Lion. */
     /* This is more usable for users trying to click it. */
-    background-color: rgba(0, 0, 0, 0);
+    background-color: #59360d;
     -webkit-border-radius: 100px;
 }
 

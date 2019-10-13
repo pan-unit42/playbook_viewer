@@ -12,7 +12,7 @@ function emptyPlaybook() {
     $('.playbook-description').html("Welcome to the Unit 42 Playbook Viewer. <br><br>Please select a playbook to begin.");
     $('.campaign-description').empty();
     $('.timeline').empty();
-    $('.info').empty();
+    $('.info1').empty();
     $('.info2').empty();
     $('.phasescontainer').empty();
     current_playbook = null;
@@ -624,7 +624,7 @@ function addInfobox(playbook) {
         `<div class="middle2"><span class="middle2">Indicators: ${total_indicators} (Click For Overview)</span></div>` +
         `<div class="right"><span>Attack Patterns: ${total_attackpatterns}</span></div>`
     );
-    $('.info').empty().append(ib_markup);
+    $('.info1').empty().append(ib_markup);
     $('body').append(
         `<div class="indicator-list"><span class="close">&times;</span> ${indicatorTable}</div>`
     );
@@ -690,32 +690,31 @@ function addInfoBox2(report, playbook) {
     let displayInfoBar2 = false;
 
     if (identitySectors.length) {
-        context_markup += `<div class="bottom-left"><span>Industries: ${identitySectors}</span></div>`;
+        context_markup += `<div><div>Industries:</div><div>${identitySectors}</div></div>`;
         displayInfoBar2 = true;
     } else {
-        context_markup += `<div class="bottom-left"><span></span></div>`;
+        context_markup += '<div></div>';
     }
 
     if (identityRegions.length) {
-        // context_markup += `<div class="bottom-middle"><span>Regions: ${identityRegions}</span></div>`;
-        context_markup += `<div class="bottom-middle"><span>Regions: </span>${identityRegions}</div>`;
+        context_markup += `<div><div>Regions:</div><div>${identityRegions}</div></div>`;
         displayInfoBar2 = true;
     } else {
-        context_markup += `<div class="bottom-middle"><span></span></div>`;
+        context_markup += '<div></div>';
     }
 
     if (identityTypes.length) {
-        context_markup += `<div class="bottom-middle2"><span>Type: ${identityTypes}</span></div>`;
+        context_markup += `<div><div>Type:</div><div>${identityTypes}</div></div>`;
         displayInfoBar2 = true;
     } else {
-        context_markup += `<div class="bottom-middle2"><span></span></div>`;
+        context_markup += '<div></div>';
     }
 
     if (malwareNames.length) {
-        context_markup += `<div class="bottom-right"><span>Malware Used: ${malwareNames}</span></div>`;
+        context_markup += `<div><div>Malware Used:</div><div>${malwareNames}</div></div>`;
         displayInfoBar2 = true;
     } else {
-        context_markup += `<div class="bottom-right"><span></span></div>`;
+        context_markup += '<div></div>';
     }
 
     if (displayInfoBar2) {
@@ -785,7 +784,7 @@ function addReportLinks(playbook) {
         // const debug_text = date_text + " (" + r['name'] + ")";
         const report_markup = (
             `<div class="timeline_btn btn btn-report" onclick=""` +
-            ` id = "${r.id}" report_id="${r.id}" style="width:95%" title=${r['name']}>${date_text}</div>`
+            ` id = "${r.id}" report_id="${r.id}" title=${r['name']}>${date_text}</div>`
         );
         $('.timeline').append(report_markup);
     });
