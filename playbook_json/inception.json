@@ -7,15 +7,15 @@
       "labels": [
         "intrusion-set"
       ], 
-      "modified": "2019-10-08T17:18:42.276Z", 
+      "modified": "2019-10-14T17:02:58.230Z", 
       "object_refs": [
         "intrusion-set--38ae6c9b-1fa0-4c30-b846-7f3f170a9eff", 
         "report--51b1dd01-ff47-4d15-ad87-9b88aa6153e3"
       ], 
-      "published": "2019-10-08T17:18:42.276Z", 
+      "published": "2019-10-14T17:02:58.230Z", 
       "type": "report", 
       "id": "report--42b0b7d0-1f78-463d-90e5-e69bafa85a38", 
-      "description": "The Inception attackers have been active since at least 2014 and have been documented previously by both Blue Coat and Symantec; historical attacks used custom malware for a variety of platforms, and targeting a range of industries,\u00a0 primarily in Russia, but also around the world. \n\nhttps://researchcenter.paloaltonetworks.com/2018/11/unit42-inception-attackers-target-europe-year-old-office-vulnerability/\n"
+      "description": "The Inception attackers have been active since at least 2014 and have been documented previously by both Blue Coat and Symantec; historical attacks used custom malware for a variety of platforms, and targeting a range of industries,\u00a0 primarily in Russia, but also around the world. \n\n"
     }, 
     {
       "name": "Inception - Powershower", 
@@ -143,6 +143,70 @@
     }, 
     {
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5", 
+      "name": "T1221: Template Injection", 
+      "created": "2018-12-17T14:34:52.626Z", 
+      "kill_chain_phases": [
+        {
+          "phase_name": "defense-evasion", 
+          "kill_chain_name": "mitre-attack"
+        }, 
+        {
+          "phase_name": "installation", 
+          "kill_chain_name": "lockheed"
+        }
+      ], 
+      "modified": "2019-05-06T20:46:10.274Z", 
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ], 
+      "external_references": [
+        {
+          "url": "https://attack.mitre.org/techniques/T1221", 
+          "external_id": "T1221", 
+          "source_name": "mitre-attack"
+        }, 
+        {
+          "url": "https://docs.microsoft.com/previous-versions/office/developer/office-2007/aa338205(v=office.12)", 
+          "source_name": "Microsoft Open XML July 2017", 
+          "description": "Microsoft. (2014, July 9). Introducing the Office (2007) Open XML File Formats. Retrieved July 20, 2018."
+        }, 
+        {
+          "url": "https://www.sans.org/reading-room/whitepapers/testing/template-injection-attacks-bypassing-security-controls-living-land-38780", 
+          "source_name": "SANS Brian Wiltse Template Injection", 
+          "description": "Wiltse, B.. (2018, November 7). Template Injection Attacks - Bypassing Security Controls by Living off the Land. Retrieved April 10, 2019."
+        }, 
+        {
+          "url": "http://blog.redxorblue.com/2018/07/executing-macros-from-docx-with-remote.html", 
+          "source_name": "Redxorblue Remote Template Injection", 
+          "description": "Hawkins, J. (2018, July 18). Executing Macros From a DOCX With Remote Template Injection. Retrieved October 12, 2018."
+        }, 
+        {
+          "url": "https://blog.malwarebytes.com/threat-analysis/2017/10/decoy-microsoft-word-document-delivers-malware-through-rat/", 
+          "source_name": "MalwareBytes Template Injection OCT 2017", 
+          "description": "Segura, J. (2017, October 13). Decoy Microsoft Word document delivers malware through a RAT. Retrieved July 21, 2018."
+        }, 
+        {
+          "url": "https://forum.anomali.com/t/credential-harvesting-and-malicious-file-delivery-using-microsoft-office-template-injection/2104", 
+          "source_name": "Anomali Template Injection MAR 2018", 
+          "description": "Intel_Acquisition_Team. (2018, March 1). Credential Harvesting and Malicious File Delivery using Microsoft Office Template Injection. Retrieved July 20, 2018."
+        }, 
+        {
+          "url": "https://blog.talosintelligence.com/2017/07/template-injection.html", 
+          "source_name": "Talos Template Injection July 2017", 
+          "description": "Baird, S. et al.. (2017, July 7). Attack on Critical Infrastructure Leverages Template Injection. Retrieved July 21, 2018."
+        }, 
+        {
+          "url": "https://github.com/ryhanson/phishery", 
+          "source_name": "ryhanson phishery SEPT 2016", 
+          "description": "Hanson, R. (2016, September 24). phishery. Retrieved July 21, 2018."
+        }
+      ], 
+      "type": "attack-pattern", 
+      "id": "attack-pattern--dc31fe1e-d722-49da-8f5f-92c7b5aff534", 
+      "description": "Microsoft\u2019s Open Office XML (OOXML) specification defines an XML-based format for Office documents (.docx, xlsx, .pptx) to replace older binary formats (.doc, .xls, .ppt). OOXML files are packed together ZIP archives compromised of various XML files, referred to as parts, containing properties that collectively define how a document is rendered. (Citation: Microsoft Open XML July 2017)\n\nProperties within parts may reference shared public resources accessed via online URLs. For example, template properties reference a file, serving as a pre-formatted document blueprint, that is fetched when the document is loaded.\n\nAdversaries may abuse this technology to initially conceal malicious code to be executed via documents (i.e. [Scripting](https://attack.mitre.org/techniques/T1064)). Template references injected into a document may enable malicious payloads to be fetched and executed when the document is loaded. (Citation: SANS Brian Wiltse Template Injection) These documents can be delivered via other techniques such as [Spearphishing Attachment](https://attack.mitre.org/techniques/T1193) and/or [Taint Shared Content](https://attack.mitre.org/techniques/T1080) and may evade static detections since no typical indicators (VBA macro, script, etc.) are present until after the malicious payload is fetched. (Citation: Redxorblue Remote Template Injection) Examples have been seen in the wild where template injection was used to load malicious code containing an exploit. (Citation: MalwareBytes Template Injection OCT 2017)\n\nThis technique may also enable [Forced Authentication](https://attack.mitre.org/techniques/T1187) by injecting a SMB/HTTPS (or other credential prompting) URL and triggering an authentication attempt. (Citation: Anomali Template Injection MAR 2018) (Citation: Talos Template Injection July 2017) (Citation: ryhanson phishery SEPT 2016)"
+    }, 
+    {
+      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5", 
       "name": "T1086: PowerShell", 
       "created": "2018-08-03T19:54:02.821Z", 
       "kill_chain_phases": [
@@ -209,70 +273,6 @@
       "type": "attack-pattern", 
       "id": "attack-pattern--f4882e23-8aa7-4b12-b28a-b349c12ee9e0", 
       "description": "PowerShell is a powerful interactive command-line interface and scripting environment included in the Windows operating system. (Citation: TechNet PowerShell) Adversaries can use PowerShell to perform a number of actions, including discovery of information and execution of code. Examples include the Start-Process cmdlet which can be used to run an executable and the Invoke-Command cmdlet which runs a command locally or on a remote computer. \n\nPowerShell may also be used to download and run executables from the Internet, which can be executed from disk or in memory without touching disk.\n\nAdministrator permissions are required to use PowerShell to connect to remote systems.\n\nA number of PowerShell-based offensive testing tools are available, including [Empire](https://attack.mitre.org/software/S0363),  PowerSploit, (Citation: Powersploit) and PSAttack. (Citation: Github PSAttack)\n\nPowerShell commands/scripts can also be executed without directly invoking the powershell.exe binary through interfaces to PowerShell's underlying System.Management.Automation assembly exposed through the .NET framework and Windows Common Language Interface (CLI). (Citation: Sixdub PowerPick Jan 2016)(Citation: SilentBreak Offensive PS Dec 2015) (Citation: Microsoft PSfromCsharp APR 2014)"
-    }, 
-    {
-      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5", 
-      "name": "T1221: Template Injection", 
-      "created": "2018-12-17T14:34:52.626Z", 
-      "kill_chain_phases": [
-        {
-          "phase_name": "defense-evasion", 
-          "kill_chain_name": "mitre-attack"
-        }, 
-        {
-          "phase_name": "installation", 
-          "kill_chain_name": "lockheed"
-        }
-      ], 
-      "modified": "2019-05-06T20:46:10.274Z", 
-      "object_marking_refs": [
-        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
-      ], 
-      "external_references": [
-        {
-          "url": "https://attack.mitre.org/techniques/T1221", 
-          "external_id": "T1221", 
-          "source_name": "mitre-attack"
-        }, 
-        {
-          "url": "https://docs.microsoft.com/previous-versions/office/developer/office-2007/aa338205(v=office.12)", 
-          "source_name": "Microsoft Open XML July 2017", 
-          "description": "Microsoft. (2014, July 9). Introducing the Office (2007) Open XML File Formats. Retrieved July 20, 2018."
-        }, 
-        {
-          "url": "https://www.sans.org/reading-room/whitepapers/testing/template-injection-attacks-bypassing-security-controls-living-land-38780", 
-          "source_name": "SANS Brian Wiltse Template Injection", 
-          "description": "Wiltse, B.. (2018, November 7). Template Injection Attacks - Bypassing Security Controls by Living off the Land. Retrieved April 10, 2019."
-        }, 
-        {
-          "url": "http://blog.redxorblue.com/2018/07/executing-macros-from-docx-with-remote.html", 
-          "source_name": "Redxorblue Remote Template Injection", 
-          "description": "Hawkins, J. (2018, July 18). Executing Macros From a DOCX With Remote Template Injection. Retrieved October 12, 2018."
-        }, 
-        {
-          "url": "https://blog.malwarebytes.com/threat-analysis/2017/10/decoy-microsoft-word-document-delivers-malware-through-rat/", 
-          "source_name": "MalwareBytes Template Injection OCT 2017", 
-          "description": "Segura, J. (2017, October 13). Decoy Microsoft Word document delivers malware through a RAT. Retrieved July 21, 2018."
-        }, 
-        {
-          "url": "https://forum.anomali.com/t/credential-harvesting-and-malicious-file-delivery-using-microsoft-office-template-injection/2104", 
-          "source_name": "Anomali Template Injection MAR 2018", 
-          "description": "Intel_Acquisition_Team. (2018, March 1). Credential Harvesting and Malicious File Delivery using Microsoft Office Template Injection. Retrieved July 20, 2018."
-        }, 
-        {
-          "url": "https://blog.talosintelligence.com/2017/07/template-injection.html", 
-          "source_name": "Talos Template Injection July 2017", 
-          "description": "Baird, S. et al.. (2017, July 7). Attack on Critical Infrastructure Leverages Template Injection. Retrieved July 21, 2018."
-        }, 
-        {
-          "url": "https://github.com/ryhanson/phishery", 
-          "source_name": "ryhanson phishery SEPT 2016", 
-          "description": "Hanson, R. (2016, September 24). phishery. Retrieved July 21, 2018."
-        }
-      ], 
-      "type": "attack-pattern", 
-      "id": "attack-pattern--dc31fe1e-d722-49da-8f5f-92c7b5aff534", 
-      "description": "Microsoft\u2019s Open Office XML (OOXML) specification defines an XML-based format for Office documents (.docx, xlsx, .pptx) to replace older binary formats (.doc, .xls, .ppt). OOXML files are packed together ZIP archives compromised of various XML files, referred to as parts, containing properties that collectively define how a document is rendered. (Citation: Microsoft Open XML July 2017)\n\nProperties within parts may reference shared public resources accessed via online URLs. For example, template properties reference a file, serving as a pre-formatted document blueprint, that is fetched when the document is loaded.\n\nAdversaries may abuse this technology to initially conceal malicious code to be executed via documents (i.e. [Scripting](https://attack.mitre.org/techniques/T1064)). Template references injected into a document may enable malicious payloads to be fetched and executed when the document is loaded. (Citation: SANS Brian Wiltse Template Injection) These documents can be delivered via other techniques such as [Spearphishing Attachment](https://attack.mitre.org/techniques/T1193) and/or [Taint Shared Content](https://attack.mitre.org/techniques/T1080) and may evade static detections since no typical indicators (VBA macro, script, etc.) are present until after the malicious payload is fetched. (Citation: Redxorblue Remote Template Injection) Examples have been seen in the wild where template injection was used to load malicious code containing an exploit. (Citation: MalwareBytes Template Injection OCT 2017)\n\nThis technique may also enable [Forced Authentication](https://attack.mitre.org/techniques/T1187) by injecting a SMB/HTTPS (or other credential prompting) URL and triggering an authentication attempt. (Citation: Anomali Template Injection MAR 2018) (Citation: Talos Template Injection July 2017) (Citation: ryhanson phishery SEPT 2016)"
     }, 
     {
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5", 
@@ -357,6 +357,16 @@
       ], 
       "type": "identity", 
       "id": "identity--38f55722-f64e-4893-b8a1-bd694600a70a"
+    }, 
+    {
+      "name": "POWERSHOWER", 
+      "created": "2019-10-10T17:27:09.502Z", 
+      "labels": [
+        "backdoor"
+      ], 
+      "modified": "2019-10-14T17:59:51.141Z", 
+      "type": "malware", 
+      "id": "malware--4351ebaf-3788-4dac-8588-cb00ad455fa7"
     }, 
     {
       "valid_from": "2018-11-06T16:05:16.961Z", 
@@ -611,13 +621,12 @@
       "source_ref": "indicator--b41d8415-d6fd-4b37-8f53-ee2a25a9aada"
     }, 
     {
-      "description": "POWERSHOWER - Powershell based malware", 
-      "created": "2018-11-06T16:05:17.238Z", 
-      "modified": "2018-12-17T17:58:07.887Z", 
-      "target_ref": "attack-pattern--f4882e23-8aa7-4b12-b28a-b349c12ee9e0", 
-      "relationship_type": "uses", 
+      "created": "2019-10-10T17:27:23.959Z", 
+      "modified": "2019-10-14T17:02:58.128Z", 
+      "target_ref": "malware--4351ebaf-3788-4dac-8588-cb00ad455fa7", 
+      "relationship_type": "indicates", 
       "type": "relationship", 
-      "id": "relationship--6b4eaa3c-59cb-4d00-b189-3a34ea3d1c8d", 
+      "id": "relationship--b57b6d4c-23cb-4298-8c98-6b7ccdf2d224", 
       "source_ref": "indicator--2baa103e-fa1a-4ab1-a45a-f8fe9ada43d7"
     }, 
     {
@@ -628,6 +637,16 @@
       "relationship_type": "uses", 
       "type": "relationship", 
       "id": "relationship--6576ca2e-439a-4523-a1aa-b291fa1a28d8", 
+      "source_ref": "indicator--2baa103e-fa1a-4ab1-a45a-f8fe9ada43d7"
+    }, 
+    {
+      "description": "Powershell based malware", 
+      "created": "2018-11-06T16:05:17.238Z", 
+      "modified": "2019-10-10T17:28:58.913Z", 
+      "target_ref": "attack-pattern--f4882e23-8aa7-4b12-b28a-b349c12ee9e0", 
+      "relationship_type": "uses", 
+      "type": "relationship", 
+      "id": "relationship--6b4eaa3c-59cb-4d00-b189-3a34ea3d1c8d", 
       "source_ref": "indicator--2baa103e-fa1a-4ab1-a45a-f8fe9ada43d7"
     }, 
     {
@@ -828,7 +847,7 @@
     }, 
     {
       "created": "2018-11-06T15:57:03.820Z", 
-      "modified": "2019-10-08T17:18:42.276Z", 
+      "modified": "2019-10-14T17:02:58.230Z", 
       "target_ref": "intrusion-set--38ae6c9b-1fa0-4c30-b846-7f3f170a9eff", 
       "relationship_type": "attributed-to", 
       "type": "relationship", 
@@ -838,19 +857,19 @@
     {
       "created": "2018-11-06T16:01:47.454Z", 
       "modified": "2019-07-25T12:32:34.007Z", 
-      "target_ref": "attack-pattern--f4882e23-8aa7-4b12-b28a-b349c12ee9e0", 
+      "target_ref": "attack-pattern--dc31fe1e-d722-49da-8f5f-92c7b5aff534", 
       "relationship_type": "uses", 
       "type": "relationship", 
-      "id": "relationship--f4882e23-8aa7-4b12-b28a-b349c12ee9e0", 
+      "id": "relationship--dc31fe1e-d722-49da-8f5f-92c7b5aff534", 
       "source_ref": "campaign--51b1dd01-ff47-4d15-ad87-9b88aa6153e3"
     }, 
     {
       "created": "2018-11-06T16:01:47.454Z", 
       "modified": "2019-07-25T12:32:34.007Z", 
-      "target_ref": "attack-pattern--dc31fe1e-d722-49da-8f5f-92c7b5aff534", 
+      "target_ref": "attack-pattern--f4882e23-8aa7-4b12-b28a-b349c12ee9e0", 
       "relationship_type": "uses", 
       "type": "relationship", 
-      "id": "relationship--dc31fe1e-d722-49da-8f5f-92c7b5aff534", 
+      "id": "relationship--f4882e23-8aa7-4b12-b28a-b349c12ee9e0", 
       "source_ref": "campaign--51b1dd01-ff47-4d15-ad87-9b88aa6153e3"
     }, 
     {
@@ -906,10 +925,11 @@
         "attack-pattern--be2dcee9-a7a7-4e38-afd6-21b31ecc3d63", 
         "attack-pattern--9422fc14-1c43-410d-ab0f-a709b76c72dc", 
         "attack-pattern--354a7f88-63fb-41b5-a801-ce3b377b36f1", 
-        "attack-pattern--f4882e23-8aa7-4b12-b28a-b349c12ee9e0", 
         "attack-pattern--dc31fe1e-d722-49da-8f5f-92c7b5aff534", 
+        "attack-pattern--f4882e23-8aa7-4b12-b28a-b349c12ee9e0", 
         "attack-pattern--6aac77c4-eaf2-4366-8c13-ce50ab951f38", 
         "attack-pattern--355be19c-ffc9-46d5-8d50-d6a036c675b6", 
+        "malware--4351ebaf-3788-4dac-8588-cb00ad455fa7", 
         "relationship--77e0e6e9-6607-4db5-9ca0-2160c4abd414", 
         "relationship--903bc5da-14f1-4107-81b5-29b7d878f4b6", 
         "relationship--42f3c1f0-81e6-4429-aacb-c97a9984a389", 
@@ -922,8 +942,9 @@
         "relationship--9bca7218-d514-4f9b-9bab-76f5e14300d2", 
         "relationship--aaf28c63-cec0-43ab-b862-b74a2e97c314", 
         "relationship--284d12c3-2c20-47dc-b01e-be595ed730ac", 
-        "relationship--6b4eaa3c-59cb-4d00-b189-3a34ea3d1c8d", 
+        "relationship--b57b6d4c-23cb-4298-8c98-6b7ccdf2d224", 
         "relationship--6576ca2e-439a-4523-a1aa-b291fa1a28d8", 
+        "relationship--6b4eaa3c-59cb-4d00-b189-3a34ea3d1c8d", 
         "relationship--81fbc222-8b72-4488-983e-b5f9169db310", 
         "relationship--06e7b524-dead-46fe-962c-4757946b3cc6", 
         "relationship--12447dad-a976-457e-8f90-3e1a7187f10b", 
@@ -945,8 +966,8 @@
         "relationship--1c89654f-d2e5-4e8f-b38c-28c5907f2d42", 
         "relationship--f4d9072d-5c9c-4d91-83b2-188cf4d20654", 
         "relationship--42b0b7d0-1f78-463d-90e5-e69bafa85a38", 
-        "relationship--f4882e23-8aa7-4b12-b28a-b349c12ee9e0", 
         "relationship--dc31fe1e-d722-49da-8f5f-92c7b5aff534", 
+        "relationship--f4882e23-8aa7-4b12-b28a-b349c12ee9e0", 
         "relationship--6aac77c4-eaf2-4366-8c13-ce50ab951f38", 
         "relationship--355be19c-ffc9-46d5-8d50-d6a036c675b6", 
         "relationship--51b1dd01-ff47-4d15-ad87-9b88aa6153e3"

@@ -7,7 +7,7 @@
       "labels": [
         "intrusion-set"
       ], 
-      "modified": "2019-10-08T18:26:52.181Z", 
+      "modified": "2019-10-14T17:02:56.213Z", 
       "object_refs": [
         "intrusion-set--8e11eaa4-1964-4b73-85c1-fcfa29159f9b", 
         "report--be414527-0ed6-4b77-b04b-2ffa2cd601eb", 
@@ -15,7 +15,7 @@
         "report--418eec9b-ca2d-48d6-92cc-7cf47b159e8c", 
         "report--a7f9f91c-cfa7-48f9-a2a3-9fe2013241ec"
       ], 
-      "published": "2019-10-08T18:26:52.181Z", 
+      "published": "2019-10-14T17:02:56.213Z", 
       "type": "report", 
       "id": "report--af2cb8e5-5d1c-4964-bfe1-75ebc90f8627", 
       "description": "OilRig is a threat group operating primarily in the Middle East by targeting organizations in this region that are in a variety of different industries; however, this group has occasionally targeted organizations outside of the Middle East as well. It also appears OilRig carries out supply chain attacks, where the threat group leverages the trust relationship between organizations to attack their primary targets.\n\nOilRig is an active and organized threat group, which is evident based on their systematic targeting of specific organizations that appear to be carefully chosen for strategic purposes. Attacks attributed to this group primarily rely on social engineering to exploit the human rather than software vulnerabilities; however, on occasion this group has used recently patched vulnerabilities in the delivery phase of their attacks. The lack of software vulnerability exploitation does not necessarily suggest a lack of sophistication, as OilRig has shown maturity in other aspects of their operations. Such maturities involve:\n\n-Organized evasion testing used the during development of their tools.\n-Use of custom DNS Tunneling protocols for command and control (C2) and data exfiltration.\n-Custom web-shells and backdoors used to persistently access servers.\n\nOilRig relies on stolen account credentials for lateral movement. After OilRig gains access to a system, they use credential dumping tools, such as Mimikatz, to steal credentials to accounts logged into the compromised system. The group uses these credentials to access and to move laterally to other systems on the network. After obtaining credentials from a system, operators in this group prefer to use tools other than their backdoors to access the compromised systems, such as remote desktop and putty. OilRig also uses phishing sites to harvest credentials to individuals at targeted organizations to gain access to internet accessible resources, such as Outlook Web Access."
@@ -202,6 +202,35 @@
     }, 
     {
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5", 
+      "name": "T1345: Create custom payloads", 
+      "created": "2018-08-03T19:54:02.821Z", 
+      "kill_chain_phases": [
+        {
+          "phase_name": "build-capabilities", 
+          "kill_chain_name": "mitre-pre-attack"
+        }, 
+        {
+          "phase_name": "weaponization", 
+          "kill_chain_name": "lockheed"
+        }
+      ], 
+      "modified": "2018-12-17T14:32:48.218Z", 
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ], 
+      "external_references": [
+        {
+          "url": "https://attack.mitre.org/techniques/T1345", 
+          "external_id": "T1345", 
+          "source_name": "mitre-pre-attack"
+        }
+      ], 
+      "type": "attack-pattern", 
+      "id": "attack-pattern--fddd81e9-dd3d-477e-9773-4fb8ae227234", 
+      "description": "A payload is the part of the malware which performs a malicious action. The adversary may create custom payloads when none exist with the needed capability or when targeting a specific environment. (Citation: APT1)"
+    }, 
+    {
+      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5", 
       "name": "T1087: Account Discovery", 
       "created": "2018-08-03T19:54:02.821Z", 
       "kill_chain_phases": [
@@ -372,32 +401,37 @@
     }, 
     {
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5", 
-      "name": "T1367: Spear phishing messages with malicious attachments", 
-      "created": "2018-08-03T19:54:02.821Z", 
+      "name": "T1193: Spearphishing Attachment", 
+      "created": "2019-08-26T15:33:33.158Z", 
       "kill_chain_phases": [
         {
-          "phase_name": "launch", 
-          "kill_chain_name": "mitre-pre-attack"
+          "phase_name": "initial-access", 
+          "kill_chain_name": "mitre-attack"
         }, 
         {
           "phase_name": "delivery", 
           "kill_chain_name": "lockheed"
         }
       ], 
-      "modified": "2018-12-17T14:33:45.990Z", 
+      "modified": "2019-08-26T15:33:33.158Z", 
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ], 
       "external_references": [
         {
-          "url": "https://attack.mitre.org/techniques/T1367", 
-          "external_id": "T1367", 
-          "source_name": "mitre-pre-attack"
+          "url": "https://attack.mitre.org/techniques/T1193", 
+          "external_id": "T1193", 
+          "source_name": "mitre-attack"
+        }, 
+        {
+          "url": "https://capec.mitre.org/data/definitions/163.html", 
+          "external_id": "CAPEC-163", 
+          "source_name": "capec"
         }
       ], 
       "type": "attack-pattern", 
-      "id": "attack-pattern--e24a9f99-cb76-42a3-a50b-464668773e97", 
-      "description": "This technique has been deprecated. Please see ATT&CK's Initial Access and Execution tactics for replacement techniques.\n\nEmails with malicious attachments are designed to get a user to open/execute the attachment in order to deliver malware payloads. (Citation: APT1)"
+      "id": "attack-pattern--6aac77c4-eaf2-4366-8c13-ce50ab951f38", 
+      "description": "Spearphishing attachment is a specific variant of spearphishing. Spearphishing attachment is different from other forms of spearphishing in that it employs the use of malware attached to an email. All forms of spearphishing are electronically delivered social engineering targeted at a specific individual, company, or industry. In this scenario, adversaries attach a file to the spearphishing email and usually rely upon [User Execution](https://attack.mitre.org/techniques/T1204) to gain execution.\n\nThere are many options for the attachment such as Microsoft Office documents, executables, PDFs, or archived files. Upon opening the attachment (and potentially clicking past protections), the adversary's payload exploits a vulnerability or directly executes on the user's system. The text of the spearphishing email usually tries to give a plausible reason why the file should be opened, and may explain how to bypass system protections in order to do so. The email may also contain instructions on how to decrypt an attachment, such as a zip file password, in order to evade email boundary defenses. Adversaries frequently manipulate file extensions and icons in order to make attached executables appear to be document files, or files exploiting one application appear to be a file for a different one."
     }, 
     {
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5", 
@@ -579,6 +613,39 @@
       "id": "identity--5b8b881a-7707-45a2-9f38-e33665844311"
     }, 
     {
+      "name": "ISMInjector", 
+      "created": "2019-10-11T19:50:26.495Z", 
+      "labels": [
+        "trojan"
+      ], 
+      "modified": "2019-10-14T14:34:42.539Z", 
+      "type": "malware", 
+      "id": "malware--5246bc7d-be84-4c5b-8e05-6790cd81568e", 
+      "description": " \nISMInjector is a Trojan that is responsible for injecting a Trojan into another process. The payload embedded within the known ISMInjector samples were variants of the ISMAgent backdoor. ISMInjector injects the ISMAgent payload into the legitimate \"RegAsm.exe\" application, which is part of the .NET Framework."
+    }, 
+    {
+      "name": "ISMAgent", 
+      "created": "2019-10-11T19:48:28.830Z", 
+      "labels": [
+        "backdoor", 
+        "dropper"
+      ], 
+      "modified": "2019-10-14T14:34:42.539Z", 
+      "type": "malware", 
+      "id": "malware--c56fd492-b07a-4de7-9d74-0b5136cd9a77", 
+      "description": " ISMAgent is a payload used in targeted attacks on organizations in Saudi Arabia and has been linked to the OilRig attack campaign. ISMAgent uses the same DNS tunneling protocol to communicate with its C2 server as recent ISMDoor variants. Due to considerable differences between the previous ISMDoor samples and the newly discovered variant, in addition to evidence of potentially different authors of the tools, we will be tracking this new variant as ISMAgent. "
+    }, 
+    {
+      "name": "ThreeDollars", 
+      "created": "2019-10-11T19:52:48.055Z", 
+      "labels": [
+        "dropper"
+      ], 
+      "modified": "2019-10-14T14:34:42.539Z", 
+      "type": "malware", 
+      "id": "malware--d62bf08d-2145-42a9-ad32-e2a5c82d3c2d"
+    }, 
+    {
       "valid_from": "2018-08-03T20:30:50.665Z", 
       "name": "net user /domain", 
       "created": "2018-08-03T20:30:50.665Z", 
@@ -747,6 +814,42 @@
       "id": "indicator--cff4fa97-3f63-4a68-83b0-4eb3f81be9de"
     }, 
     {
+      "valid_from": "2017-10-09T17:39:22.052Z", 
+      "name": "33c187cfd9e3b68c3089c27ac64a519ccc951ccb3c74d75179c520f54f11f647", 
+      "created": "2017-10-09T17:39:22.052Z", 
+      "pattern": "[file:hashes.'SHA-256' = '33c187cfd9e3b68c3089c27ac64a519ccc951ccb3c74d75179c520f54f11f647']", 
+      "labels": [
+        "malicious-activity"
+      ], 
+      "modified": "2019-10-14T14:34:42.538Z", 
+      "type": "indicator", 
+      "id": "indicator--e0300bff-605a-4969-a37f-01e1cd22a05b"
+    }, 
+    {
+      "valid_from": "2017-10-09T17:41:26.546Z", 
+      "name": "74f61b6ff0eb58d76f4cacfb1504cb6b72684d0d0980d42cba364c6ef28223a8", 
+      "created": "2017-10-09T17:41:26.546Z", 
+      "pattern": "[file:hashes.'SHA-256' = '74f61b6ff0eb58d76f4cacfb1504cb6b72684d0d0980d42cba364c6ef28223a8']", 
+      "labels": [
+        "malicious-activity"
+      ], 
+      "modified": "2019-10-14T14:34:42.539Z", 
+      "type": "indicator", 
+      "id": "indicator--e6bc70bc-2221-4ae7-a19b-ef53115f6174"
+    }, 
+    {
+      "valid_from": "2017-10-09T17:38:51.286Z", 
+      "name": "119c64a8b35bd626b3ea5f630d533b2e0e7852a4c59694125ff08f9965b5f9cc", 
+      "created": "2017-10-09T17:38:51.286Z", 
+      "pattern": "[file:hashes.'SHA-256' = '119c64a8b35bd626b3ea5f630d533b2e0e7852a4c59694125ff08f9965b5f9cc']", 
+      "labels": [
+        "malicious-activity"
+      ], 
+      "modified": "2019-10-11T16:07:13.703Z", 
+      "type": "indicator", 
+      "id": "indicator--565c1a62-b4f0-4e2f-a4de-83944dfc8c10"
+    }, 
+    {
       "created": "2018-08-03T20:30:53.040Z", 
       "modified": "2018-08-22T12:34:11.223Z", 
       "target_ref": "campaign--be414527-0ed6-4b77-b04b-2ffa2cd601eb", 
@@ -873,6 +976,60 @@
       "source_ref": "indicator--cff4fa97-3f63-4a68-83b0-4eb3f81be9de"
     }, 
     {
+      "created": "2019-10-11T19:50:48.429Z", 
+      "modified": "2019-10-14T14:34:42.539Z", 
+      "target_ref": "campaign--be414527-0ed6-4b77-b04b-2ffa2cd601eb", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--a278e596-0170-4be2-8c10-99ec8ef8a9e9", 
+      "source_ref": "indicator--e0300bff-605a-4969-a37f-01e1cd22a05b"
+    }, 
+    {
+      "created": "2019-10-11T19:47:13.633Z", 
+      "modified": "2019-10-14T14:34:42.539Z", 
+      "target_ref": "campaign--be414527-0ed6-4b77-b04b-2ffa2cd601eb", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--9c9f3116-36f9-4e50-831d-731861fe1332", 
+      "source_ref": "indicator--e6bc70bc-2221-4ae7-a19b-ef53115f6174"
+    }, 
+    {
+      "created": "2019-10-11T19:52:15.184Z", 
+      "modified": "2019-10-14T14:34:42.539Z", 
+      "target_ref": "campaign--be414527-0ed6-4b77-b04b-2ffa2cd601eb", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--7fda3c46-13ab-4d57-872e-9562fec78f32", 
+      "source_ref": "indicator--565c1a62-b4f0-4e2f-a4de-83944dfc8c10"
+    }, 
+    {
+      "created": "2019-10-11T19:51:00.446Z", 
+      "modified": "2019-10-14T14:34:42.541Z", 
+      "target_ref": "malware--5246bc7d-be84-4c5b-8e05-6790cd81568e", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--3c3c1a59-cd2b-4292-b91d-8437022c0576", 
+      "source_ref": "indicator--e0300bff-605a-4969-a37f-01e1cd22a05b"
+    }, 
+    {
+      "created": "2019-10-11T19:49:02.672Z", 
+      "modified": "2019-10-14T14:34:42.541Z", 
+      "target_ref": "malware--c56fd492-b07a-4de7-9d74-0b5136cd9a77", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--720c7526-9483-4918-bca0-b924d7f4aa8b", 
+      "source_ref": "indicator--e6bc70bc-2221-4ae7-a19b-ef53115f6174"
+    }, 
+    {
+      "created": "2019-10-11T19:52:54.449Z", 
+      "modified": "2019-10-14T14:34:42.541Z", 
+      "target_ref": "malware--d62bf08d-2145-42a9-ad32-e2a5c82d3c2d", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--b6594e0e-b8bb-4c69-8294-ecec1aa164b2", 
+      "source_ref": "indicator--565c1a62-b4f0-4e2f-a4de-83944dfc8c10"
+    }, 
+    {
       "description": "ISMAgent C2 checks local users and groups via the net application", 
       "created": "2018-08-03T20:30:53.040Z", 
       "modified": "2018-08-03T20:30:53.040Z", 
@@ -923,13 +1080,13 @@
       "source_ref": "indicator--4d3e6511-ccc5-467e-a2be-ac608ee49374"
     }, 
     {
-      "description": "Attachment hash", 
-      "created": "2018-08-03T20:30:53.040Z", 
-      "modified": "2018-08-03T20:30:53.040Z", 
-      "target_ref": "attack-pattern--e24a9f99-cb76-42a3-a50b-464668773e97", 
+      "description": "Malicious Attachment.", 
+      "created": "2019-10-11T19:45:51.360Z", 
+      "modified": "2019-10-14T14:34:42.540Z", 
+      "target_ref": "attack-pattern--6aac77c4-eaf2-4366-8c13-ce50ab951f38", 
       "relationship_type": "uses", 
       "type": "relationship", 
-      "id": "relationship--fc6c7958-3fb4-42f6-ae1c-c5ff79ac7ecb", 
+      "id": "relationship--416774c3-cb83-461f-9f25-ab6d5fa6543b", 
       "source_ref": "indicator--5fcecf74-b682-4781-904d-f261f101282b"
     }, 
     {
@@ -981,13 +1138,13 @@
       "source_ref": "indicator--7c357da2-f901-49a3-b52f-1cd4b968caf9"
     }, 
     {
-      "description": "Attachment hash", 
-      "created": "2018-08-03T20:30:53.040Z", 
-      "modified": "2018-11-05T19:55:59.873Z", 
-      "target_ref": "attack-pattern--e24a9f99-cb76-42a3-a50b-464668773e97", 
+      "description": "Malicious Attachment.", 
+      "created": "2019-10-11T19:46:00.046Z", 
+      "modified": "2019-10-14T14:34:42.541Z", 
+      "target_ref": "attack-pattern--6aac77c4-eaf2-4366-8c13-ce50ab951f38", 
       "relationship_type": "uses", 
       "type": "relationship", 
-      "id": "relationship--fc89865d-5e2b-4d51-8ff3-25c8c5de8e23", 
+      "id": "relationship--25f09f89-4384-4840-853f-0a2f67a505b6", 
       "source_ref": "indicator--b32af739-cdbf-4b43-938c-eaaa89bf5010"
     }, 
     {
@@ -1029,6 +1186,36 @@
       "type": "relationship", 
       "id": "relationship--874395b6-5a6f-49b1-ad27-1680a6566919", 
       "source_ref": "indicator--cff4fa97-3f63-4a68-83b0-4eb3f81be9de"
+    }, 
+    {
+      "description": "Custom payload created by Oilrig.", 
+      "created": "2019-10-11T19:50:48.429Z", 
+      "modified": "2019-10-14T14:34:42.541Z", 
+      "target_ref": "attack-pattern--fddd81e9-dd3d-477e-9773-4fb8ae227234", 
+      "relationship_type": "uses", 
+      "type": "relationship", 
+      "id": "relationship--19080036-7393-43d3-8825-f74b06cb9077", 
+      "source_ref": "indicator--e0300bff-605a-4969-a37f-01e1cd22a05b"
+    }, 
+    {
+      "description": "Custom payload created by Oilrig.", 
+      "created": "2019-10-11T19:47:13.633Z", 
+      "modified": "2019-10-14T14:34:42.541Z", 
+      "target_ref": "attack-pattern--fddd81e9-dd3d-477e-9773-4fb8ae227234", 
+      "relationship_type": "uses", 
+      "type": "relationship", 
+      "id": "relationship--5ddcfc5e-b155-444c-8f17-917ca456adf7", 
+      "source_ref": "indicator--e6bc70bc-2221-4ae7-a19b-ef53115f6174"
+    }, 
+    {
+      "description": "119c64a8b35bd626b3ea5f630d533b2e0e7852a4c59694125ff08f9965b5f9cc", 
+      "created": "2019-10-11T19:52:15.184Z", 
+      "modified": "2019-10-14T14:34:42.541Z", 
+      "target_ref": "attack-pattern--fddd81e9-dd3d-477e-9773-4fb8ae227234", 
+      "relationship_type": "uses", 
+      "type": "relationship", 
+      "id": "relationship--103653d1-10b1-49bb-901e-ded05064c9ec", 
+      "source_ref": "indicator--565c1a62-b4f0-4e2f-a4de-83944dfc8c10"
     }, 
     {
       "created": "2018-08-03T20:30:53.040Z", 
@@ -1077,7 +1264,7 @@
     }, 
     {
       "created": "2018-08-03T20:30:50.665Z", 
-      "modified": "2019-10-08T18:26:52.181Z", 
+      "modified": "2019-10-14T17:02:56.213Z", 
       "target_ref": "intrusion-set--8e11eaa4-1964-4b73-85c1-fcfa29159f9b", 
       "relationship_type": "attributed-to", 
       "type": "relationship", 
@@ -1086,7 +1273,16 @@
     }, 
     {
       "created": "2018-08-03T20:30:50.665Z", 
-      "modified": "2019-07-30T17:51:53.475Z", 
+      "modified": "2019-10-11T19:45:26.152Z", 
+      "target_ref": "attack-pattern--fddd81e9-dd3d-477e-9773-4fb8ae227234", 
+      "relationship_type": "uses", 
+      "type": "relationship", 
+      "id": "relationship--fddd81e9-dd3d-477e-9773-4fb8ae227234", 
+      "source_ref": "campaign--be414527-0ed6-4b77-b04b-2ffa2cd601eb"
+    }, 
+    {
+      "created": "2018-08-03T20:30:50.665Z", 
+      "modified": "2019-10-11T19:45:26.152Z", 
       "target_ref": "attack-pattern--72b74d71-8169-42aa-92e0-e7b04b9f5a08", 
       "relationship_type": "uses", 
       "type": "relationship", 
@@ -1095,7 +1291,7 @@
     }, 
     {
       "created": "2018-08-03T20:30:50.665Z", 
-      "modified": "2019-07-30T17:51:53.475Z", 
+      "modified": "2019-10-11T19:45:26.152Z", 
       "target_ref": "attack-pattern--15dbf668-795c-41e6-8219-f0447c0e64ce", 
       "relationship_type": "uses", 
       "type": "relationship", 
@@ -1104,7 +1300,7 @@
     }, 
     {
       "created": "2018-08-03T20:30:50.665Z", 
-      "modified": "2019-07-30T17:51:53.475Z", 
+      "modified": "2019-10-11T19:45:26.152Z", 
       "target_ref": "attack-pattern--355be19c-ffc9-46d5-8d50-d6a036c675b6", 
       "relationship_type": "uses", 
       "type": "relationship", 
@@ -1113,7 +1309,7 @@
     }, 
     {
       "created": "2018-08-03T20:30:50.665Z", 
-      "modified": "2019-07-30T17:51:53.475Z", 
+      "modified": "2019-10-11T19:45:26.152Z", 
       "target_ref": "attack-pattern--b21c3b2d-02e6-45b1-980b-e69051040839", 
       "relationship_type": "uses", 
       "type": "relationship", 
@@ -1122,7 +1318,7 @@
     }, 
     {
       "created": "2018-08-03T20:30:50.665Z", 
-      "modified": "2019-07-30T17:51:53.475Z", 
+      "modified": "2019-10-11T19:45:26.152Z", 
       "target_ref": "attack-pattern--354a7f88-63fb-41b5-a801-ce3b377b36f1", 
       "relationship_type": "uses", 
       "type": "relationship", 
@@ -1131,16 +1327,16 @@
     }, 
     {
       "created": "2018-08-03T20:30:50.665Z", 
-      "modified": "2019-07-30T17:51:53.475Z", 
-      "target_ref": "attack-pattern--e24a9f99-cb76-42a3-a50b-464668773e97", 
+      "modified": "2019-10-11T19:45:26.152Z", 
+      "target_ref": "attack-pattern--6aac77c4-eaf2-4366-8c13-ce50ab951f38", 
       "relationship_type": "uses", 
       "type": "relationship", 
-      "id": "relationship--e24a9f99-cb76-42a3-a50b-464668773e97", 
+      "id": "relationship--6aac77c4-eaf2-4366-8c13-ce50ab951f38", 
       "source_ref": "campaign--be414527-0ed6-4b77-b04b-2ffa2cd601eb"
     }, 
     {
       "created": "2018-08-03T20:30:50.665Z", 
-      "modified": "2019-07-30T17:51:53.475Z", 
+      "modified": "2019-10-11T19:45:26.152Z", 
       "target_ref": "attack-pattern--f72eb8a8-cd4c-461d-a814-3f862befbf00", 
       "relationship_type": "uses", 
       "type": "relationship", 
@@ -1149,7 +1345,7 @@
     }, 
     {
       "created": "2018-08-03T20:30:50.665Z", 
-      "modified": "2019-07-30T17:51:53.475Z", 
+      "modified": "2019-10-11T19:45:26.152Z", 
       "target_ref": "attack-pattern--707399d6-ab3e-4963-9315-d9d3818cd6a0", 
       "relationship_type": "uses", 
       "type": "relationship", 
@@ -1158,7 +1354,7 @@
     }, 
     {
       "created": "2018-08-03T20:30:50.665Z", 
-      "modified": "2019-07-30T17:51:53.475Z", 
+      "modified": "2019-10-11T19:45:26.152Z", 
       "target_ref": "attack-pattern--8f4a33ec-8b1f-4b80-a2f6-642b2e479580", 
       "relationship_type": "uses", 
       "type": "relationship", 
@@ -1167,7 +1363,7 @@
     }, 
     {
       "created": "2018-08-03T20:30:50.665Z", 
-      "modified": "2019-07-30T17:51:53.475Z", 
+      "modified": "2019-10-11T19:45:26.152Z", 
       "target_ref": "attack-pattern--7dd95ff6-712e-4056-9626-312ea4ab4c5e", 
       "relationship_type": "uses", 
       "type": "relationship", 
@@ -1176,7 +1372,7 @@
     }, 
     {
       "created": "2018-08-03T20:30:50.665Z", 
-      "modified": "2019-07-30T17:51:53.475Z", 
+      "modified": "2019-10-11T19:45:26.152Z", 
       "target_ref": "attack-pattern--03d7999c-1f4c-42cc-8373-e7690d318104", 
       "relationship_type": "uses", 
       "type": "relationship", 
@@ -1185,7 +1381,7 @@
     }, 
     {
       "created": "2018-08-03T20:30:50.665Z", 
-      "modified": "2019-07-30T17:51:53.475Z", 
+      "modified": "2019-10-11T19:45:26.152Z", 
       "target_ref": "intrusion-set--8e11eaa4-1964-4b73-85c1-fcfa29159f9b", 
       "relationship_type": "attributed-to", 
       "type": "relationship", 
@@ -1198,7 +1394,7 @@
       "labels": [
         "campaign"
       ], 
-      "modified": "2019-07-30T17:51:53.475Z", 
+      "modified": "2019-10-11T19:45:26.152Z", 
       "object_refs": [
         "campaign--be414527-0ed6-4b77-b04b-2ffa2cd601eb", 
         "intrusion-set--8e11eaa4-1964-4b73-85c1-fcfa29159f9b", 
@@ -1217,21 +1413,28 @@
         "indicator--cd2409a1-079a-45d6-bba7-e26ec1b6465b", 
         "indicator--e12c095d-899f-415b-a29b-eeb6f630db70", 
         "indicator--cff4fa97-3f63-4a68-83b0-4eb3f81be9de", 
+        "indicator--e0300bff-605a-4969-a37f-01e1cd22a05b", 
+        "indicator--e6bc70bc-2221-4ae7-a19b-ef53115f6174", 
+        "indicator--565c1a62-b4f0-4e2f-a4de-83944dfc8c10", 
         "attack-pattern--1c338d0f-a65e-4073-a5c1-c06878849f21", 
         "attack-pattern--35dd844a-b219-4e2b-a6bb-efa9a75995a9", 
         "attack-pattern--f24faf46-3b26-4dbb-98f2-63460498e433", 
         "attack-pattern--0440f60f-9056-4791-a740-8eae96eb61fa", 
+        "attack-pattern--fddd81e9-dd3d-477e-9773-4fb8ae227234", 
         "attack-pattern--72b74d71-8169-42aa-92e0-e7b04b9f5a08", 
         "attack-pattern--15dbf668-795c-41e6-8219-f0447c0e64ce", 
         "attack-pattern--355be19c-ffc9-46d5-8d50-d6a036c675b6", 
         "attack-pattern--b21c3b2d-02e6-45b1-980b-e69051040839", 
         "attack-pattern--354a7f88-63fb-41b5-a801-ce3b377b36f1", 
-        "attack-pattern--e24a9f99-cb76-42a3-a50b-464668773e97", 
+        "attack-pattern--6aac77c4-eaf2-4366-8c13-ce50ab951f38", 
         "attack-pattern--f72eb8a8-cd4c-461d-a814-3f862befbf00", 
         "attack-pattern--707399d6-ab3e-4963-9315-d9d3818cd6a0", 
         "attack-pattern--8f4a33ec-8b1f-4b80-a2f6-642b2e479580", 
         "attack-pattern--7dd95ff6-712e-4056-9626-312ea4ab4c5e", 
         "attack-pattern--03d7999c-1f4c-42cc-8373-e7690d318104", 
+        "malware--5246bc7d-be84-4c5b-8e05-6790cd81568e", 
+        "malware--c56fd492-b07a-4de7-9d74-0b5136cd9a77", 
+        "malware--d62bf08d-2145-42a9-ad32-e2a5c82d3c2d", 
         "relationship--931398d5-ff3b-4626-a64a-58fdd9862a3f", 
         "relationship--1f7cadc7-e1c3-47cd-afb0-b98c93ccb965", 
         "relationship--8a229436-835d-4d5f-90ed-d26c4517c835", 
@@ -1246,34 +1449,44 @@
         "relationship--6e8b68d8-b954-49ba-b96f-af4537633457", 
         "relationship--b3a74588-3273-4d8d-9751-06e0548d7269", 
         "relationship--89696ae6-9dc7-4ce0-a8e1-77c0f110f793", 
+        "relationship--a278e596-0170-4be2-8c10-99ec8ef8a9e9", 
+        "relationship--9c9f3116-36f9-4e50-831d-731861fe1332", 
+        "relationship--7fda3c46-13ab-4d57-872e-9562fec78f32", 
+        "relationship--3c3c1a59-cd2b-4292-b91d-8437022c0576", 
+        "relationship--720c7526-9483-4918-bca0-b924d7f4aa8b", 
+        "relationship--b6594e0e-b8bb-4c69-8294-ecec1aa164b2", 
         "relationship--742a1fa0-c425-4972-83d5-603f56dd7932", 
         "relationship--176f8da5-e078-4cb7-867c-0a807281b7e6", 
         "relationship--062079ac-7bd7-45b5-bc97-b234e4d84fc4", 
         "relationship--4e502b39-2e6e-4038-9359-d3e6ecf38ec7", 
         "relationship--ffc4eff3-45b8-4bbd-ae4c-52bfdc9d8f4c", 
-        "relationship--fc6c7958-3fb4-42f6-ae1c-c5ff79ac7ecb", 
+        "relationship--416774c3-cb83-461f-9f25-ab6d5fa6543b", 
         "relationship--fb67941d-e8c0-48e1-a553-9ea87c850994", 
         "relationship--8e293418-fbe5-4ebe-894a-320391c18c11", 
         "relationship--dfcd4fbd-1c9f-4955-8237-0c863dd576a7", 
         "relationship--4c4507f1-7c51-4b5e-9bbd-67c51d66fc96", 
         "relationship--51ce57cc-33c5-43ba-879a-32a32ed09d72", 
-        "relationship--fc89865d-5e2b-4d51-8ff3-25c8c5de8e23", 
+        "relationship--25f09f89-4384-4840-853f-0a2f67a505b6", 
         "relationship--770bd929-dd09-49d5-a21b-72495d1b2f0d", 
         "relationship--450c6745-0fa7-4773-8a98-4d7f982a9209", 
         "relationship--c928c66a-c17b-48e9-a88b-d3958a0a3a09", 
         "relationship--874395b6-5a6f-49b1-ad27-1680a6566919", 
+        "relationship--19080036-7393-43d3-8825-f74b06cb9077", 
+        "relationship--5ddcfc5e-b155-444c-8f17-917ca456adf7", 
+        "relationship--103653d1-10b1-49bb-901e-ded05064c9ec", 
         "relationship--06cafa2f-85d6-43bb-8527-ede8377c0860", 
         "relationship--de68c70f-1e7b-4188-889d-adc0c03c6122", 
         "relationship--6339b9fc-6595-4da0-98de-171d86decc16", 
         "relationship--fbe5dc4c-a80c-4883-8499-96e148223061", 
         "relationship--0438cf83-ee23-4963-8764-0152de9ffa2b", 
         "relationship--af2cb8e5-5d1c-4964-bfe1-75ebc90f8627", 
+        "relationship--fddd81e9-dd3d-477e-9773-4fb8ae227234", 
         "relationship--72b74d71-8169-42aa-92e0-e7b04b9f5a08", 
         "relationship--15dbf668-795c-41e6-8219-f0447c0e64ce", 
         "relationship--355be19c-ffc9-46d5-8d50-d6a036c675b6", 
         "relationship--b21c3b2d-02e6-45b1-980b-e69051040839", 
         "relationship--354a7f88-63fb-41b5-a801-ce3b377b36f1", 
-        "relationship--e24a9f99-cb76-42a3-a50b-464668773e97", 
+        "relationship--6aac77c4-eaf2-4366-8c13-ce50ab951f38", 
         "relationship--f72eb8a8-cd4c-461d-a814-3f862befbf00", 
         "relationship--707399d6-ab3e-4963-9315-d9d3818cd6a0", 
         "relationship--8f4a33ec-8b1f-4b80-a2f6-642b2e479580", 
@@ -1281,19 +1494,19 @@
         "relationship--03d7999c-1f4c-42cc-8373-e7690d318104", 
         "relationship--be414527-0ed6-4b77-b04b-2ffa2cd601eb"
       ], 
-      "published": "2019-07-30T17:51:53.475Z", 
+      "published": "2019-10-11T19:45:26.152Z", 
       "type": "report", 
       "id": "report--be414527-0ed6-4b77-b04b-2ffa2cd601eb"
     }, 
     {
       "name": "second", 
       "created": "2018-08-03T20:30:50.665Z", 
-      "modified": "2019-07-30T17:51:53.475Z", 
+      "modified": "2019-10-11T19:45:26.152Z", 
       "first_seen": "2017-07-23T00:00:00.000Z", 
       "last_seen": "2017-08-29T00:00:00.000Z", 
       "type": "campaign", 
       "id": "campaign--be414527-0ed6-4b77-b04b-2ffa2cd601eb", 
-      "description": "Play based on research discussed at https://researchcenter.paloaltonetworks.com/2017/10/unit42-oilrig-group-steps-attacks-new-delivery-documents-new-injector-trojan/"
+      "description": "In July 2017, Unit 42 observed the OilRig group using a tool they developed called ISMAgent in a new set of targeted attacks. The OilRig group developed ISMAgent as a variant of the ISMDoor Trojan. In August 2017, Unit 42 found this threat group has developed yet another Trojan that they call \u2018Agent Injector\u2019 with the specific purpose of installing the ISMAgent backdoor. Unit 42 is tracking this tool as ISMInjector. It has a sophisticated architecture and contains anti-analysis techniques that have not seen in previous tools developed by this threat group. The complex structure and inclusion of new anti-analysis techniques may suggest that this group is increasing its development efforts in order to evade detection and gain higher efficacy in their attacks. "
     }, 
     {
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5", 
@@ -1461,6 +1674,35 @@
     }, 
     {
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5", 
+      "name": "T1204: User Execution", 
+      "created": "2018-08-03T19:54:02.821Z", 
+      "kill_chain_phases": [
+        {
+          "phase_name": "execution", 
+          "kill_chain_name": "mitre-attack"
+        }, 
+        {
+          "phase_name": "installation", 
+          "kill_chain_name": "lockheed"
+        }
+      ], 
+      "modified": "2018-12-17T14:33:50.971Z", 
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ], 
+      "external_references": [
+        {
+          "url": "https://attack.mitre.org/techniques/T1204", 
+          "external_id": "T1204", 
+          "source_name": "mitre-attack"
+        }
+      ], 
+      "type": "attack-pattern", 
+      "id": "attack-pattern--8c32eb4d-805f-4fc5-bf60-c4d476c131b5", 
+      "description": "An adversary may rely upon specific actions by a user in order to gain execution. This may be direct code execution, such as when a user opens a malicious executable delivered via [Spearphishing Attachment](https://attack.mitre.org/techniques/T1193) with the icon and apparent extension of a document file. It also may lead to other execution techniques, such as when a user clicks on a link delivered via [Spearphishing Link](https://attack.mitre.org/techniques/T1192) that leads to exploitation of a browser or application vulnerability via [Exploitation for Client Execution](https://attack.mitre.org/techniques/T1203). While User Execution frequently occurs shortly after Initial Access it may occur at other phases of an intrusion, such as when an adversary places a file in a shared directory or on a user's desktop hoping that a user will click on it."
+    }, 
+    {
+      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5", 
       "name": "T1041: Exfiltration Over Command and Control Channel", 
       "created": "2018-08-03T19:54:02.821Z", 
       "kill_chain_phases": [
@@ -1505,6 +1747,28 @@
       "x_cta_country": [], 
       "type": "identity", 
       "id": "identity--c7dc2a79-4dbe-463b-a58b-24c781041f30"
+    }, 
+    {
+      "name": "OopsIE", 
+      "created": "2019-10-11T19:59:04.200Z", 
+      "labels": [
+        "remote-access-trojan"
+      ], 
+      "modified": "2019-10-14T14:34:42.539Z", 
+      "type": "malware", 
+      "id": "malware--a933d627-2a1a-499c-9dad-be8cc2e04dd6", 
+      "description": " A .NET Trojan delivered using the ThreeDollars delivery document by the OilRig threat group.  "
+    }, 
+    {
+      "name": "OopsIE", 
+      "created": "2019-10-11T19:59:04.200Z", 
+      "labels": [
+        "remote-access-trojan"
+      ], 
+      "modified": "2019-10-14T14:34:42.539Z", 
+      "type": "malware", 
+      "id": "malware--a933d627-2a1a-499c-9dad-be8cc2e04dd6", 
+      "description": " A .NET Trojan delivered using the ThreeDollars delivery document by the OilRig threat group.  "
     }, 
     {
       "valid_from": "2018-08-03T20:30:50.665Z", 
@@ -1615,16 +1879,28 @@
       "id": "indicator--df6e4110-8f96-4388-a418-8f8418e107ba"
     }, 
     {
-      "valid_from": "2018-08-03T20:30:50.665Z", 
-      "name": "1eb0d27515161fff05357c2a4770a9de3a807a620fe160b40ac86e93c67511c8", 
-      "created": "2018-08-03T20:30:50.665Z", 
-      "pattern": "[file:hashes.'SHA-256' = '1eb0d27515161fff05357c2a4770a9de3a807a620fe160b40ac86e93c67511c8']", 
+      "valid_from": "2018-01-18T22:10:07.315Z", 
+      "name": "9a040cdd7c9fcde337b2c3daa2a7208e225735747dd1366e6c0fcbc56815a07f", 
+      "created": "2018-01-18T22:10:07.315Z", 
+      "pattern": "[file:hashes.'SHA-256' = '9a040cdd7c9fcde337b2c3daa2a7208e225735747dd1366e6c0fcbc56815a07f']", 
       "labels": [
         "malicious-activity"
       ], 
-      "modified": "2018-08-03T20:30:50.665Z", 
+      "modified": "2019-10-14T14:34:42.539Z", 
       "type": "indicator", 
-      "id": "indicator--2590acbe-216e-48db-82fe-44d50b5ec519"
+      "id": "indicator--ed7365d8-f542-444a-8224-60221233acfe"
+    }, 
+    {
+      "valid_from": "2018-01-18T22:10:16.875Z", 
+      "name": "231115a614c99e8ddade4cf4c88472bd3801c5c289595fc068e51b77c2c8563f", 
+      "created": "2018-01-18T22:10:16.875Z", 
+      "pattern": "[file:hashes.'SHA-256' = '231115a614c99e8ddade4cf4c88472bd3801c5c289595fc068e51b77c2c8563f']", 
+      "labels": [
+        "malicious-activity"
+      ], 
+      "modified": "2019-10-14T14:34:42.539Z", 
+      "type": "indicator", 
+      "id": "indicator--8a419fc6-b0dd-466b-a2d7-23e5c30f1707"
     }, 
     {
       "created": "2018-08-03T20:30:53.040Z", 
@@ -1708,16 +1984,52 @@
       "source_ref": "indicator--df6e4110-8f96-4388-a418-8f8418e107ba"
     }, 
     {
-      "created": "2018-08-03T20:30:53.040Z", 
-      "modified": "2018-08-22T12:34:11.223Z", 
+      "created": "2019-10-11T19:58:04.738Z", 
+      "modified": "2019-10-14T14:34:42.539Z", 
       "target_ref": "campaign--e76e88c8-699a-4eeb-a8e5-3645826d6455", 
       "relationship_type": "indicates", 
       "type": "relationship", 
-      "id": "relationship--04849e13-75ca-4efa-bafb-bc8cc1825a77", 
-      "source_ref": "indicator--2590acbe-216e-48db-82fe-44d50b5ec519"
+      "id": "relationship--d51cdbbb-2c99-4f69-9ecd-edf897914d5a", 
+      "source_ref": "indicator--ed7365d8-f542-444a-8224-60221233acfe"
     }, 
     {
-      "description": "Uses HTTP for C2", 
+      "created": "2019-10-11T19:58:04.738Z", 
+      "modified": "2019-10-14T14:34:42.539Z", 
+      "target_ref": "campaign--e76e88c8-699a-4eeb-a8e5-3645826d6455", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--12c3b9ac-e5a8-4c3b-9ade-46a50941a67f", 
+      "source_ref": "indicator--8a419fc6-b0dd-466b-a2d7-23e5c30f1707"
+    }, 
+    {
+      "created": "2019-10-11T19:57:48.275Z", 
+      "modified": "2019-10-14T14:34:42.541Z", 
+      "target_ref": "malware--d62bf08d-2145-42a9-ad32-e2a5c82d3c2d", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--83556ba2-cd6f-4f22-b1d1-c69aa48cff49", 
+      "source_ref": "indicator--2560de5f-2375-49de-9d4a-47dc1f5f067b"
+    }, 
+    {
+      "created": "2019-10-11T19:59:38.866Z", 
+      "modified": "2019-10-14T14:34:42.542Z", 
+      "target_ref": "malware--a933d627-2a1a-499c-9dad-be8cc2e04dd6", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--33f9b7e1-14b2-4e9e-a83d-d2463093ebef", 
+      "source_ref": "indicator--ed7365d8-f542-444a-8224-60221233acfe"
+    }, 
+    {
+      "created": "2019-10-11T19:59:30.244Z", 
+      "modified": "2019-10-14T14:34:42.542Z", 
+      "target_ref": "malware--a933d627-2a1a-499c-9dad-be8cc2e04dd6", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--9c64967b-5144-4eed-9a82-4ed956ffebd5", 
+      "source_ref": "indicator--8a419fc6-b0dd-466b-a2d7-23e5c30f1707"
+    }, 
+    {
+      "description": "[domain-name:value = 'www.msoffice365cdn.com' AND (http-request-ext:request_method = 'get' AND (http-request-ext:request_value LIKE '/what?' OR http-request-ext:request_value LIKE '/chk?'))]", 
       "created": "2018-08-03T20:30:53.040Z", 
       "modified": "2018-08-03T20:30:53.040Z", 
       "target_ref": "attack-pattern--355be19c-ffc9-46d5-8d50-d6a036c675b6", 
@@ -1727,7 +2039,7 @@
       "source_ref": "indicator--9fcb8551-97e9-4335-a63c-91ca5156efd0"
     }, 
     {
-      "description": "Tasks created by malicious macro to automatically run OopsIE every n minutes.", 
+      "description": "[process:command_line LIKE 'SchTasks /Create /SC MINUTE /MO 2 /TN%' AND process:command_line LIKE '%wscript %appdata%\\\\chkSrv.vbs%']", 
       "created": "2018-08-03T20:30:53.040Z", 
       "modified": "2018-08-03T20:30:53.040Z", 
       "target_ref": "attack-pattern--35dd844a-b219-4e2b-a6bb-efa9a75995a9", 
@@ -1737,7 +2049,7 @@
       "source_ref": "indicator--e28f89fe-377d-44cf-a486-e8b84af20737"
     }, 
     {
-      "description": "Exfiltrates data to C2 over HTTP channel", 
+      "description": "[http-request-ext:request_method = 'get' AND (http-request-ext:request_value LIKE '%/resp?%' AND http-request-ext:request_value LIKE '%ABZFinish' )]", 
       "created": "2018-08-03T20:30:53.040Z", 
       "modified": "2018-08-03T20:30:53.040Z", 
       "target_ref": "attack-pattern--92d7da27-2d91-488e-a00c-059dc162766d", 
@@ -1747,17 +2059,17 @@
       "source_ref": "indicator--91afba2e-8721-4751-abb5-89e4ea75d771"
     }, 
     {
-      "description": "Attachment hash", 
-      "created": "2018-08-03T20:30:53.040Z", 
-      "modified": "2018-08-03T20:30:53.040Z", 
-      "target_ref": "attack-pattern--e24a9f99-cb76-42a3-a50b-464668773e97", 
+      "description": "Malicious attachment dropped.", 
+      "created": "2019-10-11T19:57:26.685Z", 
+      "modified": "2019-10-14T14:34:42.541Z", 
+      "target_ref": "attack-pattern--6aac77c4-eaf2-4366-8c13-ce50ab951f38", 
       "relationship_type": "uses", 
       "type": "relationship", 
-      "id": "relationship--4e465efc-850a-4aed-9bd0-dd8ecfa55f68", 
+      "id": "relationship--b1038a10-9cab-45c9-b80d-cca8877a61c7", 
       "source_ref": "indicator--2560de5f-2375-49de-9d4a-47dc1f5f067b"
     }, 
     {
-      "description": "Tasks created by malicious macro to automatically run OopsIE every n minutes.", 
+      "description": "[process:command_line LIKE 'SchTasks /Create /SC MINUTE /MO 1 /TN%' AND process:command_line LIKE '%cmd.exe /c Certutil -decode %appdata%\\\\Base.txt%']", 
       "created": "2018-08-03T20:30:53.040Z", 
       "modified": "2018-08-03T20:30:53.040Z", 
       "target_ref": "attack-pattern--35dd844a-b219-4e2b-a6bb-efa9a75995a9", 
@@ -1767,7 +2079,7 @@
       "source_ref": "indicator--8e3da953-ff61-4520-893f-afefe7d145e9"
     }, 
     {
-      "description": "Exfiltrates data to C2 over HTTP channel", 
+      "description": "[http-request-ext:request_method = 'get' AND (http-request-ext:request_value LIKE '%/resp?%' AND http-request-ext:request_value LIKE '%AAZ3C2046696C65204E6F7420466F756E64203E')]", 
       "created": "2018-08-03T20:30:53.040Z", 
       "modified": "2018-08-03T20:30:53.040Z", 
       "target_ref": "attack-pattern--92d7da27-2d91-488e-a00c-059dc162766d", 
@@ -1777,7 +2089,7 @@
       "source_ref": "indicator--337a0d8f-efa1-4e2e-9956-c7fd385bc136"
     }, 
     {
-      "description": "Exfiltrates data to C2 over HTTP channel", 
+      "description": "[http-request-ext:request_method = 'get' AND (http-request-ext:request_value LIKE '%/resp?%' AND http-request-ext:request_value LIKE '%AAZ46696C652055706C6F61646564')]", 
       "created": "2018-08-03T20:30:53.040Z", 
       "modified": "2018-08-03T20:30:53.040Z", 
       "target_ref": "attack-pattern--92d7da27-2d91-488e-a00c-059dc162766d", 
@@ -1787,17 +2099,17 @@
       "source_ref": "indicator--3d8472f1-c641-4428-8f57-6af5b8ac4d42"
     }, 
     {
-      "description": "Email attachment and subject", 
-      "created": "2018-08-03T20:30:53.040Z", 
-      "modified": "2018-08-03T20:30:53.040Z", 
-      "target_ref": "attack-pattern--e24a9f99-cb76-42a3-a50b-464668773e97", 
+      "description": "Decoy document", 
+      "created": "2019-10-11T20:01:42.652Z", 
+      "modified": "2019-10-14T14:34:42.542Z", 
+      "target_ref": "attack-pattern--6aac77c4-eaf2-4366-8c13-ce50ab951f38", 
       "relationship_type": "uses", 
       "type": "relationship", 
-      "id": "relationship--1b6e1fa9-5e7d-456e-a668-bdb9d5192e08", 
+      "id": "relationship--fa3ddbb1-4ca1-45f5-b671-092e185f27ce", 
       "source_ref": "indicator--a0012b87-ad05-4c74-a014-9957d1795397"
     }, 
     {
-      "description": "Uses HTTP for C2", 
+      "description": "www.msoffice365cdn.com", 
       "created": "2018-08-03T20:30:53.040Z", 
       "modified": "2018-08-03T20:30:53.040Z", 
       "target_ref": "attack-pattern--355be19c-ffc9-46d5-8d50-d6a036c675b6", 
@@ -1807,14 +2119,24 @@
       "source_ref": "indicator--df6e4110-8f96-4388-a418-8f8418e107ba"
     }, 
     {
-      "description": "Macro hash", 
-      "created": "2018-08-03T20:30:53.040Z", 
-      "modified": "2018-08-03T20:30:53.040Z", 
-      "target_ref": "attack-pattern--0440f60f-9056-4791-a740-8eae96eb61fa", 
+      "description": "Malicious attachment dropped.", 
+      "created": "2019-10-11T19:58:04.738Z", 
+      "modified": "2019-10-14T14:34:42.541Z", 
+      "target_ref": "attack-pattern--6aac77c4-eaf2-4366-8c13-ce50ab951f38", 
       "relationship_type": "uses", 
       "type": "relationship", 
-      "id": "relationship--1f3260dd-efff-4dcd-8f15-8182fa2c70c2", 
-      "source_ref": "indicator--2590acbe-216e-48db-82fe-44d50b5ec519"
+      "id": "relationship--45c0877b-9b85-433e-b9fe-1505dd7735a4", 
+      "source_ref": "indicator--ed7365d8-f542-444a-8224-60221233acfe"
+    }, 
+    {
+      "description": "Malicious attachment dropped.", 
+      "created": "2019-10-11T19:58:04.738Z", 
+      "modified": "2019-10-14T14:34:42.541Z", 
+      "target_ref": "attack-pattern--6aac77c4-eaf2-4366-8c13-ce50ab951f38", 
+      "relationship_type": "uses", 
+      "type": "relationship", 
+      "id": "relationship--b7ccf9fa-f415-4ad1-b31e-c4f775d0f767", 
+      "source_ref": "indicator--8a419fc6-b0dd-466b-a2d7-23e5c30f1707"
     }, 
     {
       "created": "2018-08-03T20:30:53.040Z", 
@@ -1853,6 +2175,15 @@
       "source_ref": "campaign--e76e88c8-699a-4eeb-a8e5-3645826d6455"
     }, 
     {
+      "created": "2019-10-11T19:56:55.386Z", 
+      "modified": "2019-10-14T14:34:42.539Z", 
+      "target_ref": "attack-pattern--8c32eb4d-805f-4fc5-bf60-c4d476c131b5", 
+      "relationship_type": "uses", 
+      "type": "relationship", 
+      "id": "relationship--5b23ee0a-5073-45f0-b493-9ab6f0f33ff9", 
+      "source_ref": "campaign--e76e88c8-699a-4eeb-a8e5-3645826d6455"
+    }, 
+    {
       "created": "2019-10-08T16:11:40.339Z", 
       "modified": "2019-10-08T18:26:32.830Z", 
       "target_ref": "identity--c7dc2a79-4dbe-463b-a58b-24c781041f30", 
@@ -1863,7 +2194,7 @@
     }, 
     {
       "created": "2018-08-03T20:30:50.665Z", 
-      "modified": "2019-07-31T13:29:20.636Z", 
+      "modified": "2019-10-11T19:56:13.483Z", 
       "target_ref": "attack-pattern--35dd844a-b219-4e2b-a6bb-efa9a75995a9", 
       "relationship_type": "uses", 
       "type": "relationship", 
@@ -1872,7 +2203,7 @@
     }, 
     {
       "created": "2018-08-03T20:30:50.665Z", 
-      "modified": "2019-07-31T13:29:20.636Z", 
+      "modified": "2019-10-11T19:56:13.483Z", 
       "target_ref": "attack-pattern--92d7da27-2d91-488e-a00c-059dc162766d", 
       "relationship_type": "uses", 
       "type": "relationship", 
@@ -1881,16 +2212,7 @@
     }, 
     {
       "created": "2018-08-03T20:30:50.665Z", 
-      "modified": "2019-07-31T13:29:20.636Z", 
-      "target_ref": "attack-pattern--0440f60f-9056-4791-a740-8eae96eb61fa", 
-      "relationship_type": "uses", 
-      "type": "relationship", 
-      "id": "relationship--0440f60f-9056-4791-a740-8eae96eb61fa", 
-      "source_ref": "campaign--e76e88c8-699a-4eeb-a8e5-3645826d6455"
-    }, 
-    {
-      "created": "2018-08-03T20:30:50.665Z", 
-      "modified": "2019-07-31T13:29:20.636Z", 
+      "modified": "2019-10-11T19:56:13.483Z", 
       "target_ref": "intrusion-set--8e11eaa4-1964-4b73-85c1-fcfa29159f9b", 
       "relationship_type": "attributed-to", 
       "type": "relationship", 
@@ -1898,12 +2220,12 @@
       "source_ref": "campaign--e76e88c8-699a-4eeb-a8e5-3645826d6455"
     }, 
     {
-      "name": "Trips_right__slip_screen", 
+      "name": "fourth", 
       "created": "2018-08-03T20:30:50.665Z", 
       "labels": [
         "campaign"
       ], 
-      "modified": "2019-07-31T13:29:20.636Z", 
+      "modified": "2019-10-11T19:56:13.483Z", 
       "object_refs": [
         "campaign--e76e88c8-699a-4eeb-a8e5-3645826d6455", 
         "intrusion-set--8e11eaa4-1964-4b73-85c1-fcfa29159f9b", 
@@ -1917,16 +2239,20 @@
         "indicator--3d8472f1-c641-4428-8f57-6af5b8ac4d42", 
         "indicator--a0012b87-ad05-4c74-a014-9957d1795397", 
         "indicator--df6e4110-8f96-4388-a418-8f8418e107ba", 
-        "indicator--2590acbe-216e-48db-82fe-44d50b5ec519", 
+        "indicator--ed7365d8-f542-444a-8224-60221233acfe", 
+        "indicator--8a419fc6-b0dd-466b-a2d7-23e5c30f1707", 
         "attack-pattern--7385dfaf-6886-4229-9ecd-6fd678040830", 
         "attack-pattern--cc7b8c4e-9be0-47ca-b0bb-83915ec3ee2f", 
         "attack-pattern--e6919abc-99f9-4c6c-95a5-14761e7b2add", 
         "attack-pattern--3b3cbbe0-6ed3-4334-b543-3ddfd8c5642d", 
+        "attack-pattern--8c32eb4d-805f-4fc5-bf60-c4d476c131b5", 
+        "attack-pattern--6aac77c4-eaf2-4366-8c13-ce50ab951f38", 
         "attack-pattern--355be19c-ffc9-46d5-8d50-d6a036c675b6", 
         "attack-pattern--35dd844a-b219-4e2b-a6bb-efa9a75995a9", 
         "attack-pattern--92d7da27-2d91-488e-a00c-059dc162766d", 
-        "attack-pattern--e24a9f99-cb76-42a3-a50b-464668773e97", 
-        "attack-pattern--0440f60f-9056-4791-a740-8eae96eb61fa", 
+        "malware--d62bf08d-2145-42a9-ad32-e2a5c82d3c2d", 
+        "malware--a933d627-2a1a-499c-9dad-be8cc2e04dd6", 
+        "malware--a933d627-2a1a-499c-9dad-be8cc2e04dd6", 
         "relationship--9cec34a5-ab91-490e-8bbb-8482cfb6e8f1", 
         "relationship--e886c2be-b2d0-44b8-9fd0-3f7810a8fed1", 
         "relationship--cf1c7aee-2def-4d8d-9f9a-d10c65a33fd8", 
@@ -1936,43 +2262,48 @@
         "relationship--ef02aa8d-cf3d-4426-881b-6a4d6ed07a82", 
         "relationship--22b09015-9ae3-4b16-8a89-954ab6a065ce", 
         "relationship--70ce103c-4360-4c8a-abde-63591527c5a1", 
-        "relationship--04849e13-75ca-4efa-bafb-bc8cc1825a77", 
+        "relationship--d51cdbbb-2c99-4f69-9ecd-edf897914d5a", 
+        "relationship--12c3b9ac-e5a8-4c3b-9ade-46a50941a67f", 
+        "relationship--83556ba2-cd6f-4f22-b1d1-c69aa48cff49", 
+        "relationship--33f9b7e1-14b2-4e9e-a83d-d2463093ebef", 
+        "relationship--9c64967b-5144-4eed-9a82-4ed956ffebd5", 
         "relationship--19ce8250-86e1-4279-b023-cbb787365eeb", 
         "relationship--ed8b1668-7a2d-4537-a24a-99ae0faee4ab", 
         "relationship--51372409-6c33-4b17-a5fb-1193c80b15a9", 
-        "relationship--4e465efc-850a-4aed-9bd0-dd8ecfa55f68", 
+        "relationship--b1038a10-9cab-45c9-b80d-cca8877a61c7", 
         "relationship--17e8782b-ed62-4d33-901d-e023b2b1b946", 
         "relationship--c9c52d19-7e21-4de2-8e63-968b8ef51f9b", 
         "relationship--4eeb79d6-f779-4cf6-9901-8ce3ba3d9a16", 
-        "relationship--1b6e1fa9-5e7d-456e-a668-bdb9d5192e08", 
+        "relationship--fa3ddbb1-4ca1-45f5-b671-092e185f27ce", 
         "relationship--008da2c6-0d38-449c-8a36-3d7b0d815ac0", 
-        "relationship--1f3260dd-efff-4dcd-8f15-8182fa2c70c2", 
+        "relationship--45c0877b-9b85-433e-b9fe-1505dd7735a4", 
+        "relationship--b7ccf9fa-f415-4ad1-b31e-c4f775d0f767", 
         "relationship--70893e8f-6c9e-4e7f-a424-4e7df9eea046", 
         "relationship--59fb94fd-a2ac-4df8-ae7d-8a96f07d65d4", 
         "relationship--8c7819b0-d3b4-4a0a-be71-e6ed6c230513", 
         "relationship--18984045-bb93-45ac-b8d5-2895044e3b01", 
+        "relationship--5b23ee0a-5073-45f0-b493-9ab6f0f33ff9", 
         "relationship--1649785c-1541-41b2-a7e3-3ba214681eea", 
         "relationship--af2cb8e5-5d1c-4964-bfe1-75ebc90f8627", 
+        "relationship--6aac77c4-eaf2-4366-8c13-ce50ab951f38", 
         "relationship--355be19c-ffc9-46d5-8d50-d6a036c675b6", 
         "relationship--35dd844a-b219-4e2b-a6bb-efa9a75995a9", 
         "relationship--92d7da27-2d91-488e-a00c-059dc162766d", 
-        "relationship--e24a9f99-cb76-42a3-a50b-464668773e97", 
-        "relationship--0440f60f-9056-4791-a740-8eae96eb61fa", 
         "relationship--e76e88c8-699a-4eeb-a8e5-3645826d6455"
       ], 
-      "published": "2019-07-31T13:29:20.636Z", 
+      "published": "2019-10-11T19:56:13.483Z", 
       "type": "report", 
       "id": "report--e76e88c8-699a-4eeb-a8e5-3645826d6455"
     }, 
     {
-      "name": "Trips_right__slip_screen", 
+      "name": "fourth", 
       "created": "2018-08-03T20:30:50.665Z", 
-      "modified": "2019-07-31T13:29:20.636Z", 
+      "modified": "2019-10-11T19:56:13.483Z", 
       "first_seen": "2018-01-08T00:00:00.000Z", 
       "last_seen": "2018-02-01T00:00:00.000Z", 
       "type": "campaign", 
       "id": "campaign--e76e88c8-699a-4eeb-a8e5-3645826d6455", 
-      "description": ""
+      "description": " On January 8, 2018, the OilRig threat group sent an email with the subject Beirut Insurance Seminar Invitation to an insurance agency in the Middle East. The OilRig group sent two emails to two different email addresses at the same organization within a six minutes time span. The recipient email addresses suggest they may be the addresses used for specific regional branches of the targeted organization. Both emails originated from the same address. The email address is associated with the Lebanese domain of a major global financial institution. However, based upon the captured session data, it is highly likely the source email address was spoofed. The email contained an attachment named Seminar-Invitation.doc, which is a malicious Microsoft Word document we track as ThreeDollars. Examining this sample of ThreeDollars reveals that it contains a new payload, which we have named OopsIE. "
     }, 
     {
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5", 
@@ -2051,6 +2382,27 @@
       ], 
       "type": "identity", 
       "id": "identity--c7e23c62-8c87-4584-9787-2cffec8414ce"
+    }, 
+    {
+      "name": "Clayslide", 
+      "created": "2019-10-11T20:06:09.070Z", 
+      "labels": [
+        "dropper"
+      ], 
+      "modified": "2019-10-14T14:34:42.539Z", 
+      "type": "malware", 
+      "id": "malware--a233f5c3-53d4-4196-a1a3-a74151abd524"
+    }, 
+    {
+      "name": "Helminth", 
+      "created": "2019-10-11T20:07:05.432Z", 
+      "labels": [
+        "backdoor"
+      ], 
+      "modified": "2019-10-14T14:34:42.539Z", 
+      "type": "malware", 
+      "id": "malware--3f0d13a9-3ff6-4d48-8060-55b6f1e6bedb", 
+      "description": " \nExecutable and VBScript/Powershell Trojan that uses HTTP and DNS to send and receive data from its C2 server. This Trojan was used in targeted attacks on Saudi Arabian organizations."
     }, 
     {
       "valid_from": "2018-08-03T20:30:50.665Z", 
@@ -2383,6 +2735,24 @@
       "source_ref": "indicator--cff4fa97-3f63-4a68-83b0-4eb3f81be9de"
     }, 
     {
+      "created": "2019-10-11T20:06:16.194Z", 
+      "modified": "2019-10-14T14:34:42.542Z", 
+      "target_ref": "malware--a233f5c3-53d4-4196-a1a3-a74151abd524", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--02c46d2a-3676-4929-ae28-b10cc3cf258b", 
+      "source_ref": "indicator--131a36f4-f5ce-461c-b633-8f555ec191fb"
+    }, 
+    {
+      "created": "2019-10-11T20:07:19.943Z", 
+      "modified": "2019-10-14T14:34:42.542Z", 
+      "target_ref": "malware--3f0d13a9-3ff6-4d48-8060-55b6f1e6bedb", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--075e72ca-b0dc-4d70-b68d-cfd4e478d017", 
+      "source_ref": "indicator--131a36f4-f5ce-461c-b633-8f555ec191fb"
+    }, 
+    {
       "description": "Helminth saves files to a specific directory that contain data to exfil to C2", 
       "created": "2018-08-03T20:30:53.040Z", 
       "modified": "2018-08-03T20:30:53.040Z", 
@@ -2454,22 +2824,22 @@
     }, 
     {
       "description": "Attachment names and email subjects", 
-      "created": "2018-08-03T20:30:53.040Z", 
-      "modified": "2018-08-03T20:30:53.040Z", 
-      "target_ref": "attack-pattern--e24a9f99-cb76-42a3-a50b-464668773e97", 
+      "created": "2019-10-11T20:02:59.591Z", 
+      "modified": "2019-10-14T14:34:42.542Z", 
+      "target_ref": "attack-pattern--6aac77c4-eaf2-4366-8c13-ce50ab951f38", 
       "relationship_type": "uses", 
       "type": "relationship", 
-      "id": "relationship--ad27b1d4-e78a-48eb-9b81-f0d6e9033aa6", 
+      "id": "relationship--20abd688-0b68-4930-90d4-512505ab640d", 
       "source_ref": "indicator--882830ad-a601-4405-bab1-54a28ab4bc86"
     }, 
     {
-      "description": "Sender addresses common strings used in body", 
-      "created": "2018-08-03T20:30:53.040Z", 
-      "modified": "2018-08-03T20:30:53.040Z", 
-      "target_ref": "attack-pattern--e24a9f99-cb76-42a3-a50b-464668773e97", 
+      "description": "Attachment names and email subjects", 
+      "created": "2019-10-11T20:03:10.413Z", 
+      "modified": "2019-10-14T14:34:42.542Z", 
+      "target_ref": "attack-pattern--6aac77c4-eaf2-4366-8c13-ce50ab951f38", 
       "relationship_type": "uses", 
       "type": "relationship", 
-      "id": "relationship--74d509af-2231-4fd6-a0de-1808e3881aa2", 
+      "id": "relationship--d93d0119-2d8e-41d6-ac29-015dfbf07bd9", 
       "source_ref": "indicator--4536e0b1-c2e6-42c2-bcf5-000f0df72eea"
     }, 
     {
@@ -2503,13 +2873,13 @@
       "source_ref": "indicator--bf094398-e075-4b6d-99df-2dbcee3ef39d"
     }, 
     {
-      "description": "Sender addresses common strings used in body", 
-      "created": "2018-08-03T20:30:53.040Z", 
-      "modified": "2018-08-03T20:30:53.040Z", 
-      "target_ref": "attack-pattern--e24a9f99-cb76-42a3-a50b-464668773e97", 
+      "description": "Malicious Excel file", 
+      "created": "2019-10-11T20:03:22.770Z", 
+      "modified": "2019-10-14T14:34:42.542Z", 
+      "target_ref": "attack-pattern--6aac77c4-eaf2-4366-8c13-ce50ab951f38", 
       "relationship_type": "uses", 
       "type": "relationship", 
-      "id": "relationship--07f24187-e3d2-4b5e-a46d-c7f0e01109b3", 
+      "id": "relationship--d1372eec-de9b-41a7-8106-a1968ae1fa9b", 
       "source_ref": "indicator--131a36f4-f5ce-461c-b633-8f555ec191fb"
     }, 
     {
@@ -2541,12 +2911,12 @@
       "source_ref": "campaign--418eec9b-ca2d-48d6-92cc-7cf47b159e8c"
     }, 
     {
-      "created": "2018-08-03T20:30:53.040Z", 
-      "modified": "2018-08-22T12:34:11.223Z", 
-      "target_ref": "attack-pattern--0440f60f-9056-4791-a740-8eae96eb61fa", 
+      "created": "2019-10-11T20:07:38.153Z", 
+      "modified": "2019-10-14T14:34:42.539Z", 
+      "target_ref": "attack-pattern--8c32eb4d-805f-4fc5-bf60-c4d476c131b5", 
       "relationship_type": "uses", 
       "type": "relationship", 
-      "id": "relationship--f54a6555-6741-4a40-9690-7744eb95d40d", 
+      "id": "relationship--0aaba814-33a9-4dad-a654-b32d87ab907e", 
       "source_ref": "campaign--418eec9b-ca2d-48d6-92cc-7cf47b159e8c"
     }, 
     {
@@ -2560,7 +2930,7 @@
     }, 
     {
       "created": "2018-08-03T20:30:50.665Z", 
-      "modified": "2018-08-03T20:30:50.665Z", 
+      "modified": "2019-10-11T20:10:08.765Z", 
       "target_ref": "attack-pattern--c32f7008-9fea-41f7-8366-5eb9b74bd896", 
       "relationship_type": "uses", 
       "type": "relationship", 
@@ -2569,7 +2939,7 @@
     }, 
     {
       "created": "2018-08-03T20:30:50.665Z", 
-      "modified": "2018-08-03T20:30:50.665Z", 
+      "modified": "2019-10-11T20:10:08.765Z", 
       "target_ref": "intrusion-set--8e11eaa4-1964-4b73-85c1-fcfa29159f9b", 
       "relationship_type": "attributed-to", 
       "type": "relationship", 
@@ -2582,7 +2952,7 @@
       "labels": [
         "campaign"
       ], 
-      "modified": "2018-08-03T20:30:50.665Z", 
+      "modified": "2019-10-11T20:10:08.765Z", 
       "object_refs": [
         "campaign--418eec9b-ca2d-48d6-92cc-7cf47b159e8c", 
         "intrusion-set--8e11eaa4-1964-4b73-85c1-fcfa29159f9b", 
@@ -2607,7 +2977,7 @@
         "indicator--cff4fa97-3f63-4a68-83b0-4eb3f81be9de", 
         "attack-pattern--30208d3e-0d6b-43c8-883e-44462a514619", 
         "attack-pattern--f24faf46-3b26-4dbb-98f2-63460498e433", 
-        "attack-pattern--0440f60f-9056-4791-a740-8eae96eb61fa", 
+        "attack-pattern--8c32eb4d-805f-4fc5-bf60-c4d476c131b5", 
         "attack-pattern--7dd95ff6-712e-4056-9626-312ea4ab4c5e", 
         "attack-pattern--35dd844a-b219-4e2b-a6bb-efa9a75995a9", 
         "attack-pattern--f72eb8a8-cd4c-461d-a814-3f862befbf00", 
@@ -2616,10 +2986,12 @@
         "attack-pattern--354a7f88-63fb-41b5-a801-ce3b377b36f1", 
         "attack-pattern--355be19c-ffc9-46d5-8d50-d6a036c675b6", 
         "attack-pattern--15dbf668-795c-41e6-8219-f0447c0e64ce", 
-        "attack-pattern--e24a9f99-cb76-42a3-a50b-464668773e97", 
+        "attack-pattern--6aac77c4-eaf2-4366-8c13-ce50ab951f38", 
         "attack-pattern--8f4a33ec-8b1f-4b80-a2f6-642b2e479580", 
         "attack-pattern--c32f7008-9fea-41f7-8366-5eb9b74bd896", 
         "attack-pattern--707399d6-ab3e-4963-9315-d9d3818cd6a0", 
+        "malware--a233f5c3-53d4-4196-a1a3-a74151abd524", 
+        "malware--3f0d13a9-3ff6-4d48-8060-55b6f1e6bedb", 
         "relationship--f85a48f8-cc16-4676-bf61-27934057174f", 
         "relationship--ea9fbaed-5cd1-4fdb-999f-a3980c43c506", 
         "relationship--3563da55-300f-46e8-bc8a-fd9d910e4aed", 
@@ -2638,6 +3010,8 @@
         "relationship--e4a35d4e-1942-4dd8-a5bc-4908c4ff5649", 
         "relationship--7a090b7e-66a8-49b1-8b83-41ba7f9474ee", 
         "relationship--58eb7e95-bc30-4658-a50c-eb9d044bc4d4", 
+        "relationship--02c46d2a-3676-4929-ae28-b10cc3cf258b", 
+        "relationship--075e72ca-b0dc-4d70-b68d-cfd4e478d017", 
         "relationship--ece9acf9-34a3-4dd8-b434-a294a086ce3a", 
         "relationship--07d1feb5-6575-40ac-8df0-9b7c169a2b29", 
         "relationship--b6080c1b-48c1-49f7-8b1e-11fade37f627", 
@@ -2647,19 +3021,19 @@
         "relationship--adf368c8-b965-4554-943c-291e77a226cb", 
         "relationship--22a6c66b-08b3-49ff-a5e3-af9063a2d609", 
         "relationship--741c9fc7-da67-4f53-82bd-74876ab07ebb", 
-        "relationship--ad27b1d4-e78a-48eb-9b81-f0d6e9033aa6", 
-        "relationship--74d509af-2231-4fd6-a0de-1808e3881aa2", 
+        "relationship--20abd688-0b68-4930-90d4-512505ab640d", 
+        "relationship--d93d0119-2d8e-41d6-ac29-015dfbf07bd9", 
         "relationship--91b32542-ec28-4df5-8c6f-e1e7024d974b", 
         "relationship--ffc4eff3-45b8-4bbd-ae4c-52bfdc9d8f4c", 
         "relationship--b99c7a27-ba87-42ca-9af6-7d29be9274df", 
         "relationship--e777e1ca-7852-4827-9024-a8a4dfd7c05b", 
-        "relationship--07f24187-e3d2-4b5e-a46d-c7f0e01109b3", 
+        "relationship--d1372eec-de9b-41a7-8106-a1968ae1fa9b", 
         "relationship--4c4507f1-7c51-4b5e-9bbd-67c51d66fc96", 
         "relationship--127390be-0ff7-4f80-8a26-6bcac47581f5", 
         "relationship--874395b6-5a6f-49b1-ad27-1680a6566919", 
         "relationship--19f310d3-6ddd-4aa0-9a34-9c691dc3facf", 
         "relationship--8a7f1679-bd76-4ef0-bcf5-9e596bcd4ae6", 
-        "relationship--f54a6555-6741-4a40-9690-7744eb95d40d", 
+        "relationship--0aaba814-33a9-4dad-a654-b32d87ab907e", 
         "relationship--2b3b6a2d-c8af-4ad2-8a67-5114108156a5", 
         "relationship--af2cb8e5-5d1c-4964-bfe1-75ebc90f8627", 
         "relationship--7dd95ff6-712e-4056-9626-312ea4ab4c5e", 
@@ -2670,25 +3044,25 @@
         "relationship--354a7f88-63fb-41b5-a801-ce3b377b36f1", 
         "relationship--355be19c-ffc9-46d5-8d50-d6a036c675b6", 
         "relationship--15dbf668-795c-41e6-8219-f0447c0e64ce", 
-        "relationship--e24a9f99-cb76-42a3-a50b-464668773e97", 
+        "relationship--6aac77c4-eaf2-4366-8c13-ce50ab951f38", 
         "relationship--8f4a33ec-8b1f-4b80-a2f6-642b2e479580", 
         "relationship--c32f7008-9fea-41f7-8366-5eb9b74bd896", 
         "relationship--707399d6-ab3e-4963-9315-d9d3818cd6a0", 
         "relationship--418eec9b-ca2d-48d6-92cc-7cf47b159e8c"
       ], 
-      "published": "2018-08-03T20:30:50.665Z", 
+      "published": "2019-10-11T20:10:08.765Z", 
       "type": "report", 
       "id": "report--418eec9b-ca2d-48d6-92cc-7cf47b159e8c"
     }, 
     {
       "name": "first", 
       "created": "2018-08-03T20:30:50.665Z", 
-      "modified": "2018-08-03T20:30:50.665Z", 
+      "modified": "2019-10-11T20:10:08.765Z", 
       "first_seen": "2016-05-04T00:00:00.000Z", 
       "last_seen": "2017-09-26T00:00:00.000Z", 
       "type": "campaign", 
       "id": "campaign--418eec9b-ca2d-48d6-92cc-7cf47b159e8c", 
-      "description": "Play based on research discussed at https://researchcenter.paloaltonetworks.com/2016/05/the-oilrig-campaign-attacks-on-saudi-arabian-organizations-deliver-helminth-backdoor/"
+      "description": " In May 2016, Unit 42 observed targeted attacks primarily focused on financial institutions and technology organizations within Saudi Arabia. Artifacts identified within the malware samples related to these attacks also suggest the targeting of the defense industry in Saudi Arabia, which appears to be related to an earlier wave of attacks carried out in the fall of 2015. "
     }, 
     {
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5", 
@@ -5875,7 +6249,7 @@
     }, 
     {
       "created": "2018-08-03T20:30:50.665Z", 
-      "modified": "2018-08-03T20:30:50.665Z", 
+      "modified": "2019-10-11T20:13:34.064Z", 
       "target_ref": "attack-pattern--e8471f43-2742-4fd7-9af7-8ed1330ada37", 
       "relationship_type": "uses", 
       "type": "relationship", 
@@ -5884,7 +6258,7 @@
     }, 
     {
       "created": "2018-08-03T20:30:50.665Z", 
-      "modified": "2018-08-03T20:30:50.665Z", 
+      "modified": "2019-10-11T20:13:34.064Z", 
       "target_ref": "attack-pattern--b3d682b6-98f2-4fb0-aa3b-b4df007ca70a", 
       "relationship_type": "uses", 
       "type": "relationship", 
@@ -5893,7 +6267,7 @@
     }, 
     {
       "created": "2018-08-03T20:30:50.665Z", 
-      "modified": "2018-08-03T20:30:50.665Z", 
+      "modified": "2019-10-11T20:13:34.064Z", 
       "target_ref": "attack-pattern--c16e5409-ee53-4d79-afdc-4099dc9292df", 
       "relationship_type": "uses", 
       "type": "relationship", 
@@ -5902,7 +6276,7 @@
     }, 
     {
       "created": "2018-08-03T20:30:50.665Z", 
-      "modified": "2018-08-03T20:30:50.665Z", 
+      "modified": "2019-10-11T20:13:34.064Z", 
       "target_ref": "attack-pattern--38a6d2f5-d948-4235-bb91-bb01604448b4", 
       "relationship_type": "uses", 
       "type": "relationship", 
@@ -5911,7 +6285,7 @@
     }, 
     {
       "created": "2018-08-03T20:30:50.665Z", 
-      "modified": "2018-08-03T20:30:50.665Z", 
+      "modified": "2019-10-11T20:13:34.064Z", 
       "target_ref": "attack-pattern--6aabc5ec-eae6-422c-8311-38d45ee9838a", 
       "relationship_type": "uses", 
       "type": "relationship", 
@@ -5920,7 +6294,7 @@
     }, 
     {
       "created": "2018-08-03T20:30:50.665Z", 
-      "modified": "2018-08-03T20:30:50.665Z", 
+      "modified": "2019-10-11T20:13:34.064Z", 
       "target_ref": "attack-pattern--0a3ead4e-6d47-4ccb-854c-a6a4f9d96b22", 
       "relationship_type": "uses", 
       "type": "relationship", 
@@ -5929,7 +6303,7 @@
     }, 
     {
       "created": "2018-08-03T20:30:50.665Z", 
-      "modified": "2018-08-03T20:30:50.665Z", 
+      "modified": "2019-10-11T20:13:34.064Z", 
       "target_ref": "attack-pattern--b17a1a56-e99c-403c-8948-561df0cffe81", 
       "relationship_type": "uses", 
       "type": "relationship", 
@@ -5938,7 +6312,7 @@
     }, 
     {
       "created": "2018-08-03T20:30:50.665Z", 
-      "modified": "2018-08-03T20:30:50.665Z", 
+      "modified": "2019-10-11T20:13:34.064Z", 
       "target_ref": "attack-pattern--128c55d3-aeba-469f-bd3e-c8996ab4112a", 
       "relationship_type": "uses", 
       "type": "relationship", 
@@ -5947,7 +6321,7 @@
     }, 
     {
       "created": "2018-08-03T20:30:50.665Z", 
-      "modified": "2018-08-03T20:30:50.665Z", 
+      "modified": "2019-10-11T20:13:34.064Z", 
       "target_ref": "intrusion-set--8e11eaa4-1964-4b73-85c1-fcfa29159f9b", 
       "relationship_type": "attributed-to", 
       "type": "relationship", 
@@ -5960,7 +6334,7 @@
       "labels": [
         "campaign"
       ], 
-      "modified": "2018-08-03T20:30:50.665Z", 
+      "modified": "2019-10-11T20:13:34.064Z", 
       "object_refs": [
         "campaign--a7f9f91c-cfa7-48f9-a2a3-9fe2013241ec", 
         "intrusion-set--8e11eaa4-1964-4b73-85c1-fcfa29159f9b", 
@@ -6245,19 +6619,19 @@
         "relationship--128c55d3-aeba-469f-bd3e-c8996ab4112a", 
         "relationship--a7f9f91c-cfa7-48f9-a2a3-9fe2013241ec"
       ], 
-      "published": "2018-08-03T20:30:50.665Z", 
+      "published": "2019-10-11T20:13:34.064Z", 
       "type": "report", 
       "id": "report--a7f9f91c-cfa7-48f9-a2a3-9fe2013241ec"
     }, 
     {
       "name": "third", 
       "created": "2018-08-03T20:30:50.665Z", 
-      "modified": "2018-08-03T20:30:50.665Z", 
+      "modified": "2019-10-11T20:13:34.064Z", 
       "first_seen": "2016-05-31T00:00:00.000Z", 
       "last_seen": "2017-08-11T00:00:00.000Z", 
       "type": "campaign", 
       "id": "campaign--a7f9f91c-cfa7-48f9-a2a3-9fe2013241ec", 
-      "description": "Play based on research discussed at https://researchcenter.paloaltonetworks.com/2017/09/unit42-striking-oil-closer-look-adversary-infrastructure/"
+      "description": "In July 2017, Unit 42 found that Oilrig infrastructure was segregated into different functions for specific malicious objectives. We found some sites that were set up as credential harvesters (likely used in phishing attacks), a compromised system that was used to interact with a TwoFace web shell to hide the actor\u2019s location, and finally systems that interact with TwoFace webshell-compromised systems to provide command and control direction of those compromised systems. "
     }
   ], 
   "type": "bundle", 

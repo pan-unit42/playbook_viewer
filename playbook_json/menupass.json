@@ -7,12 +7,12 @@
       "labels": [
         "intrusion-set"
       ], 
-      "modified": "2019-10-08T17:12:06.451Z", 
+      "modified": "2019-10-14T17:02:52.021Z", 
       "object_refs": [
         "intrusion-set--c9fdc68a-f2fe-4243-b6f4-074d7eac5338", 
         "report--2df3070e-d159-4987-a35f-e4ad5031fb29"
       ], 
-      "published": "2019-10-08T17:12:06.451Z", 
+      "published": "2019-10-14T17:02:52.021Z", 
       "type": "report", 
       "id": "report--9d8ecf25-ca54-4516-b68d-3d165e6f816b", 
       "description": "menuPass is a threat group whose members the US Department of Justice state operate from China as employees of the Tianjin-based Huaying Haitai Science and Technology Development Company in coordination with the Ministry of State Security's Tianjin State Security Bureau. The group has been active since approximately 2006 and has targeted healthcare, defense, aerospace, and government sectors around the world, and has targeted Japanese victims since at least 2014. In 2016 and 2017, the group targeted managed IT service providers, manufacturing and mining companies, and a university."
@@ -417,94 +417,6 @@
       "description": "Adversaries may communicate using a common, standardized application layer protocol such as HTTP, HTTPS, SMTP, or DNS to avoid detection by blending in with existing traffic. Commands to the remote system, and often the results of those commands, will be embedded within the protocol traffic between the client and server.\n\nFor connections that occur internally within an enclave (such as those between a proxy or pivot node and other nodes), commonly used protocols are RPC, SSH, or RDP."
     }, 
     {
-      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5", 
-      "name": "T1060: Registry Run Keys / Startup Folder", 
-      "created": "2018-08-03T19:54:02.821Z", 
-      "kill_chain_phases": [
-        {
-          "phase_name": "persistence", 
-          "kill_chain_name": "mitre-attack"
-        }, 
-        {
-          "phase_name": "installation", 
-          "kill_chain_name": "lockheed"
-        }
-      ], 
-      "modified": "2019-05-06T20:46:02.744Z", 
-      "object_marking_refs": [
-        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
-      ], 
-      "external_references": [
-        {
-          "url": "https://attack.mitre.org/techniques/T1060", 
-          "external_id": "T1060", 
-          "source_name": "mitre-attack"
-        }, 
-        {
-          "url": "https://capec.mitre.org/data/definitions/270.html", 
-          "external_id": "CAPEC-270", 
-          "source_name": "capec"
-        }, 
-        {
-          "url": "http://msdn.microsoft.com/en-us/library/aa376977", 
-          "source_name": "Microsoft Run Key", 
-          "description": "Microsoft. (n.d.). Run and RunOnce Registry Keys. Retrieved November 12, 2014."
-        }, 
-        {
-          "url": "https://support.microsoft.com/help/310593/description-of-the-runonceex-registry-key", 
-          "source_name": "Microsoft RunOnceEx APR 2018", 
-          "description": "Microsoft. (2018, August 20). Description of the RunOnceEx Registry Key. Retrieved June 29, 2018."
-        }, 
-        {
-          "url": "https://oddvar.moe/2018/03/21/persistence-using-runonceex-hidden-from-autoruns-exe/", 
-          "source_name": "Oddvar Moe RunOnceEx Mar 2018", 
-          "description": "Moe, O. (2018, March 21). Persistence using RunOnceEx - Hidden from Autoruns.exe. Retrieved June 29, 2018."
-        }, 
-        {
-          "url": "https://technet.microsoft.com/en-us/sysinternals/bb963902", 
-          "source_name": "TechNet Autoruns", 
-          "description": "Russinovich, M. (2016, January 4). Autoruns for Windows v13.51. Retrieved June 6, 2016."
-        }
-      ], 
-      "type": "attack-pattern", 
-      "id": "attack-pattern--9422fc14-1c43-410d-ab0f-a709b76c72dc", 
-      "description": "Adding an entry to the \"run keys\" in the Registry or startup folder will cause the program referenced to be executed when a user logs in. (Citation: Microsoft Run Key) These programs will be executed under the context of the user and will have the account's associated permissions level.\n\nThe following run keys are created by default on Windows systems:\n* <code>HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Run</code>\n* <code>HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\RunOnce</code>\n* <code>HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Run</code>\n* <code>HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\RunOnce</code>\n\nThe <code>HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\RunOnceEx</code> is also available but is not created by default on Windows Vista and newer. Registry run key entries can reference programs directly or list them as a dependency. (Citation: Microsoft RunOnceEx APR 2018) For example, it is possible to load a DLL at logon using a \"Depend\" key with RunOnceEx: <code>reg add HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\RunOnceEx\\0001\\Depend /v 1 /d \"C:\\temp\\evil[.]dll\"</code> (Citation: Oddvar Moe RunOnceEx Mar 2018)\n\nThe following Registry keys can be used to set startup folder items for persistence:\n* <code>HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\User Shell Folders</code>\n* <code>HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders</code>\n* <code>HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders</code>\n* <code>HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\User Shell Folders</code>\n\nAdversaries can use these configuration locations to execute malware, such as remote access tools, to maintain persistence through system reboots. Adversaries may also use [Masquerading](https://attack.mitre.org/techniques/T1036) to make the Registry entries look as if they are associated with legitimate programs."
-    }, 
-    {
-      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5", 
-      "name": "T1008: Fallback Channels", 
-      "created": "2018-08-03T19:54:02.821Z", 
-      "kill_chain_phases": [
-        {
-          "phase_name": "command-and-control", 
-          "kill_chain_name": "mitre-attack"
-        }, 
-        {
-          "phase_name": "command-and-control", 
-          "kill_chain_name": "lockheed"
-        }
-      ], 
-      "modified": "2018-12-17T14:33:42.344Z", 
-      "object_marking_refs": [
-        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
-      ], 
-      "external_references": [
-        {
-          "url": "https://attack.mitre.org/techniques/T1008", 
-          "external_id": "T1008", 
-          "source_name": "mitre-attack"
-        }, 
-        {
-          "url": "https://arxiv.org/ftp/arxiv/papers/1408/1408.1136.pdf", 
-          "source_name": "University of Birmingham C2", 
-          "description": "Gardiner, J.,  Cova, M., Nagaraja, S. (2014, February). Command & Control Understanding, Denying and Detecting. Retrieved April 20, 2016."
-        }
-      ], 
-      "type": "attack-pattern", 
-      "id": "attack-pattern--f24faf46-3b26-4dbb-98f2-63460498e433", 
-      "description": "Adversaries may use fallback or alternate communication channels if the primary channel is compromised or inaccessible in order to maintain reliable command and control and to avoid data transfer thresholds."
-    }, 
-    {
       "name": "Identity (September - November 2016)", 
       "sectors": [
         "education", 
@@ -520,6 +432,281 @@
       ], 
       "type": "identity", 
       "id": "identity--27366fc1-f22c-4b76-b0a5-bc1203e1fb50"
+    }, 
+    {
+      "name": "ChChes", 
+      "created": "2019-10-11T15:10:38.722Z", 
+      "labels": [
+        "backdoor"
+      ], 
+      "modified": "2019-10-14T17:02:51.883Z", 
+      "type": "malware", 
+      "id": "malware--08373e44-ab77-4063-bb0a-44da8dd8a0dd", 
+      "description": "A malware commonly signed using a since-revoked Hacking Team digital signature.\nThe malware's communication utilises the HTTP Cookie field to transmit data, and the malware is capable of installing additional modules."
+    }, 
+    {
+      "name": "ChChes", 
+      "created": "2019-10-11T15:10:38.722Z", 
+      "labels": [
+        "backdoor"
+      ], 
+      "modified": "2019-10-14T17:02:51.883Z", 
+      "type": "malware", 
+      "id": "malware--08373e44-ab77-4063-bb0a-44da8dd8a0dd", 
+      "description": "A malware commonly signed using a since-revoked Hacking Team digital signature.\nThe malware's communication utilises the HTTP Cookie field to transmit data, and the malware is capable of installing additional modules."
+    }, 
+    {
+      "name": "ChChes", 
+      "created": "2019-10-11T15:10:38.722Z", 
+      "labels": [
+        "backdoor"
+      ], 
+      "modified": "2019-10-14T17:02:51.883Z", 
+      "type": "malware", 
+      "id": "malware--08373e44-ab77-4063-bb0a-44da8dd8a0dd", 
+      "description": "A malware commonly signed using a since-revoked Hacking Team digital signature.\nThe malware's communication utilises the HTTP Cookie field to transmit data, and the malware is capable of installing additional modules."
+    }, 
+    {
+      "name": "ChChes", 
+      "created": "2019-10-11T15:10:38.722Z", 
+      "labels": [
+        "backdoor"
+      ], 
+      "modified": "2019-10-14T17:02:51.883Z", 
+      "type": "malware", 
+      "id": "malware--08373e44-ab77-4063-bb0a-44da8dd8a0dd", 
+      "description": "A malware commonly signed using a since-revoked Hacking Team digital signature.\nThe malware's communication utilises the HTTP Cookie field to transmit data, and the malware is capable of installing additional modules."
+    }, 
+    {
+      "name": "ChChes", 
+      "created": "2019-10-11T15:10:38.722Z", 
+      "labels": [
+        "backdoor"
+      ], 
+      "modified": "2019-10-14T17:02:51.883Z", 
+      "type": "malware", 
+      "id": "malware--08373e44-ab77-4063-bb0a-44da8dd8a0dd", 
+      "description": "A malware commonly signed using a since-revoked Hacking Team digital signature.\nThe malware's communication utilises the HTTP Cookie field to transmit data, and the malware is capable of installing additional modules."
+    }, 
+    {
+      "name": "ChChes", 
+      "created": "2019-10-11T15:10:38.722Z", 
+      "labels": [
+        "backdoor"
+      ], 
+      "modified": "2019-10-14T17:02:51.883Z", 
+      "type": "malware", 
+      "id": "malware--08373e44-ab77-4063-bb0a-44da8dd8a0dd", 
+      "description": "A malware commonly signed using a since-revoked Hacking Team digital signature.\nThe malware's communication utilises the HTTP Cookie field to transmit data, and the malware is capable of installing additional modules."
+    }, 
+    {
+      "name": "ChChes", 
+      "created": "2019-10-11T15:10:38.722Z", 
+      "labels": [
+        "backdoor"
+      ], 
+      "modified": "2019-10-14T17:02:51.883Z", 
+      "type": "malware", 
+      "id": "malware--08373e44-ab77-4063-bb0a-44da8dd8a0dd", 
+      "description": "A malware commonly signed using a since-revoked Hacking Team digital signature.\nThe malware's communication utilises the HTTP Cookie field to transmit data, and the malware is capable of installing additional modules."
+    }, 
+    {
+      "name": "ChChes", 
+      "created": "2019-10-11T15:10:38.722Z", 
+      "labels": [
+        "backdoor"
+      ], 
+      "modified": "2019-10-14T17:02:51.883Z", 
+      "type": "malware", 
+      "id": "malware--08373e44-ab77-4063-bb0a-44da8dd8a0dd", 
+      "description": "A malware commonly signed using a since-revoked Hacking Team digital signature.\nThe malware's communication utilises the HTTP Cookie field to transmit data, and the malware is capable of installing additional modules."
+    }, 
+    {
+      "name": "ChChes", 
+      "created": "2019-10-11T15:10:38.722Z", 
+      "labels": [
+        "backdoor"
+      ], 
+      "modified": "2019-10-14T17:02:51.883Z", 
+      "type": "malware", 
+      "id": "malware--08373e44-ab77-4063-bb0a-44da8dd8a0dd", 
+      "description": "A malware commonly signed using a since-revoked Hacking Team digital signature.\nThe malware's communication utilises the HTTP Cookie field to transmit data, and the malware is capable of installing additional modules."
+    }, 
+    {
+      "name": "ChChes", 
+      "created": "2019-10-11T15:10:38.722Z", 
+      "labels": [
+        "backdoor"
+      ], 
+      "modified": "2019-10-14T17:02:51.883Z", 
+      "type": "malware", 
+      "id": "malware--08373e44-ab77-4063-bb0a-44da8dd8a0dd", 
+      "description": "A malware commonly signed using a since-revoked Hacking Team digital signature.\nThe malware's communication utilises the HTTP Cookie field to transmit data, and the malware is capable of installing additional modules."
+    }, 
+    {
+      "name": "ChChes", 
+      "created": "2019-10-11T15:10:38.722Z", 
+      "labels": [
+        "backdoor"
+      ], 
+      "modified": "2019-10-14T17:02:51.883Z", 
+      "type": "malware", 
+      "id": "malware--08373e44-ab77-4063-bb0a-44da8dd8a0dd", 
+      "description": "A malware commonly signed using a since-revoked Hacking Team digital signature.\nThe malware's communication utilises the HTTP Cookie field to transmit data, and the malware is capable of installing additional modules."
+    }, 
+    {
+      "name": "ChChes", 
+      "created": "2019-10-11T15:10:38.722Z", 
+      "labels": [
+        "backdoor"
+      ], 
+      "modified": "2019-10-14T17:02:51.883Z", 
+      "type": "malware", 
+      "id": "malware--08373e44-ab77-4063-bb0a-44da8dd8a0dd", 
+      "description": "A malware commonly signed using a since-revoked Hacking Team digital signature.\nThe malware's communication utilises the HTTP Cookie field to transmit data, and the malware is capable of installing additional modules."
+    }, 
+    {
+      "name": "ChChes", 
+      "created": "2019-10-11T15:10:38.722Z", 
+      "labels": [
+        "backdoor"
+      ], 
+      "modified": "2019-10-14T17:02:51.883Z", 
+      "type": "malware", 
+      "id": "malware--08373e44-ab77-4063-bb0a-44da8dd8a0dd", 
+      "description": "A malware commonly signed using a since-revoked Hacking Team digital signature.\nThe malware's communication utilises the HTTP Cookie field to transmit data, and the malware is capable of installing additional modules."
+    }, 
+    {
+      "name": "ChChes", 
+      "created": "2019-10-11T15:10:38.722Z", 
+      "labels": [
+        "backdoor"
+      ], 
+      "modified": "2019-10-14T17:02:51.883Z", 
+      "type": "malware", 
+      "id": "malware--08373e44-ab77-4063-bb0a-44da8dd8a0dd", 
+      "description": "A malware commonly signed using a since-revoked Hacking Team digital signature.\nThe malware's communication utilises the HTTP Cookie field to transmit data, and the malware is capable of installing additional modules."
+    }, 
+    {
+      "name": "ChChes", 
+      "created": "2019-10-11T15:10:38.722Z", 
+      "labels": [
+        "backdoor"
+      ], 
+      "modified": "2019-10-14T17:02:51.883Z", 
+      "type": "malware", 
+      "id": "malware--08373e44-ab77-4063-bb0a-44da8dd8a0dd", 
+      "description": "A malware commonly signed using a since-revoked Hacking Team digital signature.\nThe malware's communication utilises the HTTP Cookie field to transmit data, and the malware is capable of installing additional modules."
+    }, 
+    {
+      "name": "ChChes", 
+      "created": "2019-10-11T15:10:38.722Z", 
+      "labels": [
+        "backdoor"
+      ], 
+      "modified": "2019-10-14T17:02:51.883Z", 
+      "type": "malware", 
+      "id": "malware--08373e44-ab77-4063-bb0a-44da8dd8a0dd", 
+      "description": "A malware commonly signed using a since-revoked Hacking Team digital signature.\nThe malware's communication utilises the HTTP Cookie field to transmit data, and the malware is capable of installing additional modules."
+    }, 
+    {
+      "name": "ChChes", 
+      "created": "2019-10-11T15:10:38.722Z", 
+      "labels": [
+        "backdoor"
+      ], 
+      "modified": "2019-10-14T17:02:51.883Z", 
+      "type": "malware", 
+      "id": "malware--08373e44-ab77-4063-bb0a-44da8dd8a0dd", 
+      "description": "A malware commonly signed using a since-revoked Hacking Team digital signature.\nThe malware's communication utilises the HTTP Cookie field to transmit data, and the malware is capable of installing additional modules."
+    }, 
+    {
+      "name": "ChChes", 
+      "created": "2019-10-11T15:10:38.722Z", 
+      "labels": [
+        "backdoor"
+      ], 
+      "modified": "2019-10-14T17:02:51.883Z", 
+      "type": "malware", 
+      "id": "malware--08373e44-ab77-4063-bb0a-44da8dd8a0dd", 
+      "description": "A malware commonly signed using a since-revoked Hacking Team digital signature.\nThe malware's communication utilises the HTTP Cookie field to transmit data, and the malware is capable of installing additional modules."
+    }, 
+    {
+      "name": "ChChes", 
+      "created": "2019-10-11T15:10:38.722Z", 
+      "labels": [
+        "backdoor"
+      ], 
+      "modified": "2019-10-14T17:02:51.883Z", 
+      "type": "malware", 
+      "id": "malware--08373e44-ab77-4063-bb0a-44da8dd8a0dd", 
+      "description": "A malware commonly signed using a since-revoked Hacking Team digital signature.\nThe malware's communication utilises the HTTP Cookie field to transmit data, and the malware is capable of installing additional modules."
+    }, 
+    {
+      "name": "ChChes", 
+      "created": "2019-10-11T15:10:38.722Z", 
+      "labels": [
+        "backdoor"
+      ], 
+      "modified": "2019-10-14T17:02:51.883Z", 
+      "type": "malware", 
+      "id": "malware--08373e44-ab77-4063-bb0a-44da8dd8a0dd", 
+      "description": "A malware commonly signed using a since-revoked Hacking Team digital signature.\nThe malware's communication utilises the HTTP Cookie field to transmit data, and the malware is capable of installing additional modules."
+    }, 
+    {
+      "name": "ChChes", 
+      "created": "2019-10-11T15:10:38.722Z", 
+      "labels": [
+        "backdoor"
+      ], 
+      "modified": "2019-10-14T17:02:51.883Z", 
+      "type": "malware", 
+      "id": "malware--08373e44-ab77-4063-bb0a-44da8dd8a0dd", 
+      "description": "A malware commonly signed using a since-revoked Hacking Team digital signature.\nThe malware's communication utilises the HTTP Cookie field to transmit data, and the malware is capable of installing additional modules."
+    }, 
+    {
+      "name": "ChChes", 
+      "created": "2019-10-11T15:10:38.722Z", 
+      "labels": [
+        "backdoor"
+      ], 
+      "modified": "2019-10-14T17:02:51.883Z", 
+      "type": "malware", 
+      "id": "malware--08373e44-ab77-4063-bb0a-44da8dd8a0dd", 
+      "description": "A malware commonly signed using a since-revoked Hacking Team digital signature.\nThe malware's communication utilises the HTTP Cookie field to transmit data, and the malware is capable of installing additional modules."
+    }, 
+    {
+      "name": "ChChes", 
+      "created": "2019-10-11T15:10:38.722Z", 
+      "labels": [
+        "backdoor"
+      ], 
+      "modified": "2019-10-14T17:02:51.883Z", 
+      "type": "malware", 
+      "id": "malware--08373e44-ab77-4063-bb0a-44da8dd8a0dd", 
+      "description": "A malware commonly signed using a since-revoked Hacking Team digital signature.\nThe malware's communication utilises the HTTP Cookie field to transmit data, and the malware is capable of installing additional modules."
+    }, 
+    {
+      "name": "ChChes", 
+      "created": "2019-10-11T15:10:38.722Z", 
+      "labels": [
+        "backdoor"
+      ], 
+      "modified": "2019-10-14T17:02:51.883Z", 
+      "type": "malware", 
+      "id": "malware--08373e44-ab77-4063-bb0a-44da8dd8a0dd", 
+      "description": "A malware commonly signed using a since-revoked Hacking Team digital signature.\nThe malware's communication utilises the HTTP Cookie field to transmit data, and the malware is capable of installing additional modules."
+    }, 
+    {
+      "name": "ChChes", 
+      "created": "2019-10-11T15:10:38.722Z", 
+      "labels": [
+        "backdoor"
+      ], 
+      "modified": "2019-10-14T17:02:51.883Z", 
+      "type": "malware", 
+      "id": "malware--08373e44-ab77-4063-bb0a-44da8dd8a0dd", 
+      "description": "A malware commonly signed using a since-revoked Hacking Team digital signature.\nThe malware's communication utilises the HTTP Cookie field to transmit data, and the malware is capable of installing additional modules."
     }, 
     {
       "valid_from": "2019-01-08T16:40:53.572Z", 
@@ -832,18 +1019,6 @@
       "modified": "2019-01-08T16:40:53.572Z", 
       "type": "indicator", 
       "id": "indicator--172b249b-9776-4601-a427-7c55eeb1ab2d"
-    }, 
-    {
-      "valid_from": "2019-01-08T16:40:53.572Z", 
-      "name": "[windows_registry_key:key = 'HKCU\\\\Software\\\\Microsoft\\\\Windows\\\\CurrentVersion\\\\Run\\\\ISeC Croot Readr']", 
-      "created": "2019-01-08T16:40:53.572Z", 
-      "pattern": "[windows_registry_key:key = 'HKCU\\\\Software\\\\Microsoft\\\\Windows\\\\CurrentVersion\\\\Run\\\\ISeC Croot Readr']", 
-      "labels": [
-        "malicious-activity"
-      ], 
-      "modified": "2019-01-08T16:40:53.572Z", 
-      "type": "indicator", 
-      "id": "indicator--4a4c0e03-265a-4a12-8f29-ccbe1f054e02"
     }, 
     {
       "valid_from": "2019-01-08T16:40:53.572Z", 
@@ -1217,15 +1392,6 @@
       "target_ref": "campaign--2df3070e-d159-4987-a35f-e4ad5031fb29", 
       "relationship_type": "indicates", 
       "type": "relationship", 
-      "id": "relationship--4bdf11de-6545-4bf3-992b-d2f04ba85630", 
-      "source_ref": "indicator--4a4c0e03-265a-4a12-8f29-ccbe1f054e02"
-    }, 
-    {
-      "created": "2019-01-08T16:40:54.390Z", 
-      "modified": "2019-01-08T16:40:54.390Z", 
-      "target_ref": "campaign--2df3070e-d159-4987-a35f-e4ad5031fb29", 
-      "relationship_type": "indicates", 
-      "type": "relationship", 
       "id": "relationship--fdc12437-bbc4-43f4-9f99-64c226bf36e2", 
       "source_ref": "indicator--8604bf64-dadf-4f65-a028-cd6129461f04"
     }, 
@@ -1320,6 +1486,231 @@
       "source_ref": "indicator--9ae8cff5-a5ff-4bbb-9978-8f0f6f6c8840"
     }, 
     {
+      "created": "2019-10-11T15:10:52.964Z", 
+      "modified": "2019-10-14T17:02:51.884Z", 
+      "target_ref": "malware--08373e44-ab77-4063-bb0a-44da8dd8a0dd", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--1d727566-b591-4139-9549-7e4e18b6347d", 
+      "source_ref": "indicator--b9873cc9-7167-47c3-bfb9-00598ba92bf6"
+    }, 
+    {
+      "created": "2019-10-11T15:12:02.234Z", 
+      "modified": "2019-10-14T17:02:51.884Z", 
+      "target_ref": "malware--08373e44-ab77-4063-bb0a-44da8dd8a0dd", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--f6c32747-8ecd-471b-b5ef-c8b82ab4aa31", 
+      "source_ref": "indicator--402c0f12-5f45-4fdc-abcf-56419a9f962d"
+    }, 
+    {
+      "created": "2019-10-11T15:13:07.437Z", 
+      "modified": "2019-10-14T17:02:51.884Z", 
+      "target_ref": "malware--08373e44-ab77-4063-bb0a-44da8dd8a0dd", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--ed13a37d-b8aa-46ff-9dda-41e244b24277", 
+      "source_ref": "indicator--ad66cafc-efab-4535-9c08-29a2fff8e709"
+    }, 
+    {
+      "created": "2019-10-11T15:13:22.007Z", 
+      "modified": "2019-10-14T17:02:51.884Z", 
+      "target_ref": "malware--08373e44-ab77-4063-bb0a-44da8dd8a0dd", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--1ccc37ed-6076-452e-be98-1588e20d5946", 
+      "source_ref": "indicator--d69528e2-6066-4cc4-80c3-d3dd6e8e239c"
+    }, 
+    {
+      "created": "2019-10-11T15:13:41.238Z", 
+      "modified": "2019-10-14T17:02:51.884Z", 
+      "target_ref": "malware--08373e44-ab77-4063-bb0a-44da8dd8a0dd", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--dc615996-feeb-4aea-bdba-c30b6d0c90d7", 
+      "source_ref": "indicator--d32123d7-f81c-4f7b-a0e4-a9dedb520d8e"
+    }, 
+    {
+      "created": "2019-10-11T15:13:54.620Z", 
+      "modified": "2019-10-14T17:02:51.884Z", 
+      "target_ref": "malware--08373e44-ab77-4063-bb0a-44da8dd8a0dd", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--5f045acc-82e0-4c7b-9fb8-f6af9f48e8bf", 
+      "source_ref": "indicator--3bf4c71d-e7c7-46b2-ac69-165dadb4626b"
+    }, 
+    {
+      "created": "2019-10-11T15:14:13.656Z", 
+      "modified": "2019-10-14T17:02:51.884Z", 
+      "target_ref": "malware--08373e44-ab77-4063-bb0a-44da8dd8a0dd", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--70dddc73-c414-4f51-8d40-cea0e6b2e6fd", 
+      "source_ref": "indicator--159760d0-141e-4bab-8fd2-672ffdf87a52"
+    }, 
+    {
+      "created": "2019-10-11T15:14:26.217Z", 
+      "modified": "2019-10-14T17:02:51.884Z", 
+      "target_ref": "malware--08373e44-ab77-4063-bb0a-44da8dd8a0dd", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--2fda0916-94b1-4f27-be09-572bf0c8089a", 
+      "source_ref": "indicator--cb1cabb8-f266-4b50-aef0-b265c2f11d8f"
+    }, 
+    {
+      "created": "2019-10-11T15:14:46.958Z", 
+      "modified": "2019-10-14T17:02:51.884Z", 
+      "target_ref": "malware--08373e44-ab77-4063-bb0a-44da8dd8a0dd", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--d35167d3-a752-475d-8562-43aeb8ad2358", 
+      "source_ref": "indicator--425ea5b9-250d-4a76-89aa-bcfb7118214c"
+    }, 
+    {
+      "created": "2019-10-11T15:15:05.241Z", 
+      "modified": "2019-10-14T17:02:51.884Z", 
+      "target_ref": "malware--08373e44-ab77-4063-bb0a-44da8dd8a0dd", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--39997b92-dc73-4f48-9ca7-b6aba0dd186a", 
+      "source_ref": "indicator--11af4e87-371c-41a6-82ca-42b6b3f034ba"
+    }, 
+    {
+      "created": "2019-10-11T15:15:36.257Z", 
+      "modified": "2019-10-14T17:02:51.884Z", 
+      "target_ref": "malware--08373e44-ab77-4063-bb0a-44da8dd8a0dd", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--130f6ecb-a5f0-4bb3-ba00-3e07f6218555", 
+      "source_ref": "indicator--24211eb4-9251-474d-abcd-86f990b3c5ac"
+    }, 
+    {
+      "created": "2019-10-11T15:15:48.001Z", 
+      "modified": "2019-10-14T17:02:51.884Z", 
+      "target_ref": "malware--08373e44-ab77-4063-bb0a-44da8dd8a0dd", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--278f2388-811e-4d12-ad01-702fb7e0dbd7", 
+      "source_ref": "indicator--49063013-abcd-47f7-ac40-eb04b5447a6b"
+    }, 
+    {
+      "created": "2019-10-11T15:16:03.467Z", 
+      "modified": "2019-10-14T17:02:51.884Z", 
+      "target_ref": "malware--08373e44-ab77-4063-bb0a-44da8dd8a0dd", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--b889cef2-2741-4744-9cb8-4f363abeb8e3", 
+      "source_ref": "indicator--6c7a3551-824a-4482-9b8e-37ab216f894a"
+    }, 
+    {
+      "created": "2019-10-11T15:16:29.346Z", 
+      "modified": "2019-10-14T17:02:51.884Z", 
+      "target_ref": "malware--08373e44-ab77-4063-bb0a-44da8dd8a0dd", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--47c60d46-20b3-4031-9e4e-422201a33c26", 
+      "source_ref": "indicator--17a45ac0-e791-43ee-bce0-613499f1b7c5"
+    }, 
+    {
+      "created": "2019-10-11T15:17:09.539Z", 
+      "modified": "2019-10-14T17:02:51.884Z", 
+      "target_ref": "malware--08373e44-ab77-4063-bb0a-44da8dd8a0dd", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--67b9fab9-b6cd-4d26-a2d9-dcae135ce5ae", 
+      "source_ref": "indicator--7546d338-848d-4f06-a79f-035916dcd8d3"
+    }, 
+    {
+      "created": "2019-10-11T15:16:53.140Z", 
+      "modified": "2019-10-14T17:02:51.884Z", 
+      "target_ref": "malware--08373e44-ab77-4063-bb0a-44da8dd8a0dd", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--4652275a-1469-4bf4-843d-4baecba4beb9", 
+      "source_ref": "indicator--1371e907-2cfe-41c4-aadc-d8ee867e3dfe"
+    }, 
+    {
+      "created": "2019-10-11T15:17:33.456Z", 
+      "modified": "2019-10-14T17:02:51.884Z", 
+      "target_ref": "malware--08373e44-ab77-4063-bb0a-44da8dd8a0dd", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--1dcab904-acb7-4a79-bdef-f00ffde2d0f2", 
+      "source_ref": "indicator--172b249b-9776-4601-a427-7c55eeb1ab2d"
+    }, 
+    {
+      "created": "2019-10-11T15:17:43.355Z", 
+      "modified": "2019-10-14T17:02:51.884Z", 
+      "target_ref": "malware--08373e44-ab77-4063-bb0a-44da8dd8a0dd", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--81c5e50a-38d8-4d2f-bf81-f21ea38cd1a7", 
+      "source_ref": "indicator--8604bf64-dadf-4f65-a028-cd6129461f04"
+    }, 
+    {
+      "created": "2019-10-11T15:18:05.348Z", 
+      "modified": "2019-10-14T17:02:51.884Z", 
+      "target_ref": "malware--08373e44-ab77-4063-bb0a-44da8dd8a0dd", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--64e92432-4a63-490d-96b5-bb12818cacb3", 
+      "source_ref": "indicator--002e6e49-8099-42aa-a379-03c927c860a1"
+    }, 
+    {
+      "created": "2019-10-11T15:18:23.372Z", 
+      "modified": "2019-10-14T17:02:51.884Z", 
+      "target_ref": "malware--08373e44-ab77-4063-bb0a-44da8dd8a0dd", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--df7fac1b-4de3-44af-b698-589006a6e6d9", 
+      "source_ref": "indicator--25352c7d-4ebf-433d-a17c-d686d0418f01"
+    }, 
+    {
+      "created": "2019-10-11T15:18:38.131Z", 
+      "modified": "2019-10-14T17:02:51.884Z", 
+      "target_ref": "malware--08373e44-ab77-4063-bb0a-44da8dd8a0dd", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--e1448db7-e88c-449d-b78c-06e401c3e9d8", 
+      "source_ref": "indicator--6d2613e9-b352-47c3-b855-fb52de14f8ae"
+    }, 
+    {
+      "created": "2019-10-11T15:18:53.057Z", 
+      "modified": "2019-10-14T17:02:51.884Z", 
+      "target_ref": "malware--08373e44-ab77-4063-bb0a-44da8dd8a0dd", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--920ad797-1053-4d7a-9bce-edb1b240bf83", 
+      "source_ref": "indicator--0f04c253-51bf-4ddb-bab4-0bb502d845e2"
+    }, 
+    {
+      "created": "2019-10-11T15:19:09.744Z", 
+      "modified": "2019-10-14T17:02:51.884Z", 
+      "target_ref": "malware--08373e44-ab77-4063-bb0a-44da8dd8a0dd", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--94788128-3f36-4a44-ab0d-3282068578c4", 
+      "source_ref": "indicator--eff21103-595a-412b-9bb1-a530e504db0e"
+    }, 
+    {
+      "created": "2019-10-11T15:19:23.710Z", 
+      "modified": "2019-10-14T17:02:51.884Z", 
+      "target_ref": "malware--08373e44-ab77-4063-bb0a-44da8dd8a0dd", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--5a2e0c34-982b-4960-bea7-ebd6b75591ec", 
+      "source_ref": "indicator--879abe97-43ae-4f3a-bbe8-95d61424fd00"
+    }, 
+    {
+      "created": "2019-10-11T15:19:36.680Z", 
+      "modified": "2019-10-14T17:02:51.884Z", 
+      "target_ref": "malware--08373e44-ab77-4063-bb0a-44da8dd8a0dd", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--95a340ac-f54e-43c3-9338-bb11ef4964c6", 
+      "source_ref": "indicator--9ae8cff5-a5ff-4bbb-9978-8f0f6f6c8840"
+    }, 
+    {
       "description": "Sample was digitally signed using a expired certificate originally used by HackingTeam", 
       "created": "2019-01-08T16:40:54.390Z", 
       "modified": "2019-01-08T16:40:54.390Z", 
@@ -1330,9 +1721,9 @@
       "source_ref": "indicator--b9873cc9-7167-47c3-bfb9-00598ba92bf6"
     }, 
     {
-      "description": "9a6692690c03ec33c758cb5648be1ed886ff039e6b72f1c43b23fbd9c342ce8c", 
+      "description": "Malicious spear-phishing attachment.", 
       "created": "2019-08-27T14:57:53.968Z", 
-      "modified": "2019-08-27T14:57:53.968Z", 
+      "modified": "2019-10-11T15:22:01.126Z", 
       "target_ref": "attack-pattern--6aac77c4-eaf2-4366-8c13-ce50ab951f38", 
       "relationship_type": "uses", 
       "type": "relationship", 
@@ -1350,9 +1741,9 @@
       "source_ref": "indicator--402c0f12-5f45-4fdc-abcf-56419a9f962d"
     }, 
     {
-      "description": "2c71eb5c781daa43047fa6e3d85d51a061aa1dfa41feb338e0d4139a6dfd6910", 
+      "description": "Malicious spear-phishing attachment.", 
       "created": "2019-08-27T14:57:44.861Z", 
-      "modified": "2019-08-27T14:57:44.861Z", 
+      "modified": "2019-10-11T15:22:04.631Z", 
       "target_ref": "attack-pattern--6aac77c4-eaf2-4366-8c13-ce50ab951f38", 
       "relationship_type": "uses", 
       "type": "relationship", 
@@ -1370,9 +1761,9 @@
       "source_ref": "indicator--ad66cafc-efab-4535-9c08-29a2fff8e709"
     }, 
     {
-      "description": "ae6b45a92384f6e43672e617c53a44225e2944d66c1ffb074694526386074145", 
+      "description": "Malicious spear-phishing attachment.", 
       "created": "2019-08-27T14:57:51.036Z", 
-      "modified": "2019-08-27T14:57:51.036Z", 
+      "modified": "2019-10-11T15:22:09.994Z", 
       "target_ref": "attack-pattern--6aac77c4-eaf2-4366-8c13-ce50ab951f38", 
       "relationship_type": "uses", 
       "type": "relationship", 
@@ -1390,9 +1781,9 @@
       "source_ref": "indicator--d69528e2-6066-4cc4-80c3-d3dd6e8e239c"
     }, 
     {
-      "description": "312dc69dd6ea16842d6e58cd7fd98ba4d28eefeb4fd4c4d198fac4eee76f93c3", 
+      "description": "Malicious spear-phishing attachment.", 
       "created": "2019-08-27T14:57:52.395Z", 
-      "modified": "2019-08-27T14:57:52.395Z", 
+      "modified": "2019-10-11T15:22:14.825Z", 
       "target_ref": "attack-pattern--6aac77c4-eaf2-4366-8c13-ce50ab951f38", 
       "relationship_type": "uses", 
       "type": "relationship", 
@@ -1410,9 +1801,9 @@
       "source_ref": "indicator--d32123d7-f81c-4f7b-a0e4-a9dedb520d8e"
     }, 
     {
-      "description": "2965c1b6ab9d1601752cb4aa26d64a444b0a535b1a190a70d5ce935be3f91699", 
+      "description": "Malicious spear-phishing attachment.", 
       "created": "2019-08-27T14:57:52.549Z", 
-      "modified": "2019-08-27T14:57:52.549Z", 
+      "modified": "2019-10-11T15:22:19.241Z", 
       "target_ref": "attack-pattern--6aac77c4-eaf2-4366-8c13-ce50ab951f38", 
       "relationship_type": "uses", 
       "type": "relationship", 
@@ -1430,9 +1821,9 @@
       "source_ref": "indicator--3bf4c71d-e7c7-46b2-ac69-165dadb4626b"
     }, 
     {
-      "description": "5961861d2b9f50d05055814e6bfd1c6291b30719f8a4d02d4cf80c2e87753fa1", 
+      "description": "Malicious spear-phishing attachment.", 
       "created": "2019-08-27T14:57:52.091Z", 
-      "modified": "2019-08-27T14:57:52.091Z", 
+      "modified": "2019-10-11T15:22:24.239Z", 
       "target_ref": "attack-pattern--6aac77c4-eaf2-4366-8c13-ce50ab951f38", 
       "relationship_type": "uses", 
       "type": "relationship", 
@@ -1450,9 +1841,9 @@
       "source_ref": "indicator--159760d0-141e-4bab-8fd2-672ffdf87a52"
     }, 
     {
-      "description": "d26dae0d8e5c23ec35e8b9cf126cded45b8096fc07560ad1c06585357921eeed", 
+      "description": "Malicious spear-phishing attachment.", 
       "created": "2019-08-27T14:57:45.164Z", 
-      "modified": "2019-08-27T14:57:45.164Z", 
+      "modified": "2019-10-11T15:22:29.153Z", 
       "target_ref": "attack-pattern--6aac77c4-eaf2-4366-8c13-ce50ab951f38", 
       "relationship_type": "uses", 
       "type": "relationship", 
@@ -1470,9 +1861,9 @@
       "source_ref": "indicator--cb1cabb8-f266-4b50-aef0-b265c2f11d8f"
     }, 
     {
-      "description": "fd6a956a7708708cddff78c8505c7db73d7c4e961da8a3c00cc5a51171a92b7b", 
+      "description": "Malicious spear-phishing attachment.", 
       "created": "2019-08-27T14:57:43.916Z", 
-      "modified": "2019-08-27T14:57:43.916Z", 
+      "modified": "2019-10-11T15:22:32.686Z", 
       "target_ref": "attack-pattern--6aac77c4-eaf2-4366-8c13-ce50ab951f38", 
       "relationship_type": "uses", 
       "type": "relationship", 
@@ -1510,9 +1901,9 @@
       "source_ref": "indicator--425ea5b9-250d-4a76-89aa-bcfb7118214c"
     }, 
     {
-      "description": "efa0b414a831cbf724d1c67808b7483dec22a981ae670947793d114048f88057", 
+      "description": "Malicious spear-phishing attachment.", 
       "created": "2019-08-27T14:57:47.942Z", 
-      "modified": "2019-08-27T14:57:47.942Z", 
+      "modified": "2019-10-11T15:22:37.275Z", 
       "target_ref": "attack-pattern--6aac77c4-eaf2-4366-8c13-ce50ab951f38", 
       "relationship_type": "uses", 
       "type": "relationship", 
@@ -1530,9 +1921,9 @@
       "source_ref": "indicator--11af4e87-371c-41a6-82ca-42b6b3f034ba"
     }, 
     {
-      "description": "e88f5bf4be37e0dc90ba1a06a2d47faaeea9047fec07c17c2a76f9f7ab98acf0", 
+      "description": "Malicious spear-phishing attachment.", 
       "created": "2019-08-27T14:57:50.735Z", 
-      "modified": "2019-08-27T14:57:50.735Z", 
+      "modified": "2019-10-11T15:22:41.271Z", 
       "target_ref": "attack-pattern--6aac77c4-eaf2-4366-8c13-ce50ab951f38", 
       "relationship_type": "uses", 
       "type": "relationship", 
@@ -1550,9 +1941,9 @@
       "source_ref": "indicator--24211eb4-9251-474d-abcd-86f990b3c5ac"
     }, 
     {
-      "description": "b20ce00a6864225f05de6407fac80ddb83cd0aec00ada438c1e354cdd0d7d5df", 
+      "description": "Malicious spear-phishing attachment.", 
       "created": "2019-08-27T14:57:47.786Z", 
-      "modified": "2019-08-27T14:57:47.786Z", 
+      "modified": "2019-10-11T15:22:45.894Z", 
       "target_ref": "attack-pattern--6aac77c4-eaf2-4366-8c13-ce50ab951f38", 
       "relationship_type": "uses", 
       "type": "relationship", 
@@ -1600,9 +1991,9 @@
       "source_ref": "indicator--49063013-abcd-47f7-ac40-eb04b5447a6b"
     }, 
     {
-      "description": "e90064884190b14a6621c18d1f9719a37b9e5f98506e28ff0636438e3282098b", 
+      "description": "Malicious spear-phishing attachment.", 
       "created": "2019-08-27T14:57:54.145Z", 
-      "modified": "2019-08-27T14:57:54.145Z", 
+      "modified": "2019-10-11T15:22:50.251Z", 
       "target_ref": "attack-pattern--6aac77c4-eaf2-4366-8c13-ce50ab951f38", 
       "relationship_type": "uses", 
       "type": "relationship", 
@@ -1620,9 +2011,9 @@
       "source_ref": "indicator--6c7a3551-824a-4482-9b8e-37ab216f894a"
     }, 
     {
-      "description": "4cc0adf4baa1e3932d74282affb1a137b30820934ad4f80daceec712ba2bbe14", 
+      "description": "Malicious spear-phishing attachment.", 
       "created": "2019-08-27T14:57:47.625Z", 
-      "modified": "2019-08-27T14:57:47.625Z", 
+      "modified": "2019-10-11T15:22:54.946Z", 
       "target_ref": "attack-pattern--6aac77c4-eaf2-4366-8c13-ce50ab951f38", 
       "relationship_type": "uses", 
       "type": "relationship", 
@@ -1650,9 +2041,9 @@
       "source_ref": "indicator--17a45ac0-e791-43ee-bce0-613499f1b7c5"
     }, 
     {
-      "description": "4521a74337a8b454f9b80c7d9e57b4c9580567f84e513d9a3ce763275c55e691", 
+      "description": "Malicious spear-phishing attachment.", 
       "created": "2019-08-27T14:57:46.561Z", 
-      "modified": "2019-08-27T14:57:46.561Z", 
+      "modified": "2019-10-11T15:23:00.415Z", 
       "target_ref": "attack-pattern--6aac77c4-eaf2-4366-8c13-ce50ab951f38", 
       "relationship_type": "uses", 
       "type": "relationship", 
@@ -1690,9 +2081,9 @@
       "source_ref": "indicator--7546d338-848d-4f06-a79f-035916dcd8d3"
     }, 
     {
-      "description": "c21eaadf9ffc62ca4673e27e06c16447f103c0cf7acd8db6ac5c8bd17805e39d", 
+      "description": "Malicious spear-phishing attachment.", 
       "created": "2019-08-27T14:57:46.711Z", 
-      "modified": "2019-08-27T14:57:46.711Z", 
+      "modified": "2019-10-11T15:23:04.972Z", 
       "target_ref": "attack-pattern--6aac77c4-eaf2-4366-8c13-ce50ab951f38", 
       "relationship_type": "uses", 
       "type": "relationship", 
@@ -1720,9 +2111,9 @@
       "source_ref": "indicator--1371e907-2cfe-41c4-aadc-d8ee867e3dfe"
     }, 
     {
-      "description": "19aa5019f3c00211182b2a80dd9675721dac7cfb31d174436d3b8ec9f97d898b", 
+      "description": "Malicious spear-phishing attachment.", 
       "created": "2019-08-27T14:57:52.698Z", 
-      "modified": "2019-08-27T14:57:52.698Z", 
+      "modified": "2019-10-11T15:23:09.722Z", 
       "target_ref": "attack-pattern--6aac77c4-eaf2-4366-8c13-ce50ab951f38", 
       "relationship_type": "uses", 
       "type": "relationship", 
@@ -1740,54 +2131,14 @@
       "source_ref": "indicator--172b249b-9776-4601-a427-7c55eeb1ab2d"
     }, 
     {
-      "description": "45d804f35266b26bf63e3d616715fc593931e33aa07feba5ad6875609692efa2", 
+      "description": "Malicious spear-phishing attachment.", 
       "created": "2019-08-27T14:57:47.016Z", 
-      "modified": "2019-08-27T14:57:47.016Z", 
+      "modified": "2019-10-11T15:23:15.391Z", 
       "target_ref": "attack-pattern--6aac77c4-eaf2-4366-8c13-ce50ab951f38", 
       "relationship_type": "uses", 
       "type": "relationship", 
       "id": "relationship--c58eea3f-6edd-4340-80ca-cda9570ac1b3", 
       "source_ref": "indicator--172b249b-9776-4601-a427-7c55eeb1ab2d"
-    }, 
-    {
-      "description": "[windows_registry_key:key = 'HKCU\\\\Software\\\\Microsoft\\\\Windows\\\\CurrentVersion\\\\Run\\\\ISeC Croot Readr']", 
-      "created": "2019-09-19T21:54:39.944Z", 
-      "modified": "2019-09-30T16:02:49.295Z", 
-      "target_ref": "attack-pattern--286cc500-4291-45c2-99a1-e760db176402", 
-      "relationship_type": "uses", 
-      "type": "relationship", 
-      "id": "relationship--3657e4f9-f7ae-47b9-9e32-a9254638061f", 
-      "source_ref": "indicator--4a4c0e03-265a-4a12-8f29-ccbe1f054e02"
-    }, 
-    {
-      "description": "[windows_registry_key:key = 'HKCU\\\\Software\\\\Microsoft\\\\Windows\\\\CurrentVersion\\\\Run\\\\ISeC Croot Readr']", 
-      "created": "2019-10-03T13:09:52.469Z", 
-      "modified": "2019-10-08T18:27:43.131Z", 
-      "target_ref": "attack-pattern--6aac77c4-eaf2-4366-8c13-ce50ab951f38", 
-      "relationship_type": "uses", 
-      "type": "relationship", 
-      "id": "relationship--2b85f733-388c-4020-9044-28113c1f0ed4", 
-      "source_ref": "indicator--4a4c0e03-265a-4a12-8f29-ccbe1f054e02"
-    }, 
-    {
-      "description": "Establish persistence using this key", 
-      "created": "2019-05-06T20:45:37.721Z", 
-      "modified": "2019-05-06T20:45:37.721Z", 
-      "target_ref": "attack-pattern--9422fc14-1c43-410d-ab0f-a709b76c72dc", 
-      "relationship_type": "uses", 
-      "type": "relationship", 
-      "id": "relationship--4fe11dcf-fc2c-4244-a901-a933db3fde99", 
-      "source_ref": "indicator--4a4c0e03-265a-4a12-8f29-ccbe1f054e02"
-    }, 
-    {
-      "description": "[windows_registry_key:key = 'HKCU\\\\Software\\\\Microsoft\\\\Windows\\\\CurrentVersion\\\\Run\\\\ISeC Croot Readr']", 
-      "created": "2019-10-07T17:18:26.304Z", 
-      "modified": "2019-10-07T17:45:31.614Z", 
-      "target_ref": "attack-pattern--f24faf46-3b26-4dbb-98f2-63460498e433", 
-      "relationship_type": "uses", 
-      "type": "relationship", 
-      "id": "relationship--47df7697-8890-4caf-90df-b544b90be874", 
-      "source_ref": "indicator--4a4c0e03-265a-4a12-8f29-ccbe1f054e02"
     }, 
     {
       "description": "Sample was digitally signed using a expired certificate originally used by HackingTeam", 
@@ -1800,9 +2151,9 @@
       "source_ref": "indicator--8604bf64-dadf-4f65-a028-cd6129461f04"
     }, 
     {
-      "description": "fadf362a52dcf884f0d41ce3df9eaa9bb30227afda50c0e0657c096baff501f0", 
+      "description": "Malicious spear-phishing attachment.", 
       "created": "2019-08-27T14:57:51.186Z", 
-      "modified": "2019-08-27T14:57:51.186Z", 
+      "modified": "2019-10-11T15:23:20.590Z", 
       "target_ref": "attack-pattern--6aac77c4-eaf2-4366-8c13-ce50ab951f38", 
       "relationship_type": "uses", 
       "type": "relationship", 
@@ -1830,9 +2181,9 @@
       "source_ref": "indicator--002e6e49-8099-42aa-a379-03c927c860a1"
     }, 
     {
-      "description": "e6ecb146f469d243945ad8a5451ba1129c5b190f7d50c64580dbad4b8246f88e", 
+      "description": "Malicious spear-phishing attachment.", 
       "created": "2019-08-27T14:57:45.012Z", 
-      "modified": "2019-08-27T14:57:45.012Z", 
+      "modified": "2019-10-11T15:23:25.363Z", 
       "target_ref": "attack-pattern--6aac77c4-eaf2-4366-8c13-ce50ab951f38", 
       "relationship_type": "uses", 
       "type": "relationship", 
@@ -1850,9 +2201,9 @@
       "source_ref": "indicator--25352c7d-4ebf-433d-a17c-d686d0418f01"
     }, 
     {
-      "description": "c6b8ed157eed54958da73716f8db253ba5124a0e4b649f08de060c4aa6531afc", 
+      "description": "Malicious spear-phishing attachment.", 
       "created": "2019-08-27T14:57:44.255Z", 
-      "modified": "2019-08-27T14:57:44.255Z", 
+      "modified": "2019-10-11T15:23:33.244Z", 
       "target_ref": "attack-pattern--6aac77c4-eaf2-4366-8c13-ce50ab951f38", 
       "relationship_type": "uses", 
       "type": "relationship", 
@@ -1870,9 +2221,9 @@
       "source_ref": "indicator--6d2613e9-b352-47c3-b855-fb52de14f8ae"
     }, 
     {
-      "description": "f251485a62e104dfd8629dc4d2dfd572ebd0ab554602d682a28682876a47e773", 
+      "description": "Malicious spear-phishing attachment.", 
       "created": "2019-08-27T14:57:53.822Z", 
-      "modified": "2019-08-27T14:57:53.822Z", 
+      "modified": "2019-10-11T15:23:40.111Z", 
       "target_ref": "attack-pattern--6aac77c4-eaf2-4366-8c13-ce50ab951f38", 
       "relationship_type": "uses", 
       "type": "relationship", 
@@ -1900,9 +2251,9 @@
       "source_ref": "indicator--0f04c253-51bf-4ddb-bab4-0bb502d845e2"
     }, 
     {
-      "description": "bc2f07066c624663b0a6f71cb965009d4d9b480213de51809cdc454ca55f1a91", 
+      "description": "Malicious spear-phishing attachment.", 
       "created": "2019-08-27T14:57:52.247Z", 
-      "modified": "2019-08-27T14:57:52.247Z", 
+      "modified": "2019-10-11T15:23:45.258Z", 
       "target_ref": "attack-pattern--6aac77c4-eaf2-4366-8c13-ce50ab951f38", 
       "relationship_type": "uses", 
       "type": "relationship", 
@@ -1920,9 +2271,9 @@
       "source_ref": "indicator--eff21103-595a-412b-9bb1-a530e504db0e"
     }, 
     {
-      "description": "316e89d866d5c710530c2103f183d86c31e9a90d55e2ebc2dda94f112f3bdb6d", 
+      "description": "Malicious spear-phishing attachment.", 
       "created": "2019-08-27T14:57:49.764Z", 
-      "modified": "2019-08-27T14:57:49.764Z", 
+      "modified": "2019-10-11T15:23:51.911Z", 
       "target_ref": "attack-pattern--6aac77c4-eaf2-4366-8c13-ce50ab951f38", 
       "relationship_type": "uses", 
       "type": "relationship", 
@@ -1950,9 +2301,9 @@
       "source_ref": "indicator--879abe97-43ae-4f3a-bbe8-95d61424fd00"
     }, 
     {
-      "description": "cb0c8681a407a76f8c0fd2512197aafad8120aa62e5c871c29d1fd2a102bc628", 
+      "description": "Malicious spear-phishing attachment.", 
       "created": "2019-08-27T14:57:48.094Z", 
-      "modified": "2019-08-27T14:57:48.094Z", 
+      "modified": "2019-10-11T15:23:58.294Z", 
       "target_ref": "attack-pattern--6aac77c4-eaf2-4366-8c13-ce50ab951f38", 
       "relationship_type": "uses", 
       "type": "relationship", 
@@ -1970,9 +2321,9 @@
       "source_ref": "indicator--9ae8cff5-a5ff-4bbb-9978-8f0f6f6c8840"
     }, 
     {
-      "description": "6605b27e95f5c3c8012e4a75d1861786fb749b9a712a5f4871adbad81addb59e", 
+      "description": "Malicious spear-phishing attachment.", 
       "created": "2019-08-27T14:57:46.861Z", 
-      "modified": "2019-08-27T14:57:46.861Z", 
+      "modified": "2019-10-11T15:24:03.679Z", 
       "target_ref": "attack-pattern--6aac77c4-eaf2-4366-8c13-ce50ab951f38", 
       "relationship_type": "uses", 
       "type": "relationship", 
@@ -2004,6 +2355,15 @@
       "relationship_type": "uses", 
       "type": "relationship", 
       "id": "relationship--8c5b2a29-c4da-4a72-81df-f2dc8694804f", 
+      "source_ref": "campaign--2df3070e-d159-4987-a35f-e4ad5031fb29"
+    }, 
+    {
+      "created": "2019-01-08T16:40:54.390Z", 
+      "modified": "2019-01-08T16:40:54.390Z", 
+      "target_ref": "attack-pattern--286cc500-4291-45c2-99a1-e760db176402", 
+      "relationship_type": "uses", 
+      "type": "relationship", 
+      "id": "relationship--90a120ee-01d1-4467-b74e-46037e0d292e", 
       "source_ref": "campaign--2df3070e-d159-4987-a35f-e4ad5031fb29"
     }, 
     {
@@ -2053,7 +2413,7 @@
     }, 
     {
       "created": "2019-01-08T16:40:53.572Z", 
-      "modified": "2019-10-08T17:12:06.451Z", 
+      "modified": "2019-10-14T17:02:52.021Z", 
       "target_ref": "intrusion-set--c9fdc68a-f2fe-4243-b6f4-074d7eac5338", 
       "relationship_type": "attributed-to", 
       "type": "relationship", 
@@ -2062,16 +2422,7 @@
     }, 
     {
       "created": "2019-01-08T16:40:53.572Z", 
-      "modified": "2019-01-08T19:50:14.892Z", 
-      "target_ref": "attack-pattern--286cc500-4291-45c2-99a1-e760db176402", 
-      "relationship_type": "uses", 
-      "type": "relationship", 
-      "id": "relationship--286cc500-4291-45c2-99a1-e760db176402", 
-      "source_ref": "campaign--2df3070e-d159-4987-a35f-e4ad5031fb29"
-    }, 
-    {
-      "created": "2019-01-08T16:40:53.572Z", 
-      "modified": "2019-01-08T19:50:14.892Z", 
+      "modified": "2019-10-11T15:21:24.741Z", 
       "target_ref": "attack-pattern--1b84d551-6de8-4b96-9930-d177677c3b1d", 
       "relationship_type": "uses", 
       "type": "relationship", 
@@ -2080,7 +2431,7 @@
     }, 
     {
       "created": "2019-01-08T16:40:53.572Z", 
-      "modified": "2019-01-08T19:50:14.892Z", 
+      "modified": "2019-10-11T15:21:24.741Z", 
       "target_ref": "attack-pattern--6aac77c4-eaf2-4366-8c13-ce50ab951f38", 
       "relationship_type": "uses", 
       "type": "relationship", 
@@ -2089,7 +2440,7 @@
     }, 
     {
       "created": "2019-01-08T16:40:53.572Z", 
-      "modified": "2019-01-08T19:50:14.892Z", 
+      "modified": "2019-10-11T15:21:24.741Z", 
       "target_ref": "attack-pattern--355be19c-ffc9-46d5-8d50-d6a036c675b6", 
       "relationship_type": "uses", 
       "type": "relationship", 
@@ -2098,25 +2449,7 @@
     }, 
     {
       "created": "2019-01-08T16:40:53.572Z", 
-      "modified": "2019-01-08T19:50:14.892Z", 
-      "target_ref": "attack-pattern--9422fc14-1c43-410d-ab0f-a709b76c72dc", 
-      "relationship_type": "uses", 
-      "type": "relationship", 
-      "id": "relationship--9422fc14-1c43-410d-ab0f-a709b76c72dc", 
-      "source_ref": "campaign--2df3070e-d159-4987-a35f-e4ad5031fb29"
-    }, 
-    {
-      "created": "2019-01-08T16:40:53.572Z", 
-      "modified": "2019-01-08T19:50:14.892Z", 
-      "target_ref": "attack-pattern--f24faf46-3b26-4dbb-98f2-63460498e433", 
-      "relationship_type": "uses", 
-      "type": "relationship", 
-      "id": "relationship--f24faf46-3b26-4dbb-98f2-63460498e433", 
-      "source_ref": "campaign--2df3070e-d159-4987-a35f-e4ad5031fb29"
-    }, 
-    {
-      "created": "2019-01-08T16:40:53.572Z", 
-      "modified": "2019-01-08T19:50:14.892Z", 
+      "modified": "2019-10-11T15:21:24.741Z", 
       "target_ref": "intrusion-set--c9fdc68a-f2fe-4243-b6f4-074d7eac5338", 
       "relationship_type": "attributed-to", 
       "type": "relationship", 
@@ -2129,7 +2462,7 @@
       "labels": [
         "campaign"
       ], 
-      "modified": "2019-01-08T19:50:14.892Z", 
+      "modified": "2019-10-11T15:21:24.741Z", 
       "object_refs": [
         "campaign--2df3070e-d159-4987-a35f-e4ad5031fb29", 
         "intrusion-set--c9fdc68a-f2fe-4243-b6f4-074d7eac5338", 
@@ -2160,7 +2493,6 @@
         "indicator--7549d8ee-5977-47be-b1cc-0d8a7b6c9809", 
         "indicator--1371e907-2cfe-41c4-aadc-d8ee867e3dfe", 
         "indicator--172b249b-9776-4601-a427-7c55eeb1ab2d", 
-        "indicator--4a4c0e03-265a-4a12-8f29-ccbe1f054e02", 
         "indicator--8604bf64-dadf-4f65-a028-cd6129461f04", 
         "indicator--7e780dcd-a1de-4c28-8e25-25f3b0cc7cbf", 
         "indicator--002e6e49-8099-42aa-a379-03c927c860a1", 
@@ -2183,8 +2515,31 @@
         "attack-pattern--1b84d551-6de8-4b96-9930-d177677c3b1d", 
         "attack-pattern--6aac77c4-eaf2-4366-8c13-ce50ab951f38", 
         "attack-pattern--355be19c-ffc9-46d5-8d50-d6a036c675b6", 
-        "attack-pattern--9422fc14-1c43-410d-ab0f-a709b76c72dc", 
-        "attack-pattern--f24faf46-3b26-4dbb-98f2-63460498e433", 
+        "malware--08373e44-ab77-4063-bb0a-44da8dd8a0dd", 
+        "malware--08373e44-ab77-4063-bb0a-44da8dd8a0dd", 
+        "malware--08373e44-ab77-4063-bb0a-44da8dd8a0dd", 
+        "malware--08373e44-ab77-4063-bb0a-44da8dd8a0dd", 
+        "malware--08373e44-ab77-4063-bb0a-44da8dd8a0dd", 
+        "malware--08373e44-ab77-4063-bb0a-44da8dd8a0dd", 
+        "malware--08373e44-ab77-4063-bb0a-44da8dd8a0dd", 
+        "malware--08373e44-ab77-4063-bb0a-44da8dd8a0dd", 
+        "malware--08373e44-ab77-4063-bb0a-44da8dd8a0dd", 
+        "malware--08373e44-ab77-4063-bb0a-44da8dd8a0dd", 
+        "malware--08373e44-ab77-4063-bb0a-44da8dd8a0dd", 
+        "malware--08373e44-ab77-4063-bb0a-44da8dd8a0dd", 
+        "malware--08373e44-ab77-4063-bb0a-44da8dd8a0dd", 
+        "malware--08373e44-ab77-4063-bb0a-44da8dd8a0dd", 
+        "malware--08373e44-ab77-4063-bb0a-44da8dd8a0dd", 
+        "malware--08373e44-ab77-4063-bb0a-44da8dd8a0dd", 
+        "malware--08373e44-ab77-4063-bb0a-44da8dd8a0dd", 
+        "malware--08373e44-ab77-4063-bb0a-44da8dd8a0dd", 
+        "malware--08373e44-ab77-4063-bb0a-44da8dd8a0dd", 
+        "malware--08373e44-ab77-4063-bb0a-44da8dd8a0dd", 
+        "malware--08373e44-ab77-4063-bb0a-44da8dd8a0dd", 
+        "malware--08373e44-ab77-4063-bb0a-44da8dd8a0dd", 
+        "malware--08373e44-ab77-4063-bb0a-44da8dd8a0dd", 
+        "malware--08373e44-ab77-4063-bb0a-44da8dd8a0dd", 
+        "malware--08373e44-ab77-4063-bb0a-44da8dd8a0dd", 
         "relationship--9ddf0420-263d-4bda-8b9c-b6ac9eb7a4fe", 
         "relationship--3edcbdad-bf44-4d45-9e7b-cc4f6f966adf", 
         "relationship--cb9d346b-b73b-41a2-9f7a-d10eaeac590a", 
@@ -2211,7 +2566,6 @@
         "relationship--8e89a6bb-b45f-4814-8c8e-cefc8bff2a52", 
         "relationship--4ddfa23d-04c2-4e00-ad97-260f1af70871", 
         "relationship--7788ec06-b0d6-4378-9a60-2af2c2e05e60", 
-        "relationship--4bdf11de-6545-4bf3-992b-d2f04ba85630", 
         "relationship--fdc12437-bbc4-43f4-9f99-64c226bf36e2", 
         "relationship--962c8c90-4f5c-4d23-be53-83c8fe90c5cf", 
         "relationship--ecf63c66-23a1-4fa2-b054-75f4b5a67723", 
@@ -2223,6 +2577,31 @@
         "relationship--927bf426-550d-4fdf-8e2c-b348e696b3e0", 
         "relationship--d3d252e2-8d6e-459b-a70c-c37704de2900", 
         "relationship--220dd521-245d-4dfb-846c-802e2349f64b", 
+        "relationship--1d727566-b591-4139-9549-7e4e18b6347d", 
+        "relationship--f6c32747-8ecd-471b-b5ef-c8b82ab4aa31", 
+        "relationship--ed13a37d-b8aa-46ff-9dda-41e244b24277", 
+        "relationship--1ccc37ed-6076-452e-be98-1588e20d5946", 
+        "relationship--dc615996-feeb-4aea-bdba-c30b6d0c90d7", 
+        "relationship--5f045acc-82e0-4c7b-9fb8-f6af9f48e8bf", 
+        "relationship--70dddc73-c414-4f51-8d40-cea0e6b2e6fd", 
+        "relationship--2fda0916-94b1-4f27-be09-572bf0c8089a", 
+        "relationship--d35167d3-a752-475d-8562-43aeb8ad2358", 
+        "relationship--39997b92-dc73-4f48-9ca7-b6aba0dd186a", 
+        "relationship--130f6ecb-a5f0-4bb3-ba00-3e07f6218555", 
+        "relationship--278f2388-811e-4d12-ad01-702fb7e0dbd7", 
+        "relationship--b889cef2-2741-4744-9cb8-4f363abeb8e3", 
+        "relationship--47c60d46-20b3-4031-9e4e-422201a33c26", 
+        "relationship--67b9fab9-b6cd-4d26-a2d9-dcae135ce5ae", 
+        "relationship--4652275a-1469-4bf4-843d-4baecba4beb9", 
+        "relationship--1dcab904-acb7-4a79-bdef-f00ffde2d0f2", 
+        "relationship--81c5e50a-38d8-4d2f-bf81-f21ea38cd1a7", 
+        "relationship--64e92432-4a63-490d-96b5-bb12818cacb3", 
+        "relationship--df7fac1b-4de3-44af-b698-589006a6e6d9", 
+        "relationship--e1448db7-e88c-449d-b78c-06e401c3e9d8", 
+        "relationship--920ad797-1053-4d7a-9bce-edb1b240bf83", 
+        "relationship--94788128-3f36-4a44-ab0d-3282068578c4", 
+        "relationship--5a2e0c34-982b-4960-bea7-ebd6b75591ec", 
+        "relationship--95a340ac-f54e-43c3-9338-bb11ef4964c6", 
         "relationship--5998148a-6b4e-41b0-a06a-34c6071b198e", 
         "relationship--0dcd0f51-da49-4d86-8443-b7b59deb729b", 
         "relationship--02cb6019-a513-4d90-8a1b-02d42c91b5c1", 
@@ -2266,10 +2645,6 @@
         "relationship--f60f98f2-9fea-4552-8976-e8e25c0b4257", 
         "relationship--9ffdc1c8-9324-43b0-a9cc-75b72a37f965", 
         "relationship--c58eea3f-6edd-4340-80ca-cda9570ac1b3", 
-        "relationship--3657e4f9-f7ae-47b9-9e32-a9254638061f", 
-        "relationship--2b85f733-388c-4020-9044-28113c1f0ed4", 
-        "relationship--4fe11dcf-fc2c-4244-a901-a933db3fde99", 
-        "relationship--47df7697-8890-4caf-90df-b544b90be874", 
         "relationship--433365e2-ca34-4387-aa3b-fb0689c16ad0", 
         "relationship--9060ed9f-3c6b-4081-9948-0ee3155414d2", 
         "relationship--4f1802cf-de72-428f-8d36-fe8982c1f434", 
@@ -2292,33 +2667,31 @@
         "relationship--c3b3853f-368a-4f26-8778-3c6ba8f7f41f", 
         "relationship--1486be53-1d3a-44f9-97b6-4b72d2be59e7", 
         "relationship--8c5b2a29-c4da-4a72-81df-f2dc8694804f", 
+        "relationship--90a120ee-01d1-4467-b74e-46037e0d292e", 
         "relationship--9e31d11c-0dac-432b-8927-2e5ccf0bdde1", 
         "relationship--2e6a6501-fa1c-4703-8b86-5b33fb0ab15e", 
         "relationship--ff04508b-2455-40d1-85ff-57ae522f67ef", 
         "relationship--a55f54be-4d64-4a0b-9209-64851eee0965", 
         "relationship--293c5cfe-8200-452b-b4a0-d49fdf98cd76", 
         "relationship--9d8ecf25-ca54-4516-b68d-3d165e6f816b", 
-        "relationship--286cc500-4291-45c2-99a1-e760db176402", 
         "relationship--1b84d551-6de8-4b96-9930-d177677c3b1d", 
         "relationship--6aac77c4-eaf2-4366-8c13-ce50ab951f38", 
         "relationship--355be19c-ffc9-46d5-8d50-d6a036c675b6", 
-        "relationship--9422fc14-1c43-410d-ab0f-a709b76c72dc", 
-        "relationship--f24faf46-3b26-4dbb-98f2-63460498e433", 
         "relationship--2df3070e-d159-4987-a35f-e4ad5031fb29"
       ], 
-      "published": "2019-01-08T19:50:14.892Z", 
+      "published": "2019-10-11T15:21:24.741Z", 
       "type": "report", 
       "id": "report--2df3070e-d159-4987-a35f-e4ad5031fb29"
     }, 
     {
       "name": "September - November 2016", 
       "created": "2019-01-08T16:40:53.572Z", 
-      "modified": "2019-01-08T19:50:14.892Z", 
+      "modified": "2019-10-11T15:21:24.741Z", 
       "first_seen": "2016-09-01T00:00:00.000Z", 
       "last_seen": "2016-11-01T00:00:00.000Z", 
       "type": "campaign", 
       "id": "campaign--2df3070e-d159-4987-a35f-e4ad5031fb29", 
-      "description": "In 2016, from September through November, menuPass\u00a0 targeted Japanese academics working in several areas of science, along with Japanese pharmaceutical and a US-based subsidiary of a Japanese manufacturing organizations. In addition to using PlugX and Poison Ivy (PIVY), both known to be used by the group, they also used a new Trojan called \u201cCheChes\u201d by the Japan Computer Emergency Response Team Coordination Center (JPCERT).\u00a0 In contrast to PlugX and PIVY, which are used by multiple campaigns, ChChes appears to be unique to this group.\n\nThe ChChes sample were digitally signed using a certificate originally used by HackingTeam and later part of the data leaked when they were themselves compromised. The C2 infrastructure in these attacks is largely actor registered, with only a few Dynamic Domain Name System (DDNS) domains. menuPass typically makes use of a mix of DDNS and actor-registered domains in their attack campaigns\n\nThe attackers spoofed several sender email addresses to send spear phishing emails, most notably public addresses associated with the Sasakawa Peace Foundation and The White House. All the spear phishes were socially engineered with subjects appropriate for the target and the apparent sender.\n\nhttps://researchcenter.paloaltonetworks.com/2017/02/unit42-menupass-returns-new-malware-new-attacks-japanese-academics-organizations/"
+      "description": "In 2016, from September through November, menuPass targeted Japanese academics working in several areas of science, along with Japanese pharmaceutical and a US-based subsidiary of a Japanese manufacturing organization. \n\nThe attackers spoofed several sender email addresses to send spear-phishing emails, most notably public addresses associated with the Sasakawa Peace Foundation and The White House. All the spear phishes were socially engineered with subjects appropriate for the target and the apparent sender.\n"
     }
   ], 
   "type": "bundle", 

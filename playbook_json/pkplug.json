@@ -7,7 +7,7 @@
       "labels": [
         "intrusion-set"
       ], 
-      "modified": "2019-10-08T17:07:00.465Z", 
+      "modified": "2019-10-14T17:02:48.339Z", 
       "object_refs": [
         "intrusion-set--b09c59a0-699d-402f-b7a6-59c44543e3c1", 
         "report--59651ccd-df7c-48f1-b900-5716498fa0b9", 
@@ -18,7 +18,7 @@
         "report--95878274-4757-4e0a-a8a9-ac57da86dd5e", 
         "report--e868cde0-549d-46f3-b705-c8ab6a8494a8"
       ], 
-      "published": "2019-10-08T17:07:00.465Z", 
+      "published": "2019-10-14T17:02:48.339Z", 
       "type": "report", 
       "id": "report--85df8a85-dd04-4a63-8a9a-1e6323f52bcd", 
       "description": "Unit 42 created the moniker PKPLUG to reference a threat actor group, or groups, we have been tracking for the past few years. The name comes from the use of PlugX malware, which we noted the adversary using in their early campaigns, and from the use of ZIP archive files used to deliver the malware; the ZIP file format contains the ASCII magic-bytes \u201cPK\u201d in its header.\n\nOver the years Unit 42 has discovered additional, mostly custom, malware families being used by PKPLUG, including an Android app and a Windows backdoor described briefly in this report. Other \u201cusual suspect\u201d malware have also been seen in relation to PKPLUG activity, including Poison Ivy, Zupdax and 9002.\n\nBased on targeting, content in some of the malware, and ties to infrastructure previously documented publically as being linked to Chinese nation-state adversaries, Unit 42 believes with high confidence that PKPLUG has similar origins.\n\nBased on related research (documented below) PKPLUG seems to have been active for several years.\n\nhttps://web.archive.org/web/20161017235500/https://www.bluecoat.com/security-blog/2013-11-25/plugx-used-against-mongolian-targets\nhttps://web.archive.org/web/20160618095613/https://www.arbornetworks.com/blog/asert/recent-poison-iv/\nhttps://unit42.paloaltonetworks.com/unit-42-attack-delivers-9002-trojan-through-google-drive/\nhttp://blog.0day.jp/p/english-report-of-fhappi-freehosting.html\nhttps://unit42.paloaltonetworks.com/unit42-henbox-chickens-come-home-roost/\nhttps://unit42.paloaltonetworks.com/unit42-henbox-inside-coop/\nhttps://unit42.paloaltonetworks.com/farseer-previously-unknown-malware-family-bolsters-the-chinese-armoury/"
@@ -1052,6 +1052,17 @@
       "id": "identity--914cb0e6-25f5-4ffd-ad92-9b6b5e260272"
     }, 
     {
+      "name": "Henbox", 
+      "created": "2019-10-11T19:26:29.242Z", 
+      "labels": [
+        "spyware"
+      ], 
+      "modified": "2019-10-14T17:02:47.296Z", 
+      "type": "malware", 
+      "id": "malware--aaca7217-46ad-4e77-8aa1-bc22a158c5ab", 
+      "description": "APK malware used by espionage driven threat actors. The malware frequently masquerades as a \"backup service\" but really exfiltrates data to a remote server. "
+    }, 
+    {
       "valid_from": "2019-07-04T14:29:11.205Z", 
       "name": "60.191.57.35", 
       "created": "2019-07-04T14:29:11.205Z", 
@@ -1136,6 +1147,15 @@
       "source_ref": "indicator--bacbc6e3-7b0a-4cf6-b44f-385f79d3dc75"
     }, 
     {
+      "created": "2019-10-11T19:28:39.906Z", 
+      "modified": "2019-10-14T17:02:47.299Z", 
+      "target_ref": "malware--aaca7217-46ad-4e77-8aa1-bc22a158c5ab", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--8a545f24-eb9c-4e77-ab4b-29f6e6bee7f2", 
+      "source_ref": "indicator--b8f932fd-0012-4e8d-912e-e82379c32407"
+    }, 
+    {
       "description": "C2 IP address", 
       "created": "2019-07-11T13:27:46.734Z", 
       "modified": "2019-07-11T14:18:45.828Z", 
@@ -1146,9 +1166,9 @@
       "source_ref": "indicator--fa04a251-6a3f-44c7-b21b-0324e2419103"
     }, 
     {
-      "description": "0589bed1e3b3d6234c30061be3be1cc6685d786ab3a892a8d4dae8e2d7ed92f7", 
+      "description": "Custom mobile payload.", 
       "created": "2019-07-30T15:13:15.291Z", 
-      "modified": "2019-08-02T19:14:54.309Z", 
+      "modified": "2019-10-11T19:29:00.849Z", 
       "target_ref": "attack-pattern--fddd81e9-dd3d-477e-9773-4fb8ae227234", 
       "relationship_type": "uses", 
       "type": "relationship", 
@@ -1403,7 +1423,7 @@
     }, 
     {
       "created": "2019-02-14T13:17:23.054Z", 
-      "modified": "2019-10-08T17:07:00.465Z", 
+      "modified": "2019-10-14T17:02:48.339Z", 
       "target_ref": "intrusion-set--b09c59a0-699d-402f-b7a6-59c44543e3c1", 
       "relationship_type": "attributed-to", 
       "type": "relationship", 
@@ -1497,10 +1517,12 @@
         "attack-pattern--53263a67-075e-48fa-974b-91c5b5445db7", 
         "attack-pattern--0d95940f-9583-4e0f-824c-a42c1be47fad", 
         "attack-pattern--c848fcf7-6b62-4bde-8216-b6c157d48da0", 
+        "malware--aaca7217-46ad-4e77-8aa1-bc22a158c5ab", 
         "relationship--c390ad38-767c-4d7b-ad51-c0f2f00af7d4", 
         "relationship--160e1cd3-cf66-4892-8237-d81c980bc812", 
         "relationship--66b9e79f-3250-46b9-a0fc-bba460cbc478", 
         "relationship--80bbee5c-e3e9-42ed-95dd-e4561a638817", 
+        "relationship--8a545f24-eb9c-4e77-ab4b-29f6e6bee7f2", 
         "relationship--fd74d303-7611-4c57-bb47-b8c3fff5711d", 
         "relationship--34fa35d1-79af-47b9-b2e1-4b71393beb36", 
         "relationship--ae6dab13-64ec-44c2-ac88-ff707b43da78", 
@@ -1879,6 +1901,424 @@
       ], 
       "type": "identity", 
       "id": "identity--e859b7a2-e534-4c80-a769-84fed822a5c2"
+    }, 
+    {
+      "name": "Farseer", 
+      "created": "2019-10-11T18:48:58.621Z", 
+      "labels": [
+        "remote-access-trojan"
+      ], 
+      "modified": "2019-10-14T17:02:47.296Z", 
+      "type": "malware", 
+      "id": "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+      "description": " \nFarseer is a Windows malware family used in targeted attacks against victims in Southeast Asia.\nFarseer employs DLL sideloading to load its payload dropping legitimate signed binaries alongside a DLL which they will load. Farseer is a fully featured RAT which allows an attacker to execute arbitrary commands."
+    }, 
+    {
+      "name": "Farseer", 
+      "created": "2019-10-11T18:48:58.621Z", 
+      "labels": [
+        "remote-access-trojan"
+      ], 
+      "modified": "2019-10-14T17:02:47.296Z", 
+      "type": "malware", 
+      "id": "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+      "description": " \nFarseer is a Windows malware family used in targeted attacks against victims in Southeast Asia.\nFarseer employs DLL sideloading to load its payload dropping legitimate signed binaries alongside a DLL which they will load. Farseer is a fully featured RAT which allows an attacker to execute arbitrary commands."
+    }, 
+    {
+      "name": "Farseer", 
+      "created": "2019-10-11T18:48:58.621Z", 
+      "labels": [
+        "remote-access-trojan"
+      ], 
+      "modified": "2019-10-14T17:02:47.296Z", 
+      "type": "malware", 
+      "id": "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+      "description": " \nFarseer is a Windows malware family used in targeted attacks against victims in Southeast Asia.\nFarseer employs DLL sideloading to load its payload dropping legitimate signed binaries alongside a DLL which they will load. Farseer is a fully featured RAT which allows an attacker to execute arbitrary commands."
+    }, 
+    {
+      "name": "Farseer", 
+      "created": "2019-10-11T18:48:58.621Z", 
+      "labels": [
+        "remote-access-trojan"
+      ], 
+      "modified": "2019-10-14T17:02:47.296Z", 
+      "type": "malware", 
+      "id": "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+      "description": " \nFarseer is a Windows malware family used in targeted attacks against victims in Southeast Asia.\nFarseer employs DLL sideloading to load its payload dropping legitimate signed binaries alongside a DLL which they will load. Farseer is a fully featured RAT which allows an attacker to execute arbitrary commands."
+    }, 
+    {
+      "name": "Farseer", 
+      "created": "2019-10-11T18:48:58.621Z", 
+      "labels": [
+        "remote-access-trojan"
+      ], 
+      "modified": "2019-10-14T17:02:47.296Z", 
+      "type": "malware", 
+      "id": "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+      "description": " \nFarseer is a Windows malware family used in targeted attacks against victims in Southeast Asia.\nFarseer employs DLL sideloading to load its payload dropping legitimate signed binaries alongside a DLL which they will load. Farseer is a fully featured RAT which allows an attacker to execute arbitrary commands."
+    }, 
+    {
+      "name": "Farseer", 
+      "created": "2019-10-11T18:48:58.621Z", 
+      "labels": [
+        "remote-access-trojan"
+      ], 
+      "modified": "2019-10-14T17:02:47.296Z", 
+      "type": "malware", 
+      "id": "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+      "description": " \nFarseer is a Windows malware family used in targeted attacks against victims in Southeast Asia.\nFarseer employs DLL sideloading to load its payload dropping legitimate signed binaries alongside a DLL which they will load. Farseer is a fully featured RAT which allows an attacker to execute arbitrary commands."
+    }, 
+    {
+      "name": "Farseer", 
+      "created": "2019-10-11T18:48:58.621Z", 
+      "labels": [
+        "remote-access-trojan"
+      ], 
+      "modified": "2019-10-14T17:02:47.296Z", 
+      "type": "malware", 
+      "id": "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+      "description": " \nFarseer is a Windows malware family used in targeted attacks against victims in Southeast Asia.\nFarseer employs DLL sideloading to load its payload dropping legitimate signed binaries alongside a DLL which they will load. Farseer is a fully featured RAT which allows an attacker to execute arbitrary commands."
+    }, 
+    {
+      "name": "Farseer", 
+      "created": "2019-10-11T18:48:58.621Z", 
+      "labels": [
+        "remote-access-trojan"
+      ], 
+      "modified": "2019-10-14T17:02:47.296Z", 
+      "type": "malware", 
+      "id": "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+      "description": " \nFarseer is a Windows malware family used in targeted attacks against victims in Southeast Asia.\nFarseer employs DLL sideloading to load its payload dropping legitimate signed binaries alongside a DLL which they will load. Farseer is a fully featured RAT which allows an attacker to execute arbitrary commands."
+    }, 
+    {
+      "name": "Farseer", 
+      "created": "2019-10-11T18:48:58.621Z", 
+      "labels": [
+        "remote-access-trojan"
+      ], 
+      "modified": "2019-10-14T17:02:47.296Z", 
+      "type": "malware", 
+      "id": "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+      "description": " \nFarseer is a Windows malware family used in targeted attacks against victims in Southeast Asia.\nFarseer employs DLL sideloading to load its payload dropping legitimate signed binaries alongside a DLL which they will load. Farseer is a fully featured RAT which allows an attacker to execute arbitrary commands."
+    }, 
+    {
+      "name": "Farseer", 
+      "created": "2019-10-11T18:48:58.621Z", 
+      "labels": [
+        "remote-access-trojan"
+      ], 
+      "modified": "2019-10-14T17:02:47.296Z", 
+      "type": "malware", 
+      "id": "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+      "description": " \nFarseer is a Windows malware family used in targeted attacks against victims in Southeast Asia.\nFarseer employs DLL sideloading to load its payload dropping legitimate signed binaries alongside a DLL which they will load. Farseer is a fully featured RAT which allows an attacker to execute arbitrary commands."
+    }, 
+    {
+      "name": "Farseer", 
+      "created": "2019-10-11T18:48:58.621Z", 
+      "labels": [
+        "remote-access-trojan"
+      ], 
+      "modified": "2019-10-14T17:02:47.296Z", 
+      "type": "malware", 
+      "id": "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+      "description": " \nFarseer is a Windows malware family used in targeted attacks against victims in Southeast Asia.\nFarseer employs DLL sideloading to load its payload dropping legitimate signed binaries alongside a DLL which they will load. Farseer is a fully featured RAT which allows an attacker to execute arbitrary commands."
+    }, 
+    {
+      "name": "Farseer", 
+      "created": "2019-10-11T18:48:58.621Z", 
+      "labels": [
+        "remote-access-trojan"
+      ], 
+      "modified": "2019-10-14T17:02:47.296Z", 
+      "type": "malware", 
+      "id": "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+      "description": " \nFarseer is a Windows malware family used in targeted attacks against victims in Southeast Asia.\nFarseer employs DLL sideloading to load its payload dropping legitimate signed binaries alongside a DLL which they will load. Farseer is a fully featured RAT which allows an attacker to execute arbitrary commands."
+    }, 
+    {
+      "name": "Farseer", 
+      "created": "2019-10-11T18:48:58.621Z", 
+      "labels": [
+        "remote-access-trojan"
+      ], 
+      "modified": "2019-10-14T17:02:47.296Z", 
+      "type": "malware", 
+      "id": "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+      "description": " \nFarseer is a Windows malware family used in targeted attacks against victims in Southeast Asia.\nFarseer employs DLL sideloading to load its payload dropping legitimate signed binaries alongside a DLL which they will load. Farseer is a fully featured RAT which allows an attacker to execute arbitrary commands."
+    }, 
+    {
+      "name": "Farseer", 
+      "created": "2019-10-11T18:48:58.621Z", 
+      "labels": [
+        "remote-access-trojan"
+      ], 
+      "modified": "2019-10-14T17:02:47.296Z", 
+      "type": "malware", 
+      "id": "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+      "description": " \nFarseer is a Windows malware family used in targeted attacks against victims in Southeast Asia.\nFarseer employs DLL sideloading to load its payload dropping legitimate signed binaries alongside a DLL which they will load. Farseer is a fully featured RAT which allows an attacker to execute arbitrary commands."
+    }, 
+    {
+      "name": "Farseer", 
+      "created": "2019-10-11T18:48:58.621Z", 
+      "labels": [
+        "remote-access-trojan"
+      ], 
+      "modified": "2019-10-14T17:02:47.296Z", 
+      "type": "malware", 
+      "id": "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+      "description": " \nFarseer is a Windows malware family used in targeted attacks against victims in Southeast Asia.\nFarseer employs DLL sideloading to load its payload dropping legitimate signed binaries alongside a DLL which they will load. Farseer is a fully featured RAT which allows an attacker to execute arbitrary commands."
+    }, 
+    {
+      "name": "Farseer", 
+      "created": "2019-10-11T18:48:58.621Z", 
+      "labels": [
+        "remote-access-trojan"
+      ], 
+      "modified": "2019-10-14T17:02:47.296Z", 
+      "type": "malware", 
+      "id": "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+      "description": " \nFarseer is a Windows malware family used in targeted attacks against victims in Southeast Asia.\nFarseer employs DLL sideloading to load its payload dropping legitimate signed binaries alongside a DLL which they will load. Farseer is a fully featured RAT which allows an attacker to execute arbitrary commands."
+    }, 
+    {
+      "name": "Farseer", 
+      "created": "2019-10-11T18:48:58.621Z", 
+      "labels": [
+        "remote-access-trojan"
+      ], 
+      "modified": "2019-10-14T17:02:47.296Z", 
+      "type": "malware", 
+      "id": "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+      "description": " \nFarseer is a Windows malware family used in targeted attacks against victims in Southeast Asia.\nFarseer employs DLL sideloading to load its payload dropping legitimate signed binaries alongside a DLL which they will load. Farseer is a fully featured RAT which allows an attacker to execute arbitrary commands."
+    }, 
+    {
+      "name": "Farseer", 
+      "created": "2019-10-11T18:48:58.621Z", 
+      "labels": [
+        "remote-access-trojan"
+      ], 
+      "modified": "2019-10-14T17:02:47.296Z", 
+      "type": "malware", 
+      "id": "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+      "description": " \nFarseer is a Windows malware family used in targeted attacks against victims in Southeast Asia.\nFarseer employs DLL sideloading to load its payload dropping legitimate signed binaries alongside a DLL which they will load. Farseer is a fully featured RAT which allows an attacker to execute arbitrary commands."
+    }, 
+    {
+      "name": "Farseer", 
+      "created": "2019-10-11T18:48:58.621Z", 
+      "labels": [
+        "remote-access-trojan"
+      ], 
+      "modified": "2019-10-14T17:02:47.296Z", 
+      "type": "malware", 
+      "id": "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+      "description": " \nFarseer is a Windows malware family used in targeted attacks against victims in Southeast Asia.\nFarseer employs DLL sideloading to load its payload dropping legitimate signed binaries alongside a DLL which they will load. Farseer is a fully featured RAT which allows an attacker to execute arbitrary commands."
+    }, 
+    {
+      "name": "Farseer", 
+      "created": "2019-10-11T18:48:58.621Z", 
+      "labels": [
+        "remote-access-trojan"
+      ], 
+      "modified": "2019-10-14T17:02:47.296Z", 
+      "type": "malware", 
+      "id": "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+      "description": " \nFarseer is a Windows malware family used in targeted attacks against victims in Southeast Asia.\nFarseer employs DLL sideloading to load its payload dropping legitimate signed binaries alongside a DLL which they will load. Farseer is a fully featured RAT which allows an attacker to execute arbitrary commands."
+    }, 
+    {
+      "name": "Farseer", 
+      "created": "2019-10-11T18:48:58.621Z", 
+      "labels": [
+        "remote-access-trojan"
+      ], 
+      "modified": "2019-10-14T17:02:47.296Z", 
+      "type": "malware", 
+      "id": "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+      "description": " \nFarseer is a Windows malware family used in targeted attacks against victims in Southeast Asia.\nFarseer employs DLL sideloading to load its payload dropping legitimate signed binaries alongside a DLL which they will load. Farseer is a fully featured RAT which allows an attacker to execute arbitrary commands."
+    }, 
+    {
+      "name": "Farseer", 
+      "created": "2019-10-11T18:48:58.621Z", 
+      "labels": [
+        "remote-access-trojan"
+      ], 
+      "modified": "2019-10-14T17:02:47.296Z", 
+      "type": "malware", 
+      "id": "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+      "description": " \nFarseer is a Windows malware family used in targeted attacks against victims in Southeast Asia.\nFarseer employs DLL sideloading to load its payload dropping legitimate signed binaries alongside a DLL which they will load. Farseer is a fully featured RAT which allows an attacker to execute arbitrary commands."
+    }, 
+    {
+      "name": "Farseer", 
+      "created": "2019-10-11T18:48:58.621Z", 
+      "labels": [
+        "remote-access-trojan"
+      ], 
+      "modified": "2019-10-14T17:02:47.296Z", 
+      "type": "malware", 
+      "id": "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+      "description": " \nFarseer is a Windows malware family used in targeted attacks against victims in Southeast Asia.\nFarseer employs DLL sideloading to load its payload dropping legitimate signed binaries alongside a DLL which they will load. Farseer is a fully featured RAT which allows an attacker to execute arbitrary commands."
+    }, 
+    {
+      "name": "Farseer", 
+      "created": "2019-10-11T18:48:58.621Z", 
+      "labels": [
+        "remote-access-trojan"
+      ], 
+      "modified": "2019-10-14T17:02:47.296Z", 
+      "type": "malware", 
+      "id": "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+      "description": " \nFarseer is a Windows malware family used in targeted attacks against victims in Southeast Asia.\nFarseer employs DLL sideloading to load its payload dropping legitimate signed binaries alongside a DLL which they will load. Farseer is a fully featured RAT which allows an attacker to execute arbitrary commands."
+    }, 
+    {
+      "name": "Farseer", 
+      "created": "2019-10-11T18:48:58.621Z", 
+      "labels": [
+        "remote-access-trojan"
+      ], 
+      "modified": "2019-10-14T17:02:47.296Z", 
+      "type": "malware", 
+      "id": "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+      "description": " \nFarseer is a Windows malware family used in targeted attacks against victims in Southeast Asia.\nFarseer employs DLL sideloading to load its payload dropping legitimate signed binaries alongside a DLL which they will load. Farseer is a fully featured RAT which allows an attacker to execute arbitrary commands."
+    }, 
+    {
+      "name": "Farseer", 
+      "created": "2019-10-11T18:48:58.621Z", 
+      "labels": [
+        "remote-access-trojan"
+      ], 
+      "modified": "2019-10-14T17:02:47.296Z", 
+      "type": "malware", 
+      "id": "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+      "description": " \nFarseer is a Windows malware family used in targeted attacks against victims in Southeast Asia.\nFarseer employs DLL sideloading to load its payload dropping legitimate signed binaries alongside a DLL which they will load. Farseer is a fully featured RAT which allows an attacker to execute arbitrary commands."
+    }, 
+    {
+      "name": "Farseer", 
+      "created": "2019-10-11T18:48:58.621Z", 
+      "labels": [
+        "remote-access-trojan"
+      ], 
+      "modified": "2019-10-14T17:02:47.296Z", 
+      "type": "malware", 
+      "id": "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+      "description": " \nFarseer is a Windows malware family used in targeted attacks against victims in Southeast Asia.\nFarseer employs DLL sideloading to load its payload dropping legitimate signed binaries alongside a DLL which they will load. Farseer is a fully featured RAT which allows an attacker to execute arbitrary commands."
+    }, 
+    {
+      "name": "Farseer", 
+      "created": "2019-10-11T18:48:58.621Z", 
+      "labels": [
+        "remote-access-trojan"
+      ], 
+      "modified": "2019-10-14T17:02:47.296Z", 
+      "type": "malware", 
+      "id": "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+      "description": " \nFarseer is a Windows malware family used in targeted attacks against victims in Southeast Asia.\nFarseer employs DLL sideloading to load its payload dropping legitimate signed binaries alongside a DLL which they will load. Farseer is a fully featured RAT which allows an attacker to execute arbitrary commands."
+    }, 
+    {
+      "name": "Farseer", 
+      "created": "2019-10-11T18:48:58.621Z", 
+      "labels": [
+        "remote-access-trojan"
+      ], 
+      "modified": "2019-10-14T17:02:47.296Z", 
+      "type": "malware", 
+      "id": "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+      "description": " \nFarseer is a Windows malware family used in targeted attacks against victims in Southeast Asia.\nFarseer employs DLL sideloading to load its payload dropping legitimate signed binaries alongside a DLL which they will load. Farseer is a fully featured RAT which allows an attacker to execute arbitrary commands."
+    }, 
+    {
+      "name": "Farseer", 
+      "created": "2019-10-11T18:48:58.621Z", 
+      "labels": [
+        "remote-access-trojan"
+      ], 
+      "modified": "2019-10-14T17:02:47.296Z", 
+      "type": "malware", 
+      "id": "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+      "description": " \nFarseer is a Windows malware family used in targeted attacks against victims in Southeast Asia.\nFarseer employs DLL sideloading to load its payload dropping legitimate signed binaries alongside a DLL which they will load. Farseer is a fully featured RAT which allows an attacker to execute arbitrary commands."
+    }, 
+    {
+      "name": "Farseer", 
+      "created": "2019-10-11T18:48:58.621Z", 
+      "labels": [
+        "remote-access-trojan"
+      ], 
+      "modified": "2019-10-14T17:02:47.296Z", 
+      "type": "malware", 
+      "id": "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+      "description": " \nFarseer is a Windows malware family used in targeted attacks against victims in Southeast Asia.\nFarseer employs DLL sideloading to load its payload dropping legitimate signed binaries alongside a DLL which they will load. Farseer is a fully featured RAT which allows an attacker to execute arbitrary commands."
+    }, 
+    {
+      "name": "Farseer", 
+      "created": "2019-10-11T18:48:58.621Z", 
+      "labels": [
+        "remote-access-trojan"
+      ], 
+      "modified": "2019-10-14T17:02:47.296Z", 
+      "type": "malware", 
+      "id": "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+      "description": " \nFarseer is a Windows malware family used in targeted attacks against victims in Southeast Asia.\nFarseer employs DLL sideloading to load its payload dropping legitimate signed binaries alongside a DLL which they will load. Farseer is a fully featured RAT which allows an attacker to execute arbitrary commands."
+    }, 
+    {
+      "name": "Farseer", 
+      "created": "2019-10-11T18:48:58.621Z", 
+      "labels": [
+        "remote-access-trojan"
+      ], 
+      "modified": "2019-10-14T17:02:47.296Z", 
+      "type": "malware", 
+      "id": "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+      "description": " \nFarseer is a Windows malware family used in targeted attacks against victims in Southeast Asia.\nFarseer employs DLL sideloading to load its payload dropping legitimate signed binaries alongside a DLL which they will load. Farseer is a fully featured RAT which allows an attacker to execute arbitrary commands."
+    }, 
+    {
+      "name": "Farseer", 
+      "created": "2019-10-11T18:48:58.621Z", 
+      "labels": [
+        "remote-access-trojan"
+      ], 
+      "modified": "2019-10-14T17:02:47.296Z", 
+      "type": "malware", 
+      "id": "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+      "description": " \nFarseer is a Windows malware family used in targeted attacks against victims in Southeast Asia.\nFarseer employs DLL sideloading to load its payload dropping legitimate signed binaries alongside a DLL which they will load. Farseer is a fully featured RAT which allows an attacker to execute arbitrary commands."
+    }, 
+    {
+      "name": "Farseer", 
+      "created": "2019-10-11T18:48:58.621Z", 
+      "labels": [
+        "remote-access-trojan"
+      ], 
+      "modified": "2019-10-14T17:02:47.296Z", 
+      "type": "malware", 
+      "id": "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+      "description": " \nFarseer is a Windows malware family used in targeted attacks against victims in Southeast Asia.\nFarseer employs DLL sideloading to load its payload dropping legitimate signed binaries alongside a DLL which they will load. Farseer is a fully featured RAT which allows an attacker to execute arbitrary commands."
+    }, 
+    {
+      "name": "Farseer", 
+      "created": "2019-10-11T18:48:58.621Z", 
+      "labels": [
+        "remote-access-trojan"
+      ], 
+      "modified": "2019-10-14T17:02:47.296Z", 
+      "type": "malware", 
+      "id": "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+      "description": " \nFarseer is a Windows malware family used in targeted attacks against victims in Southeast Asia.\nFarseer employs DLL sideloading to load its payload dropping legitimate signed binaries alongside a DLL which they will load. Farseer is a fully featured RAT which allows an attacker to execute arbitrary commands."
+    }, 
+    {
+      "name": "Farseer", 
+      "created": "2019-10-11T18:48:58.621Z", 
+      "labels": [
+        "remote-access-trojan"
+      ], 
+      "modified": "2019-10-14T17:02:47.296Z", 
+      "type": "malware", 
+      "id": "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+      "description": " \nFarseer is a Windows malware family used in targeted attacks against victims in Southeast Asia.\nFarseer employs DLL sideloading to load its payload dropping legitimate signed binaries alongside a DLL which they will load. Farseer is a fully featured RAT which allows an attacker to execute arbitrary commands."
+    }, 
+    {
+      "name": "Farseer", 
+      "created": "2019-10-11T18:48:58.621Z", 
+      "labels": [
+        "remote-access-trojan"
+      ], 
+      "modified": "2019-10-14T17:02:47.296Z", 
+      "type": "malware", 
+      "id": "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+      "description": " \nFarseer is a Windows malware family used in targeted attacks against victims in Southeast Asia.\nFarseer employs DLL sideloading to load its payload dropping legitimate signed binaries alongside a DLL which they will load. Farseer is a fully featured RAT which allows an attacker to execute arbitrary commands."
     }, 
     {
       "valid_from": "2019-07-29T17:25:34.883Z", 
@@ -3414,6 +3854,348 @@
       "source_ref": "indicator--885f2a57-8bfe-4911-bd9b-16b960553bf9"
     }, 
     {
+      "created": "2019-10-11T18:49:06.473Z", 
+      "modified": "2019-10-14T17:02:47.297Z", 
+      "target_ref": "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--8a7f73b6-8821-44e2-a048-1438c0014e0e", 
+      "source_ref": "indicator--20c6a80d-e8c1-47a5-9ec5-f8eca3d12ecb"
+    }, 
+    {
+      "created": "2019-10-11T18:49:20.650Z", 
+      "modified": "2019-10-14T17:02:47.297Z", 
+      "target_ref": "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--4c34497f-2766-45b0-a056-acdb61c4a56b", 
+      "source_ref": "indicator--88dd454e-de01-4dff-8ba3-085887f054da"
+    }, 
+    {
+      "created": "2019-10-11T18:49:27.875Z", 
+      "modified": "2019-10-14T17:02:47.298Z", 
+      "target_ref": "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--9e1d9cb5-3403-4d0f-8dcd-13ae907d6a49", 
+      "source_ref": "indicator--6dc01b7b-1668-4485-a122-7c9a7a1f947b"
+    }, 
+    {
+      "created": "2019-10-11T18:49:35.584Z", 
+      "modified": "2019-10-14T17:02:47.297Z", 
+      "target_ref": "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--492520a9-59aa-4ba6-b46f-1e53afbc6fe3", 
+      "source_ref": "indicator--75f3a873-de53-4d77-9c41-bf85bfa69d09"
+    }, 
+    {
+      "created": "2019-10-11T18:49:48.569Z", 
+      "modified": "2019-10-14T17:02:47.298Z", 
+      "target_ref": "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--666c05ba-09b0-4665-b536-e3e3e76b5fc0", 
+      "source_ref": "indicator--35f14156-44b3-4425-803d-37ecc78fb87f"
+    }, 
+    {
+      "created": "2019-10-11T18:49:56.322Z", 
+      "modified": "2019-10-14T17:02:47.298Z", 
+      "target_ref": "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--9d58d118-367a-4a53-b063-bc2623b401a5", 
+      "source_ref": "indicator--d72a56aa-7a75-4fd8-818e-8939a9c1216c"
+    }, 
+    {
+      "created": "2019-10-11T18:50:09.591Z", 
+      "modified": "2019-10-14T17:02:47.297Z", 
+      "target_ref": "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--1b2933ab-952f-43fe-9354-009a5a203239", 
+      "source_ref": "indicator--f0968eab-a2e6-4f2f-9dd1-6cd8090cb5b6"
+    }, 
+    {
+      "created": "2019-10-11T18:50:24.006Z", 
+      "modified": "2019-10-14T17:02:47.298Z", 
+      "target_ref": "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--2b29e8f7-3b67-4174-a4fe-cae26968c188", 
+      "source_ref": "indicator--82f5d004-8f64-4f24-a5e8-86c505f87a25"
+    }, 
+    {
+      "created": "2019-10-11T18:50:33.502Z", 
+      "modified": "2019-10-14T17:02:47.298Z", 
+      "target_ref": "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--fea9ae1d-de9c-4fad-b384-28b899399bb0", 
+      "source_ref": "indicator--7f0e34d5-72c9-4f78-987d-213f4039eda9"
+    }, 
+    {
+      "created": "2019-10-11T18:50:43.588Z", 
+      "modified": "2019-10-14T17:02:47.298Z", 
+      "target_ref": "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--4ea1c4b0-ac5a-4a84-85f5-df606532930d", 
+      "source_ref": "indicator--7bba98b6-3a26-48c7-b6d6-97c62868094b"
+    }, 
+    {
+      "created": "2019-10-11T18:50:54.410Z", 
+      "modified": "2019-10-14T17:02:47.298Z", 
+      "target_ref": "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--070832a3-b62a-43b6-befc-db4a83cb99ce", 
+      "source_ref": "indicator--8f748fd7-d70f-4790-8d6a-766e82294814"
+    }, 
+    {
+      "created": "2019-10-11T18:51:02.337Z", 
+      "modified": "2019-10-14T17:02:47.298Z", 
+      "target_ref": "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--7860334b-b67b-4a24-a8e6-ffbf4e61ead7", 
+      "source_ref": "indicator--330fcfc6-ea94-426d-89b9-a55c4bdc6aa8"
+    }, 
+    {
+      "created": "2019-10-11T18:51:09.974Z", 
+      "modified": "2019-10-14T17:02:47.298Z", 
+      "target_ref": "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--a37dce59-d187-4775-a780-ccf25ad4d9cd", 
+      "source_ref": "indicator--a28055d1-65f3-4888-be14-ed2ba630d527"
+    }, 
+    {
+      "created": "2019-10-11T18:51:17.490Z", 
+      "modified": "2019-10-14T17:02:47.298Z", 
+      "target_ref": "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--a2c55758-b65e-417f-bbc9-7c88b488038e", 
+      "source_ref": "indicator--af776047-a78d-44a4-9e20-762dbc8d3299"
+    }, 
+    {
+      "created": "2019-10-11T18:51:24.434Z", 
+      "modified": "2019-10-14T17:02:47.298Z", 
+      "target_ref": "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--ba365676-f548-48a2-a1b8-370fdec0aa35", 
+      "source_ref": "indicator--27a82c6b-a244-418a-ac2e-23f279c47a0a"
+    }, 
+    {
+      "created": "2019-10-11T18:51:41.487Z", 
+      "modified": "2019-10-14T17:02:47.298Z", 
+      "target_ref": "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--83bd0bd4-b638-4f5e-9170-0a176d2d3ff9", 
+      "source_ref": "indicator--810c8348-1528-4b15-a056-81cf2a26a179"
+    }, 
+    {
+      "created": "2019-10-11T18:51:48.401Z", 
+      "modified": "2019-10-14T17:02:47.298Z", 
+      "target_ref": "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--5bb327ce-8808-4155-baf4-9d6712a69c88", 
+      "source_ref": "indicator--132bc09d-aa58-4c52-821e-178a9c921888"
+    }, 
+    {
+      "created": "2019-10-11T18:51:57.041Z", 
+      "modified": "2019-10-14T17:02:47.298Z", 
+      "target_ref": "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--5f9dc19c-d04a-4ad3-a0c2-d649ec05daf1", 
+      "source_ref": "indicator--7b783ada-4ac8-41c9-b7aa-f2eb2b0b9beb"
+    }, 
+    {
+      "created": "2019-10-11T18:52:13.690Z", 
+      "modified": "2019-10-14T17:02:47.298Z", 
+      "target_ref": "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--73a1d781-d28b-4312-bdef-e919fcfa17d7", 
+      "source_ref": "indicator--86d28afc-fa06-47d6-bdbf-189f6c4ca7f2"
+    }, 
+    {
+      "created": "2019-10-11T18:52:06.732Z", 
+      "modified": "2019-10-14T17:02:47.298Z", 
+      "target_ref": "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--956add68-7232-4f67-8b83-82e5e91f4774", 
+      "source_ref": "indicator--87b225b1-1221-47ee-aa3f-ed4a83881f77"
+    }, 
+    {
+      "created": "2019-10-11T18:52:23.369Z", 
+      "modified": "2019-10-14T17:02:47.298Z", 
+      "target_ref": "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--9cbe7161-072f-4fd1-9551-ca48fc30747b", 
+      "source_ref": "indicator--4ff24a02-56e3-44c0-9e3d-6bae97757bb9"
+    }, 
+    {
+      "created": "2019-10-11T18:52:36.791Z", 
+      "modified": "2019-10-14T17:02:47.298Z", 
+      "target_ref": "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--07556a67-671d-4f95-ad4e-62da2b4bc2ad", 
+      "source_ref": "indicator--2da7078c-df90-4628-a730-23452a978f65"
+    }, 
+    {
+      "created": "2019-10-11T18:52:48.341Z", 
+      "modified": "2019-10-14T17:02:47.298Z", 
+      "target_ref": "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--4fa7f2ee-3938-4c94-887e-bd9e5e2e90d5", 
+      "source_ref": "indicator--662b9391-5ea4-420d-b222-eb753ff6eb65"
+    }, 
+    {
+      "created": "2019-10-11T18:52:56.500Z", 
+      "modified": "2019-10-14T17:02:47.298Z", 
+      "target_ref": "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--ba76ca56-3c7f-4e50-bb74-2b1e41c39a24", 
+      "source_ref": "indicator--a8d230b1-6fc6-4401-a30a-26b00cafe1c4"
+    }, 
+    {
+      "created": "2019-10-11T18:53:04.647Z", 
+      "modified": "2019-10-14T17:02:47.298Z", 
+      "target_ref": "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--c3591248-7a96-402a-8a5e-f42417a340c8", 
+      "source_ref": "indicator--210860f5-0477-4f9c-a072-ec6e10b27dd9"
+    }, 
+    {
+      "created": "2019-10-11T18:53:17.544Z", 
+      "modified": "2019-10-14T17:02:47.298Z", 
+      "target_ref": "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--d682d316-8a4f-4440-8e87-b89a0170a002", 
+      "source_ref": "indicator--85709514-4436-444f-a2f8-f318edf651bc"
+    }, 
+    {
+      "created": "2019-10-11T18:53:28.609Z", 
+      "modified": "2019-10-14T17:02:47.298Z", 
+      "target_ref": "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--82ca7179-5529-4853-bedb-7024220b4ac5", 
+      "source_ref": "indicator--ef830ac0-b526-4565-843f-1a14f9a93359"
+    }, 
+    {
+      "created": "2019-10-11T18:53:43.155Z", 
+      "modified": "2019-10-14T17:02:47.298Z", 
+      "target_ref": "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--984606d0-5109-4cd7-9d12-e8baf2c77b0d", 
+      "source_ref": "indicator--9bc7d817-48eb-4e00-8e3f-6c2b0f5bf063"
+    }, 
+    {
+      "created": "2019-10-11T18:53:50.817Z", 
+      "modified": "2019-10-14T17:02:47.298Z", 
+      "target_ref": "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--ac29dfec-8656-419f-808d-a794d287a92e", 
+      "source_ref": "indicator--e986fbd6-e1f9-4839-93c1-8d23c4445c4c"
+    }, 
+    {
+      "created": "2019-10-11T18:54:04.378Z", 
+      "modified": "2019-10-14T17:02:47.298Z", 
+      "target_ref": "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--93a4e9f3-949b-4b37-a73d-e6e8e585eec6", 
+      "source_ref": "indicator--34f7aed5-6d47-4467-a3f1-7b81c5cb9fd7"
+    }, 
+    {
+      "created": "2019-10-11T18:54:13.327Z", 
+      "modified": "2019-10-14T17:02:47.298Z", 
+      "target_ref": "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--3357bc13-4df0-4a45-b2dc-3c7757a0fb14", 
+      "source_ref": "indicator--63cd1dff-9162-4683-804d-3980f9e387a9"
+    }, 
+    {
+      "created": "2019-10-11T18:54:21.532Z", 
+      "modified": "2019-10-14T17:02:47.298Z", 
+      "target_ref": "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--323bdced-9437-4b3d-a8aa-b86bbddf3eac", 
+      "source_ref": "indicator--8b543fc0-b0f7-4ff1-8209-ef2854450698"
+    }, 
+    {
+      "created": "2019-10-11T18:54:29.336Z", 
+      "modified": "2019-10-14T17:02:47.298Z", 
+      "target_ref": "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--cd19e916-fd01-413f-9365-689d0666ba6d", 
+      "source_ref": "indicator--a7ffc965-ede2-4de4-99a9-cde491cf118e"
+    }, 
+    {
+      "created": "2019-10-11T18:54:37.010Z", 
+      "modified": "2019-10-14T17:02:47.298Z", 
+      "target_ref": "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--effc8585-2faf-43cc-adb9-d1a51602622b", 
+      "source_ref": "indicator--cd53036a-a388-45c9-9285-abfe56559533"
+    }, 
+    {
+      "created": "2019-10-11T18:54:45.020Z", 
+      "modified": "2019-10-14T17:02:47.298Z", 
+      "target_ref": "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--d398247e-5342-4084-b54f-0eeeefb0741c", 
+      "source_ref": "indicator--db4ff9e5-0f46-41d5-89e4-07800e7ada29"
+    }, 
+    {
+      "created": "2019-10-11T18:54:53.859Z", 
+      "modified": "2019-10-14T17:02:47.298Z", 
+      "target_ref": "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--eba006dc-682d-4c40-aa31-35a9f30ce985", 
+      "source_ref": "indicator--5579f83e-f801-453e-b381-78db146ef139"
+    }, 
+    {
+      "created": "2019-10-11T18:55:01.466Z", 
+      "modified": "2019-10-14T17:02:47.298Z", 
+      "target_ref": "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--754ea1ea-f737-4215-b13f-3ef71b018918", 
+      "source_ref": "indicator--bb11b50b-8820-401d-9179-df05e0e751ab"
+    }, 
+    {
+      "created": "2019-10-11T18:55:08.939Z", 
+      "modified": "2019-10-14T17:02:47.298Z", 
+      "target_ref": "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--87e5d2ab-8ab5-4941-a0e4-d09a1d0c790a", 
+      "source_ref": "indicator--885f2a57-8bfe-4911-bd9b-16b960553bf9"
+    }, 
+    {
       "description": "cdncool.com", 
       "created": "2019-07-30T09:49:12.753Z", 
       "modified": "2019-07-30T13:36:18.232Z", 
@@ -3764,9 +4546,9 @@
       "source_ref": "indicator--966d3814-e50a-4bcf-bf68-125a4f33ff47"
     }, 
     {
-      "description": "e4e538f5e15421dac09a9d37cc158d0ae66f6157a9de57f814509fd56396e004", 
+      "description": "New discovered malware from this group. ", 
       "created": "2019-07-30T09:53:47.288Z", 
-      "modified": "2019-08-02T19:14:54.299Z", 
+      "modified": "2019-10-11T18:56:26.093Z", 
       "target_ref": "attack-pattern--fddd81e9-dd3d-477e-9773-4fb8ae227234", 
       "relationship_type": "uses", 
       "type": "relationship", 
@@ -3774,9 +4556,9 @@
       "source_ref": "indicator--20c6a80d-e8c1-47a5-9ec5-f8eca3d12ecb"
     }, 
     {
-      "description": "b8759419be4e971d9e64aad9aa5d72f057b75a4856bf3a94a549243f9b3aa966", 
+      "description": "New discovered malware from this group. ", 
       "created": "2019-07-30T09:53:47.288Z", 
-      "modified": "2019-08-02T19:14:54.299Z", 
+      "modified": "2019-10-11T18:58:11.949Z", 
       "target_ref": "attack-pattern--fddd81e9-dd3d-477e-9773-4fb8ae227234", 
       "relationship_type": "uses", 
       "type": "relationship", 
@@ -3784,9 +4566,9 @@
       "source_ref": "indicator--88dd454e-de01-4dff-8ba3-085887f054da"
     }, 
     {
-      "description": "17c0050d1e417d3e5118ddbb11f0c09f91b60f2714f950a6493cc120ba9fd188", 
+      "description": "New discovered malware from this group. ", 
       "created": "2019-07-30T09:53:47.288Z", 
-      "modified": "2019-08-02T19:14:54.299Z", 
+      "modified": "2019-10-11T18:56:52.446Z", 
       "target_ref": "attack-pattern--fddd81e9-dd3d-477e-9773-4fb8ae227234", 
       "relationship_type": "uses", 
       "type": "relationship", 
@@ -3794,9 +4576,9 @@
       "source_ref": "indicator--6dc01b7b-1668-4485-a122-7c9a7a1f947b"
     }, 
     {
-      "description": "91eeb62649b21edef6a6a74accd27e5a4280971036814487b02907f4553b2fb7", 
+      "description": "New discovered malware from this group. ", 
       "created": "2019-07-30T09:53:47.288Z", 
-      "modified": "2019-08-02T19:14:54.299Z", 
+      "modified": "2019-10-11T18:58:23.053Z", 
       "target_ref": "attack-pattern--fddd81e9-dd3d-477e-9773-4fb8ae227234", 
       "relationship_type": "uses", 
       "type": "relationship", 
@@ -3804,9 +4586,9 @@
       "source_ref": "indicator--75f3a873-de53-4d77-9c41-bf85bfa69d09"
     }, 
     {
-      "description": "271e29fe8e23901184377ab5d0d12b40d485f8c404aef0bdcc4a4148ccbb1a1a", 
+      "description": "New discovered malware from this group. ", 
       "created": "2019-07-30T09:53:47.288Z", 
-      "modified": "2019-08-02T19:14:54.299Z", 
+      "modified": "2019-10-11T18:58:34.281Z", 
       "target_ref": "attack-pattern--fddd81e9-dd3d-477e-9773-4fb8ae227234", 
       "relationship_type": "uses", 
       "type": "relationship", 
@@ -3814,9 +4596,9 @@
       "source_ref": "indicator--35f14156-44b3-4425-803d-37ecc78fb87f"
     }, 
     {
-      "description": "4ab41a025624f342deb85d798c6d6264a9fb88b8b3d9037cf8d5248a9f730339", 
+      "description": "New discovered malware from this group. ", 
       "created": "2019-07-30T09:53:47.288Z", 
-      "modified": "2019-08-02T19:14:54.299Z", 
+      "modified": "2019-10-11T18:58:45.461Z", 
       "target_ref": "attack-pattern--fddd81e9-dd3d-477e-9773-4fb8ae227234", 
       "relationship_type": "uses", 
       "type": "relationship", 
@@ -3824,9 +4606,9 @@
       "source_ref": "indicator--d72a56aa-7a75-4fd8-818e-8939a9c1216c"
     }, 
     {
-      "description": "8ff03c13d0a78003840b7a612e372242c7def123b4fbf5ea1780f2d70eb806a1", 
+      "description": "New discovered malware from this group. ", 
       "created": "2019-07-30T09:53:47.288Z", 
-      "modified": "2019-08-02T19:14:54.299Z", 
+      "modified": "2019-10-11T18:58:56.501Z", 
       "target_ref": "attack-pattern--fddd81e9-dd3d-477e-9773-4fb8ae227234", 
       "relationship_type": "uses", 
       "type": "relationship", 
@@ -3834,9 +4616,9 @@
       "source_ref": "indicator--f0968eab-a2e6-4f2f-9dd1-6cd8090cb5b6"
     }, 
     {
-      "description": "5a461104a2b6e313d3d0ee08c26e90db965139b1bff4a785ec297047d570340c", 
+      "description": "New discovered malware from this group. ", 
       "created": "2019-07-30T09:53:47.288Z", 
-      "modified": "2019-08-02T19:14:54.299Z", 
+      "modified": "2019-10-11T18:59:07.206Z", 
       "target_ref": "attack-pattern--fddd81e9-dd3d-477e-9773-4fb8ae227234", 
       "relationship_type": "uses", 
       "type": "relationship", 
@@ -3844,9 +4626,9 @@
       "source_ref": "indicator--82f5d004-8f64-4f24-a5e8-86c505f87a25"
     }, 
     {
-      "description": "a999489d95e5a94f75de4695c9579ffc88bae02048838e3523f089d970a35abb", 
+      "description": "New discovered malware from this group. ", 
       "created": "2019-07-30T09:53:47.288Z", 
-      "modified": "2019-08-02T19:14:54.299Z", 
+      "modified": "2019-10-11T18:59:21.969Z", 
       "target_ref": "attack-pattern--fddd81e9-dd3d-477e-9773-4fb8ae227234", 
       "relationship_type": "uses", 
       "type": "relationship", 
@@ -3854,9 +4636,9 @@
       "source_ref": "indicator--7f0e34d5-72c9-4f78-987d-213f4039eda9"
     }, 
     {
-      "description": "0c7e35ca1312204063319a3455ec14bc4b701de205503e63de584f28d99f0291", 
+      "description": "New discovered malware from this group. ", 
       "created": "2019-07-30T09:53:47.288Z", 
-      "modified": "2019-08-02T19:14:54.299Z", 
+      "modified": "2019-10-11T18:59:57.721Z", 
       "target_ref": "attack-pattern--fddd81e9-dd3d-477e-9773-4fb8ae227234", 
       "relationship_type": "uses", 
       "type": "relationship", 
@@ -3864,9 +4646,9 @@
       "source_ref": "indicator--7bba98b6-3a26-48c7-b6d6-97c62868094b"
     }, 
     {
-      "description": "10bd4507eb12bebc17e216e16950bf77e56c2aad01be7033bf0d5c235f2ad6e5", 
+      "description": "New discovered malware from this group. ", 
       "created": "2019-07-30T09:53:47.288Z", 
-      "modified": "2019-08-02T19:14:54.299Z", 
+      "modified": "2019-10-11T19:00:07.830Z", 
       "target_ref": "attack-pattern--fddd81e9-dd3d-477e-9773-4fb8ae227234", 
       "relationship_type": "uses", 
       "type": "relationship", 
@@ -3874,9 +4656,9 @@
       "source_ref": "indicator--8f748fd7-d70f-4790-8d6a-766e82294814"
     }, 
     {
-      "description": "d44f388842d93807c0b56399c8b7eae5b3dd76871e4908ef3d7d8a559f014fe6", 
+      "description": "New discovered malware from this group. ", 
       "created": "2019-07-30T09:53:47.288Z", 
-      "modified": "2019-08-02T19:14:54.299Z", 
+      "modified": "2019-10-11T19:00:24.356Z", 
       "target_ref": "attack-pattern--fddd81e9-dd3d-477e-9773-4fb8ae227234", 
       "relationship_type": "uses", 
       "type": "relationship", 
@@ -3884,9 +4666,9 @@
       "source_ref": "indicator--330fcfc6-ea94-426d-89b9-a55c4bdc6aa8"
     }, 
     {
-      "description": "24b52403ff652416c84afed7e12ece11dc59b07f7dba5f007e117a4cfc67c1ab", 
+      "description": "New discovered malware from this group. ", 
       "created": "2019-07-30T09:53:47.288Z", 
-      "modified": "2019-08-02T19:14:54.299Z", 
+      "modified": "2019-10-11T19:00:45.298Z", 
       "target_ref": "attack-pattern--fddd81e9-dd3d-477e-9773-4fb8ae227234", 
       "relationship_type": "uses", 
       "type": "relationship", 
@@ -3894,9 +4676,9 @@
       "source_ref": "indicator--a28055d1-65f3-4888-be14-ed2ba630d527"
     }, 
     {
-      "description": "8890a06d3233ecf661c040ca5c03393c3afd620ccce49fbe08477bbf6b7d9b04", 
+      "description": "New discovered malware from this group. ", 
       "created": "2019-07-30T09:53:47.288Z", 
-      "modified": "2019-08-02T19:14:54.299Z", 
+      "modified": "2019-10-11T19:01:18.455Z", 
       "target_ref": "attack-pattern--fddd81e9-dd3d-477e-9773-4fb8ae227234", 
       "relationship_type": "uses", 
       "type": "relationship", 
@@ -3904,9 +4686,9 @@
       "source_ref": "indicator--af776047-a78d-44a4-9e20-762dbc8d3299"
     }, 
     {
-      "description": "542b2ca4fe2d7d13fa317c58f46942cdf6eb33771bb898d7be773f8ccb50b13c", 
+      "description": "New discovered malware from this group. ", 
       "created": "2019-07-30T09:53:47.288Z", 
-      "modified": "2019-08-02T19:14:54.299Z", 
+      "modified": "2019-10-11T19:01:31.734Z", 
       "target_ref": "attack-pattern--fddd81e9-dd3d-477e-9773-4fb8ae227234", 
       "relationship_type": "uses", 
       "type": "relationship", 
@@ -3914,9 +4696,9 @@
       "source_ref": "indicator--27a82c6b-a244-418a-ac2e-23f279c47a0a"
     }, 
     {
-      "description": "b782b4c5f8fe2ee318e50ddf985c9132bff6d48b01ea36d6825967bf89e5d0c2", 
+      "description": "New discovered malware from this group. ", 
       "created": "2019-07-30T09:53:47.288Z", 
-      "modified": "2019-08-02T19:14:54.299Z", 
+      "modified": "2019-10-11T19:01:42.195Z", 
       "target_ref": "attack-pattern--fddd81e9-dd3d-477e-9773-4fb8ae227234", 
       "relationship_type": "uses", 
       "type": "relationship", 
@@ -3924,9 +4706,9 @@
       "source_ref": "indicator--810c8348-1528-4b15-a056-81cf2a26a179"
     }, 
     {
-      "description": "c8b2232360d5d6f56cd6b1076e5e21f0d501f5cb725e0a9b32a0ab661b4c38dd", 
+      "description": "New discovered malware from this group. ", 
       "created": "2019-07-30T09:53:47.288Z", 
-      "modified": "2019-08-02T19:14:54.299Z", 
+      "modified": "2019-10-11T19:01:57.846Z", 
       "target_ref": "attack-pattern--fddd81e9-dd3d-477e-9773-4fb8ae227234", 
       "relationship_type": "uses", 
       "type": "relationship", 
@@ -3934,9 +4716,9 @@
       "source_ref": "indicator--132bc09d-aa58-4c52-821e-178a9c921888"
     }, 
     {
-      "description": "b82caa5087c6fd8ac79019185c6f8884f5dd9d0266bb7ad635277f3c7ca5c615", 
+      "description": "New discovered malware from this group. ", 
       "created": "2019-07-30T09:53:47.288Z", 
-      "modified": "2019-08-02T19:14:54.299Z", 
+      "modified": "2019-10-11T19:02:08.125Z", 
       "target_ref": "attack-pattern--fddd81e9-dd3d-477e-9773-4fb8ae227234", 
       "relationship_type": "uses", 
       "type": "relationship", 
@@ -3944,9 +4726,9 @@
       "source_ref": "indicator--7b783ada-4ac8-41c9-b7aa-f2eb2b0b9beb"
     }, 
     {
-      "description": "14b9b09f4f193e378cf9616e211ab7031b4e1e6f626971902577f4f2d5df226a", 
+      "description": "New discovered malware from this group. ", 
       "created": "2019-07-30T09:53:47.288Z", 
-      "modified": "2019-08-02T19:14:54.299Z", 
+      "modified": "2019-10-11T19:02:21.511Z", 
       "target_ref": "attack-pattern--fddd81e9-dd3d-477e-9773-4fb8ae227234", 
       "relationship_type": "uses", 
       "type": "relationship", 
@@ -3954,9 +4736,9 @@
       "source_ref": "indicator--86d28afc-fa06-47d6-bdbf-189f6c4ca7f2"
     }, 
     {
-      "description": "e05e0342e86d1b630956340ec823034a3419e223e7bf16de93d7b543413c1897", 
+      "description": "New discovered malware from this group. ", 
       "created": "2019-07-30T09:53:47.288Z", 
-      "modified": "2019-08-02T19:14:54.299Z", 
+      "modified": "2019-10-11T19:02:31.625Z", 
       "target_ref": "attack-pattern--fddd81e9-dd3d-477e-9773-4fb8ae227234", 
       "relationship_type": "uses", 
       "type": "relationship", 
@@ -3964,9 +4746,9 @@
       "source_ref": "indicator--87b225b1-1221-47ee-aa3f-ed4a83881f77"
     }, 
     {
-      "description": "da02edf3f33d9801d066c1f93feef33cdedc1bc7b5605498404e8cad8015729f", 
+      "description": "New discovered malware from this group. ", 
       "created": "2019-07-30T09:53:47.288Z", 
-      "modified": "2019-08-02T19:14:54.299Z", 
+      "modified": "2019-10-11T19:02:44.279Z", 
       "target_ref": "attack-pattern--fddd81e9-dd3d-477e-9773-4fb8ae227234", 
       "relationship_type": "uses", 
       "type": "relationship", 
@@ -3974,9 +4756,9 @@
       "source_ref": "indicator--4ff24a02-56e3-44c0-9e3d-6bae97757bb9"
     }, 
     {
-      "description": "1e62b7dcb503f47a6330c4dcfc49ea9d921b7d2f8c508769d27df04e61b9471d", 
+      "description": "New discovered malware from this group. ", 
       "created": "2019-07-30T09:53:47.288Z", 
-      "modified": "2019-08-02T19:14:54.299Z", 
+      "modified": "2019-10-11T19:03:07.086Z", 
       "target_ref": "attack-pattern--fddd81e9-dd3d-477e-9773-4fb8ae227234", 
       "relationship_type": "uses", 
       "type": "relationship", 
@@ -3984,9 +4766,9 @@
       "source_ref": "indicator--2da7078c-df90-4628-a730-23452a978f65"
     }, 
     {
-      "description": "0306585900f1b1bddc76149352f90962c365959e44a486ba3547c80d12d56e41", 
+      "description": "New discovered malware from this group. ", 
       "created": "2019-07-30T09:53:47.288Z", 
-      "modified": "2019-08-02T19:14:54.299Z", 
+      "modified": "2019-10-11T19:03:26.390Z", 
       "target_ref": "attack-pattern--fddd81e9-dd3d-477e-9773-4fb8ae227234", 
       "relationship_type": "uses", 
       "type": "relationship", 
@@ -3994,9 +4776,9 @@
       "source_ref": "indicator--662b9391-5ea4-420d-b222-eb753ff6eb65"
     }, 
     {
-      "description": "1e46c88420c657c685786bee88f606d494f3d50bcbc616b0f64d2886edd572f2", 
+      "description": "New discovered malware from this group. ", 
       "created": "2019-07-30T09:53:47.288Z", 
-      "modified": "2019-08-02T19:14:54.299Z", 
+      "modified": "2019-10-11T19:03:43.785Z", 
       "target_ref": "attack-pattern--fddd81e9-dd3d-477e-9773-4fb8ae227234", 
       "relationship_type": "uses", 
       "type": "relationship", 
@@ -4004,9 +4786,9 @@
       "source_ref": "indicator--a8d230b1-6fc6-4401-a30a-26b00cafe1c4"
     }, 
     {
-      "description": "fd8bb808c7b16cffcb83d7e86d642b5cb6e913e22df69c8dd03ce4e7498f5fdc", 
+      "description": "New discovered malware from this group. ", 
       "created": "2019-07-30T09:53:47.288Z", 
-      "modified": "2019-08-02T19:14:54.299Z", 
+      "modified": "2019-10-11T19:04:39.365Z", 
       "target_ref": "attack-pattern--fddd81e9-dd3d-477e-9773-4fb8ae227234", 
       "relationship_type": "uses", 
       "type": "relationship", 
@@ -4014,9 +4796,9 @@
       "source_ref": "indicator--210860f5-0477-4f9c-a072-ec6e10b27dd9"
     }, 
     {
-      "description": "f46f162ef279cc6e9c022cffe3a6685d001524e312e7a5f23bd24d76fed1fa99", 
+      "description": "New discovered malware from this group. ", 
       "created": "2019-07-30T09:53:47.288Z", 
-      "modified": "2019-08-02T19:14:54.299Z", 
+      "modified": "2019-10-11T19:04:58.248Z", 
       "target_ref": "attack-pattern--fddd81e9-dd3d-477e-9773-4fb8ae227234", 
       "relationship_type": "uses", 
       "type": "relationship", 
@@ -4024,9 +4806,9 @@
       "source_ref": "indicator--85709514-4436-444f-a2f8-f318edf651bc"
     }, 
     {
-      "description": "6e367e10f9c0fb818394e9517ab13c1da00b2545602c23bf6ab83e93063076b8", 
+      "description": "New discovered malware from this group. ", 
       "created": "2019-07-30T09:53:47.288Z", 
-      "modified": "2019-08-02T19:14:54.299Z", 
+      "modified": "2019-10-11T19:05:11.878Z", 
       "target_ref": "attack-pattern--fddd81e9-dd3d-477e-9773-4fb8ae227234", 
       "relationship_type": "uses", 
       "type": "relationship", 
@@ -4034,9 +4816,9 @@
       "source_ref": "indicator--ef830ac0-b526-4565-843f-1a14f9a93359"
     }, 
     {
-      "description": "3d47b99d34e169a8283062937c373264829cf6fe1c7fa0bacee135c392ca24bb", 
+      "description": "New discovered malware from this group. ", 
       "created": "2019-07-30T09:53:47.288Z", 
-      "modified": "2019-08-02T19:14:54.299Z", 
+      "modified": "2019-10-11T19:05:28.347Z", 
       "target_ref": "attack-pattern--fddd81e9-dd3d-477e-9773-4fb8ae227234", 
       "relationship_type": "uses", 
       "type": "relationship", 
@@ -4044,9 +4826,9 @@
       "source_ref": "indicator--9bc7d817-48eb-4e00-8e3f-6c2b0f5bf063"
     }, 
     {
-      "description": "d11d871b07520f43437183fa44bd118c01a3c4c86cffe0cc7343ae9038565cf1", 
+      "description": "New discovered malware from this group. ", 
       "created": "2019-07-30T09:53:47.288Z", 
-      "modified": "2019-08-02T19:14:54.300Z", 
+      "modified": "2019-10-11T19:05:46.281Z", 
       "target_ref": "attack-pattern--fddd81e9-dd3d-477e-9773-4fb8ae227234", 
       "relationship_type": "uses", 
       "type": "relationship", 
@@ -4054,9 +4836,9 @@
       "source_ref": "indicator--e986fbd6-e1f9-4839-93c1-8d23c4445c4c"
     }, 
     {
-      "description": "2e84de3408283423ed58764139eed4dd7e343115b943b58a46e2dc25ca2ef3c8", 
+      "description": "New discovered malware from this group. ", 
       "created": "2019-07-30T09:53:47.288Z", 
-      "modified": "2019-08-02T19:14:54.300Z", 
+      "modified": "2019-10-11T19:06:04.141Z", 
       "target_ref": "attack-pattern--fddd81e9-dd3d-477e-9773-4fb8ae227234", 
       "relationship_type": "uses", 
       "type": "relationship", 
@@ -4064,9 +4846,9 @@
       "source_ref": "indicator--34f7aed5-6d47-4467-a3f1-7b81c5cb9fd7"
     }, 
     {
-      "description": "7d5386253d403b74e86658699f9a6d683b7ac3065c4e2cdae192b32b9ac54edb", 
+      "description": "New discovered malware from this group. ", 
       "created": "2019-07-30T09:53:47.288Z", 
-      "modified": "2019-08-02T19:14:54.300Z", 
+      "modified": "2019-10-11T19:06:17.563Z", 
       "target_ref": "attack-pattern--fddd81e9-dd3d-477e-9773-4fb8ae227234", 
       "relationship_type": "uses", 
       "type": "relationship", 
@@ -4074,9 +4856,9 @@
       "source_ref": "indicator--63cd1dff-9162-4683-804d-3980f9e387a9"
     }, 
     {
-      "description": "2085fca368af15a1bd54f7809dfee7cdd4d73df7af88fa53fe5341f0523ca7ea", 
+      "description": "New discovered malware from this group. ", 
       "created": "2019-07-30T09:53:47.288Z", 
-      "modified": "2019-08-02T19:14:54.300Z", 
+      "modified": "2019-10-11T19:06:28.612Z", 
       "target_ref": "attack-pattern--fddd81e9-dd3d-477e-9773-4fb8ae227234", 
       "relationship_type": "uses", 
       "type": "relationship", 
@@ -4084,9 +4866,9 @@
       "source_ref": "indicator--8b543fc0-b0f7-4ff1-8209-ef2854450698"
     }, 
     {
-      "description": "97c04702aaa0a9018cc46ea874e7e3644146ba4d6b3b30c78a6a6430172b13c7", 
+      "description": "New discovered malware from this group. ", 
       "created": "2019-07-30T09:53:47.288Z", 
-      "modified": "2019-08-02T19:14:54.300Z", 
+      "modified": "2019-10-11T19:06:41.166Z", 
       "target_ref": "attack-pattern--fddd81e9-dd3d-477e-9773-4fb8ae227234", 
       "relationship_type": "uses", 
       "type": "relationship", 
@@ -4094,9 +4876,9 @@
       "source_ref": "indicator--a7ffc965-ede2-4de4-99a9-cde491cf118e"
     }, 
     {
-      "description": "4552f70d94743206489da85da2e9eb9f1eb3ad017a42edb7a60edb69e5c15a32", 
+      "description": "New discovered malware from this group. ", 
       "created": "2019-07-30T09:53:47.288Z", 
-      "modified": "2019-08-02T19:14:54.300Z", 
+      "modified": "2019-10-11T19:06:53.067Z", 
       "target_ref": "attack-pattern--fddd81e9-dd3d-477e-9773-4fb8ae227234", 
       "relationship_type": "uses", 
       "type": "relationship", 
@@ -4104,9 +4886,9 @@
       "source_ref": "indicator--cd53036a-a388-45c9-9285-abfe56559533"
     }, 
     {
-      "description": "75ca95ae317b1e848d54bbb01798d5b61ebcaf4328b3940b5d5f644a01f1943a", 
+      "description": "New discovered malware from this group. ", 
       "created": "2019-07-30T09:53:47.288Z", 
-      "modified": "2019-08-02T19:14:54.300Z", 
+      "modified": "2019-10-11T19:07:06.254Z", 
       "target_ref": "attack-pattern--fddd81e9-dd3d-477e-9773-4fb8ae227234", 
       "relationship_type": "uses", 
       "type": "relationship", 
@@ -4114,9 +4896,9 @@
       "source_ref": "indicator--db4ff9e5-0f46-41d5-89e4-07800e7ada29"
     }, 
     {
-      "description": "f169b8d93ea27ab6ae24c26eaecc039a838bd7e74aef18c1e7a953283c418c30", 
+      "description": "New discovered malware from this group. ", 
       "created": "2019-07-30T09:53:47.288Z", 
-      "modified": "2019-08-02T19:14:54.300Z", 
+      "modified": "2019-10-11T19:07:17.877Z", 
       "target_ref": "attack-pattern--fddd81e9-dd3d-477e-9773-4fb8ae227234", 
       "relationship_type": "uses", 
       "type": "relationship", 
@@ -4124,9 +4906,9 @@
       "source_ref": "indicator--5579f83e-f801-453e-b381-78db146ef139"
     }, 
     {
-      "description": "c1e80458ae652dbf40981dfe33bf109d1b4c85d0affbd16c8d1df6be9e233e05", 
+      "description": "New discovered malware from this group. ", 
       "created": "2019-07-30T09:53:47.288Z", 
-      "modified": "2019-08-02T19:14:54.300Z", 
+      "modified": "2019-10-11T19:07:36.045Z", 
       "target_ref": "attack-pattern--fddd81e9-dd3d-477e-9773-4fb8ae227234", 
       "relationship_type": "uses", 
       "type": "relationship", 
@@ -4134,9 +4916,9 @@
       "source_ref": "indicator--bb11b50b-8820-401d-9179-df05e0e751ab"
     }, 
     {
-      "description": "9e08efc73dc9145358898d2735c5f31d45a2571663c7f4963abd217ae979c7ca", 
+      "description": "New discovered malware from this group. ", 
       "created": "2019-07-30T09:53:47.288Z", 
-      "modified": "2019-08-02T19:14:54.300Z", 
+      "modified": "2019-10-11T19:07:45.549Z", 
       "target_ref": "attack-pattern--fddd81e9-dd3d-477e-9773-4fb8ae227234", 
       "relationship_type": "uses", 
       "type": "relationship", 
@@ -4377,6 +5159,44 @@
         "attack-pattern--fddd81e9-dd3d-477e-9773-4fb8ae227234", 
         "attack-pattern--b3d682b6-98f2-4fb0-aa3b-b4df007ca70a", 
         "attack-pattern--8c32eb4d-805f-4fc5-bf60-c4d476c131b5", 
+        "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+        "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+        "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+        "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+        "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+        "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+        "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+        "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+        "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+        "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+        "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+        "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+        "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+        "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+        "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+        "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+        "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+        "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+        "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+        "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+        "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+        "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+        "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+        "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+        "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+        "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+        "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+        "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+        "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+        "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+        "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+        "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+        "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+        "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+        "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+        "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+        "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
+        "malware--04e3352a-8fe4-4cfc-aced-5b55dc62a410", 
         "relationship--1450567f-79ed-4d22-b8a1-099a2809efd4", 
         "relationship--709e47fe-cca5-4f6c-9ef4-ef96632998ed", 
         "relationship--eb139c26-fb59-4fac-8d41-11f6b78da591", 
@@ -4450,6 +5270,44 @@
         "relationship--b3ee4ed7-b045-4a58-aea1-0ef137edb34d", 
         "relationship--ed658a3b-e4cc-4b59-b06c-e8f81df99daf", 
         "relationship--f5f3c22e-e9cb-46a5-8e26-9a56463ecfb2", 
+        "relationship--8a7f73b6-8821-44e2-a048-1438c0014e0e", 
+        "relationship--4c34497f-2766-45b0-a056-acdb61c4a56b", 
+        "relationship--9e1d9cb5-3403-4d0f-8dcd-13ae907d6a49", 
+        "relationship--492520a9-59aa-4ba6-b46f-1e53afbc6fe3", 
+        "relationship--666c05ba-09b0-4665-b536-e3e3e76b5fc0", 
+        "relationship--9d58d118-367a-4a53-b063-bc2623b401a5", 
+        "relationship--1b2933ab-952f-43fe-9354-009a5a203239", 
+        "relationship--2b29e8f7-3b67-4174-a4fe-cae26968c188", 
+        "relationship--fea9ae1d-de9c-4fad-b384-28b899399bb0", 
+        "relationship--4ea1c4b0-ac5a-4a84-85f5-df606532930d", 
+        "relationship--070832a3-b62a-43b6-befc-db4a83cb99ce", 
+        "relationship--7860334b-b67b-4a24-a8e6-ffbf4e61ead7", 
+        "relationship--a37dce59-d187-4775-a780-ccf25ad4d9cd", 
+        "relationship--a2c55758-b65e-417f-bbc9-7c88b488038e", 
+        "relationship--ba365676-f548-48a2-a1b8-370fdec0aa35", 
+        "relationship--83bd0bd4-b638-4f5e-9170-0a176d2d3ff9", 
+        "relationship--5bb327ce-8808-4155-baf4-9d6712a69c88", 
+        "relationship--5f9dc19c-d04a-4ad3-a0c2-d649ec05daf1", 
+        "relationship--73a1d781-d28b-4312-bdef-e919fcfa17d7", 
+        "relationship--956add68-7232-4f67-8b83-82e5e91f4774", 
+        "relationship--9cbe7161-072f-4fd1-9551-ca48fc30747b", 
+        "relationship--07556a67-671d-4f95-ad4e-62da2b4bc2ad", 
+        "relationship--4fa7f2ee-3938-4c94-887e-bd9e5e2e90d5", 
+        "relationship--ba76ca56-3c7f-4e50-bb74-2b1e41c39a24", 
+        "relationship--c3591248-7a96-402a-8a5e-f42417a340c8", 
+        "relationship--d682d316-8a4f-4440-8e87-b89a0170a002", 
+        "relationship--82ca7179-5529-4853-bedb-7024220b4ac5", 
+        "relationship--984606d0-5109-4cd7-9d12-e8baf2c77b0d", 
+        "relationship--ac29dfec-8656-419f-808d-a794d287a92e", 
+        "relationship--93a4e9f3-949b-4b37-a73d-e6e8e585eec6", 
+        "relationship--3357bc13-4df0-4a45-b2dc-3c7757a0fb14", 
+        "relationship--323bdced-9437-4b3d-a8aa-b86bbddf3eac", 
+        "relationship--cd19e916-fd01-413f-9365-689d0666ba6d", 
+        "relationship--effc8585-2faf-43cc-adb9-d1a51602622b", 
+        "relationship--d398247e-5342-4084-b54f-0eeeefb0741c", 
+        "relationship--eba006dc-682d-4c40-aa31-35a9f30ce985", 
+        "relationship--754ea1ea-f737-4215-b13f-3ef71b018918", 
+        "relationship--87e5d2ab-8ab5-4941-a0e4-d09a1d0c790a", 
         "relationship--f84bd0e5-10a4-4462-8f68-8b0c31029600", 
         "relationship--773c8162-b1db-4d26-afb4-571185d3f324", 
         "relationship--1cb970a7-7457-4fdd-b031-46582cda1510", 
@@ -4601,6 +5459,57 @@
       ], 
       "type": "identity", 
       "id": "identity--30ca237c-9fb3-4eff-8b8f-21b4ca0ad722"
+    }, 
+    {
+      "name": "PoisonIvy", 
+      "created": "2019-10-10T17:13:59.694Z", 
+      "labels": [
+        "remote-access-trojan"
+      ], 
+      "modified": "2019-10-14T17:57:38.035Z", 
+      "type": "malware", 
+      "id": "malware--c7539b03-c5b9-47e9-a236-4f3b53a3ccfb"
+    }, 
+    {
+      "name": "PoisonIvy", 
+      "created": "2019-10-10T17:13:59.694Z", 
+      "labels": [
+        "remote-access-trojan"
+      ], 
+      "modified": "2019-10-14T17:57:38.035Z", 
+      "type": "malware", 
+      "id": "malware--c7539b03-c5b9-47e9-a236-4f3b53a3ccfb"
+    }, 
+    {
+      "name": "PoisonIvy", 
+      "created": "2019-10-10T17:13:59.694Z", 
+      "labels": [
+        "remote-access-trojan"
+      ], 
+      "modified": "2019-10-14T17:57:38.035Z", 
+      "type": "malware", 
+      "id": "malware--c7539b03-c5b9-47e9-a236-4f3b53a3ccfb"
+    }, 
+    {
+      "name": "PoisonIvy", 
+      "created": "2019-10-10T17:13:59.694Z", 
+      "labels": [
+        "remote-access-trojan"
+      ], 
+      "modified": "2019-10-14T17:57:38.035Z", 
+      "type": "malware", 
+      "id": "malware--c7539b03-c5b9-47e9-a236-4f3b53a3ccfb"
+    }, 
+    {
+      "name": "PlugX", 
+      "created": "2019-10-11T19:10:12.855Z", 
+      "labels": [
+        "backdoor"
+      ], 
+      "modified": "2019-10-14T17:02:47.296Z", 
+      "type": "malware", 
+      "id": "malware--bc86408b-eefc-4c17-9b05-f37d98cc78c2", 
+      "description": " The PlugX backdoor is commonly used in targeted cyber espionage campaigns emanating from China. "
     }, 
     {
       "valid_from": "2019-07-30T08:32:48.432Z", 
@@ -4960,6 +5869,51 @@
       "source_ref": "indicator--47c372ce-73ba-45e6-928d-b93fbb1e430a"
     }, 
     {
+      "created": "2019-10-11T19:18:11.559Z", 
+      "modified": "2019-10-14T17:02:47.298Z", 
+      "target_ref": "malware--c7539b03-c5b9-47e9-a236-4f3b53a3ccfb", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--c66116d6-7c8c-4fe0-b0bc-e03a27241f22", 
+      "source_ref": "indicator--386f305b-3a6b-45fb-9186-749cb39fd03a"
+    }, 
+    {
+      "created": "2019-10-11T19:18:31.398Z", 
+      "modified": "2019-10-14T17:02:47.298Z", 
+      "target_ref": "malware--c7539b03-c5b9-47e9-a236-4f3b53a3ccfb", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--c0ece2b9-c332-49bf-825e-c567849ada1f", 
+      "source_ref": "indicator--8edcb4bd-7594-4f0e-a4c9-fcb51b442023"
+    }, 
+    {
+      "created": "2019-10-11T19:18:41.575Z", 
+      "modified": "2019-10-14T17:02:47.298Z", 
+      "target_ref": "malware--c7539b03-c5b9-47e9-a236-4f3b53a3ccfb", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--3c109c90-5d79-4b22-9a1a-87b31139ebd1", 
+      "source_ref": "indicator--dcd9a87c-6916-42e0-a88d-1eed47bbf45c"
+    }, 
+    {
+      "created": "2019-10-11T19:18:50.631Z", 
+      "modified": "2019-10-14T17:02:47.298Z", 
+      "target_ref": "malware--c7539b03-c5b9-47e9-a236-4f3b53a3ccfb", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--eaf0cd1e-9b19-423e-88f6-11aec90c3e01", 
+      "source_ref": "indicator--1937ba03-4e2b-4ed1-8e20-ab6ef2a8216f"
+    }, 
+    {
+      "created": "2019-10-11T19:16:03.263Z", 
+      "modified": "2019-10-14T17:02:47.298Z", 
+      "target_ref": "malware--bc86408b-eefc-4c17-9b05-f37d98cc78c2", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--ef0b9afc-2b06-455e-b6b3-196d63a9aa59", 
+      "source_ref": "indicator--29963e73-114d-4f2d-ae1a-079fd9b268f7"
+    }, 
+    {
       "description": "jackhex.md5c.com", 
       "created": "2019-07-30T10:03:25.280Z", 
       "modified": "2019-07-30T13:36:18.232Z", 
@@ -5258,6 +6212,11 @@
         "attack-pattern--f879d51c-5476-431c-aedf-f14d207e4d1e", 
         "attack-pattern--8c32eb4d-805f-4fc5-bf60-c4d476c131b5", 
         "attack-pattern--c848fcf7-6b62-4bde-8216-b6c157d48da0", 
+        "malware--c7539b03-c5b9-47e9-a236-4f3b53a3ccfb", 
+        "malware--c7539b03-c5b9-47e9-a236-4f3b53a3ccfb", 
+        "malware--c7539b03-c5b9-47e9-a236-4f3b53a3ccfb", 
+        "malware--c7539b03-c5b9-47e9-a236-4f3b53a3ccfb", 
+        "malware--bc86408b-eefc-4c17-9b05-f37d98cc78c2", 
         "relationship--3a5f999b-48d9-4d99-aef8-e52f278d19a3", 
         "relationship--922fc92f-4222-4f1a-add2-1fe9a06b7037", 
         "relationship--58a683b2-760d-45e2-ace6-0db4a27fff64", 
@@ -5275,6 +6234,11 @@
         "relationship--d387655a-fcdb-42d8-9d1d-88ebca2fba5c", 
         "relationship--a10d9405-4ce1-44cf-b5b9-a048661e74fe", 
         "relationship--b2f6df6c-a54a-4da7-9e81-1ac7249eaebe", 
+        "relationship--c66116d6-7c8c-4fe0-b0bc-e03a27241f22", 
+        "relationship--c0ece2b9-c332-49bf-825e-c567849ada1f", 
+        "relationship--3c109c90-5d79-4b22-9a1a-87b31139ebd1", 
+        "relationship--eaf0cd1e-9b19-423e-88f6-11aec90c3e01", 
+        "relationship--ef0b9afc-2b06-455e-b6b3-196d63a9aa59", 
         "relationship--39da715d-11f1-420f-b46c-4d5e3909e0cd", 
         "relationship--97ec0279-f5a9-49b9-9213-abdf9dd20887", 
         "relationship--97654466-775a-48c2-a987-698fdf691e3b", 
@@ -5474,6 +6438,28 @@
       ], 
       "type": "identity", 
       "id": "identity--2ef70387-8c49-49b4-b0ea-c5524a9e277c"
+    }, 
+    {
+      "name": "9002", 
+      "created": "2019-10-11T19:20:34.325Z", 
+      "labels": [
+        "remote-access-trojan"
+      ], 
+      "modified": "2019-10-14T17:02:47.296Z", 
+      "type": "malware", 
+      "id": "malware--a579f2c0-0e20-4b55-8929-b42c283435c2", 
+      "description": " The 9002 Trojan (aka McRAT) is a tool used by threat actors in cyber espionage campaigns. While there are many variants of this tool, 9002 received its name based on the original variant's beacon to its C2 server, which began with the string '9002'. Some variants of 9002 use HTTP requests with the user-agent \"lynx\" to communicate with the C2 server. The 9002 Trojan is modular in nature, requiring plugins to provide malicious functionality. "
+    }, 
+    {
+      "name": "9002", 
+      "created": "2019-10-11T19:20:34.325Z", 
+      "labels": [
+        "remote-access-trojan"
+      ], 
+      "modified": "2019-10-14T17:02:47.296Z", 
+      "type": "malware", 
+      "id": "malware--a579f2c0-0e20-4b55-8929-b42c283435c2", 
+      "description": " The 9002 Trojan (aka McRAT) is a tool used by threat actors in cyber espionage campaigns. While there are many variants of this tool, 9002 received its name based on the original variant's beacon to its C2 server, which began with the string '9002'. Some variants of 9002 use HTTP requests with the user-agent \"lynx\" to communicate with the C2 server. The 9002 Trojan is modular in nature, requiring plugins to provide malicious functionality. "
     }, 
     {
       "valid_from": "2019-07-30T08:34:17.470Z", 
@@ -5953,6 +6939,114 @@
       "source_ref": "indicator--b3b956e3-9e52-4d7c-b724-fc6a47233237"
     }, 
     {
+      "created": "2019-10-11T19:22:16.629Z", 
+      "modified": "2019-10-14T17:02:47.298Z", 
+      "target_ref": "malware--a579f2c0-0e20-4b55-8929-b42c283435c2", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--5755586c-aacf-475e-9c65-2d31f09f669b", 
+      "source_ref": "indicator--dad697f8-f201-4d93-95f7-642a44254fec"
+    }, 
+    {
+      "created": "2019-10-11T19:20:58.259Z", 
+      "modified": "2019-10-14T17:02:47.298Z", 
+      "target_ref": "malware--a579f2c0-0e20-4b55-8929-b42c283435c2", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--2ce80150-eb52-4319-866b-16455ec3ac93", 
+      "source_ref": "indicator--d23befc2-0397-4d9d-bdcc-9af2127b654d"
+    }, 
+    {
+      "created": "2019-10-11T19:22:38.412Z", 
+      "modified": "2019-10-14T17:02:47.298Z", 
+      "target_ref": "malware--c7539b03-c5b9-47e9-a236-4f3b53a3ccfb", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--f20455a9-7618-416d-8757-4ba73c8480c7", 
+      "source_ref": "indicator--27122928-69a4-4e82-8df7-1aaad5a8591a"
+    }, 
+    {
+      "created": "2019-10-11T19:22:53.804Z", 
+      "modified": "2019-10-14T17:02:47.298Z", 
+      "target_ref": "malware--c7539b03-c5b9-47e9-a236-4f3b53a3ccfb", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--5da3235f-e429-4da2-beba-92791dd47b0d", 
+      "source_ref": "indicator--d13a1e2c-383b-4c93-84f1-d0ef723a9ba2"
+    }, 
+    {
+      "created": "2019-10-11T19:21:26.313Z", 
+      "modified": "2019-10-14T17:02:47.298Z", 
+      "target_ref": "malware--c7539b03-c5b9-47e9-a236-4f3b53a3ccfb", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--4b036607-d88f-4c19-bb1a-3e5e673491f6", 
+      "source_ref": "indicator--0ee84a86-9a0c-46cc-a1b2-d6caf3769b06"
+    }, 
+    {
+      "created": "2019-10-11T19:23:06.373Z", 
+      "modified": "2019-10-14T17:02:47.298Z", 
+      "target_ref": "malware--c7539b03-c5b9-47e9-a236-4f3b53a3ccfb", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--fd6f83f6-d0fd-4420-a4d3-8039578356d6", 
+      "source_ref": "indicator--4e81b76b-2609-4932-846a-5042ebd7d698"
+    }, 
+    {
+      "created": "2019-10-11T19:23:23.989Z", 
+      "modified": "2019-10-14T17:02:47.298Z", 
+      "target_ref": "malware--c7539b03-c5b9-47e9-a236-4f3b53a3ccfb", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--28ba6d3b-4630-4b9c-a495-493b80e0340c", 
+      "source_ref": "indicator--e33a803e-9b21-40a3-a56b-2dcc8877080e"
+    }, 
+    {
+      "created": "2019-10-11T19:23:35.197Z", 
+      "modified": "2019-10-14T17:02:47.298Z", 
+      "target_ref": "malware--c7539b03-c5b9-47e9-a236-4f3b53a3ccfb", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--fcc84794-cff3-4146-bdbf-a950a02ca15f", 
+      "source_ref": "indicator--4f5e3068-ee2e-4143-95fd-0556f54cc91f"
+    }, 
+    {
+      "created": "2019-10-11T19:24:01.651Z", 
+      "modified": "2019-10-14T17:02:47.298Z", 
+      "target_ref": "malware--c7539b03-c5b9-47e9-a236-4f3b53a3ccfb", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--78f5c8dd-16a7-4f99-8882-1741f1e95228", 
+      "source_ref": "indicator--96689a25-a4d5-497c-9373-1b890b25c1ee"
+    }, 
+    {
+      "created": "2019-10-11T19:24:09.592Z", 
+      "modified": "2019-10-14T17:02:47.298Z", 
+      "target_ref": "malware--c7539b03-c5b9-47e9-a236-4f3b53a3ccfb", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--b810ea1e-3c39-44c4-8d66-785e83333903", 
+      "source_ref": "indicator--bcaf6e48-0432-444a-a3b7-02c31140c624"
+    }, 
+    {
+      "created": "2019-10-11T19:24:18.108Z", 
+      "modified": "2019-10-14T17:02:47.298Z", 
+      "target_ref": "malware--c7539b03-c5b9-47e9-a236-4f3b53a3ccfb", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--e2ac27d4-a987-4fdf-92c8-54e9f3118f0f", 
+      "source_ref": "indicator--388be7ea-a34c-4e28-b385-9661c99883f1"
+    }, 
+    {
+      "created": "2019-10-11T19:24:27.577Z", 
+      "modified": "2019-10-14T17:02:47.298Z", 
+      "target_ref": "malware--c7539b03-c5b9-47e9-a236-4f3b53a3ccfb", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--155f0c99-87a6-4ce8-bf49-14e17585ec92", 
+      "source_ref": "indicator--43ec8591-54d0-4be5-9fef-540b22c38aca"
+    }, 
+    {
       "description": "C11b963e2df167766e32b14fb05fd71409092092db93b310a953e1d0e9ec9bc3", 
       "created": "2019-07-30T10:08:13.637Z", 
       "modified": "2019-08-02T19:14:54.300Z", 
@@ -6338,6 +7432,20 @@
         "attack-pattern--1b84d551-6de8-4b96-9930-d177677c3b1d", 
         "attack-pattern--fddd81e9-dd3d-477e-9773-4fb8ae227234", 
         "attack-pattern--355be19c-ffc9-46d5-8d50-d6a036c675b6", 
+        "malware--a579f2c0-0e20-4b55-8929-b42c283435c2", 
+        "malware--a579f2c0-0e20-4b55-8929-b42c283435c2", 
+        "malware--c7539b03-c5b9-47e9-a236-4f3b53a3ccfb", 
+        "malware--c7539b03-c5b9-47e9-a236-4f3b53a3ccfb", 
+        "malware--c7539b03-c5b9-47e9-a236-4f3b53a3ccfb", 
+        "malware--c7539b03-c5b9-47e9-a236-4f3b53a3ccfb", 
+        "malware--c7539b03-c5b9-47e9-a236-4f3b53a3ccfb", 
+        "malware--c7539b03-c5b9-47e9-a236-4f3b53a3ccfb", 
+        "malware--c7539b03-c5b9-47e9-a236-4f3b53a3ccfb", 
+        "malware--c7539b03-c5b9-47e9-a236-4f3b53a3ccfb", 
+        "malware--c7539b03-c5b9-47e9-a236-4f3b53a3ccfb", 
+        "malware--c7539b03-c5b9-47e9-a236-4f3b53a3ccfb", 
+        "malware--c7539b03-c5b9-47e9-a236-4f3b53a3ccfb", 
+        "malware--c7539b03-c5b9-47e9-a236-4f3b53a3ccfb", 
         "relationship--2a1143f1-5838-49bf-b40a-06a5b470020f", 
         "relationship--42ec6155-a39b-482c-8921-4d62625633c7", 
         "relationship--5cc2f181-f0a2-44e8-9479-3ce92837fb46", 
@@ -6363,6 +7471,20 @@
         "relationship--a6e9c1cc-ecd9-4233-9987-946dbcab526c", 
         "relationship--4aeb2e67-28d3-41a7-b942-441683454a39", 
         "relationship--d7515760-c619-4ae9-804e-6522c66becdf", 
+        "relationship--5755586c-aacf-475e-9c65-2d31f09f669b", 
+        "relationship--2ce80150-eb52-4319-866b-16455ec3ac93", 
+        "relationship--f20455a9-7618-416d-8757-4ba73c8480c7", 
+        "relationship--5da3235f-e429-4da2-beba-92791dd47b0d", 
+        "relationship--eaf0cd1e-9b19-423e-88f6-11aec90c3e01", 
+        "relationship--4b036607-d88f-4c19-bb1a-3e5e673491f6", 
+        "relationship--fd6f83f6-d0fd-4420-a4d3-8039578356d6", 
+        "relationship--28ba6d3b-4630-4b9c-a495-493b80e0340c", 
+        "relationship--fcc84794-cff3-4146-bdbf-a950a02ca15f", 
+        "relationship--78f5c8dd-16a7-4f99-8882-1741f1e95228", 
+        "relationship--b810ea1e-3c39-44c4-8d66-785e83333903", 
+        "relationship--e2ac27d4-a987-4fdf-92c8-54e9f3118f0f", 
+        "relationship--155f0c99-87a6-4ce8-bf49-14e17585ec92", 
+        "relationship--3c109c90-5d79-4b22-9a1a-87b31139ebd1", 
         "relationship--e5a23a17-2099-4410-a982-1ee3df9ee3bd", 
         "relationship--fa1edd97-7c62-4cb3-874c-9e33b947e4be", 
         "relationship--8eb100ad-9053-46d7-8201-a53ba4be4ee5", 
@@ -16211,6 +17333,24 @@
       "source_ref": "indicator--d1a05105-fab9-4f4e-8ff9-8a28836275dd"
     }, 
     {
+      "created": "2019-10-11T19:26:35.658Z", 
+      "modified": "2019-10-14T17:02:47.299Z", 
+      "target_ref": "malware--aaca7217-46ad-4e77-8aa1-bc22a158c5ab", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--fe291b0b-c7d3-4ef5-bd42-88a251d7c23c", 
+      "source_ref": "indicator--b846aef4-8223-4b60-9077-21cf273db3fb"
+    }, 
+    {
+      "created": "2019-10-11T19:26:51.922Z", 
+      "modified": "2019-10-14T17:02:47.299Z", 
+      "target_ref": "malware--aaca7217-46ad-4e77-8aa1-bc22a158c5ab", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--1099d9c7-c818-41ea-9302-22bfddcb9ab9", 
+      "source_ref": "indicator--eda11ff8-cd09-4f45-9051-71713b1b4531"
+    }, 
+    {
       "description": "59ca2754279d9cba40334c35907e2e1fc6fd2888b2c180e5b0b8d73accbb40f2", 
       "created": "2019-07-30T14:52:59.701Z", 
       "modified": "2019-08-02T19:14:54.306Z", 
@@ -21080,6 +22220,8 @@
         "attack-pattern--194bff4f-c218-40df-bea3-1ace715de8dd", 
         "attack-pattern--fddd81e9-dd3d-477e-9773-4fb8ae227234", 
         "attack-pattern--355be19c-ffc9-46d5-8d50-d6a036c675b6", 
+        "malware--aaca7217-46ad-4e77-8aa1-bc22a158c5ab", 
+        "malware--aaca7217-46ad-4e77-8aa1-bc22a158c5ab", 
         "relationship--9358969c-1f0f-48c5-bdd3-e0c3c806e473", 
         "relationship--539df396-7418-45c1-bfa4-8b7de8b77ea7", 
         "relationship--94320849-0f40-4ab3-bbef-d1d3634dc3ab", 
@@ -21529,6 +22671,8 @@
         "relationship--662be3da-62ae-4ff1-9cda-c1fddef077b3", 
         "relationship--53c43acf-c965-47c4-ba8f-d44b363e2cef", 
         "relationship--f201f96c-5fec-4fde-a204-cf0379764c19", 
+        "relationship--fe291b0b-c7d3-4ef5-bd42-88a251d7c23c", 
+        "relationship--1099d9c7-c818-41ea-9302-22bfddcb9ab9", 
         "relationship--96bdc657-a22d-496e-8f22-d8617db0f7db", 
         "relationship--98239770-b416-4b57-91df-57275bbed0d0", 
         "relationship--3dcba0e2-7533-493b-8c16-b598e1e0f882", 
@@ -22010,7 +23154,7 @@
       ], 
       "created": "2019-10-08T17:50:52.538Z", 
       "modified": "2019-10-08T18:27:43.129Z", 
-      "identity_class": null, 
+      "identity_class": "unknown",
       "x_cta_country": [
         "MN"
       ], 
@@ -22090,6 +23234,15 @@
       "source_ref": "indicator--77156abe-080c-46b6-9fd1-61995d4d7fc4"
     }, 
     {
+      "created": "2019-10-11T19:14:24.152Z", 
+      "modified": "2019-10-14T17:02:47.298Z", 
+      "target_ref": "malware--bc86408b-eefc-4c17-9b05-f37d98cc78c2", 
+      "relationship_type": "indicates", 
+      "type": "relationship", 
+      "id": "relationship--aa6b78fc-a4b6-4fd5-953f-32eabc333111", 
+      "source_ref": "indicator--252b8df0-a929-4679-8197-531adbcf30a2"
+    }, 
+    {
       "description": "ppt.bodologetee.com", 
       "created": "2019-07-30T09:57:47.121Z", 
       "modified": "2019-08-05T15:15:20.339Z", 
@@ -22122,7 +23275,7 @@
     {
       "description": "9cb2b1a45e2e427e73b6decc9cbe76790877b052d6053ef90c1dd42d0aab7abc", 
       "created": "2019-07-30T09:56:59.344Z", 
-      "modified": "2019-08-02T19:14:54.300Z", 
+      "modified": "2019-10-11T19:09:36.057Z", 
       "target_ref": "attack-pattern--fddd81e9-dd3d-477e-9773-4fb8ae227234", 
       "relationship_type": "uses", 
       "type": "relationship", 
@@ -22245,10 +23398,12 @@
         "attack-pattern--8c32eb4d-805f-4fc5-bf60-c4d476c131b5", 
         "attack-pattern--1b84d551-6de8-4b96-9930-d177677c3b1d", 
         "attack-pattern--f879d51c-5476-431c-aedf-f14d207e4d1e", 
+        "malware--bc86408b-eefc-4c17-9b05-f37d98cc78c2", 
         "relationship--946db451-0c9d-4d3b-bd08-0d21cd3541b8", 
         "relationship--75e13ae2-3b10-44b6-ae5e-8dfd1d4571bc", 
         "relationship--85d8a225-7985-4eeb-abd2-e3e5fe1a62a9", 
         "relationship--ded0083b-48d2-4ea1-852f-557799f9d35b", 
+        "relationship--aa6b78fc-a4b6-4fd5-953f-32eabc333111", 
         "relationship--6145eec5-a656-4f12-83f7-d2bbf58e7fac", 
         "relationship--88a009a1-d4df-487e-a71b-b2fc381af0ff", 
         "relationship--1faa4d2b-44d2-4801-a5ff-9fc3a5f4769a", 

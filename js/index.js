@@ -349,12 +349,6 @@ function buildMalwareFilter(usedMalwares) {
 }
 
 function buildRegionFilter(usedRegions) {
-    // const identityRegions = identityInformation['regions'].map(s => {
-    //     const title = x_cta_country_ov[(s || "").toUpperCase()] || s.toUpperCase();
-    //     // return `<span><i class="flag ${s.toLowerCase()}" title="${title}"></i></span>`;
-    //     return `<i class="flag ${s.toLowerCase()}" title="${title}"></i>`;
-    // }).sort().join(' ');
-
     let regionFilterHTML = `<optgroup class="targeted-regions" label="Targeted Regions">`;
 
     usedRegions.forEach(r => {
@@ -362,7 +356,6 @@ function buildRegionFilter(usedRegions) {
             const val = JSON.stringify({"filterType": "region", "value": r});
 
             regionFilterHTML += `<option class="filter-options-entry" value='${val}'>${x_cta_country_ov[r]}</option>`;
-            // regionFilterHTML += `<option class="filter-options-entry" value='${val}'><i class="flag ${r.toLowerCase()}"></i> ${x_cta_country_ov[r]}</option>`;
         }
     });
 
@@ -655,36 +648,29 @@ function addInfoBox2(report, playbook) {
 
     const malwareObjects = getTypeFromReport("malware", report, playbook);
 
-    // const identitySectors = identityInformation['sectors'].map(s => industry_sector_ov[s] || s).sort().join(', ');
-
     const identitySectors = identityInformation['sectors'].sort().map(s => {
         const sectorIcon = industry_sector_ov_to_icon[s] || 'question';
-        const title =  industry_sector_ov[s] || s;
+        const title = industry_sector_ov[s] || s;
 
         return `<span class="fas-container"><i class="fas fa-${sectorIcon} fa-lg" title="${title}"></i></span>`;
     }).join(' ');
 
-
-
-    // const identityRegions = identityInformation['regions'].map(s =>
-    //     x_cta_country_ov[(s || "").toUpperCase()] || s.toUpperCase()
-    // ).sort().join(', ');
-
     const identityRegions = identityInformation['regions'].sort().map(s => {
         const title = x_cta_country_ov[(s || "").toUpperCase()] || s.toUpperCase();
-        // return `<span><i class="flag ${s.toLowerCase()}" title="${title}"></i></span>`;
-        // <span class="flag-icon flag-icon-gr"></span>
-
-        // return `<i class="flag ${s.toLowerCase()}" title="${title}"></i>`;
-        // return `<i class="flag ${s.toLowerCase()}" title="${title}"></i>`;
-
         return `<span class="flag-icon flag-icon-${s.toLowerCase()}" title="${title}"></span>`;
     }).join(' ');
 
     // const identityTypes = identityInformation['types'].map(t => industry_class_ov[t] || t).sort().join(', ');
     const identityTypes = '';
 
-    const malwareNames = malwareObjects.map(m => m['name'].toUpperCase()).sort().join(', ');
+    // const malwareNames = malwareObjects.map(m => m['name']).sort().join(', ');
+
+    const malwareNames = malwareObjects.reduce((r, m) => {
+        if (!(r.includes(m['name']))) {
+            r.push(m['name']);
+        }
+        return r;
+    }, []).sort().join(', ');
 
     let context_markup = '';
     let displayInfoBar2 = false;
@@ -911,7 +897,7 @@ function writeAPModal(ap, report, playbook) {
 
                     malwares.forEach((m, i) => {
                         malwareToolTip += `<div>Name: ${m['name']}</div>`;
-                        malwareToolTip += `<div></div>Types: ${m['labels'].sort().join(', ')}</div>`;
+                        malwareToolTip += `<div></div>Types: ${m['labels'].map(m => malware_label_ov[m]).sort().join(', ')}</div>`;
 
                         if (m['description']) {
                             malwareToolTip += `<div>Description: ${m['description']}</div>`;
