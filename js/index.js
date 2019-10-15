@@ -46,8 +46,7 @@ function initTour() {
                 content: "A Playbook is a collection of Plays. " +
                     "Plays are campaigns that were conducted by an adversary, you can select them from this list.",
                 // Use the Oilrig Playbook for the demo
-                // onNext: () => $('#playbook_oilrig').trigger('click')
-                onNext: () => $('.box.sidebar div:first-of-type').trigger('click')
+                onNext: () => $('.box.sidebar').children('.btn').first().trigger('click')
             },
             {
                 element: ".playbook-description",
@@ -61,28 +60,24 @@ function initTour() {
                     " the adversary conducted using specific techniques and tools."
             },
             {
-                // element: "#report--e76e88c8-699a-4eeb-a8e5-3645826d6455",
                 element: ".box.timeline :first-child",
                 title: "The newest Play is shown first",
                 content: "",
                 // the newest play is selected by default
                 // switch to the oldest play
-                // onNext: () => $('#report--418eec9b-ca2d-48d6-92cc-7cf47b159e8c').trigger('click')
                 onNext: () => $('.box.timeline :last-child').trigger('click')
             },
             {
-                // element: "#report--418eec9b-ca2d-48d6-92cc-7cf47b159e8c",
                 element: '.box.timeline :last-child',
                 title: "The oldest Play is shown last",
                 content: "",
                 // switch back to the newest play
-                // onNext: () => $('#report--e76e88c8-699a-4eeb-a8e5-3645826d6455').trigger('click')
                 onPrev: () => $('.box.timeline :first-child').trigger('click'),
                 onNext: () => $('.box.timeline :first-child').trigger('click')
             },
             {
                 element: ".campaign-description",
-                title: "Each Campaign may have a description",
+                title: "Each Play may have a description",
                 content: "The description provides specific details about the campaign."
             },
             {
@@ -93,7 +88,7 @@ function initTour() {
                 // technique: T1367: Spear phishing messages with malicious attachments
                 // hardcoding the id here is not ideal
                 onPrev: () => $('.box.timeline :last-child').trigger('click'),
-                onNext: () => $("[ap_id='attack-pattern--e24a9f99-cb76-42a3-a50b-464668773e97']").trigger('click')
+                onNext: () => $("[ap_id='attack-pattern--6aac77c4-eaf2-4366-8c13-ce50ab951f38']").trigger('click')
             },
             {
                 element: "#indicator-table",
@@ -612,10 +607,10 @@ function addInfobox(playbook) {
     const total_indicators = getTypeFromPlaybook("indicator", playbook).length;
     const total_attackpatterns = getTypeFromPlaybook("attack-pattern", playbook).length;
     const ib_markup = (
-        `<div class="left"><span>Intrusion Set: ${current_intrusion_set}</span></div>` +
-        `<div class="middle"><span>Campaigns: ${total_campaigns}</span></div>` +
-        `<div class="middle2"><span class="middle2">Indicators: ${total_indicators} (Click For Overview)</span></div>` +
-        `<div class="right"><span>Attack Patterns: ${total_attackpatterns}</span></div>`
+        `<div class="left"><div>Intrusion Set: ${current_intrusion_set}</div></div>` +
+        `<div class="middle"><div>Campaigns: ${total_campaigns}</div></div>` +
+        `<div class="middle2"><div class="action middle2" title="Click For Overview">Indicators: ${total_indicators}</div></div>` +
+        `<div class="right"><div>Attack Patterns: ${total_attackpatterns}</div></div>`
     );
     $('.info1').empty().append(ib_markup);
     $('body').append(
