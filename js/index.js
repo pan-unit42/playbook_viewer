@@ -243,9 +243,7 @@ function initEvents() {
 
         if (multiselectElement.length === 1) {
             const selectedOptions = Array.from(multiselectElement[0].selectedOptions);
-
             const values = selectedOptions.map(opt => opt.value);
-
             doFilter(values);
         }
     });
@@ -265,19 +263,6 @@ function initEvents() {
     // Display the datamap
     $(document).on('click', ".view-datamap", function () {
         emptyPlaybook();
-        const htmlContents = `
-            <div class="box header">
-                <span>PLAYBOOK MAP</span>
-            </div>
-
-            <div class="map-description">
-                Welcome to the Unit 42 Playbook Map. <br/><br/>
-                Please hover over a bubble to see Playbooks targeting that country.
-            </div>
-        
-            <div id='container' class='container'></div>
-        `;
-        $(".contents").html(htmlContents);
         buildMap()
     });
 
@@ -341,6 +326,20 @@ function buildSideBar(playbooks) {
 }
 
 function buildMap() {
+    const htmlContents = `
+            <div class="box header">
+                <span>PLAYBOOK MAP</span>
+            </div>
+
+            <div class="map-description">
+                Welcome to the Unit 42 Playbook Map. <br/><br/>
+                Please hover over a bubble to see Playbooks targeting that country.
+            </div>
+        
+            <div id='container' class='container'></div>
+        `;
+    $(".contents").html(htmlContents);
+
     const countries_to_playbooks = playbook_information.reduce((r, i) => {
         const unknown = '???';
         if (i.regions.length > 0) {
@@ -349,7 +348,7 @@ function buildMap() {
                 iso3 in r ? r[iso3].push(i) : r[iso3] = [i];
             });
         } else {
-            // Playbooks without at least one target country could be located somewhere on the map
+            // Playbooks without at least one target country could be located in a blank location on the map
             // Exclude them for now
             // r[unknown] ? r[unknown].push(i) : r[unknown] = [i];
         }
@@ -418,11 +417,11 @@ function buildMap() {
         }
     });
 
-    map.svg.on('click', function() {
+    map.svg.on('click', function () {
         $('.extrainfo').remove();
     });
 
-    map.svg.selectAll('.datamaps-subunit').on('click', function() {
+    map.svg.selectAll('.datamaps-subunit').on('click', function () {
         $('.extrainfo').remove();
     });
 }
