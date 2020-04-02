@@ -8,9 +8,9 @@
       "id": "attack-pattern--03d7999c-1f4c-42cc-8373-e7690d318104",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
       "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2018-12-17T14:32:31.026Z",
+      "modified": "2020-03-18T19:44:06.270Z",
       "name": "T1033: System Owner/User Discovery",
-      "description": "### Windows\n\nAdversaries may attempt to identify the primary user, currently logged in user, set of users that commonly uses a system, or whether a user is actively using the system. They may do this, for example, by retrieving account usernames or by using [Credential Dumping](https://attack.mitre.org/techniques/T1003). The information may be collected in a number of different ways using other Discovery techniques, because user and username details are prevalent throughout a system and include running process ownership, file/directory ownership, session information, and system logs.\n\n### Mac\n\nOn Mac, the currently logged in user can be identified with <code>users</code>,<code>w</code>, and <code>who</code>.\n\n### Linux\n\nOn Linux, the currently logged in user can be identified with <code>w</code> and <code>who</code>.",
+      "description": "### Windows\n\nAdversaries may attempt to identify the primary user, currently logged in user, set of users that commonly uses a system, or whether a user is actively using the system. They may do this, for example, by retrieving account usernames or by using [Credential Dumping](https://attack.mitre.org/techniques/T1003). The information may be collected in a number of different ways using other Discovery techniques, because user and username details are prevalent throughout a system and include running process ownership, file/directory ownership, session information, and system logs. Adversaries may use the information from [System Owner/User Discovery](https://attack.mitre.org/techniques/T1033) during automated discovery to shape follow-on behaviors, including whether or not the adversary fully infects the target and/or attempts specific actions.\n\n### Mac\n\nOn Mac, the currently logged in user can be identified with <code>users</code>,<code>w</code>, and <code>who</code>.\n\n### Linux\n\nOn Linux, the currently logged in user can be identified with <code>w</code> and <code>who</code>.",
       "kill_chain_phases": [
         {
           "kill_chain_name": "lockheed",
@@ -71,9 +71,9 @@
       "id": "attack-pattern--354a7f88-63fb-41b5-a801-ce3b377b36f1",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
       "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2018-12-17T14:32:40.713Z",
+      "modified": "2020-03-18T19:43:35.494Z",
       "name": "T1082: System Information Discovery",
-      "description": "An adversary may attempt to get detailed information about the operating system and hardware, including version, patches, hotfixes, service packs, and architecture.\n\n### Windows\n\nExample commands and utilities that obtain this information include <code>ver</code>, [Systeminfo](https://attack.mitre.org/software/S0096), and <code>dir</code> within [cmd](https://attack.mitre.org/software/S0106) for identifying information based on present files and directories.\n\n### Mac\n\nOn Mac, the <code>systemsetup</code> command gives a detailed breakdown of the system, but it requires administrative privileges. Additionally, the <code>system_profiler</code> gives a very detailed breakdown of configurations, firewall rules, mounted volumes, hardware, and many other things without needing elevated permissions.",
+      "description": "An adversary may attempt to get detailed information about the operating system and hardware, including version, patches, hotfixes, service packs, and architecture. Adversaries may use the information from [System Information Discovery](https://attack.mitre.org/techniques/T1082) during automated discovery to shape follow-on behaviors, including whether or not the adversary fully infects the target and/or attempts specific actions.\n\n### Windows\n\nExample commands and utilities that obtain this information include <code>ver</code>, [Systeminfo](https://attack.mitre.org/software/S0096), and <code>dir</code> within [cmd](https://attack.mitre.org/software/S0106) for identifying information based on present files and directories.\n\n### Mac\n\nOn Mac, the <code>systemsetup</code> command gives a detailed breakdown of the system, but it requires administrative privileges. Additionally, the <code>system_profiler</code> gives a very detailed breakdown of configurations, firewall rules, mounted volumes, hardware, and many other things without needing elevated permissions.\n\n### AWS\n\nIn Amazon Web Services (AWS), the Application Discovery Service may be used by an adversary to identify servers, virtual machines, software, and software dependencies running.(Citation: Amazon System Discovery)\n\n### GCP\n\nOn Google Cloud Platform (GCP) <code>GET /v1beta1/{parent=organizations/*}/assets</code> or <code>POST /v1beta1/{parent=organizations/*}/assets:runDiscovery</code> may be used to list an organizations cloud assets, or perform asset discovery on a cloud environment.(Citation: Google Command Center Dashboard)\n\n### Azure\n\nIn Azure, the API request <code>GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}?api-version=2019-03-01</code> may be used to retrieve information about the model or instance view of a virtual machine.(Citation: Microsoft Virutal Machine API)",
       "kill_chain_phases": [
         {
           "kill_chain_name": "lockheed",
@@ -86,9 +86,24 @@
       ],
       "external_references": [
         {
+          "source_name": "Amazon System Discovery",
+          "url": "https://docs.aws.amazon.com/en_pv/application-discovery/latest/userguide/what-is-appdiscovery.html",
+          "description": "Amazon. (n.d.). What Is AWS Application Discovery Service?. Retrieved October 8, 2019."
+        },
+        {
           "source_name": "capec",
-          "url": "https://capec.mitre.org/data/definitions/311.html",
-          "external_id": "CAPEC-311"
+          "url": "https://capec.mitre.org/data/definitions/312.html",
+          "external_id": "CAPEC-312"
+        },
+        {
+          "source_name": "Google Command Center Dashboard",
+          "url": "https://cloud.google.com/security-command-center/docs/quickstart-scc-dashboard",
+          "description": "Google. (2019, October 3). Quickstart: Using the dashboard. Retrieved October 8, 2019."
+        },
+        {
+          "source_name": "Microsoft Virutal Machine API",
+          "url": "https://docs.microsoft.com/en-us/rest/api/compute/virtualmachines/get",
+          "description": "Microsoft. (2019, March 1). Virtual Machines - Get. Retrieved October 8, 2019."
         },
         {
           "source_name": "mitre-attack",
@@ -105,7 +120,7 @@
       "id": "attack-pattern--355be19c-ffc9-46d5-8d50-d6a036c675b6",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
       "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2018-12-17T14:33:49.016Z",
+      "modified": "2020-03-18T19:43:34.371Z",
       "name": "T1071: Standard Application Layer Protocol",
       "description": "Adversaries may communicate using a common, standardized application layer protocol such as HTTP, HTTPS, SMTP, or DNS to avoid detection by blending in with existing traffic. Commands to the remote system, and often the results of those commands, will be embedded within the protocol traffic between the client and server.\n\nFor connections that occur internally within an enclave (such as those between a proxy or pivot node and other nodes), commonly used protocols are RPC, SSH, or RDP.",
       "kill_chain_phases": [
@@ -139,7 +154,7 @@
       "id": "attack-pattern--3ccef7ae-cb5e-48f6-8302-897105fbf55c",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
       "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2019-05-06T20:45:46.458Z",
+      "modified": "2020-03-18T19:43:29.673Z",
       "name": "T1140: Deobfuscate/Decode Files or Information",
       "description": "Adversaries may use [Obfuscated Files or Information](https://attack.mitre.org/techniques/T1027) to hide artifacts of an intrusion from analysis. They may require separate mechanisms to decode or deobfuscate that information depending on how they intend to use it. Methods for doing that include built-in functionality of malware, [Scripting](https://attack.mitre.org/techniques/T1064), [PowerShell](https://attack.mitre.org/techniques/T1086), or by using utilities present on the system.\n\nOne such example is use of [certutil](https://attack.mitre.org/software/S0160) to decode a remote access tool portable executable file that has been hidden inside a certificate file. (Citation: Malwarebytes Targeted Attack against Saudi Arabia)\n\nAnother example is using the Windows <code>copy /b</code> command to reassemble binary fragments into a malicious payload. (Citation: Carbon Black Obfuscation Sept 2016)\n\nPayloads may be compressed, archived, or encrypted in order to avoid detection.  These payloads may be used with [Obfuscated Files or Information](https://attack.mitre.org/techniques/T1027) during Initial Access or later to mitigate detection. Sometimes a user's action may be required to open it for deobfuscation or decryption as part of [User Execution](https://attack.mitre.org/techniques/T1204). The user may also be required to input a password to open a password protected compressed/encrypted file that was provided by the adversary. (Citation: Volexity PowerDuke November 2016) Adversaries may also used compressed or archived scripts, such as Javascript.",
       "kill_chain_phases": [
@@ -183,7 +198,7 @@
       "id": "attack-pattern--43e7dc91-05b2-474c-b9ac-2ed4fe101f4d",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
       "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2018-12-17T14:32:15.346Z",
+      "modified": "2020-03-18T19:43:53.399Z",
       "name": "T1055: Process Injection",
       "description": "Process injection is a method of executing arbitrary code in the address space of a separate live process. Running code in the context of another process may allow access to the process's memory, system/network resources, and possibly elevated privileges. Execution via process injection may also evade detection from security products since the execution is masked under a legitimate process.\n\n### Windows\n\nThere are multiple approaches to injecting code into a live process. Windows implementations include: (Citation: Endgame Process Injection July 2017)\n\n* **Dynamic-link library (DLL) injection** involves writing the path to a malicious DLL inside a process then invoking execution by creating a remote thread.\n* **Portable executable injection** involves writing malicious code directly into the process (without a file on disk) then invoking execution with either additional code or by creating a remote thread. The displacement of the injected code introduces the additional requirement for functionality to remap memory references. Variations of this method such as reflective DLL injection (writing a self-mapping DLL into a process) and memory module (map DLL when writing into process) overcome the address relocation issue. (Citation: Endgame HuntingNMemory June 2017)\n* **Thread execution hijacking** involves injecting malicious code or the path to a DLL into a thread of a process. Similar to [Process Hollowing](https://attack.mitre.org/techniques/T1093), the thread must first be suspended.\n* **Asynchronous Procedure Call** (APC) injection involves attaching malicious code to the APC Queue (Citation: Microsoft APC) of a process's thread. Queued APC functions are executed when the thread enters an alterable state. A variation of APC injection, dubbed \"Early Bird injection\", involves creating a suspended process in which malicious code can be written and executed before the process' entry point (and potentially subsequent anti-malware hooks) via an APC. (Citation: CyberBit Early Bird Apr 2018)  AtomBombing  (Citation: ENSIL AtomBombing Oct 2016) is another variation that utilizes APCs to invoke malicious code previously written to the global atom table. (Citation: Microsoft Atom Table)\n* **Thread Local Storage** (TLS) callback injection involves manipulating pointers inside a portable executable (PE) to redirect a process to malicious code before reaching the code's legitimate entry point. (Citation: FireEye TLS Nov 2017)\n\n### Mac and Linux\n\nImplementations for Linux and OS X/macOS systems include: (Citation: Datawire Code Injection) (Citation: Uninformed Needle)\n\n* **LD_PRELOAD, LD_LIBRARY_PATH** (Linux), **DYLD_INSERT_LIBRARIES** (Mac OS X) environment variables, or the dlfcn application programming interface (API) can be used to dynamically load a library (shared object) in a process which can be used to intercept API calls from the running process. (Citation: Phrack halfdead 1997)\n* **Ptrace system calls** can be used to attach to a running process and modify it in runtime. (Citation: Uninformed Needle)\n* **/proc/[pid]/mem** provides access to the memory of the process and can be used to read/write arbitrary data to it. This technique is very rare due to its complexity. (Citation: Uninformed Needle)\n* **VDSO hijacking** performs runtime injection on ELF binaries by manipulating code stubs mapped in from the linux-vdso.so shared object. (Citation: VDSO hijack 2009)\n\nMalware commonly utilizes process injection to access system resources through which Persistence and other environment modifications can be made. More sophisticated samples may perform multiple process injections to segment modules and further evade detection, utilizing named pipes or other inter-process communication (IPC) mechanisms as a communication channel.",
       "kill_chain_phases": [
@@ -207,8 +222,13 @@
       "external_references": [
         {
           "source_name": "capec",
-          "url": "https://capec.mitre.org/data/definitions/242.html",
-          "external_id": "CAPEC-242"
+          "url": "https://capec.mitre.org/data/definitions/640.html",
+          "external_id": "CAPEC-640"
+        },
+        {
+          "source_name": "CyberBit Early Bird Apr 2018",
+          "url": "https://www.cyberbit.com/blog/endpoint-security/new-early-bird-code-injection-technique-discovered/",
+          "description": "Gavriel, H. & Erbesfeld, B. (2018, April 11). New \u2018Early Bird\u2019 Code Injection Technique Discovered. Retrieved May 24, 2018."
         },
         {
           "source_name": "Datawire Code Injection",
@@ -219,6 +239,11 @@
           "source_name": "Endgame HuntingNMemory June 2017",
           "url": "https://www.endgame.com/blog/technical-blog/hunting-memory",
           "description": "Desimone, J. (2017, June 13). Hunting in Memory. Retrieved December 7, 2017."
+        },
+        {
+          "source_name": "Endgame Process Injection July 2017",
+          "url": "https://www.endgame.com/blog/technical-blog/ten-process-injection-techniques-technical-survey-common-and-trending-process",
+          "description": "Hosseini, A. (2017, July 18). Ten Process Injection Techniques: A Technical Survey Of Common And Trending Process Injection Techniques. Retrieved December 7, 2017."
         },
         {
           "source_name": "ENSIL AtomBombing Oct 2016",
@@ -241,11 +266,6 @@
           "description": "Microsoft. (n.d.). About Atom Tables. Retrieved December 8, 2017."
         },
         {
-          "source_name": "Microsoft Sysmon v6 May 2017",
-          "url": "https://docs.microsoft.com/sysinternals/downloads/sysmon",
-          "description": "Russinovich, M. & Garnier, T. (2017, May 22). Sysmon v6.20. Retrieved December 13, 2017."
-        },
-        {
           "source_name": "mitre-attack",
           "url": "https://attack.mitre.org/techniques/T1055",
           "external_id": "T1055"
@@ -254,11 +274,6 @@
           "source_name": "Phrack halfdead 1997",
           "url": "http://phrack.org/issues/51/8.html",
           "description": "halflife. (1997, September 1). Shared Library Redirection Techniques. Retrieved December 20, 2017."
-        },
-        {
-          "source_name": "Powersploit",
-          "url": "https://github.com/mattifestation/PowerSploit",
-          "description": "PowerSploit. (n.d.). Retrieved December 4, 2014."
         },
         {
           "source_name": "Uninformed Needle",
@@ -280,7 +295,7 @@
       "id": "attack-pattern--66f73398-8394-4711-85e5-34c8540b22a5",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
       "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2019-05-06T20:46:05.923Z",
+      "modified": "2020-03-18T19:43:30.680Z",
       "name": "T1179: Hooking",
       "description": "Windows processes often leverage application programming interface (API) functions to perform tasks that require reusable system resources. Windows API functions are typically stored in dynamic-link libraries (DLLs) as exported functions. \n\nHooking involves redirecting calls to these functions and can be implemented via:\n\n* **Hooks procedures**, which intercept and execute designated code in response to events such as messages, keystrokes, and mouse inputs. (Citation: Microsoft Hook Overview) (Citation: Endgame Process Injection July 2017)\n* **Import address table (IAT) hooking**, which use modifications to a process\u2019s IAT, where pointers to imported API functions are stored. (Citation: Endgame Process Injection July 2017) (Citation: Adlice Software IAT Hooks Oct 2014) (Citation: MWRInfoSecurity Dynamic Hooking 2015)\n* **Inline hooking**, which overwrites the first bytes in an API function to redirect code flow. (Citation: Endgame Process Injection July 2017) (Citation: HighTech Bridge Inline Hooking Sept 2011) (Citation: MWRInfoSecurity Dynamic Hooking 2015)\n\nSimilar to [Process Injection](https://attack.mitre.org/techniques/T1055), adversaries may use hooking to load and execute malicious code within the context of another process, masking the execution while also allowing access to the process's memory and possibly elevated privileges. Installing hooking mechanisms may also provide Persistence via continuous invocation when the functions are called through normal use.\n\nMalicious hooking mechanisms may also capture API calls that include parameters that reveal user authentication credentials for Credential Access. (Citation: Microsoft TrojanSpy:Win32/Ursnif.gen!I Sept 2017)\n\nHooking is commonly utilized by [Rootkit](https://attack.mitre.org/techniques/T1014)s to conceal files, processes, Registry keys, and other objects in order to hide malware and associated behaviors. (Citation: Symantec Windows Rootkits)",
       "kill_chain_phases": [
@@ -346,7 +361,7 @@
       "id": "attack-pattern--6aac77c4-eaf2-4366-8c13-ce50ab951f38",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
       "created": "2019-08-26T15:33:33.158Z",
-      "modified": "2019-08-26T15:33:33.158Z",
+      "modified": "2020-03-18T19:43:30.474Z",
       "name": "T1193: Spearphishing Attachment",
       "description": "Spearphishing attachment is a specific variant of spearphishing. Spearphishing attachment is different from other forms of spearphishing in that it employs the use of malware attached to an email. All forms of spearphishing are electronically delivered social engineering targeted at a specific individual, company, or industry. In this scenario, adversaries attach a file to the spearphishing email and usually rely upon [User Execution](https://attack.mitre.org/techniques/T1204) to gain execution.\n\nThere are many options for the attachment such as Microsoft Office documents, executables, PDFs, or archived files. Upon opening the attachment (and potentially clicking past protections), the adversary's payload exploits a vulnerability or directly executes on the user's system. The text of the spearphishing email usually tries to give a plausible reason why the file should be opened, and may explain how to bypass system protections in order to do so. The email may also contain instructions on how to decrypt an attachment, such as a zip file password, in order to evade email boundary defenses. Adversaries frequently manipulate file extensions and icons in order to make attached executables appear to be document files, or files exploiting one application appear to be a file for a different one.",
       "kill_chain_phases": [
@@ -380,9 +395,9 @@
       "id": "attack-pattern--6ff403bc-93e3-48be-8687-e102fdba8c88",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
       "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2018-12-17T14:33:26.932Z",
+      "modified": "2020-03-18T19:43:46.884Z",
       "name": "T1045: Software Packing",
-      "description": "Software packing is a method of compressing or encrypting an executable. Packing an executable changes the file signature in an attempt to avoid signature-based detection. Most decompression techniques decompress the executable code in memory.\n\nUtilities used to perform software packing are called packers. Example packers are MPRESS and UPX. A more comprehensive list of known packers is available, (Citation: Wikipedia Exe Compression) but adversaries may create their own packing techniques that do not leave the same artifacts as well-known packers to evade defenses.",
+      "description": "Software packing is a method of compressing or encrypting an executable. Packing an executable changes the file signature in an attempt to avoid signature-based detection. Most decompression techniques decompress the executable code in memory.\n\nUtilities used to perform software packing are called packers. Example packers are MPRESS and UPX. A more comprehensive list of known packers is available, (Citation: Wikipedia Exe Compression) but adversaries may create their own packing techniques that do not leave the same artifacts as well-known packers to evade defenses.\n\nAdversaries may use virtual machine software protection as a form of software packing to protect their code. Virtual machine software protection translates an executable's original code into a special format that only a special virtual machine can run. A virtual machine is then called to run this code.(Citation: ESET FinFisher Jan 2018)",
       "kill_chain_phases": [
         {
           "kill_chain_name": "lockheed",
@@ -398,6 +413,11 @@
           "source_name": "capec",
           "url": "https://capec.mitre.org/data/definitions/570.html",
           "external_id": "CAPEC-570"
+        },
+        {
+          "source_name": "ESET FinFisher Jan 2018",
+          "url": "https://www.welivesecurity.com/wp-content/uploads/2018/01/WP-FinFisher.pdf",
+          "description": "Kafka, F. (2018, January). ESET's Guide to Deobfuscating and Devirtualizing FinFisher. Retrieved August 12, 2019."
         },
         {
           "source_name": "mitre-attack",
@@ -419,9 +439,9 @@
       "id": "attack-pattern--707399d6-ab3e-4963-9315-d9d3818cd6a0",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
       "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2018-12-17T14:32:33.618Z",
+      "modified": "2020-03-18T19:43:57.925Z",
       "name": "T1016: System Network Configuration Discovery",
-      "description": "Adversaries will likely look for details about the network configuration and settings of systems they access or through information discovery of remote systems. Several operating system administration utilities exist that can be used to gather this information. Examples include [Arp](https://attack.mitre.org/software/S0099), [ipconfig](https://attack.mitre.org/software/S0100)/[ifconfig](https://attack.mitre.org/software/S0101), [nbtstat](https://attack.mitre.org/software/S0102), and [route](https://attack.mitre.org/software/S0103).",
+      "description": "Adversaries will likely look for details about the network configuration and settings of systems they access or through information discovery of remote systems. Several operating system administration utilities exist that can be used to gather this information. Examples include [Arp](https://attack.mitre.org/software/S0099), [ipconfig](https://attack.mitre.org/software/S0100)/[ifconfig](https://attack.mitre.org/software/S0101), [nbtstat](https://attack.mitre.org/software/S0102), and [route](https://attack.mitre.org/software/S0103).\n\nAdversaries may use the information from [System Network Configuration Discovery](https://attack.mitre.org/techniques/T1016) during automated discovery to shape follow-on behaviors, including whether or not the adversary fully infects the target and/or attempts specific actions.",
       "kill_chain_phases": [
         {
           "kill_chain_name": "lockheed",
@@ -453,7 +473,7 @@
       "id": "attack-pattern--7385dfaf-6886-4229-9ecd-6fd678040830",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
       "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2018-12-17T14:33:20.449Z",
+      "modified": "2020-03-18T19:43:38.387Z",
       "name": "T1059: Command-Line Interface",
       "description": "Command-line interfaces provide a way of interacting with computer systems and is a common feature across many types of operating system platforms. (Citation: Wikipedia Command-Line Interface) One example command-line interface on Windows systems is [cmd](https://attack.mitre.org/software/S0106), which can be used to perform a number of tasks including execution of other software. Command-line interfaces can be interacted with locally or remotely via a remote desktop application, reverse shell session, etc. Commands that are executed run with the current permission level of the command-line interface process unless the command includes process invocation that changes permissions context for that execution (e.g. [Scheduled Task](https://attack.mitre.org/techniques/T1053)).\n\nAdversaries may use command-line interfaces to interact with systems and execute other software during the course of an operation.",
       "kill_chain_phases": [
@@ -487,9 +507,9 @@
       "id": "attack-pattern--7fd87010-3a00-4da3-b905-410525e8ec44",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
       "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2019-08-26T15:33:34.250Z",
+      "modified": "2020-03-18T19:43:54.291Z",
       "name": "T1064: Scripting",
-      "description": "Adversaries may use scripts to aid in operations and perform multiple actions that would otherwise be manual. Scripting is useful for speeding up operational tasks and reducing the time required to gain access to critical resources. Some scripting languages may be used to bypass process monitoring mechanisms by directly interacting with the operating system at an API level instead of calling other programs. Common scripting languages for Windows include VBScript and PowerShell but could also be in the form of command-line batch scripts.\n\nScripts can be embedded inside Office documents as macros that can be set to execute when files used in [Spearphishing Attachment](https://attack.mitre.org/techniques/T1193) and other types of spearphishing are opened. Malicious embedded macros are an alternative means of execution than software exploitation through [Exploitation for Client Execution](https://attack.mitre.org/techniques/T1203), where adversaries will rely on macros being allowed or that the user will accept to activate them.\n\nMany popular offensive frameworks exist which use forms of scripting for security testers and adversaries alike. Metasploit (Citation: Metasploit_Ref), Veil (Citation: Veil_Ref), and PowerSploit (Citation: Powersploit) are three examples that are popular among penetration testers for exploit and post-compromise operations and include many features for evading defenses. Some adversaries are known to use PowerShell. (Citation: Alperovitch 2014)",
+      "description": "Adversaries may use scripts to aid in operations and perform multiple actions that would otherwise be manual. Scripting is useful for speeding up operational tasks and reducing the time required to gain access to critical resources. Some scripting languages may be used to bypass process monitoring mechanisms by directly interacting with the operating system at an API level instead of calling other programs. Common scripting languages for Windows include VBScript and [PowerShell](https://attack.mitre.org/techniques/T1086) but could also be in the form of command-line batch scripts.\n\nScripts can be embedded inside Office documents as macros that can be set to execute when files used in [Spearphishing Attachment](https://attack.mitre.org/techniques/T1193) and other types of spearphishing are opened. Malicious embedded macros are an alternative means of execution than software exploitation through [Exploitation for Client Execution](https://attack.mitre.org/techniques/T1203), where adversaries will rely on macros being allowed or that the user will accept to activate them.\n\nMany popular offensive frameworks exist which use forms of scripting for security testers and adversaries alike. Metasploit (Citation: Metasploit_Ref), Veil (Citation: Veil_Ref), and PowerSploit (Citation: Powersploit) are three examples that are popular among penetration testers for exploit and post-compromise operations and include many features for evading defenses. Some adversaries are known to use PowerShell. (Citation: Alperovitch 2014)",
       "kill_chain_phases": [
         {
           "kill_chain_name": "lockheed",
@@ -545,9 +565,9 @@
       "id": "attack-pattern--8c32eb4d-805f-4fc5-bf60-c4d476c131b5",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
       "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2018-12-17T14:33:50.971Z",
+      "modified": "2020-03-18T19:43:43.952Z",
       "name": "T1204: User Execution",
-      "description": "An adversary may rely upon specific actions by a user in order to gain execution. This may be direct code execution, such as when a user opens a malicious executable delivered via [Spearphishing Attachment](https://attack.mitre.org/techniques/T1193) with the icon and apparent extension of a document file. It also may lead to other execution techniques, such as when a user clicks on a link delivered via [Spearphishing Link](https://attack.mitre.org/techniques/T1192) that leads to exploitation of a browser or application vulnerability via [Exploitation for Client Execution](https://attack.mitre.org/techniques/T1203). While User Execution frequently occurs shortly after Initial Access it may occur at other phases of an intrusion, such as when an adversary places a file in a shared directory or on a user's desktop hoping that a user will click on it.",
+      "description": "An adversary may rely upon specific actions by a user in order to gain execution. This may be direct code execution, such as when a user opens a malicious executable delivered via [Spearphishing Attachment](https://attack.mitre.org/techniques/T1193) with the icon and apparent extension of a document file. It also may lead to other execution techniques, such as when a user clicks on a link delivered via [Spearphishing Link](https://attack.mitre.org/techniques/T1192) that leads to exploitation of a browser or application vulnerability via [Exploitation for Client Execution](https://attack.mitre.org/techniques/T1203). Adversaries may use several types of files that require a user to execute them, including .doc, .pdf, .xls, .rtf, .scr, .exe, .lnk, .pif, and .cpl. \n\nAs an example, an adversary may weaponize Windows Shortcut Files (.lnk) to bait a user into clicking to execute the malicious payload.(Citation: Proofpoint TA505 June 2018) A malicious .lnk file may contain [PowerShell](https://attack.mitre.org/techniques/T1086) commands. Payloads may be included into the .lnk file itself, or be downloaded from a remote server.(Citation: FireEye APT29 Nov 2018)(Citation: PWC Cloud Hopper Technical Annex April 2017) \n\nWhile User Execution frequently occurs shortly after Initial Access it may occur at other phases of an intrusion, such as when an adversary places a file in a shared directory or on a user's desktop hoping that a user will click on it.",
       "kill_chain_phases": [
         {
           "kill_chain_name": "lockheed",
@@ -560,9 +580,24 @@
       ],
       "external_references": [
         {
+          "source_name": "FireEye APT29 Nov 2018",
+          "url": "https://www.fireeye.com/blog/threat-research/2018/11/not-so-cozy-an-uncomfortable-examination-of-a-suspected-apt29-phishing-campaign.html",
+          "description": "Dunwoody, M., et al. (2018, November 19). Not So Cozy: An Uncomfortable Examination of a Suspected APT29 Phishing Campaign. Retrieved November 27, 2018."
+        },
+        {
           "source_name": "mitre-attack",
           "url": "https://attack.mitre.org/techniques/T1204",
           "external_id": "T1204"
+        },
+        {
+          "source_name": "Proofpoint TA505 June 2018",
+          "url": "https://www.proofpoint.com/us/threat-insight/post/ta505-shifts-times",
+          "description": "Proofpoint Staff. (2018, June 8). TA505 shifts with the times. Retrieved May 28, 2019."
+        },
+        {
+          "source_name": "PWC Cloud Hopper Technical Annex April 2017",
+          "url": "https://www.pwc.co.uk/cyber-security/pdf/cloud-hopper-annex-b-final.pdf",
+          "description": "PwC and BAE Systems. (2017, April). Operation Cloud Hopper: Technical Annex. Retrieved April 13, 2017."
         }
       ],
       "object_marking_refs": [
@@ -574,9 +609,9 @@
       "id": "attack-pattern--8f4a33ec-8b1f-4b80-a2f6-642b2e479580",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
       "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2018-12-17T14:34:29.528Z",
+      "modified": "2020-03-18T19:43:48.879Z",
       "name": "T1057: Process Discovery",
-      "description": "Adversaries may attempt to get information about running processes on a system. Information obtained could be used to gain an understanding of common software running on systems within the network.\n\n### Windows\n\nAn example command that would obtain details on processes is \"tasklist\" using the [Tasklist](https://attack.mitre.org/software/S0057) utility.\n\n### Mac and Linux\n\nIn Mac and Linux, this is accomplished with the <code>ps</code> command.",
+      "description": "Adversaries may attempt to get information about running processes on a system. Information obtained could be used to gain an understanding of common software running on systems within the network. Adversaries may use the information from [Process Discovery](https://attack.mitre.org/techniques/T1057) during automated discovery to shape follow-on behaviors, including whether or not the adversary fully infects the target and/or attempts specific actions.\n\n### Windows\n\nAn example command that would obtain details on processes is \"tasklist\" using the [Tasklist](https://attack.mitre.org/software/S0057) utility.\n\n### Mac and Linux\n\nIn Mac and Linux, this is accomplished with the <code>ps</code> command.",
       "kill_chain_phases": [
         {
           "kill_chain_name": "lockheed",
@@ -608,9 +643,9 @@
       "id": "attack-pattern--9422fc14-1c43-410d-ab0f-a709b76c72dc",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
       "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2019-05-06T20:46:02.744Z",
+      "modified": "2020-03-18T19:43:43.565Z",
       "name": "T1060: Registry Run Keys / Startup Folder",
-      "description": "Adding an entry to the \"run keys\" in the Registry or startup folder will cause the program referenced to be executed when a user logs in. (Citation: Microsoft Run Key) These programs will be executed under the context of the user and will have the account's associated permissions level.\n\nThe following run keys are created by default on Windows systems:\n* <code>HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Run</code>\n* <code>HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\RunOnce</code>\n* <code>HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Run</code>\n* <code>HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\RunOnce</code>\n\nThe <code>HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\RunOnceEx</code> is also available but is not created by default on Windows Vista and newer. Registry run key entries can reference programs directly or list them as a dependency. (Citation: Microsoft RunOnceEx APR 2018) For example, it is possible to load a DLL at logon using a \"Depend\" key with RunOnceEx: <code>reg add HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\RunOnceEx\\0001\\Depend /v 1 /d \"C:\\temp\\evil[.]dll\"</code> (Citation: Oddvar Moe RunOnceEx Mar 2018)\n\nThe following Registry keys can be used to set startup folder items for persistence:\n* <code>HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\User Shell Folders</code>\n* <code>HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders</code>\n* <code>HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders</code>\n* <code>HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\User Shell Folders</code>\n\nAdversaries can use these configuration locations to execute malware, such as remote access tools, to maintain persistence through system reboots. Adversaries may also use [Masquerading](https://attack.mitre.org/techniques/T1036) to make the Registry entries look as if they are associated with legitimate programs.",
+      "description": "Adding an entry to the \"run keys\" in the Registry or startup folder will cause the program referenced to be executed when a user logs in. (Citation: Microsoft Run Key) These programs will be executed under the context of the user and will have the account's associated permissions level.\n\nThe following run keys are created by default on Windows systems:\n* <code>HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Run</code>\n* <code>HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\RunOnce</code>\n* <code>HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Run</code>\n* <code>HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\RunOnce</code>\n\nThe <code>HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\RunOnceEx</code> is also available but is not created by default on Windows Vista and newer. Registry run key entries can reference programs directly or list them as a dependency. (Citation: Microsoft RunOnceEx APR 2018) For example, it is possible to load a DLL at logon using a \"Depend\" key with RunOnceEx: <code>reg add HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\RunOnceEx\\0001\\Depend /v 1 /d \"C:\\temp\\evil[.]dll\"</code> (Citation: Oddvar Moe RunOnceEx Mar 2018)\n\nThe following Registry keys can be used to set startup folder items for persistence:\n* <code>HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\User Shell Folders</code>\n* <code>HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders</code>\n* <code>HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders</code>\n* <code>HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\User Shell Folders</code>\n\nThe following Registry keys can control automatic startup of services during boot:\n* <code>HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\RunServicesOnce</code>\n* <code>HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\RunServicesOnce</code>\n* <code>HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\RunServices</code>\n* <code>HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\RunServices</code>\n\nUsing policy settings to specify startup programs creates corresponding values in either of two Registry keys:\n* <code>HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\Run</code>\n* <code>HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\Run</code>\n\nThe Winlogon key controls actions that occur when a user logs on to a computer running Windows 7. Most of these actions are under the control of the operating system, but you can also add custom actions here. The <code>HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\Userinit</code> and <code>HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\Shell</code> subkeys can automatically launch programs.\n\nPrograms listed in the load value of the registry key <code>HKEY_CURRENT_USER\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Windows</code> run when any user logs on.\n\nBy default, the multistring BootExecute value of the registry key <code>HKEY_LOCAL_MACHINE\\System\\CurrentControlSet\\Control\\Session Manager</code> is set to autocheck autochk *. This value causes Windows, at startup, to check the file-system integrity of the hard disks if the system has been shut down abnormally. Adversaries can add other programs or processes to this registry value which will automatically launch at boot.\n\n\nAdversaries can use these configuration locations to execute malware, such as remote access tools, to maintain persistence through system reboots. Adversaries may also use [Masquerading](https://attack.mitre.org/techniques/T1036) to make the Registry entries look as if they are associated with legitimate programs.",
       "kill_chain_phases": [
         {
           "kill_chain_name": "lockheed",
@@ -662,7 +697,7 @@
       "id": "attack-pattern--b3d682b6-98f2-4fb0-aa3b-b4df007ca70a",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
       "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2019-05-06T20:45:50.136Z",
+      "modified": "2020-03-18T19:43:47.779Z",
       "name": "T1027: Obfuscated Files or Information",
       "description": "Adversaries may attempt to make an executable or file difficult to discover or analyze by encrypting, encoding, or otherwise obfuscating its contents on the system or in transit. This is common behavior that can be used across different platforms and the network to evade defenses.\n\nPayloads may be compressed, archived, or encrypted in order to avoid detection. These payloads may be used during Initial Access or later to mitigate detection. Sometimes a user's action may be required to open and [Deobfuscate/Decode Files or Information](https://attack.mitre.org/techniques/T1140) for [User Execution](https://attack.mitre.org/techniques/T1204). The user may also be required to input a password to open a password protected compressed/encrypted file that was provided by the adversary. (Citation: Volexity PowerDuke November 2016) Adversaries may also used compressed or archived scripts, such as Javascript.\n\nPortions of files can also be encoded to hide the plain-text strings that would otherwise help defenders with discovery. (Citation: Linux/Cdorked.A We Live Security Analysis) Payloads may also be split into separate, seemingly benign files that only reveal malicious functionality when reassembled. (Citation: Carbon Black Obfuscation Sept 2016)\n\nAdversaries may also obfuscate commands executed from payloads or directly via a [Command-Line Interface](https://attack.mitre.org/techniques/T1059). Environment variables, aliases, characters, and other platform/language specific semantics can be used to evade signature based detections and whitelisting mechanisms. (Citation: FireEye Obfuscation June 2017) (Citation: FireEye Revoke-Obfuscation July 2017) (Citation: PaloAlto EncodedCommand March 2017)\n\nAnother example of obfuscation is through the use of steganography, a technique of hiding messages or code in images, audio tracks, video clips, or text files. One of the first known and reported adversaries that used steganography activity surrounding [Invoke-PSImage](https://attack.mitre.org/software/S0231). The Duqu malware encrypted the gathered information from a victim's system and hid it into an image followed by exfiltrating the image to a C2 server. (Citation: Wikipedia Duqu) By the end of 2017, an adversary group used [Invoke-PSImage](https://attack.mitre.org/software/S0231) to hide PowerShell commands in an image file (png) and execute the code on a victim's system. In this particular case the PowerShell code downloaded another obfuscated script to gather intelligence from the victim's machine and communicate it back to the adversary. (Citation: McAfee Malicious Doc Targets Pyeongchang Olympics)",
       "kill_chain_phases": [
@@ -676,6 +711,11 @@
         }
       ],
       "external_references": [
+        {
+          "source_name": "capec",
+          "url": "https://capec.mitre.org/data/definitions/267.html",
+          "external_id": "CAPEC-267"
+        },
         {
           "source_name": "Carbon Black Obfuscation Sept 2016",
           "url": "https://www.carbonblack.com/2016/09/23/security-advisory-variants-well-known-adware-families-discovered-include-sophisticated-obfuscation-techniques-previously-associated-nation-state-attacks/",
@@ -741,9 +781,9 @@
       "id": "attack-pattern--cd25c1b4-935c-4f0e-ba8d-552f28bc4783",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
       "created": "2019-05-06T20:46:01.730Z",
-      "modified": "2019-05-06T20:46:01.730Z",
+      "modified": "2020-03-18T19:43:36.285Z",
       "name": "T1496: Resource Hijacking",
-      "description": "Adversaries may leverage the resources of co-opted systems in order to solve resource intensive problems which may impact system and/or hosted service availability. \n\nOne common purpose for Resource Hijacking is to validate transactions of cryptocurrency networks and earn virtual currency. Adversaries may consume enough system resources to negatively impact and/or cause affected machines to become unresponsive.(Citation: Kaspersky Lazarus Under The Hood Blog 2017) Servers and cloud-based systems are common targets because of the high potential for available resources, but user endpoint systems may also be compromised and used for Resource Hijacking and cryptocurrency mining.",
+      "description": "Adversaries may leverage the resources of co-opted systems in order to solve resource intensive problems which may impact system and/or hosted service availability. \n\nOne common purpose for Resource Hijacking is to validate transactions of cryptocurrency networks and earn virtual currency. Adversaries may consume enough system resources to negatively impact and/or cause affected machines to become unresponsive.(Citation: Kaspersky Lazarus Under The Hood Blog 2017) Servers and cloud-based(Citation: CloudSploit - Unused AWS Regions) systems are common targets because of the high potential for available resources, but user endpoint systems may also be compromised and used for Resource Hijacking and cryptocurrency mining.",
       "kill_chain_phases": [
         {
           "kill_chain_name": "lockheed",
@@ -755,6 +795,11 @@
         }
       ],
       "external_references": [
+        {
+          "source_name": "CloudSploit - Unused AWS Regions",
+          "url": "https://blog.cloudsploit.com/the-danger-of-unused-aws-regions-af0bf1b878fc",
+          "description": "CloudSploit. (2019, June 8). The Danger of Unused AWS Regions. Retrieved October 8, 2019."
+        },
         {
           "source_name": "Kaspersky Lazarus Under The Hood Blog 2017",
           "url": "https://securelist.com/lazarus-under-the-hood/77908/",
@@ -804,7 +849,7 @@
       "id": "attack-pattern--e6919abc-99f9-4c6c-95a5-14761e7b2add",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
       "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2018-12-17T14:32:23.644Z",
+      "modified": "2020-03-18T19:43:23.196Z",
       "name": "T1105: Remote File Copy",
       "description": "Files may be copied from one system to another to stage adversary tools or other files over the course of an operation. Files may be copied from an external adversary-controlled system through the Command and Control channel to bring tools into the victim network or through alternate protocols with another tool such as [FTP](https://attack.mitre.org/software/S0095). Files can also be copied over on Mac and Linux with native tools like scp, rsync, and sftp.\n\nAdversaries may also copy files laterally between internal victim systems to support Lateral Movement with remote Execution using inherent file sharing protocols such as file sharing over SMB to connected network shares or with authenticated connections with [Windows Admin Shares](https://attack.mitre.org/techniques/T1077) or [Remote Desktop Protocol](https://attack.mitre.org/techniques/T1076).",
       "kill_chain_phases": [
@@ -1006,9 +1051,9 @@
       "type": "indicator",
       "id": "indicator--0f6489c3-07ca-4edc-b995-589af56a08b0",
       "created": "2020-01-16T15:56:36.628Z",
-      "modified": "2020-01-20T22:42:19.373Z",
-      "name": "[file:hashes.'SHA-256' = 'c1a9b923fc1f81d69bd0494d296c75887e4a0f9abfc1cdfbfa9c0f4ab6c95db7 ' AND file:name ='\u0418\u043d\u0432\u0435\u0441\u0442\u0438\u0446\u0438 \u043e\u043d\u043d\u044b\u0439 \u043a\u043b\u0438\u043c\u0430\u0442 \u0421']",
-      "pattern": "[file:hashes.'SHA-256' = 'c1a9b923fc1f81d69bd0494d296c75887e4a0f9abfc1cdfbfa9c0f4ab6c95db7 ' AND file:name ='\u0418\u043d\u0432\u0435\u0441\u0442\u0438\u0446\u0438 \u043e\u043d\u043d\u044b\u0439 \u043a\u043b\u0438\u043c\u0430\u0442 \u0421']",
+      "modified": "2020-04-02T14:37:59.555Z",
+      "name": "[file:hashes.'SHA-256' = 'c1a9b923fc1f81d69bd0494d296c75887e4a0f9abfc1cdfbfa9c0f4ab6c95db7' AND file:name ='\u0418\u043d\u0432\u0435\u0441\u0442\u0438\u0446\u0438 \u043e\u043d\u043d\u044b\u0439 \u043a\u043b\u0438\u043c\u0430\u0442 \u0421']",
+      "pattern": "[file:hashes.'SHA-256' = 'c1a9b923fc1f81d69bd0494d296c75887e4a0f9abfc1cdfbfa9c0f4ab6c95db7' AND file:name ='\u0418\u043d\u0432\u0435\u0441\u0442\u0438\u0446\u0438 \u043e\u043d\u043d\u044b\u0439 \u043a\u043b\u0438\u043c\u0430\u0442 \u0421']",
       "valid_from": "2020-01-16T15:56:36.628Z",
       "labels": [
         "malicious-activity"
@@ -1414,9 +1459,9 @@
       "type": "indicator",
       "id": "indicator--a2b3ec7a-5cfc-4bc6-8640-40bc842c27af",
       "created": "2020-01-16T15:56:20.785Z",
-      "modified": "2020-01-20T22:42:19.373Z",
-      "name": "[file:hashes.'SHA-256' = 'ed63e84985e1af9c4764e6b6ca513ec1c16840fb2534b86f95e31801468be67a ' AND file:name ='Republic of Korea, the Russian Federation and the DPRK.doc ']",
-      "pattern": "[file:hashes.'SHA-256' = 'ed63e84985e1af9c4764e6b6ca513ec1c16840fb2534b86f95e31801468be67a ' AND file:name ='Republic of Korea, the Russian Federation and the DPRK.doc ']",
+      "modified": "2020-04-02T14:47:18.644Z",
+      "name": "[file:hashes.'SHA-256' = 'ed63e84985e1af9c4764e6b6ca513ec1c16840fb2534b86f95e31801468be67a' AND file:name ='Republic of Korea, the Russian Federation and the DPRK.doc']",
+      "pattern": "[file:hashes.'SHA-256' = 'ed63e84985e1af9c4764e6b6ca513ec1c16840fb2534b86f95e31801468be67a'  AND file:name ='Republic of Korea, the Russian Federation and the DPRK.doc']",
       "valid_from": "2020-01-16T15:56:20.785Z",
       "labels": [
         "malicious-activity"
@@ -3264,7 +3309,7 @@
       "type": "relationship",
       "id": "relationship--cfe5cbe7-bbe5-48e4-89df-d8c1f561df25",
       "created": "2020-01-06T13:53:16.004Z",
-      "modified": "2020-01-22T19:35:06.584Z",
+      "modified": "2020-04-02T14:43:01.116Z",
       "relationship_type": "attributed-to",
       "source_ref": "report--cfe5cbe7-bbe5-48e4-89df-d8c1f561df25",
       "target_ref": "intrusion-set--10a0f6ee-9e4c-4de9-8c88-ccce3e628732"
@@ -3947,10 +3992,10 @@
       "type": "report",
       "id": "report--cfe5cbe7-bbe5-48e4-89df-d8c1f561df25",
       "created": "2020-01-06T13:53:16.004Z",
-      "modified": "2020-01-22T19:35:06.584Z",
+      "modified": "2020-04-02T14:43:01.116Z",
       "name": "KONNI",
       "description": "KONNI is a threat group operating in East Asia. This group is known for using spear-phishing attacks with documents related to North Korea, but lately, documents related to cryptocurrency also have been observed. KONNI is also the name of their custom RAT which leverages anti-analysis techniques and intelligence gathering features. \n\n",
-      "published": "2020-01-22T19:35:06.584Z",
+      "published": "2020-04-02T14:43:01.116Z",
       "object_refs": [
         "intrusion-set--10a0f6ee-9e4c-4de9-8c88-ccce3e628732",
         "report--c98c7f3f-80de-4456-8da8-206133617d48",
