@@ -782,17 +782,22 @@ function addInfoBox2(report, playbook) {
     const identityObjects = getTypeFromReport("identity", report, playbook);
 
     const identityInformation = identityObjects.reduce((r, i) => {
-        i['sectors'].forEach(x => {
-            if (!(r['sectors'].includes(x))) {
-                r['sectors'].push(x);
-            }
-        });
 
-        i['x_cta_country'].forEach(x => {
-            if (!(r['regions'].includes(x))) {
-                r['regions'].push(x);
-            }
-        });
+        if('sectors' in i) {
+            i['sectors'].forEach(x => {
+                if (!(r['sectors'].includes(x))) {
+                    r['sectors'].push(x);
+                }
+            });
+        }
+
+        if ('x_cta_country' in i) {
+            i['x_cta_country'].forEach(x => {
+                if (!(r['regions'].includes(x))) {
+                    r['regions'].push(x);
+                }
+            });
+        }
 
         if (!(r['types'].includes(i['identity_class']))) {
             r['types'].push(i['identity_class']);
