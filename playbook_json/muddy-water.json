@@ -7,10 +7,10 @@
       "type": "report",
       "id": "report--ff121304-29ad-476f-9659-9e79cc464cf6",
       "created": "2019-05-01T15:51:33.994Z",
-      "modified": "2020-04-03T17:05:37.869Z",
+      "modified": "2020-04-24T12:47:44.871Z",
       "name": "Muddy Water",
       "description": " MuddyWater is a threat group that has primarily targeted Middle Eastern nations, and has also targeted European and North American nations. The group's victims are mainly in the telecommunications, government (IT services), and oil sectors. Activity from this group was previously linked to FIN7, but the group is believed to be a distinct group possibly motivated by espionage. ",
-      "published": "2020-04-03T17:05:37.869Z",
+      "published": "2020-04-24T12:47:44.871Z",
       "object_refs": [
         "intrusion-set--0bad1216-a31b-4a3a-9097-06ecf7599ea6",
         "report--018c1134-aa94-4db1-81c5-e6e54903f0ef",
@@ -74,7 +74,28 @@
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
-      ]
+      ],
+      "x_mitre_detection": [
+        "Monitor network traffic for WMI connections; the use of WMI in environments that do not typically use WMI may be suspect. Perform process monitoring to capture command-line arguments of \"wmic\" and detect commands that are used to perform remote behavior. (Citation: FireEye WMI 2015)"
+      ],
+      "x_mitre_platforms": [
+        "Windows"
+      ],
+      "x_mitre_data_sources": [
+        "Authentication logs",
+        "Netflow/Enclave netflow",
+        "Process command-line parameters",
+        "Process monitoring"
+      ],
+      "x_mitre_permissions_required": [
+        "Administrator",
+        "User"
+      ],
+      "x_mitre_system_requirements": [
+        "WMI service, winmgmt, running.\nHost/network firewalls allowing SMB and WMI ports from source to destination.\nSMB authentication."
+      ],
+      "x_mitre_remote_support": "true",
+      "x_mitre_version": "1.0"
     },
     {
       "type": "attack-pattern",
@@ -108,7 +129,25 @@
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
-      ]
+      ],
+      "x_mitre_detection": [
+        "System and network discovery techniques normally occur throughout an operation as an adversary learns the environment. Data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities based on the information obtained.\n\nMonitor processes and command-line arguments for actions that could be taken to gather system and network information. Remote access tools with built-in features may interact directly with the Windows API to gather information. Information may also be acquired through Windows system management tools such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) and [PowerShell](https://attack.mitre.org/techniques/T1086)."
+      ],
+      "x_mitre_platforms": [
+        "Linux",
+        "Windows",
+        "macOS"
+      ],
+      "x_mitre_data_sources": [
+        "File monitoring",
+        "Process command-line parameters",
+        "Process monitoring"
+      ],
+      "x_mitre_permissions_required": [
+        "Administrator",
+        "User"
+      ],
+      "x_mitre_version": "1.1"
     },
     {
       "type": "attack-pattern",
@@ -242,7 +281,31 @@
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
-      ]
+      ],
+      "x_mitre_detection": [
+        "### Windows\nMonitor for unexpected processes interacting with lsass.exe.(Citation: Medium Detecting Attempts to Steal Passwords from Memory) Common credential dumpers such as [Mimikatz](https://attack.mitre.org/software/S0002) access the LSA Subsystem Service (LSASS) process by opening the process, locating the LSA secrets key, and decrypting the sections in memory where credential details are stored. Credential dumpers may also use methods for reflective [Process Injection](https://attack.mitre.org/techniques/T1055) to reduce potential indicators of malicious activity.\n\nHash dumpers open the Security Accounts Manager (SAM) on the local file system (%SystemRoot%/system32/config/SAM) or create a dump of the Registry SAM key to access stored account password hashes. Some hash dumpers will open the local file system as a device and parse to the SAM table to avoid file access defenses. Others will make an in-memory copy of the SAM table before reading hashes. Detection of compromised [Valid Accounts](https://attack.mitre.org/techniques/T1078) in-use by adversaries may help as well. \n\nOn Windows 8.1 and Windows Server 2012 R2, monitor Windows Logs for LSASS.exe creation to verify that LSASS started as a protected process.\n\nMonitor processes and command-line arguments for program execution that may be indicative of credential dumping. Remote access tools may contain built-in features or incorporate existing tools like [Mimikatz](https://attack.mitre.org/software/S0002). [PowerShell](https://attack.mitre.org/techniques/T1086) scripts also exist that contain credential dumping functionality, such as PowerSploit's Invoke-Mimikatz module, (Citation: Powersploit) which may require additional logging features to be configured in the operating system to collect necessary information for analysis.\n\nMonitor domain controller logs for replication requests and other unscheduled activity possibly associated with DCSync. (Citation: Microsoft DRSR Dec 2017) (Citation: Microsoft GetNCCChanges) (Citation: Samba DRSUAPI) Note: Domain controllers may not log replication requests originating from the default domain controller account. (Citation: Harmj0y DCSync Sept 2015). Also monitor for network protocols  (Citation: Microsoft DRSR Dec 2017) (Citation: Microsoft NRPC Dec 2017) and other replication requests (Citation: Microsoft SAMR) from IPs not associated with known domain controllers. (Citation: AdSecurity DCSync Sept 2015)\n\n### Linux\nTo obtain the passwords and hashes stored in memory, processes must open a maps file in the /proc filesystem for the process being analyzed. This file is stored under the path <code>/proc/<pid>/maps</code>, where the <code><pid></code> directory is the unique pid of the program being interrogated for such authentication data. The AuditD monitoring tool, which ships stock in many Linux distributions, can be used to watch for hostile processes opening this file in the proc file system, alerting on the pid, process name, and arguments of such programs."
+      ],
+      "x_mitre_platforms": [
+        "Linux",
+        "Windows",
+        "macOS"
+      ],
+      "x_mitre_data_sources": [
+        "API monitoring",
+        "PowerShell logs",
+        "Process command-line parameters",
+        "Process monitoring"
+      ],
+      "x_mitre_permissions_required": [
+        "Administrator",
+        "SYSTEM",
+        "root"
+      ],
+      "x_mitre_contributors": [
+        "Ed Williams, Trustwave, SpiderLabs",
+        "Vincent Le Toux"
+      ],
+      "x_mitre_version": "1.1"
     },
     {
       "type": "attack-pattern",
@@ -271,7 +334,8 @@
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
-      ]
+      ],
+      "x_mitre_version": "1.0"
     },
     {
       "type": "attack-pattern",
@@ -300,7 +364,8 @@
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
-      ]
+      ],
+      "x_mitre_version": "1.0"
     },
     {
       "type": "attack-pattern",
@@ -329,7 +394,8 @@
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
-      ]
+      ],
+      "x_mitre_version": "1.0"
     },
     {
       "type": "attack-pattern",
@@ -378,7 +444,32 @@
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
-      ]
+      ],
+      "x_mitre_detection": [
+        "System and network discovery techniques normally occur throughout an operation as an adversary learns the environment. Data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities based on the information obtained.\n\nMonitor processes and command-line arguments for actions that could be taken to gather system and network information. Remote access tools with built-in features may interact directly with the Windows API to gather information. Information may also be acquired through Windows system management tools such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) and [PowerShell](https://attack.mitre.org/techniques/T1086).\n\nIn cloud-based systems, native logging can be used to identify access to certain APIs and dashboards that may contain system information. Depending on how the environment is used, that data alone may not be useful due to benign use during normal operations."
+      ],
+      "x_mitre_platforms": [
+        "AWS",
+        "Azure",
+        "GCP",
+        "Linux",
+        "Windows",
+        "macOS"
+      ],
+      "x_mitre_data_sources": [
+        "AWS CloudTrail logs",
+        "Azure activity logs",
+        "Process command-line parameters",
+        "Process monitoring",
+        "Stackdriver logs"
+      ],
+      "x_mitre_permissions_required": [
+        "User"
+      ],
+      "x_mitre_contributors": [
+        "Praetorian"
+      ],
+      "x_mitre_version": "2.0"
     },
     {
       "type": "attack-pattern",
@@ -412,7 +503,26 @@
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
-      ]
+      ],
+      "x_mitre_detection": [
+        "Analyze network data for uncommon data flows (e.g., a client sending significantly more data than it receives from a server). Processes utilizing the network that do not normally have network communication or have never been seen before are suspicious. Analyze packet contents to detect application layer protocols that do not follow the expected protocol for the port that is being used. (Citation: University of Birmingham C2)"
+      ],
+      "x_mitre_platforms": [
+        "Linux",
+        "Windows",
+        "macOS"
+      ],
+      "x_mitre_data_sources": [
+        "Malware reverse engineering",
+        "Netflow/Enclave netflow",
+        "Packet capture",
+        "Process monitoring",
+        "Process use of network"
+      ],
+      "x_mitre_network_requirements": [
+        "true"
+      ],
+      "x_mitre_version": "1.0"
     },
     {
       "type": "attack-pattern",
@@ -441,7 +551,8 @@
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
-      ]
+      ],
+      "x_mitre_version": "1.0"
     },
     {
       "type": "attack-pattern",
@@ -475,7 +586,24 @@
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
-      ]
+      ],
+      "x_mitre_detection": [
+        "Network intrusion detection systems and email gateways can be used to detect spearphishing with malicious attachments in transit. Detonation chambers may also be used to identify malicious attachments. Solutions can be signature and behavior based, but adversaries may construct attachments in a way to avoid these systems.\n\nAnti-virus can potentially detect malicious documents and attachments as they're scanned to be stored on the email server or on the user's computer. Endpoint sensing or network sensing can potentially detect malicious events once the attachment is opened (such as a Microsoft Word document or PDF reaching out to the internet or spawning Powershell.exe) for techniques such as [Exploitation for Client Execution](https://attack.mitre.org/techniques/T1203) and [Scripting](https://attack.mitre.org/techniques/T1064)."
+      ],
+      "x_mitre_platforms": [
+        "Linux",
+        "Windows",
+        "macOS"
+      ],
+      "x_mitre_data_sources": [
+        "Detonation chamber",
+        "Email gateway",
+        "File monitoring",
+        "Mail server",
+        "Network intrusion detection system",
+        "Packet capture"
+      ],
+      "x_mitre_version": "1.0"
     },
     {
       "type": "attack-pattern",
@@ -509,7 +637,23 @@
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
-      ]
+      ],
+      "x_mitre_detection": [
+        "System and network discovery techniques normally occur throughout an operation as an adversary learns the environment. Data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities, such as Lateral Movement, based on the information obtained.\n\nMonitor processes and command-line arguments for actions that could be taken to gather system and network information. Remote access tools with built-in features may interact directly with the Windows API to gather information. Information may also be acquired through Windows system management tools such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) and [PowerShell](https://attack.mitre.org/techniques/T1086)."
+      ],
+      "x_mitre_platforms": [
+        "Linux",
+        "Windows",
+        "macOS"
+      ],
+      "x_mitre_data_sources": [
+        "Process command-line parameters",
+        "Process monitoring"
+      ],
+      "x_mitre_permissions_required": [
+        "User"
+      ],
+      "x_mitre_version": "1.1"
     },
     {
       "type": "attack-pattern",
@@ -567,7 +711,29 @@
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
-      ]
+      ],
+      "x_mitre_detection": [
+        "Scripting may be common on admin, developer, or power user systems, depending on job function. If scripting is restricted for normal users, then any attempts to enable scripts running on a system would be considered suspicious. If scripts are not commonly used on a system, but enabled, scripts running out of cycle from patching or other administrator functions are suspicious. Scripts should be captured from the file system when possible to determine their actions and intent.\n\nScripts are likely to perform actions with various effects on a system that may generate events, depending on the types of monitoring used. Monitor processes and command-line arguments for script execution and subsequent behavior. Actions may be related to network and system information Discovery, Collection, or other scriptable post-compromise behaviors and could be used as indicators of detection leading back to the source script.\n\nAnalyze Office file attachments for potentially malicious macros. Execution of macros may create suspicious process trees depending on what the macro is designed to do. Office processes, such as winword.exe, spawning instances of cmd.exe, script application like wscript.exe or powershell.exe, or other suspicious processes may indicate malicious activity. (Citation: Uperesia Malicious Office Documents)"
+      ],
+      "x_mitre_platforms": [
+        "Linux",
+        "Windows",
+        "macOS"
+      ],
+      "x_mitre_data_sources": [
+        "File monitoring",
+        "Process command-line parameters",
+        "Process monitoring"
+      ],
+      "x_mitre_permissions_required": [
+        "User"
+      ],
+      "x_mitre_defense_bypassed": [
+        "Data Execution Prevention",
+        "Exploit Prevention",
+        "Process whitelisting"
+      ],
+      "x_mitre_version": "1.0"
     },
     {
       "type": "attack-pattern",
@@ -634,7 +800,29 @@
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
-      ]
+      ],
+      "x_mitre_detection": [
+        "Virtualization, sandbox, and related discovery techniques will likely occur in the first steps of an operation but may also occur throughout as an adversary learns the environment. Data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities, such as lateral movement, based on the information obtained. Detecting actions related to virtualization and sandbox identification may be difficult depending on the adversary's implementation and monitoring required. Monitoring for suspicious processes being spawned that gather a variety of system information or perform other forms of [Discovery](https://attack.mitre.org/tactics/TA0007), especially in a short period of time, may aid in detection.\n"
+      ],
+      "x_mitre_platforms": [
+        "Windows",
+        "macOS"
+      ],
+      "x_mitre_data_sources": [
+        "Process command-line parameters",
+        "Process monitoring"
+      ],
+      "x_mitre_defense_bypassed": [
+        "Anti-virus",
+        "Host forensic analysis",
+        "Signature-based detection",
+        "Static File Analysis"
+      ],
+      "x_mitre_contributors": [
+        "Deloitte Threat Library Team",
+        "Sunny Neo"
+      ],
+      "x_mitre_version": "1.1"
     },
     {
       "type": "attack-pattern",
@@ -676,7 +864,37 @@
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
-      ]
+      ],
+      "x_mitre_detection": [
+        "Host data that can relate unknown or suspicious process activity using a network connection is important to supplement any existing indicators of compromise based on malware command and control signatures and infrastructure or the presence of strong encryption. Packet capture analysis will require SSL/TLS inspection if data is encrypted. Analyze network data for uncommon data flows (e.g., a client sending significantly more data than it receives from a server). User behavior monitoring may help to detect abnormal patterns of activity. Analyze packet contents to detect communications that do not follow the expected protocol behavior for the port that is being used. (Citation: University of Birmingham C2)"
+      ],
+      "x_mitre_platforms": [
+        "Linux",
+        "Windows",
+        "macOS"
+      ],
+      "x_mitre_data_sources": [
+        "Host network interface",
+        "Netflow/Enclave netflow",
+        "Network protocol analysis",
+        "Packet capture",
+        "SSL/TLS inspection"
+      ],
+      "x_mitre_permissions_required": [
+        "User"
+      ],
+      "x_mitre_defense_bypassed": [
+        "Binary Analysis",
+        "Firewall",
+        "Log analysis"
+      ],
+      "x_mitre_network_requirements": [
+        "true"
+      ],
+      "x_mitre_contributors": [
+        "Anastasios Pingios"
+      ],
+      "x_mitre_version": "1.0"
     },
     {
       "type": "attack-pattern",
@@ -720,7 +938,27 @@
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
-      ]
+      ],
+      "x_mitre_detection": [
+        "Monitor the execution of and command-line arguments for applications that may be used by an adversary to gain Initial Access that require user interaction. This includes compression applications, such as those for zip files, that can be used to [Deobfuscate/Decode Files or Information](https://attack.mitre.org/techniques/T1140) in payloads.\n\nAnti-virus can potentially detect malicious documents and files that are downloaded and executed on the user's computer. Endpoint sensing or network sensing can potentially detect malicious events once the file is opened (such as a Microsoft Word document or PDF reaching out to the internet or spawning Powershell.exe) for techniques such as [Exploitation for Client Execution](https://attack.mitre.org/techniques/T1203) and [Scripting](https://attack.mitre.org/techniques/T1064)."
+      ],
+      "x_mitre_platforms": [
+        "Linux",
+        "Windows",
+        "macOS"
+      ],
+      "x_mitre_data_sources": [
+        "Anti-virus",
+        "Process command-line parameters",
+        "Process monitoring"
+      ],
+      "x_mitre_permissions_required": [
+        "User"
+      ],
+      "x_mitre_contributors": [
+        "Oleg Skulkin, Group-IB"
+      ],
+      "x_mitre_version": "1.1"
     },
     {
       "type": "attack-pattern",
@@ -754,7 +992,23 @@
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
-      ]
+      ],
+      "x_mitre_detection": [
+        "Detection for command and control applies. Analyze network data for uncommon data flows (e.g., a client sending significantly more data than it receives from a server). Processes utilizing the network that do not normally have network communication or have never been seen before are suspicious. Analyze packet contents to detect communications that do not follow the expected protocol behavior for the port that is being used. (Citation: University of Birmingham C2)"
+      ],
+      "x_mitre_platforms": [
+        "Linux",
+        "Windows",
+        "macOS"
+      ],
+      "x_mitre_data_sources": [
+        "Process monitoring",
+        "User interface"
+      ],
+      "x_mitre_network_requirements": [
+        "true"
+      ],
+      "x_mitre_version": "1.0"
     },
     {
       "type": "attack-pattern",
@@ -808,7 +1062,28 @@
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
-      ]
+      ],
+      "x_mitre_detection": [
+        "Monitor Registry for changes to run keys that do not correlate with known software, patch cycles, etc. Monitor the start folder for additions or changes. Tools such as Sysinternals Autoruns may also be used to detect system changes that could be attempts at persistence, including listing the run keys' Registry locations and startup folders. (Citation: TechNet Autoruns) Suspicious program execution as startup programs may show up as outlier processes that have not been seen before when compared against historical data.\n\nChanges to these locations typically happen under normal conditions when legitimate software is installed. To increase confidence of malicious activity, data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities, such as network connections made for Command and Control, learning details about the environment through Discovery, and Lateral Movement."
+      ],
+      "x_mitre_platforms": [
+        "Windows"
+      ],
+      "x_mitre_data_sources": [
+        "File monitoring",
+        "Windows Registry"
+      ],
+      "x_mitre_permissions_required": [
+        "Administrator",
+        "User"
+      ],
+      "x_mitre_system_requirements": [
+        "HKEY_LOCAL_MACHINE keys require administrator access to create and modify"
+      ],
+      "x_mitre_contributors": [
+        "Oddvar Moe, @oddvarmoe"
+      ],
+      "x_mitre_version": "1.0"
     },
     {
       "type": "attack-pattern",
@@ -892,7 +1167,43 @@
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
-      ]
+      ],
+      "x_mitre_detection": [
+        "Detection of file obfuscation is difficult unless artifacts are left behind by the obfuscation process that are uniquely detectable with a signature. If detection of the obfuscation itself is not possible, it may be possible to detect the malicious activity that caused the obfuscated file (for example, the method that was used to write, read, or modify the file on the file system).\n\nFlag and analyze commands containing indicators of obfuscation and known suspicious syntax such as uninterpreted escape characters like '''^''' and '''\"'''. Windows' Sysmon and Event ID 4688 displays command-line arguments for processes. Deobfuscation tools can be used to detect these indicators in files/payloads. (Citation: GitHub Revoke-Obfuscation) (Citation: FireEye Revoke-Obfuscation July 2017) (Citation: GitHub Office-Crackros Aug 2016)\n\nObfuscation used in payloads for Initial Access can be detected at the network. Use network intrusion detection systems and email gateway filtering to identify compressed and encrypted attachments and scripts. Some email attachment detonation systems can open compressed and encrypted attachments. Payloads delivered over an encrypted connection from a website require encrypted network traffic inspection."
+      ],
+      "x_mitre_platforms": [
+        "Linux",
+        "Windows",
+        "macOS"
+      ],
+      "x_mitre_data_sources": [
+        "Binary file metadata",
+        "Email gateway",
+        "Environment variable",
+        "File monitoring",
+        "Malware reverse engineering",
+        "Network intrusion detection system",
+        "Network protocol analysis",
+        "Process command-line parameters",
+        "Process monitoring",
+        "Process use of network",
+        "SSL/TLS inspection",
+        "Windows event logs"
+      ],
+      "x_mitre_defense_bypassed": [
+        "Application whitelisting",
+        "Host forensic analysis",
+        "Host intrusion prevention systems",
+        "Log analysis",
+        "Process whitelisting",
+        "Signature-based detection",
+        "Whitelisting by file name or path"
+      ],
+      "x_mitre_contributors": [
+        "Christiaan Beek, @ChristiaanBeek",
+        "Red Canary"
+      ],
+      "x_mitre_version": "1.0"
     },
     {
       "type": "attack-pattern",
@@ -926,7 +1237,24 @@
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
-      ]
+      ],
+      "x_mitre_detection": [
+        "Analyze network data for uncommon data flows (e.g., a client sending significantly more data than it receives from a server). Processes utilizing the network that do not normally have network communication or have never been seen before are suspicious. Analyze packet contents to detect communications that do not follow the expected protocol behavior for the port that is being used. (Citation: University of Birmingham C2)"
+      ],
+      "x_mitre_platforms": [
+        "Linux",
+        "Windows",
+        "macOS"
+      ],
+      "x_mitre_data_sources": [
+        "Netflow/Enclave netflow",
+        "Process monitoring",
+        "Process use of network"
+      ],
+      "x_mitre_network_requirements": [
+        "true"
+      ],
+      "x_mitre_version": "1.0"
     },
     {
       "type": "attack-pattern",
@@ -970,7 +1298,31 @@
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
-      ]
+      ],
+      "x_mitre_detection": [
+        "Analyze network data for uncommon data flows (e.g., a client sending significantly more data than it receives from a server). Processes utilizing the network that do not normally have network communication or have never been seen before are suspicious. Analyze packet contents to detect communications that do not follow the expected protocol behavior for the port that is being used. (Citation: University of Birmingham C2)"
+      ],
+      "x_mitre_platforms": [
+        "Linux",
+        "Windows",
+        "macOS"
+      ],
+      "x_mitre_data_sources": [
+        "Network protocol analysis",
+        "Packet capture",
+        "Process monitoring",
+        "Process use of network"
+      ],
+      "x_mitre_permissions_required": [
+        "User"
+      ],
+      "x_mitre_network_requirements": [
+        "true"
+      ],
+      "x_mitre_contributors": [
+        "Itzik Kotler, SafeBreach"
+      ],
+      "x_mitre_version": "1.0"
     },
     {
       "type": "attack-pattern",
@@ -1012,7 +1364,30 @@
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
-      ]
+      ],
+      "x_mitre_detection": [
+        "Monitor for file creation and files transferred within a network over SMB. Unusual processes with external network connections creating files on-system may be suspicious. Use of utilities, such as FTP, that does not normally occur may also be suspicious.\n\nAnalyze network data for uncommon data flows (e.g., a client sending significantly more data than it receives from a server). Processes utilizing the network that do not normally have network communication or have never been seen before are suspicious. Analyze packet contents to detect communications that do not follow the expected protocol behavior for the port that is being used. (Citation: University of Birmingham C2)"
+      ],
+      "x_mitre_platforms": [
+        "Linux",
+        "Windows",
+        "macOS"
+      ],
+      "x_mitre_data_sources": [
+        "File monitoring",
+        "Netflow/Enclave netflow",
+        "Network protocol analysis",
+        "Packet capture",
+        "Process monitoring",
+        "Process use of network"
+      ],
+      "x_mitre_permissions_required": [
+        "User"
+      ],
+      "x_mitre_network_requirements": [
+        "true"
+      ],
+      "x_mitre_version": "1.0"
     },
     {
       "type": "attack-pattern",
@@ -1081,7 +1456,31 @@
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
-      ]
+      ],
+      "x_mitre_detection": [
+        "If proper execution policy is set, adversaries will likely be able to define their own execution policy if they obtain administrator or system access, either through the Registry or at the command line. This change in policy on a system may be a way to detect malicious use of PowerShell. If PowerShell is not used in an environment, then simply looking for PowerShell execution may detect malicious activity.\n\nMonitor for loading and/or execution of artifacts associated with PowerShell specific assemblies, such as System.Management.Automation.dll (especially to unusual process names/locations). (Citation: Sixdub PowerPick Jan 2016)(Citation: SilentBreak Offensive PS Dec 2015)\n\nIt is also beneficial to turn on PowerShell logging to gain increased fidelity in what occurs during execution (which is applied to .NET invocations). (Citation: Malware Archaeology PowerShell Cheat Sheet) PowerShell 5.0 introduced enhanced logging capabilities, and some of those features have since been added to PowerShell 4.0. Earlier versions of PowerShell do not have many logging features. (Citation: FireEye PowerShell Logging 2016) An organization can gather PowerShell execution details in a data analytic platform to supplement it with other data."
+      ],
+      "x_mitre_platforms": [
+        "Windows"
+      ],
+      "x_mitre_data_sources": [
+        "DLL monitoring",
+        "File monitoring",
+        "Loaded DLLs",
+        "PowerShell logs",
+        "Process command-line parameters",
+        "Process monitoring",
+        "Windows Registry"
+      ],
+      "x_mitre_permissions_required": [
+        "Administrator",
+        "User"
+      ],
+      "x_mitre_remote_support": "true",
+      "x_mitre_contributors": [
+        "Praetorian"
+      ],
+      "x_mitre_version": "1.1"
     },
     {
       "type": "attack-pattern",
@@ -1115,7 +1514,25 @@
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
-      ]
+      ],
+      "x_mitre_detection": [
+        "Analyze network data for uncommon data flows (e.g., a client sending significantly more data than it receives from a server). Processes utilizing the network that do not normally have network communication or have never been seen before are suspicious. Analyze packet contents to detect communications that do not follow the expected protocol behavior for the port that is being used. (Citation: University of Birmingham C2)"
+      ],
+      "x_mitre_platforms": [
+        "Linux",
+        "Windows",
+        "macOS"
+      ],
+      "x_mitre_data_sources": [
+        "Netflow/Enclave netflow",
+        "Packet capture",
+        "Process monitoring",
+        "Process use of network"
+      ],
+      "x_mitre_network_requirements": [
+        "true"
+      ],
+      "x_mitre_version": "1.0"
     },
     {
       "type": "attack-pattern",
@@ -1144,7 +1561,8 @@
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
-      ]
+      ],
+      "x_mitre_version": "1.0"
     },
     {
       "type": "campaign",
@@ -5402,7 +5820,7 @@
       "type": "relationship",
       "id": "relationship--ff121304-29ad-476f-9659-9e79cc464cf6",
       "created": "2019-05-01T15:51:33.994Z",
-      "modified": "2020-04-03T17:05:37.869Z",
+      "modified": "2020-04-24T12:47:44.871Z",
       "relationship_type": "attributed-to",
       "source_ref": "report--ff121304-29ad-476f-9659-9e79cc464cf6",
       "target_ref": "intrusion-set--0bad1216-a31b-4a3a-9097-06ecf7599ea6"

@@ -7,10 +7,10 @@
       "type": "report",
       "id": "report--5984c9a5-e4ba-48d5-98f9-81d2ecca6370",
       "created": "2018-08-03T20:30:53.821Z",
-      "modified": "2020-04-03T17:05:29.613Z",
+      "modified": "2020-04-24T12:47:37.245Z",
       "name": "Patchwork",
       "description": "Patchwork (AKA Monsoon, Dropping Elephant, and Chinastrats) is a threat group observed since at least December 2015 targeting various industries and government organizations or related entities in the Middle East, South Asia nations, Europe, South Korea, the United States, and others.\n\nPatchwork conducts reconnaissance on their target copying news stories or documents that are of interest and delivers them via targeted spear-phishing campaigns as an attachment or providing a link to an external domain. These documents exploit known vulnerabilities within various desktop applications and subsequently drop malware onto the victim host.\n\nPatchwork is believed to be operating within the Indian subcontinent based on infrastructure logins within that region.",
-      "published": "2020-04-03T17:05:29.613Z",
+      "published": "2020-04-24T12:47:37.245Z",
       "object_refs": [
         "intrusion-set--b71ab531-6f60-4d1d-88b5-4ef85823568b",
         "report--4832076b-7a4c-4952-8853-6446de513176"
@@ -53,7 +53,8 @@
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
-      ]
+      ],
+      "x_mitre_version": "1.0"
     },
     {
       "type": "attack-pattern",
@@ -82,7 +83,8 @@
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
-      ]
+      ],
+      "x_mitre_version": "1.0"
     },
     {
       "type": "attack-pattern",
@@ -111,7 +113,8 @@
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
-      ]
+      ],
+      "x_mitre_version": "1.0"
     },
     {
       "type": "attack-pattern",
@@ -187,7 +190,37 @@
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
-      ]
+      ],
+      "x_mitre_detection": [
+        "Monitor scheduled task creation from common utilities using command-line invocation. Legitimate scheduled tasks may be created during installation of new software or through system administration functions. Monitor process execution from the <code>svchost.exe</code> in Windows 10 and the Windows Task Scheduler <code>taskeng.exe</code> for older versions of Windows. (Citation: Twitter Leoloobeek Scheduled Task) If scheduled tasks are not used for persistence, then the adversary is likely to remove the task when the action is complete. Monitor Windows Task Scheduler stores in <code>%systemroot%\\System32\\Tasks</code> for change entries related to scheduled tasks that do not correlate with known software, patch cycles, etc. Data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities, such as network connections made for Command and Control, learning details about the environment through Discovery, and Lateral Movement.\n\nConfigure event logging for scheduled task creation and changes by enabling the \"Microsoft-Windows-TaskScheduler/Operational\" setting within the event logging service. (Citation: TechNet Forum Scheduled Task Operational Setting) Several events will then be logged on scheduled task activity, including: (Citation: TechNet Scheduled Task Events)(Citation: Microsoft Scheduled Task Events Win10)\n\n* Event ID 106 on Windows 7, Server 2008 R2 - Scheduled task registered\n* Event ID 140 on Windows 7, Server 2008 R2 / 4702 on Windows 10, Server 2016 - Scheduled task updated\n* Event ID 141 on Windows 7, Server 2008 R2 / 4699 on Windows 10, Server 2016 - Scheduled task deleted\n* Event ID 4698 on Windows 10, Server 2016 - Scheduled task created\n* Event ID 4700 on Windows 10, Server 2016 - Scheduled task enabled\n* Event ID 4701 on Windows 10, Server 2016 - Scheduled task disabled\n\nTools such as Sysinternals Autoruns may also be used to detect system changes that could be attempts at persistence, including listing current scheduled tasks. (Citation: TechNet Autoruns) Look for changes to tasks that do not correlate with known software, patch cycles, etc. Suspicious program execution through scheduled tasks may show up as outlier processes that have not been seen before when compared against historical data.\n\nMonitor processes and command-line arguments for actions that could be taken to create tasks. Remote access tools with built-in features may interact directly with the Windows API to perform these functions outside of typical system utilities. Tasks may also be created through Windows system management tools such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) and [PowerShell](https://attack.mitre.org/techniques/T1086), so additional logging may need to be configured to gather the appropriate data."
+      ],
+      "x_mitre_platforms": [
+        "Windows"
+      ],
+      "x_mitre_data_sources": [
+        "File monitoring",
+        "Process command-line parameters",
+        "Process monitoring",
+        "Windows event logs"
+      ],
+      "x_mitre_permissions_required": [
+        "Administrator",
+        "SYSTEM",
+        "User"
+      ],
+      "x_mitre_effective_permissions": [
+        "Administrator",
+        "SYSTEM",
+        "User"
+      ],
+      "x_mitre_remote_support": "true",
+      "x_mitre_contributors": [
+        "Alain Homewood, Insomnia Security",
+        "Leo Loobeek, @leoloobeek",
+        "Prashant Verma, Paladion",
+        "Travis Smith, Tripwire"
+      ],
+      "x_mitre_version": "1.1"
     },
     {
       "type": "attack-pattern",
@@ -216,7 +249,8 @@
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
-      ]
+      ],
+      "x_mitre_version": "1.0"
     },
     {
       "type": "attack-pattern",
@@ -245,7 +279,8 @@
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
-      ]
+      ],
+      "x_mitre_version": "1.0"
     },
     {
       "type": "attack-pattern",
@@ -294,7 +329,28 @@
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
-      ]
+      ],
+      "x_mitre_detection": [
+        "Look for changes to service Registry entries that do not correlate with known software, patch cycles, etc. Changes to the binary path and the service startup type changed from manual or disabled to automatic, if it does not typically do so, may be suspicious. Tools such as Sysinternals Autoruns may also be used to detect system service changes that could be attempts at persistence. (Citation: TechNet Autoruns) \n\nService information is stored in the Registry at <code>HKLM\\SYSTEM\\CurrentControlSet\\Services</code>.\n\nCommand-line invocation of tools capable of modifying services may be unusual, depending on how systems are typically used in a particular environment. Collect service utility execution and service binary path arguments used for analysis. Service binary paths may even be changed to execute [cmd](https://attack.mitre.org/software/S0106) commands or scripts.\n\nLook for abnormal process call trees from known services and for execution of other commands that could relate to Discovery or other adversary techniques. Services may also be modified through Windows system management tools such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) and [PowerShell](https://attack.mitre.org/techniques/T1086), so additional logging may need to be configured to gather the appropriate data."
+      ],
+      "x_mitre_platforms": [
+        "Windows"
+      ],
+      "x_mitre_data_sources": [
+        "File monitoring",
+        "Process command-line parameters",
+        "Process monitoring",
+        "Windows Registry"
+      ],
+      "x_mitre_permissions_required": [
+        "Administrator",
+        "SYSTEM"
+      ],
+      "x_mitre_contributors": [
+        "Matthew Demaske, Adaptforward",
+        "Travis Smith, Tripwire"
+      ],
+      "x_mitre_version": "1.0"
     },
     {
       "type": "attack-pattern",
@@ -323,7 +379,8 @@
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
-      ]
+      ],
+      "x_mitre_version": "1.0"
     },
     {
       "type": "attack-pattern",
@@ -352,7 +409,8 @@
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
-      ]
+      ],
+      "x_mitre_version": "1.0"
     },
     {
       "type": "attack-pattern",
@@ -381,7 +439,8 @@
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
-      ]
+      ],
+      "x_mitre_version": "1.0"
     },
     {
       "type": "attack-pattern",
@@ -425,7 +484,23 @@
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
-      ]
+      ],
+      "x_mitre_detection": [
+        "Monitor processes for unusual activity (e.g., a process that does not use the network begins to do so). Track DLL metadata, such as a hash, and compare DLLs that are loaded at process execution time against previous executions to detect differences that do not correlate with patching or updates."
+      ],
+      "x_mitre_platforms": [
+        "Windows"
+      ],
+      "x_mitre_data_sources": [
+        "Loaded DLLs",
+        "Process monitoring",
+        "Process use of network"
+      ],
+      "x_mitre_defense_bypassed": [
+        "Anti-virus",
+        "Process whitelisting"
+      ],
+      "x_mitre_version": "1.0"
     },
     {
       "type": "attack-pattern",
@@ -469,7 +544,31 @@
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
-      ]
+      ],
+      "x_mitre_detection": [
+        "Analyze network data for uncommon data flows (e.g., a client sending significantly more data than it receives from a server). Processes utilizing the network that do not normally have network communication or have never been seen before are suspicious. Analyze packet contents to detect communications that do not follow the expected protocol behavior for the port that is being used. (Citation: University of Birmingham C2)"
+      ],
+      "x_mitre_platforms": [
+        "Linux",
+        "Windows",
+        "macOS"
+      ],
+      "x_mitre_data_sources": [
+        "Network protocol analysis",
+        "Packet capture",
+        "Process monitoring",
+        "Process use of network"
+      ],
+      "x_mitre_permissions_required": [
+        "User"
+      ],
+      "x_mitre_network_requirements": [
+        "true"
+      ],
+      "x_mitre_contributors": [
+        "Itzik Kotler, SafeBreach"
+      ],
+      "x_mitre_version": "1.0"
     },
     {
       "type": "attack-pattern",
@@ -498,7 +597,8 @@
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
-      ]
+      ],
+      "x_mitre_version": "1.0"
     },
     {
       "type": "attack-pattern",
@@ -527,7 +627,8 @@
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
-      ]
+      ],
+      "x_mitre_version": "1.0"
     },
     {
       "type": "attack-pattern",
@@ -556,7 +657,8 @@
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
-      ]
+      ],
+      "x_mitre_version": "1.0"
     },
     {
       "type": "campaign",
@@ -1002,7 +1104,7 @@
       "type": "relationship",
       "id": "relationship--5984c9a5-e4ba-48d5-98f9-81d2ecca6370",
       "created": "2018-08-03T20:30:53.821Z",
-      "modified": "2020-04-03T17:05:29.613Z",
+      "modified": "2020-04-24T12:47:37.245Z",
       "relationship_type": "attributed-to",
       "source_ref": "report--5984c9a5-e4ba-48d5-98f9-81d2ecca6370",
       "target_ref": "intrusion-set--b71ab531-6f60-4d1d-88b5-4ef85823568b"

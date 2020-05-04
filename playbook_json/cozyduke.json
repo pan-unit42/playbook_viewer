@@ -7,10 +7,10 @@
       "type": "report",
       "id": "report--ed58bc33-f68d-4385-b555-17e81911277e",
       "created": "2019-05-01T15:48:19.396Z",
-      "modified": "2020-04-03T17:05:42.059Z",
+      "modified": "2020-04-24T12:47:49.051Z",
       "name": "CozyDuke",
       "description": "CozyDuke is threat group that has been attributed to the Russian government and has operated since at least 2008.  This group reportedly compromised the Democratic National Committee starting in the summer of 2015.\n\n",
-      "published": "2020-04-03T17:05:42.059Z",
+      "published": "2020-04-24T12:47:49.051Z",
       "object_refs": [
         "intrusion-set--7402a5fc-a0bb-4f2e-ab06-d147c1306b66",
         "report--98bcf939-7f72-4912-b495-2f7a4704cf2f"
@@ -63,7 +63,33 @@
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
-      ]
+      ],
+      "x_mitre_detection": [
+        "URL inspection within email (including expanding shortened links) can help detect links leading to known malicious sites. Detonation chambers can be used to detect these links and either automatically go to these sites to determine if they're potentially malicious, or wait and capture the content if a user visits the link.\n\nBecause this technique usually involves user interaction on the endpoint, many of the possible detections for Spearphishing Link take place once [User Execution](https://attack.mitre.org/techniques/T1204) occurs."
+      ],
+      "x_mitre_platforms": [
+        "Linux",
+        "Office 365",
+        "SaaS",
+        "Windows",
+        "macOS"
+      ],
+      "x_mitre_data_sources": [
+        "DNS records",
+        "Detonation chamber",
+        "Email gateway",
+        "Mail server",
+        "Packet capture",
+        "SSL/TLS inspection",
+        "Web proxy"
+      ],
+      "x_mitre_contributors": [
+        "Jeff Sakowicz, Microsoft Identity Developer Platform Services (IDPM Services)",
+        "Mark Wee",
+        "Saisha Agrawal, Microsoft Threat Intelligent Center (MSTIC)",
+        "Shailesh Tiwary (Indian Army)"
+      ],
+      "x_mitre_version": "1.1"
     },
     {
       "type": "attack-pattern",
@@ -112,7 +138,32 @@
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
-      ]
+      ],
+      "x_mitre_detection": [
+        "System and network discovery techniques normally occur throughout an operation as an adversary learns the environment. Data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities based on the information obtained.\n\nMonitor processes and command-line arguments for actions that could be taken to gather system and network information. Remote access tools with built-in features may interact directly with the Windows API to gather information. Information may also be acquired through Windows system management tools such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) and [PowerShell](https://attack.mitre.org/techniques/T1086).\n\nIn cloud-based systems, native logging can be used to identify access to certain APIs and dashboards that may contain system information. Depending on how the environment is used, that data alone may not be useful due to benign use during normal operations."
+      ],
+      "x_mitre_platforms": [
+        "AWS",
+        "Azure",
+        "GCP",
+        "Linux",
+        "Windows",
+        "macOS"
+      ],
+      "x_mitre_data_sources": [
+        "AWS CloudTrail logs",
+        "Azure activity logs",
+        "Process command-line parameters",
+        "Process monitoring",
+        "Stackdriver logs"
+      ],
+      "x_mitre_permissions_required": [
+        "User"
+      ],
+      "x_mitre_contributors": [
+        "Praetorian"
+      ],
+      "x_mitre_version": "2.0"
     },
     {
       "type": "attack-pattern",
@@ -146,7 +197,26 @@
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
-      ]
+      ],
+      "x_mitre_detection": [
+        "Analyze network data for uncommon data flows (e.g., a client sending significantly more data than it receives from a server). Processes utilizing the network that do not normally have network communication or have never been seen before are suspicious. Analyze packet contents to detect application layer protocols that do not follow the expected protocol for the port that is being used. (Citation: University of Birmingham C2)"
+      ],
+      "x_mitre_platforms": [
+        "Linux",
+        "Windows",
+        "macOS"
+      ],
+      "x_mitre_data_sources": [
+        "Malware reverse engineering",
+        "Netflow/Enclave netflow",
+        "Packet capture",
+        "Process monitoring",
+        "Process use of network"
+      ],
+      "x_mitre_network_requirements": [
+        "true"
+      ],
+      "x_mitre_version": "1.0"
     },
     {
       "type": "attack-pattern",
@@ -235,7 +305,32 @@
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
-      ]
+      ],
+      "x_mitre_detection": [
+        "Collect file hashes; file names that do not match their expected hash are suspect. Perform file monitoring; files with known names but in unusual locations are suspect. Likewise, files that are modified outside of an update or patch are suspect.\n\nIf file names are mismatched between the file name on disk and that of the binary's PE metadata, this is a likely indicator that a binary was renamed after it was compiled. Collecting and comparing disk and resource filenames for binaries by looking to see if the InternalName, OriginalFilename, and/or ProductName match what is expected could provide useful leads, but may not always be indicative of malicious activity. (Citation: Endgame Masquerade Ball) Do not focus on the possible names a file could have, but instead on the command-line arguments that are known to be used and are distinct because it will have a better rate of detection.(Citation: Twitter ItsReallyNick Masquerading Update)\n\nFor RTLO, detection methods should include looking for common formats of RTLO characters within filenames such as \"\\u202E\", \"[U+202E]\", and \"%E2%80%AE\". Defenders should also check their analysis tools to ensure they do not interpret the RTLO character and instead print the true name of the a file containing it."
+      ],
+      "x_mitre_platforms": [
+        "Linux",
+        "Windows",
+        "macOS"
+      ],
+      "x_mitre_data_sources": [
+        "Binary file metadata",
+        "File monitoring",
+        "Process monitoring"
+      ],
+      "x_mitre_defense_bypassed": [
+        "Whitelisting by file name or path"
+      ],
+      "x_mitre_contributors": [
+        "Bartosz Jerzman",
+        "David Lu, Tripwire",
+        "ENDGAME",
+        "Felipe Esp\u00f3sito, @Pr0teus",
+        "Nick Carr, FireEye",
+        "Oleg Kolesnikov, Securonix"
+      ],
+      "x_mitre_version": "1.2"
     },
     {
       "type": "attack-pattern",
@@ -269,7 +364,30 @@
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
-      ]
+      ],
+      "x_mitre_detection": [
+        "It may be uncommon for events related to benign command-line functions such as DEL or third-party utilities or tools to be found in an environment, depending on the user base and how systems are typically used. Monitoring for command-line deletion functions to correlate with binaries or other files that an adversary may drop and remove may lead to detection of malicious activity. Another good practice is monitoring for known deletion and secure deletion tools that are not already on systems within an enterprise network that an adversary could introduce. Some monitoring tools may collect command-line arguments, but may not capture DEL commands since DEL is a native function within cmd.exe."
+      ],
+      "x_mitre_platforms": [
+        "Linux",
+        "Windows",
+        "macOS"
+      ],
+      "x_mitre_data_sources": [
+        "Binary file metadata",
+        "File monitoring",
+        "Process command-line parameters"
+      ],
+      "x_mitre_permissions_required": [
+        "User"
+      ],
+      "x_mitre_defense_bypassed": [
+        "Host forensic analysis"
+      ],
+      "x_mitre_contributors": [
+        "Walker Johnson"
+      ],
+      "x_mitre_version": "1.0"
     },
     {
       "type": "attack-pattern",
@@ -303,7 +421,24 @@
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
-      ]
+      ],
+      "x_mitre_detection": [
+        "Network intrusion detection systems and email gateways can be used to detect spearphishing with malicious attachments in transit. Detonation chambers may also be used to identify malicious attachments. Solutions can be signature and behavior based, but adversaries may construct attachments in a way to avoid these systems.\n\nAnti-virus can potentially detect malicious documents and attachments as they're scanned to be stored on the email server or on the user's computer. Endpoint sensing or network sensing can potentially detect malicious events once the attachment is opened (such as a Microsoft Word document or PDF reaching out to the internet or spawning Powershell.exe) for techniques such as [Exploitation for Client Execution](https://attack.mitre.org/techniques/T1203) and [Scripting](https://attack.mitre.org/techniques/T1064)."
+      ],
+      "x_mitre_platforms": [
+        "Linux",
+        "Windows",
+        "macOS"
+      ],
+      "x_mitre_data_sources": [
+        "Detonation chamber",
+        "Email gateway",
+        "File monitoring",
+        "Mail server",
+        "Network intrusion detection system",
+        "Packet capture"
+      ],
+      "x_mitre_version": "1.0"
     },
     {
       "type": "attack-pattern",
@@ -361,7 +496,29 @@
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
-      ]
+      ],
+      "x_mitre_detection": [
+        "Scripting may be common on admin, developer, or power user systems, depending on job function. If scripting is restricted for normal users, then any attempts to enable scripts running on a system would be considered suspicious. If scripts are not commonly used on a system, but enabled, scripts running out of cycle from patching or other administrator functions are suspicious. Scripts should be captured from the file system when possible to determine their actions and intent.\n\nScripts are likely to perform actions with various effects on a system that may generate events, depending on the types of monitoring used. Monitor processes and command-line arguments for script execution and subsequent behavior. Actions may be related to network and system information Discovery, Collection, or other scriptable post-compromise behaviors and could be used as indicators of detection leading back to the source script.\n\nAnalyze Office file attachments for potentially malicious macros. Execution of macros may create suspicious process trees depending on what the macro is designed to do. Office processes, such as winword.exe, spawning instances of cmd.exe, script application like wscript.exe or powershell.exe, or other suspicious processes may indicate malicious activity. (Citation: Uperesia Malicious Office Documents)"
+      ],
+      "x_mitre_platforms": [
+        "Linux",
+        "Windows",
+        "macOS"
+      ],
+      "x_mitre_data_sources": [
+        "File monitoring",
+        "Process command-line parameters",
+        "Process monitoring"
+      ],
+      "x_mitre_permissions_required": [
+        "User"
+      ],
+      "x_mitre_defense_bypassed": [
+        "Data Execution Prevention",
+        "Exploit Prevention",
+        "Process whitelisting"
+      ],
+      "x_mitre_version": "1.0"
     },
     {
       "type": "attack-pattern",
@@ -405,7 +562,27 @@
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
-      ]
+      ],
+      "x_mitre_detection": [
+        "Monitor the execution of and command-line arguments for applications that may be used by an adversary to gain Initial Access that require user interaction. This includes compression applications, such as those for zip files, that can be used to [Deobfuscate/Decode Files or Information](https://attack.mitre.org/techniques/T1140) in payloads.\n\nAnti-virus can potentially detect malicious documents and files that are downloaded and executed on the user's computer. Endpoint sensing or network sensing can potentially detect malicious events once the file is opened (such as a Microsoft Word document or PDF reaching out to the internet or spawning Powershell.exe) for techniques such as [Exploitation for Client Execution](https://attack.mitre.org/techniques/T1203) and [Scripting](https://attack.mitre.org/techniques/T1064)."
+      ],
+      "x_mitre_platforms": [
+        "Linux",
+        "Windows",
+        "macOS"
+      ],
+      "x_mitre_data_sources": [
+        "Anti-virus",
+        "Process command-line parameters",
+        "Process monitoring"
+      ],
+      "x_mitre_permissions_required": [
+        "User"
+      ],
+      "x_mitre_contributors": [
+        "Oleg Skulkin, Group-IB"
+      ],
+      "x_mitre_version": "1.1"
     },
     {
       "type": "attack-pattern",
@@ -434,7 +611,8 @@
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
-      ]
+      ],
+      "x_mitre_version": "1.0"
     },
     {
       "type": "attack-pattern",
@@ -476,7 +654,30 @@
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
-      ]
+      ],
+      "x_mitre_detection": [
+        "Monitor for file creation and files transferred within a network over SMB. Unusual processes with external network connections creating files on-system may be suspicious. Use of utilities, such as FTP, that does not normally occur may also be suspicious.\n\nAnalyze network data for uncommon data flows (e.g., a client sending significantly more data than it receives from a server). Processes utilizing the network that do not normally have network communication or have never been seen before are suspicious. Analyze packet contents to detect communications that do not follow the expected protocol behavior for the port that is being used. (Citation: University of Birmingham C2)"
+      ],
+      "x_mitre_platforms": [
+        "Linux",
+        "Windows",
+        "macOS"
+      ],
+      "x_mitre_data_sources": [
+        "File monitoring",
+        "Netflow/Enclave netflow",
+        "Network protocol analysis",
+        "Packet capture",
+        "Process monitoring",
+        "Process use of network"
+      ],
+      "x_mitre_permissions_required": [
+        "User"
+      ],
+      "x_mitre_network_requirements": [
+        "true"
+      ],
+      "x_mitre_version": "1.0"
     },
     {
       "type": "attack-pattern",
@@ -505,7 +706,8 @@
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
-      ]
+      ],
+      "x_mitre_version": "1.0"
     },
     {
       "type": "campaign",
@@ -1064,7 +1266,7 @@
       "type": "relationship",
       "id": "relationship--ed58bc33-f68d-4385-b555-17e81911277e",
       "created": "2019-05-01T15:48:19.396Z",
-      "modified": "2020-04-03T17:05:42.059Z",
+      "modified": "2020-04-24T12:47:49.051Z",
       "relationship_type": "attributed-to",
       "source_ref": "report--ed58bc33-f68d-4385-b555-17e81911277e",
       "target_ref": "intrusion-set--7402a5fc-a0bb-4f2e-ab06-d147c1306b66"

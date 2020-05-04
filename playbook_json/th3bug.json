@@ -7,10 +7,10 @@
       "type": "report",
       "id": "report--0e80709c-a2c8-4b54-9769-562f1d0405ef",
       "created": "2019-05-01T15:51:04.377Z",
-      "modified": "2020-04-03T17:05:45.688Z",
+      "modified": "2020-04-24T12:47:52.433Z",
       "name": "Th3Bug",
       "description": "Threat Group focusing on Energy, Chemical Industry, Healthcare and Pharma industries. Nitro is known for targeted spear phishing campaigns and using Poison Ivy malware. ",
-      "published": "2020-04-03T17:05:45.688Z",
+      "published": "2020-04-24T12:47:52.433Z",
       "object_refs": [
         "intrusion-set--90ba5c1f-2704-487c-8da9-523fcd023d5a",
         "report--352e36e2-33ad-4065-a080-f13778ce9593"
@@ -53,7 +53,8 @@
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
-      ]
+      ],
+      "x_mitre_version": "1.0"
     },
     {
       "type": "attack-pattern",
@@ -142,7 +143,32 @@
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
-      ]
+      ],
+      "x_mitre_detection": [
+        "Collect file hashes; file names that do not match their expected hash are suspect. Perform file monitoring; files with known names but in unusual locations are suspect. Likewise, files that are modified outside of an update or patch are suspect.\n\nIf file names are mismatched between the file name on disk and that of the binary's PE metadata, this is a likely indicator that a binary was renamed after it was compiled. Collecting and comparing disk and resource filenames for binaries by looking to see if the InternalName, OriginalFilename, and/or ProductName match what is expected could provide useful leads, but may not always be indicative of malicious activity. (Citation: Endgame Masquerade Ball) Do not focus on the possible names a file could have, but instead on the command-line arguments that are known to be used and are distinct because it will have a better rate of detection.(Citation: Twitter ItsReallyNick Masquerading Update)\n\nFor RTLO, detection methods should include looking for common formats of RTLO characters within filenames such as \"\\u202E\", \"[U+202E]\", and \"%E2%80%AE\". Defenders should also check their analysis tools to ensure they do not interpret the RTLO character and instead print the true name of the a file containing it."
+      ],
+      "x_mitre_platforms": [
+        "Linux",
+        "Windows",
+        "macOS"
+      ],
+      "x_mitre_data_sources": [
+        "Binary file metadata",
+        "File monitoring",
+        "Process monitoring"
+      ],
+      "x_mitre_defense_bypassed": [
+        "Whitelisting by file name or path"
+      ],
+      "x_mitre_contributors": [
+        "Bartosz Jerzman",
+        "David Lu, Tripwire",
+        "ENDGAME",
+        "Felipe Esp\u00f3sito, @Pr0teus",
+        "Nick Carr, FireEye",
+        "Oleg Kolesnikov, Securonix"
+      ],
+      "x_mitre_version": "1.2"
     },
     {
       "type": "attack-pattern",
@@ -171,7 +197,8 @@
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
-      ]
+      ],
+      "x_mitre_version": "1.0"
     },
     {
       "type": "attack-pattern",
@@ -210,7 +237,32 @@
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
-      ]
+      ],
+      "x_mitre_detection": [
+        "Firewalls and proxies can inspect URLs for potentially known-bad domains or parameters. They can also do reputation-based analytics on websites and their requested resources such as how old a domain is, who it's registered to, if it's on a known bad list, or how many other users have connected to it before.\n\nNetwork intrusion detection systems, sometimes with SSL/TLS MITM inspection, can be used to look for known malicious scripts (recon, heap spray, and browser identification scripts have been frequently reused), common script obfuscation, and exploit code.\n\nDetecting compromise based on the drive-by exploit from a legitimate website may be difficult. Also look for behavior on the endpoint system that might indicate successful compromise, such as abnormal behavior of browser processes. This could include suspicious files written to disk, evidence of [Process Injection](https://attack.mitre.org/techniques/T1055) for attempts to hide execution, evidence of Discovery, or other unusual network traffic that may indicate additional tools transferred to the system."
+      ],
+      "x_mitre_platforms": [
+        "Linux",
+        "SaaS",
+        "Windows",
+        "macOS"
+      ],
+      "x_mitre_data_sources": [
+        "Network device logs",
+        "Network intrusion detection system",
+        "Packet capture",
+        "Process use of network",
+        "SSL/TLS inspection",
+        "Web proxy"
+      ],
+      "x_mitre_permissions_required": [
+        "User"
+      ],
+      "x_mitre_contributors": [
+        "Jeff Sakowicz, Microsoft Identity Developer Platform Services (IDPM Services)",
+        "Saisha Agrawal, Microsoft Threat Intelligent Center (MSTIC)"
+      ],
+      "x_mitre_version": "1.1"
     },
     {
       "type": "attack-pattern",
@@ -252,7 +304,30 @@
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
-      ]
+      ],
+      "x_mitre_detection": [
+        "Monitor for file creation and files transferred within a network over SMB. Unusual processes with external network connections creating files on-system may be suspicious. Use of utilities, such as FTP, that does not normally occur may also be suspicious.\n\nAnalyze network data for uncommon data flows (e.g., a client sending significantly more data than it receives from a server). Processes utilizing the network that do not normally have network communication or have never been seen before are suspicious. Analyze packet contents to detect communications that do not follow the expected protocol behavior for the port that is being used. (Citation: University of Birmingham C2)"
+      ],
+      "x_mitre_platforms": [
+        "Linux",
+        "Windows",
+        "macOS"
+      ],
+      "x_mitre_data_sources": [
+        "File monitoring",
+        "Netflow/Enclave netflow",
+        "Network protocol analysis",
+        "Packet capture",
+        "Process monitoring",
+        "Process use of network"
+      ],
+      "x_mitre_permissions_required": [
+        "User"
+      ],
+      "x_mitre_network_requirements": [
+        "true"
+      ],
+      "x_mitre_version": "1.0"
     },
     {
       "type": "campaign",
@@ -446,7 +521,7 @@
       "type": "relationship",
       "id": "relationship--0e80709c-a2c8-4b54-9769-562f1d0405ef",
       "created": "2019-05-01T15:51:04.377Z",
-      "modified": "2020-04-03T17:05:45.688Z",
+      "modified": "2020-04-24T12:47:52.433Z",
       "relationship_type": "attributed-to",
       "source_ref": "report--0e80709c-a2c8-4b54-9769-562f1d0405ef",
       "target_ref": "intrusion-set--90ba5c1f-2704-487c-8da9-523fcd023d5a"

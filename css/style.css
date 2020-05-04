@@ -170,7 +170,6 @@ option {
     visibility: visible;
 }
 
-
 .info {
     background-color: #804d13;
     color: #fff;
@@ -179,6 +178,7 @@ option {
     border-radius: 5px;
     display: flex;
     padding: 0 5px 0 5px;
+    margin-top: 5px;
     min-height: 27px;
 }
 
@@ -199,11 +199,17 @@ option {
     margin-right: 5px;
 }
 
+.action.middle2:hover, .action.middle2:focus {
+    background-color: #EF9124;
+    height: 27px;
+    line-height: 27px;
+    border-radius: 5px;
+}
+
 .campaign-description {
-    grid-area: campaign-description;
+    flex: 0 1 auto;
+    height: 50%;
     background-color: #2b323b;
-    /*margin-top: 10px;*/
-    margin-bottom: 10px;
     font-size: 100%;
     padding: 10px;
     border-radius: 5px;
@@ -212,7 +218,9 @@ option {
 }
 
 .playbook-description {
-    grid-area: playbook-description;
+    flex: 0 1 auto;
+    height: 50%;
+    margin-bottom: 5px;
     background-color: #2b323b;
     font-size: 100%;
     padding: 10px;
@@ -221,22 +229,44 @@ option {
     -webkit-overflow-scrolling: touch;
 }
 
+.descriptions {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 67%;
+}
+
 .timeline {
-    grid-area: timeline;
+    flex: 1 1 auto;
     background-color: #2b323b;
-    margin-bottom: 10px;
-    padding: 0px;
+    margin-right: 5px;
+    padding: 0;
     border-radius: 5px;
     overflow: auto;
+    width: 33%
+}
+
+.bottom {
+    /*display: flex;*/
+    /*flex-wrap: wrap;*/
+    width: 100%;
+}
+
+.top {
+    display: flex;
+    flex: 1 1 auto;
+    height: 300px;
 }
 
 .inside {
-    display: grid;
-    grid-template-columns: auto 65%;
-    grid-template-rows: 50% 50%;
-    grid-template-areas: "timeline playbook-description" "timeline campaign-description";
-    grid-gap: 10px;
-    height: 350px;
+    display: flex;
+    flex: 0 1 auto;
+    flex-direction: column;
+    /*height: 350px;*/
+}
+
+.inside-hidden {
+    display: none;
 }
 
 .sidebar {
@@ -268,9 +298,9 @@ option {
 
 .header {
     background-color: #2b323b;
-    border-radius: 0px 0px 5px 5px;
+    border-radius: 0 0 5px 5px;
     padding-left: 10px;
-    height: 70px;
+    height: 58px;
 }
 
 .header span {
@@ -288,7 +318,7 @@ option {
     display: flex;
     flex-direction: column;
     margin-left: 5px;
-    margin-right: 5px;
+    /*margin-right: 5px;*/
 }
 
 .wrapper > div:first-child {
@@ -302,7 +332,7 @@ option {
 
 .wrapper > div > div {
     margin-top: 5px;
-    margin-bottom: 5px;
+    /*margin-bottom: 5px;*/
 }
 
 .wrapper > div > div:first-child {
@@ -313,33 +343,37 @@ option {
     margin-bottom: 0;
 }
 
-.bottomheader {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    grid-template-areas: "recon weaponization delivery exploit install command objective";
-    grid-gap: 10px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-}
-
-.recon, .delivery, .exploit, .install, .command, .objective, .weaponization {
-    color: #95989a;
-    padding: 20px 10px 10px;
-    font-family: 'Jura', sans-serif;
+.phasescontrol {
 }
 
 .phasescontainer {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    grid-auto-rows: 125px;
-    grid-gap: 12px;
-    margin-top: 10px;
+    display: flex;
+    flex: 1 1 auto;
+}
+
+.ag-root-wrapper {
+    display: flex;
+    flex: 1 1 auto;
+}
+
+.ag-cell > span {
+    display: flex;
+    flex: 1 1 auto;
+    height: 100%;
+}
+
+/*don't outline the cell*/
+.ag-cell-focus, .ag-cell-no-focus {
+    outline: none;
 }
 
 .phases {
+    display: flex;
+    flex: 1 1 auto;
     background-color: #2b323b;
     padding: 10px;
-    border-radius: 5px;
+    margin: 2px;
+    white-space: normal;
     overflow: hidden;
     position: relative;
 }
@@ -356,6 +390,22 @@ option {
     position: absolute;
     bottom: 10px;
     right: 10px;
+}
+
+.phasescontainer .ag-row .ag-cell {
+    border: 1px solid #804d13;
+    /*border-left: 1px solid #f2711799;*/
+    /*border-right: 1px solid #f2711799;*/
+}
+
+.phasescontainer .ag-header-row .ag-header-cell {
+    border: 1px solid #804d13;
+    /*border-left: 1px solid #f2711799;*/
+    /*border-right: 1px solid #f2711799;*/
+}
+
+.ag-header-cell-text {
+    padding-left: 10px;
 }
 
 .indicator-list {
@@ -396,9 +446,9 @@ option {
     background: #ef9124;
 }
 
-.phasesblank {
-    background-color: #14181c;
-}
+/*.phasesblank {*/
+/*    background-color: #14181c;*/
+/*}*/
 
 .box {
     color: #fff;
@@ -474,7 +524,7 @@ a:active {
 }
 
 .modal {
-    display: none;
+    display: block;
     position: fixed;
     z-index: 1;
     left: 0;
@@ -656,4 +706,84 @@ a:active {
     color: #000000;
     background: #ef9124;
     text-decoration: none;
+}
+
+/*Controls*/
+
+.control {
+    background-color: #2b323b;
+    color: #fff;
+    align-items: center;
+    border-top: 10px;
+    border-radius: 5px;
+    /*display: flex;*/
+    padding: 0 5px 0 5px;
+    min-height: 27px;
+}
+
+/*Kill Chain Selector Dropdown*/
+
+.dropdown-container {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-container:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown {
+    height: 27px;
+    text-decoration: none;
+    vertical-align: middle;
+    line-height: 27px;
+    font-family: 'Jura', sans-serif;
+    display: block;
+    border-radius: 5px;
+    min-width: 313px;
+}
+
+.dropdown:hover, .dropdown:focus {
+    background-color: #EF9124;
+}
+
+.dropdown-content, .dropdown-content-clicked {
+    display: none;
+    position: absolute;
+    background-color: #804d13;
+    border-radius: 5px;
+    min-width: 313px;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+.dropdown-content li:hover {
+    background-color: #EF9124;
+    border-radius: 5px;
+}
+
+.dropdown-list {
+    list-style-type: none;
+    padding: 2px;
+}
+
+.option-control {
+    display: inline-block;
+    float: right;
+}
+
+.display-empty-columns, .display-top {
+    display: inline-block;
+    height: 27px;
+    width: 78px;
+    text-decoration: none;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 27px;
+    font-family: 'Jura', sans-serif;
+    border-radius: 5px;
+}
+
+.display-empty-columns:hover, .display-empty-columns:focus, .display-top:hover, .display-top:focus {
+    background-color: #EF9124;
 }
