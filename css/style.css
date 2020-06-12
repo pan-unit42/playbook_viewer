@@ -270,13 +270,21 @@ option {
 }
 
 .sidebar {
-    grid-area: sidebar;
-    grid-template-columns: auto;
+    height: calc(100vh - 22px);
     background-color: #2b323b;
-    padding-left: 20px;
-    padding-right: 20px;
+    padding-left: 15px;
+    padding-right: 15px;
     padding-top: 20px;
-    min-height: calc(100vh - 90px);
+    /*border: 1px solid white;*/
+}
+
+.sidebar > div {
+    flex: 0 0 0;
+}
+
+.sidebar > .playbooks {
+    flex: 1 1 auto;
+    overflow-y: auto;
 }
 
 .sidebar img {
@@ -318,7 +326,6 @@ option {
     display: flex;
     flex-direction: column;
     margin-left: 5px;
-    /*margin-right: 5px;*/
 }
 
 .wrapper > div:first-child {
@@ -404,7 +411,7 @@ option {
     /*border-right: 1px solid #f2711799;*/
 }
 
-.ag-header-cell-text {
+.phasescontainer .ag-header-cell-text {
     padding-left: 10px;
 }
 
@@ -455,8 +462,11 @@ option {
     font-size: 100%;
 }
 
+.box.contents {
+    /*display: none;*/
+}
+
 .footer {
-    grid-area: footer;
     color: #95989a;
     padding-left: 10px;
     padding-top: 30px;
@@ -537,18 +547,30 @@ a:active {
 }
 
 .modal-content {
+    display: flex;
+    flex-direction: column;
     background-color: #14181c;
-    margin: 15% auto;
-    padding: 20px;
+    margin: 10% auto;
+    padding: 10px;
     color: white;
     width: 80%;
+    max-height: 80%;
     border-radius: 5px;
     border: 1px solid #EF9124;
 }
 
+.modal-header {
+    display: flex;
+    flex-direction: row;
+    flex: 0 0 0;
+}
+
+.modal-header > .close {
+    margin-left: auto;
+}
+
 .close {
     color: #aaa;
-    float: right;
     font-size: 28px;
     font-weight: bold;
 }
@@ -560,29 +582,85 @@ a:active {
     cursor: pointer;
 }
 
-::-webkit-scrollbar {
-    width: 6px; /* 1px wider than Lion. */
-    /* This is more usable for users trying to click it. */
-    background-color: #59360d;
-    -webkit-border-radius: 100px;
+.display-coa {
+    height: 27px;
+    vertical-align: middle;
+    line-height: 27px;
+    font-family: 'Jura', sans-serif;
 }
 
-/* hover effect for both scrollbar area, and scrollbar 'thumb' */
-::-webkit-scrollbar:hover {
-    background-color: rgba(0, 0, 0, 0.09);
+.display-ind {
+    height: 27px;
+    vertical-align: middle;
+    line-height: 27px;
+    font-family: 'Jura', sans-serif;
+    padding-top: 15px;
 }
 
-/* The scrollbar 'thumb' ...that marque oval shape in a scrollbar */
-::-webkit-scrollbar-thumb:vertical {
-    /* This is the EXACT color of Mac OS scrollbars.
-       Yes, I pulled out digital color meter */
-    background: rgba(0, 0, 0, 0.5);
-    -webkit-border-radius: 100px;
+.coa-control, .ind-control {
+    float: right;
+    height: 27px;
+    width: 78px;
+    text-decoration: none;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 27px;
+    font-family: 'Jura', sans-serif;
+    border-radius: 5px;
 }
 
-::-webkit-scrollbar-thumb:vertical:active {
-    background: rgba(0, 0, 0, 0.61); /* Some darker color when you click it */
-    -webkit-border-radius: 100px;
+.coa-grid {
+    /*ag grid does not account for cell border with in sizeColumnsToFit()*/
+    height: 200px;
+    overflow: auto;
+}
+
+.coa-grid-hidden {
+    display: none;
+}
+
+.coa-grid .ag-row .ag-cell {
+    border: 1px solid #804d13;
+}
+
+.coa-grid .ag-header-row .ag-header-cell {
+    border: 1px solid #804d13;
+}
+
+.ind-container {
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.ind-container-hidden {
+    display: none;
+}
+
+body ::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 10px;
+    height: 10px;
+}
+
+body ::-webkit-scrollbar-track {
+    background: rgba(242, 113, 23, 0.2);
+    border-radius: 0;
+}
+
+body ::-webkit-scrollbar-thumb {
+    cursor: pointer;
+    border-radius: 5px;
+    background: rgba(242, 113, 23, 0.3);
+    -webkit-transition: color 0.2s ease;
+    transition: color 0.2s ease;
+}
+
+body ::-webkit-scrollbar-thumb:window-inactive {
+    background: #2d3436;
+}
+
+body ::-webkit-scrollbar-thumb:hover {
+    background: rgba(242, 113, 23, 0.4);
 }
 
 /*Demo*/
@@ -784,6 +862,7 @@ a:active {
     border-radius: 5px;
 }
 
-.display-empty-columns:hover, .display-empty-columns:focus, .display-top:hover, .display-top:focus {
+.display-empty-columns:hover, .display-empty-columns:focus, .display-top:hover, .display-top:focus, .coa-control:hover, .coa-control:focus, .ind-control:hover, .ind-control:focus {
     background-color: #EF9124;
 }
+

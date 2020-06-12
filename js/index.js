@@ -5,7 +5,8 @@ let current_playbook = null;
 let current_report = null;
 let current_intrusion_set = null;
 let current_killchain = null;
-let grid_params = null;
+let ttp_grid_params = null;
+let coa_grid_params = null;
 
 String.prototype.replaceAll = function (search, replacement) {
     let target = this;
@@ -31,7 +32,8 @@ function emptyPlaybook() {
     current_report = null;
     current_intrusion_set = null;
     current_killchain = null;
-    grid_params = null;
+    ttp_grid_params = null;
+    coa_grid_params = null;
 }
 
 function initTour() {
@@ -55,7 +57,7 @@ function initTour() {
                 title: "Welcome to the Unit 42 Playbook Viewer",
                 content: "The Playbook viewer is a system for parsing STIX2 content that contains an Adversary Playbook. " +
                     "You can read more about this <a href='" + step0link + "' target='_blank' >here</a>" +
-                    " or follow the prompts to check it out.",
+                    " or follow the prompts to check it out."
             },
             {
                 element: "#playbook_oilrig",
@@ -95,7 +97,7 @@ function initTour() {
             {
                 element: ".campaign-description",
                 title: "Each Play may have a description",
-                content: "The description provides specific details about the campaign.",
+                content: "The description provides specific details about the campaign."
             },
             {
                 element: ".dropdown",
@@ -114,7 +116,7 @@ function initTour() {
             },
             {
                 orphan: true,
-                element: "#indicator-table",
+                element: ".indicator-table",
                 title: "Technique cards contain a STIX2 indicator pattern and a description.",
                 content: "",
                 placement: "top",
@@ -322,6 +324,27 @@ function initEvents() {
         }
     });
 
+    $(document).on('click', '.display-coa', function (event) {
+        const isVisible = $('.coa-grid').is(':visible');
+        if (isVisible) {
+            $('.coa-grid').addClass("coa-grid-hidden").removeClass("coa-grid");
+        } else {
+            $('.coa-grid-hidden').addClass("coa-grid").removeClass("coa-grid-hidden");
+        }
+        if (coa_grid_params) {
+            coa_grid_params.api.sizeColumnsToFit();
+        }
+    });
+
+    $(document).on('click', '.display-ind', function (event) {
+        const isVisible = $('.ind-container').is(':visible');
+        if (isVisible) {
+            $('.ind-container').addClass("ind-container-hidden").removeClass("ind-container");
+        } else {
+            $('.ind-container-hidden').addClass("ind-container").removeClass("ind-container-hidden");
+        }
+    });
+
     showPlaybook();
 }
 
@@ -369,13 +392,12 @@ function buildHome() {
             </div>
         </div>
         <div class="phasescontainer"/>
-        <div class="modalcontainer"/>
     `;
     $(".contents").html(htmlContents);
 }
 
 function buildSideBar(playbooks) {
-    const parent = $('.sidebar');
+    const parent = $('.playbooks');
     const klass = 'btn playbook';
     parent.children('.playbook').remove();
 
@@ -649,41 +671,25 @@ function buildFilterMenu() {
         `<br/><br/><br/>`;
 
     const instructions = `<span class="filter-tooltiptext">${details}</span>`;
-
     const howto = `<div class="filter-tooltip">Filters (Hover for additional information)...${instructions}</div>`;
-
     const industryFilterHTML = buildIndustryFilter(usedIndustries);
-
     const regionFilterHTML = buildRegionFilter(usedRegions);
-
     const malwareFilterHTML = buildMalwareFilter(usedMalwares);
 
     let filters = `<select class="filter-options-inner" multiple="multiple">${industryFilterHTML}${regionFilterHTML}${malwareFilterHTML}</select>`;
 
     const btn = `<span class="filter-button" onClick="">FILTER PLAYBOOKS</span>`;
-
     const btn2 = `<span class="clear-filters-button" onClick="">CLEAR FILTERS</span><br/>`;
 
     const filterMenu = `<div class="filter-options"><span class="close">&times;</span><br/><br/>${howto}${filters}${btn}${btn2}</div>`;
 
-    $('body').append(filterMenu);
+    $('.modalcontainer').after(filterMenu);
 }
 
 function initPlaybooks(playbooks) {
     buildHome();
-
-    const parent = $('.sidebar');
-    const klass = 'btn playbook';
-
     playbook_information = playbooks;
-
-    playbooks.forEach(playbook => {
-        const {pb_file, title} = playbook;
-        const id = `playbook_${pb_file.replace('.json', '')}`;
-        const el = `<div class="${klass}" id="${id}" pb_file="${pb_file}" onclick="">${title}</div>`;
-        parent.append(el);
-    });
-
+    buildSideBar(playbooks);
     initEvents();
 }
 
@@ -737,6 +743,13 @@ function getTypeFromPlaybook(type, playbook) {
 
 function getTypeFromReport(type, report, playbook) {
     return report.object_refs.filter(o => o.startsWith(type)).map(o => getObjectFromPlaybook(o, playbook));
+}
+
+function getRelatedCOA(ttp_id, playbook) {
+    const all_relationships = playbook['objects'].filter(o => o.type === 'relationship');
+    return all_relationships
+        .filter(o => (o.source_ref.startsWith("course-of-action--") && o.target_ref === ttp_id))
+        .map(r => getObjectFromPlaybook(r.source_ref, playbook));
 }
 
 function getRelatedMalware(in_id, playbook) {
@@ -835,9 +848,7 @@ function addInfobox(playbook) {
         `<div class="right"><div>Attack Patterns: ${total_attackpatterns}</div></div>`
     );
     $('.info1').empty().append(ib_markup);
-    $('body').append(
-        `<div class="indicator-list"><span class="close">&times;</span> ${indicatorTable}</div>`
-    );
+    $('.modalcontainer').after(`<div class="indicator-list"><span class="close">&times;</span> ${indicatorTable}</div>`);
 }
 
 function addInfoBox2(report, playbook) {
@@ -1056,17 +1067,17 @@ function renderPhaseCell(params) {
 }
 
 function toggleColumnDisplay() {
-    const cols = grid_params.columnApi.getAllColumns();
+    const cols = ttp_grid_params.columnApi.getAllColumns();
     const invisibleCols = cols.filter(i => !i.visible);
     if (invisibleCols.length) {
         // show all columns
-        grid_params.columnApi.setColumnsVisible(cols, true);
+        ttp_grid_params.columnApi.setColumnsVisible(cols, true);
     } else {
         // hide empty columns
         const cols = {};
         const show = {};
 
-        grid_params.api.forEachNode(node => {
+        ttp_grid_params.api.forEachNode(node => {
             const data = node.data;
             Object.keys(data).forEach(k => {
                 cols[k] = 1;
@@ -1080,16 +1091,16 @@ function toggleColumnDisplay() {
         const showNames = Object.keys(show);
         const hideCols = colsNames.filter(x => !showNames.includes(x));
 
-        grid_params.columnApi.setColumnsVisible(hideCols, false);
+        ttp_grid_params.columnApi.setColumnsVisible(hideCols, false);
     }
 }
 
-function storeGridParams(params) {
-    grid_params = params;
+function storeTTPGridParams(params) {
+    ttp_grid_params = params;
 }
 
-function onGridReady(params) {
-    storeGridParams(params);
+function onTTPGridReady(params) {
+    storeTTPGridParams(params);
     params.api.sizeColumnsToFit();
 }
 
@@ -1148,7 +1159,7 @@ function buildPhaseContainer(killChain, report, playbook) {
         rowData: rowData,
         rowHeight: 125,
         suppressMovableColumns: true,
-        onGridReady: onGridReady,
+        onGridReady: onTTPGridReady,
         onCellClicked: onPhaseCellClicked
     };
 
@@ -1195,82 +1206,121 @@ function getReportIndicators(ap, report, playbook) {
     return indicators;
 }
 
-function writeAPModal(ap, report, playbook) {
+function writeMalwareTooltip(malwares) {
     const {malware_label_ov} = consts;
+    const malwareNames = malwares.map(m => m['name']).join(', ');
+
+    let malwareToolTip = '<span class="tooltiptext">';
+
+    malwares.forEach((m, i) => {
+        malwareToolTip += `<div>Name: ${m['name']}</div>`;
+        malwareToolTip += `<div></div>Types: ${m['labels'].map(m => malware_label_ov[m]).sort().join(', ')}</div>`;
+
+        if (m['description']) {
+            malwareToolTip += `<div>Description: ${m['description']}</div>`;
+        }
+
+        const external_refs = m['external_references'];
+        if (external_refs) {
+            external_refs.forEach(r => {
+                malwareToolTip += `<div><a href="${r['url']}" target="_blank">${r['source_name']}</a></div>`;
+            });
+        }
+
+        if (malwares[i + 1]) {
+            malwareToolTip += '<hr/>';
+        }
+    });
+
+    malwareToolTip += '</span>';
+
+    return `<td class="tooltip" width="20%">${malwareNames}${malwareToolTip}</td>`;
+}
+
+function storeCOAGridParams(params) {
+    coa_grid_params = params;
+}
+
+function onCOAGridReady(params) {
+    storeCOAGridParams(params);
+    params.api.sizeColumnsToFit();
+}
+
+function writeAPModal(ap, report, playbook) {
     const campaign = getTypeFromReport("campaign", report, playbook)[0];
     const indicators = getReportIndicators(ap, report, playbook);
+    const coas = getRelatedCOA(ap.id, playbook);
     sortIndicators(indicators);
     // Retrieve the indicator description from the relationship between indicator and attack-pattern
     const relationships = getTypeFromReport("relationship", report, playbook);
 
-    let markup = `<div id="${ap.id}_${campaign.id}" class="modal">`;
-    markup += '<div class="modal-content"><span class="close">&times;</span>';
-    try {
-        markup += `<p><b>Technique:</b> ${ap.name}` +
-            `<a href="${ap['external_references'][0].url}" target="_blank"><sup>REFERENCE</sup></a></p><br>`;
-    } catch (e) {
-        // The playbook contains an incomplete attack-pattern
-        // console.log(JSON.stringify({ap: ap, e: e}));
+    const modal = document.createElement('div');
+    modal.id = `${ap.id}_${campaign.id}`;
+    modal.className = "modal";
+
+    let ttpLink = '';
+    if ('external_references' in ap && ap['external_references'].length) {
+        const attackEntry = ap['external_references'].find(i => i.url && i.url.startsWith('https://attack.mitre.org/'));
+        if (attackEntry) {
+            const a = `<a href="${attackEntry.url}" target="_blank"><sup>REFERENCE</sup></a>`;
+            ttpLink = `<p><b>Technique:</b> ${ap.name} ${a}</p><br>`;
+        }
     }
+
+    let indicatorTable = '';
     if (indicators.length === 0) {
-        markup += '<span>No Indicators Available</span><br>';
+        indicatorTable += '<span>No Indicators Available</span><br>';
     } else {
-        markup += '<table id="indicator-table">' +
+        indicatorTable += '<table class="indicator-table">' +
             '<tr><th id="indicator-description">Description</th>' +
             '<th id="indicator-pattern">Indicator Pattern</th>' +
             '<th id="indicator-malware">Malware</th></tr>';
         indicators.forEach(i => {
             // Retrieve the indicator description from the relationship between indicator and attack-pattern
             // Provide backwards-compatibility with playbooks that stored the description in the indicator object
-            const description = relationships
-                .filter(r => (r && (r.source_ref === i.id) && (r.target_ref === ap.id)))[0].description || i.name;
+            const {description} = relationships.find(r => (r && (r.source_ref === i.id) && (r.target_ref === ap.id))) || {description: i.name};
             const malwares = getRelatedMalware(i.id, playbook);
-            const malwareNames = getRelatedMalware(i.id, playbook).map(m => m['name']).join(', ');
+            const malwareInfo = malwares.length ? writeMalwareTooltip(malwares) : `<td></td>`;
 
             try {
-                markup += '<tr>' + `<td>${description}</td>` + `<td class="indicators">${escapeHtml(i.pattern)}</td>`;
-
-                if (malwares.length) {
-                    let malwareToolTip = '<span class="tooltiptext">';
-
-                    malwares.forEach((m, i) => {
-                        malwareToolTip += `<div>Name: ${m['name']}</div>`;
-                        malwareToolTip += `<div></div>Types: ${m['labels'].map(m => malware_label_ov[m]).sort().join(', ')}</div>`;
-
-                        if (m['description']) {
-                            malwareToolTip += `<div>Description: ${m['description']}</div>`;
-                        }
-
-                        const external_refs = m['external_references'];
-                        if (external_refs) {
-                            external_refs.forEach(r => {
-                                malwareToolTip += `<div><a href="${r['url']}" target="_blank">${r['source_name']}</a></div>`;
-                            });
-                        }
-
-                        if (malwares[i + 1]) {
-                            malwareToolTip += '<hr/>';
-                        }
-                    });
-
-                    malwareToolTip += '</span>';
-
-                    markup += `<td class="tooltip" width="20%">${malwareNames}${malwareToolTip}</td>`;
-                } else {
-                    markup += `<td></td>`;
-                }
-
-                markup += `</tr>`;
+                indicatorTable += '<tr>' + `<td>${description}</td>` + `<td class="indicators">${escapeHtml(i.pattern)}</td>` + malwareInfo + '</tr>';
             } catch (e) {
                 // The playbook contains a malformed relationship or description
                 // console.log(JSON.stringify({text: text, e: e}));
             }
         });
-        markup += '</table>';
+        indicatorTable += '</table>';
     }
-    markup += '</div>';
 
-    return markup;
+    const coaControl = `<div class="display-coa" title="Show/Hide Courses of Action">Courses of Action<div class="coa-control"><i class="fas fa-arrows-alt-v"></i></div></div>`;
+    const indControl = `<div class="display-ind" title="Show/Hide Indicators">Indicators<div class="ind-control"><i class="fas fa-arrows-alt-v"></i></div></div>`;
+
+    const coaContent = coas.length ? `${coaControl}<div class="coa-grid-elem coa-grid-hidden"></div>` : "";
+    const indContent = `${indControl}<div class="ind-container">${indicatorTable}</div>`;
+    const modalContent = `<div class="modal-content"><div class="modal-header">${ttpLink}<span class="close">&times;</span></div>${coaContent}${indContent}</div>`;
+
+    modal.insertAdjacentHTML('beforeend', modalContent);
+
+    const columnDefs = [
+        {headerName: 'Name', field: 'name', minWidth: 178},
+        {headerName: 'Description', field: 'description', minWidth: 178},
+        {headerName: 'Product Line', field: 'product', minWidth: 178}
+    ];
+    const rowData = coas.map(i => ({name: i.name, description: i.description || '', product: i.x_panw_product || ''}));
+    const gridOptions = {
+        columnDefs: columnDefs,
+        rowData: rowData,
+        onGridReady: onCOAGridReady,
+        suppressMovableColumns: true,
+        enableCellTextSelection: true
+    };
+
+    const eGridDiv = modal.querySelector('.coa-grid-elem');
+    new agGrid.Grid(eGridDiv, gridOptions);
+
+    // TODO: Switch indicator table to indicator aggrid
+
+    return modal;
 }
 
 function escapeHtml(text) {
