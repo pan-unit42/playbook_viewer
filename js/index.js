@@ -65,7 +65,7 @@ function initTour() {
                 content: "A Playbook is a collection of Plays. " +
                     "Plays are campaigns that were conducted by an adversary, you can select them from this list.",
                 // Use the Oilrig Playbook for the demo
-                onNext: () => $('.box.sidebar').children('.btn').first().trigger('click')
+                onNext: () => $('.playbooks').children('.btn').first().trigger('click')
             },
             {
                 element: ".playbook-description",
