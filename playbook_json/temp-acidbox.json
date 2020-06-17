@@ -1,0 +1,1216 @@
+{
+  "type": "bundle",
+  "id": "bundle--e06ff13e-810a-4f46-be1c-0ede839825d0",
+  "spec_version": "2.0",
+  "objects": [
+    {
+      "type": "report",
+      "id": "report--e06ff13e-810a-4f46-be1c-0ede839825d0",
+      "created": "2020-06-04T15:11:37.652Z",
+      "modified": "2020-06-17T12:30:15.231Z",
+      "name": "TEMP.AcidBox",
+      "description": "When the news broke in 2014 about a new sophisticated threat actor dubbed Turla, its kernelmode malware became also the first publicly described case which abuses a 3rd party device driver to disable Driver Signature Enforcement (DSE). This security mechanism was introduced in Windows Vista to prevent unsigned drivers from loading into kernel space. Turla exploited the signed VirtualBox driver VBoxDrv.sys v1.6.2 to deactivate DSE and load its unsigned payload drivers afterwards. According to the Estonian foreign intelligence service, Turla is believed to have Russian origins and operates on behalf of the FSB.\n\nThere is some confusion about this exploit as it\u2019s often generally referred to as CVE-2008-3431. Actually, the exploit used by Turla abuses two vulnerabilities of which only one was fixed in the aforementioned CVE. The other vulnerability was found by Turla authors and is used in the first version of their exploit along with CVE-2008-3431. The second version of their exploit, presumably introduced in 2014 of their kernelmode malware, only uses the unpatched vulnerability which we will discuss in more detail later.\n\nThis unpatched vulnerability can be exploited not only in VirtualBox VBoxDrv.sys driver v1.6.2, but also in all other versions smaller v3.0.0. This was also discovered by a yet unknown threat actor which targeted at least two different Russian organizations in 2017. The actors used a previously unknown malware family we have dubbed AcidBox - with the first part being an anagram of the malware\u2019s driver device name and the second part taken from VirtualBox. Because of the malware\u2019s complexity, its rarity and the fact that it\u2019s part of a bigger toolset, we believe it is used by an advanced threat actor for targeted attacks.\n\nAcidBox is a complex modular toolkit of which we have only some components. The toolkit consists of 64-bit usermode DLL files - one type of which appears to be an orchestrator containing the vulnerable VirtualBox driver and the AcidBox kernelmode component embedded. The VirtualBox driver is dropped to disk, loaded, and exploited in order to load the unsigned malware driver.\n\nHow the orchestrator DLL is loaded remains unknown, we only know that a passed parameter is checked by the DLL and it wont execute properly without it. The orchestrator and the other DLL modules also depend on registry keys to be present on the system in order to fully execute. These registry paths are present as encrypted strings in the resource sections and must be created by an unknown file or dropper at an earlier stage. The registry values contain encrypted data blobs that contain additional modules to be injected into a given process as well as additional data.",
+      "published": "2020-06-17T12:30:15.231Z",
+      "object_refs": [
+        "intrusion-set--1541c4c8-a0c4-435f-aff8-60cecf72367a",
+        "report--4d1e7ce0-6064-4552-9ca6-23cb83ea7876"
+      ],
+      "labels": [
+        "intrusion-set"
+      ]
+    },
+    {
+      "type": "intrusion-set",
+      "id": "intrusion-set--1541c4c8-a0c4-435f-aff8-60cecf72367a",
+      "created": "2020-06-08T12:22:43.326Z",
+      "modified": "2020-06-08T12:22:55.313Z",
+      "name": "AcidBox"
+    },
+    {
+      "type": "attack-pattern",
+      "id": "attack-pattern--1b84d551-6de8-4b96-9930-d177677c3b1d",
+      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "created": "2018-08-03T19:54:02.821Z",
+      "modified": "2020-03-18T19:43:40.183Z",
+      "name": "T1116: Code Signing",
+      "description": "Code signing provides a level of authenticity on a binary from the developer and a guarantee that the binary has not been tampered with. (Citation: Wikipedia Code Signing) However, adversaries are known to use code signing certificates to masquerade malware and tools as legitimate binaries (Citation: Janicab). The certificates used during an operation may be created, forged, or stolen by the adversary. (Citation: Securelist Digital Certificates) (Citation: Symantec Digital Certificates)\n\nCode signing to verify software on first run can be used on modern Windows and macOS/OS X systems. It is not used on Linux due to the decentralized nature of the platform. (Citation: Wikipedia Code Signing)\n\nCode signing certificates may be used to bypass security policies that require signed code to execute on a system.",
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "lockheed",
+          "phase_name": "installation"
+        },
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "defense-evasion"
+        }
+      ],
+      "external_references": [
+        {
+          "source_name": "Janicab",
+          "url": "http://www.thesafemac.com/new-signed-malware-called-janicab/",
+          "description": "Thomas. (2013, July 15). New signed malware called Janicab. Retrieved July 17, 2017."
+        },
+        {
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1116",
+          "external_id": "T1116"
+        },
+        {
+          "source_name": "Securelist Digital Certificates",
+          "url": "https://securelist.com/why-you-shouldnt-completely-trust-files-signed-with-digital-certificates/68593/",
+          "description": "Ladikov, A. (2015, January 29). Why You Shouldn\u2019t Completely Trust Files Signed with Digital Certificates. Retrieved March 31, 2016."
+        },
+        {
+          "source_name": "Symantec Digital Certificates",
+          "url": "http://www.symantec.com/connect/blogs/how-attackers-steal-private-keys-digital-certificates",
+          "description": "Shinotsuka, H. (2013, February 22). How Attackers Steal Private Keys from Digital Certificates. Retrieved March 31, 2016."
+        },
+        {
+          "source_name": "Wikipedia Code Signing",
+          "url": "https://en.wikipedia.org/wiki/Code_signing",
+          "description": "Wikipedia. (2015, November 10). Code Signing. Retrieved March 31, 2016."
+        }
+      ],
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ],
+      "x_mitre_detection": [
+        "Collect and analyze signing certificate metadata on software that executes within the environment to look for unusual certificate characteristics and outliers."
+      ],
+      "x_mitre_platforms": [
+        "Windows",
+        "macOS"
+      ],
+      "x_mitre_data_sources": "Binary file metadata",
+      "x_mitre_defense_bypassed": [
+        "Windows User Account Control"
+      ],
+      "x_mitre_version": "1.0"
+    },
+    {
+      "type": "attack-pattern",
+      "id": "attack-pattern--3ccef7ae-cb5e-48f6-8302-897105fbf55c",
+      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "created": "2018-08-03T19:54:02.821Z",
+      "modified": "2020-03-18T19:43:29.673Z",
+      "name": "T1140: Deobfuscate/Decode Files or Information",
+      "description": "Adversaries may use [Obfuscated Files or Information](https://attack.mitre.org/techniques/T1027) to hide artifacts of an intrusion from analysis. They may require separate mechanisms to decode or deobfuscate that information depending on how they intend to use it. Methods for doing that include built-in functionality of malware, [Scripting](https://attack.mitre.org/techniques/T1064), [PowerShell](https://attack.mitre.org/techniques/T1086), or by using utilities present on the system.\n\nOne such example is use of [certutil](https://attack.mitre.org/software/S0160) to decode a remote access tool portable executable file that has been hidden inside a certificate file. (Citation: Malwarebytes Targeted Attack against Saudi Arabia)\n\nAnother example is using the Windows <code>copy /b</code> command to reassemble binary fragments into a malicious payload. (Citation: Carbon Black Obfuscation Sept 2016)\n\nPayloads may be compressed, archived, or encrypted in order to avoid detection.  These payloads may be used with [Obfuscated Files or Information](https://attack.mitre.org/techniques/T1027) during Initial Access or later to mitigate detection. Sometimes a user's action may be required to open it for deobfuscation or decryption as part of [User Execution](https://attack.mitre.org/techniques/T1204). The user may also be required to input a password to open a password protected compressed/encrypted file that was provided by the adversary. (Citation: Volexity PowerDuke November 2016) Adversaries may also used compressed or archived scripts, such as Javascript.",
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "lockheed",
+          "phase_name": "installation"
+        },
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "defense-evasion"
+        }
+      ],
+      "external_references": [
+        {
+          "source_name": "Carbon Black Obfuscation Sept 2016",
+          "url": "https://www.carbonblack.com/2016/09/23/security-advisory-variants-well-known-adware-families-discovered-include-sophisticated-obfuscation-techniques-previously-associated-nation-state-attacks/",
+          "description": "Tedesco, B. (2016, September 23). Security Alert Summary. Retrieved February 12, 2018."
+        },
+        {
+          "source_name": "Malwarebytes Targeted Attack against Saudi Arabia",
+          "url": "https://blog.malwarebytes.com/cybercrime/social-engineering-cybercrime/2017/03/new-targeted-attack-saudi-arabia-government/",
+          "description": "Malwarebytes Labs. (2017, March 27). New targeted attack against Saudi Arabia Government. Retrieved July 3, 2017."
+        },
+        {
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1140",
+          "external_id": "T1140"
+        },
+        {
+          "source_name": "Volexity PowerDuke November 2016",
+          "url": "https://www.volexity.com/blog/2016/11/09/powerduke-post-election-spear-phishing-campaigns-targeting-think-tanks-and-ngos/",
+          "description": "Adair, S.. (2016, November 9). PowerDuke: Widespread Post-Election Spear Phishing Campaigns Targeting Think Tanks and NGOs. Retrieved January 11, 2017."
+        }
+      ],
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ],
+      "x_mitre_detection": [
+        "Detecting the action of deobfuscating or decoding files or information may be difficult depending on the implementation. If the functionality is contained within malware and uses the Windows API, then attempting to detect malicious behavior before or after the action may yield better results than attempting to perform analysis on loaded libraries or API calls. If scripts are used, then collecting the scripts for analysis may be necessary. Perform process and command-line monitoring to detect potentially malicious behavior related to scripts and system utilities such as [certutil](https://attack.mitre.org/software/S0160).\n\nMonitor the execution file paths and command-line arguments for common archive file applications and extensions, such as those for Zip and RAR archive tools, and correlate with other suspicious behavior to reduce false positives from normal user and administrator behavior."
+      ],
+      "x_mitre_platforms": [
+        "Windows"
+      ],
+      "x_mitre_data_sources": [
+        "File monitoring",
+        "Process command-line parameters",
+        "Process monitoring"
+      ],
+      "x_mitre_permissions_required": [
+        "User"
+      ],
+      "x_mitre_defense_bypassed": [
+        "Anti-virus",
+        "Host intrusion prevention systems",
+        "Network intrusion detection system",
+        "Signature-based detection"
+      ],
+      "x_mitre_contributors": [
+        "Matthew Demaske, Adaptforward",
+        "Red Canary"
+      ],
+      "x_mitre_version": "1.0"
+    },
+    {
+      "type": "attack-pattern",
+      "id": "attack-pattern--57340c81-c025-4189-8fa0-fc7ede51bae4",
+      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "created": "2018-08-03T19:54:02.821Z",
+      "modified": "2020-03-18T19:43:22.013Z",
+      "name": "T1112: Modify Registry",
+      "description": "Adversaries may interact with the Windows Registry to hide configuration information within Registry keys, remove information as part of cleaning up, or as part of other techniques to aid in Persistence and Execution.\n\nAccess to specific areas of the Registry depends on account permissions, some requiring administrator-level access. The built-in Windows command-line utility [Reg](https://attack.mitre.org/software/S0075) may be used for local or remote Registry modification. (Citation: Microsoft Reg) Other tools may also be used, such as a remote access tool, which may contain functionality to interact with the Registry through the Windows API (see examples).\n\nRegistry modifications may also include actions to hide keys, such as prepending key names with a null character, which will cause an error and/or be ignored when read via [Reg](https://attack.mitre.org/software/S0075) or other utilities using the Win32 API. (Citation: Microsoft Reghide NOV 2006) Adversaries may abuse these pseudo-hidden keys to conceal payloads/commands used to establish Persistence. (Citation: TrendMicro POWELIKS AUG 2014) (Citation: SpectorOps Hiding Reg Jul 2017)\n\nThe Registry of a remote system may be modified to aid in execution of files as part of Lateral Movement. It requires the remote Registry service to be running on the target system. (Citation: Microsoft Remote) Often [Valid Accounts](https://attack.mitre.org/techniques/T1078) are required, along with access to the remote system's [Windows Admin Shares](https://attack.mitre.org/techniques/T1077) for RPC communication.",
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "lockheed",
+          "phase_name": "installation"
+        },
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "defense-evasion"
+        }
+      ],
+      "external_references": [
+        {
+          "source_name": "capec",
+          "url": "https://capec.mitre.org/data/definitions/203.html",
+          "external_id": "CAPEC-203"
+        },
+        {
+          "source_name": "Microsoft 4657 APR 2017",
+          "url": "https://docs.microsoft.com/windows/security/threat-protection/auditing/event-4657",
+          "description": "Miroshnikov, A. & Hall, J. (2017, April 18). 4657(S): A registry value was modified. Retrieved August 9, 2018."
+        },
+        {
+          "source_name": "Microsoft Reg",
+          "url": "https://technet.microsoft.com/en-us/library/cc732643.aspx",
+          "description": "Microsoft. (2012, April 17). Reg. Retrieved May 1, 2015."
+        },
+        {
+          "source_name": "Microsoft RegDelNull July 2016",
+          "url": "https://docs.microsoft.com/en-us/sysinternals/downloads/regdelnull",
+          "description": "Russinovich, M. & Sharkey, K. (2016, July 4). RegDelNull v1.11. Retrieved August 10, 2018."
+        },
+        {
+          "source_name": "Microsoft Reghide NOV 2006",
+          "url": "https://docs.microsoft.com/sysinternals/downloads/reghide",
+          "description": "Russinovich, M. & Sharkey, K. (2006, January 10). Reghide. Retrieved August 9, 2018."
+        },
+        {
+          "source_name": "Microsoft Remote",
+          "url": "https://technet.microsoft.com/en-us/library/cc754820.aspx",
+          "description": "Microsoft. (n.d.). Enable the Remote Registry Service. Retrieved May 1, 2015."
+        },
+        {
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1112",
+          "external_id": "T1112"
+        },
+        {
+          "source_name": "SpectorOps Hiding Reg Jul 2017",
+          "url": "https://posts.specterops.io/hiding-registry-keys-with-psreflect-b18ec5ac8353",
+          "description": "Reitz, B. (2017, July 14). Hiding Registry keys with PSReflect. Retrieved August 9, 2018."
+        },
+        {
+          "source_name": "TrendMicro POWELIKS AUG 2014",
+          "url": "https://blog.trendmicro.com/trendlabs-security-intelligence/poweliks-malware-hides-in-windows-registry/",
+          "description": "Santos, R. (2014, August 1). POWELIKS: Malware Hides In Windows Registry. Retrieved August 9, 2018."
+        }
+      ],
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ],
+      "x_mitre_detection": [
+        "Modifications to the Registry are normal and occur throughout typical use of the Windows operating system. Consider enabling Registry Auditing on specific keys to produce an alertable event (Event ID 4657) whenever a value is changed (though this may not trigger when values are created with Reghide or other evasive methods). (Citation: Microsoft 4657 APR 2017) Changes to Registry entries that load software on Windows startup that do not correlate with known software, patch cycles, etc., are suspicious, as are additions or changes to files within the startup folder. Changes could also include new services and modification of existing binary paths to point to malicious files. If a change to a service-related entry occurs, then it will likely be followed by a local or remote service start or restart to execute the file.\n\nMonitor processes and command-line arguments for actions that could be taken to change or delete information in the Registry. Remote access tools with built-in features may interact directly with the Windows API to gather information. Information may also be acquired through Windows system management tools such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) and [PowerShell](https://attack.mitre.org/techniques/T1086), which may require additional logging features to be configured in the operating system to collect necessary information for analysis.\n\nMonitor for processes, command-line arguments, and API calls associated with concealing Registry keys, such as Reghide. (Citation: Microsoft Reghide NOV 2006) Inspect and cleanup malicious hidden Registry entries using Native Windows API calls and/or tools such as Autoruns (Citation: SpectorOps Hiding Reg Jul 2017) and RegDelNull (Citation: Microsoft RegDelNull July 2016)."
+      ],
+      "x_mitre_platforms": [
+        "Windows"
+      ],
+      "x_mitre_data_sources": [
+        "File monitoring",
+        "Process command-line parameters",
+        "Process monitoring",
+        "Windows Registry",
+        "Windows event logs"
+      ],
+      "x_mitre_permissions_required": [
+        "Administrator",
+        "SYSTEM",
+        "User"
+      ],
+      "x_mitre_defense_bypassed": [
+        "Host forensic analysis"
+      ],
+      "x_mitre_contributors": [
+        "Bartosz Jerzman",
+        "David Lu, Tripwire",
+        "Travis Smith, Tripwire"
+      ],
+      "x_mitre_version": "1.0"
+    },
+    {
+      "type": "attack-pattern",
+      "id": "attack-pattern--6c174520-beea-43d9-aac6-28fb77f3e446",
+      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "created": "2018-08-03T19:54:02.821Z",
+      "modified": "2020-03-18T19:43:52.406Z",
+      "name": "T1101: Security Support Provider",
+      "description": "Windows Security Support Provider (SSP) DLLs are loaded into the Local Security Authority (LSA) process at system start. Once loaded into the LSA, SSP DLLs have access to encrypted and plaintext passwords that are stored in Windows, such as any logged-on user's Domain password or smart card PINs. The SSP configuration is stored in two Registry keys: <code>HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa\\Security Packages</code> and <code>HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa\\OSConfig\\Security Packages</code>. An adversary may modify these Registry keys to add new SSPs, which will be loaded the next time the system boots, or when the AddSecurityPackage Windows API function is called.\n (Citation: Graeber 2014)",
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "lockheed",
+          "phase_name": "installation"
+        },
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "persistence"
+        }
+      ],
+      "external_references": [
+        {
+          "source_name": "Graeber 2014",
+          "url": "http://docplayer.net/20839173-Analysis-of-malicious-security-support-provider-dlls.html",
+          "description": "Graeber, M. (2014, October). Analysis of Malicious Security Support Provider DLLs. Retrieved March 1, 2017."
+        },
+        {
+          "source_name": "Microsoft Configure LSA",
+          "url": "https://technet.microsoft.com/en-us/library/dn408187.aspx",
+          "description": "Microsoft. (2013, July 31). Configuring Additional LSA Protection. Retrieved June 24, 2015."
+        },
+        {
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1101",
+          "external_id": "T1101"
+        }
+      ],
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ],
+      "x_mitre_detection": [
+        "Monitor the Registry for changes to the SSP Registry keys. Monitor the LSA process for DLL loads. Windows 8.1 and Windows Server 2012 R2 may generate events when unsigned SSP DLLs try to load into the LSA by setting the Registry key <code>HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\LSASS.exe</code> with AuditLevel = 8. (Citation: Graeber 2014) (Citation: Microsoft Configure LSA)"
+      ],
+      "x_mitre_platforms": [
+        "Windows"
+      ],
+      "x_mitre_data_sources": [
+        "DLL monitoring",
+        "Loaded DLLs",
+        "Windows Registry"
+      ],
+      "x_mitre_permissions_required": [
+        "Administrator"
+      ],
+      "x_mitre_version": "1.0"
+    },
+    {
+      "type": "attack-pattern",
+      "id": "attack-pattern--b21c3b2d-02e6-45b1-980b-e69051040839",
+      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "created": "2018-08-03T19:54:02.821Z",
+      "modified": "2020-03-18T19:43:22.214Z",
+      "name": "T1068: Exploitation for Privilege Escalation",
+      "description": "Exploitation of a software vulnerability occurs when an adversary takes advantage of a programming error in a program, service, or within the operating system software or kernel itself to execute adversary-controlled code. Security constructs such as permission levels will often hinder access to information and use of certain techniques, so adversaries will likely need to perform Privilege Escalation to include use of software exploitation to circumvent those restrictions.\n\nWhen initially gaining access to a system, an adversary may be operating within a lower privileged process which will prevent them from accessing certain resources on the system. Vulnerabilities may exist, usually in operating system components and software commonly running at higher permissions, that can be exploited to gain higher levels of access on the system. This could enable someone to move from unprivileged or user level permissions to SYSTEM or root permissions depending on the component that is vulnerable. This may be a necessary step for an adversary compromising a endpoint system that has been properly configured and limits other privilege escalation methods.",
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "lockheed",
+          "phase_name": "act-on-objectives"
+        },
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "privilege-escalation"
+        }
+      ],
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1068",
+          "external_id": "T1068"
+        }
+      ],
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ],
+      "x_mitre_detection": [
+        "Detecting software exploitation may be difficult depending on the tools available. Software exploits may not always succeed or may cause the exploited process to become unstable or crash. Also look for behavior on the endpoint system that might indicate successful compromise, such as abnormal behavior of the processes. This could include suspicious files written to disk, evidence of [Process Injection](https://attack.mitre.org/techniques/T1055) for attempts to hide execution or evidence of Discovery.\n\nHigher privileges are often necessary to perform additional actions such as some methods of [Credential Dumping](https://attack.mitre.org/techniques/T1003). Look for additional activity that may indicate an adversary has gained higher privileges."
+      ],
+      "x_mitre_platforms": [
+        "Linux",
+        "Windows",
+        "macOS"
+      ],
+      "x_mitre_data_sources": [
+        "Application logs",
+        "Process monitoring",
+        "Windows Error Reporting"
+      ],
+      "x_mitre_permissions_required": [
+        "User"
+      ],
+      "x_mitre_effective_permissions": [
+        "User"
+      ],
+      "x_mitre_system_requirements": [
+        "In the case of privilege escalation, the adversary likely already has user permissions on the target system."
+      ],
+      "x_mitre_version": "1.1"
+    },
+    {
+      "type": "attack-pattern",
+      "id": "attack-pattern--b3d682b6-98f2-4fb0-aa3b-b4df007ca70a",
+      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "created": "2018-08-03T19:54:02.821Z",
+      "modified": "2020-03-18T19:43:47.779Z",
+      "name": "T1027: Obfuscated Files or Information",
+      "description": "Adversaries may attempt to make an executable or file difficult to discover or analyze by encrypting, encoding, or otherwise obfuscating its contents on the system or in transit. This is common behavior that can be used across different platforms and the network to evade defenses.\n\nPayloads may be compressed, archived, or encrypted in order to avoid detection. These payloads may be used during Initial Access or later to mitigate detection. Sometimes a user's action may be required to open and [Deobfuscate/Decode Files or Information](https://attack.mitre.org/techniques/T1140) for [User Execution](https://attack.mitre.org/techniques/T1204). The user may also be required to input a password to open a password protected compressed/encrypted file that was provided by the adversary. (Citation: Volexity PowerDuke November 2016) Adversaries may also used compressed or archived scripts, such as Javascript.\n\nPortions of files can also be encoded to hide the plain-text strings that would otherwise help defenders with discovery. (Citation: Linux/Cdorked.A We Live Security Analysis) Payloads may also be split into separate, seemingly benign files that only reveal malicious functionality when reassembled. (Citation: Carbon Black Obfuscation Sept 2016)\n\nAdversaries may also obfuscate commands executed from payloads or directly via a [Command-Line Interface](https://attack.mitre.org/techniques/T1059). Environment variables, aliases, characters, and other platform/language specific semantics can be used to evade signature based detections and whitelisting mechanisms. (Citation: FireEye Obfuscation June 2017) (Citation: FireEye Revoke-Obfuscation July 2017) (Citation: PaloAlto EncodedCommand March 2017)\n\nAnother example of obfuscation is through the use of steganography, a technique of hiding messages or code in images, audio tracks, video clips, or text files. One of the first known and reported adversaries that used steganography activity surrounding [Invoke-PSImage](https://attack.mitre.org/software/S0231). The Duqu malware encrypted the gathered information from a victim's system and hid it into an image followed by exfiltrating the image to a C2 server. (Citation: Wikipedia Duqu) By the end of 2017, an adversary group used [Invoke-PSImage](https://attack.mitre.org/software/S0231) to hide PowerShell commands in an image file (png) and execute the code on a victim's system. In this particular case the PowerShell code downloaded another obfuscated script to gather intelligence from the victim's machine and communicate it back to the adversary. (Citation: McAfee Malicious Doc Targets Pyeongchang Olympics)",
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "lockheed",
+          "phase_name": "installation"
+        },
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "defense-evasion"
+        }
+      ],
+      "external_references": [
+        {
+          "source_name": "capec",
+          "url": "https://capec.mitre.org/data/definitions/267.html",
+          "external_id": "CAPEC-267"
+        },
+        {
+          "source_name": "Carbon Black Obfuscation Sept 2016",
+          "url": "https://www.carbonblack.com/2016/09/23/security-advisory-variants-well-known-adware-families-discovered-include-sophisticated-obfuscation-techniques-previously-associated-nation-state-attacks/",
+          "description": "Tedesco, B. (2016, September 23). Security Alert Summary. Retrieved February 12, 2018."
+        },
+        {
+          "source_name": "FireEye Obfuscation June 2017",
+          "url": "https://www.fireeye.com/blog/threat-research/2017/06/obfuscation-in-the-wild.html",
+          "description": "Bohannon, D. & Carr N. (2017, June 30). Obfuscation in the Wild: Targeted Attackers Lead the Way in Evasion Techniques. Retrieved February 12, 2018."
+        },
+        {
+          "source_name": "FireEye Revoke-Obfuscation July 2017",
+          "url": "https://www.fireeye.com/content/dam/fireeye-www/blog/pdfs/revoke-obfuscation-report.pdf",
+          "description": "Bohannon, D. & Holmes, L. (2017, July 27). Revoke-Obfuscation: PowerShell Obfuscation Detection Using Science. Retrieved February 12, 2018."
+        },
+        {
+          "source_name": "GitHub Office-Crackros Aug 2016",
+          "url": "https://github.com/itsreallynick/office-crackros",
+          "description": "Carr, N. (2016, August 14). OfficeCrackros. Retrieved February 12, 2018."
+        },
+        {
+          "source_name": "GitHub Revoke-Obfuscation",
+          "url": "https://github.com/danielbohannon/Revoke-Obfuscation",
+          "description": "Bohannon, D. (2017, July 27). Revoke-Obfuscation. Retrieved February 12, 2018."
+        },
+        {
+          "source_name": "Linux/Cdorked.A We Live Security Analysis",
+          "url": "https://www.welivesecurity.com/2013/04/26/linuxcdorked-new-apache-backdoor-in-the-wild-serves-blackhole/",
+          "description": "Pierre-Marc Bureau. (2013, April 26). Linux/Cdorked.A: New Apache backdoor being used in the wild to serve Blackhole. Retrieved September 10, 2017."
+        },
+        {
+          "source_name": "McAfee Malicious Doc Targets Pyeongchang Olympics",
+          "url": "https://securingtomorrow.mcafee.com/mcafee-labs/malicious-document-targets-pyeongchang-olympics/",
+          "description": "Saavedra-Morales, J., Sherstobitoff, R. (2018, January 6). Malicious Document Targets Pyeongchang Olympics. Retrieved April 10, 2018."
+        },
+        {
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1027",
+          "external_id": "T1027"
+        },
+        {
+          "source_name": "PaloAlto EncodedCommand March 2017",
+          "url": "https://researchcenter.paloaltonetworks.com/2017/03/unit42-pulling-back-the-curtains-on-encodedcommand-powershell-attacks/",
+          "description": "White, J. (2017, March 10). Pulling Back the Curtains on EncodedCommand PowerShell Attacks. Retrieved February 12, 2018."
+        },
+        {
+          "source_name": "Volexity PowerDuke November 2016",
+          "url": "https://www.volexity.com/blog/2016/11/09/powerduke-post-election-spear-phishing-campaigns-targeting-think-tanks-and-ngos/",
+          "description": "Adair, S.. (2016, November 9). PowerDuke: Widespread Post-Election Spear Phishing Campaigns Targeting Think Tanks and NGOs. Retrieved January 11, 2017."
+        },
+        {
+          "source_name": "Wikipedia Duqu",
+          "url": "https://en.wikipedia.org/wiki/Duqu",
+          "description": "Wikipedia. (2017, December 29). Duqu. Retrieved April 10, 2018."
+        }
+      ],
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ],
+      "x_mitre_detection": [
+        "Detection of file obfuscation is difficult unless artifacts are left behind by the obfuscation process that are uniquely detectable with a signature. If detection of the obfuscation itself is not possible, it may be possible to detect the malicious activity that caused the obfuscated file (for example, the method that was used to write, read, or modify the file on the file system).\n\nFlag and analyze commands containing indicators of obfuscation and known suspicious syntax such as uninterpreted escape characters like '''^''' and '''\"'''. Windows' Sysmon and Event ID 4688 displays command-line arguments for processes. Deobfuscation tools can be used to detect these indicators in files/payloads. (Citation: GitHub Revoke-Obfuscation) (Citation: FireEye Revoke-Obfuscation July 2017) (Citation: GitHub Office-Crackros Aug 2016)\n\nObfuscation used in payloads for Initial Access can be detected at the network. Use network intrusion detection systems and email gateway filtering to identify compressed and encrypted attachments and scripts. Some email attachment detonation systems can open compressed and encrypted attachments. Payloads delivered over an encrypted connection from a website require encrypted network traffic inspection."
+      ],
+      "x_mitre_platforms": [
+        "Linux",
+        "Windows",
+        "macOS"
+      ],
+      "x_mitre_data_sources": [
+        "Binary file metadata",
+        "Email gateway",
+        "Environment variable",
+        "File monitoring",
+        "Malware reverse engineering",
+        "Network intrusion detection system",
+        "Network protocol analysis",
+        "Process command-line parameters",
+        "Process monitoring",
+        "Process use of network",
+        "SSL/TLS inspection",
+        "Windows event logs"
+      ],
+      "x_mitre_defense_bypassed": [
+        "Application whitelisting",
+        "Host forensic analysis",
+        "Host intrusion prevention systems",
+        "Log analysis",
+        "Process whitelisting",
+        "Signature-based detection",
+        "Whitelisting by file name or path"
+      ],
+      "x_mitre_contributors": [
+        "Christiaan Beek, @ChristiaanBeek",
+        "Red Canary"
+      ],
+      "x_mitre_version": "1.0"
+    },
+    {
+      "type": "attack-pattern",
+      "id": "attack-pattern--be2dcee9-a7a7-4e38-afd6-21b31ecc3d63",
+      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "created": "2018-08-03T19:54:02.821Z",
+      "modified": "2020-03-18T19:43:51.196Z",
+      "name": "T1203: Exploitation for Client Execution",
+      "description": "Vulnerabilities can exist in software due to unsecure coding practices that can lead to unanticipated behavior. Adversaries can take advantage of certain vulnerabilities through targeted exploitation for the purpose of arbitrary code execution. Oftentimes the most valuable exploits to an offensive toolkit are those that can be used to obtain code execution on a remote system because they can be used to gain access to that system. Users will expect to see files related to the applications they commonly used to do work, so they are a useful target for exploit research and development because of their high utility.\n\nSeveral types exist:\n\n### Browser-based Exploitation\n\nWeb browsers are a common target through [Drive-by Compromise](https://attack.mitre.org/techniques/T1189) and [Spearphishing Link](https://attack.mitre.org/techniques/T1192). Endpoint systems may be compromised through normal web browsing or from certain users being targeted by links in spearphishing emails to adversary controlled sites used to exploit the web browser. These often do not require an action by the user for the exploit to be executed.\n\n### Office Applications\n\nCommon office and productivity applications such as Microsoft Office are also targeted through [Spearphishing Attachment](https://attack.mitre.org/techniques/T1193), [Spearphishing Link](https://attack.mitre.org/techniques/T1192), and [Spearphishing via Service](https://attack.mitre.org/techniques/T1194). Malicious files will be transmitted directly as attachments or through links to download them. These require the user to open the document or file for the exploit to run.\n\n### Common Third-party Applications\n\nOther applications that are commonly seen or are part of the software deployed in a target network may also be used for exploitation. Applications such as Adobe Reader and Flash, which are common in enterprise environments, have been routinely targeted by adversaries attempting to gain access to systems. Depending on the software and nature of the vulnerability, some may be exploited in the browser or require the user to open a file. For instance, some Flash exploits have been delivered as objects within Microsoft Office documents.",
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "lockheed",
+          "phase_name": "installation"
+        },
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "execution"
+        }
+      ],
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1203",
+          "external_id": "T1203"
+        }
+      ],
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ],
+      "x_mitre_detection": [
+        "Detecting software exploitation may be difficult depending on the tools available. Also look for behavior on the endpoint system that might indicate successful compromise, such as abnormal behavior of the browser or Office processes. This could include suspicious files written to disk, evidence of [Process Injection](https://attack.mitre.org/techniques/T1055) for attempts to hide execution, evidence of Discovery, or other unusual network traffic that may indicate additional tools transferred to the system."
+      ],
+      "x_mitre_platforms": [
+        "Linux",
+        "Windows",
+        "macOS"
+      ],
+      "x_mitre_data_sources": [
+        "Anti-virus",
+        "Process monitoring",
+        "System calls"
+      ],
+      "x_mitre_system_requirements": [
+        "Remote exploitation for execution requires a remotely accessible service reachable over the network or other vector of access such as spearphishing or drive-by compromise."
+      ],
+      "x_mitre_remote_support": "true",
+      "x_mitre_version": "1.0"
+    },
+    {
+      "type": "attack-pattern",
+      "id": "attack-pattern--e6919abc-99f9-4c6c-95a5-14761e7b2add",
+      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "created": "2018-08-03T19:54:02.821Z",
+      "modified": "2020-03-18T19:43:23.196Z",
+      "name": "T1105: Remote File Copy",
+      "description": "Files may be copied from one system to another to stage adversary tools or other files over the course of an operation. Files may be copied from an external adversary-controlled system through the Command and Control channel to bring tools into the victim network or through alternate protocols with another tool such as [FTP](https://attack.mitre.org/software/S0095). Files can also be copied over on Mac and Linux with native tools like scp, rsync, and sftp.\n\nAdversaries may also copy files laterally between internal victim systems to support Lateral Movement with remote Execution using inherent file sharing protocols such as file sharing over SMB to connected network shares or with authenticated connections with [Windows Admin Shares](https://attack.mitre.org/techniques/T1077) or [Remote Desktop Protocol](https://attack.mitre.org/techniques/T1076).",
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "lockheed",
+          "phase_name": "act-on-objectives"
+        },
+        {
+          "kill_chain_name": "lockheed",
+          "phase_name": "command-and-control"
+        },
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "command-and-control"
+        },
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "lateral-movement"
+        }
+      ],
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1105",
+          "external_id": "T1105"
+        },
+        {
+          "source_name": "University of Birmingham C2",
+          "url": "https://arxiv.org/ftp/arxiv/papers/1408/1408.1136.pdf",
+          "description": "Gardiner, J.,  Cova, M., Nagaraja, S. (2014, February). Command & Control Understanding, Denying and Detecting. Retrieved April 20, 2016."
+        }
+      ],
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ],
+      "x_mitre_detection": [
+        "Monitor for file creation and files transferred within a network over SMB. Unusual processes with external network connections creating files on-system may be suspicious. Use of utilities, such as FTP, that does not normally occur may also be suspicious.\n\nAnalyze network data for uncommon data flows (e.g., a client sending significantly more data than it receives from a server). Processes utilizing the network that do not normally have network communication or have never been seen before are suspicious. Analyze packet contents to detect communications that do not follow the expected protocol behavior for the port that is being used. (Citation: University of Birmingham C2)"
+      ],
+      "x_mitre_platforms": [
+        "Linux",
+        "Windows",
+        "macOS"
+      ],
+      "x_mitre_data_sources": [
+        "File monitoring",
+        "Netflow/Enclave netflow",
+        "Network protocol analysis",
+        "Packet capture",
+        "Process monitoring",
+        "Process use of network"
+      ],
+      "x_mitre_permissions_required": [
+        "User"
+      ],
+      "x_mitre_network_requirements": [
+        "true"
+      ],
+      "x_mitre_version": "1.0"
+    },
+    {
+      "type": "campaign",
+      "id": "campaign--4d1e7ce0-6064-4552-9ca6-23cb83ea7876",
+      "created": "2020-06-08T12:22:43.326Z",
+      "modified": "2020-06-08T17:57:10.848Z",
+      "name": "Campaign 1 - AcidBox",
+      "description": "Attacks were seen in 2017 by other security vendors. A sample was uploaded to VirusTotal in February 2019 that is related to the original samples.",
+      "first_seen": "2017-06-01T00:00:00.000Z",
+      "last_seen": "2017-06-01T00:00:00.000Z"
+    },
+    {
+      "type": "identity",
+      "id": "identity--72b1e547-5e3e-4862-8c01-d22602821063",
+      "identity_class": "unknown",
+      "name": "Identity (Campaign 1 - AcidBox)",
+      "created": "2020-06-08T12:33:42.527Z",
+      "modified": "2020-06-10T13:43:23.039Z",
+      "x_cta_country": [
+        "RU"
+      ]
+    },
+    {
+      "type": "indicator",
+      "id": "indicator--03076eee-a3a9-4794-b745-681a46391390",
+      "created": "2020-06-04T16:39:47.957Z",
+      "modified": "2020-06-08T12:22:55.313Z",
+      "name": "HKEY_LOCAL_MACHINE\\System\\CurrentControlSet\\Control\\Class\\{4D36E96A-E325-11CE-BFC1-08002BE10318}\\0000\\DriverData",
+      "pattern": "[windows-registry-key:key = 'HKEY_LOCAL_MACHINE\\\\System\\\\CurrentControlSet\\\\Control\\\\Class\\\\{4D36E96A-E325-11CE-BFC1-08002BE10318}\\\\0000\\\\DriverData']",
+      "valid_from": "2020-06-04T16:39:47.957Z",
+      "labels": [
+        "malicious-activity"
+      ]
+    },
+    {
+      "type": "indicator",
+      "id": "indicator--10750290-4efd-4e7b-8dda-cc1a9ae4a8b4",
+      "created": "2020-06-05T16:24:06.621Z",
+      "modified": "2020-06-08T12:22:55.313Z",
+      "name": "VBoxDrv.sys",
+      "pattern": "[file:name = 'VBoxDrv.sys']",
+      "valid_from": "2020-06-05T16:24:06.621Z",
+      "labels": [
+        "malicious-activity"
+      ]
+    },
+    {
+      "type": "indicator",
+      "id": "indicator--22359bb6-e940-4414-9971-fbf7317dfe9b",
+      "created": "2020-06-12T12:46:54.919Z",
+      "modified": "2020-06-12T15:26:26.571Z",
+      "name": "[x509-certificate:issuer = '/C=US/O=VeriSign, Inc./OU=VeriSign Trust Network/OU=Terms of use at https://www.verisign.com/rpa (c)04/CN=VeriSign Class 3 Code Signing 2004 CA' AND x509-certificate:serial_number = '69:3a:64:81:8c:1e:08:6b:1b:15:ae:e6:3f:a0:54:a2' AND x509-certificate:validity_not_before = '2007-06-14T12:00:00Z' AND x509-certificate:validity_not_after = '2012-06-14T12:00:00Z']",
+      "pattern": "[x509-certificate:issuer = '/C=US/O=VeriSign, Inc./OU=VeriSign Trust Network/OU=Terms of use at https://www.verisign.com/rpa (c)04/CN=VeriSign Class 3 Code Signing 2004 CA' AND x509-certificate:serial_number = '69:3a:64:81:8c:1e:08:6b:1b:15:ae:e6:3f:a0:54:a2' AND x509-certificate:validity_not_before = '2007-06-14T12:00:00Z' AND x509-certificate:validity_not_after = '2012-06-14T12:00:00Z']",
+      "valid_from": "2020-06-12T12:46:54.919Z",
+      "labels": [
+        "malicious-activity"
+      ]
+    },
+    {
+      "type": "indicator",
+      "id": "indicator--39f865c8-b888-4535-aabd-3a57bbba7fbb",
+      "created": "2020-06-05T16:24:06.621Z",
+      "modified": "2020-06-08T12:22:55.313Z",
+      "name": "78827fa00ea48d96ac9af8d1c1e317d02ce11793e7f7f6e4c7aac7b5d7dd490f",
+      "pattern": "[file:hashes.'SHA-256' = '78827fa00ea48d96ac9af8d1c1e317d02ce11793e7f7f6e4c7aac7b5d7dd490f']",
+      "valid_from": "2020-06-05T16:24:06.621Z",
+      "labels": [
+        "malicious-activity"
+      ]
+    },
+    {
+      "type": "indicator",
+      "id": "indicator--484f3c69-2329-4642-b1fc-5c1fb3301895",
+      "created": "2020-06-04T16:18:47.646Z",
+      "modified": "2020-06-08T12:22:55.313Z",
+      "name": "3ad20ca49a979e5ea4a5e154962e7caff17e4ca4f00bec7f3ab89275fcc8f58c",
+      "pattern": "[file:hashes.'SHA-256' = '3ad20ca49a979e5ea4a5e154962e7caff17e4ca4f00bec7f3ab89275fcc8f58c']",
+      "valid_from": "2020-06-04T16:18:47.646Z",
+      "labels": [
+        "malicious-activity"
+      ]
+    },
+    {
+      "type": "indicator",
+      "id": "indicator--4f9613ed-d27e-4c0d-95dd-df64571e6748",
+      "created": "2020-06-04T16:39:47.957Z",
+      "modified": "2020-06-08T12:22:55.313Z",
+      "name": "HKEY_LOCAL_MACHINE\\System\\CurrentControlSet\\Control\\Class\\{4D36E97D-E325-11CE-BFC1-08002BE10318}\\0003\\DriverData",
+      "pattern": "[windows-registry-key:key = 'HKEY_LOCAL_MACHINE\\\\System\\\\CurrentControlSet\\\\Control\\\\Class\\\\{4D36E97D-E325-11CE-BFC1-08002BE10318}\\\\0003\\\\DriverData']",
+      "valid_from": "2020-06-04T16:39:47.957Z",
+      "labels": [
+        "malicious-activity"
+      ]
+    },
+    {
+      "type": "indicator",
+      "id": "indicator--5e97af12-fdf8-4663-9b7d-dfa9fe27070b",
+      "created": "2020-06-04T16:18:47.646Z",
+      "modified": "2020-06-08T12:22:55.313Z",
+      "name": "3ef071e0327e7014dd374d96bed023e6c434df6f98cce88a1e7335a667f6749d",
+      "pattern": "[file:hashes.'SHA-256' = '3ef071e0327e7014dd374d96bed023e6c434df6f98cce88a1e7335a667f6749d']",
+      "valid_from": "2020-06-04T16:18:47.646Z",
+      "labels": [
+        "malicious-activity"
+      ]
+    },
+    {
+      "type": "indicator",
+      "id": "indicator--c3c69da9-8cca-4269-8f8a-1c10503ca9b0",
+      "created": "2020-06-08T15:10:38.597Z",
+      "modified": "2020-06-17T12:47:20.010Z",
+      "name": "[file:name = 'VBoxDrv.sys' AND file:hashes.'SHA-256' = '78827fa00ea48d96ac9af8d1c1e317d02ce11793e7f7f6e4c7aac7b5d7dd490f']",
+      "pattern": "[file:name = 'VBoxDrv.sys' AND file:hashes.'SHA-256' = '78827fa00ea48d96ac9af8d1c1e317d02ce11793e7f7f6e4c7aac7b5d7dd490f']",
+      "valid_from": "2020-06-08T15:10:38.597Z",
+      "labels": [
+        "malicious-activity"
+      ]
+    },
+    {
+      "type": "indicator",
+      "id": "indicator--e2a55d9a-25a6-40bd-b1f2-cef2d32e8d83",
+      "created": "2020-06-04T16:18:47.646Z",
+      "modified": "2020-06-08T12:22:55.313Z",
+      "name": "b3166c417d49e94f3d9eab9b1e8ab853b58ba59f734f774b5de75ee631a9b66d",
+      "pattern": "[file:hashes.'SHA-256' = 'b3166c417d49e94f3d9eab9b1e8ab853b58ba59f734f774b5de75ee631a9b66d']",
+      "valid_from": "2020-06-04T16:18:47.646Z",
+      "labels": [
+        "malicious-activity"
+      ]
+    },
+    {
+      "type": "indicator",
+      "id": "indicator--ed06166f-34d7-48fe-9b4d-2c1be6fe256b",
+      "created": "2020-06-04T16:18:47.646Z",
+      "modified": "2020-06-08T12:22:55.313Z",
+      "name": "003669761229d3e1db0f5a5b333ef62b3dffcc8e27c821ce9018362e0a2df7e9",
+      "pattern": "[file:hashes.'SHA-256' = '003669761229d3e1db0f5a5b333ef62b3dffcc8e27c821ce9018362e0a2df7e9']",
+      "valid_from": "2020-06-04T16:18:47.646Z",
+      "labels": [
+        "malicious-activity"
+      ]
+    },
+    {
+      "type": "indicator",
+      "id": "indicator--ee7c674f-4326-4d6b-b24c-c0901e0d2f34",
+      "created": "2020-06-04T16:18:47.646Z",
+      "modified": "2020-06-08T12:22:55.313Z",
+      "name": "eb30a1822bd6f503f8151cb04bfd315a62fa67dbfe1f573e6fcfd74636ecedd5",
+      "pattern": "[file:hashes.'SHA-256' = 'eb30a1822bd6f503f8151cb04bfd315a62fa67dbfe1f573e6fcfd74636ecedd5']",
+      "valid_from": "2020-06-04T16:18:47.646Z",
+      "labels": [
+        "malicious-activity"
+      ]
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--07995dc6-5bee-41d3-9cb7-2bfb325bc06e",
+      "created": "2020-06-12T13:02:54.330Z",
+      "modified": "2020-06-12T15:26:26.572Z",
+      "relationship_type": "uses",
+      "description": "AcidBox DLL module",
+      "source_ref": "indicator--e2a55d9a-25a6-40bd-b1f2-cef2d32e8d83",
+      "target_ref": "attack-pattern--e6919abc-99f9-4c6c-95a5-14761e7b2add"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--0ec7450f-6ee5-4a25-8739-8b6bdaf10c72",
+      "created": "2020-06-12T13:02:54.330Z",
+      "modified": "2020-06-12T15:26:26.572Z",
+      "relationship_type": "uses",
+      "description": "AcidBox kernel-mode driver",
+      "source_ref": "indicator--5e97af12-fdf8-4663-9b7d-dfa9fe27070b",
+      "target_ref": "attack-pattern--e6919abc-99f9-4c6c-95a5-14761e7b2add"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--0ef405ef-5863-4a41-a10a-e787a37bd8bd",
+      "created": "2020-06-12T13:02:54.330Z",
+      "modified": "2020-06-12T15:26:26.572Z",
+      "relationship_type": "uses",
+      "description": "Hash of the Sun Microsystems Virtual Box system driver",
+      "source_ref": "indicator--39f865c8-b888-4535-aabd-3a57bbba7fbb",
+      "target_ref": "attack-pattern--e6919abc-99f9-4c6c-95a5-14761e7b2add"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--1030d5e4-5181-485b-be47-3cf30cee917d",
+      "created": "2020-06-08T17:51:45.316Z",
+      "modified": "2020-06-10T13:43:23.039Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--03076eee-a3a9-4794-b745-681a46391390",
+      "target_ref": "campaign--4d1e7ce0-6064-4552-9ca6-23cb83ea7876"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--13a8fcf0-9890-4e1a-89ff-d6a2b1c2d56c",
+      "created": "2020-06-12T13:03:12.806Z",
+      "modified": "2020-06-12T15:26:26.572Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--4d1e7ce0-6064-4552-9ca6-23cb83ea7876",
+      "target_ref": "attack-pattern--b3d682b6-98f2-4fb0-aa3b-b4df007ca70a"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--190404eb-2b23-4cdf-8be4-5185c86f4aef",
+      "created": "2020-06-12T13:02:54.330Z",
+      "modified": "2020-06-12T15:26:26.572Z",
+      "relationship_type": "uses",
+      "description": "File staged to support execution. Orchestrator DLL",
+      "source_ref": "indicator--ee7c674f-4326-4d6b-b24c-c0901e0d2f34",
+      "target_ref": "attack-pattern--e6919abc-99f9-4c6c-95a5-14761e7b2add"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--1b84d551-6de8-4b96-9930-d177677c3b1d",
+      "created": "2020-06-08T12:22:43.326Z",
+      "modified": "2020-06-08T17:57:10.848Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--4d1e7ce0-6064-4552-9ca6-23cb83ea7876",
+      "target_ref": "attack-pattern--1b84d551-6de8-4b96-9930-d177677c3b1d"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--1bd446d7-771d-483f-b33c-4a9be9c03e19",
+      "created": "2020-06-12T13:03:29.186Z",
+      "modified": "2020-06-12T15:26:26.572Z",
+      "relationship_type": "uses",
+      "description": "VBoxDrv.sys - filename for the Sun Microsystems Virtual Box system driver",
+      "source_ref": "indicator--10750290-4efd-4e7b-8dda-cc1a9ae4a8b4",
+      "target_ref": "attack-pattern--1b84d551-6de8-4b96-9930-d177677c3b1d"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--1c4fdebe-db04-4c33-8875-95d2daeeee12",
+      "created": "2020-06-08T17:53:22.473Z",
+      "modified": "2020-06-10T13:43:23.039Z",
+      "relationship_type": "uses",
+      "description": "Vulnerable VirtualBox kernel driver used to load unsigned kernel driver",
+      "source_ref": "indicator--c3c69da9-8cca-4269-8f8a-1c10503ca9b0",
+      "target_ref": "attack-pattern--b21c3b2d-02e6-45b1-980b-e69051040839"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--1f3a5fce-b42b-4b7e-bec6-b172f3b5b861",
+      "created": "2020-06-08T17:50:21.937Z",
+      "modified": "2020-06-10T13:43:23.039Z",
+      "relationship_type": "uses",
+      "description": "Vulnerable VirtualBox kernel driver used to load unsigned kernel driver",
+      "source_ref": "indicator--c3c69da9-8cca-4269-8f8a-1c10503ca9b0",
+      "target_ref": "attack-pattern--be2dcee9-a7a7-4e38-afd6-21b31ecc3d63"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--261b2cc3-3459-48ca-908a-d7c9a8b6827d",
+      "created": "2020-06-08T14:58:19.405Z",
+      "modified": "2020-06-10T13:43:23.039Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--4d1e7ce0-6064-4552-9ca6-23cb83ea7876",
+      "target_ref": "attack-pattern--be2dcee9-a7a7-4e38-afd6-21b31ecc3d63"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--2ad20cb7-4111-4685-a6cf-1eb8733f2735",
+      "created": "2020-06-11T19:25:17.829Z",
+      "modified": "2020-06-12T15:26:26.571Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--10750290-4efd-4e7b-8dda-cc1a9ae4a8b4",
+      "target_ref": "campaign--4d1e7ce0-6064-4552-9ca6-23cb83ea7876"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--2b994c5f-e281-4808-92d6-fd0c210cbf5a",
+      "created": "2020-06-12T13:02:07.669Z",
+      "modified": "2020-06-12T15:26:26.572Z",
+      "relationship_type": "uses",
+      "description": "[x509-certificate:issuer = '/C=US/O=VeriSign, Inc./OU=VeriSign Trust Network/OU=Terms of use at https://www.verisign.com/rpa (c)04/CN=VeriSign Class 3 Code Signing 2004 CA' AND x509-certificate:serial_number = '69:3a:64:81:8c:1e:08:6b:1b:15:ae:e6:3f:a0:54:a2' AND x509-certificate:validity_not_before = '2007-06-14T12:00:00Z' AND x509-certificate:validity_not_after = '2012-06-14T12:00:00Z']",
+      "source_ref": "indicator--22359bb6-e940-4414-9971-fbf7317dfe9b",
+      "target_ref": "attack-pattern--1b84d551-6de8-4b96-9930-d177677c3b1d"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--36d411d3-72eb-44e3-ae6f-de5e76b608d6",
+      "created": "2020-06-08T16:49:02.328Z",
+      "modified": "2020-06-10T13:43:23.039Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--4d1e7ce0-6064-4552-9ca6-23cb83ea7876",
+      "target_ref": "attack-pattern--3ccef7ae-cb5e-48f6-8302-897105fbf55c"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--3ccef7ae-cb5e-48f6-8302-897105fbf55c",
+      "created": "2020-06-08T12:22:43.326Z",
+      "modified": "2020-06-08T17:57:10.848Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--4d1e7ce0-6064-4552-9ca6-23cb83ea7876",
+      "target_ref": "attack-pattern--3ccef7ae-cb5e-48f6-8302-897105fbf55c"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--47503d1c-a408-45bd-8167-3de7ffdef8f7",
+      "created": "2020-06-11T19:25:17.829Z",
+      "modified": "2020-06-12T15:26:26.571Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--39f865c8-b888-4535-aabd-3a57bbba7fbb",
+      "target_ref": "campaign--4d1e7ce0-6064-4552-9ca6-23cb83ea7876"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--4d1e7ce0-6064-4552-9ca6-23cb83ea7876",
+      "created": "2020-06-08T12:22:43.326Z",
+      "modified": "2020-06-08T17:57:10.848Z",
+      "relationship_type": "attributed-to",
+      "source_ref": "campaign--4d1e7ce0-6064-4552-9ca6-23cb83ea7876",
+      "target_ref": "intrusion-set--1541c4c8-a0c4-435f-aff8-60cecf72367a"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--4dee57c3-124b-49e3-a3b3-1e64eb40cb71",
+      "created": "2020-06-08T17:50:21.937Z",
+      "modified": "2020-06-10T13:43:23.039Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--c3c69da9-8cca-4269-8f8a-1c10503ca9b0",
+      "target_ref": "campaign--4d1e7ce0-6064-4552-9ca6-23cb83ea7876"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--54ac7711-48c1-4f22-865d-3b5deb5d179c",
+      "created": "2020-06-08T17:51:59.647Z",
+      "modified": "2020-06-10T13:43:23.039Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--4f9613ed-d27e-4c0d-95dd-df64571e6748",
+      "target_ref": "campaign--4d1e7ce0-6064-4552-9ca6-23cb83ea7876"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--57340c81-c025-4189-8fa0-fc7ede51bae4",
+      "created": "2020-06-08T12:22:43.326Z",
+      "modified": "2020-06-08T17:57:10.848Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--4d1e7ce0-6064-4552-9ca6-23cb83ea7876",
+      "target_ref": "attack-pattern--57340c81-c025-4189-8fa0-fc7ede51bae4"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--60714b5d-4695-42df-8326-0563cc7b2485",
+      "created": "2020-06-08T15:20:15.033Z",
+      "modified": "2020-06-10T13:43:23.039Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--4d1e7ce0-6064-4552-9ca6-23cb83ea7876",
+      "target_ref": "attack-pattern--b21c3b2d-02e6-45b1-980b-e69051040839"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--62c97562-86bb-46ed-8a43-b35c6af3beef",
+      "created": "2020-06-12T13:02:54.330Z",
+      "modified": "2020-06-12T15:26:26.572Z",
+      "relationship_type": "uses",
+      "description": "AcidBox DLL module",
+      "source_ref": "indicator--484f3c69-2329-4642-b1fc-5c1fb3301895",
+      "target_ref": "attack-pattern--e6919abc-99f9-4c6c-95a5-14761e7b2add"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--6c174520-beea-43d9-aac6-28fb77f3e446",
+      "created": "2020-06-08T12:22:43.326Z",
+      "modified": "2020-06-08T17:57:10.848Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--4d1e7ce0-6064-4552-9ca6-23cb83ea7876",
+      "target_ref": "attack-pattern--6c174520-beea-43d9-aac6-28fb77f3e446"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--762f0452-9070-447b-b69a-54196a652481",
+      "created": "2020-06-11T19:25:17.829Z",
+      "modified": "2020-06-12T15:26:26.571Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--e2a55d9a-25a6-40bd-b1f2-cef2d32e8d83",
+      "target_ref": "campaign--4d1e7ce0-6064-4552-9ca6-23cb83ea7876"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--7a385907-7db5-4fdf-ada9-ebc57a60456d",
+      "created": "2020-06-12T12:46:55.110Z",
+      "modified": "2020-06-12T15:26:26.571Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--22359bb6-e940-4414-9971-fbf7317dfe9b",
+      "target_ref": "campaign--4d1e7ce0-6064-4552-9ca6-23cb83ea7876"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--7a492753-cb3e-4f2a-93cb-d0d2132f7435",
+      "created": "2020-06-12T13:02:54.330Z",
+      "modified": "2020-06-12T15:26:26.572Z",
+      "relationship_type": "uses",
+      "description": "AcidBox DLL module",
+      "source_ref": "indicator--ed06166f-34d7-48fe-9b4d-2c1be6fe256b",
+      "target_ref": "attack-pattern--e6919abc-99f9-4c6c-95a5-14761e7b2add"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--7bba60c7-9cd0-4281-a158-d391872457ab",
+      "created": "2020-06-08T17:51:59.647Z",
+      "modified": "2020-06-10T13:43:23.039Z",
+      "relationship_type": "uses",
+      "description": "REG_BINARY data containing encoded payloads to be injected into other processes",
+      "source_ref": "indicator--4f9613ed-d27e-4c0d-95dd-df64571e6748",
+      "target_ref": "attack-pattern--57340c81-c025-4189-8fa0-fc7ede51bae4"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--7e266487-5c96-41d7-84b9-2b7f7b34b423",
+      "created": "2020-06-17T10:16:03.477Z",
+      "modified": "2020-06-17T12:30:15.098Z",
+      "relationship_type": "uses",
+      "description": "003669761229d3e1db0f5a5b333ef62b3dffcc8e27c821ce9018362e0a2df7e9",
+      "source_ref": "indicator--ed06166f-34d7-48fe-9b4d-2c1be6fe256b",
+      "target_ref": "attack-pattern--6c174520-beea-43d9-aac6-28fb77f3e446"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--8c04cda3-d299-4115-a2d3-775c2f49aa0d",
+      "created": "2020-06-17T10:17:28.754Z",
+      "modified": "2020-06-17T12:30:15.098Z",
+      "relationship_type": "uses",
+      "description": "b3166c417d49e94f3d9eab9b1e8ab853b58ba59f734f774b5de75ee631a9b66d",
+      "source_ref": "indicator--e2a55d9a-25a6-40bd-b1f2-cef2d32e8d83",
+      "target_ref": "attack-pattern--6c174520-beea-43d9-aac6-28fb77f3e446"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--8c0b6afa-914c-44bb-bb25-0acd1048d215",
+      "created": "2020-06-17T10:10:47.676Z",
+      "modified": "2020-06-17T12:30:15.097Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--4d1e7ce0-6064-4552-9ca6-23cb83ea7876",
+      "target_ref": "attack-pattern--6c174520-beea-43d9-aac6-28fb77f3e446"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--92a2f48d-e342-4e7f-ad84-6e8f9944056f",
+      "created": "2020-06-11T19:25:17.829Z",
+      "modified": "2020-06-12T15:26:26.571Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--5e97af12-fdf8-4663-9b7d-dfa9fe27070b",
+      "target_ref": "campaign--4d1e7ce0-6064-4552-9ca6-23cb83ea7876"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--9cbfcecc-9abe-4d76-8176-7dae2f7f7184",
+      "created": "2020-06-17T10:17:51.671Z",
+      "modified": "2020-06-17T12:30:15.098Z",
+      "relationship_type": "uses",
+      "description": "3ad20ca49a979e5ea4a5e154962e7caff17e4ca4f00bec7f3ab89275fcc8f58c",
+      "source_ref": "indicator--484f3c69-2329-4642-b1fc-5c1fb3301895",
+      "target_ref": "attack-pattern--6c174520-beea-43d9-aac6-28fb77f3e446"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--9e3f2181-900a-40c2-a2d9-167b76536d28",
+      "created": "2020-06-08T12:33:43.273Z",
+      "modified": "2020-06-10T13:43:23.039Z",
+      "relationship_type": "targets",
+      "source_ref": "campaign--4d1e7ce0-6064-4552-9ca6-23cb83ea7876",
+      "target_ref": "identity--72b1e547-5e3e-4862-8c01-d22602821063"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--b21c3b2d-02e6-45b1-980b-e69051040839",
+      "created": "2020-06-08T12:22:43.326Z",
+      "modified": "2020-06-08T17:57:10.848Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--4d1e7ce0-6064-4552-9ca6-23cb83ea7876",
+      "target_ref": "attack-pattern--b21c3b2d-02e6-45b1-980b-e69051040839"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--b3d682b6-98f2-4fb0-aa3b-b4df007ca70a",
+      "created": "2020-06-08T12:22:43.326Z",
+      "modified": "2020-06-08T17:57:10.848Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--4d1e7ce0-6064-4552-9ca6-23cb83ea7876",
+      "target_ref": "attack-pattern--b3d682b6-98f2-4fb0-aa3b-b4df007ca70a"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--be2dcee9-a7a7-4e38-afd6-21b31ecc3d63",
+      "created": "2020-06-08T12:22:43.326Z",
+      "modified": "2020-06-08T17:57:10.848Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--4d1e7ce0-6064-4552-9ca6-23cb83ea7876",
+      "target_ref": "attack-pattern--be2dcee9-a7a7-4e38-afd6-21b31ecc3d63"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--c2f85e64-0c10-43c0-964d-930e2dfd0d7d",
+      "created": "2020-06-11T19:25:17.829Z",
+      "modified": "2020-06-12T15:26:26.571Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--ee7c674f-4326-4d6b-b24c-c0901e0d2f34",
+      "target_ref": "campaign--4d1e7ce0-6064-4552-9ca6-23cb83ea7876"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--d0e98fa8-d162-4480-b515-1c073ea6172f",
+      "created": "2020-06-11T19:25:17.829Z",
+      "modified": "2020-06-12T15:26:26.571Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--ed06166f-34d7-48fe-9b4d-2c1be6fe256b",
+      "target_ref": "campaign--4d1e7ce0-6064-4552-9ca6-23cb83ea7876"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--e06ff13e-810a-4f46-be1c-0ede839825d0",
+      "created": "2020-06-04T15:11:37.652Z",
+      "modified": "2020-06-17T12:30:15.231Z",
+      "relationship_type": "attributed-to",
+      "source_ref": "report--e06ff13e-810a-4f46-be1c-0ede839825d0",
+      "target_ref": "intrusion-set--1541c4c8-a0c4-435f-aff8-60cecf72367a"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--e6919abc-99f9-4c6c-95a5-14761e7b2add",
+      "created": "2020-06-08T12:22:43.326Z",
+      "modified": "2020-06-08T17:57:10.848Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--4d1e7ce0-6064-4552-9ca6-23cb83ea7876",
+      "target_ref": "attack-pattern--e6919abc-99f9-4c6c-95a5-14761e7b2add"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--eb386fbe-7cae-4528-8581-c91b4f8ba5c7",
+      "created": "2020-06-08T17:51:45.316Z",
+      "modified": "2020-06-10T13:43:23.039Z",
+      "relationship_type": "uses",
+      "description": "REG_BINARY data containing encoded payloads to be injected into other processes",
+      "source_ref": "indicator--03076eee-a3a9-4794-b745-681a46391390",
+      "target_ref": "attack-pattern--57340c81-c025-4189-8fa0-fc7ede51bae4"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--f6ce9737-667d-4fb4-a0d6-a985f5b82d91",
+      "created": "2020-06-11T19:25:17.829Z",
+      "modified": "2020-06-12T15:26:26.571Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--484f3c69-2329-4642-b1fc-5c1fb3301895",
+      "target_ref": "campaign--4d1e7ce0-6064-4552-9ca6-23cb83ea7876"
+    },
+    {
+      "type": "report",
+      "id": "report--4d1e7ce0-6064-4552-9ca6-23cb83ea7876",
+      "created": "2020-06-08T12:22:43.326Z",
+      "modified": "2020-06-08T17:57:10.848Z",
+      "name": "Campaign 1 - AcidBox",
+      "published": "2020-06-08T17:57:10.848Z",
+      "object_refs": [
+        "attack-pattern--1b84d551-6de8-4b96-9930-d177677c3b1d",
+        "attack-pattern--3ccef7ae-cb5e-48f6-8302-897105fbf55c",
+        "attack-pattern--57340c81-c025-4189-8fa0-fc7ede51bae4",
+        "attack-pattern--6c174520-beea-43d9-aac6-28fb77f3e446",
+        "attack-pattern--b21c3b2d-02e6-45b1-980b-e69051040839",
+        "attack-pattern--b3d682b6-98f2-4fb0-aa3b-b4df007ca70a",
+        "attack-pattern--be2dcee9-a7a7-4e38-afd6-21b31ecc3d63",
+        "attack-pattern--e6919abc-99f9-4c6c-95a5-14761e7b2add",
+        "campaign--4d1e7ce0-6064-4552-9ca6-23cb83ea7876",
+        "identity--72b1e547-5e3e-4862-8c01-d22602821063",
+        "indicator--03076eee-a3a9-4794-b745-681a46391390",
+        "indicator--10750290-4efd-4e7b-8dda-cc1a9ae4a8b4",
+        "indicator--22359bb6-e940-4414-9971-fbf7317dfe9b",
+        "indicator--39f865c8-b888-4535-aabd-3a57bbba7fbb",
+        "indicator--484f3c69-2329-4642-b1fc-5c1fb3301895",
+        "indicator--4f9613ed-d27e-4c0d-95dd-df64571e6748",
+        "indicator--5e97af12-fdf8-4663-9b7d-dfa9fe27070b",
+        "indicator--c3c69da9-8cca-4269-8f8a-1c10503ca9b0",
+        "indicator--e2a55d9a-25a6-40bd-b1f2-cef2d32e8d83",
+        "indicator--ed06166f-34d7-48fe-9b4d-2c1be6fe256b",
+        "indicator--ee7c674f-4326-4d6b-b24c-c0901e0d2f34",
+        "intrusion-set--1541c4c8-a0c4-435f-aff8-60cecf72367a",
+        "relationship--07995dc6-5bee-41d3-9cb7-2bfb325bc06e",
+        "relationship--0ec7450f-6ee5-4a25-8739-8b6bdaf10c72",
+        "relationship--0ef405ef-5863-4a41-a10a-e787a37bd8bd",
+        "relationship--1030d5e4-5181-485b-be47-3cf30cee917d",
+        "relationship--13a8fcf0-9890-4e1a-89ff-d6a2b1c2d56c",
+        "relationship--190404eb-2b23-4cdf-8be4-5185c86f4aef",
+        "relationship--1b84d551-6de8-4b96-9930-d177677c3b1d",
+        "relationship--1bd446d7-771d-483f-b33c-4a9be9c03e19",
+        "relationship--1c4fdebe-db04-4c33-8875-95d2daeeee12",
+        "relationship--1f3a5fce-b42b-4b7e-bec6-b172f3b5b861",
+        "relationship--261b2cc3-3459-48ca-908a-d7c9a8b6827d",
+        "relationship--2ad20cb7-4111-4685-a6cf-1eb8733f2735",
+        "relationship--2b994c5f-e281-4808-92d6-fd0c210cbf5a",
+        "relationship--36d411d3-72eb-44e3-ae6f-de5e76b608d6",
+        "relationship--3ccef7ae-cb5e-48f6-8302-897105fbf55c",
+        "relationship--47503d1c-a408-45bd-8167-3de7ffdef8f7",
+        "relationship--4d1e7ce0-6064-4552-9ca6-23cb83ea7876",
+        "relationship--4dee57c3-124b-49e3-a3b3-1e64eb40cb71",
+        "relationship--54ac7711-48c1-4f22-865d-3b5deb5d179c",
+        "relationship--57340c81-c025-4189-8fa0-fc7ede51bae4",
+        "relationship--60714b5d-4695-42df-8326-0563cc7b2485",
+        "relationship--62c97562-86bb-46ed-8a43-b35c6af3beef",
+        "relationship--6c174520-beea-43d9-aac6-28fb77f3e446",
+        "relationship--762f0452-9070-447b-b69a-54196a652481",
+        "relationship--7a385907-7db5-4fdf-ada9-ebc57a60456d",
+        "relationship--7a492753-cb3e-4f2a-93cb-d0d2132f7435",
+        "relationship--7bba60c7-9cd0-4281-a158-d391872457ab",
+        "relationship--7e266487-5c96-41d7-84b9-2b7f7b34b423",
+        "relationship--8c04cda3-d299-4115-a2d3-775c2f49aa0d",
+        "relationship--8c0b6afa-914c-44bb-bb25-0acd1048d215",
+        "relationship--92a2f48d-e342-4e7f-ad84-6e8f9944056f",
+        "relationship--9cbfcecc-9abe-4d76-8176-7dae2f7f7184",
+        "relationship--9e3f2181-900a-40c2-a2d9-167b76536d28",
+        "relationship--b21c3b2d-02e6-45b1-980b-e69051040839",
+        "relationship--b3d682b6-98f2-4fb0-aa3b-b4df007ca70a",
+        "relationship--be2dcee9-a7a7-4e38-afd6-21b31ecc3d63",
+        "relationship--c2f85e64-0c10-43c0-964d-930e2dfd0d7d",
+        "relationship--d0e98fa8-d162-4480-b515-1c073ea6172f",
+        "relationship--e6919abc-99f9-4c6c-95a5-14761e7b2add",
+        "relationship--eb386fbe-7cae-4528-8581-c91b4f8ba5c7",
+        "relationship--f6ce9737-667d-4fb4-a0d6-a985f5b82d91"
+      ],
+      "labels": [
+        "campaign"
+      ]
+    }
+  ]
+}
