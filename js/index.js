@@ -1342,6 +1342,10 @@ function writeAPModal(ap, report, playbook) {
     const columnDefs = Object.keys(coa_custom_field_cols)
         .map(c => ({headerName: coa_custom_field_cols[c]['headerName'], field: c, minWidth: 178, resizable: true}));
     const rowData = coas.map(coa => getValueForCOARow(coa, ap, relationships));
+    rowData.sort((a, b) =>
+        ((a['panw_products'] || '').localeCompare((b['panw_products'] || ''))) ||
+        ((a['name']).localeCompare((b['name'] || '')))
+    );
 
     const gridOptions = {
         columnDefs: columnDefs,
