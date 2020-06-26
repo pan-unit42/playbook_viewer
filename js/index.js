@@ -1246,7 +1246,45 @@ function onCOAGridReady(params) {
     params.api.sizeColumnsToFit();
 }
 
+function getValueForCOACell(field, stix2_obj) {
+    const {coa_custom_field_cols} = consts;
+    const {keys} = coa_custom_field_cols[field];
+
+    let v = undefined;
+    for (let i = 0; i < keys.length; i++) {
+        v = stix2_obj[keys[i]];
+        if (v) {
+            break;
+        }
+    }
+
+    if (typeof v === 'string') {
+        return v;
+    } else if (Array.isArray(v)) {
+        return v.join(', ');
+    } else {
+        return '';
+    }
+}
+
+function getRelValueForCOACell(field, coa, ap, relationships) {
+    const rel = relationships.find(i => coa['id'] === i['source_ref'] && ap['id'] === i['target_ref']);
+
+    return getValueForCOACell(field, rel);
+}
+
+function getValueForCOARow(coa, ap, relationships) {
+    const {coa_custom_field_cols} = consts;
+
+    return Object.keys(coa_custom_field_cols).reduce((r, i) => {
+        const relField = coa_custom_field_cols[i]['relationshipField'];
+        r[i] = relField ? getRelValueForCOACell(i, coa, ap, relationships) : getValueForCOACell(i, coa);
+        return r;
+    }, {});
+}
+
 function writeAPModal(ap, report, playbook) {
+    const {coa_custom_field_cols} = consts;
     const campaign = getTypeFromReport("campaign", report, playbook)[0];
     const indicators = getReportIndicators(ap, report, playbook);
     const coas = getRelatedCOA(ap.id, playbook);
@@ -1301,12 +1339,10 @@ function writeAPModal(ap, report, playbook) {
 
     modal.insertAdjacentHTML('beforeend', modalContent);
 
-    const columnDefs = [
-        {headerName: 'Name', field: 'name', minWidth: 178},
-        {headerName: 'Description', field: 'description', minWidth: 178},
-        {headerName: 'Product Line', field: 'product', minWidth: 178}
-    ];
-    const rowData = coas.map(i => ({name: i.name, description: i.description || '', product: i.x_panw_product || ''}));
+    const columnDefs = Object.keys(coa_custom_field_cols)
+        .map(c => ({headerName: coa_custom_field_cols[c]['headerName'], field: c, minWidth: 178, resizable: true}));
+    const rowData = coas.map(coa => getValueForCOARow(coa, ap, relationships));
+
     const gridOptions = {
         columnDefs: columnDefs,
         rowData: rowData,
