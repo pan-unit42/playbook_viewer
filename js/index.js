@@ -1333,7 +1333,7 @@ function writeAPModal(ap, report, playbook) {
     const coaControl = `<div class="display-coa" title="Show/Hide Courses of Action">Courses of Action<div class="coa-control"><i class="fas fa-arrows-alt-v"></i></div></div>`;
     const indControl = `<div class="display-ind" title="Show/Hide Indicators">Indicators<div class="ind-control"><i class="fas fa-arrows-alt-v"></i></div></div>`;
 
-    const coaContent = coas.length ? `${coaControl}<div class="coa-grid-elem coa-grid-hidden"></div>` : "";
+    const coaContent = coas.length ? `${coaControl}<div class="coa-grid-elem coa-grid"></div>` : "";
     const indContent = `${indControl}<div class="ind-container">${indicatorTable}</div>`;
     const modalContent = `<div class="modal-content"><div class="modal-header">${ttpLink}<span class="close">&times;</span></div>${coaContent}${indContent}</div>`;
 
