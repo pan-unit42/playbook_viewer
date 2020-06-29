@@ -726,7 +726,7 @@ function addDescription(report, playbook) {
     } else {
         const {description} = report;
         if (description !== undefined) {
-            descriptionElement.html(description.replace("\n", "<br/>"));
+            descriptionElement.html(description.replaceAll("\n", "<br/>"));
         }
     }
 }
@@ -1349,10 +1349,12 @@ function writeAPModal(ap, report, playbook) {
     modal.insertAdjacentHTML('beforeend', modalContent);
 
     const columnDefs = Object.keys(coa_custom_field_cols)
+        .filter(c => coa_custom_field_cols[c]['isDisplayed'])
         .map(c => ({
             headerName: coa_custom_field_cols[c]['headerName'],
             field: c,
             minWidth: 178,
+            maxWidth: c === 'panw_products' ? 267 : undefined,
             resizable: true,
             autoHeight: true,
             cellStyle: {'white-space': 'normal !important'},
