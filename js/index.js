@@ -1241,9 +1241,18 @@ function storeCOAGridParams(params) {
     coa_grid_params = params;
 }
 
+function onCOAGridColumnResized() {
+    coa_grid_params.api.resetRowHeights();
+}
+
 function onCOAGridReady(params) {
     storeCOAGridParams(params);
     params.api.sizeColumnsToFit();
+    params.api.resetRowHeights();
+}
+
+function renderCOAFieldCell(params) {
+    return params.value.replaceAll("\n", "<br/>");
 }
 
 function getValueForCOACell(field, stix2_obj) {
@@ -1340,7 +1349,15 @@ function writeAPModal(ap, report, playbook) {
     modal.insertAdjacentHTML('beforeend', modalContent);
 
     const columnDefs = Object.keys(coa_custom_field_cols)
-        .map(c => ({headerName: coa_custom_field_cols[c]['headerName'], field: c, minWidth: 178, resizable: true}));
+        .map(c => ({
+            headerName: coa_custom_field_cols[c]['headerName'],
+            field: c,
+            minWidth: 178,
+            resizable: true,
+            autoHeight: true,
+            cellStyle: {'white-space': 'normal !important'},
+            cellRenderer: renderCOAFieldCell
+        }));
     const rowData = coas.map(coa => getValueForCOARow(coa, ap, relationships));
     rowData.sort((a, b) =>
         ((a['panw_products'] || '').localeCompare((b['panw_products'] || ''))) ||
@@ -1351,6 +1368,7 @@ function writeAPModal(ap, report, playbook) {
         columnDefs: columnDefs,
         rowData: rowData,
         onGridReady: onCOAGridReady,
+        onColumnResized: onCOAGridColumnResized,
         suppressMovableColumns: true,
         enableCellTextSelection: true
     };
