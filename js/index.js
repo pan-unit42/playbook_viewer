@@ -720,13 +720,13 @@ function addDescription(report, playbook) {
         reports.forEach(r => {
             const {description} = r;
             if (description !== undefined) {
-                descriptionElement.html(description.replaceAll("\r\n", "</br>"));
+                descriptionElement.html(description.replaceAll("\n", "<br/>"));
             }
         });
     } else {
         const {description} = report;
         if (description !== undefined) {
-            descriptionElement.html(description.replace("\r\n", "</br>"));
+            descriptionElement.html(description.replace("\n", "<br/>"));
         }
     }
 }
@@ -1122,7 +1122,7 @@ function buildPhaseContainer(killChain, report, playbook) {
     const attack_patterns = getTypeFromReport("attack-pattern", report, playbook);
     const campaign = getTypeFromReport("campaign", report, playbook)[0];
 
-    $('.campaign-description').html(campaign['description'].replaceAll("\r\n", "</br>"));
+    $('.campaign-description').html(campaign['description'].replaceAll("\n", "<br/>"));
     $('.phasescontainer').empty();
 
     const killChainPhases = getKillChainPhases(killChain);
