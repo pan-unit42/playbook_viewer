@@ -1237,23 +1237,23 @@ function writeMalwareTooltip(malwares) {
     return `<td class="tooltip" width="20%">${malwareNames}${malwareToolTip}</td>`;
 }
 
-function storeCOAGridParams(params) {
-    coa_grid_params = params;
-}
+// function storeCOAGridParams(params) {
+//     coa_grid_params = params;
+// }
 
-function onCOAGridColumnResized() {
-    coa_grid_params.api.resetRowHeights();
-}
-
-function onCOAGridReady(params) {
-    storeCOAGridParams(params);
-    params.api.sizeColumnsToFit();
-    params.api.resetRowHeights();
-}
-
-function renderCOAFieldCell(params) {
-    return params.value.replaceAll("\n", "<br/>");
-}
+// function onCOAGridColumnResized() {
+//     coa_grid_params.api.resetRowHeights();
+// }
+//
+// function onCOAGridReady(params) {
+//     storeCOAGridParams(params);
+//     params.api.sizeColumnsToFit();
+//     params.api.resetRowHeights();
+// }
+//
+// function renderCOAFieldCell(params) {
+//     return params.value.replaceAll("\n", "<br/>");
+// }
 
 function getValueForCOACell(field, stix2_obj) {
     const {coa_custom_field_cols} = consts;
@@ -1292,28 +1292,7 @@ function getValueForCOARow(coa, ap, relationships) {
     }, {});
 }
 
-function writeAPModal(ap, report, playbook) {
-    const {coa_custom_field_cols} = consts;
-    const campaign = getTypeFromReport("campaign", report, playbook)[0];
-    const indicators = getReportIndicators(ap, report, playbook);
-    const coas = getRelatedCOA(ap.id, playbook);
-    sortIndicators(indicators);
-    // Retrieve the indicator description from the relationship between indicator and attack-pattern
-    const relationships = getTypeFromReport("relationship", report, playbook);
-
-    const modal = document.createElement('div');
-    modal.id = `${ap.id}_${campaign.id}`;
-    modal.className = "modal";
-
-    let ttpLink = '';
-    if ('external_references' in ap && ap['external_references'].length) {
-        const attackEntry = ap['external_references'].find(i => i.url && i.url.startsWith('https://attack.mitre.org/'));
-        if (attackEntry) {
-            const a = `<a href="${attackEntry.url}" target="_blank"><sup>REFERENCE</sup></a>`;
-            ttpLink = `<p><b>Technique:</b> ${ap.name} ${a}</p><br>`;
-        }
-    }
-
+function writeIndicatorTable(playbook, ap, indicators, relationships) {
     let indicatorTable = '';
     if (indicators.length === 0) {
         indicatorTable += '<span>No Indicators Available</span><br>';
@@ -1339,46 +1318,101 @@ function writeAPModal(ap, report, playbook) {
         indicatorTable += '</table>';
     }
 
+    return indicatorTable;
+}
+
+function writeCOATable(product, coas) {
+    let coaTable = '';
+    coaTable += `<h2><b>${product}</b></h2>`;
+    coaTable += '<table class="coa-table">';
+    coaTable += '<tr>' + '<th id="coa-name">Name</th>' + '<th id="coa-description">Description</th>' + '</tr>';
+    coas.sort((a, b) => (a['name']).localeCompare((b['name'])));
+    coas.forEach(c => {
+        coaTable += '<tr>';
+        coaTable += `<td class="coa-left">${c['name']}</td>` + `<td class="coa-right">${c['description']}</td>`;
+        coaTable += '</tr>';
+    });
+    coaTable += '</table>';
+
+    return coaTable;
+}
+
+function writeAPModal(ap, report, playbook) {
+    // const {coa_custom_field_cols} = consts;
+    const campaign = getTypeFromReport("campaign", report, playbook)[0];
+    const indicators = getReportIndicators(ap, report, playbook);
+    const coas = getRelatedCOA(ap.id, playbook);
+    sortIndicators(indicators);
+    // Retrieve the indicator description from the relationship between indicator and attack-pattern
+    const relationships = getTypeFromReport("relationship", report, playbook);
+
+    const modal = document.createElement('div');
+    modal.id = `${ap.id}_${campaign.id}`;
+    modal.className = "modal";
+
+    let ttpLink = '';
+    if ('external_references' in ap && ap['external_references'].length) {
+        const attackEntry = ap['external_references'].find(i => i.url && i.url.startsWith('https://attack.mitre.org/'));
+        if (attackEntry) {
+            const a = `<a href="${attackEntry.url}" target="_blank"><sup>REFERENCE</sup></a>`;
+            ttpLink = `<p><b>Technique:</b> ${ap.name} ${a}</p><br>`;
+        }
+    }
+
+    const coasByProduct = coas.reduce((r, coa) => {
+        const rel = relationships.find(x => coa['id'] === x['source_ref'] && ap['id'] === x['target_ref']);
+        const products = rel['x_panw_coa_u42_panw_product'];
+        products.forEach(p => {
+            const v = getValueForCOARow(coa, ap, relationships);
+            p in r ? r[p].push(v) :  r[p] = [v];
+        });
+        return r;
+    }, {});
+    const sortedProducts = Object.keys(coasByProduct).sort();
+    const coaTables = sortedProducts.length ?
+        sortedProducts.map(p => writeCOATable(p, coasByProduct[p])).join('') :
+        '<span>No Courses of Action Available</span><br>';
+    const indicatorTable = writeIndicatorTable(playbook, ap, indicators, relationships);
+
     const coaControl = `<div class="display-coa" title="Show/Hide Courses of Action">Courses of Action<div class="coa-control"><i class="fas fa-arrows-alt-v"></i></div></div>`;
     const indControl = `<div class="display-ind" title="Show/Hide Indicators">Indicators<div class="ind-control"><i class="fas fa-arrows-alt-v"></i></div></div>`;
 
-    const coaContent = coas.length ? `${coaControl}<div class="coa-grid-elem coa-grid"></div>` : "";
+    const coaContent = `${coaControl}<div class="coa-grid-elem coa-grid">${coaTables}</div>`;
     const indContent = `${indControl}<div class="ind-container">${indicatorTable}</div>`;
     const modalContent = `<div class="modal-content"><div class="modal-header">${ttpLink}<span class="close">&times;</span></div>${coaContent}${indContent}</div>`;
 
     modal.insertAdjacentHTML('beforeend', modalContent);
 
-    const columnDefs = Object.keys(coa_custom_field_cols)
-        .filter(c => coa_custom_field_cols[c]['isDisplayed'])
-        .map(c => ({
-            headerName: coa_custom_field_cols[c]['headerName'],
-            field: c,
-            minWidth: 178,
-            maxWidth: c === 'panw_products' ? 267 : undefined,
-            resizable: true,
-            autoHeight: true,
-            cellStyle: {'white-space': 'normal !important'},
-            cellRenderer: renderCOAFieldCell
-        }));
-    const rowData = coas.map(coa => getValueForCOARow(coa, ap, relationships));
-    rowData.sort((a, b) =>
-        ((a['panw_products'] || '').localeCompare((b['panw_products'] || ''))) ||
-        ((a['name']).localeCompare((b['name'] || '')))
-    );
-
-    const gridOptions = {
-        columnDefs: columnDefs,
-        rowData: rowData,
-        onGridReady: onCOAGridReady,
-        onColumnResized: onCOAGridColumnResized,
-        suppressMovableColumns: true,
-        enableCellTextSelection: true
-    };
-
-    const eGridDiv = modal.querySelector('.coa-grid-elem');
-    new agGrid.Grid(eGridDiv, gridOptions);
-
-    // TODO: Switch indicator table to indicator aggrid
+    // const columnDefs = Object.keys(coa_custom_field_cols)
+    //     .filter(c => coa_custom_field_cols[c]['isDisplayed'])
+    //     .map(c => ({
+    //         headerName: coa_custom_field_cols[c]['headerName'],
+    //         field: c,
+    //         minWidth: 178,
+    //         maxWidth: c === 'panw_products' ? 267 : undefined,
+    //         resizable: true,
+    //         autoHeight: true,
+    //         cellStyle: {'white-space': 'normal !important'},
+    //         cellRenderer: renderCOAFieldCell
+    //     }));
+    //
+    // const rowData = coas.map(coa => getValueForCOARow(coa, ap, relationships));
+    // rowData.sort((a, b) =>
+    //     ((a['panw_products'] || '').localeCompare((b['panw_products'] || ''))) ||
+    //     ((a['name']).localeCompare((b['name'] || '')))
+    // );
+    //
+    // const gridOptions = {
+    //     columnDefs: columnDefs,
+    //     rowData: rowData,
+    //     onGridReady: onCOAGridReady,
+    //     onColumnResized: onCOAGridColumnResized,
+    //     suppressMovableColumns: true,
+    //     enableCellTextSelection: true
+    // };
+    //
+    // const eGridDiv = modal.querySelector('.coa-grid-elem');
+    // new agGrid.Grid(eGridDiv, gridOptions);
 
     return modal;
 }
