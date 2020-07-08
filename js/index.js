@@ -1214,7 +1214,7 @@ function writeMalwareTooltip(malwares) {
 
     malwares.forEach((m, i) => {
         malwareToolTip += `<div>Name: ${m['name']}</div>`;
-        malwareToolTip += `<div></div>Types: ${m['labels'].map(m => malware_label_ov[m]).sort().join(', ')}</div>`;
+        malwareToolTip += `<div></div>Type: ${m['labels'].map(m => malware_label_ov[m]).sort().join(', ')}</div>`;
 
         if (m['description']) {
             malwareToolTip += `<div>Description: ${m['description']}</div>`;
@@ -1323,9 +1323,9 @@ function writeIndicatorTable(playbook, ap, indicators, relationships) {
 
 function writeCOATable(product, coas) {
     let coaTable = '';
-    coaTable += `<h2><b>${product}</b></h2>`;
+    coaTable += `<h3 class="product"><b>${product}</b></h3>`;
     coaTable += '<table class="coa-table">';
-    coaTable += '<tr>' + '<th id="coa-name">Name</th>' + '<th id="coa-description">Description</th>' + '</tr>';
+    coaTable += '<tr>' + '<th id="coa-name">Action</th>' + '<th id="coa-description">Description</th>' + '</tr>';
     coas.sort((a, b) => (a['name']).localeCompare((b['name'])));
     coas.forEach(c => {
         coaTable += '<tr>';
