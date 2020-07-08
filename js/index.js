@@ -838,6 +838,7 @@ function addInfoboxIndicatorTable(playbook) {
 
 function addInfobox(playbook) {
     const indicatorTable = addInfoboxIndicatorTable(playbook);
+    const indicatorTableDiv = `<div class="indicator-list"><span class="close">&times;</span> ${indicatorTable}</div>`;
     const total_campaigns = getTypeFromPlaybook("campaign", playbook).length;
     const total_indicators = getTypeFromPlaybook("indicator", playbook).length;
     const total_attackpatterns = getTypeFromPlaybook("attack-pattern", playbook).length;
@@ -848,7 +849,7 @@ function addInfobox(playbook) {
         `<div class="right"><div>Attack Patterns: ${total_attackpatterns}</div></div>`
     );
     $('.info1').empty().append(ib_markup);
-    $('.modalcontainer').after(`<div class="indicator-list"><span class="close">&times;</span> ${indicatorTable}</div>`);
+    $('.modalcontainer').empty().append(indicatorTableDiv);
 }
 
 function addInfoBox2(report, playbook) {
@@ -1364,7 +1365,7 @@ function writeAPModal(ap, report, playbook) {
         const products = rel['x_panw_coa_u42_panw_product'];
         products.forEach(p => {
             const v = getValueForCOARow(coa, ap, relationships);
-            p in r ? r[p].push(v) :  r[p] = [v];
+            p in r ? r[p].push(v) : r[p] = [v];
         });
         return r;
     }, {});
