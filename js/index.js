@@ -6,7 +6,6 @@ let current_report = null;
 let current_intrusion_set = null;
 let current_killchain = null;
 let ttp_grid_params = null;
-let coa_grid_params = null;
 
 String.prototype.replaceAll = function (search, replacement) {
     let target = this;
@@ -33,7 +32,6 @@ function emptyPlaybook() {
     current_intrusion_set = null;
     current_killchain = null;
     ttp_grid_params = null;
-    coa_grid_params = null;
 }
 
 function initTour() {
@@ -324,18 +322,6 @@ function initEvents() {
         }
     });
 
-    $(document).on('click', '.display-coa', function (event) {
-        const isVisible = $('.coa-grid').is(':visible');
-        if (isVisible) {
-            $('.coa-grid').addClass("coa-grid-hidden").removeClass("coa-grid");
-        } else {
-            $('.coa-grid-hidden').addClass("coa-grid").removeClass("coa-grid-hidden");
-        }
-        if (coa_grid_params) {
-            coa_grid_params.api.sizeColumnsToFit();
-        }
-    });
-
     $(document).on('click', '.display-ind', function (event) {
         const isVisible = $('.ind-container').is(':visible');
         if (isVisible) {
@@ -343,6 +329,28 @@ function initEvents() {
         } else {
             $('.ind-container-hidden').addClass("ind-container").removeClass("ind-container-hidden");
         }
+    });
+
+    const coaElements = [];
+    for (let i = 0; i < 10; i++) {
+        coaElements.push(`coas-control-${i}`);
+    }
+
+    $.each(coaElements, function (i, element) {
+        const selector = `.coas-control-${i}`;
+        $(document).on('click', selector, function (event) {
+            const visible = `coas-${i}`;
+            const hidden = `coas-hidden-${i}`;
+            const visibleSelector = `.${visible}`;
+            const hiddenSelector = `.${hidden}`;
+
+            const isVisible = $(visibleSelector).is(':visible');
+            if (isVisible) {
+                $(visibleSelector).addClass(hidden).removeClass(visible);
+            } else {
+                $(hiddenSelector).addClass(visible).removeClass(hidden);
+            }
+        });
     });
 
     showPlaybook();
@@ -1215,7 +1223,7 @@ function writeMalwareTooltip(malwares) {
 
     malwares.forEach((m, i) => {
         malwareToolTip += `<div>Name: ${m['name']}</div>`;
-        malwareToolTip += `<div></div>Types: ${m['labels'].map(m => malware_label_ov[m]).sort().join(', ')}</div>`;
+        malwareToolTip += `<div></div>Type: ${m['labels'].map(m => malware_label_ov[m]).sort().join(', ')}</div>`;
 
         if (m['description']) {
             malwareToolTip += `<div>Description: ${m['description']}</div>`;
@@ -1237,24 +1245,6 @@ function writeMalwareTooltip(malwares) {
 
     return `<td class="tooltip" width="20%">${malwareNames}${malwareToolTip}</td>`;
 }
-
-// function storeCOAGridParams(params) {
-//     coa_grid_params = params;
-// }
-
-// function onCOAGridColumnResized() {
-//     coa_grid_params.api.resetRowHeights();
-// }
-//
-// function onCOAGridReady(params) {
-//     storeCOAGridParams(params);
-//     params.api.sizeColumnsToFit();
-//     params.api.resetRowHeights();
-// }
-//
-// function renderCOAFieldCell(params) {
-//     return params.value.replaceAll("\n", "<br/>");
-// }
 
 function getValueForCOACell(field, stix2_obj) {
     const {coa_custom_field_cols} = consts;
@@ -1322,11 +1312,15 @@ function writeIndicatorTable(playbook, ap, indicators, relationships) {
     return indicatorTable;
 }
 
-function writeCOATable(product, coas) {
+function writeCOATable(product, coas, idx) {
+    const control = `coas-control-${idx}`;
+    const hidden = `coas-hidden-${idx}`;
+
     let coaTable = '';
-    coaTable += `<h2><b>${product}</b></h2>`;
+    coaTable += `<h2 class="${control} product"><b>${product}</b><div class="coa-control"><i class="fas fa-arrows-alt-v"></i></div></h2>`;
+    coaTable += `<div class=${hidden}>`;
     coaTable += '<table class="coa-table">';
-    coaTable += '<tr>' + '<th id="coa-name">Name</th>' + '<th id="coa-description">Description</th>' + '</tr>';
+    coaTable += '<tr>' + '<th id="coa-name">Action</th>' + '<th id="coa-description">Description</th>' + '</tr>';
     coas.sort((a, b) => (a['name']).localeCompare((b['name'])));
     coas.forEach(c => {
         coaTable += '<tr>';
@@ -1334,6 +1328,7 @@ function writeCOATable(product, coas) {
         coaTable += '</tr>';
     });
     coaTable += '</table>';
+    coaTable += '</div>';
 
     return coaTable;
 }
@@ -1371,49 +1366,16 @@ function writeAPModal(ap, report, playbook) {
     }, {});
     const sortedProducts = Object.keys(coasByProduct).sort();
     const coaTables = sortedProducts.length ?
-        sortedProducts.map(p => writeCOATable(p, coasByProduct[p])).join('') :
+        sortedProducts.map((p, idx) => writeCOATable(p, coasByProduct[p], idx)).join('') :
         '<span>No Courses of Action Available</span><br>';
     const indicatorTable = writeIndicatorTable(playbook, ap, indicators, relationships);
 
-    const coaControl = `<div class="display-coa" title="Show/Hide Courses of Action">Courses of Action<div class="coa-control"><i class="fas fa-arrows-alt-v"></i></div></div>`;
-    const indControl = `<div class="display-ind" title="Show/Hide Indicators">Indicators<div class="ind-control"><i class="fas fa-arrows-alt-v"></i></div></div>`;
-
-    const coaContent = `${coaControl}<div class="coa-grid-elem coa-grid">${coaTables}</div>`;
+    const coaContent = `<div class="display-coa" title="Courses of Action"><h1>Courses of Action</h1></div>${coaTables}`;
+    const indControl = `<div class="display-ind" title="Show/Hide Indicators"><h1>Indicators</h1><div class="ind-control"><h2><i class="fas fa-arrows-alt-v"></i></h2></div></div>`;
     const indContent = `${indControl}<div class="ind-container">${indicatorTable}</div>`;
     const modalContent = `<div class="modal-content"><div class="modal-header">${ttpLink}<span class="close">&times;</span></div>${coaContent}${indContent}</div>`;
 
     modal.insertAdjacentHTML('beforeend', modalContent);
-
-    // const columnDefs = Object.keys(coa_custom_field_cols)
-    //     .filter(c => coa_custom_field_cols[c]['isDisplayed'])
-    //     .map(c => ({
-    //         headerName: coa_custom_field_cols[c]['headerName'],
-    //         field: c,
-    //         minWidth: 178,
-    //         maxWidth: c === 'panw_products' ? 267 : undefined,
-    //         resizable: true,
-    //         autoHeight: true,
-    //         cellStyle: {'white-space': 'normal !important'},
-    //         cellRenderer: renderCOAFieldCell
-    //     }));
-    //
-    // const rowData = coas.map(coa => getValueForCOARow(coa, ap, relationships));
-    // rowData.sort((a, b) =>
-    //     ((a['panw_products'] || '').localeCompare((b['panw_products'] || ''))) ||
-    //     ((a['name']).localeCompare((b['name'] || '')))
-    // );
-    //
-    // const gridOptions = {
-    //     columnDefs: columnDefs,
-    //     rowData: rowData,
-    //     onGridReady: onCOAGridReady,
-    //     onColumnResized: onCOAGridColumnResized,
-    //     suppressMovableColumns: true,
-    //     enableCellTextSelection: true
-    // };
-    //
-    // const eGridDiv = modal.querySelector('.coa-grid-elem');
-    // new agGrid.Grid(eGridDiv, gridOptions);
 
     return modal;
 }
