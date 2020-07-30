@@ -7,10 +7,10 @@
       "type": "report",
       "id": "report--def4456e-1b28-4686-a3e7-128d06b99895",
       "created": "2020-05-07T13:03:15.751Z",
-      "modified": "2020-06-26T19:00:45.388Z",
+      "modified": "2020-07-30T16:55:52.168Z",
       "name": "EKANS  Ransomware",
       "description": "EKANS Ransomware is written in GoLang, upon infection, revelvant files are overwritten with encrypted data. Each file has a string of EKANS (Snake backwards) in the end of the file.\n\nThe ransomware uses aAES-256 and RSA-2048 for encryption. Like many ransomwares the malware excludes critical system files from encryption, and even attempts to compromise network resources. Snake also has the capability of terminating numerous process related with SCADA platforms and enterprise enviorments.\n\nIf successful the ransom note will be written to \"C:\\Users\\Public\\Desktop\\Fix-Your-Files.txt\"\n\nReferences:\nhttps://twitter.com/VK_Intel/status/1215196590165647360\nhttps://www.carbonblack.com/2020/01/27/threat-analysis-unit-tau-threat-intelligence-notification-snake-ransomware/\nhttps://insights.sei.cmu.edu/cert/2020/03/snake-ransomware-analysis-updates.html\nhttps://nakedsecurity.sophos.com/2020/01/13/snake-alert-this-ransomware-is-not-a-game/\nhttps://www.dragos.com/blog/industry-news/ekans-ransomware-and-ics-operations/",
-      "published": "2020-06-26T19:00:45.388Z",
+      "published": "2020-07-30T16:55:52.168Z",
       "object_refs": [
         "intrusion-set--8597e984-1559-4330-9e93-f5e1d0918ef2",
         "report--c126763e-181b-4909-b4c7-cbc343d4641d"
@@ -28,16 +28,20 @@
     },
     {
       "type": "attack-pattern",
-      "id": "attack-pattern--02fefddc-fb1b-423f-a76b-7552dd211d4d",
+      "id": "attack-pattern--1b7b1806-7746-41a1-a35d-e48dae25ddba",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
       "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-03-18T19:43:53.746Z",
-      "name": "T1067: Bootkit",
-      "description": "A bootkit is a malware variant that modifies the boot sectors of a hard drive, including the Master Boot Record (MBR) and Volume Boot Record (VBR). (Citation: MTrends 2016)\n\nAdversaries may use bootkits to persist on systems at a layer below the operating system, which may make it difficult to perform full remediation unless an organization suspects one was used and can act accordingly.\n\n### Master Boot Record\nThe MBR is the section of disk that is first loaded after completing hardware initialization by the BIOS. It is the location of the boot loader. An adversary who has raw access to the boot drive may overwrite this area, diverting execution during startup from the normal boot loader to adversary code. (Citation: Lau 2011)\n\n### Volume Boot Record\nThe MBR passes control of the boot process to the VBR. Similar to the case of MBR, an adversary who has raw access to the boot drive may overwrite the VBR to divert execution during startup to adversary code.",
+      "modified": "2020-07-27T14:54:42.762Z",
+      "name": "T1542.003: Bootkit",
+      "description": "Adversaries may use bootkits to persist on systems. Bootkits reside at a layer below the operating system and may make it difficult to perform full remediation unless an organization suspects one was used and can act accordingly.\n\nA bootkit is a malware variant that modifies the boot sectors of a hard drive, including the Master Boot Record (MBR) and Volume Boot Record (VBR). (Citation: Mandiant M Trends 2016) The MBR is the section of disk that is first loaded after completing hardware initialization by the BIOS. It is the location of the boot loader. An adversary who has raw access to the boot drive may overwrite this area, diverting execution during startup from the normal boot loader to adversary code. (Citation: Lau 2011)\n\nThe MBR passes control of the boot process to the VBR. Similar to the case of MBR, an adversary who has raw access to the boot drive may overwrite the VBR to divert execution during startup to adversary code.",
       "kill_chain_phases": [
         {
           "kill_chain_name": "lockheed",
           "phase_name": "installation"
+        },
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "defense-evasion"
         },
         {
           "kill_chain_name": "mitre-attack",
@@ -51,14 +55,14 @@
           "description": "Lau, H. (2011, August 8). Are MBR Infections Back in Fashion? (Infographic). Retrieved November 13, 2014."
         },
         {
-          "source_name": "mitre-attack",
-          "url": "https://attack.mitre.org/techniques/T1067",
-          "external_id": "T1067"
+          "source_name": "Mandiant M Trends 2016",
+          "url": "https://www.fireeye.com/content/dam/fireeye-www/current-threats/pdfs/rpt-mtrends-2016.pdf",
+          "description": "Mandiant. (2016, February 25). Mandiant M-Trends 2016. Retrieved March 5, 2019."
         },
         {
-          "source_name": "MTrends 2016",
-          "url": "https://www.fireeye.com/content/dam/fireeye-www/regional/fr_FR/offers/pdfs/ig-mtrends-2016.pdf",
-          "description": "Mandiant. (2016, February). M-Trends 2016. Retrieved January 4, 2017."
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1542/003",
+          "external_id": "T1542.003"
         }
       ],
       "object_marking_refs": [
@@ -80,6 +84,11 @@
         "Administrator",
         "SYSTEM"
       ],
+      "x_mitre_defense_bypassed": [
+        "Anti-virus",
+        "File monitoring",
+        "Host intrusion prevention systems"
+      ],
       "x_mitre_version": "1.0"
     },
     {
@@ -87,7 +96,7 @@
       "id": "attack-pattern--20fb2507-d71c-455d-9b6d-6104461cf26b",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
       "created": "2019-05-06T20:46:06.721Z",
-      "modified": "2020-03-18T19:43:43.762Z",
+      "modified": "2020-07-27T14:54:42.176Z",
       "name": "T1489: Service Stop",
       "description": "Adversaries may stop or disable services on a system to render those services unavailable to legitimate users. Stopping critical services can inhibit or stop response to an incident or aid in the adversary's overall objectives to cause damage to the environment.(Citation: Talos Olympic Destroyer 2018)(Citation: Novetta Blockbuster) \n\nAdversaries may accomplish this by disabling individual services of high importance to an organization, such as <code>MSExchangeIS</code>, which will make Exchange content inaccessible (Citation: Novetta Blockbuster). In some cases, adversaries may stop or disable many or all services to render systems unusable.(Citation: Talos Olympic Destroyer 2018) Services may not allow for modification of their data stores while running. Adversaries may stop services in order to conduct [Data Destruction](https://attack.mitre.org/techniques/T1485) or [Data Encrypted for Impact](https://attack.mitre.org/techniques/T1486) on the data stores of services like Exchange and SQL Server.(Citation: SecureWorks WannaCry Analysis)",
       "kill_chain_phases": [
@@ -149,12 +158,63 @@
     },
     {
       "type": "attack-pattern",
+      "id": "attack-pattern--2e34237d-8574-43f6-aace-ae2915de8597",
+      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "created": "2019-08-26T15:33:33.158Z",
+      "modified": "2020-07-27T14:54:44.085Z",
+      "name": "T1566.001: Spearphishing Attachment",
+      "description": "Adversaries may send spearphishing emails with a malicious attachment in an attempt to elicit sensitive information and/or gain access to victim systems. Spearphishing attachment is a specific variant of spearphishing. Spearphishing attachment is different from other forms of spearphishing in that it employs the use of malware attached to an email. All forms of spearphishing are electronically delivered social engineering targeted at a specific individual, company, or industry. In this scenario, adversaries attach a file to the spearphishing email and usually rely upon [User Execution](https://attack.mitre.org/techniques/T1204) to gain execution.\n\nThere are many options for the attachment such as Microsoft Office documents, executables, PDFs, or archived files. Upon opening the attachment (and potentially clicking past protections), the adversary's payload exploits a vulnerability or directly executes on the user's system. The text of the spearphishing email usually tries to give a plausible reason why the file should be opened, and may explain how to bypass system protections in order to do so. The email may also contain instructions on how to decrypt an attachment, such as a zip file password, in order to evade email boundary defenses. Adversaries frequently manipulate file extensions and icons in order to make attached executables appear to be document files, or files exploiting one application appear to be a file for a different one.",
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "lockheed",
+          "phase_name": "delivery"
+        },
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "initial-access"
+        }
+      ],
+      "external_references": [
+        {
+          "source_name": "capec",
+          "url": "https://capec.mitre.org/data/definitions/163.html",
+          "external_id": "CAPEC-163"
+        },
+        {
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1566/001",
+          "external_id": "T1566.001"
+        }
+      ],
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ],
+      "x_mitre_detection": [
+        "Network intrusion detection systems and email gateways can be used to detect spearphishing with malicious attachments in transit. Detonation chambers may also be used to identify malicious attachments. Solutions can be signature and behavior based, but adversaries may construct attachments in a way to avoid these systems.\n\nAnti-virus can potentially detect malicious documents and attachments as they're scanned to be stored on the email server or on the user's computer. Endpoint sensing or network sensing can potentially detect malicious events once the attachment is opened (such as a Microsoft Word document or PDF reaching out to the internet or spawning Powershell.exe) for techniques such as [Exploitation for Client Execution](https://attack.mitre.org/techniques/T1203) or usage of malicious scripts."
+      ],
+      "x_mitre_platforms": [
+        "Linux",
+        "Windows",
+        "macOS"
+      ],
+      "x_mitre_data_sources": [
+        "Detonation chamber",
+        "Email gateway",
+        "File monitoring",
+        "Mail server",
+        "Network intrusion detection system",
+        "Packet capture"
+      ],
+      "x_mitre_version": "1.0"
+    },
+    {
+      "type": "attack-pattern",
       "id": "attack-pattern--30208d3e-0d6b-43c8-883e-44462a514619",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
       "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-03-18T19:43:18.104Z",
+      "modified": "2020-07-27T14:54:38.097Z",
       "name": "T1119: Automated Collection",
-      "description": "Once established within a system or network, an adversary may use automated techniques for collecting internal data. Methods for performing this technique could include use of [Scripting](https://attack.mitre.org/techniques/T1064) to search for and copy information fitting set criteria such as file type, location, or name at specific time intervals. This functionality could also be built into remote access tools. \n\nThis technique may incorporate use of other techniques such as [File and Directory Discovery](https://attack.mitre.org/techniques/T1083) and [Remote File Copy](https://attack.mitre.org/techniques/T1105) to identify and move files.",
+      "description": "Once established within a system or network, an adversary may use automated techniques for collecting internal data. Methods for performing this technique could include use of a [Command and Scripting Interpreter](https://attack.mitre.org/techniques/T1059) to search for and copy information fitting set criteria such as file type, location, or name at specific time intervals. This functionality could also be built into remote access tools. \n\nThis technique may incorporate use of other techniques such as [File and Directory Discovery](https://attack.mitre.org/techniques/T1083) and [Lateral Tool Transfer](https://attack.mitre.org/techniques/T1570) to identify and move files.",
       "kill_chain_phases": [
         {
           "kill_chain_name": "lockheed",
@@ -176,7 +236,7 @@
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
       "x_mitre_detection": [
-        "Depending on the method used, actions could include common file system commands and parameters on the command-line interface within batch files or scripts. A sequence of actions like this may be unusual, depending on the system and network environment. Automated collection may occur along with other techniques such as [Data Staged](https://attack.mitre.org/techniques/T1074). As such, file access monitoring that shows an unusual process performing sequential file opens and potentially copy actions to another location on the file system for many files at once may indicate automated collection behavior. Remote access tools with built-in features may interact directly with the Windows API to gather data. Data may also be acquired through Windows system management tools such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) and [PowerShell](https://attack.mitre.org/techniques/T1086)."
+        "Depending on the method used, actions could include common file system commands and parameters on the command-line interface within batch files or scripts. A sequence of actions like this may be unusual, depending on the system and network environment. Automated collection may occur along with other techniques such as [Data Staged](https://attack.mitre.org/techniques/T1074). As such, file access monitoring that shows an unusual process performing sequential file opens and potentially copy actions to another location on the file system for many files at once may indicate automated collection behavior. Remote access tools with built-in features may interact directly with the Windows API to gather data. Data may also be acquired through Windows system management tools such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) and [PowerShell](https://attack.mitre.org/techniques/T1059/001)."
       ],
       "x_mitre_platforms": [
         "Linux",
@@ -201,9 +261,9 @@
       "id": "attack-pattern--35dd844a-b219-4e2b-a6bb-efa9a75995a9",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
       "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-03-18T19:43:30.054Z",
-      "name": "T1053: Scheduled Task",
-      "description": "Utilities such as [at](https://attack.mitre.org/software/S0110) and [schtasks](https://attack.mitre.org/software/S0111), along with the Windows Task Scheduler, can be used to schedule programs or scripts to be executed at a date and time. A task can also be scheduled on a remote system, provided the proper authentication is met to use RPC and file and printer sharing is turned on. Scheduling a task on a remote system typically required being a member of the Administrators group on the remote system. (Citation: TechNet Task Scheduler Security)\n\nAn adversary may use task scheduling to execute programs at system startup or on a scheduled basis for persistence, to conduct remote Execution as part of Lateral Movement, to gain SYSTEM privileges, or to run a process under the context of a specified account.",
+      "modified": "2020-07-27T14:54:36.978Z",
+      "name": "T1053: Scheduled Task/Job",
+      "description": "Adversaries may abuse task scheduling functionality to facilitate initial or recurring execution of malicious code. Utilities exist within all major operating systems to schedule programs or scripts to be executed at a specified date and time. A task can also be scheduled on a remote system, provided the proper authentication is met (ex: RPC and file and printer sharing in Windows environments). Scheduling a task on a remote system typically requires being a member of an admin or otherwise privileged group on the remote system.(Citation: TechNet Task Scheduler Security)\n\nAdversaries may use task scheduling to execute programs at system startup or on a scheduled basis for persistence. These mechanisms can also be abused to run a process under the context of a specified account (such as one with elevated permissions/privileges).",
       "kill_chain_phases": [
         {
           "kill_chain_name": "lockheed",
@@ -233,49 +293,26 @@
           "external_id": "CAPEC-557"
         },
         {
-          "source_name": "Microsoft Scheduled Task Events Win10",
-          "url": "https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/audit-other-object-access-events",
-          "description": "Microsoft. (2017, May 28). Audit Other Object Access Events. Retrieved June 27, 2019."
-        },
-        {
           "source_name": "mitre-attack",
           "url": "https://attack.mitre.org/techniques/T1053",
           "external_id": "T1053"
         },
         {
-          "source_name": "TechNet Autoruns",
-          "url": "https://technet.microsoft.com/en-us/sysinternals/bb963902",
-          "description": "Russinovich, M. (2016, January 4). Autoruns for Windows v13.51. Retrieved June 6, 2016."
-        },
-        {
-          "source_name": "TechNet Forum Scheduled Task Operational Setting",
-          "url": "https://social.technet.microsoft.com/Forums/en-US/e5bca729-52e7-4fcb-ba12-3225c564674c/scheduled-tasks-history-retention-settings?forum=winserver8gen",
-          "description": "Satyajit321. (2015, November 3). Scheduled Tasks History Retention settings. Retrieved December 12, 2017."
-        },
-        {
-          "source_name": "TechNet Scheduled Task Events",
-          "url": "https://technet.microsoft.com/library/dd315590.aspx",
-          "description": "Microsoft. (n.d.). General Task Registration. Retrieved December 12, 2017."
-        },
-        {
           "source_name": "TechNet Task Scheduler Security",
           "url": "https://technet.microsoft.com/en-us/library/cc785125.aspx",
           "description": "Microsoft. (2005, January 21). Task Scheduler and security. Retrieved June 8, 2016."
-        },
-        {
-          "source_name": "Twitter Leoloobeek Scheduled Task",
-          "url": "https://twitter.com/leoloobeek/status/939248813465853953",
-          "description": "Loobeek, L. (2017, December 8). leoloobeek Status. Retrieved December 12, 2017."
         }
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
       "x_mitre_detection": [
-        "Monitor scheduled task creation from common utilities using command-line invocation. Legitimate scheduled tasks may be created during installation of new software or through system administration functions. Monitor process execution from the <code>svchost.exe</code> in Windows 10 and the Windows Task Scheduler <code>taskeng.exe</code> for older versions of Windows. (Citation: Twitter Leoloobeek Scheduled Task) If scheduled tasks are not used for persistence, then the adversary is likely to remove the task when the action is complete. Monitor Windows Task Scheduler stores in <code>%systemroot%\\System32\\Tasks</code> for change entries related to scheduled tasks that do not correlate with known software, patch cycles, etc. Data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities, such as network connections made for Command and Control, learning details about the environment through Discovery, and Lateral Movement.\n\nConfigure event logging for scheduled task creation and changes by enabling the \"Microsoft-Windows-TaskScheduler/Operational\" setting within the event logging service. (Citation: TechNet Forum Scheduled Task Operational Setting) Several events will then be logged on scheduled task activity, including: (Citation: TechNet Scheduled Task Events)(Citation: Microsoft Scheduled Task Events Win10)\n\n* Event ID 106 on Windows 7, Server 2008 R2 - Scheduled task registered\n* Event ID 140 on Windows 7, Server 2008 R2 / 4702 on Windows 10, Server 2016 - Scheduled task updated\n* Event ID 141 on Windows 7, Server 2008 R2 / 4699 on Windows 10, Server 2016 - Scheduled task deleted\n* Event ID 4698 on Windows 10, Server 2016 - Scheduled task created\n* Event ID 4700 on Windows 10, Server 2016 - Scheduled task enabled\n* Event ID 4701 on Windows 10, Server 2016 - Scheduled task disabled\n\nTools such as Sysinternals Autoruns may also be used to detect system changes that could be attempts at persistence, including listing current scheduled tasks. (Citation: TechNet Autoruns) Look for changes to tasks that do not correlate with known software, patch cycles, etc. Suspicious program execution through scheduled tasks may show up as outlier processes that have not been seen before when compared against historical data.\n\nMonitor processes and command-line arguments for actions that could be taken to create tasks. Remote access tools with built-in features may interact directly with the Windows API to perform these functions outside of typical system utilities. Tasks may also be created through Windows system management tools such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) and [PowerShell](https://attack.mitre.org/techniques/T1086), so additional logging may need to be configured to gather the appropriate data."
+        "Monitor scheduled task creation from common utilities using command-line invocation. Legitimate scheduled tasks may be created during installation of new software or through system administration functions. Look for changes to tasks that do not correlate with known software, patch cycles, etc. \n\nSuspicious program execution through scheduled tasks may show up as outlier processes that have not been seen before when compared against historical data. Data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities, such as network connections made for Command and Control, learning details about the environment through Discovery, and Lateral Movement."
       ],
       "x_mitre_platforms": [
-        "Windows"
+        "Linux",
+        "Windows",
+        "macOS"
       ],
       "x_mitre_data_sources": [
         "File monitoring",
@@ -300,16 +337,16 @@
         "Prashant Verma, Paladion",
         "Travis Smith, Tripwire"
       ],
-      "x_mitre_version": "1.1"
+      "x_mitre_version": "2.0"
     },
     {
       "type": "attack-pattern",
       "id": "attack-pattern--3c4a2599-71ee-4405-ba1e-0e28414b4bc5",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
       "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-03-18T19:43:31.438Z",
+      "modified": "2020-07-27T14:54:36.653Z",
       "name": "T1005: Data from Local System",
-      "description": "Sensitive data can be collected from local system sources, such as the file system or databases of information residing on the system prior to Exfiltration.\n\nAdversaries will often search the file system on computers they have compromised to find files of interest. They may do this using a [Command-Line Interface](https://attack.mitre.org/techniques/T1059), such as [cmd](https://attack.mitre.org/software/S0106), which has functionality to interact with the file system to gather information. Some adversaries may also use [Automated Collection](https://attack.mitre.org/techniques/T1119) on the local system.",
+      "description": "Adversaries may search local system sources, such as file systems or local databases, to find files of interest and sensitive data prior to Exfiltration.\n\nAdversaries may do this using a [Command and Scripting Interpreter](https://attack.mitre.org/techniques/T1059), such as [cmd](https://attack.mitre.org/software/S0106), which has functionality to interact with the file system to gather information. Some adversaries may also use [Automated Collection](https://attack.mitre.org/techniques/T1119) on the local system.",
       "kill_chain_phases": [
         {
           "kill_chain_name": "lockheed",
@@ -331,12 +368,9 @@
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
       "x_mitre_detection": [
-        "Monitor processes and command-line arguments for actions that could be taken to collect files from a system. Remote access tools with built-in features may interact directly with the Windows API to gather data. Data may also be acquired through Windows system management tools such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) and [PowerShell](https://attack.mitre.org/techniques/T1086)."
+        "Monitor processes and command-line arguments for actions that could be taken to collect files from a system. Remote access tools with built-in features may interact directly with the Windows API to gather data. Data may also be acquired through Windows system management tools such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) and [PowerShell](https://attack.mitre.org/techniques/T1059/001)."
       ],
       "x_mitre_platforms": [
-        "AWS",
-        "Azure",
-        "GCP",
         "Linux",
         "Windows",
         "macOS"
@@ -349,70 +383,16 @@
       "x_mitre_system_requirements": [
         "Privileges to access certain files and directories"
       ],
-      "x_mitre_contributors": [
-        "Praetorian"
-      ],
-      "x_mitre_version": "1.1"
-    },
-    {
-      "type": "attack-pattern",
-      "id": "attack-pattern--6aac77c4-eaf2-4366-8c13-ce50ab951f38",
-      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2019-08-26T15:33:33.158Z",
-      "modified": "2020-03-18T19:43:30.474Z",
-      "name": "T1193: Spearphishing Attachment",
-      "description": "Spearphishing attachment is a specific variant of spearphishing. Spearphishing attachment is different from other forms of spearphishing in that it employs the use of malware attached to an email. All forms of spearphishing are electronically delivered social engineering targeted at a specific individual, company, or industry. In this scenario, adversaries attach a file to the spearphishing email and usually rely upon [User Execution](https://attack.mitre.org/techniques/T1204) to gain execution.\n\nThere are many options for the attachment such as Microsoft Office documents, executables, PDFs, or archived files. Upon opening the attachment (and potentially clicking past protections), the adversary's payload exploits a vulnerability or directly executes on the user's system. The text of the spearphishing email usually tries to give a plausible reason why the file should be opened, and may explain how to bypass system protections in order to do so. The email may also contain instructions on how to decrypt an attachment, such as a zip file password, in order to evade email boundary defenses. Adversaries frequently manipulate file extensions and icons in order to make attached executables appear to be document files, or files exploiting one application appear to be a file for a different one.",
-      "kill_chain_phases": [
-        {
-          "kill_chain_name": "lockheed",
-          "phase_name": "delivery"
-        },
-        {
-          "kill_chain_name": "mitre-attack",
-          "phase_name": "initial-access"
-        }
-      ],
-      "external_references": [
-        {
-          "source_name": "capec",
-          "url": "https://capec.mitre.org/data/definitions/163.html",
-          "external_id": "CAPEC-163"
-        },
-        {
-          "source_name": "mitre-attack",
-          "url": "https://attack.mitre.org/techniques/T1193",
-          "external_id": "T1193"
-        }
-      ],
-      "object_marking_refs": [
-        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
-      ],
-      "x_mitre_detection": [
-        "Network intrusion detection systems and email gateways can be used to detect spearphishing with malicious attachments in transit. Detonation chambers may also be used to identify malicious attachments. Solutions can be signature and behavior based, but adversaries may construct attachments in a way to avoid these systems.\n\nAnti-virus can potentially detect malicious documents and attachments as they're scanned to be stored on the email server or on the user's computer. Endpoint sensing or network sensing can potentially detect malicious events once the attachment is opened (such as a Microsoft Word document or PDF reaching out to the internet or spawning Powershell.exe) for techniques such as [Exploitation for Client Execution](https://attack.mitre.org/techniques/T1203) and [Scripting](https://attack.mitre.org/techniques/T1064)."
-      ],
-      "x_mitre_platforms": [
-        "Linux",
-        "Windows",
-        "macOS"
-      ],
-      "x_mitre_data_sources": [
-        "Detonation chamber",
-        "Email gateway",
-        "File monitoring",
-        "Mail server",
-        "Network intrusion detection system",
-        "Packet capture"
-      ],
-      "x_mitre_version": "1.0"
+      "x_mitre_version": "1.2"
     },
     {
       "type": "attack-pattern",
       "id": "attack-pattern--7bc57495-ea59-4380-be31-a64af124ef18",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
       "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-03-18T19:43:20.956Z",
+      "modified": "2020-07-27T14:54:37.764Z",
       "name": "T1083: File and Directory Discovery",
-      "description": "Adversaries may enumerate files and directories or may search in specific locations of a host or network share for certain information within a file system. Adversaries may use the information from [File and Directory Discovery](https://attack.mitre.org/techniques/T1083) during automated discovery to shape follow-on behaviors, including whether or not the adversary fully infects the target and/or attempts specific actions.\n\n### Windows\n\nExample utilities used to obtain this information are <code>dir</code> and <code>tree</code>. (Citation: Windows Commands JPCERT) Custom tools may also be used to gather file and directory information and interact with the Windows API.\n\n### Mac and Linux\n\nIn Mac and Linux, this kind of discovery is accomplished with the <code>ls</code>, <code>find</code>, and <code>locate</code> commands.",
+      "description": "Adversaries may enumerate files and directories or may search in specific locations of a host or network share for certain information within a file system. Adversaries may use the information from [File and Directory Discovery](https://attack.mitre.org/techniques/T1083) during automated discovery to shape follow-on behaviors, including whether or not the adversary fully infects the target and/or attempts specific actions.\n\nMany command shell utilities can be used to obtain this information. Examples include <code>dir</code>, <code>tree</code>, <code>ls</code>, <code>find</code>, and <code>locate</code>. (Citation: Windows Commands JPCERT) Custom tools may also be used to gather file and directory information and interact with the [Native API](https://attack.mitre.org/techniques/T1106).",
       "kill_chain_phases": [
         {
           "kill_chain_name": "lockheed",
@@ -439,7 +419,7 @@
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
       "x_mitre_detection": [
-        "System and network discovery techniques normally occur throughout an operation as an adversary learns the environment. Data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities, such as Collection and Exfiltration, based on the information obtained.\n\nMonitor proceExesses and command-line arguments for actions that could be taken to gather system and network information. Remote access tools with built-in features may interact directly with the Windows API to gather information. Information may also be acquired through Windows system management tools such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) and [PowerShell](https://attack.mitre.org/techniques/T1086)."
+        "System and network discovery techniques normally occur throughout an operation as an adversary learns the environment. Data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities, such as Collection and Exfiltration, based on the information obtained.\n\nMonitor processes and command-line arguments for actions that could be taken to gather system and network information. Remote access tools with built-in features may interact directly with the Windows API to gather information. Information may also be acquired through Windows system management tools such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) and [PowerShell](https://attack.mitre.org/techniques/T1059/001)."
       ],
       "x_mitre_platforms": [
         "Linux",
@@ -459,16 +439,16 @@
       "x_mitre_system_requirements": [
         "Some folders may require Administrator, SYSTEM or specific user depending on permission levels and access controls"
       ],
-      "x_mitre_version": "1.1"
+      "x_mitre_version": "1.2"
     },
     {
       "type": "attack-pattern",
       "id": "attack-pattern--82caa33e-d11a-433a-94ea-9b5a5fbef81d",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
       "created": "2019-05-06T20:46:02.570Z",
-      "modified": "2020-03-18T19:44:06.495Z",
+      "modified": "2020-07-27T14:54:42.176Z",
       "name": "T1497: Virtualization/Sandbox Evasion",
-      "description": "Adversaries may check for the presence of a virtual machine environment (VME) or sandbox to avoid potential detection of tools and activities. If the adversary detects a VME, they may alter their malware to conceal the core functions of the implant or disengage from the victim. They may also search for VME artifacts before dropping secondary or additional payloads. Adversaries may use the information from learned from [Virtualization/Sandbox Evasion](https://attack.mitre.org/techniques/T1497) during automated discovery to shape follow-on behaviors.\n\nAdversaries may use several methods including [Security Software Discovery](https://attack.mitre.org/techniques/T1063) to accomplish [Virtualization/Sandbox Evasion](https://attack.mitre.org/techniques/T1497) by searching for security monitoring tools (e.g., Sysinternals, Wireshark, etc.) to help determine if it is an analysis environment. Additional methods include use of sleep timers or loops within malware code to avoid operating within a temporary sandboxes. (Citation: Unit 42 Pirpi July 2015)\n\n###Virtual Machine Environment Artifacts Discovery###\n\nAdversaries may use utilities such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047), [PowerShell](https://attack.mitre.org/techniques/T1086), [Systeminfo](https://attack.mitre.org/software/S0096), and the [Query Registry](https://attack.mitre.org/techniques/T1012) to obtain system information and search for VME artifacts. Adversaries may search for VME artifacts in memory, processes, file system, and/or the Registry. Adversaries may use [Scripting](https://attack.mitre.org/techniques/T1064) to combine these checks into one script and then have the program exit if it determines the system to be a virtual environment. Also, in applications like VMWare, adversaries can use a special I/O port to send commands and receive output. Adversaries may also check the drive size. For example, this can be done using the Win32 DeviceIOControl function. \n\nExample VME Artifacts in the Registry(Citation: McAfee Virtual Jan 2017)\n\n* <code>HKLM\\SOFTWARE\\Oracle\\VirtualBox Guest Additions</code>\n* <code>HKLM\\HARDWARE\\Description\\System\\\u201dSystemBiosVersion\u201d;\u201dVMWARE\u201d</code>\n* <code>HKLM\\HARDWARE\\ACPI\\DSDT\\BOX_</code>\n\nExample VME files and DLLs on the system(Citation: McAfee Virtual Jan 2017)\n\n* <code>WINDOWS\\system32\\drivers\\vmmouse.sys</code> \n* <code>WINDOWS\\system32\\vboxhook.dll</code>\n* <code>Windows\\system32\\vboxdisp.dll</code>\n\nCommon checks may enumerate services running that are unique to these applications, installed programs on the system, manufacturer/product fields for strings relating to virtual machine applications, and VME-specific hardware/processor instructions.(Citation: McAfee Virtual Jan 2017)\n\n###User Activity Discovery###\n\nAdversaries may search for user activity on the host (e.g., browser history, cache, bookmarks, number of files in the home directories, etc.) for reassurance of an authentic environment. They might detect this type of information via user interaction and digital signatures. They may have malware check the speed and frequency of mouse clicks to determine if it\u2019s a sandboxed environment.(Citation: Sans Virtual Jan 2016) Other methods may rely on specific user interaction with the system before the malicious code is activated. Examples include waiting for a document to close before activating a macro (Citation: Unit 42 Sofacy Nov 2018) and waiting for a user to double click on an embedded image to activate (Citation: FireEye FIN7 April 2017).\n\n###Virtual Hardware Fingerprinting Discovery###\n\nAdversaries may check the fan and temperature of the system to gather evidence that can be indicative a virtual environment. An adversary may perform a CPU check using a WMI query <code>$q = \u201cSelect * from Win32_Fan\u201d Get-WmiObject -Query $q</code>. If the results of the WMI query return more than zero elements, this might tell them that the machine is a physical one. (Citation: Unit 42 OilRig Sept 2018)",
+      "description": "Adversaries may employ various means to detect and avoid virtualization and analysis environments. This may include changing behaviors based on the results of checks for the presence of artifacts indicative of a virtual machine environment (VME) or sandbox. If the adversary detects a VME, they may alter their malware to disengage from the victim or conceal the core functions of the implant. They may also search for VME artifacts before dropping secondary or additional payloads. Adversaries may use the information learned from [Virtualization/Sandbox Evasion](https://attack.mitre.org/techniques/T1497) during automated discovery to shape follow-on behaviors. \n\nAdversaries may use several methods to accomplish [Virtualization/Sandbox Evasion](https://attack.mitre.org/techniques/T1497) such as checking for security monitoring tools (e.g., Sysinternals, Wireshark, etc.) or other system artifacts associated with analysis or virtualization. Adversaries may also check for legitimate user activity to help determine if it is in an analysis environment. Additional methods include use of sleep timers or loops within malware code to avoid operating within a temporary sandbox.(Citation: Unit 42 Pirpi July 2015)",
       "kill_chain_phases": [
         {
           "kill_chain_name": "lockheed",
@@ -489,48 +469,24 @@
       ],
       "external_references": [
         {
-          "source_name": "FireEye FIN7 April 2017",
-          "url": "https://www.fireeye.com/blog/threat-research/2017/04/fin7-phishing-lnk.html",
-          "description": "Carr, N., et al. (2017, April 24). FIN7 Evolution and the Phishing LNK. Retrieved April 24, 2017."
-        },
-        {
-          "source_name": "McAfee Virtual Jan 2017",
-          "url": "https://securingtomorrow.mcafee.com/other-blogs/mcafee-labs/stopping-malware-fake-virtual-machine/",
-          "description": "Roccia, T. (2017, January 19). Stopping Malware With a Fake Virtual Machine. Retrieved April 17, 2019."
-        },
-        {
           "source_name": "mitre-attack",
           "url": "https://attack.mitre.org/techniques/T1497",
           "external_id": "T1497"
         },
         {
-          "source_name": "Sans Virtual Jan 2016",
-          "url": "https://www.sans.org/reading-room/whitepapers/forensics/detecting-malware-sandbox-evasion-techniques-36667",
-          "description": "Keragala, D. (2016, January 16). Detecting Malware and Sandbox Evasion Techniques. Retrieved April 17, 2019."
-        },
-        {
-          "source_name": "Unit 42 OilRig Sept 2018",
-          "url": "https://researchcenter.paloaltonetworks.com/2018/09/unit42-oilrig-targets-middle-eastern-government-adds-evasion-techniques-oopsie/",
-          "description": "Falcone, R., et al. (2018, September 04). OilRig Targets a Middle Eastern Government and Adds Evasion Techniques to OopsIE. Retrieved September 24, 2018."
-        },
-        {
           "source_name": "Unit 42 Pirpi July 2015",
           "url": "https://unit42.paloaltonetworks.com/ups-observations-on-cve-2015-3113-prior-zero-days-and-the-pirpi-payload/",
           "description": "Falcone, R., Wartell, R.. (2015, July 27). UPS: Observations on CVE-2015-3113, Prior Zero-Days and the Pirpi Payload. Retrieved April 23, 2019."
-        },
-        {
-          "source_name": "Unit 42 Sofacy Nov 2018",
-          "url": "https://unit42.paloaltonetworks.com/unit42-sofacy-continues-global-attacks-wheels-new-cannon-trojan/",
-          "description": "Falcone, R., Lee, B.. (2018, November 20). Sofacy Continues Global Attacks and Wheels Out New \u2018Cannon\u2019 Trojan. Retrieved April 23, 2019."
         }
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
       "x_mitre_detection": [
-        "Virtualization, sandbox, and related discovery techniques will likely occur in the first steps of an operation but may also occur throughout as an adversary learns the environment. Data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities, such as lateral movement, based on the information obtained. Detecting actions related to virtualization and sandbox identification may be difficult depending on the adversary's implementation and monitoring required. Monitoring for suspicious processes being spawned that gather a variety of system information or perform other forms of [Discovery](https://attack.mitre.org/tactics/TA0007), especially in a short period of time, may aid in detection.\n"
+        "Virtualization, sandbox, user activity, and related discovery techniques will likely occur in the first steps of an operation but may also occur throughout as an adversary learns the environment. Data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities, such as lateral movement, based on the information obtained. Detecting actions related to virtualization and sandbox identification may be difficult depending on the adversary's implementation and monitoring required. Monitoring for suspicious processes being spawned that gather a variety of system information or perform other forms of Discovery, especially in a short period of time, may aid in detection."
       ],
       "x_mitre_platforms": [
+        "Linux",
         "Windows",
         "macOS"
       ],
@@ -548,16 +504,92 @@
         "Deloitte Threat Library Team",
         "Sunny Neo"
       ],
-      "x_mitre_version": "1.1"
+      "x_mitre_version": "1.2"
+    },
+    {
+      "type": "attack-pattern",
+      "id": "attack-pattern--837f9164-50af-4ac0-8219-379d8a74cefc",
+      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "created": "2018-08-03T19:54:02.821Z",
+      "modified": "2020-07-27T14:54:43.438Z",
+      "name": "T1552.001: Credentials In Files",
+      "description": "Adversaries may search local file systems and remote file shares for files containing insecurely stored credentials. These can be files created by users to store their own credentials, shared credential stores for a group of individuals, configuration files containing passwords for a system or service, or source code/binary files containing embedded passwords.\n\nIt is possible to extract passwords from backups or saved virtual machines through [OS Credential Dumping](https://attack.mitre.org/techniques/T1003). (Citation: CG 2014) Passwords may also be obtained from Group Policy Preferences stored on the Windows Domain Controller. (Citation: SRD GPP)\n\nIn cloud environments, authenticated user credentials are often stored in local configuration and credential files. In some cases, these files can be copied and reused on another machine or the contents can be read and then used to authenticate without needing to copy any files. (Citation: Specter Ops - Cloud Credential Storage)",
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "lockheed",
+          "phase_name": "act-on-objectives"
+        },
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "credential-access"
+        }
+      ],
+      "external_references": [
+        {
+          "source_name": "capec",
+          "url": "https://capec.mitre.org/data/definitions/639.html",
+          "external_id": "CAPEC-639"
+        },
+        {
+          "source_name": "CG 2014",
+          "url": "http://carnal0wnage.attackresearch.com/2014/05/mimikatz-against-virtual-machine-memory.html",
+          "description": "CG. (2014, May 20). Mimikatz Against Virtual Machine Memory Part 1. Retrieved November 12, 2014."
+        },
+        {
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1552/001",
+          "external_id": "T1552.001"
+        },
+        {
+          "source_name": "Specter Ops - Cloud Credential Storage",
+          "url": "https://posts.specterops.io/head-in-the-clouds-bd038bb69e48",
+          "description": "Maddalena, C.. (2018, September 12). Head in the Clouds. Retrieved October 4, 2019."
+        },
+        {
+          "source_name": "SRD GPP",
+          "url": "http://blogs.technet.com/b/srd/archive/2014/05/13/ms14-025-an-update-for-group-policy-preferences.aspx",
+          "description": "Security Research and Defense. (2014, May 13). MS14-025: An Update for Group Policy Preferences. Retrieved January 28, 2015."
+        }
+      ],
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ],
+      "x_mitre_detection": [
+        "While detecting adversaries accessing these files may be difficult without knowing they exist in the first place, it may be possible to detect adversary use of credentials they have obtained. Monitor the command-line arguments of executing processes for suspicious words or regular expressions that may indicate searching for a password (for example: password, pwd, login, secure, or credentials). See [Valid Accounts](https://attack.mitre.org/techniques/T1078) for more information."
+      ],
+      "x_mitre_platforms": [
+        "AWS",
+        "Azure",
+        "GCP",
+        "Linux",
+        "Windows",
+        "macOS"
+      ],
+      "x_mitre_data_sources": [
+        "File monitoring",
+        "Process command-line parameters"
+      ],
+      "x_mitre_permissions_required": [
+        "Administrator",
+        "SYSTEM",
+        "User"
+      ],
+      "x_mitre_system_requirements": [
+        "Access to files"
+      ],
+      "x_mitre_contributors": [
+        "Microsoft Threat Intelligence Center (MSTIC)"
+      ],
+      "x_mitre_version": "1.0"
     },
     {
       "type": "attack-pattern",
       "id": "attack-pattern--8c32eb4d-805f-4fc5-bf60-c4d476c131b5",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
       "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-05-21T01:21:25.396Z",
+      "modified": "2020-07-27T14:54:38.428Z",
       "name": "T1204: User Execution",
-      "description": "An adversary may rely upon specific actions by a user in order to gain execution. This may be direct code execution, such as when a user opens a malicious executable delivered via Spearphishing Attachment with the icon and apparent extension of a document file. It also may lead to other execution techniques, such as when a user clicks on a link delivered via Spearphishing Link that leads to exploitation of a browser or application vulnerability via Exploitation for Client Execution. While User Execution frequently occurs shortly after Initial Access it may occur at other phases of an intrusion, such as when an adversary places a file in a shared directory or on a user's desktop hoping that a user will click on it. Detection: Monitor the execution of and command-line arguments for applications that may be used by an adversary to gain Initial Access that require user interaction. This includes compression applications, such as those for zip files, that can be used to Deobfuscate/Decode Files or Information in payloads. Anti-virus can potentially detect malicious documents and files that are downloaded and execuited on the user's computer. Endpoint sensing or network sensing can potentially detect malicious events once the file is opened (such as a Microsoft Word document or PDF reaching out to the internet or spawning Powershell.exe) for techniques such as Exploitation for Client Execution and Scripting. Platforms: Linux, Windows, macOS Data Sources: Anti-virus, Process command-line parameters, Process monitoring Permissions Required: User",
+      "description": "An adversary may rely upon specific actions by a user in order to gain execution. Users may be subjected to social engineering to get them to execute malicious code by, for example, opening a malicious document file or link. These user actions will typically be observed as follow-on behavior from forms of [Phishing](https://attack.mitre.org/techniques/T1566).\n\nWhile [User Execution](https://attack.mitre.org/techniques/T1204) frequently occurs shortly after Initial Access it may occur at other phases of an intrusion, such as when an adversary places a file in a shared directory or on a user's desktop hoping that a user will click on it. This activity may also be seen shortly after [Internal Spearphishing](https://attack.mitre.org/techniques/T1534).",
       "kill_chain_phases": [
         {
           "kill_chain_name": "lockheed",
@@ -570,31 +602,16 @@
       ],
       "external_references": [
         {
-          "source_name": "FireEye APT29 Nov 2018",
-          "url": "https://www.fireeye.com/blog/threat-research/2018/11/not-so-cozy-an-uncomfortable-examination-of-a-suspected-apt29-phishing-campaign.html",
-          "description": "Dunwoody, M., et al. (2018, November 19). Not So Cozy: An Uncomfortable Examination of a Suspected APT29 Phishing Campaign. Retrieved November 27, 2018."
-        },
-        {
           "source_name": "mitre-attack",
           "url": "https://attack.mitre.org/techniques/T1204",
           "external_id": "T1204"
-        },
-        {
-          "source_name": "Proofpoint TA505 June 2018",
-          "url": "https://www.proofpoint.com/us/threat-insight/post/ta505-shifts-times",
-          "description": "Proofpoint Staff. (2018, June 8). TA505 shifts with the times. Retrieved May 28, 2019."
-        },
-        {
-          "source_name": "PWC Cloud Hopper Technical Annex April 2017",
-          "url": "https://www.pwc.co.uk/cyber-security/pdf/cloud-hopper-annex-b-final.pdf",
-          "description": "PwC and BAE Systems. (2017, April). Operation Cloud Hopper: Technical Annex. Retrieved April 13, 2017."
         }
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
       "x_mitre_detection": [
-        "Monitor the execution of and command-line arguments for applications that may be used by an adversary to gain Initial Access that require user interaction. This includes compression applications, such as those for zip files, that can be used to [Deobfuscate/Decode Files or Information](https://attack.mitre.org/techniques/T1140) in payloads.\n\nAnti-virus can potentially detect malicious documents and files that are downloaded and executed on the user's computer. Endpoint sensing or network sensing can potentially detect malicious events once the file is opened (such as a Microsoft Word document or PDF reaching out to the internet or spawning Powershell.exe) for techniques such as [Exploitation for Client Execution](https://attack.mitre.org/techniques/T1203) and [Scripting](https://attack.mitre.org/techniques/T1064)."
+        "Monitor the execution of and command-line arguments for applications that may be used by an adversary to gain Initial Access that require user interaction. This includes compression applications, such as those for zip files, that can be used to [Deobfuscate/Decode Files or Information](https://attack.mitre.org/techniques/T1140) in payloads.\n\nAnti-virus can potentially detect malicious documents and files that are downloaded and executed on the user's computer. Endpoint sensing or network sensing can potentially detect malicious events once the file is opened (such as a Microsoft Word document or PDF reaching out to the internet or spawning powershell.exe)."
       ],
       "x_mitre_platforms": [
         "Linux",
@@ -612,16 +629,16 @@
       "x_mitre_contributors": [
         "Oleg Skulkin, Group-IB"
       ],
-      "x_mitre_version": "1.1"
+      "x_mitre_version": "1.2"
     },
     {
       "type": "attack-pattern",
       "id": "attack-pattern--8f4a33ec-8b1f-4b80-a2f6-642b2e479580",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
       "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-03-18T19:43:48.879Z",
+      "modified": "2020-07-27T14:54:37.379Z",
       "name": "T1057: Process Discovery",
-      "description": "Adversaries may attempt to get information about running processes on a system. Information obtained could be used to gain an understanding of common software running on systems within the network. Adversaries may use the information from [Process Discovery](https://attack.mitre.org/techniques/T1057) during automated discovery to shape follow-on behaviors, including whether or not the adversary fully infects the target and/or attempts specific actions.\n\n### Windows\n\nAn example command that would obtain details on processes is \"tasklist\" using the [Tasklist](https://attack.mitre.org/software/S0057) utility.\n\n### Mac and Linux\n\nIn Mac and Linux, this is accomplished with the <code>ps</code> command.",
+      "description": "Adversaries may attempt to get information about running processes on a system. Information obtained could be used to gain an understanding of common software/applications running on systems within the network. Adversaries may use the information from [Process Discovery](https://attack.mitre.org/techniques/T1057) during automated discovery to shape follow-on behaviors, including whether or not the adversary fully infects the target and/or attempts specific actions.\n\nIn Windows environments, adversaries could obtain details on running processes using the [Tasklist](https://attack.mitre.org/software/S0057) utility via [cmd](https://attack.mitre.org/software/S0106) or <code>Get-Process</code> via [PowerShell](https://attack.mitre.org/techniques/T1059/001). Information about processes can also be extracted from the output of [Native API](https://attack.mitre.org/techniques/T1106) calls such as <code>CreateToolhelp32Snapshot</code>. In Mac and Linux, this is accomplished with the <code>ps</code> command. Adversaries may also opt to enumerate processes via /proc.",
       "kill_chain_phases": [
         {
           "kill_chain_name": "lockheed",
@@ -648,7 +665,7 @@
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
       "x_mitre_detection": [
-        "System and network discovery techniques normally occur throughout an operation as an adversary learns the environment. Data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities, such as Lateral Movement, based on the information obtained.\n\nNormal, benign system and network events that look like process discovery may be uncommon, depending on the environment and how they are used. Monitor processes and command-line arguments for actions that could be taken to gather system and network information. Remote access tools with built-in features may interact directly with the Windows API to gather information. Information may also be acquired through Windows system management tools such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) and [PowerShell](https://attack.mitre.org/techniques/T1086)."
+        "System and network discovery techniques normally occur throughout an operation as an adversary learns the environment. Data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities, such as Lateral Movement, based on the information obtained.\n\nNormal, benign system and network events that look like process discovery may be uncommon, depending on the environment and how they are used. Monitor processes and command-line arguments for actions that could be taken to gather system and network information. Remote access tools with built-in features may interact directly with the Windows API to gather information. Information may also be acquired through Windows system management tools such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) and [PowerShell](https://attack.mitre.org/techniques/T1059/001)."
       ],
       "x_mitre_platforms": [
         "Linux",
@@ -656,6 +673,7 @@
         "macOS"
       ],
       "x_mitre_data_sources": [
+        "API monitoring",
         "Process command-line parameters",
         "Process monitoring"
       ],
@@ -667,17 +685,21 @@
       "x_mitre_system_requirements": [
         "Administrator, SYSTEM may provide better process ownership details"
       ],
-      "x_mitre_version": "1.1"
+      "x_mitre_version": "1.2"
     },
     {
       "type": "attack-pattern",
-      "id": "attack-pattern--9422fc14-1c43-410d-ab0f-a709b76c72dc",
+      "id": "attack-pattern--9efb1ea7-c37b-4595-9640-b7680cd84279",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
       "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-03-18T19:43:43.565Z",
-      "name": "T1060: Registry Run Keys / Startup Folder",
-      "description": "Adding an entry to the \"run keys\" in the Registry or startup folder will cause the program referenced to be executed when a user logs in. (Citation: Microsoft Run Key) These programs will be executed under the context of the user and will have the account's associated permissions level.\n\nThe following run keys are created by default on Windows systems:\n* <code>HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Run</code>\n* <code>HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\RunOnce</code>\n* <code>HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Run</code>\n* <code>HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\RunOnce</code>\n\nThe <code>HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\RunOnceEx</code> is also available but is not created by default on Windows Vista and newer. Registry run key entries can reference programs directly or list them as a dependency. (Citation: Microsoft RunOnceEx APR 2018) For example, it is possible to load a DLL at logon using a \"Depend\" key with RunOnceEx: <code>reg add HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\RunOnceEx\\0001\\Depend /v 1 /d \"C:\\temp\\evil[.]dll\"</code> (Citation: Oddvar Moe RunOnceEx Mar 2018)\n\nThe following Registry keys can be used to set startup folder items for persistence:\n* <code>HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\User Shell Folders</code>\n* <code>HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders</code>\n* <code>HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders</code>\n* <code>HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\User Shell Folders</code>\n\nThe following Registry keys can control automatic startup of services during boot:\n* <code>HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\RunServicesOnce</code>\n* <code>HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\RunServicesOnce</code>\n* <code>HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\RunServices</code>\n* <code>HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\RunServices</code>\n\nUsing policy settings to specify startup programs creates corresponding values in either of two Registry keys:\n* <code>HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\Run</code>\n* <code>HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\Run</code>\n\nThe Winlogon key controls actions that occur when a user logs on to a computer running Windows 7. Most of these actions are under the control of the operating system, but you can also add custom actions here. The <code>HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\Userinit</code> and <code>HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\Shell</code> subkeys can automatically launch programs.\n\nPrograms listed in the load value of the registry key <code>HKEY_CURRENT_USER\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Windows</code> run when any user logs on.\n\nBy default, the multistring BootExecute value of the registry key <code>HKEY_LOCAL_MACHINE\\System\\CurrentControlSet\\Control\\Session Manager</code> is set to autocheck autochk *. This value causes Windows, at startup, to check the file-system integrity of the hard disks if the system has been shut down abnormally. Adversaries can add other programs or processes to this registry value which will automatically launch at boot.\n\n\nAdversaries can use these configuration locations to execute malware, such as remote access tools, to maintain persistence through system reboots. Adversaries may also use [Masquerading](https://attack.mitre.org/techniques/T1036) to make the Registry entries look as if they are associated with legitimate programs.",
+      "modified": "2020-07-27T14:54:43.075Z",
+      "name": "T1547.001: Registry Run Keys / Startup Folder",
+      "description": "Adversaries may achieve persistence by adding a program to a startup folder or referencing it with a Registry run key. Adding an entry to the \"run keys\" in the Registry or startup folder will cause the program referenced to be executed when a user logs in. (Citation: Microsoft Run Key) These programs will be executed under the context of the user and will have the account's associated permissions level.\n\nPlacing a program within a startup folder will also cause that program to execute when a user logs in. There is a startup folder location for individual user accounts as well as a system-wide startup folder that will be checked regardless of which user account logs in. The startup folder path for the current user is <code>C:\\Users\\[Username]\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Startup</code>. The startup folder path for all users is <code>C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\StartUp</code>.\n\nThe following run keys are created by default on Windows systems:\n* <code>HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Run</code>\n* <code>HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\RunOnce</code>\n* <code>HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Run</code>\n* <code>HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\RunOnce</code>\n\nThe <code>HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\RunOnceEx</code> is also available but is not created by default on Windows Vista and newer. Registry run key entries can reference programs directly or list them as a dependency. (Citation: Microsoft RunOnceEx APR 2018) For example, it is possible to load a DLL at logon using a \"Depend\" key with RunOnceEx: <code>reg add HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\RunOnceEx\\0001\\Depend /v 1 /d \"C:\\temp\\evil[.]dll\"</code> (Citation: Oddvar Moe RunOnceEx Mar 2018)\n\nThe following Registry keys can be used to set startup folder items for persistence:\n* <code>HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\User Shell Folders</code>\n* <code>HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders</code>\n* <code>HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders</code>\n* <code>HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\User Shell Folders</code>\n\nThe following Registry keys can control automatic startup of services during boot:\n* <code>HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\RunServicesOnce</code>\n* <code>HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\RunServicesOnce</code>\n* <code>HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\RunServices</code>\n* <code>HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\RunServices</code>\n\nUsing policy settings to specify startup programs creates corresponding values in either of two Registry keys:\n* <code>HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\Run</code>\n* <code>HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\Run</code>\n\nThe Winlogon key controls actions that occur when a user logs on to a computer running Windows 7. Most of these actions are under the control of the operating system, but you can also add custom actions here. The <code>HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\Userinit</code> and <code>HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\Shell</code> subkeys can automatically launch programs.\n\nPrograms listed in the load value of the registry key <code>HKEY_CURRENT_USER\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Windows</code> run when any user logs on.\n\nBy default, the multistring <code>BootExecute</code> value of the registry key <code>HKEY_LOCAL_MACHINE\\System\\CurrentControlSet\\Control\\Session Manager</code> is set to <code>autocheck autochk *</code>. This value causes Windows, at startup, to check the file-system integrity of the hard disks if the system has been shut down abnormally. Adversaries can add other programs or processes to this registry value which will automatically launch at boot.\n\nAdversaries can use these configuration locations to execute malware, such as remote access tools, to maintain persistence through system reboots. Adversaries may also use [Masquerading](https://attack.mitre.org/techniques/T1036) to make the Registry entries look as if they are associated with legitimate programs.",
       "kill_chain_phases": [
+        {
+          "kill_chain_name": "lockheed",
+          "phase_name": "act-on-objectives"
+        },
         {
           "kill_chain_name": "lockheed",
           "phase_name": "installation"
@@ -685,6 +707,10 @@
         {
           "kill_chain_name": "mitre-attack",
           "phase_name": "persistence"
+        },
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "privilege-escalation"
         }
       ],
       "external_references": [
@@ -705,8 +731,8 @@
         },
         {
           "source_name": "mitre-attack",
-          "url": "https://attack.mitre.org/techniques/T1060",
-          "external_id": "T1060"
+          "url": "https://attack.mitre.org/techniques/T1547/001",
+          "external_id": "T1547.001"
         },
         {
           "source_name": "Oddvar Moe RunOnceEx Mar 2018",
@@ -736,9 +762,6 @@
         "Administrator",
         "User"
       ],
-      "x_mitre_system_requirements": [
-        "HKEY_LOCAL_MACHINE keys require administrator access to create and modify"
-      ],
       "x_mitre_contributors": [
         "Oddvar Moe, @oddvarmoe"
       ],
@@ -749,9 +772,9 @@
       "id": "attack-pattern--b17a1a56-e99c-403c-8948-561df0cffe81",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
       "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-03-18T19:43:32.243Z",
+      "modified": "2020-07-27T14:54:37.764Z",
       "name": "T1078: Valid Accounts",
-      "description": "Adversaries may steal the credentials of a specific user or service account using Credential Access techniques or capture credentials earlier in their reconnaissance process through social engineering for means of gaining Initial Access. \n\nAccounts that an adversary may use can fall into three categories: default, local, and domain accounts. Default accounts are those that are built-into an OS such as Guest or Administrator account on Windows systems or default factory/provider set accounts on other types of systems, software, or devices. Local accounts are those configured by an organization for use by users, remote support, services, or for administration on a single system or service. (Citation: Microsoft Local Accounts Feb 2019) Domain accounts are those managed by Active Directory Domain Services where access and permissions are configured across systems and services that are part of that domain. Domain accounts can cover users, administrators, and services.\n\nCompromised credentials may be used to bypass access controls placed on various resources on systems within the network and may even be used for persistent access to remote systems and externally available services, such as VPNs, Outlook Web Access and remote desktop. Compromised credentials may also grant an adversary increased privilege to specific systems or access to restricted areas of the network. Adversaries may choose not to use malware or tools in conjunction with the legitimate access those credentials provide to make it harder to detect their presence.\n\nDefault accounts are also not limited to Guest and Administrator on client machines, they also include accounts that are preset for equipment such as network devices and computer applications whether they are internal, open source, or COTS. Appliances that come preset with a username and password combination pose a serious threat to organizations that do not change it post installation, as they are easy targets for an adversary. Similarly, adversaries may also utilize publicly disclosed private keys, or stolen private keys, to legitimately connect to remote environments via [Remote Services](https://attack.mitre.org/techniques/T1021) (Citation: Metasploit SSH Module)\n\nThe overlap of account access, credentials, and permissions across a network of systems is of concern because the adversary may be able to pivot across accounts and systems to reach a high level of access (i.e., domain or enterprise administrator) to bypass access controls set within the enterprise. (Citation: TechNet Credential Theft)",
+      "description": "Adversaries may obtain and abuse credentials of existing accounts as a means of gaining Initial Access, Persistence, Privilege Escalation, or Defense Evasion. Compromised credentials may be used to bypass access controls placed on various resources on systems within the network and may even be used for persistent access to remote systems and externally available services, such as VPNs, Outlook Web Access and remote desktop. Compromised credentials may also grant an adversary increased privilege to specific systems or access to restricted areas of the network. Adversaries may choose not to use malware or tools in conjunction with the legitimate access those credentials provide to make it harder to detect their presence.\n\nThe overlap of permissions for local, domain, and cloud accounts across a network of systems is of concern because the adversary may be able to pivot across accounts and systems to reach a high level of access (i.e., domain or enterprise administrator) to bypass access controls set within the enterprise. (Citation: TechNet Credential Theft)",
       "kill_chain_phases": [
         {
           "kill_chain_name": "lockheed",
@@ -789,16 +812,6 @@
           "external_id": "CAPEC-560"
         },
         {
-          "source_name": "Metasploit SSH Module",
-          "url": "https://github.com/rapid7/metasploit-framework/tree/master/modules/exploits/linux/ssh",
-          "description": "undefined. (n.d.). Retrieved April 12, 2019."
-        },
-        {
-          "source_name": "Microsoft Local Accounts Feb 2019",
-          "url": "https://docs.microsoft.com/en-us/windows/security/identity-protection/access-control/local-accounts",
-          "description": "Microsoft. (2018, December 9). Local Accounts. Retrieved February 11, 2019."
-        },
-        {
           "source_name": "mitre-attack",
           "url": "https://attack.mitre.org/techniques/T1078",
           "external_id": "T1078"
@@ -818,11 +831,12 @@
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
       "x_mitre_detection": [
-        "Configure robust, consistent account activity audit policies across the enterprise and with externally accessible services. (Citation: TechNet Audit Policy) Look for suspicious account behavior across systems that share accounts, either user, admin, or service accounts. Examples: one account logged into multiple systems simultaneously; multiple accounts logged into the same machine simultaneously; accounts logged in at odd times or outside of business hours. Activity may be from interactive login sessions or process ownership from accounts being used to execute binaries on a remote system as a particular account. Correlate other security systems with login information (e.g., a user has an active login session but has not entered the building or does not have VPN access).\n\nPerform regular audits of domain and local system accounts to detect accounts that may have been created by an adversary for persistence. Checks on these accounts could also include whether default accounts such as Guest have been activated. These audits should also include checks on any appliances and applications for default credentials or SSH keys, and if any are discovered, they should be updated immediately. "
+        "Configure robust, consistent account activity audit policies across the enterprise and with externally accessible services. (Citation: TechNet Audit Policy) Look for suspicious account behavior across systems that share accounts, either user, admin, or service accounts. Examples: one account logged into multiple systems simultaneously; multiple accounts logged into the same machine simultaneously; accounts logged in at odd times or outside of business hours. Activity may be from interactive login sessions or process ownership from accounts being used to execute binaries on a remote system as a particular account. Correlate other security systems with login information (e.g., a user has an active login session but has not entered the building or does not have VPN access).\n\nPerform regular audits of domain and local system accounts to detect accounts that may have been created by an adversary for persistence. Checks on these accounts could also include whether default accounts such as Guest have been activated. These audits should also include checks on any appliances and applications for default credentials or SSH keys, and if any are discovered, they should be updated immediately."
       ],
       "x_mitre_platforms": [
         "AWS",
         "Azure",
+        "Azure AD",
         "GCP",
         "Linux",
         "Office 365",
@@ -846,10 +860,10 @@
       ],
       "x_mitre_defense_bypassed": [
         "Anti-virus",
+        "Application control",
         "Firewall",
         "Host intrusion prevention systems",
         "Network intrusion detection system",
-        "Process whitelisting",
         "System access controls"
       ],
       "x_mitre_contributors": [
@@ -857,16 +871,16 @@
         "Netskope",
         "Praetorian"
       ],
-      "x_mitre_version": "2.0"
+      "x_mitre_version": "2.1"
     },
     {
       "type": "attack-pattern",
       "id": "attack-pattern--b80d107d-fa0d-4b60-9684-b0433e8bdba0",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
       "created": "2019-05-06T20:45:52.682Z",
-      "modified": "2020-03-18T19:43:32.040Z",
+      "modified": "2020-07-27T14:54:42.176Z",
       "name": "T1486: Data Encrypted for Impact",
-      "description": "Adversaries may encrypt data on target systems or on large numbers of systems in a network to interrupt availability to system and network resources. They can attempt to render stored data inaccessible by encrypting files or data on local and remote drives and withholding access to a decryption key. This may be done in order to extract monetary compensation from a victim in exchange for decryption or a decryption key (ransomware) or to render data permanently inaccessible in cases where the key is not saved or transmitted.(Citation: US-CERT Ransomware 2016)(Citation: FireEye WannaCry 2017)(Citation: US-CERT NotPetya 2017)(Citation: US-CERT SamSam 2018) In the case of ransomware, it is typical that common user files like Office documents, PDFs, images, videos, audio, text, and source code files will be encrypted. In some cases, adversaries may encrypt critical system files, disk partitions, and the MBR.(Citation: US-CERT NotPetya 2017)\n\nTo maximize impact on the target organization, malware designed for encrypting data may have worm-like features to propagate across a network by leveraging other attack techniques like [Valid Accounts](https://attack.mitre.org/techniques/T1078), [Credential Dumping](https://attack.mitre.org/techniques/T1003), and [Windows Admin Shares](https://attack.mitre.org/techniques/T1077).(Citation: FireEye WannaCry 2017)(Citation: US-CERT NotPetya 2017)",
+      "description": "Adversaries may encrypt data on target systems or on large numbers of systems in a network to interrupt availability to system and network resources. They can attempt to render stored data inaccessible by encrypting files or data on local and remote drives and withholding access to a decryption key. This may be done in order to extract monetary compensation from a victim in exchange for decryption or a decryption key (ransomware) or to render data permanently inaccessible in cases where the key is not saved or transmitted.(Citation: US-CERT Ransomware 2016)(Citation: FireEye WannaCry 2017)(Citation: US-CERT NotPetya 2017)(Citation: US-CERT SamSam 2018) In the case of ransomware, it is typical that common user files like Office documents, PDFs, images, videos, audio, text, and source code files will be encrypted. In some cases, adversaries may encrypt critical system files, disk partitions, and the MBR.(Citation: US-CERT NotPetya 2017)\n\nTo maximize impact on the target organization, malware designed for encrypting data may have worm-like features to propagate across a network by leveraging other attack techniques like [Valid Accounts](https://attack.mitre.org/techniques/T1078), [OS Credential Dumping](https://attack.mitre.org/techniques/T1003), and [SMB/Windows Admin Shares](https://attack.mitre.org/techniques/T1021/002).(Citation: FireEye WannaCry 2017)(Citation: US-CERT NotPetya 2017)",
       "kill_chain_phases": [
         {
           "kill_chain_name": "lockheed",
@@ -934,86 +948,10 @@
     },
     {
       "type": "attack-pattern",
-      "id": "attack-pattern--ba8e391f-14b5-496f-81f2-2d5ecd646c1c",
-      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-03-18T19:43:54.849Z",
-      "name": "T1081: Credentials in Files",
-      "description": "Adversaries may search local file systems and remote file shares for files containing passwords. These can be files created by users to store their own credentials, shared credential stores for a group of individuals, configuration files containing passwords for a system or service, or source code/binary files containing embedded passwords.\n\nIt is possible to extract passwords from backups or saved virtual machines through [Credential Dumping](https://attack.mitre.org/techniques/T1003). (Citation: CG 2014) Passwords may also be obtained from Group Policy Preferences stored on the Windows Domain Controller. (Citation: SRD GPP)\n\nIn cloud environments, authenticated user credentials are often stored in local configuration and credential files. In some cases, these files can be copied and reused on another machine or the contents can be read and then used to authenticate without needing to copy any files. (Citation: Specter Ops - Cloud Credential Storage)",
-      "kill_chain_phases": [
-        {
-          "kill_chain_name": "lockheed",
-          "phase_name": "act-on-objectives"
-        },
-        {
-          "kill_chain_name": "mitre-attack",
-          "phase_name": "credential-access"
-        }
-      ],
-      "external_references": [
-        {
-          "source_name": "capec",
-          "url": "https://capec.mitre.org/data/definitions/639.html",
-          "external_id": "CAPEC-639"
-        },
-        {
-          "source_name": "CG 2014",
-          "url": "http://carnal0wnage.attackresearch.com/2014/05/mimikatz-against-virtual-machine-memory.html",
-          "description": "CG. (2014, May 20). Mimikatz Against Virtual Machine Memory Part 1. Retrieved November 12, 2014."
-        },
-        {
-          "source_name": "mitre-attack",
-          "url": "https://attack.mitre.org/techniques/T1081",
-          "external_id": "T1081"
-        },
-        {
-          "source_name": "Specter Ops - Cloud Credential Storage",
-          "url": "https://posts.specterops.io/head-in-the-clouds-bd038bb69e48",
-          "description": "Maddalena, C.. (2018, September 12). Head in the Clouds. Retrieved October 4, 2019."
-        },
-        {
-          "source_name": "SRD GPP",
-          "url": "http://blogs.technet.com/b/srd/archive/2014/05/13/ms14-025-an-update-for-group-policy-preferences.aspx",
-          "description": "Security Research and Defense. (2014, May 13). MS14-025: An Update for Group Policy Preferences. Retrieved January 28, 2015."
-        }
-      ],
-      "object_marking_refs": [
-        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
-      ],
-      "x_mitre_detection": [
-        "While detecting adversaries accessing these files may be difficult without knowing they exist in the first place, it may be possible to detect adversary use of credentials they have obtained. Monitor the command-line arguments of executing processes for suspicious words or regular expressions that may indicate searching for a password (for example: password, pwd, login, secure, or credentials). See [Valid Accounts](https://attack.mitre.org/techniques/T1078) for more information."
-      ],
-      "x_mitre_platforms": [
-        "AWS",
-        "Azure",
-        "GCP",
-        "Linux",
-        "Windows",
-        "macOS"
-      ],
-      "x_mitre_data_sources": [
-        "File monitoring",
-        "Process command-line parameters"
-      ],
-      "x_mitre_permissions_required": [
-        "Administrator",
-        "SYSTEM",
-        "User"
-      ],
-      "x_mitre_system_requirements": [
-        "Access to files"
-      ],
-      "x_mitre_contributors": [
-        "Microsoft Threat Intelligence Center (MSTIC)"
-      ],
-      "x_mitre_version": "1.1"
-    },
-    {
-      "type": "attack-pattern",
       "id": "attack-pattern--f5d8eed6-48a9-4cdf-a3d7-d1ffa99c3d2a",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
       "created": "2019-05-06T20:46:09.861Z",
-      "modified": "2020-03-18T19:44:01.552Z",
+      "modified": "2020-07-27T14:54:42.176Z",
       "name": "T1490: Inhibit System Recovery",
       "description": "Adversaries may delete or remove built-in operating system data and turn off services designed to aid in the recovery of a corrupted system to prevent recovery.(Citation: Talos Olympic Destroyer 2018)(Citation: FireEye WannaCry 2017) Operating systems may contain features that can help fix corrupted systems, such as a backup catalog, volume shadow copies, and automatic repair features. Adversaries may disable or delete system recovery features to augment the effects of [Data Destruction](https://attack.mitre.org/techniques/T1485) and [Data Encrypted for Impact](https://attack.mitre.org/techniques/T1486).(Citation: Talos Olympic Destroyer 2018)(Citation: FireEye WannaCry 2017)\n\nA number of native Windows utilities have been used by adversaries to disable or delete system recovery features:\n\n* <code>vssadmin.exe</code> can be used to delete all volume shadow copies on a system - <code>vssadmin.exe delete shadows /all /quiet</code>\n* [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) can be used to delete volume shadow copies - <code>wmic shadowcopy delete</code>\n* <code>wbadmin.exe</code> can be used to delete the Windows Backup Catalog - <code>wbadmin.exe delete catalog -quiet</code>\n* <code>bcdedit.exe</code> can be used to disable automatic Windows recovery features by modifying boot configuration data - <code>bcdedit.exe /set {default} bootstatuspolicy ignoreallfailures & bcdedit /set {default} recoveryenabled no</code>",
       "kill_chain_phases": [
@@ -2171,21 +2109,12 @@
     },
     {
       "type": "relationship",
-      "id": "relationship--02fefddc-fb1b-423f-a76b-7552dd211d4d",
-      "created": "2020-05-07T13:04:26.103Z",
-      "modified": "2020-06-26T13:02:55.803Z",
-      "relationship_type": "uses",
-      "source_ref": "campaign--c126763e-181b-4909-b4c7-cbc343d4641d",
-      "target_ref": "attack-pattern--02fefddc-fb1b-423f-a76b-7552dd211d4d"
-    },
-    {
-      "type": "relationship",
       "id": "relationship--0417ab3a-24ff-4b9f-b28e-e2fd2991388c",
       "created": "2020-06-23T19:50:42.481Z",
       "modified": "2020-06-26T13:02:55.809Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--5cadeb2b-82c7-4238-8ebd-297df586971e",
-      "target_ref": "attack-pattern--ba8e391f-14b5-496f-81f2-2d5ecd646c1c",
+      "target_ref": "attack-pattern--837f9164-50af-4ac0-8219-379d8a74cefc",
       "x_panw_coa_u42_panw_product": [
         "Cortex XDR Prevent"
       ]
@@ -2312,6 +2241,15 @@
     },
     {
       "type": "relationship",
+      "id": "relationship--1b7b1806-7746-41a1-a35d-e48dae25ddba",
+      "created": "2020-05-07T13:04:26.103Z",
+      "modified": "2020-06-26T13:02:55.803Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--c126763e-181b-4909-b4c7-cbc343d4641d",
+      "target_ref": "attack-pattern--1b7b1806-7746-41a1-a35d-e48dae25ddba"
+    },
+    {
+      "type": "relationship",
       "id": "relationship--1bd8bd01-b433-4886-9ac4-2b659ea25080",
       "created": "2020-05-14T16:27:38.714Z",
       "modified": "2020-06-18T22:03:59.401Z",
@@ -2347,7 +2285,7 @@
       "modified": "2020-06-18T22:03:59.393Z",
       "relationship_type": "uses",
       "source_ref": "campaign--c126763e-181b-4909-b4c7-cbc343d4641d",
-      "target_ref": "attack-pattern--9422fc14-1c43-410d-ab0f-a709b76c72dc"
+      "target_ref": "attack-pattern--9efb1ea7-c37b-4595-9640-b7680cd84279"
     },
     {
       "type": "relationship",
@@ -2356,7 +2294,7 @@
       "modified": "2020-06-26T13:02:55.807Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--79fd0d10-6272-4191-8b8d-9c72f19358d0",
-      "target_ref": "attack-pattern--6aac77c4-eaf2-4366-8c13-ce50ab951f38",
+      "target_ref": "attack-pattern--2e34237d-8574-43f6-aace-ae2915de8597",
       "x_panw_coa_u42_panw_product": [
         "Wildfire"
       ]
@@ -2389,7 +2327,7 @@
       "modified": "2020-06-26T13:02:55.809Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--911488bc-ccbb-45bb-a6b1-1c172c00beb2",
-      "target_ref": "attack-pattern--9422fc14-1c43-410d-ab0f-a709b76c72dc",
+      "target_ref": "attack-pattern--9efb1ea7-c37b-4595-9640-b7680cd84279",
       "x_panw_coa_u42_panw_product": [
         "Cortex XDR Prevent"
       ]
@@ -2402,6 +2340,15 @@
       "relationship_type": "uses",
       "source_ref": "campaign--c126763e-181b-4909-b4c7-cbc343d4641d",
       "target_ref": "attack-pattern--b80d107d-fa0d-4b60-9684-b0433e8bdba0"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--2e34237d-8574-43f6-aace-ae2915de8597",
+      "created": "2020-05-07T13:04:26.103Z",
+      "modified": "2020-06-26T13:02:55.803Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--c126763e-181b-4909-b4c7-cbc343d4641d",
+      "target_ref": "attack-pattern--2e34237d-8574-43f6-aace-ae2915de8597"
     },
     {
       "type": "relationship",
@@ -2443,7 +2390,7 @@
       "modified": "2020-06-26T13:02:55.809Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--911488bc-ccbb-45bb-a6b1-1c172c00beb2",
-      "target_ref": "attack-pattern--ba8e391f-14b5-496f-81f2-2d5ecd646c1c",
+      "target_ref": "attack-pattern--837f9164-50af-4ac0-8219-379d8a74cefc",
       "x_panw_coa_u42_panw_product": [
         "Cortex XDR Prevent"
       ]
@@ -2464,7 +2411,7 @@
       "modified": "2020-06-26T13:02:55.807Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--65b33218-a589-4060-93c7-03ab3dc17a42",
-      "target_ref": "attack-pattern--6aac77c4-eaf2-4366-8c13-ce50ab951f38",
+      "target_ref": "attack-pattern--2e34237d-8574-43f6-aace-ae2915de8597",
       "x_panw_coa_u42_panw_product": [
         "Cortex XDR Prevent"
       ]
@@ -2476,7 +2423,7 @@
       "modified": "2020-06-26T13:02:55.807Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--a79d2365-61c7-48b9-b024-e2020b99bba0",
-      "target_ref": "attack-pattern--6aac77c4-eaf2-4366-8c13-ce50ab951f38",
+      "target_ref": "attack-pattern--2e34237d-8574-43f6-aace-ae2915de8597",
       "x_panw_coa_u42_panw_product": [
         "Wildfire"
       ]
@@ -2627,7 +2574,7 @@
       "modified": "2020-06-18T22:03:59.401Z",
       "relationship_type": "uses",
       "source_ref": "campaign--c126763e-181b-4909-b4c7-cbc343d4641d",
-      "target_ref": "attack-pattern--ba8e391f-14b5-496f-81f2-2d5ecd646c1c"
+      "target_ref": "attack-pattern--837f9164-50af-4ac0-8219-379d8a74cefc"
     },
     {
       "type": "relationship",
@@ -2636,7 +2583,7 @@
       "modified": "2020-06-18T22:03:59.401Z",
       "relationship_type": "uses",
       "source_ref": "campaign--c126763e-181b-4909-b4c7-cbc343d4641d",
-      "target_ref": "attack-pattern--6aac77c4-eaf2-4366-8c13-ce50ab951f38"
+      "target_ref": "attack-pattern--2e34237d-8574-43f6-aace-ae2915de8597"
     },
     {
       "type": "relationship",
@@ -2645,7 +2592,7 @@
       "modified": "2020-06-26T13:02:55.807Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--f4d50de0-ecc5-4f9e-b8f7-214cdfe28d39",
-      "target_ref": "attack-pattern--6aac77c4-eaf2-4366-8c13-ce50ab951f38",
+      "target_ref": "attack-pattern--2e34237d-8574-43f6-aace-ae2915de8597",
       "x_panw_coa_u42_panw_product": [
         "Wildfire"
       ]
@@ -2657,7 +2604,7 @@
       "modified": "2020-06-26T13:02:55.807Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--645c6c45-116e-4265-98d2-e30f56325bc6",
-      "target_ref": "attack-pattern--6aac77c4-eaf2-4366-8c13-ce50ab951f38",
+      "target_ref": "attack-pattern--2e34237d-8574-43f6-aace-ae2915de8597",
       "x_panw_coa_u42_panw_product": [
         "Threat Prevention"
       ]
@@ -2669,7 +2616,7 @@
       "modified": "2020-06-26T13:02:55.808Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--a5683f69-6e63-42b6-a671-604b8e40eb9a",
-      "target_ref": "attack-pattern--6aac77c4-eaf2-4366-8c13-ce50ab951f38",
+      "target_ref": "attack-pattern--2e34237d-8574-43f6-aace-ae2915de8597",
       "x_panw_coa_u42_panw_product": [
         "XSOAR"
       ]
@@ -2737,7 +2684,7 @@
       "modified": "2020-06-26T13:02:55.808Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--73a0424d-4238-48d2-9dca-676e986644f2",
-      "target_ref": "attack-pattern--6aac77c4-eaf2-4366-8c13-ce50ab951f38",
+      "target_ref": "attack-pattern--2e34237d-8574-43f6-aace-ae2915de8597",
       "x_panw_coa_u42_panw_product": [
         "XSOAR"
       ]
@@ -2835,15 +2782,6 @@
     },
     {
       "type": "relationship",
-      "id": "relationship--6aac77c4-eaf2-4366-8c13-ce50ab951f38",
-      "created": "2020-05-07T13:04:26.103Z",
-      "modified": "2020-06-26T13:02:55.803Z",
-      "relationship_type": "uses",
-      "source_ref": "campaign--c126763e-181b-4909-b4c7-cbc343d4641d",
-      "target_ref": "attack-pattern--6aac77c4-eaf2-4366-8c13-ce50ab951f38"
-    },
-    {
-      "type": "relationship",
       "id": "relationship--6ab3a547-6afb-4ae2-b4c7-9ab9c45de5e0",
       "created": "2020-06-23T19:50:42.481Z",
       "modified": "2020-06-26T13:02:55.808Z",
@@ -2891,7 +2829,7 @@
       "modified": "2020-06-26T13:02:55.807Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--28f61b3c-18a6-4991-8a17-7cfcd388136c",
-      "target_ref": "attack-pattern--6aac77c4-eaf2-4366-8c13-ce50ab951f38",
+      "target_ref": "attack-pattern--2e34237d-8574-43f6-aace-ae2915de8597",
       "x_panw_coa_u42_panw_product": [
         "NGFW"
       ]
@@ -2982,7 +2920,7 @@
       "modified": "2020-06-26T13:02:55.807Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--a592acb0-98ba-4a8e-a5cf-2e78d2806e75",
-      "target_ref": "attack-pattern--6aac77c4-eaf2-4366-8c13-ce50ab951f38",
+      "target_ref": "attack-pattern--2e34237d-8574-43f6-aace-ae2915de8597",
       "x_panw_coa_u42_panw_product": [
         "Wildfire"
       ]
@@ -3007,6 +2945,15 @@
       "relationship_type": "uses",
       "source_ref": "campaign--c126763e-181b-4909-b4c7-cbc343d4641d",
       "target_ref": "attack-pattern--82caa33e-d11a-433a-94ea-9b5a5fbef81d"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--837f9164-50af-4ac0-8219-379d8a74cefc",
+      "created": "2020-05-07T13:04:26.103Z",
+      "modified": "2020-06-26T13:02:55.803Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--c126763e-181b-4909-b4c7-cbc343d4641d",
+      "target_ref": "attack-pattern--837f9164-50af-4ac0-8219-379d8a74cefc"
     },
     {
       "type": "relationship",
@@ -3102,21 +3049,12 @@
     },
     {
       "type": "relationship",
-      "id": "relationship--9422fc14-1c43-410d-ab0f-a709b76c72dc",
-      "created": "2020-05-07T13:04:26.103Z",
-      "modified": "2020-06-26T13:02:55.803Z",
-      "relationship_type": "uses",
-      "source_ref": "campaign--c126763e-181b-4909-b4c7-cbc343d4641d",
-      "target_ref": "attack-pattern--9422fc14-1c43-410d-ab0f-a709b76c72dc"
-    },
-    {
-      "type": "relationship",
       "id": "relationship--942b7743-cd01-4944-a2c4-29258d0667aa",
       "created": "2020-06-23T19:50:42.481Z",
       "modified": "2020-06-26T13:02:55.807Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--befa473a-9ac8-4ff8-b0fe-be0e47821896",
-      "target_ref": "attack-pattern--6aac77c4-eaf2-4366-8c13-ce50ab951f38",
+      "target_ref": "attack-pattern--2e34237d-8574-43f6-aace-ae2915de8597",
       "x_panw_coa_u42_panw_product": [
         "Threat Prevention"
       ]
@@ -3183,6 +3121,15 @@
     },
     {
       "type": "relationship",
+      "id": "relationship--9efb1ea7-c37b-4595-9640-b7680cd84279",
+      "created": "2020-05-07T13:04:26.103Z",
+      "modified": "2020-06-26T13:02:55.803Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--c126763e-181b-4909-b4c7-cbc343d4641d",
+      "target_ref": "attack-pattern--9efb1ea7-c37b-4595-9640-b7680cd84279"
+    },
+    {
+      "type": "relationship",
       "id": "relationship--9f3246bb-dab4-4722-add7-40fa0cc722df",
       "created": "2020-06-23T19:50:42.481Z",
       "modified": "2020-06-26T13:02:55.809Z",
@@ -3245,7 +3192,7 @@
       "modified": "2020-06-26T13:02:55.809Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--911488bc-ccbb-45bb-a6b1-1c172c00beb2",
-      "target_ref": "attack-pattern--02fefddc-fb1b-423f-a76b-7552dd211d4d",
+      "target_ref": "attack-pattern--1b7b1806-7746-41a1-a35d-e48dae25ddba",
       "x_panw_coa_u42_panw_product": [
         "Cortex XDR Prevent"
       ]
@@ -3257,7 +3204,7 @@
       "modified": "2020-06-26T13:02:55.809Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--09171ec1-7fe6-4452-80c7-ef7c26324782",
-      "target_ref": "attack-pattern--ba8e391f-14b5-496f-81f2-2d5ecd646c1c",
+      "target_ref": "attack-pattern--837f9164-50af-4ac0-8219-379d8a74cefc",
       "x_panw_coa_u42_panw_product": [
         "Cortex XDR Prevent"
       ]
@@ -3281,7 +3228,7 @@
       "modified": "2020-06-18T22:03:59.391Z",
       "relationship_type": "uses",
       "source_ref": "campaign--c126763e-181b-4909-b4c7-cbc343d4641d",
-      "target_ref": "attack-pattern--02fefddc-fb1b-423f-a76b-7552dd211d4d"
+      "target_ref": "attack-pattern--1b7b1806-7746-41a1-a35d-e48dae25ddba"
     },
     {
       "type": "relationship",
@@ -3311,7 +3258,7 @@
       "modified": "2020-06-26T13:02:55.807Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--ef5f68d8-9522-40b4-890c-31ece644687d",
-      "target_ref": "attack-pattern--6aac77c4-eaf2-4366-8c13-ce50ab951f38",
+      "target_ref": "attack-pattern--2e34237d-8574-43f6-aace-ae2915de8597",
       "x_panw_coa_u42_panw_product": [
         "Wildfire"
       ]
@@ -3368,7 +3315,7 @@
       "modified": "2020-06-26T13:02:55.809Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--5cadeb2b-82c7-4238-8ebd-297df586971e",
-      "target_ref": "attack-pattern--02fefddc-fb1b-423f-a76b-7552dd211d4d",
+      "target_ref": "attack-pattern--1b7b1806-7746-41a1-a35d-e48dae25ddba",
       "x_panw_coa_u42_panw_product": [
         "Cortex XDR Prevent"
       ]
@@ -3420,7 +3367,7 @@
       "modified": "2020-06-26T13:02:55.807Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--fd0da09e-a0b2-4018-9476-1a7edd809b59",
-      "target_ref": "attack-pattern--6aac77c4-eaf2-4366-8c13-ce50ab951f38",
+      "target_ref": "attack-pattern--2e34237d-8574-43f6-aace-ae2915de8597",
       "x_panw_coa_u42_panw_product": [
         "Wildfire"
       ]
@@ -3469,15 +3416,6 @@
       "x_panw_coa_u42_panw_product": [
         "Wildfire"
       ]
-    },
-    {
-      "type": "relationship",
-      "id": "relationship--ba8e391f-14b5-496f-81f2-2d5ecd646c1c",
-      "created": "2020-05-07T13:04:26.103Z",
-      "modified": "2020-06-26T13:02:55.803Z",
-      "relationship_type": "uses",
-      "source_ref": "campaign--c126763e-181b-4909-b4c7-cbc343d4641d",
-      "target_ref": "attack-pattern--ba8e391f-14b5-496f-81f2-2d5ecd646c1c"
     },
     {
       "type": "relationship",
@@ -3639,7 +3577,7 @@
       "type": "relationship",
       "id": "relationship--def4456e-1b28-4686-a3e7-128d06b99895",
       "created": "2020-05-07T13:03:15.751Z",
-      "modified": "2020-06-26T19:00:45.388Z",
+      "modified": "2020-07-30T16:55:52.168Z",
       "relationship_type": "attributed-to",
       "source_ref": "report--def4456e-1b28-4686-a3e7-128d06b99895",
       "target_ref": "intrusion-set--8597e984-1559-4330-9e93-f5e1d0918ef2"
@@ -3728,7 +3666,7 @@
       "modified": "2020-06-26T13:02:55.809Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--5c7619c9-3741-4bcb-920e-755769c77589",
-      "target_ref": "attack-pattern--9422fc14-1c43-410d-ab0f-a709b76c72dc",
+      "target_ref": "attack-pattern--9efb1ea7-c37b-4595-9640-b7680cd84279",
       "x_panw_coa_u42_panw_product": [
         "Cortex XDR Prevent"
       ]
@@ -3740,7 +3678,7 @@
       "modified": "2020-06-26T13:02:55.807Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--8190ac5a-8a5e-41bc-85dd-62e0f5cdd2ba",
-      "target_ref": "attack-pattern--6aac77c4-eaf2-4366-8c13-ce50ab951f38",
+      "target_ref": "attack-pattern--2e34237d-8574-43f6-aace-ae2915de8597",
       "x_panw_coa_u42_panw_product": [
         "Wildfire"
       ]
@@ -3752,7 +3690,7 @@
       "modified": "2020-06-26T13:02:55.809Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--5cadeb2b-82c7-4238-8ebd-297df586971e",
-      "target_ref": "attack-pattern--9422fc14-1c43-410d-ab0f-a709b76c72dc",
+      "target_ref": "attack-pattern--9efb1ea7-c37b-4595-9640-b7680cd84279",
       "x_panw_coa_u42_panw_product": [
         "Cortex XDR Prevent"
       ]
@@ -3881,20 +3819,20 @@
       "name": "Campaign 1 - EKANS Ransomware",
       "published": "2020-06-26T13:02:55.803Z",
       "object_refs": [
-        "attack-pattern--02fefddc-fb1b-423f-a76b-7552dd211d4d",
+        "attack-pattern--1b7b1806-7746-41a1-a35d-e48dae25ddba",
         "attack-pattern--20fb2507-d71c-455d-9b6d-6104461cf26b",
+        "attack-pattern--2e34237d-8574-43f6-aace-ae2915de8597",
         "attack-pattern--30208d3e-0d6b-43c8-883e-44462a514619",
         "attack-pattern--35dd844a-b219-4e2b-a6bb-efa9a75995a9",
         "attack-pattern--3c4a2599-71ee-4405-ba1e-0e28414b4bc5",
-        "attack-pattern--6aac77c4-eaf2-4366-8c13-ce50ab951f38",
         "attack-pattern--7bc57495-ea59-4380-be31-a64af124ef18",
         "attack-pattern--82caa33e-d11a-433a-94ea-9b5a5fbef81d",
+        "attack-pattern--837f9164-50af-4ac0-8219-379d8a74cefc",
         "attack-pattern--8c32eb4d-805f-4fc5-bf60-c4d476c131b5",
         "attack-pattern--8f4a33ec-8b1f-4b80-a2f6-642b2e479580",
-        "attack-pattern--9422fc14-1c43-410d-ab0f-a709b76c72dc",
+        "attack-pattern--9efb1ea7-c37b-4595-9640-b7680cd84279",
         "attack-pattern--b17a1a56-e99c-403c-8948-561df0cffe81",
         "attack-pattern--b80d107d-fa0d-4b60-9684-b0433e8bdba0",
-        "attack-pattern--ba8e391f-14b5-496f-81f2-2d5ecd646c1c",
         "attack-pattern--f5d8eed6-48a9-4cdf-a3d7-d1ffa99c3d2a",
         "attack-pattern--f72eb8a8-cd4c-461d-a814-3f862befbf00",
         "campaign--c126763e-181b-4909-b4c7-cbc343d4641d",
@@ -3963,7 +3901,6 @@
         "indicator--e5ff0c1e-64a9-4bf5-bd62-d97769a777cb",
         "intrusion-set--8597e984-1559-4330-9e93-f5e1d0918ef2",
         "malware--132e524f-5797-4ef6-b57c-38b2690efa4d",
-        "relationship--02fefddc-fb1b-423f-a76b-7552dd211d4d",
         "relationship--0417ab3a-24ff-4b9f-b28e-e2fd2991388c",
         "relationship--05f41c44-8180-4a23-9eb5-db4551ea4090",
         "relationship--06abb6c9-7048-4047-89b3-f941c455a4d5",
@@ -3976,6 +3913,7 @@
         "relationship--1269f527-e829-4841-b3bb-45f1274fbb33",
         "relationship--165f6c9f-2b38-4de6-8958-7ec9e2912bb5",
         "relationship--17ab2b13-a831-4bc6-9994-4cbedf31698d",
+        "relationship--1b7b1806-7746-41a1-a35d-e48dae25ddba",
         "relationship--1bd8bd01-b433-4886-9ac4-2b659ea25080",
         "relationship--20d2c714-b041-48c3-a3a3-20d9b9f7d1ba",
         "relationship--20fb2507-d71c-455d-9b6d-6104461cf26b",
@@ -3985,6 +3923,7 @@
         "relationship--28a5a536-2f5f-415b-a268-79bb7b2d7a1c",
         "relationship--2d2330c7-2625-4550-8e1a-4fc7be2f41d9",
         "relationship--2d371f00-070b-40f8-bfe5-a802fa5cd746",
+        "relationship--2e34237d-8574-43f6-aace-ae2915de8597",
         "relationship--2fe72a9c-2bed-4f6b-8fcc-a19cb266e8b9",
         "relationship--30208d3e-0d6b-43c8-883e-44462a514619",
         "relationship--302d533a-d8d4-454e-b5c1-8252d7c71f02",
@@ -4025,7 +3964,6 @@
         "relationship--68586003-b036-4598-a957-a96d5a67b77b",
         "relationship--698a46a8-2f2f-4077-bede-c20de9fef5e3",
         "relationship--6a5ff5bb-8171-4eda-89c2-6ea5fe93aef5",
-        "relationship--6aac77c4-eaf2-4366-8c13-ce50ab951f38",
         "relationship--6ab3a547-6afb-4ae2-b4c7-9ab9c45de5e0",
         "relationship--6c6ca1f0-9d52-4014-885b-17fde4d4ec90",
         "relationship--6cc93366-1230-4836-b6e9-bcd45e522ef0",
@@ -4042,6 +3980,7 @@
         "relationship--7e9630ed-efeb-4622-9f64-b5e636533e50",
         "relationship--81a1034e-9b48-4567-8fd6-d86d1b926c41",
         "relationship--82caa33e-d11a-433a-94ea-9b5a5fbef81d",
+        "relationship--837f9164-50af-4ac0-8219-379d8a74cefc",
         "relationship--83a5a118-a25b-4499-87bf-0e15153bdbce",
         "relationship--8612cfee-90a7-4ce1-9b4a-aa5fddd15695",
         "relationship--8c32eb4d-805f-4fc5-bf60-c4d476c131b5",
@@ -4051,13 +3990,13 @@
         "relationship--8e15ba8f-7ed2-4c1d-be68-dc5e66c4be97",
         "relationship--8f4a33ec-8b1f-4b80-a2f6-642b2e479580",
         "relationship--8ffcfda6-33ef-4fcd-ba11-afce2a26b2b3",
-        "relationship--9422fc14-1c43-410d-ab0f-a709b76c72dc",
         "relationship--942b7743-cd01-4944-a2c4-29258d0667aa",
         "relationship--94df8915-193d-4b00-b530-7ec3b4f0dd7c",
         "relationship--9639cfd6-c065-4df8-b100-91074c5f5d9b",
         "relationship--9d7f6452-2793-40cb-ab38-966196d1b12b",
         "relationship--9dd1066b-d388-4c09-8a2b-748e8452c87c",
         "relationship--9ed809cb-6ffa-4edc-8914-97ae7e43c75f",
+        "relationship--9efb1ea7-c37b-4595-9640-b7680cd84279",
         "relationship--9f3246bb-dab4-4722-add7-40fa0cc722df",
         "relationship--a02f18f3-0404-43c4-b046-6716a58cde2a",
         "relationship--a250cc83-a100-4d27-8750-a1f64a2e8105",
@@ -4084,7 +4023,6 @@
         "relationship--b80d107d-fa0d-4b60-9684-b0433e8bdba0",
         "relationship--b821961f-c079-4c4a-867b-77f9be241ee9",
         "relationship--b924249f-1ca8-4ea6-897d-db5187addc93",
-        "relationship--ba8e391f-14b5-496f-81f2-2d5ecd646c1c",
         "relationship--bf4d19f5-2ca2-4c6d-942e-ae85d56f3b0a",
         "relationship--c126763e-181b-4909-b4c7-cbc343d4641d",
         "relationship--c46b87b5-c3ea-49d9-939d-815481c454f4",

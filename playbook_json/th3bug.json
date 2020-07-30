@@ -7,10 +7,10 @@
       "type": "report",
       "id": "report--0e80709c-a2c8-4b54-9769-562f1d0405ef",
       "created": "2019-05-01T15:51:04.377Z",
-      "modified": "2020-06-26T19:00:33.475Z",
+      "modified": "2020-07-30T16:55:40.805Z",
       "name": "Th3Bug",
       "description": "Threat Group focusing on Energy, Chemical Industry, Healthcare and Pharma industries. Nitro is known for targeted spear phishing campaigns and using Poison Ivy malware. ",
-      "published": "2020-06-26T19:00:33.475Z",
+      "published": "2020-07-30T16:55:40.805Z",
       "object_refs": [
         "intrusion-set--90ba5c1f-2704-487c-8da9-523fcd023d5a",
         "report--352e36e2-33ad-4065-a080-f13778ce9593"
@@ -31,9 +31,9 @@
       "id": "attack-pattern--42e8de7b-37b2-4258-905a-6897815e58e0",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
       "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-03-18T19:44:06.083Z",
+      "modified": "2020-07-27T14:54:36.978Z",
       "name": "T1036: Masquerading",
-      "description": "Masquerading occurs when the name or location of an executable, legitimate or malicious, is manipulated or abused for the sake of evading defenses and observation. Several different variations of this technique have been observed.\n\nOne variant is for an executable to be placed in a commonly trusted directory or given the name of a legitimate, trusted program. Alternatively, the filename given may be a close approximation of legitimate programs or something innocuous. An example of this is when a common system utility or program is moved and renamed to avoid detection based on its usage.(Citation: FireEye APT10 Sept 2018) This is done to bypass tools that trust executables by relying on file name or path, as well as to deceive defenders and system administrators into thinking a file is benign by associating the name with something that is thought to be legitimate.\n\nA third variant uses the right-to-left override (RTLO or RLO) character (U+202E) as a means of tricking a user into executing what they think is a benign file type but is actually executable code. RTLO is a non-printing character that causes the text that follows it to be displayed in reverse.(Citation: Infosecinstitute RTLO Technique) For example, a Windows screensaver file named\u00a0<code>March 25 \\u202Excod.scr</code> will display as <code>March 25 rcs.docx</code>. A JavaScript file named <code>photo_high_re\\u202Egnp.js</code> will be displayed as <code>photo_high_resj.png</code>. A common use of this technique is with spearphishing attachments since it can trick both end users and defenders if they are not aware of how their tools display and render the RTLO character. Use of the RTLO character has been seen in many targeted intrusion attempts and criminal activity.(Citation: Trend Micro PLEAD RTLO)(Citation: Kaspersky RTLO Cyber Crime) RTLO can be used in the Windows Registry as well, where regedit.exe displays the reversed characters but the command line tool reg.exe does not by default.\u00a0\n\nAdversaries may modify a binary's metadata, including such fields as icons, version, name of the product, description, and copyright, to better blend in with the environment and increase chances of deceiving a security analyst or product.(Citation: Threatexpress MetaTwin 2017)\n\n### Windows\nIn another variation of this technique, an adversary may use a renamed copy of a legitimate utility, such as rundll32.exe. (Citation: Endgame Masquerade Ball) An alternative case occurs when a legitimate utility is moved to a different directory and also renamed to avoid detections based on system utilities executing from non-standard paths. (Citation: F-Secure CozyDuke)\n\nAn example of abuse of trusted locations in Windows would be the <code>C:\\Windows\\System32</code> directory. Examples of trusted binary names that can be given to malicious binares include \"explorer.exe\" and \"svchost.exe\".\n\n### Linux\nAnother variation of this technique includes malicious binaries changing the name of their running process to that of a trusted or benign process, after they have been launched as opposed to before. (Citation: Remaiten)\n\nAn example of abuse of trusted locations in Linux  would be the <code>/bin</code> directory. Examples of trusted binary names that can be given to malicious binaries include \"rsyncd\" and \"dbus-inotifier\". (Citation: Fysbis Palo Alto Analysis)  (Citation: Fysbis Dr Web Analysis)",
+      "description": "Adversaries may attempt to manipulate features of their artifacts to make them appear legitimate or benign to users and/or security tools. Masquerading occurs when the name or location of an object, legitimate or malicious, is manipulated or abused for the sake of evading defenses and observation. This may include manipulating file metadata, tricking users into misidentifying the file type, and giving legitimate task or service names.\n\nRenaming abusable system utilities to evade security monitoring is also a form of [Masquerading](https://attack.mitre.org/techniques/T1036).(Citation: LOLBAS Main Site)",
       "kill_chain_phases": [
         {
           "kill_chain_name": "lockheed",
@@ -52,58 +52,18 @@
         },
         {
           "source_name": "Endgame Masquerade Ball",
-          "url": "https://www.endgame.com/blog/how-hunt-masquerade-ball",
+          "url": "http://pages.endgame.com/rs/627-YBU-612/images/EndgameJournal_The%20Masquerade%20Ball_Pages_R2.pdf",
           "description": "Ewing, P. (2016, October 31). How to Hunt: The Masquerade Ball. Retrieved October 31, 2016."
         },
         {
-          "source_name": "F-Secure CozyDuke",
-          "url": "https://www.f-secure.com/documents/996508/1030745/CozyDuke",
-          "description": "F-Secure Labs. (2015, April 22). CozyDuke: Malware Analysis. Retrieved December 10, 2015."
-        },
-        {
-          "source_name": "FireEye APT10 Sept 2018",
-          "url": "https://www.fireeye.com/blog/threat-research/2018/09/apt10-targeting-japanese-corporations-using-updated-ttps.html",
-          "description": "Matsuda, A., Muhammad I. (2018, September 13). APT10 Targeting Japanese Corporations Using Updated TTPs. Retrieved September 17, 2018."
-        },
-        {
-          "source_name": "Fysbis Dr Web Analysis",
-          "url": "https://vms.drweb.com/virus/?i=4276269",
-          "description": "Doctor Web. (2014, November 21). Linux.BackDoor.Fysbis.1. Retrieved December 7, 2017."
-        },
-        {
-          "source_name": "Fysbis Palo Alto Analysis",
-          "url": "https://researchcenter.paloaltonetworks.com/2016/02/a-look-into-fysbis-sofacys-linux-backdoor/",
-          "description": "Bryan Lee and Rob Downs. (2016, February 12). A Look Into Fysbis: Sofacy\u2019s Linux Backdoor. Retrieved September 10, 2017."
-        },
-        {
-          "source_name": "Infosecinstitute RTLO Technique",
-          "url": "https://resources.infosecinstitute.com/spoof-using-right-to-left-override-rtlo-technique-2/",
-          "description": "Security Ninja. (2015, April 16). Spoof Using Right to Left Override (RTLO) Technique. Retrieved April 22, 2019."
-        },
-        {
-          "source_name": "Kaspersky RTLO Cyber Crime",
-          "url": "https://securelist.com/zero-day-vulnerability-in-telegram/83800/",
-          "description": "Firsh, A.. (2018, February 13). Zero-day vulnerability in Telegram - Cybercriminals exploited Telegram flaw to launch multipurpose attacks. Retrieved April 22, 2019."
+          "source_name": "LOLBAS Main Site",
+          "url": "https://lolbas-project.github.io/",
+          "description": "LOLBAS. (n.d.). Living Off The Land Binaries and Scripts (and also Libraries). Retrieved February 10, 2020."
         },
         {
           "source_name": "mitre-attack",
           "url": "https://attack.mitre.org/techniques/T1036",
           "external_id": "T1036"
-        },
-        {
-          "source_name": "Remaiten",
-          "url": "https://www.welivesecurity.com/2016/03/30/meet-remaiten-a-linux-bot-on-steroids-targeting-routers-and-potentially-other-iot-devices/",
-          "description": "Michal Malik AND Marc-Etienne M.L\u00e9veill\u00e9. (2016, March 30). Meet Remaiten \u2013 a Linux bot on steroids targeting routers and potentially other IoT devices. Retrieved September 7, 2017."
-        },
-        {
-          "source_name": "Threatexpress MetaTwin 2017",
-          "url": "https://threatexpress.com/blogs/2017/metatwin-borrowing-microsoft-metadata-and-digital-signatures-to-hide-binaries/",
-          "description": "Vest, J. (2017, October 9). Borrowing Microsoft MetaData and Signatures to Hide Binary Payloads. Retrieved September 10, 2019."
-        },
-        {
-          "source_name": "Trend Micro PLEAD RTLO",
-          "url": "https://blog.trendmicro.com/trendlabs-security-intelligence/plead-targeted-attacks-against-taiwanese-government-agencies-2/",
-          "description": "Alintanahin, K.. (2014, May 23). PLEAD Targeted Attacks Against Taiwanese Government Agencies. Retrieved April 22, 2019."
         },
         {
           "source_name": "Twitter ItsReallyNick Masquerading Update",
@@ -115,7 +75,7 @@
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
       "x_mitre_detection": [
-        "Collect file hashes; file names that do not match their expected hash are suspect. Perform file monitoring; files with known names but in unusual locations are suspect. Likewise, files that are modified outside of an update or patch are suspect.\n\nIf file names are mismatched between the file name on disk and that of the binary's PE metadata, this is a likely indicator that a binary was renamed after it was compiled. Collecting and comparing disk and resource filenames for binaries by looking to see if the InternalName, OriginalFilename, and/or ProductName match what is expected could provide useful leads, but may not always be indicative of malicious activity. (Citation: Endgame Masquerade Ball) Do not focus on the possible names a file could have, but instead on the command-line arguments that are known to be used and are distinct because it will have a better rate of detection.(Citation: Twitter ItsReallyNick Masquerading Update)\n\nFor RTLO, detection methods should include looking for common formats of RTLO characters within filenames such as \"\\u202E\", \"[U+202E]\", and \"%E2%80%AE\". Defenders should also check their analysis tools to ensure they do not interpret the RTLO character and instead print the true name of the a file containing it."
+        "Collect file hashes; file names that do not match their expected hash are suspect. Perform file monitoring; files with known names but in unusual locations are suspect. Likewise, files that are modified outside of an update or patch are suspect.\n\nIf file names are mismatched between the file name on disk and that of the binary's PE metadata, this is a likely indicator that a binary was renamed after it was compiled. Collecting and comparing disk and resource filenames for binaries by looking to see if the InternalName, OriginalFilename, and/or ProductName match what is expected could provide useful leads, but may not always be indicative of malicious activity. (Citation: Endgame Masquerade Ball) Do not focus on the possible names a file could have, but instead on the command-line arguments that are known to be used and are distinct because it will have a better rate of detection.(Citation: Twitter ItsReallyNick Masquerading Update)\n\nLook for indications of common characters that may indicate an attempt to trick users into misidentifying the file type, such as a space as the last character of a file name or the right-to-left override characters\"\\u202E\", \"[U+202E]\", and \"%E2%80%AE\u201d."
       ],
       "x_mitre_platforms": [
         "Linux",
@@ -125,29 +85,30 @@
       "x_mitre_data_sources": [
         "Binary file metadata",
         "File monitoring",
+        "Process command-line parameters",
         "Process monitoring"
       ],
       "x_mitre_defense_bypassed": [
-        "Whitelisting by file name or path"
+        "Application control by file name or path"
       ],
       "x_mitre_contributors": [
         "Bartosz Jerzman",
         "David Lu, Tripwire",
-        "ENDGAME",
+        "Elastic",
         "Felipe Esp\u00f3sito, @Pr0teus",
         "Nick Carr, FireEye",
         "Oleg Kolesnikov, Securonix"
       ],
-      "x_mitre_version": "1.2"
+      "x_mitre_version": "1.3"
     },
     {
       "type": "attack-pattern",
       "id": "attack-pattern--d742a578-d70e-4d0e-96a6-02a9c30204e6",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
       "created": "2018-12-17T14:33:52.372Z",
-      "modified": "2020-03-18T19:43:42.214Z",
+      "modified": "2020-07-27T14:54:38.428Z",
       "name": "T1189: Drive-by Compromise",
-      "description": "A drive-by compromise is when an adversary gains access to a system through a user visiting a website over the normal course of browsing. With this technique, the user's web browser is typically targeted for exploitation, but adversaries may also use compromised websites for non-exploitation behavior such as acquiring application access tokens.\n\nMultiple ways of delivering exploit code to a browser exist, including:\n\n* A legitimate website is compromised where adversaries have injected some form of malicious code such as JavaScript, iFrames, and cross-site scripting.\n* Malicious ads are paid for and served through legitimate ad providers.\n* Built-in web application interfaces are leveraged for the insertion of any other kind of object that can be used to display web content or contain a script that executes on the visiting client (e.g. forum posts, comments, and other user controllable web content).\n\nOften the website used by an adversary is one visited by a specific community, such as government, a particular industry, or region, where the goal is to compromise a specific user or set of users based on a shared interest. This kind of targeted attack is referred to a strategic web compromise or watering hole attack. There are several known examples of this occurring. (Citation: Shadowserver Strategic Web Compromise)\n\nTypical drive-by compromise process:\n\n1. A user visits a website that is used to host the adversary controlled content.\n2. Scripts automatically execute, typically searching versions of the browser and plugins for a potentially vulnerable version. \n    * The user may be required to assist in this process by enabling scripting or active website components and ignoring warning dialog boxes.\n3. Upon finding a vulnerable version, exploit code is delivered to the browser.\n4. If exploitation is successful, then it will give the adversary code execution on the user's system unless other protections are in place.\n    * In some cases a second visit to the website after the initial scan is required before exploit code is delivered.\n\nUnlike [Exploit Public-Facing Application](https://attack.mitre.org/techniques/T1190), the focus of this technique is to exploit software on a client endpoint upon visiting a website. This will commonly give an adversary access to systems on the internal network instead of external systems that may be in a DMZ.\n\nAdversaries may also use compromised websites to deliver a user to a malicious application designed to [Steal Application Access Token](https://attack.mitre.org/techniques/T1528)s, like OAuth tokens, to gain access to protected applications and information. These malicious applications have been delivered through popups on legitimate websites.(Citation: Volexity OceanLotus Nov 2017)",
+      "description": "Adversaries may gain access to a system through a user visiting a website over the normal course of browsing. With this technique, the user's web browser is typically targeted for exploitation, but adversaries may also use compromised websites for non-exploitation behavior such as acquiring [Application Access Token](https://attack.mitre.org/techniques/T1550/001).\n\nMultiple ways of delivering exploit code to a browser exist, including:\n\n* A legitimate website is compromised where adversaries have injected some form of malicious code such as JavaScript, iFrames, and cross-site scripting.\n* Malicious ads are paid for and served through legitimate ad providers.\n* Built-in web application interfaces are leveraged for the insertion of any other kind of object that can be used to display web content or contain a script that executes on the visiting client (e.g. forum posts, comments, and other user controllable web content).\n\nOften the website used by an adversary is one visited by a specific community, such as government, a particular industry, or region, where the goal is to compromise a specific user or set of users based on a shared interest. This kind of targeted attack is referred to a strategic web compromise or watering hole attack. There are several known examples of this occurring.(Citation: Shadowserver Strategic Web Compromise)\n\nTypical drive-by compromise process:\n\n1. A user visits a website that is used to host the adversary controlled content.\n2. Scripts automatically execute, typically searching versions of the browser and plugins for a potentially vulnerable version. \n    * The user may be required to assist in this process by enabling scripting or active website components and ignoring warning dialog boxes.\n3. Upon finding a vulnerable version, exploit code is delivered to the browser.\n4. If exploitation is successful, then it will give the adversary code execution on the user's system unless other protections are in place.\n    * In some cases a second visit to the website after the initial scan is required before exploit code is delivered.\n\nUnlike [Exploit Public-Facing Application](https://attack.mitre.org/techniques/T1190), the focus of this technique is to exploit software on a client endpoint upon visiting a website. This will commonly give an adversary access to systems on the internal network instead of external systems that may be in a DMZ.\n\nAdversaries may also use compromised websites to deliver a user to a malicious application designed to [Steal Application Access Token](https://attack.mitre.org/techniques/T1528)s, like OAuth tokens, to gain access to protected applications and information. These malicious applications have been delivered through popups on legitimate websites.(Citation: Volexity OceanLotus Nov 2017)",
       "kill_chain_phases": [
         {
           "kill_chain_name": "lockheed",
@@ -202,32 +163,24 @@
         "Jeff Sakowicz, Microsoft Identity Developer Platform Services (IDPM Services)",
         "Saisha Agrawal, Microsoft Threat Intelligent Center (MSTIC)"
       ],
-      "x_mitre_version": "1.1"
+      "x_mitre_version": "1.2"
     },
     {
       "type": "attack-pattern",
       "id": "attack-pattern--e6919abc-99f9-4c6c-95a5-14761e7b2add",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
       "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-03-18T19:43:23.196Z",
-      "name": "T1105: Remote File Copy",
-      "description": "Files may be copied from one system to another to stage adversary tools or other files over the course of an operation. Files may be copied from an external adversary-controlled system through the Command and Control channel to bring tools into the victim network or through alternate protocols with another tool such as [FTP](https://attack.mitre.org/software/S0095). Files can also be copied over on Mac and Linux with native tools like scp, rsync, and sftp.\n\nAdversaries may also copy files laterally between internal victim systems to support Lateral Movement with remote Execution using inherent file sharing protocols such as file sharing over SMB to connected network shares or with authenticated connections with [Windows Admin Shares](https://attack.mitre.org/techniques/T1077) or [Remote Desktop Protocol](https://attack.mitre.org/techniques/T1076).",
+      "modified": "2020-07-27T14:54:37.764Z",
+      "name": "T1105: Ingress Tool Transfer",
+      "description": "Adversaries may transfer tools or other files from an external system into a compromised environment. Files may be copied from an external adversary controlled system through the command and control channel to bring tools into the victim network or through alternate protocols with another tool such as FTP. Files can also be copied over on Mac and Linux with native tools like scp, rsync, and sftp.",
       "kill_chain_phases": [
         {
           "kill_chain_name": "lockheed",
-          "phase_name": "act-on-objectives"
-        },
-        {
-          "kill_chain_name": "lockheed",
           "phase_name": "command-and-control"
         },
         {
           "kill_chain_name": "mitre-attack",
           "phase_name": "command-and-control"
-        },
-        {
-          "kill_chain_name": "mitre-attack",
-          "phase_name": "lateral-movement"
         }
       ],
       "external_references": [
@@ -246,7 +199,7 @@
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
       "x_mitre_detection": [
-        "Monitor for file creation and files transferred within a network over SMB. Unusual processes with external network connections creating files on-system may be suspicious. Use of utilities, such as FTP, that does not normally occur may also be suspicious.\n\nAnalyze network data for uncommon data flows (e.g., a client sending significantly more data than it receives from a server). Processes utilizing the network that do not normally have network communication or have never been seen before are suspicious. Analyze packet contents to detect communications that do not follow the expected protocol behavior for the port that is being used. (Citation: University of Birmingham C2)"
+        "Monitor for file creation and files transferred into the network. Unusual processes with external network connections creating files on-system may be suspicious. Use of utilities, such as FTP, that does not normally occur may also be suspicious.\n\nAnalyze network data for uncommon data flows (e.g., a client sending significantly more data than it receives from a server). Processes utilizing the network that do not normally have network communication or have never been seen before are suspicious. Analyze packet contents to detect communications that do not follow the expected protocol behavior for the port that is being used.(Citation: University of Birmingham C2)"
       ],
       "x_mitre_platforms": [
         "Linux",
@@ -258,16 +211,14 @@
         "Netflow/Enclave netflow",
         "Network protocol analysis",
         "Packet capture",
+        "Process command-line parameters",
         "Process monitoring",
         "Process use of network"
       ],
       "x_mitre_permissions_required": [
         "User"
       ],
-      "x_mitre_network_requirements": [
-        "true"
-      ],
-      "x_mitre_version": "1.0"
+      "x_mitre_version": "2.0"
     },
     {
       "type": "campaign",
@@ -1183,7 +1134,7 @@
       "type": "relationship",
       "id": "relationship--0e80709c-a2c8-4b54-9769-562f1d0405ef",
       "created": "2019-05-01T15:51:04.377Z",
-      "modified": "2020-06-26T19:00:33.475Z",
+      "modified": "2020-07-30T16:55:40.805Z",
       "relationship_type": "attributed-to",
       "source_ref": "report--0e80709c-a2c8-4b54-9769-562f1d0405ef",
       "target_ref": "intrusion-set--90ba5c1f-2704-487c-8da9-523fcd023d5a"

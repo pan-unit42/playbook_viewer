@@ -7,10 +7,10 @@
       "type": "report",
       "id": "report--64e83256-077b-41e7-a729-357ad21ce60c",
       "created": "2019-05-21T18:21:23.421Z",
-      "modified": "2020-06-26T19:00:24.472Z",
+      "modified": "2020-07-30T16:55:31.554Z",
       "name": "Emissary Panda",
       "description": "Emissary Panda (AKA, APT27, TG-3390, Bronze Union, Lucky Mouse) a Chinese threat group that has extensively used strategic Web compromises to target victims. The group has been active since at least 2010 and has targeted organizations in the aerospace, government, defense, technology, energy, and manufacturing sectors. As well as targeted attacks against other miscellaneous organizations around the world.\n\nIn 2015 and 2016 they continued to use known backdoors associated with them previously, including OwaShell & Wonknu. In 2017 & 2018 they have been notable for their targeting of Turkish organizations, and their use of older backdoors such as ZxShell and Gh0st.",
-      "published": "2020-06-26T19:00:24.472Z",
+      "published": "2020-07-30T16:55:31.554Z",
       "object_refs": [
         "intrusion-set--eeef6603-d891-476a-a600-0096b6fe072f",
         "report--443fc92f-1712-444e-872b-fd76106e61c2"
@@ -31,9 +31,9 @@
       "id": "attack-pattern--355be19c-ffc9-46d5-8d50-d6a036c675b6",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
       "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-03-18T19:43:34.371Z",
-      "name": "T1071: Standard Application Layer Protocol",
-      "description": "Adversaries may communicate using a common, standardized application layer protocol such as HTTP, HTTPS, SMTP, or DNS to avoid detection by blending in with existing traffic. Commands to the remote system, and often the results of those commands, will be embedded within the protocol traffic between the client and server.\n\nFor connections that occur internally within an enclave (such as those between a proxy or pivot node and other nodes), commonly used protocols are RPC, SSH, or RDP.",
+      "modified": "2020-07-27T14:54:37.379Z",
+      "name": "T1071: Application Layer Protocol",
+      "description": "Adversaries may communicate using application layer protocols to avoid detection/network filtering by blending in with existing traffic. Commands to the remote system, and often the results of those commands, will be embedded within the protocol traffic between the client and server. \n\nAdversaries may utilize many different protocols, including those used for web browsing, transferring files, electronic mail, or DNS. For connections that occur internally within an enclave (such as those between a proxy or pivot node and other nodes), commonly used protocols are SMB, SSH, or RDP.",
       "kill_chain_phases": [
         {
           "kill_chain_name": "lockheed",
@@ -60,7 +60,7 @@
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
       "x_mitre_detection": [
-        "Analyze network data for uncommon data flows (e.g., a client sending significantly more data than it receives from a server). Processes utilizing the network that do not normally have network communication or have never been seen before are suspicious. Analyze packet contents to detect application layer protocols that do not follow the expected protocol for the port that is being used. (Citation: University of Birmingham C2)"
+        "Analyze network data for uncommon data flows (e.g., a client sending significantly more data than it receives from a server). Processes utilizing the network that do not normally have network communication or have never been seen before are suspicious. Analyze packet contents to detect application layer protocols that do not follow the expected protocol standards regarding syntax, structure, or any other variable adversaries could leverage to conceal data.(Citation: University of Birmingham C2)"
       ],
       "x_mitre_platforms": [
         "Linux",
@@ -68,8 +68,9 @@
         "macOS"
       ],
       "x_mitre_data_sources": [
-        "Malware reverse engineering",
+        "DNS records",
         "Netflow/Enclave netflow",
+        "Network protocol analysis",
         "Packet capture",
         "Process monitoring",
         "Process use of network"
@@ -77,16 +78,16 @@
       "x_mitre_network_requirements": [
         "true"
       ],
-      "x_mitre_version": "1.0"
+      "x_mitre_version": "2.0"
     },
     {
       "type": "attack-pattern",
       "id": "attack-pattern--3f886f2a-874f-4333-b794-aa6075009b1c",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
       "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-03-18T19:43:33.603Z",
+      "modified": "2020-07-27T14:54:38.428Z",
       "name": "T1190: Exploit Public-Facing Application",
-      "description": "The use of software, data, or commands to take advantage of a weakness in an Internet-facing computer system or program in order to cause unintended or unanticipated behavior. The weakness in the system can be a bug, a glitch, or a design vulnerability. These applications are often websites, but can include databases (like SQL)(Citation: NVD CVE-2016-6662), standard services (like SMB(Citation: CIS Multiple SMB Vulnerabilities) or SSH), and any other applications with Internet accessible open sockets, such as web servers and related services.(Citation: NVD CVE-2014-7169) Depending on the flaw being exploited this may include [Exploitation for Defense Evasion](https://attack.mitre.org/techniques/T1211).\n\nIf an application is hosted on cloud-based infrastructure, then exploiting it may lead to compromise of the underlying instance. This can allow an adversary a path to access the cloud APIs or to take advantage of weak identity and access management policies.\n\nFor websites and databases, the OWASP top 10 and CWE top 25 highlight the most common web-based vulnerabilities.(Citation: OWASP Top 10)(Citation: CWE top 25)",
+      "description": "Adversaries may attempt to take advantage of a weakness in an Internet-facing computer or program using software, data, or commands in order to cause unintended or unanticipated behavior. The weakness in the system can be a bug, a glitch, or a design vulnerability. These applications are often websites, but can include databases (like SQL)(Citation: NVD CVE-2016-6662), standard services (like SMB(Citation: CIS Multiple SMB Vulnerabilities) or SSH), and any other applications with Internet accessible open sockets, such as web servers and related services.(Citation: NVD CVE-2014-7169) Depending on the flaw being exploited this may include [Exploitation for Defense Evasion](https://attack.mitre.org/techniques/T1211).\n\nIf an application is hosted on cloud-based infrastructure, then exploiting it may lead to compromise of the underlying instance. This can allow an adversary a path to access the cloud APIs or to take advantage of weak identity and access management policies.\n\nFor websites and databases, the OWASP top 10 and CWE top 25 highlight the most common web-based vulnerabilities.(Citation: OWASP Top 10)(Citation: CWE top 25)",
       "kill_chain_phases": [
         {
           "kill_chain_name": "lockheed",
@@ -155,16 +156,161 @@
       "x_mitre_contributors": [
         "Praetorian"
       ],
-      "x_mitre_version": "2"
+      "x_mitre_version": "2.1"
+    },
+    {
+      "type": "attack-pattern",
+      "id": "attack-pattern--4f9ca633-15c5-463c-9724-bdcd54fde541",
+      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "created": "2018-08-03T19:54:02.821Z",
+      "modified": "2020-07-27T14:54:36.653Z",
+      "name": "T1021.002: SMB/Windows Admin Shares",
+      "description": "Adversaries may use [Valid Accounts](https://attack.mitre.org/techniques/T1078) to interact with a remote network share using Server Message Block (SMB). The adversary may then perform actions as the logged-on user.\n\nSMB is a file, printer, and serial port sharing protocol for Windows machines on the same network or domain. Adversaries may use SMB to interact with file shares, allowing them to move laterally throughout a network. Linux and macOS implementations of SMB typically use Samba.\n\nWindows systems have hidden network shares that are accessible only to administrators and provide the ability for remote file copy and other administrative functions. Example network shares include `C$`, `ADMIN$`, and `IPC$`. Adversaries may use this technique in conjunction with administrator-level [Valid Accounts](https://attack.mitre.org/techniques/T1078) to remotely access a networked system over SMB,(Citation: Wikipedia Server Message Block) to interact with systems using remote procedure calls (RPCs),(Citation: TechNet RPC) transfer files, and run transferred binaries through remote Execution. Example execution techniques that rely on authenticated sessions over SMB/RPC are [Scheduled Task/Job](https://attack.mitre.org/techniques/T1053), [Service Execution](https://attack.mitre.org/techniques/T1569/002), and [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047). Adversaries can also use NTLM hashes to access administrator shares on systems with [Pass the Hash](https://attack.mitre.org/techniques/T1550/002) and certain configuration and patch levels.(Citation: Microsoft Admin Shares)",
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "lockheed",
+          "phase_name": "act-on-objectives"
+        },
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "lateral-movement"
+        }
+      ],
+      "external_references": [
+        {
+          "source_name": "capec",
+          "url": "https://capec.mitre.org/data/definitions/561.html",
+          "external_id": "CAPEC-561"
+        },
+        {
+          "source_name": "Lateral Movement Payne",
+          "url": "https://docs.microsoft.com/en-us/archive/blogs/jepayne/tracking-lateral-movement-part-one-special-groups-and-specific-service-accounts",
+          "description": "Payne, J. (2015, November 26). Tracking Lateral Movement Part One - Special Groups and Specific Service Accounts. Retrieved February 1, 2016."
+        },
+        {
+          "source_name": "Medium Detecting WMI Persistence",
+          "url": "https://medium.com/threatpunter/detecting-removing-wmi-persistence-60ccbb7dff96",
+          "description": "French, D. (2018, October 9). Detecting & Removing an Attacker\u2019s WMI Persistence. Retrieved October 11, 2019."
+        },
+        {
+          "source_name": "Microsoft Admin Shares",
+          "url": "http://support.microsoft.com/kb/314984",
+          "description": "Microsoft. (n.d.). How to create and delete hidden or administrative shares on client computers. Retrieved November 20, 2014."
+        },
+        {
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1021/002",
+          "external_id": "T1021.002"
+        },
+        {
+          "source_name": "TechNet RPC",
+          "url": "https://technet.microsoft.com/en-us/library/cc787851.aspx",
+          "description": "Microsoft. (2003, March 28). What Is RPC?. Retrieved June 12, 2016."
+        },
+        {
+          "source_name": "Wikipedia Server Message Block",
+          "url": "https://en.wikipedia.org/wiki/Server_Message_Block",
+          "description": "Wikipedia. (2017, December 16). Server Message Block. Retrieved December 21, 2017."
+        },
+        {
+          "source_name": "Windows Event Forwarding Payne",
+          "url": "https://docs.microsoft.com/en-us/archive/blogs/jepayne/monitoring-what-matters-windows-event-forwarding-for-everyone-even-if-you-already-have-a-siem",
+          "description": "Payne, J. (2015, November 23). Monitoring what matters - Windows Event Forwarding for everyone (even if you already have a SIEM.). Retrieved February 1, 2016."
+        }
+      ],
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ],
+      "x_mitre_detection": [
+        "Ensure that proper logging of accounts used to log into systems is turned on and centrally collected. Windows logging is able to collect success/failure for accounts that may be used to move laterally and can be collected using tools such as Windows Event Forwarding. (Citation: Lateral Movement Payne)(Citation: Windows Event Forwarding Payne) Monitor remote login events and associated SMB activity for file transfers and remote process execution. Monitor the actions of remote users who connect to administrative shares. Monitor for use of tools and commands to connect to remote shares, such as [Net](https://attack.mitre.org/software/S0039), on the command-line interface and Discovery techniques that could be used to find remotely accessible systems.(Citation: Medium Detecting WMI Persistence)"
+      ],
+      "x_mitre_platforms": [
+        "Windows"
+      ],
+      "x_mitre_data_sources": [
+        "Authentication logs",
+        "Process command-line parameters",
+        "Process monitoring",
+        "Process use of network"
+      ],
+      "x_mitre_permissions_required": [
+        "Administrator",
+        "User"
+      ],
+      "x_mitre_system_requirements": [
+        "SMB enabled; Host/network firewalls not blocking SMB ports between source and destination; Use of domain account in administrator group on remote system or default system admin account."
+      ],
+      "x_mitre_version": "1.0"
+    },
+    {
+      "type": "attack-pattern",
+      "id": "attack-pattern--5d0d3609-d06d-49e1-b9c9-b544e0c618cb",
+      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "created": "2018-08-03T19:54:02.821Z",
+      "modified": "2020-07-27T14:54:42.474Z",
+      "name": "T1505.003: Web Shell",
+      "description": "Adversaries may backdoor web servers with web shells to establish persistent access to systems. A Web shell is a Web script that is placed on an openly accessible Web server to allow an adversary to use the Web server as a gateway into a network. A Web shell may provide a set of functions to execute or a command-line interface on the system that hosts the Web server.\n\nIn addition to a server-side script, a Web shell may have a client interface program that is used to talk to the Web server (ex: [China Chopper](https://attack.mitre.org/software/S0020) Web shell client).(Citation: Lee 2013)",
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "lockheed",
+          "phase_name": "installation"
+        },
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "persistence"
+        }
+      ],
+      "external_references": [
+        {
+          "source_name": "Lee 2013",
+          "url": "https://www.fireeye.com/blog/threat-research/2013/08/breaking-down-the-china-chopper-web-shell-part-i.html",
+          "description": "Lee, T., Hanzlik, D., Ahl, I. (2013, August 7). Breaking Down the China Chopper Web Shell - Part I. Retrieved March 27, 2015."
+        },
+        {
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1505/003",
+          "external_id": "T1505.003"
+        },
+        {
+          "source_name": "US-CERT Alert TA15-314A Web Shells",
+          "url": "https://www.us-cert.gov/ncas/alerts/TA15-314A",
+          "description": "US-CERT. (2015, November 13). Compromised Web Servers and Web Shells - Threat Awareness and Guidance. Retrieved June 8, 2016."
+        }
+      ],
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ],
+      "x_mitre_detection": [
+        "Web shells can be difficult to detect. Unlike other forms of persistent remote access, they do not initiate connections. The portion of the Web shell that is on the server may be small and innocuous looking. The PHP version of the China Chopper Web shell, for example, is the following short payload: (Citation: Lee 2013) \n\n<code>&lt;?php @eval($_POST['password']);&gt;</code>\n\nNevertheless, detection mechanisms exist. Process monitoring may be used to detect Web servers that perform suspicious actions such as running cmd.exe or accessing files that are not in the Web directory. File monitoring may be used to detect changes to files in the Web directory of a Web server that do not match with updates to the Web server's content and may indicate implantation of a Web shell script. Log authentication attempts to the server and any unusual traffic patterns to or from the server and internal network. (Citation: US-CERT Alert TA15-314A Web Shells) "
+      ],
+      "x_mitre_platforms": [
+        "Linux",
+        "Windows",
+        "macOS"
+      ],
+      "x_mitre_data_sources": [
+        "Authentication logs",
+        "File monitoring",
+        "Netflow/Enclave netflow",
+        "Process monitoring"
+      ],
+      "x_mitre_permissions_required": [
+        "SYSTEM",
+        "User"
+      ],
+      "x_mitre_system_requirements": [
+        "Adversary access to Web server with vulnerability or account to upload and serve the Web shell file."
+      ],
+      "x_mitre_version": "1.0"
     },
     {
       "type": "attack-pattern",
       "id": "attack-pattern--92d7da27-2d91-488e-a00c-059dc162766d",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
       "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-03-18T19:43:40.363Z",
-      "name": "T1041: Exfiltration Over Command and Control Channel",
-      "description": "Data exfiltration is performed over the Command and Control channel. Data is encoded into the normal communications channel using the same protocol as command and control communications.",
+      "modified": "2020-07-27T14:54:36.978Z",
+      "name": "T1041: Exfiltration Over C2 Channel",
+      "description": "Adversaries may steal data by exfiltrating it over an existing command and control channel. Stolen data is encoded into the normal communications channel using the same protocol as command and control communications.",
       "kill_chain_phases": [
         {
           "kill_chain_name": "lockheed",
@@ -191,7 +337,7 @@
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
       "x_mitre_detection": [
-        "Detection for command and control applies. Analyze network data for uncommon data flows (e.g., a client sending significantly more data than it receives from a server). Processes utilizing the network that do not normally have network communication or have never been seen before are suspicious. Analyze packet contents to detect communications that do not follow the expected protocol behavior for the port that is being used. (Citation: University of Birmingham C2)"
+        "Analyze network data for uncommon data flows (e.g., a client sending significantly more data than it receives from a server). Processes utilizing the network that do not normally have network communication or have never been seen before are suspicious. Analyze packet contents to detect communications that do not follow the expected protocol behavior for the port that is being used. (Citation: University of Birmingham C2)"
       ],
       "x_mitre_platforms": [
         "Linux",
@@ -199,22 +345,24 @@
         "macOS"
       ],
       "x_mitre_data_sources": [
+        "Netflow/Enclave netflow",
+        "Packet capture",
         "Process monitoring",
-        "User interface"
+        "Process use of network"
       ],
       "x_mitre_network_requirements": [
         "true"
       ],
-      "x_mitre_version": "1.0"
+      "x_mitre_version": "2.0"
     },
     {
       "type": "attack-pattern",
       "id": "attack-pattern--9db0cf3a-a3c9-4012-8268-123b9db6fd82",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
       "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-03-18T19:43:33.029Z",
+      "modified": "2020-07-27T14:54:38.428Z",
       "name": "T1210: Exploitation of Remote Services",
-      "description": "Exploitation of a software vulnerability occurs when an adversary takes advantage of a programming error in a program, service, or within the operating system software or kernel itself to execute adversary-controlled code.\u00a0A common goal for post-compromise exploitation of remote services is for lateral movement to enable access to a remote system.\n\nAn adversary may need to determine if the remote system is in a vulnerable state, which may be done through [Network Service Scanning](https://attack.mitre.org/techniques/T1046) or other Discovery methods looking for common, vulnerable software that may be deployed in the network, the lack of certain patches that may indicate vulnerabilities,  or security software that may be used to detect or contain remote exploitation. Servers are likely a high value target for lateral movement exploitation, but endpoint systems may also be at risk if they provide an advantage or access to additional resources.\n\nThere are several well-known vulnerabilities that exist in common services such as SMB (Citation: CIS Multiple SMB Vulnerabilities) and RDP (Citation: NVD CVE-2017-0176) as well as applications that may be used within internal networks such as MySQL (Citation: NVD CVE-2016-6662) and web server services. (Citation: NVD CVE-2014-7169)\n\nDepending on the permissions level of the vulnerable remote service an adversary may achieve [Exploitation for Privilege Escalation](https://attack.mitre.org/techniques/T1068) as a result of lateral movement exploitation as well.",
+      "description": "Adversaries may exploit remote services to gain unauthorized access to internal systems once inside of a network. Exploitation of a software vulnerability occurs when an adversary takes advantage of a programming error in a program, service, or within the operating system software or kernel itself to execute adversary-controlled code.\u00a0A common goal for post-compromise exploitation of remote services is for lateral movement to enable access to a remote system.\n\nAn adversary may need to determine if the remote system is in a vulnerable state, which may be done through [Network Service Scanning](https://attack.mitre.org/techniques/T1046) or other Discovery methods looking for common, vulnerable software that may be deployed in the network, the lack of certain patches that may indicate vulnerabilities,  or security software that may be used to detect or contain remote exploitation. Servers are likely a high value target for lateral movement exploitation, but endpoint systems may also be at risk if they provide an advantage or access to additional resources.\n\nThere are several well-known vulnerabilities that exist in common services such as SMB (Citation: CIS Multiple SMB Vulnerabilities) and RDP (Citation: NVD CVE-2017-0176) as well as applications that may be used within internal networks such as MySQL (Citation: NVD CVE-2016-6662) and web server services. (Citation: NVD CVE-2014-7169)\n\nDepending on the permissions level of the vulnerable remote service an adversary may achieve [Exploitation for Privilege Escalation](https://attack.mitre.org/techniques/T1068) as a result of lateral movement exploitation as well.",
       "kill_chain_phases": [
         {
           "kill_chain_name": "lockheed",
@@ -274,144 +422,16 @@
       "x_mitre_system_requirements": [
         "Unpatched software or otherwise vulnerable target. Depending on the target and goal, the system and exploitable service may need to be remotely accessible from the internal network."
       ],
-      "x_mitre_version": "1.0"
-    },
-    {
-      "type": "attack-pattern",
-      "id": "attack-pattern--c16e5409-ee53-4d79-afdc-4099dc9292df",
-      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-03-18T19:43:22.411Z",
-      "name": "T1100: Web Shell",
-      "description": "A Web shell is a Web script that is placed on an openly accessible Web server to allow an adversary to use the Web server as a gateway into a network. A Web shell may provide a set of functions to execute or a command-line interface on the system that hosts the Web server. In addition to a server-side script, a Web shell may have a client interface program that is used to talk to the Web server (see, for example, China Chopper Web shell client). (Citation: Lee 2013)\n\nWeb shells may serve as [Redundant Access](https://attack.mitre.org/techniques/T1108) or as a persistence mechanism in case an adversary's primary access methods are detected and removed.",
-      "kill_chain_phases": [
-        {
-          "kill_chain_name": "lockheed",
-          "phase_name": "act-on-objectives"
-        },
-        {
-          "kill_chain_name": "lockheed",
-          "phase_name": "installation"
-        },
-        {
-          "kill_chain_name": "mitre-attack",
-          "phase_name": "persistence"
-        },
-        {
-          "kill_chain_name": "mitre-attack",
-          "phase_name": "privilege-escalation"
-        }
-      ],
-      "external_references": [
-        {
-          "source_name": "capec",
-          "url": "https://capec.mitre.org/data/definitions/650.html",
-          "external_id": "CAPEC-650"
-        },
-        {
-          "source_name": "Lee 2013",
-          "url": "https://www.fireeye.com/blog/threat-research/2013/08/breaking-down-the-china-chopper-web-shell-part-i.html",
-          "description": "Lee, T., Hanzlik, D., Ahl, I. (2013, August 7). Breaking Down the China Chopper Web Shell - Part I. Retrieved March 27, 2015."
-        },
-        {
-          "source_name": "mitre-attack",
-          "url": "https://attack.mitre.org/techniques/T1100",
-          "external_id": "T1100"
-        },
-        {
-          "source_name": "US-CERT Alert TA15-314A Web Shells",
-          "url": "https://www.us-cert.gov/ncas/alerts/TA15-314A",
-          "description": "US-CERT. (2015, November 13). Compromised Web Servers and Web Shells - Threat Awareness and Guidance. Retrieved June 8, 2016."
-        }
-      ],
-      "object_marking_refs": [
-        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
-      ],
-      "x_mitre_detection": [
-        "Web shells can be difficult to detect. Unlike other forms of persistent remote access, they do not initiate connections. The portion of the Web shell that is on the server may be small and innocuous looking. The PHP version of the China Chopper Web shell, for example, is the following short payload: (Citation: Lee 2013)\n\n<code><?php @eval($_POST['password']);></code>\n\nNevertheless, detection mechanisms exist. Process monitoring may be used to detect Web servers that perform suspicious actions such as running [cmd](https://attack.mitre.org/software/S0106) or accessing files that are not in the Web directory. File monitoring may be used to detect changes to files in the Web directory of a Web server that do not match with updates to the Web server's content and may indicate implantation of a Web shell script. Log authentication attempts to the server and any unusual traffic patterns to or from the server and internal network. (Citation: US-CERT Alert TA15-314A Web Shells)"
-      ],
-      "x_mitre_platforms": [
-        "Linux",
-        "Windows",
-        "macOS"
-      ],
-      "x_mitre_data_sources": [
-        "Anti-virus",
-        "Authentication logs",
-        "File monitoring",
-        "Netflow/Enclave netflow",
-        "Process monitoring"
-      ],
-      "x_mitre_effective_permissions": [
-        "SYSTEM",
-        "User"
-      ],
-      "x_mitre_system_requirements": [
-        "Adversary access to Web server with vulnerability or account to upload and serve the Web shell file."
-      ],
-      "x_mitre_version": "1.0"
-    },
-    {
-      "type": "attack-pattern",
-      "id": "attack-pattern--c23b740b-a42b-47a1-aec2-9d48ddd547ff",
-      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-03-18T19:43:42.390Z",
-      "name": "T1075: Pass the Hash",
-      "description": "Pass the hash (PtH) is a method of authenticating as a user without having access to the user's cleartext password. This method bypasses standard authentication steps that require a cleartext password, moving directly into the portion of the authentication that uses the password hash. In this technique, valid password hashes for the account being used are captured using a Credential Access technique. Captured hashes are used with PtH to authenticate as that user. Once authenticated, PtH may be used to perform actions on local or remote systems. \n\nWindows 7 and higher with KB2871997 require valid domain user credentials or RID 500 administrator hashes. (Citation: NSA Spotting)",
-      "kill_chain_phases": [
-        {
-          "kill_chain_name": "lockheed",
-          "phase_name": "act-on-objectives"
-        },
-        {
-          "kill_chain_name": "mitre-attack",
-          "phase_name": "lateral-movement"
-        }
-      ],
-      "external_references": [
-        {
-          "source_name": "capec",
-          "url": "https://capec.mitre.org/data/definitions/644.html",
-          "external_id": "CAPEC-644"
-        },
-        {
-          "source_name": "mitre-attack",
-          "url": "https://attack.mitre.org/techniques/T1075",
-          "external_id": "T1075"
-        },
-        {
-          "source_name": "NSA Spotting",
-          "url": "https://www.iad.gov/iad/library/reports/spotting-the-adversary-with-windows-event-log-monitoring.cfm",
-          "description": "National Security Agency/Central Security Service Information Assurance Directorate. (2015, August 7). Spotting the Adversary with Windows Event Log Monitoring. Retrieved September 6, 2018."
-        }
-      ],
-      "object_marking_refs": [
-        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
-      ],
-      "x_mitre_detection": [
-        "Audit all logon and credential use events and review for discrepancies. Unusual remote logins that correlate with other suspicious activity (such as writing and executing binaries) may indicate malicious activity. NTLM LogonType 3 authentications that are not associated to a domain login and are not anonymous logins are suspicious."
-      ],
-      "x_mitre_platforms": [
-        "Windows"
-      ],
-      "x_mitre_data_sources": "Authentication logs",
-      "x_mitre_system_requirements": [
-        "Requires Microsoft Windows as target system"
-      ],
-      "x_mitre_contributors": [
-        "Travis Smith, Tripwire"
-      ],
-      "x_mitre_version": "1.0"
+      "x_mitre_version": "1.1"
     },
     {
       "type": "attack-pattern",
       "id": "attack-pattern--e3a12395-188d-4051-9a16-ea8e14d07b88",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
       "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-03-18T19:43:27.158Z",
+      "modified": "2020-07-27T14:54:36.978Z",
       "name": "T1046: Network Service Scanning",
-      "description": "Adversaries may attempt to get a listing of services running on remote hosts, including those that may be vulnerable to remote software exploitation. Methods to acquire this information include port scans and vulnerability scans using tools that are brought onto a system. \n\nWithin cloud environments, adversaries may attempt to discover services running on other cloud hosts or cloud services enabled within the environment. Additionally, if the cloud environment is connected to a on-premises environment, adversaries may be able to identify services running on non-cloud systems.",
+      "description": "Adversaries may attempt to get a listing of services running on remote hosts, including those that may be vulnerable to remote software exploitation. Methods to acquire this information include port scans and vulnerability scans using tools that are brought onto a system. \n\nWithin cloud environments, adversaries may attempt to discover services running on other cloud hosts. Additionally, if the cloud environment is connected to a on-premises environment, adversaries may be able to identify services running on non-cloud systems as well.",
       "kill_chain_phases": [
         {
           "kill_chain_name": "lockheed",
@@ -463,16 +483,16 @@
       "x_mitre_contributors": [
         "Praetorian"
       ],
-      "x_mitre_version": "2"
+      "x_mitre_version": "2.1"
     },
     {
       "type": "attack-pattern",
-      "id": "attack-pattern--e6919abc-99f9-4c6c-95a5-14761e7b2add",
+      "id": "attack-pattern--e624264c-033a-424d-9fd7-fc9c3bbdb03e",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
       "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-03-18T19:43:23.196Z",
-      "name": "T1105: Remote File Copy",
-      "description": "Files may be copied from one system to another to stage adversary tools or other files over the course of an operation. Files may be copied from an external adversary-controlled system through the Command and Control channel to bring tools into the victim network or through alternate protocols with another tool such as [FTP](https://attack.mitre.org/software/S0095). Files can also be copied over on Mac and Linux with native tools like scp, rsync, and sftp.\n\nAdversaries may also copy files laterally between internal victim systems to support Lateral Movement with remote Execution using inherent file sharing protocols such as file sharing over SMB to connected network shares or with authenticated connections with [Windows Admin Shares](https://attack.mitre.org/techniques/T1077) or [Remote Desktop Protocol](https://attack.mitre.org/techniques/T1076).",
+      "modified": "2020-07-27T14:54:43.438Z",
+      "name": "T1550.002: Pass the Hash",
+      "description": "Adversaries may \u201cpass the hash\u201d using stolen password hashes to move laterally within an environment, bypassing normal system access controls. Pass the hash (PtH) is a method of authenticating as a user without having access to the user's cleartext password. This method bypasses standard authentication steps that require a cleartext password, moving directly into the portion of the authentication that uses the password hash. In this technique, valid password hashes for the account being used are captured using a Credential Access technique. Captured hashes are used with PtH to authenticate as that user. Once authenticated, PtH may be used to perform actions on local or remote systems.\n\nWindows 7 and higher with KB2871997 require valid domain user credentials or RID 500 administrator hashes.(Citation: NSA Spotting)",
       "kill_chain_phases": [
         {
           "kill_chain_name": "lockheed",
@@ -480,15 +500,68 @@
         },
         {
           "kill_chain_name": "lockheed",
-          "phase_name": "command-and-control"
+          "phase_name": "installation"
         },
         {
           "kill_chain_name": "mitre-attack",
-          "phase_name": "command-and-control"
+          "phase_name": "defense-evasion"
         },
         {
           "kill_chain_name": "mitre-attack",
           "phase_name": "lateral-movement"
+        }
+      ],
+      "external_references": [
+        {
+          "source_name": "capec",
+          "url": "https://capec.mitre.org/data/definitions/644.html",
+          "external_id": "CAPEC-644"
+        },
+        {
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1550/002",
+          "external_id": "T1550.002"
+        },
+        {
+          "source_name": "NSA Spotting",
+          "url": "https://apps.nsa.gov/iaarchive/library/reports/spotting-the-adversary-with-windows-event-log-monitoring.cfm",
+          "description": "National Security Agency/Central Security Service Information Assurance Directorate. (2015, August 7). Spotting the Adversary with Windows Event Log Monitoring. Retrieved September 6, 2018."
+        }
+      ],
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ],
+      "x_mitre_detection": [
+        "Audit all logon and credential use events and review for discrepancies. Unusual remote logins that correlate with other suspicious activity (such as writing and executing binaries) may indicate malicious activity. NTLM LogonType 3 authentications that are not associated to a domain login and are not anonymous logins are suspicious."
+      ],
+      "x_mitre_platforms": [
+        "Windows"
+      ],
+      "x_mitre_data_sources": "Authentication logs",
+      "x_mitre_defense_bypassed": [
+        "System Access Controls"
+      ],
+      "x_mitre_contributors": [
+        "Travis Smith, Tripwire"
+      ],
+      "x_mitre_version": "1.0"
+    },
+    {
+      "type": "attack-pattern",
+      "id": "attack-pattern--e6919abc-99f9-4c6c-95a5-14761e7b2add",
+      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "created": "2018-08-03T19:54:02.821Z",
+      "modified": "2020-07-27T14:54:37.764Z",
+      "name": "T1105: Ingress Tool Transfer",
+      "description": "Adversaries may transfer tools or other files from an external system into a compromised environment. Files may be copied from an external adversary controlled system through the command and control channel to bring tools into the victim network or through alternate protocols with another tool such as FTP. Files can also be copied over on Mac and Linux with native tools like scp, rsync, and sftp.",
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "lockheed",
+          "phase_name": "command-and-control"
+        },
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "command-and-control"
         }
       ],
       "external_references": [
@@ -507,7 +580,7 @@
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
       "x_mitre_detection": [
-        "Monitor for file creation and files transferred within a network over SMB. Unusual processes with external network connections creating files on-system may be suspicious. Use of utilities, such as FTP, that does not normally occur may also be suspicious.\n\nAnalyze network data for uncommon data flows (e.g., a client sending significantly more data than it receives from a server). Processes utilizing the network that do not normally have network communication or have never been seen before are suspicious. Analyze packet contents to detect communications that do not follow the expected protocol behavior for the port that is being used. (Citation: University of Birmingham C2)"
+        "Monitor for file creation and files transferred into the network. Unusual processes with external network connections creating files on-system may be suspicious. Use of utilities, such as FTP, that does not normally occur may also be suspicious.\n\nAnalyze network data for uncommon data flows (e.g., a client sending significantly more data than it receives from a server). Processes utilizing the network that do not normally have network communication or have never been seen before are suspicious. Analyze packet contents to detect communications that do not follow the expected protocol behavior for the port that is being used.(Citation: University of Birmingham C2)"
       ],
       "x_mitre_platforms": [
         "Linux",
@@ -519,16 +592,14 @@
         "Netflow/Enclave netflow",
         "Network protocol analysis",
         "Packet capture",
+        "Process command-line parameters",
         "Process monitoring",
         "Process use of network"
       ],
       "x_mitre_permissions_required": [
         "User"
       ],
-      "x_mitre_network_requirements": [
-        "true"
-      ],
-      "x_mitre_version": "1.0"
+      "x_mitre_version": "2.0"
     },
     {
       "type": "attack-pattern",
@@ -581,94 +652,6 @@
         "true"
       ],
       "x_mitre_version": "1.0"
-    },
-    {
-      "type": "attack-pattern",
-      "id": "attack-pattern--ffe742ed-9100-4686-9e00-c331da544787",
-      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-03-18T19:43:20.204Z",
-      "name": "T1077: Windows Admin Shares",
-      "description": "Windows systems have hidden network shares that are accessible only to administrators and provide the ability for remote file copy and other administrative functions. Example network shares include <code>C$</code>, <code>ADMIN$</code>, and <code>IPC$</code>. \n\nAdversaries may use this technique in conjunction with administrator-level [Valid Accounts](https://attack.mitre.org/techniques/T1078) to remotely access a networked system over server message block (SMB) (Citation: Wikipedia SMB) to interact with systems using remote procedure calls (RPCs), (Citation: TechNet RPC) transfer files, and run transferred binaries through remote Execution. Example execution techniques that rely on authenticated sessions over SMB/RPC are [Scheduled Task](https://attack.mitre.org/techniques/T1053), [Service Execution](https://attack.mitre.org/techniques/T1035), and [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047). Adversaries can also use NTLM hashes to access administrator shares on systems with [Pass the Hash](https://attack.mitre.org/techniques/T1075) and certain configuration and patch levels. (Citation: Microsoft Admin Shares)\n\nThe [Net](https://attack.mitre.org/software/S0039) utility can be used to connect to Windows admin shares on remote systems using <code>net use</code> commands with valid credentials. (Citation: Technet Net Use)",
-      "kill_chain_phases": [
-        {
-          "kill_chain_name": "lockheed",
-          "phase_name": "act-on-objectives"
-        },
-        {
-          "kill_chain_name": "mitre-attack",
-          "phase_name": "lateral-movement"
-        }
-      ],
-      "external_references": [
-        {
-          "source_name": "capec",
-          "url": "https://capec.mitre.org/data/definitions/561.html",
-          "external_id": "CAPEC-561"
-        },
-        {
-          "source_name": "Lateral Movement Payne",
-          "url": "http://blogs.technet.com/b/jepayne/archive/2015/11/27/tracking-lateral-movement-part-one-special-groups-and-specific-service-accounts.aspx",
-          "description": "Payne, J. (2015, November 26). Tracking Lateral Movement Part One - Special Groups and Specific Service Accounts. Retrieved February 1, 2016."
-        },
-        {
-          "source_name": "Medium Detecting Lateral Movement",
-          "url": "https://medium.com/threatpunter/detecting-lateral-movement-using-sysmon-and-splunk-318d3be141bc",
-          "description": "French, D. (2018, September 30). Detecting Lateral Movement Using Sysmon and Splunk. Retrieved October 11, 2019."
-        },
-        {
-          "source_name": "Microsoft Admin Shares",
-          "url": "http://support.microsoft.com/kb/314984",
-          "description": "Microsoft. (n.d.). How to create and delete hidden or administrative shares on client computers. Retrieved November 20, 2014."
-        },
-        {
-          "source_name": "mitre-attack",
-          "url": "https://attack.mitre.org/techniques/T1077",
-          "external_id": "T1077"
-        },
-        {
-          "source_name": "Technet Net Use",
-          "url": "https://technet.microsoft.com/bb490717.aspx",
-          "description": "Microsoft. (n.d.). Net Use. Retrieved November 25, 2016."
-        },
-        {
-          "source_name": "TechNet RPC",
-          "url": "https://technet.microsoft.com/en-us/library/cc787851.aspx",
-          "description": "Microsoft. (2003, March 28). What Is RPC?. Retrieved June 12, 2016."
-        },
-        {
-          "source_name": "Wikipedia SMB",
-          "url": "https://en.wikipedia.org/wiki/Server_Message_Block",
-          "description": "Wikipedia. (2016, June 12). Server Message Block. Retrieved June 12, 2016."
-        },
-        {
-          "source_name": "Windows Event Forwarding Payne",
-          "url": "http://blogs.technet.com/b/jepayne/archive/2015/11/24/monitoring-what-matters-windows-event-forwarding-for-everyone-even-if-you-already-have-a-siem.aspx",
-          "description": "Payne, J. (2015, November 23). Monitoring what matters - Windows Event Forwarding for everyone (even if you already have a SIEM.). Retrieved February 1, 2016."
-        }
-      ],
-      "object_marking_refs": [
-        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
-      ],
-      "x_mitre_detection": [
-        "Ensure that proper logging of accounts used to log into systems is turned on and centrally collected. Windows logging is able to collect success/failure for accounts that may be used to move laterally and can be collected using tools such as Windows Event Forwarding. (Citation: Lateral Movement Payne) (Citation: Windows Event Forwarding Payne) Monitor remote login events and associated SMB activity for file transfers and remote process execution. Monitor the actions of remote users who connect to administrative shares. Monitor for use of tools and commands to connect to remote shares, such as [Net](https://attack.mitre.org/software/S0039), on the command-line interface and Discovery techniques that could be used to find remotely accessible systems.(Citation: Medium Detecting Lateral Movement)"
-      ],
-      "x_mitre_platforms": [
-        "Windows"
-      ],
-      "x_mitre_data_sources": [
-        "Authentication logs",
-        "Process command-line parameters",
-        "Process monitoring",
-        "Process use of network"
-      ],
-      "x_mitre_permissions_required": [
-        "Administrator"
-      ],
-      "x_mitre_system_requirements": [
-        "File and printer sharing over SMB enabled.\nHost/network firewalls not blocking SMB ports between source and destination.\nUse of domain account in administrator group on remote system or default system admin account."
-      ],
-      "x_mitre_version": "1.1"
     },
     {
       "type": "campaign",
@@ -1752,7 +1735,7 @@
       "modified": "2020-06-26T19:00:11.079Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--a79d2365-61c7-48b9-b024-e2020b99bba0",
-      "target_ref": "attack-pattern--c16e5409-ee53-4d79-afdc-4099dc9292df",
+      "target_ref": "attack-pattern--5d0d3609-d06d-49e1-b9c9-b544e0c618cb",
       "x_panw_coa_u42_panw_product": [
         "Wildfire"
       ]
@@ -1764,7 +1747,7 @@
       "modified": "2019-07-11T14:18:45.825Z",
       "relationship_type": "uses",
       "source_ref": "campaign--443fc92f-1712-444e-872b-fd76106e61c2",
-      "target_ref": "attack-pattern--c23b740b-a42b-47a1-aec2-9d48ddd547ff"
+      "target_ref": "attack-pattern--e624264c-033a-424d-9fd7-fc9c3bbdb03e"
     },
     {
       "type": "relationship",
@@ -2253,7 +2236,7 @@
       "modified": "2019-07-11T14:18:45.825Z",
       "relationship_type": "uses",
       "source_ref": "campaign--443fc92f-1712-444e-872b-fd76106e61c2",
-      "target_ref": "attack-pattern--ffe742ed-9100-4686-9e00-c331da544787"
+      "target_ref": "attack-pattern--4f9ca633-15c5-463c-9724-bdcd54fde541"
     },
     {
       "type": "relationship",
@@ -2295,7 +2278,7 @@
       "modified": "2020-06-26T19:00:11.078Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--d3c39d4c-3074-4350-832e-9eea942ac353",
-      "target_ref": "attack-pattern--c16e5409-ee53-4d79-afdc-4099dc9292df",
+      "target_ref": "attack-pattern--5d0d3609-d06d-49e1-b9c9-b544e0c618cb",
       "x_panw_coa_u42_panw_product": [
         "NGFW"
       ]
@@ -2340,7 +2323,7 @@
       "modified": "2020-06-26T19:00:11.078Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--55e53da8-b2ba-4bba-a641-c5c75a023bb5",
-      "target_ref": "attack-pattern--c16e5409-ee53-4d79-afdc-4099dc9292df",
+      "target_ref": "attack-pattern--5d0d3609-d06d-49e1-b9c9-b544e0c618cb",
       "x_panw_coa_u42_panw_product": [
         "NGFW"
       ]
@@ -2376,6 +2359,15 @@
       "description": "Compiled MS17-010 checker tool",
       "source_ref": "indicator--7ee20d3d-3123-4727-b596-2ce2ec4d224f",
       "target_ref": "attack-pattern--e6919abc-99f9-4c6c-95a5-14761e7b2add"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--4f9ca633-15c5-463c-9724-bdcd54fde541",
+      "created": "2019-05-21T18:21:23.550Z",
+      "modified": "2019-10-11T15:26:10.706Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--443fc92f-1712-444e-872b-fd76106e61c2",
+      "target_ref": "attack-pattern--4f9ca633-15c5-463c-9724-bdcd54fde541"
     },
     {
       "type": "relationship",
@@ -2415,7 +2407,7 @@
       "modified": "2020-06-26T19:00:11.078Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--d84f79f8-219c-43cb-a918-ab7dd235413a",
-      "target_ref": "attack-pattern--c16e5409-ee53-4d79-afdc-4099dc9292df",
+      "target_ref": "attack-pattern--5d0d3609-d06d-49e1-b9c9-b544e0c618cb",
       "x_panw_coa_u42_panw_product": [
         "Threat Prevention"
       ]
@@ -2492,6 +2484,15 @@
     },
     {
       "type": "relationship",
+      "id": "relationship--5d0d3609-d06d-49e1-b9c9-b544e0c618cb",
+      "created": "2019-05-21T18:21:23.550Z",
+      "modified": "2019-10-11T15:26:10.706Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--443fc92f-1712-444e-872b-fd76106e61c2",
+      "target_ref": "attack-pattern--5d0d3609-d06d-49e1-b9c9-b544e0c618cb"
+    },
+    {
+      "type": "relationship",
       "id": "relationship--5d22d838-1cb1-4204-9e1a-a55a754ffe59",
       "created": "2020-06-23T19:50:42.481Z",
       "modified": "2020-06-26T19:00:11.075Z",
@@ -2549,7 +2550,7 @@
       "type": "relationship",
       "id": "relationship--64e83256-077b-41e7-a729-357ad21ce60c",
       "created": "2019-05-21T18:21:23.421Z",
-      "modified": "2020-06-26T19:00:24.472Z",
+      "modified": "2020-07-30T16:55:31.554Z",
       "relationship_type": "attributed-to",
       "source_ref": "report--64e83256-077b-41e7-a729-357ad21ce60c",
       "target_ref": "intrusion-set--eeef6603-d891-476a-a600-0096b6fe072f"
@@ -2574,7 +2575,7 @@
       "relationship_type": "uses",
       "description": "China Chopper 'stylecs.aspx'",
       "source_ref": "indicator--197a86c5-43e4-42a7-aa87-48e55cadf1fb",
-      "target_ref": "attack-pattern--c16e5409-ee53-4d79-afdc-4099dc9292df"
+      "target_ref": "attack-pattern--5d0d3609-d06d-49e1-b9c9-b544e0c618cb"
     },
     {
       "type": "relationship",
@@ -2659,7 +2660,7 @@
       "modified": "2020-06-26T19:00:11.079Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--fd0da09e-a0b2-4018-9476-1a7edd809b59",
-      "target_ref": "attack-pattern--c16e5409-ee53-4d79-afdc-4099dc9292df",
+      "target_ref": "attack-pattern--5d0d3609-d06d-49e1-b9c9-b544e0c618cb",
       "x_panw_coa_u42_panw_product": [
         "Wildfire"
       ]
@@ -2894,7 +2895,7 @@
       "relationship_type": "uses",
       "description": "China Chopper 'test.aspx'",
       "source_ref": "indicator--b8f6b6f9-3563-4b87-9e80-a209d1fb59ce",
-      "target_ref": "attack-pattern--c16e5409-ee53-4d79-afdc-4099dc9292df"
+      "target_ref": "attack-pattern--5d0d3609-d06d-49e1-b9c9-b544e0c618cb"
     },
     {
       "type": "relationship",
@@ -2948,7 +2949,7 @@
       "modified": "2020-06-26T19:00:11.078Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--9bcdca50-296d-4032-8639-dc8bc56077a3",
-      "target_ref": "attack-pattern--c16e5409-ee53-4d79-afdc-4099dc9292df",
+      "target_ref": "attack-pattern--5d0d3609-d06d-49e1-b9c9-b544e0c618cb",
       "x_panw_coa_u42_panw_product": [
         "NGFW"
       ]
@@ -3072,7 +3073,7 @@
       "modified": "2020-06-26T19:00:11.078Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--5839cd6c-7897-43c4-82f3-5c03096a51c4",
-      "target_ref": "attack-pattern--c16e5409-ee53-4d79-afdc-4099dc9292df",
+      "target_ref": "attack-pattern--5d0d3609-d06d-49e1-b9c9-b544e0c618cb",
       "x_panw_coa_u42_panw_product": [
         "Threat Prevention"
       ]
@@ -3096,7 +3097,7 @@
       "modified": "2020-06-26T19:00:11.078Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--a1294d38-0f0d-4973-a949-f38cccbc7469",
-      "target_ref": "attack-pattern--c16e5409-ee53-4d79-afdc-4099dc9292df",
+      "target_ref": "attack-pattern--5d0d3609-d06d-49e1-b9c9-b544e0c618cb",
       "x_panw_coa_u42_panw_product": [
         "Threat Prevention"
       ]
@@ -3132,7 +3133,7 @@
       "modified": "2020-06-26T19:00:11.079Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--49790670-d365-43f8-a906-8e45c3c80f63",
-      "target_ref": "attack-pattern--c16e5409-ee53-4d79-afdc-4099dc9292df",
+      "target_ref": "attack-pattern--5d0d3609-d06d-49e1-b9c9-b544e0c618cb",
       "x_panw_coa_u42_panw_product": [
         "Threat Prevention"
       ]
@@ -3156,7 +3157,7 @@
       "modified": "2020-06-26T19:00:11.079Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--a592acb0-98ba-4a8e-a5cf-2e78d2806e75",
-      "target_ref": "attack-pattern--c16e5409-ee53-4d79-afdc-4099dc9292df",
+      "target_ref": "attack-pattern--5d0d3609-d06d-49e1-b9c9-b544e0c618cb",
       "x_panw_coa_u42_panw_product": [
         "Wildfire"
       ]
@@ -3213,7 +3214,7 @@
       "modified": "2020-06-26T19:00:11.079Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--8190ac5a-8a5e-41bc-85dd-62e0f5cdd2ba",
-      "target_ref": "attack-pattern--c16e5409-ee53-4d79-afdc-4099dc9292df",
+      "target_ref": "attack-pattern--5d0d3609-d06d-49e1-b9c9-b544e0c618cb",
       "x_panw_coa_u42_panw_product": [
         "Wildfire"
       ]
@@ -3237,7 +3238,7 @@
       "modified": "2020-06-26T19:00:11.078Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--21ce34c9-4220-41cf-85c7-bc289bb2c79d",
-      "target_ref": "attack-pattern--c16e5409-ee53-4d79-afdc-4099dc9292df",
+      "target_ref": "attack-pattern--5d0d3609-d06d-49e1-b9c9-b544e0c618cb",
       "x_panw_coa_u42_panw_product": [
         "Threat Prevention"
       ]
@@ -3313,24 +3314,6 @@
     },
     {
       "type": "relationship",
-      "id": "relationship--c16e5409-ee53-4d79-afdc-4099dc9292df",
-      "created": "2019-05-21T18:21:23.550Z",
-      "modified": "2019-10-11T15:26:10.706Z",
-      "relationship_type": "uses",
-      "source_ref": "campaign--443fc92f-1712-444e-872b-fd76106e61c2",
-      "target_ref": "attack-pattern--c16e5409-ee53-4d79-afdc-4099dc9292df"
-    },
-    {
-      "type": "relationship",
-      "id": "relationship--c23b740b-a42b-47a1-aec2-9d48ddd547ff",
-      "created": "2019-05-21T18:21:23.550Z",
-      "modified": "2019-10-11T15:26:10.706Z",
-      "relationship_type": "uses",
-      "source_ref": "campaign--443fc92f-1712-444e-872b-fd76106e61c2",
-      "target_ref": "attack-pattern--c23b740b-a42b-47a1-aec2-9d48ddd547ff"
-    },
-    {
-      "type": "relationship",
       "id": "relationship--c5cc4f05-5afd-487f-8c82-f41bc8dcd43f",
       "created": "2020-06-23T19:50:42.481Z",
       "modified": "2020-06-26T19:00:11.079Z",
@@ -3349,7 +3332,7 @@
       "relationship_type": "uses",
       "description": "China Chopper 'stylecss.aspx'",
       "source_ref": "indicator--df875612-0ae2-46e8-9dc5-fcd45372be11",
-      "target_ref": "attack-pattern--c16e5409-ee53-4d79-afdc-4099dc9292df"
+      "target_ref": "attack-pattern--5d0d3609-d06d-49e1-b9c9-b544e0c618cb"
     },
     {
       "type": "relationship",
@@ -3391,7 +3374,7 @@
       "modified": "2020-06-26T19:00:11.079Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--79fd0d10-6272-4191-8b8d-9c72f19358d0",
-      "target_ref": "attack-pattern--c16e5409-ee53-4d79-afdc-4099dc9292df",
+      "target_ref": "attack-pattern--5d0d3609-d06d-49e1-b9c9-b544e0c618cb",
       "x_panw_coa_u42_panw_product": [
         "Wildfire"
       ]
@@ -3490,7 +3473,7 @@
       "modified": "2019-07-11T14:18:45.826Z",
       "relationship_type": "uses",
       "source_ref": "campaign--443fc92f-1712-444e-872b-fd76106e61c2",
-      "target_ref": "attack-pattern--c16e5409-ee53-4d79-afdc-4099dc9292df"
+      "target_ref": "attack-pattern--5d0d3609-d06d-49e1-b9c9-b544e0c618cb"
     },
     {
       "type": "relationship",
@@ -3581,7 +3564,7 @@
       "modified": "2020-06-26T19:00:11.078Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--c45b79a8-2d29-4d8c-95ab-acea7e478e50",
-      "target_ref": "attack-pattern--c16e5409-ee53-4d79-afdc-4099dc9292df",
+      "target_ref": "attack-pattern--5d0d3609-d06d-49e1-b9c9-b544e0c618cb",
       "x_panw_coa_u42_panw_product": [
         "Threat Prevention"
       ]
@@ -3651,6 +3634,15 @@
     },
     {
       "type": "relationship",
+      "id": "relationship--e624264c-033a-424d-9fd7-fc9c3bbdb03e",
+      "created": "2019-05-21T18:21:23.550Z",
+      "modified": "2019-10-11T15:26:10.706Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--443fc92f-1712-444e-872b-fd76106e61c2",
+      "target_ref": "attack-pattern--e624264c-033a-424d-9fd7-fc9c3bbdb03e"
+    },
+    {
+      "type": "relationship",
       "id": "relationship--e6919abc-99f9-4c6c-95a5-14761e7b2add",
       "created": "2019-05-21T18:21:23.550Z",
       "modified": "2019-10-11T15:26:10.706Z",
@@ -3687,7 +3679,7 @@
       "modified": "2020-06-26T19:00:11.079Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--ef5f68d8-9522-40b4-890c-31ece644687d",
-      "target_ref": "attack-pattern--c16e5409-ee53-4d79-afdc-4099dc9292df",
+      "target_ref": "attack-pattern--5d0d3609-d06d-49e1-b9c9-b544e0c618cb",
       "x_panw_coa_u42_panw_product": [
         "Wildfire"
       ]
@@ -3700,7 +3692,7 @@
       "relationship_type": "uses",
       "description": "Antak webshell 'error2.aspx'",
       "source_ref": "indicator--3a48a376-b6d7-46ff-ab33-6871a1bf3898",
-      "target_ref": "attack-pattern--c16e5409-ee53-4d79-afdc-4099dc9292df"
+      "target_ref": "attack-pattern--5d0d3609-d06d-49e1-b9c9-b544e0c618cb"
     },
     {
       "type": "relationship",
@@ -3837,7 +3829,7 @@
       "modified": "2020-06-26T19:00:11.079Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--f4d50de0-ecc5-4f9e-b8f7-214cdfe28d39",
-      "target_ref": "attack-pattern--c16e5409-ee53-4d79-afdc-4099dc9292df",
+      "target_ref": "attack-pattern--5d0d3609-d06d-49e1-b9c9-b544e0c618cb",
       "x_panw_coa_u42_panw_product": [
         "Wildfire"
       ]
@@ -3885,15 +3877,6 @@
       ]
     },
     {
-      "type": "relationship",
-      "id": "relationship--ffe742ed-9100-4686-9e00-c331da544787",
-      "created": "2019-05-21T18:21:23.550Z",
-      "modified": "2019-10-11T15:26:10.706Z",
-      "relationship_type": "uses",
-      "source_ref": "campaign--443fc92f-1712-444e-872b-fd76106e61c2",
-      "target_ref": "attack-pattern--ffe742ed-9100-4686-9e00-c331da544787"
-    },
-    {
       "type": "report",
       "id": "report--443fc92f-1712-444e-872b-fd76106e61c2",
       "created": "2019-05-21T18:21:23.550Z",
@@ -3903,14 +3886,14 @@
       "object_refs": [
         "attack-pattern--355be19c-ffc9-46d5-8d50-d6a036c675b6",
         "attack-pattern--3f886f2a-874f-4333-b794-aa6075009b1c",
+        "attack-pattern--4f9ca633-15c5-463c-9724-bdcd54fde541",
+        "attack-pattern--5d0d3609-d06d-49e1-b9c9-b544e0c618cb",
         "attack-pattern--92d7da27-2d91-488e-a00c-059dc162766d",
         "attack-pattern--9db0cf3a-a3c9-4012-8268-123b9db6fd82",
-        "attack-pattern--c16e5409-ee53-4d79-afdc-4099dc9292df",
-        "attack-pattern--c23b740b-a42b-47a1-aec2-9d48ddd547ff",
         "attack-pattern--e3a12395-188d-4051-9a16-ea8e14d07b88",
+        "attack-pattern--e624264c-033a-424d-9fd7-fc9c3bbdb03e",
         "attack-pattern--e6919abc-99f9-4c6c-95a5-14761e7b2add",
         "attack-pattern--f879d51c-5476-431c-aedf-f14d207e4d1e",
-        "attack-pattern--ffe742ed-9100-4686-9e00-c331da544787",
         "campaign--443fc92f-1712-444e-872b-fd76106e61c2",
         "course-of-action--02d40837-4b7a-4bd1-a3c6-1cb4695e02e2",
         "course-of-action--21ce34c9-4220-41cf-85c7-bc289bb2c79d",
@@ -4037,6 +4020,7 @@
         "relationship--49211099-fe42-4649-b433-708a663b0ca9",
         "relationship--4c2086b7-760d-4553-8927-cd8cd26eb3c6",
         "relationship--4d702cc1-f066-44f3-8400-a797e7289000",
+        "relationship--4f9ca633-15c5-463c-9724-bdcd54fde541",
         "relationship--500045d8-9326-4c5e-89a0-b8d33413999f",
         "relationship--5093e78e-00e7-4ee1-989e-1c4b445ba23e",
         "relationship--52964d3c-60e0-42a7-b9ad-e13f4ba3e5e8",
@@ -4048,6 +4032,7 @@
         "relationship--56f7fd45-c706-42dd-93fc-0f39f0b96f66",
         "relationship--57347f20-4477-4bad-9ccd-a93ff81d07d5",
         "relationship--58ed7796-c47b-46b2-9f7c-b7bfbde6c98a",
+        "relationship--5d0d3609-d06d-49e1-b9c9-b544e0c618cb",
         "relationship--5d22d838-1cb1-4204-9e1a-a55a754ffe59",
         "relationship--5db030f7-a8b2-457e-bd71-174b5af772dc",
         "relationship--5deb5aa0-5ca3-4dec-b73f-c104a11c3248",
@@ -4120,8 +4105,6 @@
         "relationship--bd24e442-8ac6-4a7c-a256-a073eb58bed0",
         "relationship--bfa67af9-15d1-4325-a166-4b9d3c3dd239",
         "relationship--c0f12c46-47dd-4b9e-ae58-9a1ca3cba58e",
-        "relationship--c16e5409-ee53-4d79-afdc-4099dc9292df",
-        "relationship--c23b740b-a42b-47a1-aec2-9d48ddd547ff",
         "relationship--c5cc4f05-5afd-487f-8c82-f41bc8dcd43f",
         "relationship--c6e5ab32-f58b-4593-8177-a7473dfcf78c",
         "relationship--c93c9390-47f5-4b81-886b-801307aa4b1d",
@@ -4151,6 +4134,7 @@
         "relationship--e42ef913-2393-44c8-b21f-50b6840c6e1b",
         "relationship--e5b8cb25-3d59-42b8-a3bc-5a943abb087a",
         "relationship--e6217985-61f4-48b3-a618-6c47cc5f682c",
+        "relationship--e624264c-033a-424d-9fd7-fc9c3bbdb03e",
         "relationship--e6919abc-99f9-4c6c-95a5-14761e7b2add",
         "relationship--e77e7044-d492-4e54-a6ec-db96f7407579",
         "relationship--e780c50c-e73c-4e3b-bffd-e914fd61b856",
@@ -4172,8 +4156,7 @@
         "relationship--fea3a646-5cb6-4b24-8941-3f7a392c92c5",
         "relationship--febf391a-1d95-4d2d-83d6-876b2a7529a8",
         "relationship--fec55ae0-7f4c-46c3-8ed8-63c24d58e0bf",
-        "relationship--ff20c82a-9245-4464-bdc8-4044f8bd9cbb",
-        "relationship--ffe742ed-9100-4686-9e00-c331da544787"
+        "relationship--ff20c82a-9245-4464-bdc8-4044f8bd9cbb"
       ],
       "labels": [
         "campaign"

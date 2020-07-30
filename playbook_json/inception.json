@@ -7,10 +7,10 @@
       "type": "report",
       "id": "report--42b0b7d0-1f78-463d-90e5-e69bafa85a38",
       "created": "2018-11-06T15:57:03.820Z",
-      "modified": "2020-06-26T19:00:30.215Z",
+      "modified": "2020-07-30T16:55:37.397Z",
       "name": "Inception",
       "description": "The Inception attackers have been active since at least 2014 and have been documented previously by both Blue Coat and Symantec; historical attacks used custom malware for a variety of platforms, and targeting a range of industries,\u00a0 primarily in Russia, but also around the world. \n\n",
-      "published": "2020-06-26T19:00:30.215Z",
+      "published": "2020-07-30T16:55:37.397Z",
       "object_refs": [
         "intrusion-set--38ae6c9b-1fa0-4c30-b846-7f3f170a9eff",
         "report--51b1dd01-ff47-4d15-ad87-9b88aa6153e3"
@@ -28,12 +28,63 @@
     },
     {
       "type": "attack-pattern",
+      "id": "attack-pattern--2e34237d-8574-43f6-aace-ae2915de8597",
+      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "created": "2019-08-26T15:33:33.158Z",
+      "modified": "2020-07-27T14:54:44.085Z",
+      "name": "T1566.001: Spearphishing Attachment",
+      "description": "Adversaries may send spearphishing emails with a malicious attachment in an attempt to elicit sensitive information and/or gain access to victim systems. Spearphishing attachment is a specific variant of spearphishing. Spearphishing attachment is different from other forms of spearphishing in that it employs the use of malware attached to an email. All forms of spearphishing are electronically delivered social engineering targeted at a specific individual, company, or industry. In this scenario, adversaries attach a file to the spearphishing email and usually rely upon [User Execution](https://attack.mitre.org/techniques/T1204) to gain execution.\n\nThere are many options for the attachment such as Microsoft Office documents, executables, PDFs, or archived files. Upon opening the attachment (and potentially clicking past protections), the adversary's payload exploits a vulnerability or directly executes on the user's system. The text of the spearphishing email usually tries to give a plausible reason why the file should be opened, and may explain how to bypass system protections in order to do so. The email may also contain instructions on how to decrypt an attachment, such as a zip file password, in order to evade email boundary defenses. Adversaries frequently manipulate file extensions and icons in order to make attached executables appear to be document files, or files exploiting one application appear to be a file for a different one.",
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "lockheed",
+          "phase_name": "delivery"
+        },
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "initial-access"
+        }
+      ],
+      "external_references": [
+        {
+          "source_name": "capec",
+          "url": "https://capec.mitre.org/data/definitions/163.html",
+          "external_id": "CAPEC-163"
+        },
+        {
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1566/001",
+          "external_id": "T1566.001"
+        }
+      ],
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ],
+      "x_mitre_detection": [
+        "Network intrusion detection systems and email gateways can be used to detect spearphishing with malicious attachments in transit. Detonation chambers may also be used to identify malicious attachments. Solutions can be signature and behavior based, but adversaries may construct attachments in a way to avoid these systems.\n\nAnti-virus can potentially detect malicious documents and attachments as they're scanned to be stored on the email server or on the user's computer. Endpoint sensing or network sensing can potentially detect malicious events once the attachment is opened (such as a Microsoft Word document or PDF reaching out to the internet or spawning Powershell.exe) for techniques such as [Exploitation for Client Execution](https://attack.mitre.org/techniques/T1203) or usage of malicious scripts."
+      ],
+      "x_mitre_platforms": [
+        "Linux",
+        "Windows",
+        "macOS"
+      ],
+      "x_mitre_data_sources": [
+        "Detonation chamber",
+        "Email gateway",
+        "File monitoring",
+        "Mail server",
+        "Network intrusion detection system",
+        "Packet capture"
+      ],
+      "x_mitre_version": "1.0"
+    },
+    {
+      "type": "attack-pattern",
       "id": "attack-pattern--354a7f88-63fb-41b5-a801-ce3b377b36f1",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
       "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-03-18T19:43:35.494Z",
+      "modified": "2020-07-27T14:54:37.764Z",
       "name": "T1082: System Information Discovery",
-      "description": "An adversary may attempt to get detailed information about the operating system and hardware, including version, patches, hotfixes, service packs, and architecture. Adversaries may use the information from [System Information Discovery](https://attack.mitre.org/techniques/T1082) during automated discovery to shape follow-on behaviors, including whether or not the adversary fully infects the target and/or attempts specific actions.\n\n### Windows\n\nExample commands and utilities that obtain this information include <code>ver</code>, [Systeminfo](https://attack.mitre.org/software/S0096), and <code>dir</code> within [cmd](https://attack.mitre.org/software/S0106) for identifying information based on present files and directories.\n\n### Mac\n\nOn Mac, the <code>systemsetup</code> command gives a detailed breakdown of the system, but it requires administrative privileges. Additionally, the <code>system_profiler</code> gives a very detailed breakdown of configurations, firewall rules, mounted volumes, hardware, and many other things without needing elevated permissions.\n\n### AWS\n\nIn Amazon Web Services (AWS), the Application Discovery Service may be used by an adversary to identify servers, virtual machines, software, and software dependencies running.(Citation: Amazon System Discovery)\n\n### GCP\n\nOn Google Cloud Platform (GCP) <code>GET /v1beta1/{parent=organizations/*}/assets</code> or <code>POST /v1beta1/{parent=organizations/*}/assets:runDiscovery</code> may be used to list an organizations cloud assets, or perform asset discovery on a cloud environment.(Citation: Google Command Center Dashboard)\n\n### Azure\n\nIn Azure, the API request <code>GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}?api-version=2019-03-01</code> may be used to retrieve information about the model or instance view of a virtual machine.(Citation: Microsoft Virutal Machine API)",
+      "description": "An adversary may attempt to get detailed information about the operating system and hardware, including version, patches, hotfixes, service packs, and architecture. Adversaries may use the information from [System Information Discovery](https://attack.mitre.org/techniques/T1082) during automated discovery to shape follow-on behaviors, including whether or not the adversary fully infects the target and/or attempts specific actions.\n\nTools such as [Systeminfo](https://attack.mitre.org/software/S0096) can be used to gather detailed system information. A breakdown of system data can also be gathered through the macOS <code>systemsetup</code> command, but it requires administrative privileges.\n\nInfrastructure as a Service (IaaS) cloud providers such as AWS, GCP, and Azure allow access to instance and virtual machine information via APIs. Successful authenticated API calls can return data such as the operating system platform and status of a particular instance or the model view of a virtual machine.(Citation: Amazon Describe Instance)(Citation: Google Instances Resource)(Citation: Microsoft Virutal Machine API)",
       "kill_chain_phases": [
         {
           "kill_chain_name": "lockheed",
@@ -46,9 +97,9 @@
       ],
       "external_references": [
         {
-          "source_name": "Amazon System Discovery",
-          "url": "https://docs.aws.amazon.com/en_pv/application-discovery/latest/userguide/what-is-appdiscovery.html",
-          "description": "Amazon. (n.d.). What Is AWS Application Discovery Service?. Retrieved October 8, 2019."
+          "source_name": "Amazon Describe Instance",
+          "url": "https://docs.aws.amazon.com/cli/latest/reference/ssm/describe-instance-information.html",
+          "description": "Amazon. (n.d.). describe-instance-information. Retrieved March 3, 2020."
         },
         {
           "source_name": "capec",
@@ -56,9 +107,9 @@
           "external_id": "CAPEC-312"
         },
         {
-          "source_name": "Google Command Center Dashboard",
-          "url": "https://cloud.google.com/security-command-center/docs/quickstart-scc-dashboard",
-          "description": "Google. (2019, October 3). Quickstart: Using the dashboard. Retrieved October 8, 2019."
+          "source_name": "Google Instances Resource",
+          "url": "https://cloud.google.com/compute/docs/reference/rest/v1/instances",
+          "description": "Google. (n.d.). Rest Resource: instance. Retrieved March 3, 2020."
         },
         {
           "source_name": "Microsoft Virutal Machine API",
@@ -75,7 +126,7 @@
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
       "x_mitre_detection": [
-        "System and network discovery techniques normally occur throughout an operation as an adversary learns the environment. Data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities based on the information obtained.\n\nMonitor processes and command-line arguments for actions that could be taken to gather system and network information. Remote access tools with built-in features may interact directly with the Windows API to gather information. Information may also be acquired through Windows system management tools such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) and [PowerShell](https://attack.mitre.org/techniques/T1086).\n\nIn cloud-based systems, native logging can be used to identify access to certain APIs and dashboards that may contain system information. Depending on how the environment is used, that data alone may not be useful due to benign use during normal operations."
+        "System and network discovery techniques normally occur throughout an operation as an adversary learns the environment. Data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities based on the information obtained.\n\nMonitor processes and command-line arguments for actions that could be taken to gather system and network information. Remote access tools with built-in features may interact directly with the Windows API to gather information. Information may also be acquired through Windows system management tools such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) and [PowerShell](https://attack.mitre.org/techniques/T1059/001).\n\nIn cloud-based systems, native logging can be used to identify access to certain APIs and dashboards that may contain system information. Depending on how the environment is used, that data alone may not be useful due to benign use during normal operations."
       ],
       "x_mitre_platforms": [
         "AWS",
@@ -98,16 +149,16 @@
       "x_mitre_contributors": [
         "Praetorian"
       ],
-      "x_mitre_version": "2.0"
+      "x_mitre_version": "2.1"
     },
     {
       "type": "attack-pattern",
       "id": "attack-pattern--355be19c-ffc9-46d5-8d50-d6a036c675b6",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
       "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-03-18T19:43:34.371Z",
-      "name": "T1071: Standard Application Layer Protocol",
-      "description": "Adversaries may communicate using a common, standardized application layer protocol such as HTTP, HTTPS, SMTP, or DNS to avoid detection by blending in with existing traffic. Commands to the remote system, and often the results of those commands, will be embedded within the protocol traffic between the client and server.\n\nFor connections that occur internally within an enclave (such as those between a proxy or pivot node and other nodes), commonly used protocols are RPC, SSH, or RDP.",
+      "modified": "2020-07-27T14:54:37.379Z",
+      "name": "T1071: Application Layer Protocol",
+      "description": "Adversaries may communicate using application layer protocols to avoid detection/network filtering by blending in with existing traffic. Commands to the remote system, and often the results of those commands, will be embedded within the protocol traffic between the client and server. \n\nAdversaries may utilize many different protocols, including those used for web browsing, transferring files, electronic mail, or DNS. For connections that occur internally within an enclave (such as those between a proxy or pivot node and other nodes), commonly used protocols are SMB, SSH, or RDP.",
       "kill_chain_phases": [
         {
           "kill_chain_name": "lockheed",
@@ -134,7 +185,7 @@
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
       "x_mitre_detection": [
-        "Analyze network data for uncommon data flows (e.g., a client sending significantly more data than it receives from a server). Processes utilizing the network that do not normally have network communication or have never been seen before are suspicious. Analyze packet contents to detect application layer protocols that do not follow the expected protocol for the port that is being used. (Citation: University of Birmingham C2)"
+        "Analyze network data for uncommon data flows (e.g., a client sending significantly more data than it receives from a server). Processes utilizing the network that do not normally have network communication or have never been seen before are suspicious. Analyze packet contents to detect application layer protocols that do not follow the expected protocol standards regarding syntax, structure, or any other variable adversaries could leverage to conceal data.(Citation: University of Birmingham C2)"
       ],
       "x_mitre_platforms": [
         "Linux",
@@ -142,8 +193,9 @@
         "macOS"
       ],
       "x_mitre_data_sources": [
-        "Malware reverse engineering",
+        "DNS records",
         "Netflow/Enclave netflow",
+        "Network protocol analysis",
         "Packet capture",
         "Process monitoring",
         "Process use of network"
@@ -151,67 +203,16 @@
       "x_mitre_network_requirements": [
         "true"
       ],
-      "x_mitre_version": "1.0"
+      "x_mitre_version": "2.0"
     },
     {
       "type": "attack-pattern",
-      "id": "attack-pattern--6aac77c4-eaf2-4366-8c13-ce50ab951f38",
-      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2019-08-26T15:33:33.158Z",
-      "modified": "2020-03-18T19:43:30.474Z",
-      "name": "T1193: Spearphishing Attachment",
-      "description": "Spearphishing attachment is a specific variant of spearphishing. Spearphishing attachment is different from other forms of spearphishing in that it employs the use of malware attached to an email. All forms of spearphishing are electronically delivered social engineering targeted at a specific individual, company, or industry. In this scenario, adversaries attach a file to the spearphishing email and usually rely upon [User Execution](https://attack.mitre.org/techniques/T1204) to gain execution.\n\nThere are many options for the attachment such as Microsoft Office documents, executables, PDFs, or archived files. Upon opening the attachment (and potentially clicking past protections), the adversary's payload exploits a vulnerability or directly executes on the user's system. The text of the spearphishing email usually tries to give a plausible reason why the file should be opened, and may explain how to bypass system protections in order to do so. The email may also contain instructions on how to decrypt an attachment, such as a zip file password, in order to evade email boundary defenses. Adversaries frequently manipulate file extensions and icons in order to make attached executables appear to be document files, or files exploiting one application appear to be a file for a different one.",
-      "kill_chain_phases": [
-        {
-          "kill_chain_name": "lockheed",
-          "phase_name": "delivery"
-        },
-        {
-          "kill_chain_name": "mitre-attack",
-          "phase_name": "initial-access"
-        }
-      ],
-      "external_references": [
-        {
-          "source_name": "capec",
-          "url": "https://capec.mitre.org/data/definitions/163.html",
-          "external_id": "CAPEC-163"
-        },
-        {
-          "source_name": "mitre-attack",
-          "url": "https://attack.mitre.org/techniques/T1193",
-          "external_id": "T1193"
-        }
-      ],
-      "object_marking_refs": [
-        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
-      ],
-      "x_mitre_detection": [
-        "Network intrusion detection systems and email gateways can be used to detect spearphishing with malicious attachments in transit. Detonation chambers may also be used to identify malicious attachments. Solutions can be signature and behavior based, but adversaries may construct attachments in a way to avoid these systems.\n\nAnti-virus can potentially detect malicious documents and attachments as they're scanned to be stored on the email server or on the user's computer. Endpoint sensing or network sensing can potentially detect malicious events once the attachment is opened (such as a Microsoft Word document or PDF reaching out to the internet or spawning Powershell.exe) for techniques such as [Exploitation for Client Execution](https://attack.mitre.org/techniques/T1203) and [Scripting](https://attack.mitre.org/techniques/T1064)."
-      ],
-      "x_mitre_platforms": [
-        "Linux",
-        "Windows",
-        "macOS"
-      ],
-      "x_mitre_data_sources": [
-        "Detonation chamber",
-        "Email gateway",
-        "File monitoring",
-        "Mail server",
-        "Network intrusion detection system",
-        "Packet capture"
-      ],
-      "x_mitre_version": "1.0"
-    },
-    {
-      "type": "attack-pattern",
-      "id": "attack-pattern--9422fc14-1c43-410d-ab0f-a709b76c72dc",
+      "id": "attack-pattern--970a3432-3237-47ad-bcca-7d8cbb217736",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
       "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-03-18T19:43:43.565Z",
-      "name": "T1060: Registry Run Keys / Startup Folder",
-      "description": "Adding an entry to the \"run keys\" in the Registry or startup folder will cause the program referenced to be executed when a user logs in. (Citation: Microsoft Run Key) These programs will be executed under the context of the user and will have the account's associated permissions level.\n\nThe following run keys are created by default on Windows systems:\n* <code>HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Run</code>\n* <code>HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\RunOnce</code>\n* <code>HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Run</code>\n* <code>HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\RunOnce</code>\n\nThe <code>HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\RunOnceEx</code> is also available but is not created by default on Windows Vista and newer. Registry run key entries can reference programs directly or list them as a dependency. (Citation: Microsoft RunOnceEx APR 2018) For example, it is possible to load a DLL at logon using a \"Depend\" key with RunOnceEx: <code>reg add HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\RunOnceEx\\0001\\Depend /v 1 /d \"C:\\temp\\evil[.]dll\"</code> (Citation: Oddvar Moe RunOnceEx Mar 2018)\n\nThe following Registry keys can be used to set startup folder items for persistence:\n* <code>HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\User Shell Folders</code>\n* <code>HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders</code>\n* <code>HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders</code>\n* <code>HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\User Shell Folders</code>\n\nThe following Registry keys can control automatic startup of services during boot:\n* <code>HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\RunServicesOnce</code>\n* <code>HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\RunServicesOnce</code>\n* <code>HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\RunServices</code>\n* <code>HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\RunServices</code>\n\nUsing policy settings to specify startup programs creates corresponding values in either of two Registry keys:\n* <code>HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\Run</code>\n* <code>HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\Run</code>\n\nThe Winlogon key controls actions that occur when a user logs on to a computer running Windows 7. Most of these actions are under the control of the operating system, but you can also add custom actions here. The <code>HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\Userinit</code> and <code>HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\Shell</code> subkeys can automatically launch programs.\n\nPrograms listed in the load value of the registry key <code>HKEY_CURRENT_USER\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Windows</code> run when any user logs on.\n\nBy default, the multistring BootExecute value of the registry key <code>HKEY_LOCAL_MACHINE\\System\\CurrentControlSet\\Control\\Session Manager</code> is set to autocheck autochk *. This value causes Windows, at startup, to check the file-system integrity of the hard disks if the system has been shut down abnormally. Adversaries can add other programs or processes to this registry value which will automatically launch at boot.\n\n\nAdversaries can use these configuration locations to execute malware, such as remote access tools, to maintain persistence through system reboots. Adversaries may also use [Masquerading](https://attack.mitre.org/techniques/T1036) to make the Registry entries look as if they are associated with legitimate programs.",
+      "modified": "2020-07-27T14:54:37.379Z",
+      "name": "T1059.001: PowerShell",
+      "description": "Adversaries may abuse PowerShell commands and scripts for execution. PowerShell is a powerful interactive command-line interface and scripting environment included in the Windows operating system. (Citation: TechNet PowerShell) Adversaries can use PowerShell to perform a number of actions, including discovery of information and execution of code. Examples include the <code>Start-Process</code> cmdlet which can be used to run an executable and the <code>Invoke-Command</code> cmdlet which runs a command locally or on a remote computer (though administrator permissions are required to use PowerShell to connect to remote systems).\n\nPowerShell may also be used to download and run executables from the Internet, which can be executed from disk or in memory without touching disk.\n\nA number of PowerShell-based offensive testing tools are available, including [Empire](https://attack.mitre.org/software/S0363),  [PowerSploit](https://attack.mitre.org/software/S0194), [PoshC2](https://attack.mitre.org/software/S0378), and PSAttack.(Citation: Github PSAttack)\n\nPowerShell commands/scripts can also be executed without directly invoking the <code>powershell.exe</code> binary through interfaces to PowerShell's underlying <code>System.Management.Automation</code> assembly DLL exposed through the .NET framework and Windows Common Language Interface (CLI). (Citation: Sixdub PowerPick Jan 2016)(Citation: SilentBreak Offensive PS Dec 2015)(Citation: Microsoft PSfromCsharp APR 2014)",
       "kill_chain_phases": [
         {
           "kill_chain_name": "lockheed",
@@ -219,7 +220,103 @@
         },
         {
           "kill_chain_name": "mitre-attack",
+          "phase_name": "execution"
+        }
+      ],
+      "external_references": [
+        {
+          "source_name": "FireEye PowerShell Logging 2016",
+          "url": "https://www.fireeye.com/blog/threat-research/2016/02/greater_visibilityt.html",
+          "description": "Dunwoody, M. (2016, February 11). GREATER VISIBILITY THROUGH POWERSHELL LOGGING. Retrieved February 16, 2016."
+        },
+        {
+          "source_name": "Github PSAttack",
+          "url": "https://github.com/jaredhaight/PSAttack",
+          "description": "Haight, J. (2016, April 21). PS>Attack. Retrieved June 1, 2016."
+        },
+        {
+          "source_name": "Malware Archaeology PowerShell Cheat Sheet",
+          "url": "http://www.malwarearchaeology.com/s/Windows-PowerShell-Logging-Cheat-Sheet-ver-June-2016-v2.pdf",
+          "description": "Malware Archaeology. (2016, June). WINDOWS POWERSHELL LOGGING CHEAT SHEET - Win 7/Win 2008 or later. Retrieved June 24, 2016."
+        },
+        {
+          "source_name": "Microsoft PSfromCsharp APR 2014",
+          "url": "https://blogs.msdn.microsoft.com/kebab/2014/04/28/executing-powershell-scripts-from-c/",
+          "description": "Babinec, K. (2014, April 28). Executing PowerShell scripts from C#. Retrieved April 22, 2019."
+        },
+        {
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1059/001",
+          "external_id": "T1059.001"
+        },
+        {
+          "source_name": "SilentBreak Offensive PS Dec 2015",
+          "url": "https://silentbreaksecurity.com/powershell-jobs-without-powershell-exe/",
+          "description": "Christensen, L.. (2015, December 28). The Evolution of Offensive PowerShell Invocation. Retrieved December 8, 2018."
+        },
+        {
+          "source_name": "Sixdub PowerPick Jan 2016",
+          "url": "http://www.sixdub.net/?p=367",
+          "description": "Warner, J.. (2015, January 6). Inexorable PowerShell \u2013 A Red Teamer\u2019s Tale of Overcoming Simple AppLocker Policies. Retrieved December 8, 2018."
+        },
+        {
+          "source_name": "TechNet PowerShell",
+          "url": "https://technet.microsoft.com/en-us/scriptcenter/dd742419.aspx",
+          "description": "Microsoft. (n.d.). Windows PowerShell Scripting. Retrieved April 28, 2016."
+        }
+      ],
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ],
+      "x_mitre_detection": [
+        "If proper execution policy is set, adversaries will likely be able to define their own execution policy if they obtain administrator or system access, either through the Registry or at the command line. This change in policy on a system may be a way to detect malicious use of PowerShell. If PowerShell is not used in an environment, then simply looking for PowerShell execution may detect malicious activity.\n\nMonitor for loading and/or execution of artifacts associated with PowerShell specific assemblies, such as System.Management.Automation.dll (especially to unusual process names/locations).(Citation: Sixdub PowerPick Jan 2016)(Citation: SilentBreak Offensive PS Dec 2015)\n\nIt is also beneficial to turn on PowerShell logging to gain increased fidelity in what occurs during execution (which is applied to .NET invocations). (Citation: Malware Archaeology PowerShell Cheat Sheet) PowerShell 5.0 introduced enhanced logging capabilities, and some of those features have since been added to PowerShell 4.0. Earlier versions of PowerShell do not have many logging features.(Citation: FireEye PowerShell Logging 2016) An organization can gather PowerShell execution details in a data analytic platform to supplement it with other data."
+      ],
+      "x_mitre_platforms": [
+        "Windows"
+      ],
+      "x_mitre_data_sources": [
+        "DLL monitoring",
+        "File monitoring",
+        "Loaded DLLs",
+        "PowerShell logs",
+        "Process command-line parameters",
+        "Process monitoring",
+        "Windows event logs"
+      ],
+      "x_mitre_permissions_required": [
+        "Administrator",
+        "User"
+      ],
+      "x_mitre_remote_support": "true",
+      "x_mitre_contributors": [
+        "Praetorian"
+      ],
+      "x_mitre_version": "1.0"
+    },
+    {
+      "type": "attack-pattern",
+      "id": "attack-pattern--9efb1ea7-c37b-4595-9640-b7680cd84279",
+      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "created": "2018-08-03T19:54:02.821Z",
+      "modified": "2020-07-27T14:54:43.075Z",
+      "name": "T1547.001: Registry Run Keys / Startup Folder",
+      "description": "Adversaries may achieve persistence by adding a program to a startup folder or referencing it with a Registry run key. Adding an entry to the \"run keys\" in the Registry or startup folder will cause the program referenced to be executed when a user logs in. (Citation: Microsoft Run Key) These programs will be executed under the context of the user and will have the account's associated permissions level.\n\nPlacing a program within a startup folder will also cause that program to execute when a user logs in. There is a startup folder location for individual user accounts as well as a system-wide startup folder that will be checked regardless of which user account logs in. The startup folder path for the current user is <code>C:\\Users\\[Username]\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Startup</code>. The startup folder path for all users is <code>C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\StartUp</code>.\n\nThe following run keys are created by default on Windows systems:\n* <code>HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Run</code>\n* <code>HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\RunOnce</code>\n* <code>HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Run</code>\n* <code>HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\RunOnce</code>\n\nThe <code>HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\RunOnceEx</code> is also available but is not created by default on Windows Vista and newer. Registry run key entries can reference programs directly or list them as a dependency. (Citation: Microsoft RunOnceEx APR 2018) For example, it is possible to load a DLL at logon using a \"Depend\" key with RunOnceEx: <code>reg add HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\RunOnceEx\\0001\\Depend /v 1 /d \"C:\\temp\\evil[.]dll\"</code> (Citation: Oddvar Moe RunOnceEx Mar 2018)\n\nThe following Registry keys can be used to set startup folder items for persistence:\n* <code>HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\User Shell Folders</code>\n* <code>HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders</code>\n* <code>HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders</code>\n* <code>HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\User Shell Folders</code>\n\nThe following Registry keys can control automatic startup of services during boot:\n* <code>HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\RunServicesOnce</code>\n* <code>HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\RunServicesOnce</code>\n* <code>HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\RunServices</code>\n* <code>HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\RunServices</code>\n\nUsing policy settings to specify startup programs creates corresponding values in either of two Registry keys:\n* <code>HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\Run</code>\n* <code>HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\Run</code>\n\nThe Winlogon key controls actions that occur when a user logs on to a computer running Windows 7. Most of these actions are under the control of the operating system, but you can also add custom actions here. The <code>HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\Userinit</code> and <code>HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\Shell</code> subkeys can automatically launch programs.\n\nPrograms listed in the load value of the registry key <code>HKEY_CURRENT_USER\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Windows</code> run when any user logs on.\n\nBy default, the multistring <code>BootExecute</code> value of the registry key <code>HKEY_LOCAL_MACHINE\\System\\CurrentControlSet\\Control\\Session Manager</code> is set to <code>autocheck autochk *</code>. This value causes Windows, at startup, to check the file-system integrity of the hard disks if the system has been shut down abnormally. Adversaries can add other programs or processes to this registry value which will automatically launch at boot.\n\nAdversaries can use these configuration locations to execute malware, such as remote access tools, to maintain persistence through system reboots. Adversaries may also use [Masquerading](https://attack.mitre.org/techniques/T1036) to make the Registry entries look as if they are associated with legitimate programs.",
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "lockheed",
+          "phase_name": "act-on-objectives"
+        },
+        {
+          "kill_chain_name": "lockheed",
+          "phase_name": "installation"
+        },
+        {
+          "kill_chain_name": "mitre-attack",
           "phase_name": "persistence"
+        },
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "privilege-escalation"
         }
       ],
       "external_references": [
@@ -240,8 +337,8 @@
         },
         {
           "source_name": "mitre-attack",
-          "url": "https://attack.mitre.org/techniques/T1060",
-          "external_id": "T1060"
+          "url": "https://attack.mitre.org/techniques/T1547/001",
+          "external_id": "T1547.001"
         },
         {
           "source_name": "Oddvar Moe RunOnceEx Mar 2018",
@@ -271,9 +368,6 @@
         "Administrator",
         "User"
       ],
-      "x_mitre_system_requirements": [
-        "HKEY_LOCAL_MACHINE keys require administrator access to create and modify"
-      ],
       "x_mitre_contributors": [
         "Oddvar Moe, @oddvarmoe"
       ],
@@ -284,9 +378,9 @@
       "id": "attack-pattern--be2dcee9-a7a7-4e38-afd6-21b31ecc3d63",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
       "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-03-18T19:43:51.196Z",
+      "modified": "2020-07-27T14:54:38.428Z",
       "name": "T1203: Exploitation for Client Execution",
-      "description": "Vulnerabilities can exist in software due to unsecure coding practices that can lead to unanticipated behavior. Adversaries can take advantage of certain vulnerabilities through targeted exploitation for the purpose of arbitrary code execution. Oftentimes the most valuable exploits to an offensive toolkit are those that can be used to obtain code execution on a remote system because they can be used to gain access to that system. Users will expect to see files related to the applications they commonly used to do work, so they are a useful target for exploit research and development because of their high utility.\n\nSeveral types exist:\n\n### Browser-based Exploitation\n\nWeb browsers are a common target through [Drive-by Compromise](https://attack.mitre.org/techniques/T1189) and [Spearphishing Link](https://attack.mitre.org/techniques/T1192). Endpoint systems may be compromised through normal web browsing or from certain users being targeted by links in spearphishing emails to adversary controlled sites used to exploit the web browser. These often do not require an action by the user for the exploit to be executed.\n\n### Office Applications\n\nCommon office and productivity applications such as Microsoft Office are also targeted through [Spearphishing Attachment](https://attack.mitre.org/techniques/T1193), [Spearphishing Link](https://attack.mitre.org/techniques/T1192), and [Spearphishing via Service](https://attack.mitre.org/techniques/T1194). Malicious files will be transmitted directly as attachments or through links to download them. These require the user to open the document or file for the exploit to run.\n\n### Common Third-party Applications\n\nOther applications that are commonly seen or are part of the software deployed in a target network may also be used for exploitation. Applications such as Adobe Reader and Flash, which are common in enterprise environments, have been routinely targeted by adversaries attempting to gain access to systems. Depending on the software and nature of the vulnerability, some may be exploited in the browser or require the user to open a file. For instance, some Flash exploits have been delivered as objects within Microsoft Office documents.",
+      "description": "Adversaries may exploit software vulnerabilities in client applications to execute code. Vulnerabilities can exist in software due to unsecure coding practices that can lead to unanticipated behavior. Adversaries can take advantage of certain vulnerabilities through targeted exploitation for the purpose of arbitrary code execution. Oftentimes the most valuable exploits to an offensive toolkit are those that can be used to obtain code execution on a remote system because they can be used to gain access to that system. Users will expect to see files related to the applications they commonly used to do work, so they are a useful target for exploit research and development because of their high utility.\n\nSeveral types exist:\n\n### Browser-based Exploitation\n\nWeb browsers are a common target through [Drive-by Compromise](https://attack.mitre.org/techniques/T1189) and [Spearphishing Link](https://attack.mitre.org/techniques/T1566/002). Endpoint systems may be compromised through normal web browsing or from certain users being targeted by links in spearphishing emails to adversary controlled sites used to exploit the web browser. These often do not require an action by the user for the exploit to be executed.\n\n### Office Applications\n\nCommon office and productivity applications such as Microsoft Office are also targeted through [Phishing](https://attack.mitre.org/techniques/T1566). Malicious files will be transmitted directly as attachments or through links to download them. These require the user to open the document or file for the exploit to run.\n\n### Common Third-party Applications\n\nOther applications that are commonly seen or are part of the software deployed in a target network may also be used for exploitation. Applications such as Adobe Reader and Flash, which are common in enterprise environments, have been routinely targeted by adversaries attempting to gain access to systems. Depending on the software and nature of the vulnerability, some may be exploited in the browser or require the user to open a file. For instance, some Flash exploits have been delivered as objects within Microsoft Office documents.",
       "kill_chain_phases": [
         {
           "kill_chain_name": "lockheed",
@@ -324,16 +418,16 @@
         "Remote exploitation for execution requires a remotely accessible service reachable over the network or other vector of access such as spearphishing or drive-by compromise."
       ],
       "x_mitre_remote_support": "true",
-      "x_mitre_version": "1.0"
+      "x_mitre_version": "1.1"
     },
     {
       "type": "attack-pattern",
       "id": "attack-pattern--dc31fe1e-d722-49da-8f5f-92c7b5aff534",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
       "created": "2018-12-17T14:34:52.626Z",
-      "modified": "2019-05-06T20:46:10.274Z",
+      "modified": "2020-07-27T14:54:38.828Z",
       "name": "T1221: Template Injection",
-      "description": "Microsoft\u2019s Open Office XML (OOXML) specification defines an XML-based format for Office documents (.docx, xlsx, .pptx) to replace older binary formats (.doc, .xls, .ppt). OOXML files are packed together ZIP archives compromised of various XML files, referred to as parts, containing properties that collectively define how a document is rendered. (Citation: Microsoft Open XML July 2017)\n\nProperties within parts may reference shared public resources accessed via online URLs. For example, template properties reference a file, serving as a pre-formatted document blueprint, that is fetched when the document is loaded.\n\nAdversaries may abuse this technology to initially conceal malicious code to be executed via documents (i.e. [Scripting](https://attack.mitre.org/techniques/T1064)). Template references injected into a document may enable malicious payloads to be fetched and executed when the document is loaded. (Citation: SANS Brian Wiltse Template Injection) These documents can be delivered via other techniques such as [Spearphishing Attachment](https://attack.mitre.org/techniques/T1193) and/or [Taint Shared Content](https://attack.mitre.org/techniques/T1080) and may evade static detections since no typical indicators (VBA macro, script, etc.) are present until after the malicious payload is fetched. (Citation: Redxorblue Remote Template Injection) Examples have been seen in the wild where template injection was used to load malicious code containing an exploit. (Citation: MalwareBytes Template Injection OCT 2017)\n\nThis technique may also enable [Forced Authentication](https://attack.mitre.org/techniques/T1187) by injecting a SMB/HTTPS (or other credential prompting) URL and triggering an authentication attempt. (Citation: Anomali Template Injection MAR 2018) (Citation: Talos Template Injection July 2017) (Citation: ryhanson phishery SEPT 2016)",
+      "description": "Adversaries may create or modify references in Office document templates to conceal malicious code or force authentication attempts. Microsoft\u2019s Office Open XML (OOXML) specification defines an XML-based format for Office documents (.docx, xlsx, .pptx) to replace older binary formats (.doc, .xls, .ppt). OOXML files are packed together ZIP archives compromised of various XML files, referred to as parts, containing properties that collectively define how a document is rendered. (Citation: Microsoft Open XML July 2017)\n\nProperties within parts may reference shared public resources accessed via online URLs. For example, template properties reference a file, serving as a pre-formatted document blueprint, that is fetched when the document is loaded.\n\nAdversaries may abuse this technology to initially conceal malicious code to be executed via documents. Template references injected into a document may enable malicious payloads to be fetched and executed when the document is loaded. (Citation: SANS Brian Wiltse Template Injection) These documents can be delivered via other techniques such as [Phishing](https://attack.mitre.org/techniques/T1566) and/or [Taint Shared Content](https://attack.mitre.org/techniques/T1080) and may evade static detections since no typical indicators (VBA macro, script, etc.) are present until after the malicious payload is fetched. (Citation: Redxorblue Remote Template Injection) Examples have been seen in the wild where template injection was used to load malicious code containing an exploit. (Citation: MalwareBytes Template Injection OCT 2017)\n\nThis technique may also enable [Forced Authentication](https://attack.mitre.org/techniques/T1187) by injecting a SMB/HTTPS (or other credential prompting) URL and triggering an authentication attempt. (Citation: Anomali Template Injection MAR 2018) (Citation: Talos Template Injection July 2017) (Citation: ryhanson phishery SEPT 2016)",
       "kill_chain_phases": [
         {
           "kill_chain_name": "lockheed",
@@ -390,7 +484,7 @@
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
       "x_mitre_detection": [
-        "Analyze process behavior to determine if an Office application is performing actions, such as opening network connections, reading files, spawning abnormal child processes (ex: [PowerShell](https://attack.mitre.org/techniques/T1086)), or other suspicious actions that could relate to post-compromise behavior."
+        "Analyze process behavior to determine if an Office application is performing actions, such as opening network connections, reading files, spawning abnormal child processes (ex: [PowerShell](https://attack.mitre.org/techniques/T1059/001)), or other suspicious actions that could relate to post-compromise behavior."
       ],
       "x_mitre_platforms": [
         "Windows"
@@ -408,102 +502,10 @@
         "Static File Analysis"
       ],
       "x_mitre_contributors": [
+        "Brian Wiltse @evalstrings",
         "Patrick Campbell, @pjcampbe11"
       ],
-      "x_mitre_version": "1.1"
-    },
-    {
-      "type": "attack-pattern",
-      "id": "attack-pattern--f4882e23-8aa7-4b12-b28a-b349c12ee9e0",
-      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-03-18T19:43:52.950Z",
-      "name": "T1086: PowerShell",
-      "description": "PowerShell is a powerful interactive command-line interface and scripting environment included in the Windows operating system. (Citation: TechNet PowerShell) Adversaries can use PowerShell to perform a number of actions, including discovery of information and execution of code. Examples include the Start-Process cmdlet which can be used to run an executable and the Invoke-Command cmdlet which runs a command locally or on a remote computer. \n\nPowerShell may also be used to download and run executables from the Internet, which can be executed from disk or in memory without touching disk.\n\nAdministrator permissions are required to use PowerShell to connect to remote systems.\n\nA number of PowerShell-based offensive testing tools are available, including [Empire](https://attack.mitre.org/software/S0363),  PowerSploit, (Citation: Powersploit) and PSAttack. (Citation: Github PSAttack)\n\nPowerShell commands/scripts can also be executed without directly invoking the powershell.exe binary through interfaces to PowerShell's underlying System.Management.Automation assembly exposed through the .NET framework and Windows Common Language Interface (CLI). (Citation: Sixdub PowerPick Jan 2016)(Citation: SilentBreak Offensive PS Dec 2015) (Citation: Microsoft PSfromCsharp APR 2014)",
-      "kill_chain_phases": [
-        {
-          "kill_chain_name": "lockheed",
-          "phase_name": "installation"
-        },
-        {
-          "kill_chain_name": "mitre-attack",
-          "phase_name": "execution"
-        }
-      ],
-      "external_references": [
-        {
-          "source_name": "FireEye PowerShell Logging 2016",
-          "url": "https://www.fireeye.com/blog/threat-research/2016/02/greater_visibilityt.html",
-          "description": "Dunwoody, M. (2016, February 11). GREATER VISIBILITY THROUGH POWERSHELL LOGGING. Retrieved February 16, 2016."
-        },
-        {
-          "source_name": "Github PSAttack",
-          "url": "https://github.com/jaredhaight/PSAttack",
-          "description": "Haight, J. (2016, April 21). PS>Attack. Retrieved June 1, 2016."
-        },
-        {
-          "source_name": "Malware Archaeology PowerShell Cheat Sheet",
-          "url": "http://www.malwarearchaeology.com/s/Windows-PowerShell-Logging-Cheat-Sheet-ver-June-2016-v2.pdf",
-          "description": "Malware Archaeology. (2016, June). WINDOWS POWERSHELL LOGGING CHEAT SHEET - Win 7/Win 2008 or later. Retrieved June 24, 2016."
-        },
-        {
-          "source_name": "Microsoft PSfromCsharp APR 2014",
-          "url": "https://blogs.msdn.microsoft.com/kebab/2014/04/28/executing-powershell-scripts-from-c/",
-          "description": "Babinec, K. (2014, April 28). Executing PowerShell scripts from C#. Retrieved April 22, 2019."
-        },
-        {
-          "source_name": "mitre-attack",
-          "url": "https://attack.mitre.org/techniques/T1086",
-          "external_id": "T1086"
-        },
-        {
-          "source_name": "Powersploit",
-          "url": "https://github.com/mattifestation/PowerSploit",
-          "description": "PowerSploit. (n.d.). Retrieved December 4, 2014."
-        },
-        {
-          "source_name": "SilentBreak Offensive PS Dec 2015",
-          "url": "https://silentbreaksecurity.com/powershell-jobs-without-powershell-exe/",
-          "description": "Christensen, L.. (2015, December 28). The Evolution of Offensive PowerShell Invocation. Retrieved December 8, 2018."
-        },
-        {
-          "source_name": "Sixdub PowerPick Jan 2016",
-          "url": "http://www.sixdub.net/?p=367",
-          "description": "Warner, J.. (2015, January 6). Inexorable PowerShell \u2013 A Red Teamer\u2019s Tale of Overcoming Simple AppLocker Policies. Retrieved December 8, 2018."
-        },
-        {
-          "source_name": "TechNet PowerShell",
-          "url": "https://technet.microsoft.com/en-us/scriptcenter/dd742419.aspx",
-          "description": "Microsoft. (n.d.). Windows PowerShell Scripting. Retrieved April 28, 2016."
-        }
-      ],
-      "object_marking_refs": [
-        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
-      ],
-      "x_mitre_detection": [
-        "If proper execution policy is set, adversaries will likely be able to define their own execution policy if they obtain administrator or system access, either through the Registry or at the command line. This change in policy on a system may be a way to detect malicious use of PowerShell. If PowerShell is not used in an environment, then simply looking for PowerShell execution may detect malicious activity.\n\nMonitor for loading and/or execution of artifacts associated with PowerShell specific assemblies, such as System.Management.Automation.dll (especially to unusual process names/locations). (Citation: Sixdub PowerPick Jan 2016)(Citation: SilentBreak Offensive PS Dec 2015)\n\nIt is also beneficial to turn on PowerShell logging to gain increased fidelity in what occurs during execution (which is applied to .NET invocations). (Citation: Malware Archaeology PowerShell Cheat Sheet) PowerShell 5.0 introduced enhanced logging capabilities, and some of those features have since been added to PowerShell 4.0. Earlier versions of PowerShell do not have many logging features. (Citation: FireEye PowerShell Logging 2016) An organization can gather PowerShell execution details in a data analytic platform to supplement it with other data."
-      ],
-      "x_mitre_platforms": [
-        "Windows"
-      ],
-      "x_mitre_data_sources": [
-        "DLL monitoring",
-        "File monitoring",
-        "Loaded DLLs",
-        "PowerShell logs",
-        "Process command-line parameters",
-        "Process monitoring",
-        "Windows Registry"
-      ],
-      "x_mitre_permissions_required": [
-        "Administrator",
-        "User"
-      ],
-      "x_mitre_remote_support": "true",
-      "x_mitre_contributors": [
-        "Praetorian"
-      ],
-      "x_mitre_version": "1.1"
+      "x_mitre_version": "1.2"
     },
     {
       "type": "campaign",
@@ -1363,7 +1365,7 @@
       "relationship_type": "uses",
       "description": "Exploit Document",
       "source_ref": "indicator--d577fac9-b864-42be-980f-6d2f7aca0ee1",
-      "target_ref": "attack-pattern--6aac77c4-eaf2-4366-8c13-ce50ab951f38"
+      "target_ref": "attack-pattern--2e34237d-8574-43f6-aace-ae2915de8597"
     },
     {
       "type": "relationship",
@@ -1384,7 +1386,7 @@
       "modified": "2019-07-11T14:18:24.048Z",
       "relationship_type": "uses",
       "source_ref": "campaign--51b1dd01-ff47-4d15-ad87-9b88aa6153e3",
-      "target_ref": "attack-pattern--9422fc14-1c43-410d-ab0f-a709b76c72dc"
+      "target_ref": "attack-pattern--9efb1ea7-c37b-4595-9640-b7680cd84279"
     },
     {
       "type": "relationship",
@@ -1472,7 +1474,7 @@
       "modified": "2020-06-26T13:02:55.807Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--79fd0d10-6272-4191-8b8d-9c72f19358d0",
-      "target_ref": "attack-pattern--6aac77c4-eaf2-4366-8c13-ce50ab951f38",
+      "target_ref": "attack-pattern--2e34237d-8574-43f6-aace-ae2915de8597",
       "x_panw_coa_u42_panw_product": [
         "Wildfire"
       ]
@@ -1493,10 +1495,19 @@
       "modified": "2020-06-26T13:02:55.809Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--911488bc-ccbb-45bb-a6b1-1c172c00beb2",
-      "target_ref": "attack-pattern--9422fc14-1c43-410d-ab0f-a709b76c72dc",
+      "target_ref": "attack-pattern--9efb1ea7-c37b-4595-9640-b7680cd84279",
       "x_panw_coa_u42_panw_product": [
         "Cortex XDR Prevent"
       ]
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--2e34237d-8574-43f6-aace-ae2915de8597",
+      "created": "2018-11-06T16:01:47.454Z",
+      "modified": "2019-10-15T14:51:05.219Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--51b1dd01-ff47-4d15-ad87-9b88aa6153e3",
+      "target_ref": "attack-pattern--2e34237d-8574-43f6-aace-ae2915de8597"
     },
     {
       "type": "relationship",
@@ -1505,7 +1516,7 @@
       "modified": "2020-06-26T19:00:12.605Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--8190ac5a-8a5e-41bc-85dd-62e0f5cdd2ba",
-      "target_ref": "attack-pattern--f4882e23-8aa7-4b12-b28a-b349c12ee9e0",
+      "target_ref": "attack-pattern--970a3432-3237-47ad-bcca-7d8cbb217736",
       "x_panw_coa_u42_panw_product": [
         "Wildfire"
       ]
@@ -1527,7 +1538,7 @@
       "modified": "2020-06-26T13:02:55.807Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--65b33218-a589-4060-93c7-03ab3dc17a42",
-      "target_ref": "attack-pattern--6aac77c4-eaf2-4366-8c13-ce50ab951f38",
+      "target_ref": "attack-pattern--2e34237d-8574-43f6-aace-ae2915de8597",
       "x_panw_coa_u42_panw_product": [
         "Cortex XDR Prevent"
       ]
@@ -1549,7 +1560,7 @@
       "modified": "2020-06-26T13:02:55.807Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--a79d2365-61c7-48b9-b024-e2020b99bba0",
-      "target_ref": "attack-pattern--6aac77c4-eaf2-4366-8c13-ce50ab951f38",
+      "target_ref": "attack-pattern--2e34237d-8574-43f6-aace-ae2915de8597",
       "x_panw_coa_u42_panw_product": [
         "Wildfire"
       ]
@@ -1592,13 +1603,13 @@
       "relationship_type": "uses",
       "description": "Exploit Document",
       "source_ref": "indicator--b41d8415-d6fd-4b37-8f53-ee2a25a9aada",
-      "target_ref": "attack-pattern--6aac77c4-eaf2-4366-8c13-ce50ab951f38"
+      "target_ref": "attack-pattern--2e34237d-8574-43f6-aace-ae2915de8597"
     },
     {
       "type": "relationship",
       "id": "relationship--42b0b7d0-1f78-463d-90e5-e69bafa85a38",
       "created": "2018-11-06T15:57:03.820Z",
-      "modified": "2020-06-26T19:00:30.215Z",
+      "modified": "2020-07-30T16:55:37.397Z",
       "relationship_type": "attributed-to",
       "source_ref": "report--42b0b7d0-1f78-463d-90e5-e69bafa85a38",
       "target_ref": "intrusion-set--38ae6c9b-1fa0-4c30-b846-7f3f170a9eff"
@@ -1619,7 +1630,7 @@
       "modified": "2020-06-26T13:02:55.807Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--f4d50de0-ecc5-4f9e-b8f7-214cdfe28d39",
-      "target_ref": "attack-pattern--6aac77c4-eaf2-4366-8c13-ce50ab951f38",
+      "target_ref": "attack-pattern--2e34237d-8574-43f6-aace-ae2915de8597",
       "x_panw_coa_u42_panw_product": [
         "Wildfire"
       ]
@@ -1631,7 +1642,7 @@
       "modified": "2020-06-26T13:02:55.807Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--645c6c45-116e-4265-98d2-e30f56325bc6",
-      "target_ref": "attack-pattern--6aac77c4-eaf2-4366-8c13-ce50ab951f38",
+      "target_ref": "attack-pattern--2e34237d-8574-43f6-aace-ae2915de8597",
       "x_panw_coa_u42_panw_product": [
         "Threat Prevention"
       ]
@@ -1643,7 +1654,7 @@
       "modified": "2020-06-26T13:02:55.808Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--a5683f69-6e63-42b6-a671-604b8e40eb9a",
-      "target_ref": "attack-pattern--6aac77c4-eaf2-4366-8c13-ce50ab951f38",
+      "target_ref": "attack-pattern--2e34237d-8574-43f6-aace-ae2915de8597",
       "x_panw_coa_u42_panw_product": [
         "XSOAR"
       ]
@@ -1667,7 +1678,7 @@
       "modified": "2020-06-26T19:00:12.605Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--fd0da09e-a0b2-4018-9476-1a7edd809b59",
-      "target_ref": "attack-pattern--f4882e23-8aa7-4b12-b28a-b349c12ee9e0",
+      "target_ref": "attack-pattern--970a3432-3237-47ad-bcca-7d8cbb217736",
       "x_panw_coa_u42_panw_product": [
         "Wildfire"
       ]
@@ -1720,7 +1731,7 @@
       "relationship_type": "uses",
       "description": "Exploit Document",
       "source_ref": "indicator--0927be16-0bd1-48dc-b89c-050e5703294c",
-      "target_ref": "attack-pattern--6aac77c4-eaf2-4366-8c13-ce50ab951f38"
+      "target_ref": "attack-pattern--2e34237d-8574-43f6-aace-ae2915de8597"
     },
     {
       "type": "relationship",
@@ -1729,7 +1740,7 @@
       "modified": "2020-06-26T13:02:55.808Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--73a0424d-4238-48d2-9dca-676e986644f2",
-      "target_ref": "attack-pattern--6aac77c4-eaf2-4366-8c13-ce50ab951f38",
+      "target_ref": "attack-pattern--2e34237d-8574-43f6-aace-ae2915de8597",
       "x_panw_coa_u42_panw_product": [
         "XSOAR"
       ]
@@ -1758,22 +1769,13 @@
     },
     {
       "type": "relationship",
-      "id": "relationship--6aac77c4-eaf2-4366-8c13-ce50ab951f38",
-      "created": "2018-11-06T16:01:47.454Z",
-      "modified": "2019-10-15T14:51:05.219Z",
-      "relationship_type": "uses",
-      "source_ref": "campaign--51b1dd01-ff47-4d15-ad87-9b88aa6153e3",
-      "target_ref": "attack-pattern--6aac77c4-eaf2-4366-8c13-ce50ab951f38"
-    },
-    {
-      "type": "relationship",
       "id": "relationship--6aaf75f4-e657-423a-a1be-b84f66cc38bd",
       "created": "2019-08-27T14:57:45.471Z",
       "modified": "2019-08-27T14:57:45.471Z",
       "relationship_type": "uses",
       "description": "Exploit Document",
       "source_ref": "indicator--e2bd041a-39cf-4f66-b9ed-6f0482b1dcb7",
-      "target_ref": "attack-pattern--6aac77c4-eaf2-4366-8c13-ce50ab951f38"
+      "target_ref": "attack-pattern--2e34237d-8574-43f6-aace-ae2915de8597"
     },
     {
       "type": "relationship",
@@ -1783,7 +1785,7 @@
       "relationship_type": "uses",
       "description": "Powershell based malware",
       "source_ref": "indicator--2baa103e-fa1a-4ab1-a45a-f8fe9ada43d7",
-      "target_ref": "attack-pattern--f4882e23-8aa7-4b12-b28a-b349c12ee9e0"
+      "target_ref": "attack-pattern--970a3432-3237-47ad-bcca-7d8cbb217736"
     },
     {
       "type": "relationship",
@@ -1810,7 +1812,7 @@
       "modified": "2020-06-26T13:02:55.807Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--28f61b3c-18a6-4991-8a17-7cfcd388136c",
-      "target_ref": "attack-pattern--6aac77c4-eaf2-4366-8c13-ce50ab951f38",
+      "target_ref": "attack-pattern--2e34237d-8574-43f6-aace-ae2915de8597",
       "x_panw_coa_u42_panw_product": [
         "NGFW"
       ]
@@ -1841,7 +1843,7 @@
       "modified": "2020-06-26T13:02:55.807Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--a592acb0-98ba-4a8e-a5cf-2e78d2806e75",
-      "target_ref": "attack-pattern--6aac77c4-eaf2-4366-8c13-ce50ab951f38",
+      "target_ref": "attack-pattern--2e34237d-8574-43f6-aace-ae2915de8597",
       "x_panw_coa_u42_panw_product": [
         "Wildfire"
       ]
@@ -1923,7 +1925,7 @@
       "modified": "2020-06-26T19:00:12.605Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--f4d50de0-ecc5-4f9e-b8f7-214cdfe28d39",
-      "target_ref": "attack-pattern--f4882e23-8aa7-4b12-b28a-b349c12ee9e0",
+      "target_ref": "attack-pattern--970a3432-3237-47ad-bcca-7d8cbb217736",
       "x_panw_coa_u42_panw_product": [
         "Wildfire"
       ]
@@ -1951,24 +1953,24 @@
     },
     {
       "type": "relationship",
-      "id": "relationship--9422fc14-1c43-410d-ab0f-a709b76c72dc",
-      "created": "2018-11-06T16:01:47.454Z",
-      "modified": "2019-10-15T14:51:05.219Z",
-      "relationship_type": "uses",
-      "source_ref": "campaign--51b1dd01-ff47-4d15-ad87-9b88aa6153e3",
-      "target_ref": "attack-pattern--9422fc14-1c43-410d-ab0f-a709b76c72dc"
-    },
-    {
-      "type": "relationship",
       "id": "relationship--942b7743-cd01-4944-a2c4-29258d0667aa",
       "created": "2020-06-23T19:50:42.481Z",
       "modified": "2020-06-26T13:02:55.807Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--befa473a-9ac8-4ff8-b0fe-be0e47821896",
-      "target_ref": "attack-pattern--6aac77c4-eaf2-4366-8c13-ce50ab951f38",
+      "target_ref": "attack-pattern--2e34237d-8574-43f6-aace-ae2915de8597",
       "x_panw_coa_u42_panw_product": [
         "Threat Prevention"
       ]
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--970a3432-3237-47ad-bcca-7d8cbb217736",
+      "created": "2018-11-06T16:01:47.454Z",
+      "modified": "2019-10-15T14:51:05.219Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--51b1dd01-ff47-4d15-ad87-9b88aa6153e3",
+      "target_ref": "attack-pattern--970a3432-3237-47ad-bcca-7d8cbb217736"
     },
     {
       "type": "relationship",
@@ -1978,6 +1980,15 @@
       "relationship_type": "indicates",
       "source_ref": "indicator--2c9bd807-8aa2-4d2d-8c37-3861100d2aad",
       "target_ref": "campaign--51b1dd01-ff47-4d15-ad87-9b88aa6153e3"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--9efb1ea7-c37b-4595-9640-b7680cd84279",
+      "created": "2018-11-06T16:01:47.454Z",
+      "modified": "2019-10-15T14:51:05.219Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--51b1dd01-ff47-4d15-ad87-9b88aa6153e3",
+      "target_ref": "attack-pattern--9efb1ea7-c37b-4595-9640-b7680cd84279"
     },
     {
       "type": "relationship",
@@ -2040,7 +2051,7 @@
       "modified": "2020-06-26T13:02:55.807Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--ef5f68d8-9522-40b4-890c-31ece644687d",
-      "target_ref": "attack-pattern--6aac77c4-eaf2-4366-8c13-ce50ab951f38",
+      "target_ref": "attack-pattern--2e34237d-8574-43f6-aace-ae2915de8597",
       "x_panw_coa_u42_panw_product": [
         "Wildfire"
       ]
@@ -2107,7 +2118,7 @@
       "modified": "2020-06-26T13:02:55.807Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--fd0da09e-a0b2-4018-9476-1a7edd809b59",
-      "target_ref": "attack-pattern--6aac77c4-eaf2-4366-8c13-ce50ab951f38",
+      "target_ref": "attack-pattern--2e34237d-8574-43f6-aace-ae2915de8597",
       "x_panw_coa_u42_panw_product": [
         "Wildfire"
       ]
@@ -2217,7 +2228,7 @@
       "modified": "2020-06-26T19:00:12.605Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--a79d2365-61c7-48b9-b024-e2020b99bba0",
-      "target_ref": "attack-pattern--f4882e23-8aa7-4b12-b28a-b349c12ee9e0",
+      "target_ref": "attack-pattern--970a3432-3237-47ad-bcca-7d8cbb217736",
       "x_panw_coa_u42_panw_product": [
         "Wildfire"
       ]
@@ -2273,7 +2284,7 @@
       "relationship_type": "uses",
       "description": "Exploit Document",
       "source_ref": "indicator--4283a3da-81e4-489a-aee0-7776067b5fb8",
-      "target_ref": "attack-pattern--6aac77c4-eaf2-4366-8c13-ce50ab951f38"
+      "target_ref": "attack-pattern--2e34237d-8574-43f6-aace-ae2915de8597"
     },
     {
       "type": "relationship",
@@ -2294,7 +2305,7 @@
       "modified": "2020-06-26T19:00:12.605Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--a592acb0-98ba-4a8e-a5cf-2e78d2806e75",
-      "target_ref": "attack-pattern--f4882e23-8aa7-4b12-b28a-b349c12ee9e0",
+      "target_ref": "attack-pattern--970a3432-3237-47ad-bcca-7d8cbb217736",
       "x_panw_coa_u42_panw_product": [
         "Wildfire"
       ]
@@ -2306,7 +2317,7 @@
       "modified": "2020-06-26T19:00:12.605Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--ef5f68d8-9522-40b4-890c-31ece644687d",
-      "target_ref": "attack-pattern--f4882e23-8aa7-4b12-b28a-b349c12ee9e0",
+      "target_ref": "attack-pattern--970a3432-3237-47ad-bcca-7d8cbb217736",
       "x_panw_coa_u42_panw_product": [
         "Wildfire"
       ]
@@ -2327,19 +2338,10 @@
       "modified": "2020-06-26T13:02:55.809Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--5c7619c9-3741-4bcb-920e-755769c77589",
-      "target_ref": "attack-pattern--9422fc14-1c43-410d-ab0f-a709b76c72dc",
+      "target_ref": "attack-pattern--9efb1ea7-c37b-4595-9640-b7680cd84279",
       "x_panw_coa_u42_panw_product": [
         "Cortex XDR Prevent"
       ]
-    },
-    {
-      "type": "relationship",
-      "id": "relationship--f4882e23-8aa7-4b12-b28a-b349c12ee9e0",
-      "created": "2018-11-06T16:01:47.454Z",
-      "modified": "2019-10-15T14:51:05.219Z",
-      "relationship_type": "uses",
-      "source_ref": "campaign--51b1dd01-ff47-4d15-ad87-9b88aa6153e3",
-      "target_ref": "attack-pattern--f4882e23-8aa7-4b12-b28a-b349c12ee9e0"
     },
     {
       "type": "relationship",
@@ -2357,7 +2359,7 @@
       "modified": "2020-06-26T13:02:55.807Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--8190ac5a-8a5e-41bc-85dd-62e0f5cdd2ba",
-      "target_ref": "attack-pattern--6aac77c4-eaf2-4366-8c13-ce50ab951f38",
+      "target_ref": "attack-pattern--2e34237d-8574-43f6-aace-ae2915de8597",
       "x_panw_coa_u42_panw_product": [
         "Wildfire"
       ]
@@ -2369,7 +2371,7 @@
       "modified": "2020-06-26T13:02:55.809Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--5cadeb2b-82c7-4238-8ebd-297df586971e",
-      "target_ref": "attack-pattern--9422fc14-1c43-410d-ab0f-a709b76c72dc",
+      "target_ref": "attack-pattern--9efb1ea7-c37b-4595-9640-b7680cd84279",
       "x_panw_coa_u42_panw_product": [
         "Cortex XDR Prevent"
       ]
@@ -2381,7 +2383,7 @@
       "modified": "2020-06-26T19:00:12.605Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--79fd0d10-6272-4191-8b8d-9c72f19358d0",
-      "target_ref": "attack-pattern--f4882e23-8aa7-4b12-b28a-b349c12ee9e0",
+      "target_ref": "attack-pattern--970a3432-3237-47ad-bcca-7d8cbb217736",
       "x_panw_coa_u42_panw_product": [
         "Wildfire"
       ]
@@ -2406,13 +2408,13 @@
       "name": "POWERSHOWER",
       "published": "2019-10-15T14:51:05.219Z",
       "object_refs": [
+        "attack-pattern--2e34237d-8574-43f6-aace-ae2915de8597",
         "attack-pattern--354a7f88-63fb-41b5-a801-ce3b377b36f1",
         "attack-pattern--355be19c-ffc9-46d5-8d50-d6a036c675b6",
-        "attack-pattern--6aac77c4-eaf2-4366-8c13-ce50ab951f38",
-        "attack-pattern--9422fc14-1c43-410d-ab0f-a709b76c72dc",
+        "attack-pattern--970a3432-3237-47ad-bcca-7d8cbb217736",
+        "attack-pattern--9efb1ea7-c37b-4595-9640-b7680cd84279",
         "attack-pattern--be2dcee9-a7a7-4e38-afd6-21b31ecc3d63",
         "attack-pattern--dc31fe1e-d722-49da-8f5f-92c7b5aff534",
-        "attack-pattern--f4882e23-8aa7-4b12-b28a-b349c12ee9e0",
         "campaign--51b1dd01-ff47-4d15-ad87-9b88aa6153e3",
         "course-of-action--21ce34c9-4220-41cf-85c7-bc289bb2c79d",
         "course-of-action--28f61b3c-18a6-4991-8a17-7cfcd388136c",
@@ -2479,6 +2481,7 @@
         "relationship--27160c02-ecbc-45fd-8fbd-b35d30ff653e",
         "relationship--284d12c3-2c20-47dc-b01e-be595ed730ac",
         "relationship--2d2330c7-2625-4550-8e1a-4fc7be2f41d9",
+        "relationship--2e34237d-8574-43f6-aace-ae2915de8597",
         "relationship--2e4bd12d-9710-4f42-b8bb-83f0e9740919",
         "relationship--2f76c1de-35bb-4799-9026-594adb3ac953",
         "relationship--322d44d5-2db7-4c22-a91f-ace1fc92d791",
@@ -2502,7 +2505,6 @@
         "relationship--5d1cdb64-4337-49ec-8864-c8461ae199be",
         "relationship--6576ca2e-439a-4523-a1aa-b291fa1a28d8",
         "relationship--66c7f1b0-7e4b-4bcb-90fb-fcbc1bb431f2",
-        "relationship--6aac77c4-eaf2-4366-8c13-ce50ab951f38",
         "relationship--6aaf75f4-e657-423a-a1be-b84f66cc38bd",
         "relationship--6b4eaa3c-59cb-4d00-b189-3a34ea3d1c8d",
         "relationship--6d4c4323-8634-41bc-acb7-2bec7c9d1e73",
@@ -2520,9 +2522,10 @@
         "relationship--8ffdbacb-872c-41ce-a8bd-c0276fdcb3f1",
         "relationship--903bc5da-14f1-4107-81b5-29b7d878f4b6",
         "relationship--92a95493-fa51-4321-9cfb-135e69b3191a",
-        "relationship--9422fc14-1c43-410d-ab0f-a709b76c72dc",
         "relationship--942b7743-cd01-4944-a2c4-29258d0667aa",
+        "relationship--970a3432-3237-47ad-bcca-7d8cbb217736",
         "relationship--9bca7218-d514-4f9b-9bab-76f5e14300d2",
+        "relationship--9efb1ea7-c37b-4595-9640-b7680cd84279",
         "relationship--a34cde70-c0b4-4cca-8748-6355296b6818",
         "relationship--a4ae9bcb-1340-4e18-a0ac-0194d56d7384",
         "relationship--a553c146-1b1d-4cdc-863e-dcd19e7f5674",
@@ -2555,7 +2558,6 @@
         "relationship--f07bf6a1-1bab-4be5-bd42-a561cbb433ea",
         "relationship--f0db9c1a-6130-4055-8954-e5dbd8f1c6d1",
         "relationship--f47d37fd-f5fe-4536-af21-d6ab9573f894",
-        "relationship--f4882e23-8aa7-4b12-b28a-b349c12ee9e0",
         "relationship--f4d9072d-5c9c-4d91-83b2-188cf4d20654",
         "relationship--f4ef0536-9d51-4886-94d0-8b825900e923",
         "relationship--f5bd5d5d-f4c8-4d49-a5eb-ff6c98c72821",

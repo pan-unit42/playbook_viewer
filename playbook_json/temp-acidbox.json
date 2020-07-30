@@ -7,10 +7,10 @@
       "type": "report",
       "id": "report--e06ff13e-810a-4f46-be1c-0ede839825d0",
       "created": "2020-06-04T15:11:37.652Z",
-      "modified": "2020-06-26T19:00:44.641Z",
+      "modified": "2020-07-30T16:55:51.309Z",
       "name": "TEMP.AcidBox",
       "description": "When the news broke in 2014 about a new sophisticated threat actor dubbed Turla, its kernelmode malware became also the first publicly described case which abuses a 3rd party device driver to disable Driver Signature Enforcement (DSE). This security mechanism was introduced in Windows Vista to prevent unsigned drivers from loading into kernel space. Turla exploited the signed VirtualBox driver VBoxDrv.sys v1.6.2 to deactivate DSE and load its unsigned payload drivers afterwards. According to the Estonian foreign intelligence service, Turla is believed to have Russian origins and operates on behalf of the FSB.\n\nThere is some confusion about this exploit as it\u2019s often generally referred to as CVE-2008-3431. Actually, the exploit used by Turla abuses two vulnerabilities of which only one was fixed in the aforementioned CVE. The other vulnerability was found by Turla authors and is used in the first version of their exploit along with CVE-2008-3431. The second version of their exploit, presumably introduced in 2014 of their kernelmode malware, only uses the unpatched vulnerability which we will discuss in more detail later.\n\nThis unpatched vulnerability can be exploited not only in VirtualBox VBoxDrv.sys driver v1.6.2, but also in all other versions smaller v3.0.0. This was also discovered by a yet unknown threat actor which targeted at least two different Russian organizations in 2017. The actors used a previously unknown malware family we have dubbed AcidBox - with the first part being an anagram of the malware\u2019s driver device name and the second part taken from VirtualBox. Because of the malware\u2019s complexity, its rarity and the fact that it\u2019s part of a bigger toolset, we believe it is used by an advanced threat actor for targeted attacks.\n\nAcidBox is a complex modular toolkit of which we have only some components. The toolkit consists of 64-bit usermode DLL files - one type of which appears to be an orchestrator containing the vulnerable VirtualBox driver and the AcidBox kernelmode component embedded. The VirtualBox driver is dropped to disk, loaded, and exploited in order to load the unsigned malware driver.\n\nHow the orchestrator DLL is loaded remains unknown, we only know that a passed parameter is checked by the DLL and it wont execute properly without it. The orchestrator and the other DLL modules also depend on registry keys to be present on the system in order to fully execute. These registry paths are present as encrypted strings in the resource sections and must be created by an unknown file or dropper at an earlier stage. The registry values contain encrypted data blobs that contain additional modules to be injected into a given process as well as additional data.",
-      "published": "2020-06-26T19:00:44.641Z",
+      "published": "2020-07-30T16:55:51.309Z",
       "object_refs": [
         "intrusion-set--1541c4c8-a0c4-435f-aff8-60cecf72367a",
         "report--4d1e7ce0-6064-4552-9ca6-23cb83ea7876"
@@ -28,12 +28,12 @@
     },
     {
       "type": "attack-pattern",
-      "id": "attack-pattern--1b84d551-6de8-4b96-9930-d177677c3b1d",
+      "id": "attack-pattern--32901740-b42c-4fdd-bc02-345b5dc57082",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
       "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-03-18T19:43:40.183Z",
-      "name": "T1116: Code Signing",
-      "description": "Code signing provides a level of authenticity on a binary from the developer and a guarantee that the binary has not been tampered with. (Citation: Wikipedia Code Signing) However, adversaries are known to use code signing certificates to masquerade malware and tools as legitimate binaries (Citation: Janicab). The certificates used during an operation may be created, forged, or stolen by the adversary. (Citation: Securelist Digital Certificates) (Citation: Symantec Digital Certificates)\n\nCode signing to verify software on first run can be used on modern Windows and macOS/OS X systems. It is not used on Linux due to the decentralized nature of the platform. (Citation: Wikipedia Code Signing)\n\nCode signing certificates may be used to bypass security policies that require signed code to execute on a system.",
+      "modified": "2020-07-27T14:54:43.438Z",
+      "name": "T1553.002: Code Signing",
+      "description": "Adversaries may create, acquire, or steal code signing materials to sign their malware or tools. Code signing provides a level of authenticity on a binary from the developer and a guarantee that the binary has not been tampered with. (Citation: Wikipedia Code Signing) The certificates used during an operation may be created, acquired, or stolen by the adversary. (Citation: Securelist Digital Certificates) (Citation: Symantec Digital Certificates) Unlike [Invalid Code Signature](https://attack.mitre.org/techniques/T1036/001), this activity will result in a valid signature.\n\nCode signing to verify software on first run can be used on modern Windows and macOS/OS X systems. It is not used on Linux due to the decentralized nature of the platform. (Citation: Wikipedia Code Signing) \n\nCode signing certificates may be used to bypass security policies that require signed code to execute on a system.",
       "kill_chain_phases": [
         {
           "kill_chain_name": "lockheed",
@@ -46,14 +46,9 @@
       ],
       "external_references": [
         {
-          "source_name": "Janicab",
-          "url": "http://www.thesafemac.com/new-signed-malware-called-janicab/",
-          "description": "Thomas. (2013, July 15). New signed malware called Janicab. Retrieved July 17, 2017."
-        },
-        {
           "source_name": "mitre-attack",
-          "url": "https://attack.mitre.org/techniques/T1116",
-          "external_id": "T1116"
+          "url": "https://attack.mitre.org/techniques/T1553/002",
+          "external_id": "T1553.002"
         },
         {
           "source_name": "Securelist Digital Certificates",
@@ -92,9 +87,9 @@
       "id": "attack-pattern--3ccef7ae-cb5e-48f6-8302-897105fbf55c",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
       "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-03-18T19:43:29.673Z",
+      "modified": "2020-07-27T14:54:38.097Z",
       "name": "T1140: Deobfuscate/Decode Files or Information",
-      "description": "Adversaries may use [Obfuscated Files or Information](https://attack.mitre.org/techniques/T1027) to hide artifacts of an intrusion from analysis. They may require separate mechanisms to decode or deobfuscate that information depending on how they intend to use it. Methods for doing that include built-in functionality of malware, [Scripting](https://attack.mitre.org/techniques/T1064), [PowerShell](https://attack.mitre.org/techniques/T1086), or by using utilities present on the system.\n\nOne such example is use of [certutil](https://attack.mitre.org/software/S0160) to decode a remote access tool portable executable file that has been hidden inside a certificate file. (Citation: Malwarebytes Targeted Attack against Saudi Arabia)\n\nAnother example is using the Windows <code>copy /b</code> command to reassemble binary fragments into a malicious payload. (Citation: Carbon Black Obfuscation Sept 2016)\n\nPayloads may be compressed, archived, or encrypted in order to avoid detection.  These payloads may be used with [Obfuscated Files or Information](https://attack.mitre.org/techniques/T1027) during Initial Access or later to mitigate detection. Sometimes a user's action may be required to open it for deobfuscation or decryption as part of [User Execution](https://attack.mitre.org/techniques/T1204). The user may also be required to input a password to open a password protected compressed/encrypted file that was provided by the adversary. (Citation: Volexity PowerDuke November 2016) Adversaries may also used compressed or archived scripts, such as Javascript.",
+      "description": "Adversaries may use [Obfuscated Files or Information](https://attack.mitre.org/techniques/T1027) to hide artifacts of an intrusion from analysis. They may require separate mechanisms to decode or deobfuscate that information depending on how they intend to use it. Methods for doing that include built-in functionality of malware or by using utilities present on the system.\n\nOne such example is use of [certutil](https://attack.mitre.org/software/S0160) to decode a remote access tool portable executable file that has been hidden inside a certificate file. (Citation: Malwarebytes Targeted Attack against Saudi Arabia) Another example is using the Windows <code>copy /b</code> command to reassemble binary fragments into a malicious payload. (Citation: Carbon Black Obfuscation Sept 2016)\n\nSometimes a user's action may be required to open it for deobfuscation or decryption as part of [User Execution](https://attack.mitre.org/techniques/T1204). The user may also be required to input a password to open a password protected compressed/encrypted file that was provided by the adversary. (Citation: Volexity PowerDuke November 2016)",
       "kill_chain_phases": [
         {
           "kill_chain_name": "lockheed",
@@ -134,7 +129,9 @@
         "Detecting the action of deobfuscating or decoding files or information may be difficult depending on the implementation. If the functionality is contained within malware and uses the Windows API, then attempting to detect malicious behavior before or after the action may yield better results than attempting to perform analysis on loaded libraries or API calls. If scripts are used, then collecting the scripts for analysis may be necessary. Perform process and command-line monitoring to detect potentially malicious behavior related to scripts and system utilities such as [certutil](https://attack.mitre.org/software/S0160).\n\nMonitor the execution file paths and command-line arguments for common archive file applications and extensions, such as those for Zip and RAR archive tools, and correlate with other suspicious behavior to reduce false positives from normal user and administrator behavior."
       ],
       "x_mitre_platforms": [
-        "Windows"
+        "Linux",
+        "Windows",
+        "macOS"
       ],
       "x_mitre_data_sources": [
         "File monitoring",
@@ -154,6 +151,68 @@
         "Matthew Demaske, Adaptforward",
         "Red Canary"
       ],
+      "x_mitre_version": "1.1"
+    },
+    {
+      "type": "attack-pattern",
+      "id": "attack-pattern--5095a853-299c-4876-abd7-ac0050fb5462",
+      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "created": "2018-08-03T19:54:02.821Z",
+      "modified": "2020-07-27T14:54:43.075Z",
+      "name": "T1547.005: Security Support Provider",
+      "description": "Adversaries may abuse security support providers (SSPs) to execute DLLs when the system boots. Windows SSP DLLs are loaded into the Local Security Authority (LSA) process at system start. Once loaded into the LSA, SSP DLLs have access to encrypted and plaintext passwords that are stored in Windows, such as any logged-on user's Domain password or smart card PINs.\n\nThe SSP configuration is stored in two Registry keys: <code>HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa\\Security Packages</code> and <code>HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa\\OSConfig\\Security Packages</code>. An adversary may modify these Registry keys to add new SSPs, which will be loaded the next time the system boots, or when the AddSecurityPackage Windows API function is called.(Citation: Graeber 2014)",
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "lockheed",
+          "phase_name": "act-on-objectives"
+        },
+        {
+          "kill_chain_name": "lockheed",
+          "phase_name": "installation"
+        },
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "persistence"
+        },
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "privilege-escalation"
+        }
+      ],
+      "external_references": [
+        {
+          "source_name": "Graeber 2014",
+          "url": "http://docplayer.net/20839173-Analysis-of-malicious-security-support-provider-dlls.html",
+          "description": "Graeber, M. (2014, October). Analysis of Malicious Security Support Provider DLLs. Retrieved March 1, 2017."
+        },
+        {
+          "source_name": "Microsoft Configure LSA",
+          "url": "https://technet.microsoft.com/en-us/library/dn408187.aspx",
+          "description": "Microsoft. (2013, July 31). Configuring Additional LSA Protection. Retrieved June 24, 2015."
+        },
+        {
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1547/005",
+          "external_id": "T1547.005"
+        }
+      ],
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ],
+      "x_mitre_detection": [
+        "Monitor the Registry for changes to the SSP Registry keys. Monitor the LSA process for DLL loads. Windows 8.1 and Windows Server 2012 R2 may generate events when unsigned SSP DLLs try to load into the LSA by setting the Registry key <code>HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\LSASS.exe</code> with AuditLevel = 8. (Citation: Graeber 2014) (Citation: Microsoft Configure LSA)"
+      ],
+      "x_mitre_platforms": [
+        "Windows"
+      ],
+      "x_mitre_data_sources": [
+        "DLL monitoring",
+        "Loaded DLLs",
+        "Windows Registry"
+      ],
+      "x_mitre_permissions_required": [
+        "Administrator"
+      ],
       "x_mitre_version": "1.0"
     },
     {
@@ -161,9 +220,9 @@
       "id": "attack-pattern--57340c81-c025-4189-8fa0-fc7ede51bae4",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
       "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-03-18T19:43:22.013Z",
+      "modified": "2020-07-27T14:54:38.097Z",
       "name": "T1112: Modify Registry",
-      "description": "Adversaries may interact with the Windows Registry to hide configuration information within Registry keys, remove information as part of cleaning up, or as part of other techniques to aid in Persistence and Execution.\n\nAccess to specific areas of the Registry depends on account permissions, some requiring administrator-level access. The built-in Windows command-line utility [Reg](https://attack.mitre.org/software/S0075) may be used for local or remote Registry modification. (Citation: Microsoft Reg) Other tools may also be used, such as a remote access tool, which may contain functionality to interact with the Registry through the Windows API (see examples).\n\nRegistry modifications may also include actions to hide keys, such as prepending key names with a null character, which will cause an error and/or be ignored when read via [Reg](https://attack.mitre.org/software/S0075) or other utilities using the Win32 API. (Citation: Microsoft Reghide NOV 2006) Adversaries may abuse these pseudo-hidden keys to conceal payloads/commands used to establish Persistence. (Citation: TrendMicro POWELIKS AUG 2014) (Citation: SpectorOps Hiding Reg Jul 2017)\n\nThe Registry of a remote system may be modified to aid in execution of files as part of Lateral Movement. It requires the remote Registry service to be running on the target system. (Citation: Microsoft Remote) Often [Valid Accounts](https://attack.mitre.org/techniques/T1078) are required, along with access to the remote system's [Windows Admin Shares](https://attack.mitre.org/techniques/T1077) for RPC communication.",
+      "description": "Adversaries may interact with the Windows Registry to hide configuration information within Registry keys, remove information as part of cleaning up, or as part of other techniques to aid in persistence and execution.\n\nAccess to specific areas of the Registry depends on account permissions, some requiring administrator-level access. The built-in Windows command-line utility [Reg](https://attack.mitre.org/software/S0075) may be used for local or remote Registry modification. (Citation: Microsoft Reg) Other tools may also be used, such as a remote access tool, which may contain functionality to interact with the Registry through the Windows API.\n\nRegistry modifications may also include actions to hide keys, such as prepending key names with a null character, which will cause an error and/or be ignored when read via [Reg](https://attack.mitre.org/software/S0075) or other utilities using the Win32 API. (Citation: Microsoft Reghide NOV 2006) Adversaries may abuse these pseudo-hidden keys to conceal payloads/commands used to maintain persistence. (Citation: TrendMicro POWELIKS AUG 2014) (Citation: SpectorOps Hiding Reg Jul 2017)\n\nThe Registry of a remote system may be modified to aid in execution of files as part of lateral movement. It requires the remote Registry service to be running on the target system. (Citation: Microsoft Remote) Often [Valid Accounts](https://attack.mitre.org/techniques/T1078) are required, along with access to the remote system's [SMB/Windows Admin Shares](https://attack.mitre.org/techniques/T1021/002) for RPC communication.",
       "kill_chain_phases": [
         {
           "kill_chain_name": "lockheed",
@@ -225,7 +284,7 @@
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
       "x_mitre_detection": [
-        "Modifications to the Registry are normal and occur throughout typical use of the Windows operating system. Consider enabling Registry Auditing on specific keys to produce an alertable event (Event ID 4657) whenever a value is changed (though this may not trigger when values are created with Reghide or other evasive methods). (Citation: Microsoft 4657 APR 2017) Changes to Registry entries that load software on Windows startup that do not correlate with known software, patch cycles, etc., are suspicious, as are additions or changes to files within the startup folder. Changes could also include new services and modification of existing binary paths to point to malicious files. If a change to a service-related entry occurs, then it will likely be followed by a local or remote service start or restart to execute the file.\n\nMonitor processes and command-line arguments for actions that could be taken to change or delete information in the Registry. Remote access tools with built-in features may interact directly with the Windows API to gather information. Information may also be acquired through Windows system management tools such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) and [PowerShell](https://attack.mitre.org/techniques/T1086), which may require additional logging features to be configured in the operating system to collect necessary information for analysis.\n\nMonitor for processes, command-line arguments, and API calls associated with concealing Registry keys, such as Reghide. (Citation: Microsoft Reghide NOV 2006) Inspect and cleanup malicious hidden Registry entries using Native Windows API calls and/or tools such as Autoruns (Citation: SpectorOps Hiding Reg Jul 2017) and RegDelNull (Citation: Microsoft RegDelNull July 2016)."
+        "Modifications to the Registry are normal and occur throughout typical use of the Windows operating system. Consider enabling Registry Auditing on specific keys to produce an alertable event (Event ID 4657) whenever a value is changed (though this may not trigger when values are created with Reghide or other evasive methods). (Citation: Microsoft 4657 APR 2017) Changes to Registry entries that load software on Windows startup that do not correlate with known software, patch cycles, etc., are suspicious, as are additions or changes to files within the startup folder. Changes could also include new services and modification of existing binary paths to point to malicious files. If a change to a service-related entry occurs, then it will likely be followed by a local or remote service start or restart to execute the file.\n\nMonitor processes and command-line arguments for actions that could be taken to change or delete information in the Registry. Remote access tools with built-in features may interact directly with the Windows API to gather information. Information may also be acquired through Windows system management tools such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) and [PowerShell](https://attack.mitre.org/techniques/T1059/001), which may require additional logging features to be configured in the operating system to collect necessary information for analysis.\n\nMonitor for processes, command-line arguments, and API calls associated with concealing Registry keys, such as Reghide. (Citation: Microsoft Reghide NOV 2006) Inspect and cleanup malicious hidden Registry entries using Native Windows API calls and/or tools such as Autoruns (Citation: SpectorOps Hiding Reg Jul 2017) and RegDelNull (Citation: Microsoft RegDelNull July 2016)."
       ],
       "x_mitre_platforms": [
         "Windows"
@@ -250,70 +309,16 @@
         "David Lu, Tripwire",
         "Travis Smith, Tripwire"
       ],
-      "x_mitre_version": "1.0"
-    },
-    {
-      "type": "attack-pattern",
-      "id": "attack-pattern--6c174520-beea-43d9-aac6-28fb77f3e446",
-      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-03-18T19:43:52.406Z",
-      "name": "T1101: Security Support Provider",
-      "description": "Windows Security Support Provider (SSP) DLLs are loaded into the Local Security Authority (LSA) process at system start. Once loaded into the LSA, SSP DLLs have access to encrypted and plaintext passwords that are stored in Windows, such as any logged-on user's Domain password or smart card PINs. The SSP configuration is stored in two Registry keys: <code>HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa\\Security Packages</code> and <code>HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa\\OSConfig\\Security Packages</code>. An adversary may modify these Registry keys to add new SSPs, which will be loaded the next time the system boots, or when the AddSecurityPackage Windows API function is called.\n (Citation: Graeber 2014)",
-      "kill_chain_phases": [
-        {
-          "kill_chain_name": "lockheed",
-          "phase_name": "installation"
-        },
-        {
-          "kill_chain_name": "mitre-attack",
-          "phase_name": "persistence"
-        }
-      ],
-      "external_references": [
-        {
-          "source_name": "Graeber 2014",
-          "url": "http://docplayer.net/20839173-Analysis-of-malicious-security-support-provider-dlls.html",
-          "description": "Graeber, M. (2014, October). Analysis of Malicious Security Support Provider DLLs. Retrieved March 1, 2017."
-        },
-        {
-          "source_name": "Microsoft Configure LSA",
-          "url": "https://technet.microsoft.com/en-us/library/dn408187.aspx",
-          "description": "Microsoft. (2013, July 31). Configuring Additional LSA Protection. Retrieved June 24, 2015."
-        },
-        {
-          "source_name": "mitre-attack",
-          "url": "https://attack.mitre.org/techniques/T1101",
-          "external_id": "T1101"
-        }
-      ],
-      "object_marking_refs": [
-        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
-      ],
-      "x_mitre_detection": [
-        "Monitor the Registry for changes to the SSP Registry keys. Monitor the LSA process for DLL loads. Windows 8.1 and Windows Server 2012 R2 may generate events when unsigned SSP DLLs try to load into the LSA by setting the Registry key <code>HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\LSASS.exe</code> with AuditLevel = 8. (Citation: Graeber 2014) (Citation: Microsoft Configure LSA)"
-      ],
-      "x_mitre_platforms": [
-        "Windows"
-      ],
-      "x_mitre_data_sources": [
-        "DLL monitoring",
-        "Loaded DLLs",
-        "Windows Registry"
-      ],
-      "x_mitre_permissions_required": [
-        "Administrator"
-      ],
-      "x_mitre_version": "1.0"
+      "x_mitre_version": "1.1"
     },
     {
       "type": "attack-pattern",
       "id": "attack-pattern--b21c3b2d-02e6-45b1-980b-e69051040839",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
       "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-03-18T19:43:22.214Z",
+      "modified": "2020-07-27T14:54:37.379Z",
       "name": "T1068: Exploitation for Privilege Escalation",
-      "description": "Exploitation of a software vulnerability occurs when an adversary takes advantage of a programming error in a program, service, or within the operating system software or kernel itself to execute adversary-controlled code. Security constructs such as permission levels will often hinder access to information and use of certain techniques, so adversaries will likely need to perform Privilege Escalation to include use of software exploitation to circumvent those restrictions.\n\nWhen initially gaining access to a system, an adversary may be operating within a lower privileged process which will prevent them from accessing certain resources on the system. Vulnerabilities may exist, usually in operating system components and software commonly running at higher permissions, that can be exploited to gain higher levels of access on the system. This could enable someone to move from unprivileged or user level permissions to SYSTEM or root permissions depending on the component that is vulnerable. This may be a necessary step for an adversary compromising a endpoint system that has been properly configured and limits other privilege escalation methods.",
+      "description": "Adversaries may exploit software vulnerabilities in an attempt to collect elevate privileges. Exploitation of a software vulnerability occurs when an adversary takes advantage of a programming error in a program, service, or within the operating system software or kernel itself to execute adversary-controlled code. Security constructs such as permission levels will often hinder access to information and use of certain techniques, so adversaries will likely need to perform privilege escalation to include use of software exploitation to circumvent those restrictions.\n\nWhen initially gaining access to a system, an adversary may be operating within a lower privileged process which will prevent them from accessing certain resources on the system. Vulnerabilities may exist, usually in operating system components and software commonly running at higher permissions, that can be exploited to gain higher levels of access on the system. This could enable someone to move from unprivileged or user level permissions to SYSTEM or root permissions depending on the component that is vulnerable. This may be a necessary step for an adversary compromising a endpoint system that has been properly configured and limits other privilege escalation methods.",
       "kill_chain_phases": [
         {
           "kill_chain_name": "lockheed",
@@ -335,7 +340,7 @@
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
       "x_mitre_detection": [
-        "Detecting software exploitation may be difficult depending on the tools available. Software exploits may not always succeed or may cause the exploited process to become unstable or crash. Also look for behavior on the endpoint system that might indicate successful compromise, such as abnormal behavior of the processes. This could include suspicious files written to disk, evidence of [Process Injection](https://attack.mitre.org/techniques/T1055) for attempts to hide execution or evidence of Discovery.\n\nHigher privileges are often necessary to perform additional actions such as some methods of [Credential Dumping](https://attack.mitre.org/techniques/T1003). Look for additional activity that may indicate an adversary has gained higher privileges."
+        "Detecting software exploitation may be difficult depending on the tools available. Software exploits may not always succeed or may cause the exploited process to become unstable or crash. Also look for behavior on the endpoint system that might indicate successful compromise, such as abnormal behavior of the processes. This could include suspicious files written to disk, evidence of [Process Injection](https://attack.mitre.org/techniques/T1055) for attempts to hide execution or evidence of Discovery.\n\nHigher privileges are often necessary to perform additional actions such as some methods of [OS Credential Dumping](https://attack.mitre.org/techniques/T1003). Look for additional activity that may indicate an adversary has gained higher privileges."
       ],
       "x_mitre_platforms": [
         "Linux",
@@ -353,19 +358,16 @@
       "x_mitre_effective_permissions": [
         "User"
       ],
-      "x_mitre_system_requirements": [
-        "In the case of privilege escalation, the adversary likely already has user permissions on the target system."
-      ],
-      "x_mitre_version": "1.1"
+      "x_mitre_version": "1.2"
     },
     {
       "type": "attack-pattern",
       "id": "attack-pattern--b3d682b6-98f2-4fb0-aa3b-b4df007ca70a",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
       "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-03-18T19:43:47.779Z",
+      "modified": "2020-07-27T14:54:36.653Z",
       "name": "T1027: Obfuscated Files or Information",
-      "description": "Adversaries may attempt to make an executable or file difficult to discover or analyze by encrypting, encoding, or otherwise obfuscating its contents on the system or in transit. This is common behavior that can be used across different platforms and the network to evade defenses.\n\nPayloads may be compressed, archived, or encrypted in order to avoid detection. These payloads may be used during Initial Access or later to mitigate detection. Sometimes a user's action may be required to open and [Deobfuscate/Decode Files or Information](https://attack.mitre.org/techniques/T1140) for [User Execution](https://attack.mitre.org/techniques/T1204). The user may also be required to input a password to open a password protected compressed/encrypted file that was provided by the adversary. (Citation: Volexity PowerDuke November 2016) Adversaries may also used compressed or archived scripts, such as Javascript.\n\nPortions of files can also be encoded to hide the plain-text strings that would otherwise help defenders with discovery. (Citation: Linux/Cdorked.A We Live Security Analysis) Payloads may also be split into separate, seemingly benign files that only reveal malicious functionality when reassembled. (Citation: Carbon Black Obfuscation Sept 2016)\n\nAdversaries may also obfuscate commands executed from payloads or directly via a [Command-Line Interface](https://attack.mitre.org/techniques/T1059). Environment variables, aliases, characters, and other platform/language specific semantics can be used to evade signature based detections and whitelisting mechanisms. (Citation: FireEye Obfuscation June 2017) (Citation: FireEye Revoke-Obfuscation July 2017) (Citation: PaloAlto EncodedCommand March 2017)\n\nAnother example of obfuscation is through the use of steganography, a technique of hiding messages or code in images, audio tracks, video clips, or text files. One of the first known and reported adversaries that used steganography activity surrounding [Invoke-PSImage](https://attack.mitre.org/software/S0231). The Duqu malware encrypted the gathered information from a victim's system and hid it into an image followed by exfiltrating the image to a C2 server. (Citation: Wikipedia Duqu) By the end of 2017, an adversary group used [Invoke-PSImage](https://attack.mitre.org/software/S0231) to hide PowerShell commands in an image file (png) and execute the code on a victim's system. In this particular case the PowerShell code downloaded another obfuscated script to gather intelligence from the victim's machine and communicate it back to the adversary. (Citation: McAfee Malicious Doc Targets Pyeongchang Olympics)",
+      "description": "Adversaries may attempt to make an executable or file difficult to discover or analyze by encrypting, encoding, or otherwise obfuscating its contents on the system or in transit. This is common behavior that can be used across different platforms and the network to evade defenses. \n\nPayloads may be compressed, archived, or encrypted in order to avoid detection. These payloads may be used during Initial Access or later to mitigate detection. Sometimes a user's action may be required to open and [Deobfuscate/Decode Files or Information](https://attack.mitre.org/techniques/T1140) for [User Execution](https://attack.mitre.org/techniques/T1204). The user may also be required to input a password to open a password protected compressed/encrypted file that was provided by the adversary. (Citation: Volexity PowerDuke November 2016) Adversaries may also used compressed or archived scripts, such as JavaScript. \n\nPortions of files can also be encoded to hide the plain-text strings that would otherwise help defenders with discovery. (Citation: Linux/Cdorked.A We Live Security Analysis) Payloads may also be split into separate, seemingly benign files that only reveal malicious functionality when reassembled. (Citation: Carbon Black Obfuscation Sept 2016)\n\nAdversaries may also obfuscate commands executed from payloads or directly via a [Command and Scripting Interpreter](https://attack.mitre.org/techniques/T1059). Environment variables, aliases, characters, and other platform/language specific semantics can be used to evade signature based detections and application control mechanisms. (Citation: FireEye Obfuscation June 2017) (Citation: FireEye Revoke-Obfuscation July 2017)(Citation: PaloAlto EncodedCommand March 2017)",
       "kill_chain_phases": [
         {
           "kill_chain_name": "lockheed",
@@ -413,11 +415,6 @@
           "description": "Pierre-Marc Bureau. (2013, April 26). Linux/Cdorked.A: New Apache backdoor being used in the wild to serve Blackhole. Retrieved September 10, 2017."
         },
         {
-          "source_name": "McAfee Malicious Doc Targets Pyeongchang Olympics",
-          "url": "https://securingtomorrow.mcafee.com/mcafee-labs/malicious-document-targets-pyeongchang-olympics/",
-          "description": "Saavedra-Morales, J., Sherstobitoff, R. (2018, January 6). Malicious Document Targets Pyeongchang Olympics. Retrieved April 10, 2018."
-        },
-        {
           "source_name": "mitre-attack",
           "url": "https://attack.mitre.org/techniques/T1027",
           "external_id": "T1027"
@@ -431,18 +428,13 @@
           "source_name": "Volexity PowerDuke November 2016",
           "url": "https://www.volexity.com/blog/2016/11/09/powerduke-post-election-spear-phishing-campaigns-targeting-think-tanks-and-ngos/",
           "description": "Adair, S.. (2016, November 9). PowerDuke: Widespread Post-Election Spear Phishing Campaigns Targeting Think Tanks and NGOs. Retrieved January 11, 2017."
-        },
-        {
-          "source_name": "Wikipedia Duqu",
-          "url": "https://en.wikipedia.org/wiki/Duqu",
-          "description": "Wikipedia. (2017, December 29). Duqu. Retrieved April 10, 2018."
         }
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
       "x_mitre_detection": [
-        "Detection of file obfuscation is difficult unless artifacts are left behind by the obfuscation process that are uniquely detectable with a signature. If detection of the obfuscation itself is not possible, it may be possible to detect the malicious activity that caused the obfuscated file (for example, the method that was used to write, read, or modify the file on the file system).\n\nFlag and analyze commands containing indicators of obfuscation and known suspicious syntax such as uninterpreted escape characters like '''^''' and '''\"'''. Windows' Sysmon and Event ID 4688 displays command-line arguments for processes. Deobfuscation tools can be used to detect these indicators in files/payloads. (Citation: GitHub Revoke-Obfuscation) (Citation: FireEye Revoke-Obfuscation July 2017) (Citation: GitHub Office-Crackros Aug 2016)\n\nObfuscation used in payloads for Initial Access can be detected at the network. Use network intrusion detection systems and email gateway filtering to identify compressed and encrypted attachments and scripts. Some email attachment detonation systems can open compressed and encrypted attachments. Payloads delivered over an encrypted connection from a website require encrypted network traffic inspection."
+        "Detection of file obfuscation is difficult unless artifacts are left behind by the obfuscation process that are uniquely detectable with a signature. If detection of the obfuscation itself is not possible, it may be possible to detect the malicious activity that caused the obfuscated file (for example, the method that was used to write, read, or modify the file on the file system). \n\nFlag and analyze commands containing indicators of obfuscation and known suspicious syntax such as uninterpreted escape characters like '''^''' and '''\"'''. Windows' Sysmon and Event ID 4688 displays command-line arguments for processes. Deobfuscation tools can be used to detect these indicators in files/payloads. (Citation: GitHub Revoke-Obfuscation) (Citation: FireEye Revoke-Obfuscation July 2017) (Citation: GitHub Office-Crackros Aug 2016) \n\nObfuscation used in payloads for Initial Access can be detected at the network. Use network intrusion detection systems and email gateway filtering to identify compressed and encrypted attachments and scripts. Some email attachment detonation systems can open compressed and encrypted attachments. Payloads delivered over an encrypted connection from a website require encrypted network traffic inspection. \n\nThe first detection of a malicious tool may trigger an anti-virus or other security tool alert. Similar events may also occur at the boundary through network IDS, email scanning appliance, etc. The initial detection should be treated as an indication of a potentially more invasive intrusion. The alerting system should be thoroughly investigated beyond that initial alert for activity that was not detected. Adversaries may continue with an operation, assuming that individual events like an anti-virus detect will not be investigated or that an analyst will not be able to conclusively link that event to other activity occurring on the network. "
       ],
       "x_mitre_platforms": [
         "Linux",
@@ -464,28 +456,27 @@
         "Windows event logs"
       ],
       "x_mitre_defense_bypassed": [
-        "Application whitelisting",
+        "Application control",
+        "Application control by file name or path",
         "Host forensic analysis",
         "Host intrusion prevention systems",
         "Log analysis",
-        "Process whitelisting",
-        "Signature-based detection",
-        "Whitelisting by file name or path"
+        "Signature-based detection"
       ],
       "x_mitre_contributors": [
         "Christiaan Beek, @ChristiaanBeek",
         "Red Canary"
       ],
-      "x_mitre_version": "1.0"
+      "x_mitre_version": "1.1"
     },
     {
       "type": "attack-pattern",
       "id": "attack-pattern--be2dcee9-a7a7-4e38-afd6-21b31ecc3d63",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
       "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-03-18T19:43:51.196Z",
+      "modified": "2020-07-27T14:54:38.428Z",
       "name": "T1203: Exploitation for Client Execution",
-      "description": "Vulnerabilities can exist in software due to unsecure coding practices that can lead to unanticipated behavior. Adversaries can take advantage of certain vulnerabilities through targeted exploitation for the purpose of arbitrary code execution. Oftentimes the most valuable exploits to an offensive toolkit are those that can be used to obtain code execution on a remote system because they can be used to gain access to that system. Users will expect to see files related to the applications they commonly used to do work, so they are a useful target for exploit research and development because of their high utility.\n\nSeveral types exist:\n\n### Browser-based Exploitation\n\nWeb browsers are a common target through [Drive-by Compromise](https://attack.mitre.org/techniques/T1189) and [Spearphishing Link](https://attack.mitre.org/techniques/T1192). Endpoint systems may be compromised through normal web browsing or from certain users being targeted by links in spearphishing emails to adversary controlled sites used to exploit the web browser. These often do not require an action by the user for the exploit to be executed.\n\n### Office Applications\n\nCommon office and productivity applications such as Microsoft Office are also targeted through [Spearphishing Attachment](https://attack.mitre.org/techniques/T1193), [Spearphishing Link](https://attack.mitre.org/techniques/T1192), and [Spearphishing via Service](https://attack.mitre.org/techniques/T1194). Malicious files will be transmitted directly as attachments or through links to download them. These require the user to open the document or file for the exploit to run.\n\n### Common Third-party Applications\n\nOther applications that are commonly seen or are part of the software deployed in a target network may also be used for exploitation. Applications such as Adobe Reader and Flash, which are common in enterprise environments, have been routinely targeted by adversaries attempting to gain access to systems. Depending on the software and nature of the vulnerability, some may be exploited in the browser or require the user to open a file. For instance, some Flash exploits have been delivered as objects within Microsoft Office documents.",
+      "description": "Adversaries may exploit software vulnerabilities in client applications to execute code. Vulnerabilities can exist in software due to unsecure coding practices that can lead to unanticipated behavior. Adversaries can take advantage of certain vulnerabilities through targeted exploitation for the purpose of arbitrary code execution. Oftentimes the most valuable exploits to an offensive toolkit are those that can be used to obtain code execution on a remote system because they can be used to gain access to that system. Users will expect to see files related to the applications they commonly used to do work, so they are a useful target for exploit research and development because of their high utility.\n\nSeveral types exist:\n\n### Browser-based Exploitation\n\nWeb browsers are a common target through [Drive-by Compromise](https://attack.mitre.org/techniques/T1189) and [Spearphishing Link](https://attack.mitre.org/techniques/T1566/002). Endpoint systems may be compromised through normal web browsing or from certain users being targeted by links in spearphishing emails to adversary controlled sites used to exploit the web browser. These often do not require an action by the user for the exploit to be executed.\n\n### Office Applications\n\nCommon office and productivity applications such as Microsoft Office are also targeted through [Phishing](https://attack.mitre.org/techniques/T1566). Malicious files will be transmitted directly as attachments or through links to download them. These require the user to open the document or file for the exploit to run.\n\n### Common Third-party Applications\n\nOther applications that are commonly seen or are part of the software deployed in a target network may also be used for exploitation. Applications such as Adobe Reader and Flash, which are common in enterprise environments, have been routinely targeted by adversaries attempting to gain access to systems. Depending on the software and nature of the vulnerability, some may be exploited in the browser or require the user to open a file. For instance, some Flash exploits have been delivered as objects within Microsoft Office documents.",
       "kill_chain_phases": [
         {
           "kill_chain_name": "lockheed",
@@ -523,32 +514,24 @@
         "Remote exploitation for execution requires a remotely accessible service reachable over the network or other vector of access such as spearphishing or drive-by compromise."
       ],
       "x_mitre_remote_support": "true",
-      "x_mitre_version": "1.0"
+      "x_mitre_version": "1.1"
     },
     {
       "type": "attack-pattern",
       "id": "attack-pattern--e6919abc-99f9-4c6c-95a5-14761e7b2add",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
       "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-03-18T19:43:23.196Z",
-      "name": "T1105: Remote File Copy",
-      "description": "Files may be copied from one system to another to stage adversary tools or other files over the course of an operation. Files may be copied from an external adversary-controlled system through the Command and Control channel to bring tools into the victim network or through alternate protocols with another tool such as [FTP](https://attack.mitre.org/software/S0095). Files can also be copied over on Mac and Linux with native tools like scp, rsync, and sftp.\n\nAdversaries may also copy files laterally between internal victim systems to support Lateral Movement with remote Execution using inherent file sharing protocols such as file sharing over SMB to connected network shares or with authenticated connections with [Windows Admin Shares](https://attack.mitre.org/techniques/T1077) or [Remote Desktop Protocol](https://attack.mitre.org/techniques/T1076).",
+      "modified": "2020-07-27T14:54:37.764Z",
+      "name": "T1105: Ingress Tool Transfer",
+      "description": "Adversaries may transfer tools or other files from an external system into a compromised environment. Files may be copied from an external adversary controlled system through the command and control channel to bring tools into the victim network or through alternate protocols with another tool such as FTP. Files can also be copied over on Mac and Linux with native tools like scp, rsync, and sftp.",
       "kill_chain_phases": [
         {
           "kill_chain_name": "lockheed",
-          "phase_name": "act-on-objectives"
-        },
-        {
-          "kill_chain_name": "lockheed",
           "phase_name": "command-and-control"
         },
         {
           "kill_chain_name": "mitre-attack",
           "phase_name": "command-and-control"
-        },
-        {
-          "kill_chain_name": "mitre-attack",
-          "phase_name": "lateral-movement"
         }
       ],
       "external_references": [
@@ -567,7 +550,7 @@
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
       "x_mitre_detection": [
-        "Monitor for file creation and files transferred within a network over SMB. Unusual processes with external network connections creating files on-system may be suspicious. Use of utilities, such as FTP, that does not normally occur may also be suspicious.\n\nAnalyze network data for uncommon data flows (e.g., a client sending significantly more data than it receives from a server). Processes utilizing the network that do not normally have network communication or have never been seen before are suspicious. Analyze packet contents to detect communications that do not follow the expected protocol behavior for the port that is being used. (Citation: University of Birmingham C2)"
+        "Monitor for file creation and files transferred into the network. Unusual processes with external network connections creating files on-system may be suspicious. Use of utilities, such as FTP, that does not normally occur may also be suspicious.\n\nAnalyze network data for uncommon data flows (e.g., a client sending significantly more data than it receives from a server). Processes utilizing the network that do not normally have network communication or have never been seen before are suspicious. Analyze packet contents to detect communications that do not follow the expected protocol behavior for the port that is being used.(Citation: University of Birmingham C2)"
       ],
       "x_mitre_platforms": [
         "Linux",
@@ -579,16 +562,14 @@
         "Netflow/Enclave netflow",
         "Network protocol analysis",
         "Packet capture",
+        "Process command-line parameters",
         "Process monitoring",
         "Process use of network"
       ],
       "x_mitre_permissions_required": [
         "User"
       ],
-      "x_mitre_network_requirements": [
-        "true"
-      ],
-      "x_mitre_version": "1.0"
+      "x_mitre_version": "2.0"
     },
     {
       "type": "campaign",
@@ -1600,22 +1581,13 @@
     },
     {
       "type": "relationship",
-      "id": "relationship--1b84d551-6de8-4b96-9930-d177677c3b1d",
-      "created": "2020-06-08T12:22:43.326Z",
-      "modified": "2020-06-08T17:57:10.848Z",
-      "relationship_type": "uses",
-      "source_ref": "campaign--4d1e7ce0-6064-4552-9ca6-23cb83ea7876",
-      "target_ref": "attack-pattern--1b84d551-6de8-4b96-9930-d177677c3b1d"
-    },
-    {
-      "type": "relationship",
       "id": "relationship--1bd446d7-771d-483f-b33c-4a9be9c03e19",
       "created": "2020-06-12T13:03:29.186Z",
       "modified": "2020-06-12T15:26:26.572Z",
       "relationship_type": "uses",
       "description": "VBoxDrv.sys - filename for the Sun Microsystems Virtual Box system driver",
       "source_ref": "indicator--10750290-4efd-4e7b-8dda-cc1a9ae4a8b4",
-      "target_ref": "attack-pattern--1b84d551-6de8-4b96-9930-d177677c3b1d"
+      "target_ref": "attack-pattern--32901740-b42c-4fdd-bc02-345b5dc57082"
     },
     {
       "type": "relationship",
@@ -1711,7 +1683,16 @@
       "relationship_type": "uses",
       "description": "[x509-certificate:issuer = '/C=US/O=VeriSign, Inc./OU=VeriSign Trust Network/OU=Terms of use at https://www.verisign.com/rpa (c)04/CN=VeriSign Class 3 Code Signing 2004 CA' AND x509-certificate:serial_number = '69:3a:64:81:8c:1e:08:6b:1b:15:ae:e6:3f:a0:54:a2' AND x509-certificate:validity_not_before = '2007-06-14T12:00:00Z' AND x509-certificate:validity_not_after = '2012-06-14T12:00:00Z']",
       "source_ref": "indicator--22359bb6-e940-4414-9971-fbf7317dfe9b",
-      "target_ref": "attack-pattern--1b84d551-6de8-4b96-9930-d177677c3b1d"
+      "target_ref": "attack-pattern--32901740-b42c-4fdd-bc02-345b5dc57082"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--32901740-b42c-4fdd-bc02-345b5dc57082",
+      "created": "2020-06-08T12:22:43.326Z",
+      "modified": "2020-06-08T17:57:10.848Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--4d1e7ce0-6064-4552-9ca6-23cb83ea7876",
+      "target_ref": "attack-pattern--32901740-b42c-4fdd-bc02-345b5dc57082"
     },
     {
       "type": "relationship",
@@ -1732,7 +1713,7 @@
       "modified": "2020-06-26T19:00:23.137Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--a592acb0-98ba-4a8e-a5cf-2e78d2806e75",
-      "target_ref": "attack-pattern--1b84d551-6de8-4b96-9930-d177677c3b1d",
+      "target_ref": "attack-pattern--32901740-b42c-4fdd-bc02-345b5dc57082",
       "x_panw_coa_u42_panw_product": [
         "Wildfire"
       ]
@@ -1786,7 +1767,7 @@
       "modified": "2020-06-26T19:00:23.137Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--fd0da09e-a0b2-4018-9476-1a7edd809b59",
-      "target_ref": "attack-pattern--1b84d551-6de8-4b96-9930-d177677c3b1d",
+      "target_ref": "attack-pattern--32901740-b42c-4fdd-bc02-345b5dc57082",
       "x_panw_coa_u42_panw_product": [
         "Wildfire"
       ]
@@ -1832,12 +1813,21 @@
     },
     {
       "type": "relationship",
+      "id": "relationship--5095a853-299c-4876-abd7-ac0050fb5462",
+      "created": "2020-06-08T12:22:43.326Z",
+      "modified": "2020-06-08T17:57:10.848Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--4d1e7ce0-6064-4552-9ca6-23cb83ea7876",
+      "target_ref": "attack-pattern--5095a853-299c-4876-abd7-ac0050fb5462"
+    },
+    {
+      "type": "relationship",
       "id": "relationship--511e5815-6908-4ae0-8d36-42bca2bc177f",
       "created": "2020-06-23T19:50:42.481Z",
       "modified": "2020-06-26T19:00:23.137Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--911488bc-ccbb-45bb-a6b1-1c172c00beb2",
-      "target_ref": "attack-pattern--1b84d551-6de8-4b96-9930-d177677c3b1d",
+      "target_ref": "attack-pattern--32901740-b42c-4fdd-bc02-345b5dc57082",
       "x_panw_coa_u42_panw_product": [
         "Cortex XDR Prevent"
       ]
@@ -1900,7 +1890,7 @@
       "modified": "2020-06-26T19:00:23.137Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--ef5f68d8-9522-40b4-890c-31ece644687d",
-      "target_ref": "attack-pattern--1b84d551-6de8-4b96-9930-d177677c3b1d",
+      "target_ref": "attack-pattern--32901740-b42c-4fdd-bc02-345b5dc57082",
       "x_panw_coa_u42_panw_product": [
         "Wildfire"
       ]
@@ -1922,7 +1912,7 @@
       "modified": "2020-06-26T19:00:23.137Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--79fd0d10-6272-4191-8b8d-9c72f19358d0",
-      "target_ref": "attack-pattern--1b84d551-6de8-4b96-9930-d177677c3b1d",
+      "target_ref": "attack-pattern--32901740-b42c-4fdd-bc02-345b5dc57082",
       "x_panw_coa_u42_panw_product": [
         "Wildfire"
       ]
@@ -1953,15 +1943,6 @@
     },
     {
       "type": "relationship",
-      "id": "relationship--6c174520-beea-43d9-aac6-28fb77f3e446",
-      "created": "2020-06-08T12:22:43.326Z",
-      "modified": "2020-06-08T17:57:10.848Z",
-      "relationship_type": "uses",
-      "source_ref": "campaign--4d1e7ce0-6064-4552-9ca6-23cb83ea7876",
-      "target_ref": "attack-pattern--6c174520-beea-43d9-aac6-28fb77f3e446"
-    },
-    {
-      "type": "relationship",
       "id": "relationship--762f0452-9070-447b-b69a-54196a652481",
       "created": "2020-06-11T19:25:17.829Z",
       "modified": "2020-06-12T15:26:26.571Z",
@@ -1976,7 +1957,7 @@
       "modified": "2020-06-26T19:00:23.137Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--f4d50de0-ecc5-4f9e-b8f7-214cdfe28d39",
-      "target_ref": "attack-pattern--1b84d551-6de8-4b96-9930-d177677c3b1d",
+      "target_ref": "attack-pattern--32901740-b42c-4fdd-bc02-345b5dc57082",
       "x_panw_coa_u42_panw_product": [
         "Wildfire"
       ]
@@ -1988,7 +1969,7 @@
       "modified": "2020-06-26T19:00:23.137Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--5cadeb2b-82c7-4238-8ebd-297df586971e",
-      "target_ref": "attack-pattern--1b84d551-6de8-4b96-9930-d177677c3b1d",
+      "target_ref": "attack-pattern--32901740-b42c-4fdd-bc02-345b5dc57082",
       "x_panw_coa_u42_panw_product": [
         "Cortex XDR Prevent"
       ]
@@ -2078,7 +2059,7 @@
       "relationship_type": "uses",
       "description": "003669761229d3e1db0f5a5b333ef62b3dffcc8e27c821ce9018362e0a2df7e9",
       "source_ref": "indicator--ed06166f-34d7-48fe-9b4d-2c1be6fe256b",
-      "target_ref": "attack-pattern--6c174520-beea-43d9-aac6-28fb77f3e446"
+      "target_ref": "attack-pattern--5095a853-299c-4876-abd7-ac0050fb5462"
     },
     {
       "type": "relationship",
@@ -2136,7 +2117,7 @@
       "relationship_type": "uses",
       "description": "b3166c417d49e94f3d9eab9b1e8ab853b58ba59f734f774b5de75ee631a9b66d",
       "source_ref": "indicator--e2a55d9a-25a6-40bd-b1f2-cef2d32e8d83",
-      "target_ref": "attack-pattern--6c174520-beea-43d9-aac6-28fb77f3e446"
+      "target_ref": "attack-pattern--5095a853-299c-4876-abd7-ac0050fb5462"
     },
     {
       "type": "relationship",
@@ -2145,7 +2126,7 @@
       "modified": "2020-06-17T12:30:15.097Z",
       "relationship_type": "uses",
       "source_ref": "campaign--4d1e7ce0-6064-4552-9ca6-23cb83ea7876",
-      "target_ref": "attack-pattern--6c174520-beea-43d9-aac6-28fb77f3e446"
+      "target_ref": "attack-pattern--5095a853-299c-4876-abd7-ac0050fb5462"
     },
     {
       "type": "relationship",
@@ -2200,7 +2181,7 @@
       "relationship_type": "uses",
       "description": "3ad20ca49a979e5ea4a5e154962e7caff17e4ca4f00bec7f3ab89275fcc8f58c",
       "source_ref": "indicator--484f3c69-2329-4642-b1fc-5c1fb3301895",
-      "target_ref": "attack-pattern--6c174520-beea-43d9-aac6-28fb77f3e446"
+      "target_ref": "attack-pattern--5095a853-299c-4876-abd7-ac0050fb5462"
     },
     {
       "type": "relationship",
@@ -2419,7 +2400,7 @@
       "modified": "2020-06-26T19:00:23.137Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--a79d2365-61c7-48b9-b024-e2020b99bba0",
-      "target_ref": "attack-pattern--1b84d551-6de8-4b96-9930-d177677c3b1d",
+      "target_ref": "attack-pattern--32901740-b42c-4fdd-bc02-345b5dc57082",
       "x_panw_coa_u42_panw_product": [
         "Wildfire"
       ]
@@ -2488,7 +2469,7 @@
       "type": "relationship",
       "id": "relationship--e06ff13e-810a-4f46-be1c-0ede839825d0",
       "created": "2020-06-04T15:11:37.652Z",
-      "modified": "2020-06-26T19:00:44.641Z",
+      "modified": "2020-07-30T16:55:51.309Z",
       "relationship_type": "attributed-to",
       "source_ref": "report--e06ff13e-810a-4f46-be1c-0ede839825d0",
       "target_ref": "intrusion-set--1541c4c8-a0c4-435f-aff8-60cecf72367a"
@@ -2576,7 +2557,7 @@
       "modified": "2020-06-26T19:00:23.137Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--8190ac5a-8a5e-41bc-85dd-62e0f5cdd2ba",
-      "target_ref": "attack-pattern--1b84d551-6de8-4b96-9930-d177677c3b1d",
+      "target_ref": "attack-pattern--32901740-b42c-4fdd-bc02-345b5dc57082",
       "x_panw_coa_u42_panw_product": [
         "Wildfire"
       ]
@@ -2601,10 +2582,10 @@
       "name": "Campaign 1 - AcidBox",
       "published": "2020-06-08T17:57:10.848Z",
       "object_refs": [
-        "attack-pattern--1b84d551-6de8-4b96-9930-d177677c3b1d",
+        "attack-pattern--32901740-b42c-4fdd-bc02-345b5dc57082",
         "attack-pattern--3ccef7ae-cb5e-48f6-8302-897105fbf55c",
+        "attack-pattern--5095a853-299c-4876-abd7-ac0050fb5462",
         "attack-pattern--57340c81-c025-4189-8fa0-fc7ede51bae4",
-        "attack-pattern--6c174520-beea-43d9-aac6-28fb77f3e446",
         "attack-pattern--b21c3b2d-02e6-45b1-980b-e69051040839",
         "attack-pattern--b3d682b6-98f2-4fb0-aa3b-b4df007ca70a",
         "attack-pattern--be2dcee9-a7a7-4e38-afd6-21b31ecc3d63",
@@ -2673,7 +2654,6 @@
         "relationship--13a8fcf0-9890-4e1a-89ff-d6a2b1c2d56c",
         "relationship--15515310-419b-452d-8040-1f59b9443ae1",
         "relationship--190404eb-2b23-4cdf-8be4-5185c86f4aef",
-        "relationship--1b84d551-6de8-4b96-9930-d177677c3b1d",
         "relationship--1bd446d7-771d-483f-b33c-4a9be9c03e19",
         "relationship--1c4fdebe-db04-4c33-8875-95d2daeeee12",
         "relationship--1f3a5fce-b42b-4b7e-bec6-b172f3b5b861",
@@ -2684,6 +2664,7 @@
         "relationship--262bc6f7-1167-4b5f-8f0d-622e9c38ce02",
         "relationship--2ad20cb7-4111-4685-a6cf-1eb8733f2735",
         "relationship--2b994c5f-e281-4808-92d6-fd0c210cbf5a",
+        "relationship--32901740-b42c-4fdd-bc02-345b5dc57082",
         "relationship--3557feae-dc4d-485a-a7ae-6879730ae3bc",
         "relationship--35fc4e0e-008f-45c8-94c6-d1a40630b543",
         "relationship--36d411d3-72eb-44e3-ae6f-de5e76b608d6",
@@ -2695,6 +2676,7 @@
         "relationship--4d1e7ce0-6064-4552-9ca6-23cb83ea7876",
         "relationship--4dee57c3-124b-49e3-a3b3-1e64eb40cb71",
         "relationship--4e5c0bbe-fb62-4295-a02b-a29426cc83ad",
+        "relationship--5095a853-299c-4876-abd7-ac0050fb5462",
         "relationship--511e5815-6908-4ae0-8d36-42bca2bc177f",
         "relationship--54ac7711-48c1-4f22-865d-3b5deb5d179c",
         "relationship--57340c81-c025-4189-8fa0-fc7ede51bae4",
@@ -2706,7 +2688,6 @@
         "relationship--66c40cc3-d51d-4feb-9179-0b6f90c8cdda",
         "relationship--685d35a9-5470-4234-a3af-39167a958782",
         "relationship--68c03d63-6422-425b-90a4-6644ca39b035",
-        "relationship--6c174520-beea-43d9-aac6-28fb77f3e446",
         "relationship--762f0452-9070-447b-b69a-54196a652481",
         "relationship--765b98ee-655f-410a-b6ed-7b87201a475f",
         "relationship--77eaee82-9fba-40ed-9674-cecbda70ee72",
