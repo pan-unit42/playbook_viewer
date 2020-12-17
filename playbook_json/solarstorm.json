@@ -7,10 +7,10 @@
       "type": "report",
       "id": "report--158e7478-d86b-45ac-93f2-9ab70eadfd68",
       "created": "2020-12-14T15:26:37.794Z",
-      "modified": "2020-12-14T20:28:13.434Z",
+      "modified": "2020-12-17T01:05:43.237Z",
       "name": "SolarStorm",
       "description": "SolarStorm is a highly skilled threat actor, with significant operational security mindset and has targeted supply chains during their attack on SolarWinds Orion IT performance and statistics monitoring software. ",
-      "published": "2020-12-14T20:28:13.434Z",
+      "published": "2020-12-17T01:05:43.237Z",
       "object_refs": [
         "intrusion-set--2af2ab1d-86b3-4a25-85a4-de6120794b20",
         "report--e67e9046-711b-491e-85d8-b18f39a9fa94"
@@ -452,6 +452,64 @@
         "Adversary access to Web server with vulnerability or account to upload and serve the Web shell file."
       ],
       "x_mitre_version": "1.0"
+    },
+    {
+      "type": "attack-pattern",
+      "id": "attack-pattern--72b74d71-8169-42aa-92e0-e7b04b9f5a08",
+      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "created": "2018-08-03T19:54:02.821Z",
+      "modified": "2020-07-27T14:54:37.764Z",
+      "name": "T1087: Account Discovery",
+      "description": "Adversaries may attempt to get a listing of accounts on a system or within an environment. This information can help adversaries determine which accounts exist to aid in follow-on behavior.",
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "lockheed",
+          "phase_name": "act-on-objectives"
+        },
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "discovery"
+        }
+      ],
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1087",
+          "external_id": "T1087"
+        }
+      ],
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ],
+      "x_mitre_detection": [
+        "System and network discovery techniques normally occur throughout an operation as an adversary learns the environment. Data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities, such as Lateral Movement, based on the information obtained.\n\nMonitor processes and command-line arguments for actions that could be taken to gather system and network information. Remote access tools with built-in features may interact directly with the Windows API to gather information. Information may also be acquired through Windows system management tools such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) and [PowerShell](https://attack.mitre.org/techniques/T1059/001)."
+      ],
+      "x_mitre_platforms": [
+        "AWS",
+        "Azure",
+        "Azure AD",
+        "GCP",
+        "Linux",
+        "Office 365",
+        "SaaS",
+        "Windows",
+        "macOS"
+      ],
+      "x_mitre_data_sources": [
+        "API monitoring",
+        "Azure activity logs",
+        "Office 365 account logs",
+        "Process command-line parameters",
+        "Process monitoring"
+      ],
+      "x_mitre_permissions_required": [
+        "User"
+      ],
+      "x_mitre_contributors": [
+        "Microsoft Threat Intelligence Center (MSTIC)",
+        "Travis Smith, Tripwire"
+      ],
+      "x_mitre_version": "2.1"
     },
     {
       "type": "attack-pattern",
@@ -1166,6 +1224,57 @@
       "x_mitre_version": "1.0"
     },
     {
+      "type": "attack-pattern",
+      "id": "attack-pattern--f2877f7f-9a4c-4251-879f-1224e3006bee",
+      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "created": "2018-08-03T19:54:02.821Z",
+      "modified": "2020-07-27T14:54:43.788Z",
+      "name": "T1558.003: Kerberoasting",
+      "description": "Adversaries may abuse a valid Kerberos ticket-granting ticket (TGT) or sniff network traffic to obtain a ticket-granting service (TGS) ticket that may be vulnerable to [Brute Force](https://attack.mitre.org/techniques/T1110).(Citation: Empire InvokeKerberoast Oct 2016)(Citation: AdSecurity Cracking Kerberos Dec 2015) \n\nService principal names (SPNs) are used to uniquely identify each instance of a Windows service. To enable authentication, Kerberos requires that SPNs be associated with at least one service logon account (an account specifically tasked with running a service(Citation: Microsoft Detecting Kerberoasting Feb 2018)).(Citation: Microsoft SPN)(Citation: Microsoft SetSPN)(Citation: SANS Attacking Kerberos Nov 2014)(Citation: Harmj0y Kerberoast Nov 2016)\n\nAdversaries possessing a valid Kerberos ticket-granting ticket (TGT) may request one or more Kerberos ticket-granting service (TGS) service tickets for any SPN from a domain controller (DC).(Citation: Empire InvokeKerberoast Oct 2016)(Citation: AdSecurity Cracking Kerberos Dec 2015) Portions of these tickets may be encrypted with the RC4 algorithm, meaning the Kerberos 5 TGS-REP etype 23 hash of the service account associated with the SPN is used as the private key and is thus vulnerable to offline [Brute Force](https://attack.mitre.org/techniques/T1110) attacks that may expose plaintext credentials.(Citation: AdSecurity Cracking Kerberos Dec 2015)(Citation: Empire InvokeKerberoast Oct 2016) (Citation: Harmj0y Kerberoast Nov 2016)\n\nThis same attack could be executed using service tickets captured from network traffic.(Citation: AdSecurity Cracking Kerberos Dec 2015)\n\nCracked hashes may enable [Persistence](https://attack.mitre.org/tactics/TA0003), [Privilege Escalation](https://attack.mitre.org/tactics/TA0004), and [Lateral Movement](https://attack.mitre.org/tactics/TA0008) via access to [Valid Accounts](https://attack.mitre.org/techniques/T1078).(Citation: SANS Attacking Kerberos Nov 2014)",
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "lockheed",
+          "phase_name": "act-on-objectives"
+        },
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "credential-access"
+        }
+      ],
+      "external_references": [
+        {
+          "source_name": "Empire InvokeKerberoast Oct 2016",
+          "url": "https://github.com/EmpireProject/Empire/blob/master/data/module_source/credentials/Invoke-Kerberoast.ps1",
+          "description": "EmpireProject. (2016, October 31). Invoke-Kerberoast.ps1. Retrieved March 22, 2018."
+        },
+        {
+          "source_name": "Microsoft Detecting Kerberoasting Feb 2018",
+          "url": "https://blogs.technet.microsoft.com/motiba/2018/02/23/detecting-kerberoasting-activity-using-azure-security-center/",
+          "description": "Bani, M. (2018, February 23). Detecting Kerberoasting activity using Azure Security Center. Retrieved March 23, 2018."
+        }
+      ],
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ],
+      "x_mitre_detection": [
+        "Enable Audit Kerberos Service Ticket Operations to log Kerberos TGS service ticket requests. Particularly investigate irregular patterns of activity (ex: accounts making numerous requests, Event ID 4769, within a small time frame, especially if they also request RC4 encryption [Type 0x17]).(Citation: Microsoft Detecting Kerberoasting Feb 2018)(Citation: AdSecurity Cracking Kerberos Dec 2015)"
+      ],
+      "x_mitre_platforms": [
+        "Windows"
+      ],
+      "x_mitre_data_sources": [
+        "Authentication logs",
+        "Windows event logs"
+      ],
+      "x_mitre_system_requirements": [
+        "Valid domain account or the ability to sniff traffic within a domain"
+      ],
+      "x_mitre_contributors": [
+        "Praetorian"
+      ],
+      "x_mitre_version": "1.0"
+    },
+    {
       "type": "campaign",
       "id": "campaign--e67e9046-711b-491e-85d8-b18f39a9fa94",
       "created": "2020-12-14T16:23:58.119Z",
@@ -1852,6 +1961,18 @@
     },
     {
       "type": "indicator",
+      "id": "indicator--01ef2ef3-e543-44a0-978a-c0028df90f14",
+      "created": "2020-12-10T19:54:06.261Z",
+      "modified": "2020-12-16T23:48:31.802Z",
+      "name": "5fabe36fb1da700a1c418e184c2e5332fe2f8c575c6148bdac360f69f91be6c2",
+      "pattern": "[file:hashes.'SHA-256' = '5fabe36fb1da700a1c418e184c2e5332fe2f8c575c6148bdac360f69f91be6c2']",
+      "valid_from": "2020-12-10T19:54:06.261Z",
+      "labels": [
+        "malicious-activity"
+      ]
+    },
+    {
+      "type": "indicator",
       "id": "indicator--020a2ac2-df22-4d11-a4dd-3a4186fcda16",
       "created": "2020-12-14T16:52:07.734Z",
       "modified": "2020-12-14T19:21:31.209Z",
@@ -2044,6 +2165,18 @@
     },
     {
       "type": "indicator",
+      "id": "indicator--09ff4050-bcbc-400c-8023-05fdffbc8886",
+      "created": "2020-12-16T22:54:22.505Z",
+      "modified": "2020-12-17T00:45:51.308Z",
+      "name": "solartrackingsystem.net",
+      "pattern": "[domain-name:value = 'solartrackingsystem.net']",
+      "valid_from": "2020-12-16T22:54:22.505Z",
+      "labels": [
+        "malicious-activity"
+      ]
+    },
+    {
+      "type": "indicator",
       "id": "indicator--0a1bedfd-4fad-48ab-8156-07acd2739b79",
       "created": "2020-12-14T16:52:07.734Z",
       "modified": "2020-12-14T19:21:31.208Z",
@@ -2152,6 +2285,18 @@
     },
     {
       "type": "indicator",
+      "id": "indicator--0d7100f0-5586-4671-b0fc-804fb83ddc76",
+      "created": "2020-12-10T19:54:06.261Z",
+      "modified": "2020-12-16T23:48:31.802Z",
+      "name": "a7240d8a7aee872c08b915a58976a1ddee2ff5a8a679f78ec1c7cf528f40deed",
+      "pattern": "[file:hashes.'SHA-256' = 'a7240d8a7aee872c08b915a58976a1ddee2ff5a8a679f78ec1c7cf528f40deed']",
+      "valid_from": "2020-12-10T19:54:06.261Z",
+      "labels": [
+        "malicious-activity"
+      ]
+    },
+    {
+      "type": "indicator",
       "id": "indicator--0dfbad6a-f185-42d7-8ee2-094ad9db88fc",
       "created": "2020-12-14T16:52:07.734Z",
       "modified": "2020-12-14T19:21:31.209Z",
@@ -2206,6 +2351,18 @@
       "name": "2s8sii8387s2tm7g5olimhv.appsync-api.us-east-2.avsvmcloud.com",
       "pattern": "[domain-name:value = '2s8sii8387s2tm7g5olimhv.appsync-api.us-east-2.avsvmcloud.com']",
       "valid_from": "2020-12-14T16:52:07.734Z",
+      "labels": [
+        "malicious-activity"
+      ]
+    },
+    {
+      "type": "indicator",
+      "id": "indicator--1159e881-536a-4e07-a8a6-c4fd6821c6f7",
+      "created": "2020-12-16T22:54:22.505Z",
+      "modified": "2020-12-17T00:45:51.308Z",
+      "name": "seobundlekit.com",
+      "pattern": "[domain-name:value = 'seobundlekit.com']",
+      "valid_from": "2020-12-16T22:54:22.505Z",
       "labels": [
         "malicious-activity"
       ]
@@ -2886,7 +3043,7 @@
       "type": "indicator",
       "id": "indicator--2617c991-74d6-4086-85e5-f3342fd0b5c4",
       "created": "2020-12-14T17:21:34.777Z",
-      "modified": "2020-12-14T19:21:31.220Z",
+      "modified": "2020-12-16T22:57:41.417Z",
       "name": "ce77d116a074dab7a22a0fd4f2c1ab475f16eec42e1ded3c0b0aa8211fe858d6",
       "pattern": "[file:hashes.'SHA-256' = 'ce77d116a074dab7a22a0fd4f2c1ab475f16eec42e1ded3c0b0aa8211fe858d6']",
       "valid_from": "2020-12-14T17:21:34.777Z",
@@ -2994,7 +3151,7 @@
       "type": "indicator",
       "id": "indicator--28ede6fd-63e4-43f9-a554-82c8899990e0",
       "created": "2020-12-14T17:33:37.286Z",
-      "modified": "2020-12-14T19:21:31.220Z",
+      "modified": "2020-12-16T23:19:43.556Z",
       "name": "thedoccloud.com",
       "pattern": "[domain-name:value = 'thedoccloud.com']",
       "valid_from": "2020-12-14T17:33:37.286Z",
@@ -3210,7 +3367,7 @@
       "type": "indicator",
       "id": "indicator--2fb0016f-3ac4-4e3c-a141-f4b61ba30f58",
       "created": "2020-12-14T17:21:34.777Z",
-      "modified": "2020-12-14T19:21:31.220Z",
+      "modified": "2020-12-16T22:57:41.417Z",
       "name": "019085a76ba7126fff22770d71bd901c325fc68ac55aa743327984e89f4b0134",
       "pattern": "[file:hashes.'SHA-256' = '019085a76ba7126fff22770d71bd901c325fc68ac55aa743327984e89f4b0134']",
       "valid_from": "2020-12-14T17:21:34.777Z",
@@ -3382,6 +3539,18 @@
       "name": "qit94i5tqf2j9mq5wo11r02irssrc2vv.appsync-api.us-east-2.avsvmcloud.com",
       "pattern": "[domain-name:value = 'qit94i5tqf2j9mq5wo11r02irssrc2vv.appsync-api.us-east-2.avsvmcloud.com']",
       "valid_from": "2020-12-14T16:52:07.734Z",
+      "labels": [
+        "malicious-activity"
+      ]
+    },
+    {
+      "type": "indicator",
+      "id": "indicator--36f9e0bf-46fe-4a84-a6a1-928eb394c1b3",
+      "created": "2020-12-16T22:54:22.505Z",
+      "modified": "2020-12-17T00:45:51.308Z",
+      "name": "virtualdataserver.com",
+      "pattern": "[domain-name:value = 'virtualdataserver.com']",
+      "valid_from": "2020-12-16T22:54:22.505Z",
       "labels": [
         "malicious-activity"
       ]
@@ -3994,6 +4163,18 @@
       "name": "1cghgocfgcik9p1cv6q3ru1i302vri.appsync-api.us-east-1.avsvmcloud.com",
       "pattern": "[domain-name:value = '1cghgocfgcik9p1cv6q3ru1i302vri.appsync-api.us-east-1.avsvmcloud.com']",
       "valid_from": "2020-12-14T16:52:07.734Z",
+      "labels": [
+        "malicious-activity"
+      ]
+    },
+    {
+      "type": "indicator",
+      "id": "indicator--4d6480e8-3a34-4c8b-9457-98c3a6125787",
+      "created": "2020-12-16T22:54:22.505Z",
+      "modified": "2020-12-17T00:45:51.308Z",
+      "name": "webcodez.com",
+      "pattern": "[domain-name:value = 'webcodez.com']",
+      "valid_from": "2020-12-16T22:54:22.505Z",
       "labels": [
         "malicious-activity"
       ]
@@ -4696,6 +4877,18 @@
     },
     {
       "type": "indicator",
+      "id": "indicator--6483edef-2d63-44ca-8f04-1c5aac7052bd",
+      "created": "2020-12-16T22:54:22.505Z",
+      "modified": "2020-12-17T00:45:51.308Z",
+      "name": "globalnetworkissues.com",
+      "pattern": "[domain-name:value = 'globalnetworkissues.com']",
+      "valid_from": "2020-12-16T22:54:22.505Z",
+      "labels": [
+        "malicious-activity"
+      ]
+    },
+    {
+      "type": "indicator",
       "id": "indicator--650864eb-8aed-48e7-aa87-4773afef906c",
       "created": "2020-12-14T16:52:07.734Z",
       "modified": "2020-12-14T19:21:31.206Z",
@@ -4750,6 +4943,18 @@
       "name": "s3ei81g6fadr2527e6vi0edsovertr2s.appsync-api.us-east-1.avsvmcloud.com",
       "pattern": "[domain-name:value = 's3ei81g6fadr2527e6vi0edsovertr2s.appsync-api.us-east-1.avsvmcloud.com']",
       "valid_from": "2020-12-14T16:52:07.734Z",
+      "labels": [
+        "malicious-activity"
+      ]
+    },
+    {
+      "type": "indicator",
+      "id": "indicator--66930c4b-9544-4a18-bcc4-f8579bfc35eb",
+      "created": "2020-12-10T19:54:06.261Z",
+      "modified": "2020-12-16T23:48:31.802Z",
+      "name": "e9e646a9dba31a8e3debf4202ed34b0b22c483f1aca75ffa43e684cb417837fa",
+      "pattern": "[file:hashes.'SHA-256' = 'e9e646a9dba31a8e3debf4202ed34b0b22c483f1aca75ffa43e684cb417837fa']",
+      "valid_from": "2020-12-10T19:54:06.261Z",
       "labels": [
         "malicious-activity"
       ]
@@ -4818,7 +5023,7 @@
       "type": "indicator",
       "id": "indicator--68014ca6-206b-461d-aa08-f1ac5fc07a80",
       "created": "2020-12-14T17:33:37.286Z",
-      "modified": "2020-12-14T19:21:31.220Z",
+      "modified": "2020-12-16T23:19:43.556Z",
       "name": "panhardware.com",
       "pattern": "[domain-name:value = 'panhardware.com']",
       "valid_from": "2020-12-14T17:33:37.286Z",
@@ -4890,7 +5095,7 @@
       "type": "indicator",
       "id": "indicator--6bd3fb5c-2c96-4716-a26d-7e821b7bba3b",
       "created": "2020-12-14T17:33:37.286Z",
-      "modified": "2020-12-14T19:21:31.220Z",
+      "modified": "2020-12-16T23:19:43.556Z",
       "name": "incomeupdate.com",
       "pattern": "[domain-name:value = 'incomeupdate.com']",
       "valid_from": "2020-12-14T17:33:37.286Z",
@@ -5250,7 +5455,7 @@
       "type": "indicator",
       "id": "indicator--75ddc831-a4cc-4671-99f7-adb8d6700083",
       "created": "2020-12-14T17:33:37.286Z",
-      "modified": "2020-12-14T19:21:31.221Z",
+      "modified": "2020-12-16T23:19:43.556Z",
       "name": "zupertech.com",
       "pattern": "[domain-name:value = 'zupertech.com']",
       "valid_from": "2020-12-14T17:33:37.286Z",
@@ -5662,6 +5867,18 @@
       "name": "05q2sp0v4b5ramdf71l7.appsync-api.eu-west-1.avsvmcloud.com",
       "pattern": "[domain-name:value = '05q2sp0v4b5ramdf71l7.appsync-api.eu-west-1.avsvmcloud.com']",
       "valid_from": "2020-12-14T16:52:07.734Z",
+      "labels": [
+        "malicious-activity"
+      ]
+    },
+    {
+      "type": "indicator",
+      "id": "indicator--817d0a47-6320-498c-9c72-8274b56481c4",
+      "created": "2020-12-09T20:09:42.719Z",
+      "modified": "2020-12-16T23:26:56.307Z",
+      "name": "b9cf6fbde82839e15413595a50aeb1044a8f4e3be180c42436e11675c22cf914",
+      "pattern": "[file:hashes.'SHA-256' = 'b9cf6fbde82839e15413595a50aeb1044a8f4e3be180c42436e11675c22cf914']",
+      "valid_from": "2020-12-09T20:09:42.719Z",
       "labels": [
         "malicious-activity"
       ]
@@ -6354,7 +6571,7 @@
       "type": "indicator",
       "id": "indicator--959fec11-ee79-4203-aed6-dc3cecb051d6",
       "created": "2020-12-14T17:21:34.777Z",
-      "modified": "2020-12-14T19:21:31.220Z",
+      "modified": "2020-12-16T22:57:41.417Z",
       "name": "32519b85c0b422e4656de6e6c41878e95fd95026267daab4215ee59c107d6c77",
       "pattern": "[file:hashes.'SHA-256' = '32519b85c0b422e4656de6e6c41878e95fd95026267daab4215ee59c107d6c77']",
       "valid_from": "2020-12-14T17:21:34.777Z",
@@ -6726,7 +6943,7 @@
       "type": "indicator",
       "id": "indicator--a4075cb8-0093-49a8-857f-8a8f233b17d3",
       "created": "2020-12-14T17:33:37.286Z",
-      "modified": "2020-12-14T19:21:31.220Z",
+      "modified": "2020-12-16T23:19:43.556Z",
       "name": "websitetheme.com",
       "pattern": "[domain-name:value = 'websitetheme.com']",
       "valid_from": "2020-12-14T17:33:37.286Z",
@@ -7336,6 +7553,18 @@
     },
     {
       "type": "indicator",
+      "id": "indicator--b92bd107-5859-4ac1-983f-f0003a166b2c",
+      "created": "2020-12-16T22:54:22.505Z",
+      "modified": "2020-12-17T00:45:51.308Z",
+      "name": "digitalcollege.org",
+      "pattern": "[domain-name:value = 'digitalcollege.org']",
+      "valid_from": "2020-12-16T22:54:22.505Z",
+      "labels": [
+        "malicious-activity"
+      ]
+    },
+    {
+      "type": "indicator",
       "id": "indicator--b92d9722-6a7a-4aae-a518-86213ae5a3ff",
       "created": "2020-12-14T16:52:07.734Z",
       "modified": "2020-12-14T19:21:31.209Z",
@@ -7362,7 +7591,7 @@
       "type": "indicator",
       "id": "indicator--b9bd5e1b-aa59-4798-b2ed-79b7d2dc71f6",
       "created": "2020-12-14T17:33:37.286Z",
-      "modified": "2020-12-14T19:21:31.220Z",
+      "modified": "2020-12-16T23:19:43.556Z",
       "name": "highdatabase.com",
       "pattern": "[domain-name:value = 'highdatabase.com']",
       "valid_from": "2020-12-14T17:33:37.286Z",
@@ -7698,7 +7927,7 @@
       "type": "indicator",
       "id": "indicator--c51f1061-eb1b-4d2c-9a3c-94f7ed4425dd",
       "created": "2020-12-14T17:33:37.286Z",
-      "modified": "2020-12-14T19:21:31.220Z",
+      "modified": "2020-12-16T23:19:43.556Z",
       "name": "databasegalore.com",
       "pattern": "[domain-name:value = 'databasegalore.com']",
       "valid_from": "2020-12-14T17:33:37.286Z",
@@ -7768,6 +7997,18 @@
     },
     {
       "type": "indicator",
+      "id": "indicator--c70cc7be-b900-4c80-b82c-b6a1394224e1",
+      "created": "2020-12-10T19:54:06.261Z",
+      "modified": "2020-12-16T23:26:56.307Z",
+      "name": "02f47b88caa73d607d820d258cd9f167ed266af99a62e10c9220a7e0228cf53e",
+      "pattern": "[file:hashes.'SHA-256' = '02f47b88caa73d607d820d258cd9f167ed266af99a62e10c9220a7e0228cf53e']",
+      "valid_from": "2020-12-10T19:54:06.261Z",
+      "labels": [
+        "malicious-activity"
+      ]
+    },
+    {
+      "type": "indicator",
       "id": "indicator--c743b1d7-154d-4c02-826e-6e2a47e95920",
       "created": "2020-12-14T16:52:07.734Z",
       "modified": "2020-12-14T19:21:31.209Z",
@@ -7786,6 +8027,18 @@
       "name": "ovnm6k8vhojn2sv2e2q0c12eu1.appsync-api.eu-west-1.avsvmcloud.com",
       "pattern": "[domain-name:value = 'ovnm6k8vhojn2sv2e2q0c12eu1.appsync-api.eu-west-1.avsvmcloud.com']",
       "valid_from": "2020-12-14T16:52:07.734Z",
+      "labels": [
+        "malicious-activity"
+      ]
+    },
+    {
+      "type": "indicator",
+      "id": "indicator--c8336c1e-ab9c-4b21-aa47-b776025df7d5",
+      "created": "2020-12-16T22:54:22.505Z",
+      "modified": "2020-12-17T00:45:51.308Z",
+      "name": "lcomputers.com",
+      "pattern": "[domain-name:value = 'lcomputers.com']",
+      "valid_from": "2020-12-16T22:54:22.505Z",
       "labels": [
         "malicious-activity"
       ]
@@ -7924,6 +8177,18 @@
     },
     {
       "type": "indicator",
+      "id": "indicator--cd4306a0-de6c-421f-911b-da2a43b3bf96",
+      "created": "2020-12-16T22:54:22.505Z",
+      "modified": "2020-12-17T00:45:51.307Z",
+      "name": "Virtualwebdata.com",
+      "pattern": "[domain-name:value = 'Virtualwebdata.com']",
+      "valid_from": "2020-12-16T22:54:22.505Z",
+      "labels": [
+        "malicious-activity"
+      ]
+    },
+    {
+      "type": "indicator",
       "id": "indicator--cdd2b804-db9b-4b4a-837b-622243b52e9d",
       "created": "2020-12-14T16:52:07.734Z",
       "modified": "2020-12-14T19:21:31.220Z",
@@ -7938,7 +8203,7 @@
       "type": "indicator",
       "id": "indicator--cee5818f-431f-4ecf-be4b-5b1288b43f89",
       "created": "2020-12-14T17:33:37.286Z",
-      "modified": "2020-12-14T19:21:31.220Z",
+      "modified": "2020-12-16T23:19:43.556Z",
       "name": "freescanonline.com",
       "pattern": "[domain-name:value = 'freescanonline.com']",
       "valid_from": "2020-12-14T17:33:37.286Z",
@@ -7966,6 +8231,18 @@
       "name": "0dv6fsons11r6hqh0657.appsync-api.us-west-2.avsvmcloud.com",
       "pattern": "[domain-name:value = '0dv6fsons11r6hqh0657.appsync-api.us-west-2.avsvmcloud.com']",
       "valid_from": "2020-12-14T16:52:07.734Z",
+      "labels": [
+        "malicious-activity"
+      ]
+    },
+    {
+      "type": "indicator",
+      "id": "indicator--cf7bfb9b-9447-4ab7-90b4-9d17e9cff5a9",
+      "created": "2020-12-16T22:57:39.369Z",
+      "modified": "2020-12-17T00:45:51.308Z",
+      "name": "b05640e8f35761435e3cf22524136808a891304f10ec9f354eb9decc43cb617e",
+      "pattern": "[file:hashes.'SHA-256' = 'b05640e8f35761435e3cf22524136808a891304f10ec9f354eb9decc43cb617e']",
+      "valid_from": "2020-12-16T22:57:39.369Z",
       "labels": [
         "malicious-activity"
       ]
@@ -8166,7 +8443,7 @@
       "type": "indicator",
       "id": "indicator--d4bf38b9-f1b5-447d-86d2-96e66e11641a",
       "created": "2020-12-14T17:33:37.286Z",
-      "modified": "2020-12-14T19:21:31.220Z",
+      "modified": "2020-12-16T23:19:43.556Z",
       "name": "deftsecurity.com",
       "pattern": "[domain-name:value = 'deftsecurity.com']",
       "valid_from": "2020-12-14T17:33:37.286Z",
@@ -8386,6 +8663,18 @@
       "name": "202jdr3e38aja16ohr63.appsync-api.us-west-2.avsvmcloud.com",
       "pattern": "[domain-name:value = '202jdr3e38aja16ohr63.appsync-api.us-west-2.avsvmcloud.com']",
       "valid_from": "2020-12-14T16:52:07.734Z",
+      "labels": [
+        "malicious-activity"
+      ]
+    },
+    {
+      "type": "indicator",
+      "id": "indicator--de97ea60-907a-4651-b042-0abfb2260a85",
+      "created": "2020-12-16T22:54:22.505Z",
+      "modified": "2020-12-17T00:45:51.308Z",
+      "name": "kubecloud.com",
+      "pattern": "[domain-name:value = 'kubecloud.com']",
+      "valid_from": "2020-12-16T22:54:22.505Z",
       "labels": [
         "malicious-activity"
       ]
@@ -8902,6 +9191,18 @@
       "name": "5cc19c6bgu6jn6fh00huauo0f1qtkgb4.appsync-api.us-east-1.avsvmcloud.com",
       "pattern": "[domain-name:value = '5cc19c6bgu6jn6fh00huauo0f1qtkgb4.appsync-api.us-east-1.avsvmcloud.com']",
       "valid_from": "2020-12-14T16:52:07.734Z",
+      "labels": [
+        "malicious-activity"
+      ]
+    },
+    {
+      "type": "indicator",
+      "id": "indicator--ecab268a-34cb-4d9a-a124-590dc7bfbf32",
+      "created": "2020-12-10T19:54:06.261Z",
+      "modified": "2020-12-17T00:07:47.793Z",
+      "name": "c0fc006ffa92d0111197f8e3a1d2ba06a326eddc3d0b28111727df8e52805cf8",
+      "pattern": "[file:hashes.'SHA-256' = 'c0fc006ffa92d0111197f8e3a1d2ba06a326eddc3d0b28111727df8e52805cf8']",
+      "valid_from": "2020-12-10T19:54:06.261Z",
       "labels": [
         "malicious-activity"
       ]
@@ -9483,6 +9784,17 @@
     },
     {
       "type": "malware",
+      "id": "malware--624eef6f-c00a-46cd-a49c-31404577cc84",
+      "name": "Bloodhound",
+      "labels": [
+        "rogue-security-software"
+      ],
+      "created": "2020-12-16T23:36:48.541Z",
+      "modified": "2020-12-17T00:45:51.308Z",
+      "description": "BloodHound is a single page Javascript web application, built on top of Linkurious, compiled with Electron, with a Neo4j database fed by a PowerShell ingestor.\nBloodHound uses graph theory to reveal the hidden and often unintended relationships within an Active Directory environment. Attackers can use BloodHound to easily identify highly complex attack paths that would otherwise be impossible to quickly identify. Defenders can use BloodHound to identify and eliminate those same attack paths. Both blue and red teams can use BloodHound to easily gain a deeper understanding of privilege relationships in an Active Directory environment."
+    },
+    {
+      "type": "malware",
       "id": "malware--934abce3-ceaa-41c4-a93a-57eaee90e477",
       "name": "SUPERNOVA",
       "labels": [
@@ -9504,6 +9816,17 @@
       "description": "TEARDROP is a memory only dropper that can read files and registry keys, XOR decode an embedded payload, and load the payload into memory. TEARDROP persists as a Windows service and has been observed dropping Cobalt Strike BEACON into memory."
     },
     {
+      "type": "malware",
+      "id": "malware--d543682e-a527-4bd6-88b0-a417186f4d4f",
+      "name": "Rubeus",
+      "labels": [
+        "rogue-security-software"
+      ],
+      "created": "2020-12-16T23:29:20.532Z",
+      "modified": "2020-12-17T00:45:51.308Z",
+      "description": "Rubeus is a C# toolset for raw Kerberos interaction and abuses"
+    },
+    {
       "type": "relationship",
       "id": "relationship--001ab78d-c1a6-4ba9-a3dd-b31855fa9682",
       "created": "2020-12-14T16:52:16.307Z",
@@ -9512,6 +9835,16 @@
       "description": "8n4ep99amg4d6mne712d.appsync-api.eu-west-1.avsvmcloud.com",
       "source_ref": "indicator--0073582d-424b-43e8-98c6-d38b31ef5936",
       "target_ref": "attack-pattern--118f61a5-eb3e-4fb6-931f-2096647f4ecd"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--001c7800-1b3f-4a30-ae85-7fb02ee01c2e",
+      "created": "2020-12-16T23:19:46.648Z",
+      "modified": "2020-12-17T00:45:51.311Z",
+      "relationship_type": "uses",
+      "description": "SUNBURST associated infrastructure. ",
+      "source_ref": "indicator--de97ea60-907a-4651-b042-0abfb2260a85",
+      "target_ref": "attack-pattern--1996eef1-ced3-4d7f-bf94-33298cabbf72"
     },
     {
       "type": "relationship",
@@ -9665,6 +9998,15 @@
     },
     {
       "type": "relationship",
+      "id": "relationship--02a4ea13-9d0d-49a0-b6a9-8e332050a68a",
+      "created": "2020-12-16T23:21:05.973Z",
+      "modified": "2020-12-17T00:45:51.311Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--6483edef-2d63-44ca-8f04-1c5aac7052bd",
+      "target_ref": "malware--3c32a092-93a3-4dec-937d-b363848b3b88"
+    },
+    {
+      "type": "relationship",
       "id": "relationship--02d9b879-14e1-43ae-8060-0e69e4178ff8",
       "created": "2020-12-14T16:52:16.307Z",
       "modified": "2020-12-14T19:21:31.226Z",
@@ -9689,6 +10031,15 @@
       "relationship_type": "indicates",
       "source_ref": "indicator--1bfdf2a7-dc89-434b-b013-e9be4d7b22c5",
       "target_ref": "campaign--e67e9046-711b-491e-85d8-b18f39a9fa94"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--03af04d6-7074-4e96-b3d9-f26a0121ab9f",
+      "created": "2020-12-16T23:21:05.973Z",
+      "modified": "2020-12-17T00:45:51.311Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--36f9e0bf-46fe-4a84-a6a1-928eb394c1b3",
+      "target_ref": "malware--3c32a092-93a3-4dec-937d-b363848b3b88"
     },
     {
       "type": "relationship",
@@ -10192,6 +10543,15 @@
       "description": "tivhrvpredt9rr78vrinreo6o2v60212.appsync-api.us-east-2.avsvmcloud.com",
       "source_ref": "indicator--8c4e91e1-7dd4-420a-9311-006e24e12f1c",
       "target_ref": "attack-pattern--118f61a5-eb3e-4fb6-931f-2096647f4ecd"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--0c0003a9-a060-4e4a-ad02-d32bd3597669",
+      "created": "2020-12-17T00:07:53.145Z",
+      "modified": "2020-12-17T00:45:51.310Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--cf7bfb9b-9447-4ab7-90b4-9d17e9cff5a9",
+      "target_ref": "campaign--e67e9046-711b-491e-85d8-b18f39a9fa94"
     },
     {
       "type": "relationship",
@@ -10762,7 +11122,7 @@
       "type": "relationship",
       "id": "relationship--158e7478-d86b-45ac-93f2-9ab70eadfd68",
       "created": "2020-12-14T15:26:37.794Z",
-      "modified": "2020-12-14T20:28:13.434Z",
+      "modified": "2020-12-17T01:05:43.237Z",
       "relationship_type": "attributed-to",
       "source_ref": "report--158e7478-d86b-45ac-93f2-9ab70eadfd68",
       "target_ref": "intrusion-set--2af2ab1d-86b3-4a25-85a4-de6120794b20"
@@ -10877,6 +11237,15 @@
       "modified": "2020-12-14T19:21:31.227Z",
       "relationship_type": "indicates",
       "source_ref": "indicator--d5909e12-b51c-4b06-887c-2b19bf00bbb1",
+      "target_ref": "campaign--e67e9046-711b-491e-85d8-b18f39a9fa94"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--180f12ad-0017-4a86-adbb-c1c46da08ce0",
+      "created": "2020-12-16T23:48:34.771Z",
+      "modified": "2020-12-17T00:45:51.310Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--0d7100f0-5586-4671-b0fc-804fb83ddc76",
       "target_ref": "campaign--e67e9046-711b-491e-85d8-b18f39a9fa94"
     },
     {
@@ -11044,6 +11413,15 @@
     },
     {
       "type": "relationship",
+      "id": "relationship--1a7d0b54-1eda-4534-8f46-91efa4240256",
+      "created": "2020-12-16T23:29:47.810Z",
+      "modified": "2020-12-17T00:45:51.311Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--c70cc7be-b900-4c80-b82c-b6a1394224e1",
+      "target_ref": "malware--d543682e-a527-4bd6-88b0-a417186f4d4f"
+    },
+    {
+      "type": "relationship",
       "id": "relationship--1a8eb1a1-153d-4373-8340-2066f2f50738",
       "created": "2020-12-14T16:52:16.307Z",
       "modified": "2020-12-14T19:21:31.230Z",
@@ -11096,6 +11474,15 @@
       "modified": "2020-12-14T19:21:31.230Z",
       "relationship_type": "indicates",
       "source_ref": "indicator--f8cbd7d8-8e57-4c90-9a9c-49760be476d8",
+      "target_ref": "campaign--e67e9046-711b-491e-85d8-b18f39a9fa94"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--1b263c8c-637f-40af-b302-208922b7a891",
+      "created": "2020-12-16T23:19:46.648Z",
+      "modified": "2020-12-17T00:45:51.310Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--c8336c1e-ab9c-4b21-aa47-b776025df7d5",
       "target_ref": "campaign--e67e9046-711b-491e-85d8-b18f39a9fa94"
     },
     {
@@ -11189,13 +11576,23 @@
       "type": "relationship",
       "id": "relationship--1d6a734e-37af-4531-81c1-479410d3af12",
       "created": "2020-06-23T19:50:42.481Z",
-      "modified": "2020-09-04T13:59:35.889Z",
+      "modified": "2020-12-17T01:12:24.265Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--be1d0eb5-a628-4d91-9096-9158e68816cd",
       "target_ref": "attack-pattern--b3d682b6-98f2-4fb0-aa3b-b4df007ca70a",
       "x_panw_coa_u42_panw_product": [
         "Wildfire"
       ]
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--1d7bc769-6f81-4bea-94d0-0e98c1e1e27b",
+      "created": "2020-12-16T23:48:34.771Z",
+      "modified": "2020-12-17T00:45:51.311Z",
+      "relationship_type": "uses",
+      "description": "Second stage tool. ",
+      "source_ref": "indicator--66930c4b-9544-4a18-bcc4-f8579bfc35eb",
+      "target_ref": "attack-pattern--72b74d71-8169-42aa-92e0-e7b04b9f5a08"
     },
     {
       "type": "relationship",
@@ -11725,6 +12122,15 @@
     },
     {
       "type": "relationship",
+      "id": "relationship--285a4905-5e80-4cdd-95e5-dc1b6a3083cd",
+      "created": "2020-12-16T23:29:37.287Z",
+      "modified": "2020-12-17T00:45:51.311Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--817d0a47-6320-498c-9c72-8274b56481c4",
+      "target_ref": "malware--d543682e-a527-4bd6-88b0-a417186f4d4f"
+    },
+    {
+      "type": "relationship",
       "id": "relationship--285d9dc3-3fb6-4f34-b03c-61503463da51",
       "created": "2020-12-14T16:52:16.307Z",
       "modified": "2020-12-14T19:21:31.225Z",
@@ -11736,7 +12142,7 @@
       "type": "relationship",
       "id": "relationship--2877930e-7351-4e4a-b14b-13b465bb1ebd",
       "created": "2020-06-23T19:50:42.481Z",
-      "modified": "2020-09-04T13:59:35.889Z",
+      "modified": "2020-12-17T01:04:50.332Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--67289170-1bd4-4944-be31-d680954141f5",
       "target_ref": "attack-pattern--b3d682b6-98f2-4fb0-aa3b-b4df007ca70a",
@@ -12733,12 +13139,31 @@
     },
     {
       "type": "relationship",
+      "id": "relationship--39c56623-23da-47f3-aefa-39cebeeb5971",
+      "created": "2020-12-16T23:19:46.648Z",
+      "modified": "2020-12-17T00:45:51.311Z",
+      "relationship_type": "uses",
+      "description": "SUNBURST associated infrastructure. ",
+      "source_ref": "indicator--6483edef-2d63-44ca-8f04-1c5aac7052bd",
+      "target_ref": "attack-pattern--1996eef1-ced3-4d7f-bf94-33298cabbf72"
+    },
+    {
+      "type": "relationship",
       "id": "relationship--39d1d9b8-28eb-4b09-9359-a5d30737d1de",
       "created": "2020-12-14T16:52:16.307Z",
       "modified": "2020-12-14T19:21:31.234Z",
       "relationship_type": "indicates",
       "source_ref": "indicator--f19c7b24-92b9-457c-9546-fcc5e64ca8fb",
       "target_ref": "campaign--e67e9046-711b-491e-85d8-b18f39a9fa94"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--39e72624-f177-4fa0-8985-0724be823aa0",
+      "created": "2020-12-16T23:21:05.973Z",
+      "modified": "2020-12-17T00:45:51.310Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--cd4306a0-de6c-421f-911b-da2a43b3bf96",
+      "target_ref": "malware--3c32a092-93a3-4dec-937d-b363848b3b88"
     },
     {
       "type": "relationship",
@@ -12818,6 +13243,15 @@
     },
     {
       "type": "relationship",
+      "id": "relationship--3b7f0e39-3dd2-4a7c-a1e7-90282ecb6e51",
+      "created": "2020-12-16T23:19:46.648Z",
+      "modified": "2020-12-17T00:45:51.310Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--09ff4050-bcbc-400c-8023-05fdffbc8886",
+      "target_ref": "campaign--e67e9046-711b-491e-85d8-b18f39a9fa94"
+    },
+    {
+      "type": "relationship",
       "id": "relationship--3b8e783c-b7ae-4861-adda-19268f2d9de4",
       "created": "2020-12-14T16:52:16.307Z",
       "modified": "2020-12-14T19:21:31.253Z",
@@ -12864,6 +13298,15 @@
       "description": "8juj12bkf63gipjj6d6n0c6j02eu.appsync-api.us-east-1.avsvmcloud.com",
       "source_ref": "indicator--4031b7ef-e53b-45b2-bce5-d89c42523e74",
       "target_ref": "attack-pattern--118f61a5-eb3e-4fb6-931f-2096647f4ecd"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--3c17545e-eae9-44d2-bddd-68dd1d720664",
+      "created": "2020-12-16T23:19:46.648Z",
+      "modified": "2020-12-17T00:45:51.310Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--4d6480e8-3a34-4c8b-9457-98c3a6125787",
+      "target_ref": "campaign--e67e9046-711b-491e-85d8-b18f39a9fa94"
     },
     {
       "type": "relationship",
@@ -12996,7 +13439,7 @@
       "type": "relationship",
       "id": "relationship--3e7d830d-8acc-4c71-9592-72e75c537c61",
       "created": "2020-06-23T19:50:42.481Z",
-      "modified": "2020-09-04T13:59:35.889Z",
+      "modified": "2020-12-17T01:14:44.723Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--95432623-8819-4f74-a8f9-b10b9c4118c3",
       "target_ref": "attack-pattern--b3d682b6-98f2-4fb0-aa3b-b4df007ca70a",
@@ -13107,7 +13550,7 @@
       "type": "relationship",
       "id": "relationship--406f16d7-17ac-4736-be4c-481a56e43d9c",
       "created": "2020-06-23T19:50:42.481Z",
-      "modified": "2020-09-04T13:59:35.889Z",
+      "modified": "2020-12-17T00:56:15.266Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--fafab9a4-1478-499e-9088-2043c42720d1",
       "target_ref": "attack-pattern--b3d682b6-98f2-4fb0-aa3b-b4df007ca70a",
@@ -13191,6 +13634,16 @@
       "relationship_type": "indicates",
       "source_ref": "indicator--a486615d-7fd1-4e68-b88e-c458a7cc2b77",
       "target_ref": "campaign--e67e9046-711b-491e-85d8-b18f39a9fa94"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--41e5ae66-5dac-43a7-be7e-f607c06fdd5a",
+      "created": "2020-12-16T23:19:46.648Z",
+      "modified": "2020-12-17T00:45:51.311Z",
+      "relationship_type": "uses",
+      "description": "SUNBURST associated infrastructure. ",
+      "source_ref": "indicator--4d6480e8-3a34-4c8b-9457-98c3a6125787",
+      "target_ref": "attack-pattern--1996eef1-ced3-4d7f-bf94-33298cabbf72"
     },
     {
       "type": "relationship",
@@ -13429,6 +13882,16 @@
     },
     {
       "type": "relationship",
+      "id": "relationship--456bac3d-e75b-4ea0-9202-473b83d4371b",
+      "created": "2020-12-16T23:19:46.648Z",
+      "modified": "2020-12-17T00:45:51.311Z",
+      "relationship_type": "uses",
+      "description": "SUNBURST associated infrastructure. ",
+      "source_ref": "indicator--36f9e0bf-46fe-4a84-a6a1-928eb394c1b3",
+      "target_ref": "attack-pattern--1996eef1-ced3-4d7f-bf94-33298cabbf72"
+    },
+    {
+      "type": "relationship",
       "id": "relationship--4577b94b-c366-4651-99cd-2afbed1384c8",
       "created": "2020-12-14T16:52:16.307Z",
       "modified": "2020-12-14T19:21:31.247Z",
@@ -13460,7 +13923,7 @@
       "type": "relationship",
       "id": "relationship--45ef6ecc-e1b6-4b37-a9e4-0d32e04bbe96",
       "created": "2020-06-23T19:50:42.481Z",
-      "modified": "2020-09-04T13:59:35.889Z",
+      "modified": "2020-12-17T01:20:35.148Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--9352128e-2dbe-4621-8800-9e7cc17336e3",
       "target_ref": "attack-pattern--b3d682b6-98f2-4fb0-aa3b-b4df007ca70a",
@@ -13591,6 +14054,15 @@
     },
     {
       "type": "relationship",
+      "id": "relationship--48aeac1b-cf55-48e7-aaa7-a747866df66b",
+      "created": "2020-12-17T00:02:57.875Z",
+      "modified": "2020-12-17T00:45:51.310Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--ecab268a-34cb-4d9a-a124-590dc7bfbf32",
+      "target_ref": "campaign--e67e9046-711b-491e-85d8-b18f39a9fa94"
+    },
+    {
+      "type": "relationship",
       "id": "relationship--48d9d951-dfdc-49d4-afee-91d3eb2d05a1",
       "created": "2020-06-23T19:50:42.481Z",
       "modified": "2020-12-14T19:21:31.236Z",
@@ -13695,6 +14167,15 @@
       "description": "tac5181gpr8rsf05p8bmov5.appsync-api.us-east-1.avsvmcloud.com",
       "source_ref": "indicator--56ed0457-2d74-4e11-8e4c-55f56e36d078",
       "target_ref": "attack-pattern--118f61a5-eb3e-4fb6-931f-2096647f4ecd"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--4acb16a1-1063-4847-afbd-4997a8e63bc2",
+      "created": "2020-12-16T23:21:05.973Z",
+      "modified": "2020-12-17T00:45:51.311Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--6bd3fb5c-2c96-4716-a26d-7e821b7bba3b",
+      "target_ref": "malware--3c32a092-93a3-4dec-937d-b363848b3b88"
     },
     {
       "type": "relationship",
@@ -13835,7 +14316,7 @@
       "type": "relationship",
       "id": "relationship--4d66db34-db66-4644-8327-ba77168e30f1",
       "created": "2020-06-23T19:50:42.481Z",
-      "modified": "2020-09-04T13:59:35.889Z",
+      "modified": "2020-12-17T01:15:35.619Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--04a2db1c-3e80-43a4-a9c6-3864195bbf73",
       "target_ref": "attack-pattern--b3d682b6-98f2-4fb0-aa3b-b4df007ca70a",
@@ -13887,6 +14368,15 @@
       "relationship_type": "indicates",
       "source_ref": "indicator--f2baec42-c60d-4077-afc1-f4d55f34bc9f",
       "target_ref": "campaign--e67e9046-711b-491e-85d8-b18f39a9fa94"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--4ef1d0eb-bdf6-4251-ba12-059840df026f",
+      "created": "2020-12-16T23:49:03.318Z",
+      "modified": "2020-12-17T00:45:51.311Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--0d7100f0-5586-4671-b0fc-804fb83ddc76",
+      "target_ref": "malware--624eef6f-c00a-46cd-a49c-31404577cc84"
     },
     {
       "type": "relationship",
@@ -14429,6 +14919,15 @@
     },
     {
       "type": "relationship",
+      "id": "relationship--5ac2f6ce-b3f0-4994-94ce-a383705ae3ec",
+      "created": "2020-12-16T23:49:03.318Z",
+      "modified": "2020-12-17T00:45:51.311Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--01ef2ef3-e543-44a0-978a-c0028df90f14",
+      "target_ref": "malware--624eef6f-c00a-46cd-a49c-31404577cc84"
+    },
+    {
+      "type": "relationship",
       "id": "relationship--5aca6f01-66ae-4bb1-8e31-cee053676ae1",
       "created": "2020-12-14T16:52:16.307Z",
       "modified": "2020-12-14T19:21:31.248Z",
@@ -14497,7 +14996,7 @@
       "type": "relationship",
       "id": "relationship--5b65f703-079a-45ae-b6c3-96f623f60576",
       "created": "2020-06-23T19:50:42.481Z",
-      "modified": "2020-09-04T13:59:35.889Z",
+      "modified": "2020-12-17T01:21:45.842Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--c9efabbf-c21b-4213-a192-6a8e3b3a0905",
       "target_ref": "attack-pattern--b3d682b6-98f2-4fb0-aa3b-b4df007ca70a",
@@ -14558,6 +15057,15 @@
       "modified": "2020-12-14T19:21:31.233Z",
       "relationship_type": "indicates",
       "source_ref": "indicator--5dd752ab-5e37-4fc1-9270-c687587ac4e9",
+      "target_ref": "campaign--e67e9046-711b-491e-85d8-b18f39a9fa94"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--5c54ce69-fc30-427f-ab95-a20ca707cda6",
+      "created": "2020-12-16T23:19:46.648Z",
+      "modified": "2020-12-17T00:45:51.310Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--b92bd107-5859-4ac1-983f-f0003a166b2c",
       "target_ref": "campaign--e67e9046-711b-491e-85d8-b18f39a9fa94"
     },
     {
@@ -14641,7 +15149,7 @@
       "type": "relationship",
       "id": "relationship--5e7ac4c9-46d4-42ed-b479-1d0b89c85cc1",
       "created": "2020-06-23T19:50:42.481Z",
-      "modified": "2020-09-04T13:59:35.889Z",
+      "modified": "2020-12-17T01:16:35.550Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--3de85a76-a879-43e6-80ba-38e09e7e2b0c",
       "target_ref": "attack-pattern--b3d682b6-98f2-4fb0-aa3b-b4df007ca70a",
@@ -14875,6 +15383,15 @@
     },
     {
       "type": "relationship",
+      "id": "relationship--63ce98c1-8aa4-419d-81b8-453929d7f227",
+      "created": "2020-12-16T23:27:01.020Z",
+      "modified": "2020-12-17T00:45:51.310Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--c70cc7be-b900-4c80-b82c-b6a1394224e1",
+      "target_ref": "campaign--e67e9046-711b-491e-85d8-b18f39a9fa94"
+    },
+    {
+      "type": "relationship",
       "id": "relationship--63ede676-336c-4a41-8b80-7513e7ea60de",
       "created": "2020-12-14T16:52:16.307Z",
       "modified": "2020-12-14T19:21:31.253Z",
@@ -15050,6 +15567,16 @@
     },
     {
       "type": "relationship",
+      "id": "relationship--6812a82a-ef55-4cbb-9bcb-d85478be53be",
+      "created": "2020-12-16T23:19:46.648Z",
+      "modified": "2020-12-17T00:45:51.311Z",
+      "relationship_type": "uses",
+      "description": "SUNBURST associated infrastructure. ",
+      "source_ref": "indicator--c8336c1e-ab9c-4b21-aa47-b776025df7d5",
+      "target_ref": "attack-pattern--1996eef1-ced3-4d7f-bf94-33298cabbf72"
+    },
+    {
+      "type": "relationship",
       "id": "relationship--685d35a9-5470-4234-a3af-39167a958782",
       "created": "2020-06-23T19:50:42.481Z",
       "modified": "2020-06-26T19:00:11.076Z",
@@ -15078,6 +15605,16 @@
       "relationship_type": "indicates",
       "source_ref": "indicator--a48a0214-8a08-4f05-aebf-b33556a77eaa",
       "target_ref": "campaign--e67e9046-711b-491e-85d8-b18f39a9fa94"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--68afc2e3-b340-4fc7-b627-66f12bd12ef8",
+      "created": "2020-12-16T23:19:46.648Z",
+      "modified": "2020-12-17T00:45:51.311Z",
+      "relationship_type": "uses",
+      "description": "SUNBURST associated infrastructure. ",
+      "source_ref": "indicator--1159e881-536a-4e07-a8a6-c4fd6821c6f7",
+      "target_ref": "attack-pattern--1996eef1-ced3-4d7f-bf94-33298cabbf72"
     },
     {
       "type": "relationship",
@@ -15149,6 +15686,16 @@
     },
     {
       "type": "relationship",
+      "id": "relationship--69e91b94-1374-4f8e-becf-42012e4abcc1",
+      "created": "2020-12-16T23:27:01.020Z",
+      "modified": "2020-12-17T00:45:51.311Z",
+      "relationship_type": "uses",
+      "description": "Second stage tool",
+      "source_ref": "indicator--c70cc7be-b900-4c80-b82c-b6a1394224e1",
+      "target_ref": "attack-pattern--f2877f7f-9a4c-4251-879f-1224e3006bee"
+    },
+    {
+      "type": "relationship",
       "id": "relationship--6a049893-d6dd-49dc-8d59-ea1f498873ee",
       "created": "2020-12-14T16:52:16.307Z",
       "modified": "2020-12-14T19:21:31.241Z",
@@ -15159,12 +15706,31 @@
     },
     {
       "type": "relationship",
+      "id": "relationship--6a333bd6-c668-4ff9-9fd4-31e700d1adec",
+      "created": "2020-12-16T23:19:46.648Z",
+      "modified": "2020-12-17T00:45:51.310Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--36f9e0bf-46fe-4a84-a6a1-928eb394c1b3",
+      "target_ref": "campaign--e67e9046-711b-491e-85d8-b18f39a9fa94"
+    },
+    {
+      "type": "relationship",
       "id": "relationship--6a404d77-dc59-48f6-b9ad-280b04932fd2",
       "created": "2020-12-14T16:52:16.307Z",
       "modified": "2020-12-14T19:21:31.234Z",
       "relationship_type": "indicates",
       "source_ref": "indicator--e1bfc3bf-73d6-4470-a7bd-63e60e44be90",
       "target_ref": "campaign--e67e9046-711b-491e-85d8-b18f39a9fa94"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--6a51799f-2877-4dd5-9124-5b1a2fdef6a4",
+      "created": "2020-12-16T23:19:46.648Z",
+      "modified": "2020-12-17T00:45:51.311Z",
+      "relationship_type": "uses",
+      "description": "SUNBURST associated infrastructure. ",
+      "source_ref": "indicator--cd4306a0-de6c-421f-911b-da2a43b3bf96",
+      "target_ref": "attack-pattern--1996eef1-ced3-4d7f-bf94-33298cabbf72"
     },
     {
       "type": "relationship",
@@ -15440,9 +16006,9 @@
       "type": "relationship",
       "id": "relationship--6eaac784-e8b3-4d6f-810f-8adc22ca83c0",
       "created": "2020-12-14T17:33:39.577Z",
-      "modified": "2020-12-14T19:21:31.255Z",
+      "modified": "2020-12-16T23:57:24.852Z",
       "relationship_type": "uses",
-      "description": "zupertech.com",
+      "description": "SUNBURST associated infrastructure. ",
       "source_ref": "indicator--75ddc831-a4cc-4671-99f7-adb8d6700083",
       "target_ref": "attack-pattern--1996eef1-ced3-4d7f-bf94-33298cabbf72"
     },
@@ -15703,6 +16269,15 @@
     },
     {
       "type": "relationship",
+      "id": "relationship--72b74d71-8169-42aa-92e0-e7b04b9f5a08",
+      "created": "2020-12-14T16:23:58.119Z",
+      "modified": "2020-12-14T19:21:31.203Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--e67e9046-711b-491e-85d8-b18f39a9fa94",
+      "target_ref": "attack-pattern--72b74d71-8169-42aa-92e0-e7b04b9f5a08"
+    },
+    {
+      "type": "relationship",
       "id": "relationship--72b76e34-a800-461c-9902-bab048b148e5",
       "created": "2020-12-14T16:52:16.307Z",
       "modified": "2020-12-14T19:21:31.246Z",
@@ -15805,6 +16380,15 @@
       "description": "pb5d7fu0uoi4r3436d6n0c6j02eu.appsync-api.us-east-1.avsvmcloud.com",
       "source_ref": "indicator--1f6e006c-0419-45f6-bab2-b9c7af48c6f1",
       "target_ref": "attack-pattern--118f61a5-eb3e-4fb6-931f-2096647f4ecd"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--73da1a1f-92f1-460f-928f-00ac6f7ab0dd",
+      "created": "2020-12-16T23:21:05.973Z",
+      "modified": "2020-12-17T00:45:51.311Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--75ddc831-a4cc-4671-99f7-adb8d6700083",
+      "target_ref": "malware--3c32a092-93a3-4dec-937d-b363848b3b88"
     },
     {
       "type": "relationship",
@@ -16089,9 +16673,9 @@
       "type": "relationship",
       "id": "relationship--7983df01-0103-45db-be38-e9029370ae15",
       "created": "2020-12-14T17:33:39.577Z",
-      "modified": "2020-12-14T19:21:31.255Z",
+      "modified": "2020-12-16T23:56:18.731Z",
       "relationship_type": "uses",
-      "description": "highdatabase.com",
+      "description": "SUNBURST associated infrastructure. ",
       "source_ref": "indicator--b9bd5e1b-aa59-4798-b2ed-79b7d2dc71f6",
       "target_ref": "attack-pattern--1996eef1-ced3-4d7f-bf94-33298cabbf72"
     },
@@ -16689,6 +17273,15 @@
     },
     {
       "type": "relationship",
+      "id": "relationship--83528084-3048-47e7-b4f9-a90f969910ae",
+      "created": "2020-12-16T23:27:01.020Z",
+      "modified": "2020-12-17T00:45:51.310Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--817d0a47-6320-498c-9c72-8274b56481c4",
+      "target_ref": "campaign--e67e9046-711b-491e-85d8-b18f39a9fa94"
+    },
+    {
+      "type": "relationship",
       "id": "relationship--837f25b3-a87c-43f2-83be-f4733d8855de",
       "created": "2020-12-14T16:52:16.307Z",
       "modified": "2020-12-14T19:21:31.227Z",
@@ -17036,6 +17629,18 @@
     },
     {
       "type": "relationship",
+      "id": "relationship--8a1a1a65-1121-4549-ad81-ee11fac08c99",
+      "created": "2020-06-23T19:50:42.481Z",
+      "modified": "2020-06-26T19:00:11.079Z",
+      "relationship_type": "mitigates",
+      "source_ref": "course-of-action--58d4b1e7-a7d1-45d8-855b-b5e13ace3dba",
+      "target_ref": "attack-pattern--72b74d71-8169-42aa-92e0-e7b04b9f5a08",
+      "x_panw_coa_u42_panw_product": [
+        "Cortex XDR Prevent"
+      ]
+    },
+    {
+      "type": "relationship",
       "id": "relationship--8a45208c-d9cc-4c1b-87f1-7b90b8222d6e",
       "created": "2020-12-14T16:52:16.307Z",
       "modified": "2020-12-14T19:21:31.247Z",
@@ -17098,6 +17703,15 @@
       "description": "382ss75vrn3fr82fr08on621fio2v60e.appsync-api.us-east-1.avsvmcloud.com",
       "source_ref": "indicator--37c943fe-1382-45be-8df3-95e4c6e308ae",
       "target_ref": "attack-pattern--118f61a5-eb3e-4fb6-931f-2096647f4ecd"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--8bd1ff9a-3cc8-48f1-a6a0-4ac054444bdf",
+      "created": "2020-12-16T23:19:46.648Z",
+      "modified": "2020-12-17T00:45:51.310Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--6483edef-2d63-44ca-8f04-1c5aac7052bd",
+      "target_ref": "campaign--e67e9046-711b-491e-85d8-b18f39a9fa94"
     },
     {
       "type": "relationship",
@@ -17324,7 +17938,7 @@
       "type": "relationship",
       "id": "relationship--8f1b3064-da4d-4c3d-8158-df4a0dda0b24",
       "created": "2020-06-23T19:50:42.481Z",
-      "modified": "2020-09-04T13:59:35.889Z",
+      "modified": "2020-12-17T01:17:21.771Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--f1a1d494-3463-4067-abc7-a731f7dfb9ff",
       "target_ref": "attack-pattern--b3d682b6-98f2-4fb0-aa3b-b4df007ca70a",
@@ -17582,6 +18196,15 @@
     },
     {
       "type": "relationship",
+      "id": "relationship--93fb25f0-0d52-4795-832c-9b0f1f346a68",
+      "created": "2020-12-16T23:26:27.641Z",
+      "modified": "2020-12-17T00:45:51.310Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--e67e9046-711b-491e-85d8-b18f39a9fa94",
+      "target_ref": "attack-pattern--f2877f7f-9a4c-4251-879f-1224e3006bee"
+    },
+    {
+      "type": "relationship",
       "id": "relationship--940add56-c965-43f3-a5cc-ecea14c9b9fe",
       "created": "2020-12-14T16:52:16.307Z",
       "modified": "2020-12-14T19:21:31.224Z",
@@ -17615,6 +18238,15 @@
       "relationship_type": "indicates",
       "source_ref": "indicator--cf56673d-2fe9-4813-8dcb-3e09e07ac4ee",
       "target_ref": "malware--934abce3-ceaa-41c4-a93a-57eaee90e477"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--94670479-c393-4ce6-b493-d08bd0af43a6",
+      "created": "2020-12-16T23:19:46.648Z",
+      "modified": "2020-12-17T00:45:51.310Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--cd4306a0-de6c-421f-911b-da2a43b3bf96",
+      "target_ref": "campaign--e67e9046-711b-491e-85d8-b18f39a9fa94"
     },
     {
       "type": "relationship",
@@ -17655,6 +18287,15 @@
       "description": "SolarWinds.Orion.Core.BusinessLayer.dll",
       "source_ref": "indicator--a3939771-d0ae-4294-9afd-87f714097d4b",
       "target_ref": "attack-pattern--bd369cd9-abb8-41ce-b5bb-fff23ee86c00"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--95256d0c-184b-49b4-b21e-2304cd7e6963",
+      "created": "2020-12-16T23:21:05.973Z",
+      "modified": "2020-12-17T00:45:51.311Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--09ff4050-bcbc-400c-8023-05fdffbc8886",
+      "target_ref": "malware--3c32a092-93a3-4dec-937d-b363848b3b88"
     },
     {
       "type": "relationship",
@@ -18235,6 +18876,15 @@
     },
     {
       "type": "relationship",
+      "id": "relationship--a0597892-a336-4451-ae92-fa308d9de5c3",
+      "created": "2020-12-16T23:21:05.973Z",
+      "modified": "2020-12-17T00:45:51.311Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--c51f1061-eb1b-4d2c-9a3c-94f7ed4425dd",
+      "target_ref": "malware--3c32a092-93a3-4dec-937d-b363848b3b88"
+    },
+    {
+      "type": "relationship",
       "id": "relationship--a0a14352-4f66-4ba1-abd1-cba9ec29219f",
       "created": "2020-12-14T16:52:16.307Z",
       "modified": "2020-12-14T19:21:31.232Z",
@@ -18521,6 +19171,15 @@
     },
     {
       "type": "relationship",
+      "id": "relationship--a5829aa3-283b-4fd6-a068-0f1db80b4f7b",
+      "created": "2020-12-16T23:19:46.648Z",
+      "modified": "2020-12-17T00:45:51.310Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--1159e881-536a-4e07-a8a6-c4fd6821c6f7",
+      "target_ref": "campaign--e67e9046-711b-491e-85d8-b18f39a9fa94"
+    },
+    {
+      "type": "relationship",
       "id": "relationship--a5991418-9346-4b1b-85c1-ebdad7051c6c",
       "created": "2020-12-14T16:52:16.307Z",
       "modified": "2020-12-14T19:21:31.252Z",
@@ -18639,6 +19298,26 @@
     },
     {
       "type": "relationship",
+      "id": "relationship--a7c8131d-7f98-4a83-8c54-5ab2a56bf932",
+      "created": "2020-12-17T00:07:53.145Z",
+      "modified": "2020-12-17T00:45:51.311Z",
+      "relationship_type": "uses",
+      "description": "Modified Cobalt Strike tool.",
+      "source_ref": "indicator--ecab268a-34cb-4d9a-a124-590dc7bfbf32",
+      "target_ref": "attack-pattern--e6919abc-99f9-4c6c-95a5-14761e7b2add"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--a7f05578-6be6-4a3c-8fbe-f5166a713ed4",
+      "created": "2020-12-16T23:48:34.771Z",
+      "modified": "2020-12-17T00:45:51.311Z",
+      "relationship_type": "uses",
+      "description": "Second stage tool. ",
+      "source_ref": "indicator--01ef2ef3-e543-44a0-978a-c0028df90f14",
+      "target_ref": "attack-pattern--72b74d71-8169-42aa-92e0-e7b04b9f5a08"
+    },
+    {
+      "type": "relationship",
       "id": "relationship--a80eb1b8-7f33-4405-8bfd-233e5690c1a9",
       "created": "2020-12-14T16:52:16.307Z",
       "modified": "2020-12-14T19:21:31.229Z",
@@ -18754,6 +19433,24 @@
       "description": "ivdkamavjf7s4vcw6d6n0c6j0ieu.appsync-api.us-east-1.avsvmcloud.com",
       "source_ref": "indicator--d62337d7-f770-4a6d-b331-2e4cdd0573be",
       "target_ref": "attack-pattern--118f61a5-eb3e-4fb6-931f-2096647f4ecd"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--a9be89bc-5df2-4aa3-8103-4500c6da54d6",
+      "created": "2020-12-16T23:21:05.973Z",
+      "modified": "2020-12-17T00:45:51.311Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--1159e881-536a-4e07-a8a6-c4fd6821c6f7",
+      "target_ref": "malware--3c32a092-93a3-4dec-937d-b363848b3b88"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--a9ecc24c-60e9-4128-88d6-6b3aee0054e3",
+      "created": "2020-12-16T23:48:34.771Z",
+      "modified": "2020-12-17T00:45:51.310Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--66930c4b-9544-4a18-bcc4-f8579bfc35eb",
+      "target_ref": "campaign--e67e9046-711b-491e-85d8-b18f39a9fa94"
     },
     {
       "type": "relationship",
@@ -18940,9 +19637,9 @@
       "type": "relationship",
       "id": "relationship--ae4ff84c-8066-4aa7-b31a-99456cc664a0",
       "created": "2020-12-14T17:33:39.577Z",
-      "modified": "2020-12-14T19:21:31.255Z",
+      "modified": "2020-12-16T23:55:53.257Z",
       "relationship_type": "uses",
-      "description": "freescanonline.com",
+      "description": "SUNBURST associated infrastructure. ",
       "source_ref": "indicator--cee5818f-431f-4ecf-be4b-5b1288b43f89",
       "target_ref": "attack-pattern--1996eef1-ced3-4d7f-bf94-33298cabbf72"
     },
@@ -19025,6 +19722,15 @@
       "description": "9cf4j7jca8nd3cbk6d6n026j02eu.appsync-api.us-east-1.avsvmcloud.com",
       "source_ref": "indicator--73a9888a-b9f2-4c2f-810d-d4a78c289462",
       "target_ref": "attack-pattern--118f61a5-eb3e-4fb6-931f-2096647f4ecd"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--af775516-557a-4a27-a82a-9698bee79b53",
+      "created": "2020-12-16T23:21:05.973Z",
+      "modified": "2020-12-17T00:45:51.311Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--de97ea60-907a-4651-b042-0abfb2260a85",
+      "target_ref": "malware--3c32a092-93a3-4dec-937d-b363848b3b88"
     },
     {
       "type": "relationship",
@@ -19188,9 +19894,9 @@
       "type": "relationship",
       "id": "relationship--b286cad8-eb0c-41e6-a96d-6242352b33a0",
       "created": "2020-12-14T17:33:39.577Z",
-      "modified": "2020-12-14T19:21:31.255Z",
+      "modified": "2020-12-16T23:55:26.962Z",
       "relationship_type": "uses",
-      "description": "deftsecurity.com",
+      "description": "SUNBURST associated infrastructure. ",
       "source_ref": "indicator--d4bf38b9-f1b5-447d-86d2-96e66e11641a",
       "target_ref": "attack-pattern--1996eef1-ced3-4d7f-bf94-33298cabbf72"
     },
@@ -19463,6 +20169,16 @@
     },
     {
       "type": "relationship",
+      "id": "relationship--b7518f2e-a50e-4b2b-8d4e-cfecd95c7417",
+      "created": "2020-12-17T00:07:53.145Z",
+      "modified": "2020-12-17T00:45:51.311Z",
+      "relationship_type": "uses",
+      "description": "Modified Cobalt Strike tool.",
+      "source_ref": "indicator--cf7bfb9b-9447-4ab7-90b4-9d17e9cff5a9",
+      "target_ref": "attack-pattern--e6919abc-99f9-4c6c-95a5-14761e7b2add"
+    },
+    {
+      "type": "relationship",
       "id": "relationship--b7869f89-08d3-42d9-8fa6-ad1c6d00c13b",
       "created": "2020-12-14T16:52:16.307Z",
       "modified": "2020-12-14T19:21:31.224Z",
@@ -19636,6 +20352,16 @@
       "relationship_type": "indicates",
       "source_ref": "indicator--117a61ac-8c4e-48f7-aff3-a9d993da54a9",
       "target_ref": "campaign--e67e9046-711b-491e-85d8-b18f39a9fa94"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--babd8a94-7cba-4ad0-ab46-6e61cb56fdfa",
+      "created": "2020-12-16T23:27:01.020Z",
+      "modified": "2020-12-17T00:45:51.311Z",
+      "relationship_type": "uses",
+      "description": "Second stage tool",
+      "source_ref": "indicator--817d0a47-6320-498c-9c72-8274b56481c4",
+      "target_ref": "attack-pattern--f2877f7f-9a4c-4251-879f-1224e3006bee"
     },
     {
       "type": "relationship",
@@ -20692,6 +21418,16 @@
     },
     {
       "type": "relationship",
+      "id": "relationship--cd3f2be7-ba64-4016-ae93-c1923e37cff1",
+      "created": "2020-12-16T23:19:46.648Z",
+      "modified": "2020-12-17T00:45:51.311Z",
+      "relationship_type": "uses",
+      "description": "SUNBURST associated infrastructure. ",
+      "source_ref": "indicator--b92bd107-5859-4ac1-983f-f0003a166b2c",
+      "target_ref": "attack-pattern--1996eef1-ced3-4d7f-bf94-33298cabbf72"
+    },
+    {
+      "type": "relationship",
       "id": "relationship--cd7b5f19-ab24-49b9-af84-af87fe48e364",
       "created": "2020-12-14T16:52:16.307Z",
       "modified": "2020-12-14T19:21:31.231Z",
@@ -21036,6 +21772,16 @@
     },
     {
       "type": "relationship",
+      "id": "relationship--d5448df4-9bee-4afd-9539-547c4109bf3c",
+      "created": "2020-12-16T23:48:34.771Z",
+      "modified": "2020-12-17T00:45:51.311Z",
+      "relationship_type": "uses",
+      "description": "Second stage tool. ",
+      "source_ref": "indicator--0d7100f0-5586-4671-b0fc-804fb83ddc76",
+      "target_ref": "attack-pattern--72b74d71-8169-42aa-92e0-e7b04b9f5a08"
+    },
+    {
+      "type": "relationship",
       "id": "relationship--d5addd34-07bf-48b2-877a-3810184fb94b",
       "created": "2020-12-14T16:52:16.307Z",
       "modified": "2020-12-14T19:21:31.249Z",
@@ -21153,6 +21899,15 @@
       "modified": "2020-12-14T19:21:31.228Z",
       "relationship_type": "indicates",
       "source_ref": "indicator--950d511a-67b6-48c0-8a81-f0ba33fd07e7",
+      "target_ref": "campaign--e67e9046-711b-491e-85d8-b18f39a9fa94"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--d76ed3f7-248a-4ef3-9de7-217978c3e381",
+      "created": "2020-12-16T23:19:46.648Z",
+      "modified": "2020-12-17T00:45:51.310Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--de97ea60-907a-4651-b042-0abfb2260a85",
       "target_ref": "campaign--e67e9046-711b-491e-85d8-b18f39a9fa94"
     },
     {
@@ -21541,6 +22296,15 @@
     },
     {
       "type": "relationship",
+      "id": "relationship--deabb8e7-0fcd-424e-9c23-1d73a497e03b",
+      "created": "2020-12-16T23:21:05.973Z",
+      "modified": "2020-12-17T00:45:51.311Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--b92bd107-5859-4ac1-983f-f0003a166b2c",
+      "target_ref": "malware--3c32a092-93a3-4dec-937d-b363848b3b88"
+    },
+    {
+      "type": "relationship",
       "id": "relationship--ded59542-4da3-47d3-a978-e42bdb525a46",
       "created": "2020-12-14T16:52:16.307Z",
       "modified": "2020-12-14T19:21:31.249Z",
@@ -21676,6 +22440,15 @@
     },
     {
       "type": "relationship",
+      "id": "relationship--e123cc5a-cda1-4657-87e0-ec97ed6be21f",
+      "created": "2020-12-16T23:49:03.318Z",
+      "modified": "2020-12-17T00:45:51.311Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--66930c4b-9544-4a18-bcc4-f8579bfc35eb",
+      "target_ref": "malware--624eef6f-c00a-46cd-a49c-31404577cc84"
+    },
+    {
+      "type": "relationship",
       "id": "relationship--e1b51fd5-fce7-408c-88ac-333dff34a18c",
       "created": "2020-12-14T16:52:16.307Z",
       "modified": "2020-12-14T19:21:31.231Z",
@@ -21733,6 +22506,15 @@
     },
     {
       "type": "relationship",
+      "id": "relationship--e2cb26cd-dc5c-4a49-a219-f4693603f8c2",
+      "created": "2020-12-16T23:46:38.750Z",
+      "modified": "2020-12-17T00:45:51.310Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--e67e9046-711b-491e-85d8-b18f39a9fa94",
+      "target_ref": "attack-pattern--72b74d71-8169-42aa-92e0-e7b04b9f5a08"
+    },
+    {
+      "type": "relationship",
       "id": "relationship--e2cf74dc-2552-41dd-a422-dff47cbd3545",
       "created": "2020-12-14T16:52:16.307Z",
       "modified": "2020-12-14T19:21:31.225Z",
@@ -21767,6 +22549,15 @@
       "description": "9tin1io9phar7k9udjl2mkv.appsync-api.eu-west-1.avsvmcloud.com",
       "source_ref": "indicator--7b0e1cb0-3e5e-4c72-b5f5-8adf146b7fe8",
       "target_ref": "attack-pattern--118f61a5-eb3e-4fb6-931f-2096647f4ecd"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--e3509965-36cf-471f-a225-e990ce570b78",
+      "created": "2020-12-16T23:48:34.771Z",
+      "modified": "2020-12-17T00:45:51.310Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--01ef2ef3-e543-44a0-978a-c0028df90f14",
+      "target_ref": "campaign--e67e9046-711b-491e-85d8-b18f39a9fa94"
     },
     {
       "type": "relationship",
@@ -22248,9 +23039,9 @@
       "type": "relationship",
       "id": "relationship--eb01bc6d-9d27-43e1-be4f-0f094d6cf73e",
       "created": "2020-12-14T17:33:39.577Z",
-      "modified": "2020-12-14T19:21:31.255Z",
+      "modified": "2020-12-16T23:56:46.436Z",
       "relationship_type": "uses",
-      "description": "databasegalore.com",
+      "description": "SUNBURST associated infrastructure. ",
       "source_ref": "indicator--c51f1061-eb1b-4d2c-9a3c-94f7ed4425dd",
       "target_ref": "attack-pattern--1996eef1-ced3-4d7f-bf94-33298cabbf72"
     },
@@ -22336,9 +23127,9 @@
       "type": "relationship",
       "id": "relationship--ec81db0f-39ec-43d1-9596-10c01a47c609",
       "created": "2020-12-14T17:33:39.577Z",
-      "modified": "2020-12-14T19:21:31.255Z",
+      "modified": "2020-12-16T23:55:40.068Z",
       "relationship_type": "uses",
-      "description": "websitetheme.com",
+      "description": "SUNBURST associated infrastructure. ",
       "source_ref": "indicator--a4075cb8-0093-49a8-857f-8a8f233b17d3",
       "target_ref": "attack-pattern--1996eef1-ced3-4d7f-bf94-33298cabbf72"
     },
@@ -22398,6 +23189,15 @@
       "relationship_type": "indicates",
       "source_ref": "indicator--ba726ff5-f4de-49ba-8fd4-6002c2049d2d",
       "target_ref": "campaign--e67e9046-711b-491e-85d8-b18f39a9fa94"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--edcdf15c-236b-40bf-8956-8c81ec3e0d6a",
+      "created": "2020-12-16T23:21:05.973Z",
+      "modified": "2020-12-17T00:45:51.311Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--68014ca6-206b-461d-aa08-f1ac5fc07a80",
+      "target_ref": "malware--3c32a092-93a3-4dec-937d-b363848b3b88"
     },
     {
       "type": "relationship",
@@ -22698,6 +23498,15 @@
     },
     {
       "type": "relationship",
+      "id": "relationship--f2877f7f-9a4c-4251-879f-1224e3006bee",
+      "created": "2020-12-14T16:23:58.119Z",
+      "modified": "2020-12-14T19:21:31.203Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--e67e9046-711b-491e-85d8-b18f39a9fa94",
+      "target_ref": "attack-pattern--f2877f7f-9a4c-4251-879f-1224e3006bee"
+    },
+    {
+      "type": "relationship",
       "id": "relationship--f28d802c-492b-4c68-b6bd-4c3f5a4ca852",
       "created": "2020-12-14T16:52:16.307Z",
       "modified": "2020-12-14T19:21:31.247Z",
@@ -22751,11 +23560,20 @@
     },
     {
       "type": "relationship",
+      "id": "relationship--f3d01a89-583c-48cf-8511-fe8437f22f8b",
+      "created": "2020-12-16T23:21:05.973Z",
+      "modified": "2020-12-17T00:45:51.311Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--c8336c1e-ab9c-4b21-aa47-b776025df7d5",
+      "target_ref": "malware--3c32a092-93a3-4dec-937d-b363848b3b88"
+    },
+    {
+      "type": "relationship",
       "id": "relationship--f3d38e74-05bd-4da8-8d5f-8e13a328bd35",
       "created": "2020-12-14T17:33:39.577Z",
-      "modified": "2020-12-14T19:21:31.255Z",
+      "modified": "2020-12-16T23:56:31.258Z",
       "relationship_type": "uses",
-      "description": "incomeupdate.com",
+      "description": "SUNBURST associated infrastructure. ",
       "source_ref": "indicator--6bd3fb5c-2c96-4716-a26d-7e821b7bba3b",
       "target_ref": "attack-pattern--1996eef1-ced3-4d7f-bf94-33298cabbf72"
     },
@@ -22835,6 +23653,15 @@
       "description": "a83ojko69cui3sjo6d6n0o6j0ceu.appsync-api.us-east-1.avsvmcloud.com",
       "source_ref": "indicator--fec36495-87c1-4dd1-b6f7-738adaf33384",
       "target_ref": "attack-pattern--118f61a5-eb3e-4fb6-931f-2096647f4ecd"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--f544a3e1-a0a0-46e5-ab7b-4f656e7f242d",
+      "created": "2020-12-16T23:21:05.973Z",
+      "modified": "2020-12-17T00:45:51.311Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--4d6480e8-3a34-4c8b-9457-98c3a6125787",
+      "target_ref": "malware--3c32a092-93a3-4dec-937d-b363848b3b88"
     },
     {
       "type": "relationship",
@@ -23160,9 +23987,9 @@
       "type": "relationship",
       "id": "relationship--fbe093a2-009a-46ab-afe4-622952084dea",
       "created": "2020-12-14T17:33:39.577Z",
-      "modified": "2020-12-14T19:21:31.255Z",
+      "modified": "2020-12-16T23:57:11.827Z",
       "relationship_type": "uses",
-      "description": "panhardware.com",
+      "description": "SUNBURST associated infrastructure. ",
       "source_ref": "indicator--68014ca6-206b-461d-aa08-f1ac5fc07a80",
       "target_ref": "attack-pattern--1996eef1-ced3-4d7f-bf94-33298cabbf72"
     },
@@ -23189,9 +24016,9 @@
       "type": "relationship",
       "id": "relationship--fc3734b8-c2ae-4981-bc25-caf3bb92a966",
       "created": "2020-12-14T17:33:39.577Z",
-      "modified": "2020-12-14T19:21:31.255Z",
+      "modified": "2020-12-16T23:56:06.215Z",
       "relationship_type": "uses",
-      "description": "thedoccloud.com",
+      "description": "SUNBURST associated infrastructure. ",
       "source_ref": "indicator--28ede6fd-63e4-43f9-a554-82c8899990e0",
       "target_ref": "attack-pattern--1996eef1-ced3-4d7f-bf94-33298cabbf72"
     },
@@ -23260,6 +24087,16 @@
       "relationship_type": "indicates",
       "source_ref": "indicator--c545015b-2084-4f91-b16f-770f61a00852",
       "target_ref": "campaign--e67e9046-711b-491e-85d8-b18f39a9fa94"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--fda046c8-7894-4817-8fdf-bd440d005e38",
+      "created": "2020-12-16T23:19:46.648Z",
+      "modified": "2020-12-17T00:45:51.311Z",
+      "relationship_type": "uses",
+      "description": "SUNBURST associated infrastructure. ",
+      "source_ref": "indicator--09ff4050-bcbc-400c-8023-05fdffbc8886",
+      "target_ref": "attack-pattern--1996eef1-ced3-4d7f-bf94-33298cabbf72"
     },
     {
       "type": "relationship",
@@ -23416,6 +24253,7 @@
         "attack-pattern--2959d63f-73fd-46a1-abd2-109d7dcede32",
         "attack-pattern--32901740-b42c-4fdd-bc02-345b5dc57082",
         "attack-pattern--5d0d3609-d06d-49e1-b9c9-b544e0c618cb",
+        "attack-pattern--72b74d71-8169-42aa-92e0-e7b04b9f5a08",
         "attack-pattern--7bc57495-ea59-4380-be31-a64af124ef18",
         "attack-pattern--8f4a33ec-8b1f-4b80-a2f6-642b2e479580",
         "attack-pattern--b3d682b6-98f2-4fb0-aa3b-b4df007ca70a",
@@ -23428,6 +24266,7 @@
         "attack-pattern--e3b6daca-e963-4a69-aee6-ed4fd653ad58",
         "attack-pattern--e6919abc-99f9-4c6c-95a5-14761e7b2add",
         "attack-pattern--f1951e8a-500e-4a26-8803-76d95c4554b4",
+        "attack-pattern--f2877f7f-9a4c-4251-879f-1224e3006bee",
         "campaign--e67e9046-711b-491e-85d8-b18f39a9fa94",
         "course-of-action--04a2db1c-3e80-43a4-a9c6-3864195bbf73",
         "course-of-action--09cad5e4-8c95-494f-862e-0c640b175348",
@@ -23481,6 +24320,7 @@
         "indicator--0073582d-424b-43e8-98c6-d38b31ef5936",
         "indicator--00bed1fb-d92d-4183-a0ab-56ddbfbf3735",
         "indicator--01c59b8d-4c08-4538-8b37-5bc52feeb4d6",
+        "indicator--01ef2ef3-e543-44a0-978a-c0028df90f14",
         "indicator--020a2ac2-df22-4d11-a4dd-3a4186fcda16",
         "indicator--025d6a5f-7400-4652-8978-7352f2b3558a",
         "indicator--0286c2d5-db31-444e-a5f6-b8814e871b7d",
@@ -23497,6 +24337,7 @@
         "indicator--0827bedd-7ea7-40b0-b43a-c26005cc40ff",
         "indicator--08b86e7f-a573-4e1c-b3af-fc4c450ad215",
         "indicator--0911ca1e-b6ad-46a2-8f68-e60572dadde1",
+        "indicator--09ff4050-bcbc-400c-8023-05fdffbc8886",
         "indicator--0a1bedfd-4fad-48ab-8156-07acd2739b79",
         "indicator--0ac8e7a3-6e53-4192-9e55-6d63b01959d1",
         "indicator--0b3ac020-1878-4a31-8046-df46faad555d",
@@ -23506,11 +24347,13 @@
         "indicator--0c36eb1a-d9f2-4307-927b-40a74fc27608",
         "indicator--0c7c93cb-b11c-4318-8083-f5be3f76406b",
         "indicator--0d4038c9-e7e9-47b3-88f7-8a6e9484aa8d",
+        "indicator--0d7100f0-5586-4671-b0fc-804fb83ddc76",
         "indicator--0dfbad6a-f185-42d7-8ee2-094ad9db88fc",
         "indicator--0e8b5fff-7f38-4b88-88f2-79cb9f8dc3d6",
         "indicator--0f4b20b6-c465-4b23-8922-0b271e65c47c",
         "indicator--0f921c0a-3842-4bff-a86f-3d09950a0b3d",
         "indicator--1143f308-1152-4b92-8f10-45c0aae11eba",
+        "indicator--1159e881-536a-4e07-a8a6-c4fd6821c6f7",
         "indicator--117a61ac-8c4e-48f7-aff3-a9d993da54a9",
         "indicator--117b6b55-535b-423e-8d86-54945b4e27cf",
         "indicator--11a83224-ba82-4d64-a505-bb38208a8625",
@@ -23609,6 +24452,7 @@
         "indicator--334ade55-a1e6-4b80-a2f8-17af47f91ce1",
         "indicator--334e3db8-9ebe-41d0-b39b-017eceed1250",
         "indicator--34f2e730-d509-42d4-9e3d-2b1295c14ef2",
+        "indicator--36f9e0bf-46fe-4a84-a6a1-928eb394c1b3",
         "indicator--37571593-376c-4033-af9a-b993427415ea",
         "indicator--379268e8-3b78-4bfc-9c5e-845f56da115c",
         "indicator--37bdf2a3-f135-4983-859c-fcb7c3e8cd49",
@@ -23660,6 +24504,7 @@
         "indicator--4ccd9c63-8d5b-467c-ba17-bf7eed04de6a",
         "indicator--4cfcf47b-2ad2-4a22-b9a1-78bc961720f9",
         "indicator--4d21457a-ddaf-46ea-ae98-9558496182fc",
+        "indicator--4d6480e8-3a34-4c8b-9457-98c3a6125787",
         "indicator--4d6dc020-dbd2-493c-9b86-929d575c02d7",
         "indicator--4d8f5975-f2b6-41d0-88f5-9628722d7ea9",
         "indicator--4e41e90a-b140-488d-b968-780f06052101",
@@ -23718,11 +24563,13 @@
         "indicator--645ead8c-b392-40d2-a95e-2bdb7aa76555",
         "indicator--64691a2c-7683-4241-a8ee-f5755643605b",
         "indicator--646b2340-7224-4b8c-a7fe-ee4344006f9d",
+        "indicator--6483edef-2d63-44ca-8f04-1c5aac7052bd",
         "indicator--650864eb-8aed-48e7-aa87-4773afef906c",
         "indicator--6559df16-41d4-45ea-944e-6d95b0819d56",
         "indicator--66361b6f-0a25-46ec-8fde-642fff965387",
         "indicator--66751ee8-4fae-4371-9e02-0575a99d66fb",
         "indicator--668ce831-8a66-47f9-a65a-c88d012ac049",
+        "indicator--66930c4b-9544-4a18-bcc4-f8579bfc35eb",
         "indicator--669fe987-6763-454e-82de-6c44c0c4c981",
         "indicator--66b072f1-2882-4882-b8da-c655fe5db6b8",
         "indicator--670c482e-6eb0-45f6-8cfc-5009c64092f1",
@@ -23799,6 +24646,7 @@
         "indicator--81271736-bfe7-4681-8502-419d816b7e84",
         "indicator--816ba747-582d-4f55-a0ce-51fca1b0f5a1",
         "indicator--816d4c38-70b4-420e-a570-c3ecfa50927d",
+        "indicator--817d0a47-6320-498c-9c72-8274b56481c4",
         "indicator--8291ed73-a6d6-44ee-9441-b676ba8b4422",
         "indicator--833c1aeb-7a51-4bad-b9c6-3d1ef8f8bc23",
         "indicator--84e64ca2-5b26-4bd5-8dbc-74811f8df179",
@@ -23938,6 +24786,7 @@
         "indicator--b8105f49-643a-4b0b-9677-ae041d03fbbb",
         "indicator--b8951b05-d37b-42b6-9c7b-87dabf98ef37",
         "indicator--b8d9c0ba-9b7d-448e-b3a5-f685c6dc4dab",
+        "indicator--b92bd107-5859-4ac1-983f-f0003a166b2c",
         "indicator--b92d9722-6a7a-4aae-a518-86213ae5a3ff",
         "indicator--b9aead0a-5bc3-4634-90c2-575aac3762c3",
         "indicator--b9bd5e1b-aa59-4798-b2ed-79b7d2dc71f6",
@@ -23974,8 +24823,10 @@
         "indicator--c5892155-065e-4726-ad9c-41d37913cda0",
         "indicator--c5c2db3a-df02-4c2c-bf4c-a40b702f6080",
         "indicator--c6fba35f-e9d3-4792-b017-729914e20682",
+        "indicator--c70cc7be-b900-4c80-b82c-b6a1394224e1",
         "indicator--c743b1d7-154d-4c02-826e-6e2a47e95920",
         "indicator--c82713cb-460f-456d-b49c-19a84fbb93fc",
+        "indicator--c8336c1e-ab9c-4b21-aa47-b776025df7d5",
         "indicator--c91bca3c-11b2-4a1a-a430-6c3f3f0f60a8",
         "indicator--c95867a2-2f3a-445b-a9f7-9eb79750419d",
         "indicator--c9896fc3-2f9d-43b3-b844-936f75af96d2",
@@ -23987,10 +24838,12 @@
         "indicator--cc74e314-e2ec-4be5-b21b-e74e19aa310e",
         "indicator--cc9f464b-a04d-48c8-aa5e-3c0a19d2f8b1",
         "indicator--cd077e1a-7c94-4284-95ae-98c02a1501ef",
+        "indicator--cd4306a0-de6c-421f-911b-da2a43b3bf96",
         "indicator--cdd2b804-db9b-4b4a-837b-622243b52e9d",
         "indicator--cee5818f-431f-4ecf-be4b-5b1288b43f89",
         "indicator--cf56673d-2fe9-4813-8dcb-3e09e07ac4ee",
         "indicator--cf684a85-8227-4d59-967f-db8e2dfb8e91",
+        "indicator--cf7bfb9b-9447-4ab7-90b4-9d17e9cff5a9",
         "indicator--cf7e8df1-30b8-4d0b-9cf0-0185f80af770",
         "indicator--cfb04e8a-f581-4c07-9c15-99c2abd9edef",
         "indicator--cfee8d21-47f6-459b-9c54-a19fbbfc1a4e",
@@ -24026,6 +24879,7 @@
         "indicator--dd9f8133-6544-4ccd-bfe2-ecfd143130f0",
         "indicator--ddfcc642-8c61-449c-84d1-eea7c7079054",
         "indicator--de1dfd5d-17a5-44a1-916f-e316d8c0486b",
+        "indicator--de97ea60-907a-4651-b042-0abfb2260a85",
         "indicator--dedfe95f-7b5b-40d1-a800-4903d3358c83",
         "indicator--df9a992a-60bb-4914-b917-653c2be40d8b",
         "indicator--e14a7f6c-b622-4e09-a1b8-251c01067fc2",
@@ -24069,6 +24923,7 @@
         "indicator--ec673d8e-1615-40bf-862f-b313b14dce3c",
         "indicator--ec959e2a-2a98-4adb-906d-5487af05ba2c",
         "indicator--ec9ca3d2-fb35-4551-917b-ce8b26641639",
+        "indicator--ecab268a-34cb-4d9a-a124-590dc7bfbf32",
         "indicator--ed297e27-c38a-4115-9d0b-cee22f1e3fce",
         "indicator--ed56729f-779e-47e4-bc70-f8d61694bb48",
         "indicator--ee15f16c-a898-4a6a-b3c8-e5a0e87a78cd",
@@ -24118,9 +24973,12 @@
         "indicator--ff6d0fd2-429b-492f-9a45-b42bfa4e8366",
         "intrusion-set--2af2ab1d-86b3-4a25-85a4-de6120794b20",
         "malware--3c32a092-93a3-4dec-937d-b363848b3b88",
+        "malware--624eef6f-c00a-46cd-a49c-31404577cc84",
         "malware--934abce3-ceaa-41c4-a93a-57eaee90e477",
         "malware--b2db951c-06c4-4d80-9749-ab2b9aaa2de2",
+        "malware--d543682e-a527-4bd6-88b0-a417186f4d4f",
         "relationship--001ab78d-c1a6-4ba9-a3dd-b31855fa9682",
+        "relationship--001c7800-1b3f-4a30-ae85-7fb02ee01c2e",
         "relationship--0021f86a-b604-4cbf-b48d-ad778ce6fcf0",
         "relationship--004df8bf-cc8b-468f-af59-28a8f04e38d8",
         "relationship--00635b64-1ae8-48c6-b2f9-e78ff348aa37",
@@ -24136,9 +24994,11 @@
         "relationship--0202951d-ee2b-45f5-a8ee-1c4201f3685d",
         "relationship--025263b6-efac-4cb4-a211-d3565a08157d",
         "relationship--02550ac7-7231-4f01-b87f-ca87d142c09a",
+        "relationship--02a4ea13-9d0d-49a0-b6a9-8e332050a68a",
         "relationship--02d9b879-14e1-43ae-8060-0e69e4178ff8",
         "relationship--02de96e4-988c-4bb7-babf-44055eb287ca",
         "relationship--03ab5214-6949-48fd-a7fd-30b1b53d92aa",
+        "relationship--03af04d6-7074-4e96-b3d9-f26a0121ab9f",
         "relationship--03b9e077-38ff-42ce-871c-aa3b9aa59e11",
         "relationship--03c15caa-982d-41f7-b419-5838a9cc8df3",
         "relationship--03e4bf60-6e97-4263-b4f8-55eb4e9dc71c",
@@ -24191,6 +25051,7 @@
         "relationship--0b73fee9-994c-4841-9049-1d6b2591c5f8",
         "relationship--0bcb6a87-86d8-408f-bd39-9a1696d3959a",
         "relationship--0bcb8814-3121-4148-a01c-ddbce4783b4c",
+        "relationship--0c0003a9-a060-4e4a-ad02-d32bd3597669",
         "relationship--0c2e341d-c4de-428f-8ebb-bf7ce482b0a4",
         "relationship--0c959e7d-c573-4f6c-8387-d887126cc99a",
         "relationship--0d13340e-9ec4-4f29-9dd6-11ec96ae1083",
@@ -24263,6 +25124,7 @@
         "relationship--1778479b-6689-4dd9-a113-1d40417f18ec",
         "relationship--178200c7-c3db-4f2f-a742-2f752b67af4a",
         "relationship--17ed1644-c865-46c0-9a41-5f970262f43a",
+        "relationship--180f12ad-0017-4a86-adbb-c1c46da08ce0",
         "relationship--18123585-a72a-4e59-986c-47c406ffb118",
         "relationship--184dd79b-7288-4fc4-8fc8-3fed0cc91e55",
         "relationship--1852ac04-f24d-4b32-bc9e-7d651dbe0d89",
@@ -24280,12 +25142,14 @@
         "relationship--19cc959b-1afb-4aa8-bf67-63e61e19456d",
         "relationship--1a3e86a3-91fb-4711-896a-bcdccd13a89e",
         "relationship--1a4a98eb-09c0-4df7-a225-d36ac665b210",
+        "relationship--1a7d0b54-1eda-4534-8f46-91efa4240256",
         "relationship--1a8eb1a1-153d-4373-8340-2066f2f50738",
         "relationship--1a908747-17d9-411a-aab4-91bcad7525ec",
         "relationship--1ace492a-0558-4b60-834e-dd1e5fa77263",
         "relationship--1ad4ee51-f1a1-4cd5-96a6-53f998fc0af7",
         "relationship--1afc59ee-50d2-4802-b772-ac51fe2a9f1d",
         "relationship--1b117fbb-d14a-4a45-af41-b64196477ad0",
+        "relationship--1b263c8c-637f-40af-b302-208922b7a891",
         "relationship--1b5b9aca-0067-460d-865d-c7ef0d4248ce",
         "relationship--1b77b41e-9b47-4b09-804e-82c02bfbbe74",
         "relationship--1ba4b8e7-4757-4bc4-8590-46184171abca",
@@ -24296,6 +25160,7 @@
         "relationship--1d3edc65-fbae-49b0-9de4-7d4e3f30dbdf",
         "relationship--1d593e97-c70d-4db9-aa71-4978d1062cd0",
         "relationship--1d6a734e-37af-4531-81c1-479410d3af12",
+        "relationship--1d7bc769-6f81-4bea-94d0-0e98c1e1e27b",
         "relationship--1ddc84c8-4c2d-4875-9f9d-fe9b7b33e5a8",
         "relationship--1e305a76-1351-4410-bf10-1c81b4691e6b",
         "relationship--1e4945b8-d846-417d-8902-f86de8c9de32",
@@ -24351,6 +25216,7 @@
         "relationship--27fa8ad6-d777-43f8-b30d-6e30a9d3bc83",
         "relationship--283f304f-52bd-41c3-8f0e-67b0cd658def",
         "relationship--2858b66f-5148-4f9f-91f1-032ee4966c4f",
+        "relationship--285a4905-5e80-4cdd-95e5-dc1b6a3083cd",
         "relationship--285d9dc3-3fb6-4f34-b03c-61503463da51",
         "relationship--2877930e-7351-4e4a-b14b-13b465bb1ebd",
         "relationship--28b663bb-aac0-4887-8056-b7622a135694",
@@ -24456,7 +25322,9 @@
         "relationship--3950e32e-d243-4f21-8cce-7938d4f3c9ed",
         "relationship--3981b969-2600-419c-892b-8b4f55e1c7c3",
         "relationship--39a8f941-4485-4a74-9815-e513a92b4cd5",
+        "relationship--39c56623-23da-47f3-aefa-39cebeeb5971",
         "relationship--39d1d9b8-28eb-4b09-9359-a5d30737d1de",
+        "relationship--39e72624-f177-4fa0-8985-0724be823aa0",
         "relationship--3a05034a-8d3f-4c8f-8efb-c50c0e1cbe7e",
         "relationship--3a4e7fa9-71f5-4937-9d4e-b53816384053",
         "relationship--3a5725ed-2c84-4ec8-88f9-b1e540d6a6f4",
@@ -24465,11 +25333,13 @@
         "relationship--3b3bd374-915b-42db-8c4f-59e922da7a1b",
         "relationship--3b6fd637-ec8a-4e8e-bb9e-544f87ed8a07",
         "relationship--3b752a58-8bea-4d51-ac4b-28bf0b25d81b",
+        "relationship--3b7f0e39-3dd2-4a7c-a1e7-90282ecb6e51",
         "relationship--3b8e783c-b7ae-4861-adda-19268f2d9de4",
         "relationship--3b8ffa90-99e9-45c4-90e7-0705bb7b9095",
         "relationship--3bb04b92-2c95-4c86-affa-fb255ee03ea9",
         "relationship--3bbda09b-d17b-4bf5-b6e0-2e2a398589a3",
         "relationship--3bdbb9e0-8b51-48e6-ac7c-19ebb8e699cc",
+        "relationship--3c17545e-eae9-44d2-bddd-68dd1d720664",
         "relationship--3c23849f-b7a3-4c72-a665-512c7bc08465",
         "relationship--3c8b24b8-3913-4a6c-b966-f51738457b84",
         "relationship--3c8bed6c-bc6e-4979-80e4-168ee2cd035d",
@@ -24503,6 +25373,7 @@
         "relationship--4197ffe9-7a6e-47e8-98bf-0a3a01675b3a",
         "relationship--41cfa6d4-6593-48aa-b742-332a5e45658e",
         "relationship--41d5bded-69ac-48a4-83c9-5523a963fcc9",
+        "relationship--41e5ae66-5dac-43a7-be7e-f607c06fdd5a",
         "relationship--41f63076-88bd-4a2f-8a51-c1b3974eead7",
         "relationship--421a51c2-69b1-40ae-ad03-3b494fc38ac5",
         "relationship--4292482f-7757-466f-8546-17c666fce1ba",
@@ -24527,6 +25398,7 @@
         "relationship--44ee6657-daf8-43df-9836-12ab21d2f956",
         "relationship--454417b6-96db-461a-ac2d-dc9702629d76",
         "relationship--45491bc5-bf69-4ea9-9cfa-fe60895c8ebb",
+        "relationship--456bac3d-e75b-4ea0-9202-473b83d4371b",
         "relationship--4577b94b-c366-4651-99cd-2afbed1384c8",
         "relationship--45c922d2-3705-4a13-a8b8-0cf0f22fd335",
         "relationship--45da50d4-03b1-4076-9b7c-b0b71778865e",
@@ -24543,6 +25415,7 @@
         "relationship--47ad6375-076c-43bd-bd9c-0fafd404faa7",
         "relationship--4819fc91-20fa-49b3-ae83-9fdb6fc68123",
         "relationship--4886e73d-48eb-4ebe-b234-bad694db5357",
+        "relationship--48aeac1b-cf55-48e7-aaa7-a747866df66b",
         "relationship--48d9d951-dfdc-49d4-afee-91d3eb2d05a1",
         "relationship--48ffe7b9-0ff6-413d-8016-681348c6ad3d",
         "relationship--491645bc-dc97-4cde-8b1b-7b4d7edf2eb0",
@@ -24554,6 +25427,7 @@
         "relationship--49af571a-765c-4f36-b29b-2b4705f9592d",
         "relationship--49c6029c-2238-4d47-b1a1-014807e8901e",
         "relationship--4a32a131-508f-4c0d-8f5c-a2548e2ec53f",
+        "relationship--4acb16a1-1063-4847-afbd-4997a8e63bc2",
         "relationship--4afcbc1c-9015-48a3-a637-ba7fd8e7bcaa",
         "relationship--4afdf6d0-6e92-4a1d-854b-f9f356821ae4",
         "relationship--4b1205d0-f367-4ddb-ab31-ad9f1ee001e4",
@@ -24574,6 +25448,7 @@
         "relationship--4e070bbd-7cc4-418c-a04a-add34f36637c",
         "relationship--4e5bb80b-8573-406b-bfcf-6b1fe7c064ee",
         "relationship--4e5f5dc9-8515-46a7-bbff-da186d011395",
+        "relationship--4ef1d0eb-bdf6-4251-ba12-059840df026f",
         "relationship--4ef44be9-717a-4bcb-9a0f-27bb260e7283",
         "relationship--4f524c83-7a93-4b6d-97c4-6b580ebc9858",
         "relationship--4f77f3f6-c8a5-4d39-9cac-95627f1f46b2",
@@ -24630,6 +25505,7 @@
         "relationship--5a0f3bae-f669-4fb8-8151-1f9f7752f8ac",
         "relationship--5a2a42f2-4114-4711-bae8-0365b67cfc91",
         "relationship--5a87c4a2-1dda-429e-bb9c-bf4b21ac4eb9",
+        "relationship--5ac2f6ce-b3f0-4994-94ce-a383705ae3ec",
         "relationship--5aca6f01-66ae-4bb1-8e31-cee053676ae1",
         "relationship--5ae6bb81-4dec-4ca0-a168-6a17da074951",
         "relationship--5af4e7be-2c00-479d-9d4a-5c902f3782bb",
@@ -24644,6 +25520,7 @@
         "relationship--5bd84d4d-a8b2-4e12-9624-556e14d6bd8c",
         "relationship--5bf4b6d1-c54c-4db3-be9c-e3e7377a5123",
         "relationship--5c307fc4-1449-42d5-a020-33f18fad0f3d",
+        "relationship--5c54ce69-fc30-427f-ab95-a20ca707cda6",
         "relationship--5c7a5a3a-7d31-4c1d-873f-3a52e84f6a4e",
         "relationship--5cf06f21-b61b-42f8-80c9-223f9e80c740",
         "relationship--5d0d3609-d06d-49e1-b9c9-b544e0c618cb",
@@ -24676,6 +25553,7 @@
         "relationship--6346d201-123f-4bac-8618-4a909c1fa390",
         "relationship--63a3819f-04c9-41a6-974b-11c44c26cb91",
         "relationship--63b0e800-f62e-4573-bc64-7360818712ad",
+        "relationship--63ce98c1-8aa4-419d-81b8-453929d7f227",
         "relationship--63ede676-336c-4a41-8b80-7513e7ea60de",
         "relationship--640c0998-1758-447f-a6a7-815dbd10424e",
         "relationship--643381c9-eac8-46b4-9b24-256cd3a876d4",
@@ -24694,9 +25572,11 @@
         "relationship--67c0e838-7a6f-4ab6-982a-e692a76847c8",
         "relationship--67fd9304-1d86-4d45-a797-7c08dcf83d92",
         "relationship--68099971-aadc-41bf-9c1c-5645765177f8",
+        "relationship--6812a82a-ef55-4cbb-9bcb-d85478be53be",
         "relationship--685d35a9-5470-4234-a3af-39167a958782",
         "relationship--6867e107-4d6a-412c-b100-b2b53d7c694f",
         "relationship--68952ced-cea3-41eb-a855-6b216d15d8b1",
+        "relationship--68afc2e3-b340-4fc7-b627-66f12bd12ef8",
         "relationship--68d238d4-77e8-45b3-866b-aec03c7436fa",
         "relationship--68d7c676-4e98-4ee0-a988-7d80675da0e3",
         "relationship--68edee57-3907-40d4-b565-8ef5071a3e31",
@@ -24704,8 +25584,11 @@
         "relationship--691517dd-2a03-4411-b2b9-e4f8479c425e",
         "relationship--69554cb6-67b8-4ee0-8b2e-8435f63bf22c",
         "relationship--6992f88b-f289-48b2-866d-90a095f939c6",
+        "relationship--69e91b94-1374-4f8e-becf-42012e4abcc1",
         "relationship--6a049893-d6dd-49dc-8d59-ea1f498873ee",
+        "relationship--6a333bd6-c668-4ff9-9fd4-31e700d1adec",
         "relationship--6a404d77-dc59-48f6-b9ad-280b04932fd2",
+        "relationship--6a51799f-2877-4dd5-9124-5b1a2fdef6a4",
         "relationship--6aa52836-1311-4f70-853f-96e71a07f2b6",
         "relationship--6af89f8b-5a55-48b2-892e-1b0cc0bbfe5e",
         "relationship--6b2d49f3-83a4-4c60-923b-4db7c84bbe48",
@@ -24762,6 +25645,7 @@
         "relationship--72857f02-d746-4b6c-9c37-3e865089f47f",
         "relationship--72a74a97-a2b8-4c65-aeb1-235139f3e129",
         "relationship--72ab2945-4134-4e09-b290-9ed5caa3bdac",
+        "relationship--72b74d71-8169-42aa-92e0-e7b04b9f5a08",
         "relationship--72b76e34-a800-461c-9902-bab048b148e5",
         "relationship--72de3e11-c12b-491f-901b-469f47c01635",
         "relationship--72f5d39d-45fe-4596-9166-ea40cc019797",
@@ -24773,6 +25657,7 @@
         "relationship--737074ff-b836-41c8-889f-d3807682011c",
         "relationship--73818d53-ae28-420c-ac50-781865908f5b",
         "relationship--73c49a6f-c3a5-42a3-b269-7590958fe15b",
+        "relationship--73da1a1f-92f1-460f-928f-00ac6f7ab0dd",
         "relationship--7427e6b4-d1a8-4654-b0e9-44cf7cbbe43e",
         "relationship--74287c2d-3f72-4376-8fb2-5c31b5870805",
         "relationship--742d3689-fa19-4bbd-b1cf-d3e3dabb8306",
@@ -24864,6 +25749,7 @@
         "relationship--831cbd26-9136-4723-a607-3843bdfe89ac",
         "relationship--8349458c-d757-4a15-b387-69c9d1dffaa7",
         "relationship--834b2739-8200-4ef2-a714-3a385fff0c4a",
+        "relationship--83528084-3048-47e7-b4f9-a90f969910ae",
         "relationship--837f25b3-a87c-43f2-83be-f4733d8855de",
         "relationship--83817977-a599-4044-834c-7dd4ea5ae7bd",
         "relationship--84391fb0-403b-4a30-a339-ff8a0e6fc393",
@@ -24900,6 +25786,7 @@
         "relationship--89f26b70-0589-49a4-a8f5-c7bd4074b41f",
         "relationship--8a144f95-6fbb-4db8-989e-4cc8169ec383",
         "relationship--8a167e1b-f548-4dfa-974e-cbcd717624b2",
+        "relationship--8a1a1a65-1121-4549-ad81-ee11fac08c99",
         "relationship--8a45208c-d9cc-4c1b-87f1-7b90b8222d6e",
         "relationship--8a4dc16b-9ece-47a7-ad24-c6a303aaac3b",
         "relationship--8abdb751-1754-41f2-86e6-19a793a8ab82",
@@ -24907,6 +25794,7 @@
         "relationship--8b5830ec-99c5-4f43-9499-6bfd38746e5a",
         "relationship--8b732b81-6bbd-4e0b-b029-85789102cf35",
         "relationship--8bb855de-3148-4cd2-90bc-78af1d655211",
+        "relationship--8bd1ff9a-3cc8-48f1-a6a0-4ac054444bdf",
         "relationship--8bebacfc-a4cf-4d4b-a13c-9d5c7b951b94",
         "relationship--8bf7ffb4-620c-465c-9331-731fa3776742",
         "relationship--8c10f1bd-8e40-421b-8a97-e0bd6c7cdfc5",
@@ -24957,14 +25845,17 @@
         "relationship--9377fa3b-3286-4533-9cf8-57ca92a70068",
         "relationship--93781402-0481-46cc-a8bf-8bcdd7035d6c",
         "relationship--93f20619-0c7a-4811-996e-ade4fb0240b2",
+        "relationship--93fb25f0-0d52-4795-832c-9b0f1f346a68",
         "relationship--940add56-c965-43f3-a5cc-ecea14c9b9fe",
         "relationship--94218acf-6dd1-4dd7-bf82-f197a69b9c85",
         "relationship--943a6931-0b38-48a1-b74e-bdd572eafea0",
         "relationship--94662625-0fbf-4cda-9ce3-8bcc3139e20d",
+        "relationship--94670479-c393-4ce6-b493-d08bd0af43a6",
         "relationship--948d5fc3-844a-4fc4-909c-82371c2a9422",
         "relationship--94962f0e-477a-4992-b2bc-9be92546dfbc",
         "relationship--94b36e20-e892-4b09-a775-2c0e8b3a5ed1",
         "relationship--94fb9459-e266-4c95-b858-ce4508d23b2a",
+        "relationship--95256d0c-184b-49b4-b21e-2304cd7e6963",
         "relationship--95a4d232-1b29-454b-942a-3b4c95fbc948",
         "relationship--95acd6e1-b544-4501-95b8-a831df8e8981",
         "relationship--95fab453-e1ec-4529-9cfc-8bbf38bb7ce7",
@@ -25024,6 +25915,7 @@
         "relationship--a013dbbc-d98c-434c-a513-a76da6dd0bc0",
         "relationship--a0338052-bbea-4f67-bee3-93cdc4b0fe57",
         "relationship--a0587654-3ca1-447e-a871-00cb678669c6",
+        "relationship--a0597892-a336-4451-ae92-fa308d9de5c3",
         "relationship--a0a14352-4f66-4ba1-abd1-cba9ec29219f",
         "relationship--a0d92efc-3b16-4931-895f-6bcf2d9e0dbb",
         "relationship--a108c036-283c-4d7e-9341-67dde477d491",
@@ -25053,6 +25945,7 @@
         "relationship--a4f37a2a-86a8-4197-be11-b6bffdae610a",
         "relationship--a512a42f-45b4-4a2c-85ea-082ad420bad5",
         "relationship--a564b76e-5f03-48e6-9758-eca9cde3e49f",
+        "relationship--a5829aa3-283b-4fd6-a068-0f1db80b4f7b",
         "relationship--a5991418-9346-4b1b-85c1-ebdad7051c6c",
         "relationship--a5cfd944-1cbe-4131-8cc6-67c25df1d4f0",
         "relationship--a60facfe-cf1e-463e-9fb7-8bb29c50bce9",
@@ -25065,6 +25958,8 @@
         "relationship--a7611f11-d25e-48a3-b1d5-8e3b68fa7c70",
         "relationship--a76b95e8-4523-4f85-bdc7-1a140db6eb18",
         "relationship--a7bb26ca-522d-496b-a99d-35d6794611e7",
+        "relationship--a7c8131d-7f98-4a83-8c54-5ab2a56bf932",
+        "relationship--a7f05578-6be6-4a3c-8fbe-f5166a713ed4",
         "relationship--a80eb1b8-7f33-4405-8bfd-233e5690c1a9",
         "relationship--a81f42a5-06f1-49b4-b164-094c47ef265a",
         "relationship--a8443686-0b08-4d21-b587-b2f69dc4707d",
@@ -25077,6 +25972,8 @@
         "relationship--a978d504-636a-4f46-9d53-eed11b352587",
         "relationship--a97aca6c-99fc-459d-b873-d93420c50be2",
         "relationship--a9bb9fea-d272-409d-a638-5725f5044d92",
+        "relationship--a9be89bc-5df2-4aa3-8103-4500c6da54d6",
+        "relationship--a9ecc24c-60e9-4128-88d6-6b3aee0054e3",
         "relationship--aa162458-ad88-4a3f-8aaf-2832ebc1cd74",
         "relationship--aa491839-1508-425a-9a02-06320fc86412",
         "relationship--aa4cd439-45c7-49e0-9ff0-39e64ba23f85",
@@ -25105,6 +26002,7 @@
         "relationship--aef122b3-45f4-42c8-8f8d-11d85e381f0d",
         "relationship--aef5efdd-f33c-4fe8-aaa2-a942f26d1321",
         "relationship--af392a15-b62e-49ef-9104-aa64aefd8be4",
+        "relationship--af775516-557a-4a27-a82a-9698bee79b53",
         "relationship--afb41119-7ef7-430f-833d-c83f369ec888",
         "relationship--afca5e19-3543-4410-a6c7-c8603226686e",
         "relationship--b00cb7a8-c4c1-4595-ab4e-cf7f2f6aaab7",
@@ -25149,6 +26047,7 @@
         "relationship--b6b77974-56fe-4f00-96e7-60882d495b23",
         "relationship--b6c7a2f8-3d62-462f-ac00-2550c0b4ea56",
         "relationship--b6ca4aca-6267-4ad4-9ac7-a18f9168b5e7",
+        "relationship--b7518f2e-a50e-4b2b-8d4e-cfecd95c7417",
         "relationship--b7869f89-08d3-42d9-8fa6-ad1c6d00c13b",
         "relationship--b7982e9a-2a99-4791-8a94-95b871e43c29",
         "relationship--b86bd10d-49c8-4fa4-9259-f3cc089d1d0e",
@@ -25167,6 +26066,7 @@
         "relationship--bab4ff78-0a11-4a2c-ae3f-e33b25f44a19",
         "relationship--bab53f8d-6961-4d77-9b90-fe3beea13163",
         "relationship--bab99571-329e-4d62-8c6c-7044fb9e6e20",
+        "relationship--babd8a94-7cba-4ad0-ab46-6e61cb56fdfa",
         "relationship--baf87471-0eb1-4a8c-809b-46b0aa3ad8bd",
         "relationship--bafc2f77-8083-4ec0-b916-bdaefce6f451",
         "relationship--bb4797cb-ebb7-4ea0-9c83-47cb6f14cdc8",
@@ -25276,6 +26176,7 @@
         "relationship--ccc9f23e-dcbb-4ae0-bb74-14304a84bd36",
         "relationship--ccd43f16-2fcf-4f91-bc19-5a29259bab03",
         "relationship--cd05d39c-63af-4795-8a46-301be042fd5d",
+        "relationship--cd3f2be7-ba64-4016-ae93-c1923e37cff1",
         "relationship--cd7b5f19-ab24-49b9-af84-af87fe48e364",
         "relationship--cdbd298c-8878-44e0-975e-2bd7c0f7909b",
         "relationship--cddf3a96-95bc-44e2-9d2f-f631a21a85b1",
@@ -25312,6 +26213,7 @@
         "relationship--d4a39953-48d1-4061-80e9-2ecee1e1992c",
         "relationship--d4af79bf-62d8-4e96-88aa-a31c393a08e7",
         "relationship--d52324f3-1847-4093-a310-c72c90cfe1fc",
+        "relationship--d5448df4-9bee-4afd-9539-547c4109bf3c",
         "relationship--d5addd34-07bf-48b2-877a-3810184fb94b",
         "relationship--d5c6ff30-1bca-4631-8c31-cd032980af72",
         "relationship--d5e38833-33ed-4f1a-a445-4f012dd0b8fc",
@@ -25325,6 +26227,7 @@
         "relationship--d727de57-0e7f-4057-961b-523fa3980ae7",
         "relationship--d727ecad-709c-4772-bfa8-f58cfbe78dd8",
         "relationship--d74b0686-8032-44a4-a75f-801f9e381a22",
+        "relationship--d76ed3f7-248a-4ef3-9de7-217978c3e381",
         "relationship--d77092ef-536c-407b-b11d-ac949c3d0124",
         "relationship--d8242ecd-9816-4875-b13a-43ea203df389",
         "relationship--d868b885-4263-42ff-81b0-7a29355d5fd9",
@@ -25365,6 +26268,7 @@
         "relationship--de3fc285-e63c-49f4-9ab4-56251e44484d",
         "relationship--de8e6a5f-70cd-4f01-9604-a9cfd6f6e5bc",
         "relationship--de97227d-28fe-4018-a09b-d25d2faeebe8",
+        "relationship--deabb8e7-0fcd-424e-9c23-1d73a497e03b",
         "relationship--ded59542-4da3-47d3-a978-e42bdb525a46",
         "relationship--def9f2f5-bfac-4344-a204-4a5bb55c7699",
         "relationship--df449336-349d-4479-842e-f0ad8b0274a5",
@@ -25379,16 +26283,19 @@
         "relationship--e0b2a9d9-c18d-4a22-87b4-4c3459db806c",
         "relationship--e0f2b80d-d14d-4d2e-a560-a33ed8663c1f",
         "relationship--e0f39cf3-c962-4c44-96f1-40481b9a825a",
+        "relationship--e123cc5a-cda1-4657-87e0-ec97ed6be21f",
         "relationship--e1b51fd5-fce7-408c-88ac-333dff34a18c",
         "relationship--e1c7d6b6-bc17-4188-a111-7a6620678bdb",
         "relationship--e20f7b68-56b2-4603-9d6f-4e4ce64b5bec",
         "relationship--e21f3170-c1b9-4ba8-97da-3ff726947d12",
         "relationship--e29c8d09-7964-4f6f-a308-d44722922a4a",
         "relationship--e2a80d9b-21d0-45c4-b39a-96b6d0dee179",
+        "relationship--e2cb26cd-dc5c-4a49-a219-f4693603f8c2",
         "relationship--e2cf74dc-2552-41dd-a422-dff47cbd3545",
         "relationship--e2d95814-0fb6-47bb-a466-8d793a22c021",
         "relationship--e322aaaf-779a-4daa-a5a6-3db54c0682f3",
         "relationship--e324d7f3-2902-4240-83e1-37840459d803",
+        "relationship--e3509965-36cf-471f-a225-e990ce570b78",
         "relationship--e36cbcc8-70f4-4526-8ff7-9b2a3c13b8a9",
         "relationship--e38e3c61-6aff-490d-8ae2-b906076c7a37",
         "relationship--e3b4f65a-5620-4923-a1dc-a5ab2a30f685",
@@ -25455,6 +26362,7 @@
         "relationship--ed39b91a-a8a9-45e5-80a5-a88d55c383c6",
         "relationship--ed65ef07-3b59-4b70-91ff-6a9af2fede2f",
         "relationship--eda1bb54-2851-4ff3-9d84-d190bfa9c2bc",
+        "relationship--edcdf15c-236b-40bf-8956-8c81ec3e0d6a",
         "relationship--ee02b850-5a11-4f2d-bbd0-6c5f20e4ac84",
         "relationship--ee3f2155-656c-4e5e-adf9-5ecbacd1e127",
         "relationship--ee58de04-2824-4605-9125-1c4428fc377f",
@@ -25486,11 +26394,13 @@
         "relationship--f241a3fb-12fd-4e1f-8a97-ef5e9bd7b409",
         "relationship--f2447a27-50dd-4867-8b5c-7def4050170d",
         "relationship--f24ffcfb-37da-40c2-bf4f-cea6f1ff7324",
+        "relationship--f2877f7f-9a4c-4251-879f-1224e3006bee",
         "relationship--f28d802c-492b-4c68-b6bd-4c3f5a4ca852",
         "relationship--f2d8ff20-ffc1-4e1e-b2b0-19ccc5f8c74b",
         "relationship--f31e1088-1c2b-4ca5-bbba-0d3bbc13863e",
         "relationship--f32ab3fd-422e-4619-bca1-ff6a48768097",
         "relationship--f32b016e-cb9f-4307-9e5f-c8aa395efda2",
+        "relationship--f3d01a89-583c-48cf-8511-fe8437f22f8b",
         "relationship--f3d38e74-05bd-4da8-8d5f-8e13a328bd35",
         "relationship--f3d43007-22fa-472e-8549-c6bc444d2616",
         "relationship--f3d4880f-8dcf-47aa-8bca-c0e000545665",
@@ -25500,6 +26410,7 @@
         "relationship--f4fc76ec-5a7f-403c-9d89-e8ecd6f30b97",
         "relationship--f5042273-3bb6-4ec6-a02a-1b944edd269a",
         "relationship--f51f0b86-3501-4ac9-9b62-d4e83059d1d3",
+        "relationship--f544a3e1-a0a0-46e5-ab7b-4f656e7f242d",
         "relationship--f5a6595c-8d6a-44c4-8fd7-aec6b3ad4022",
         "relationship--f5a8b551-404c-4782-8a8f-aaa731a53516",
         "relationship--f5c07d86-20c0-4241-aafa-059487b7b087",
@@ -25544,6 +26455,7 @@
         "relationship--fcfbdecf-2e8d-4673-afd0-4cf83b71b93b",
         "relationship--fd3ae539-1b3a-49a6-8855-d7ace4edcdd1",
         "relationship--fd49c3bc-a599-4912-8f3d-5d34a4de5ccf",
+        "relationship--fda046c8-7894-4817-8fdf-bd440d005e38",
         "relationship--fdac46b1-466c-454c-a3bd-3c89dc6bfa7f",
         "relationship--fdfaa445-c112-43bf-be47-fff4cbe23563",
         "relationship--fe120dbc-2812-4e78-aaf2-c4ef5fbfea69",
