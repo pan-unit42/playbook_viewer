@@ -7,15 +7,16 @@
       "type": "report",
       "id": "report--d5c8bfcf-e2f7-4427-8fa8-6fbc05a8938e",
       "created": "2020-02-26T15:49:22.431Z",
-      "modified": "2020-11-09T14:04:01.271Z",
+      "modified": "2021-02-03T13:52:57.830Z",
       "name": "TEMP.xHunt",
       "description": "Beginning in mid-July 2018 and continuing through December 2019, unknown operators were observed targeting Kuwaiti government organizations as well as the Kuwaiti Shipping and Transportation industry. Two distinct campaigns were observed during this timeframe, both with overlapping tool development and infrastructure. The developer of the collected tools used character names from the anime series Hunter x Hunter, which is the basis for the campaign name \u201cxHunt.\u201d The names of the tools collected include backdoor tools Sakabota, Hisoka, Netero, Killua, and Gon. ",
-      "published": "2020-11-09T14:04:01.271Z",
+      "published": "2021-02-03T13:52:57.830Z",
       "object_refs": [
         "intrusion-set--92e421c1-8652-4f9c-b05e-c0e9e4d6d75c",
         "report--37226399-e587-4b39-946b-7cdc80f48485",
         "report--4a0826a8-7d36-4743-9592-0183c5eaddc2",
-        "report--690ab0de-5922-494c-bdf0-ee24131942a0"
+        "report--690ab0de-5922-494c-bdf0-ee24131942a0",
+        "report--de03a905-560e-4d3f-a8e4-3f59bf55fa37"
       ],
       "labels": [
         "intrusion-set"
@@ -110,6 +111,133 @@
       ],
       "x_mitre_remote_support": "true",
       "x_mitre_version": "1.0"
+    },
+    {
+      "type": "attack-pattern",
+      "id": "attack-pattern--01a5a209-b94c-450b-b7f9-946497d91055",
+      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "created": "2018-08-03T19:54:02.821Z",
+      "modified": "2020-09-14T14:57:07.257Z",
+      "name": "T1047: Windows Management Instrumentation",
+      "description": "Adversaries may abuse Windows Management Instrumentation (WMI) to achieve execution. WMI is a Windows administration feature that provides a uniform environment for local and remote access to Windows system components. It relies on the WMI service for local and remote access and the server message block (SMB) (Citation: Wikipedia SMB) and Remote Procedure Call Service (RPCS) (Citation: TechNet RPC) for remote access. RPCS operates over port 135. (Citation: MSDN WMI)\n\nAn adversary can use WMI to interact with local and remote systems and use it as a means to perform many tactic functions, such as gathering information for Discovery and remote Execution of files as part of Lateral Movement. (Citation: FireEye WMI SANS 2015) (Citation: FireEye WMI 2015)",
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "lockheed",
+          "phase_name": "installation"
+        },
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "execution"
+        }
+      ],
+      "external_references": [
+        {
+          "source_name": "FireEye WMI 2015",
+          "url": "https://www.fireeye.com/content/dam/fireeye-www/global/en/current-threats/pdfs/wp-windows-management-instrumentation.pdf",
+          "description": "Ballenthin, W., et al. (2015). Windows Management Instrumentation (WMI) Offense, Defense, and Forensics. Retrieved March 30, 2016."
+        },
+        {
+          "source_name": "FireEye WMI SANS 2015",
+          "url": "https://www.fireeye.com/content/dam/fireeye-www/services/pdfs/sans-dfir-2015.pdf",
+          "description": "Devon Kerr. (2015). There's Something About WMI. Retrieved May 4, 2020."
+        },
+        {
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1047",
+          "external_id": "T1047"
+        },
+        {
+          "source_name": "MSDN WMI",
+          "url": "https://msdn.microsoft.com/en-us/library/aa394582.aspx",
+          "description": "Microsoft. (n.d.). Windows Management Instrumentation. Retrieved April 27, 2016."
+        },
+        {
+          "source_name": "TechNet RPC",
+          "url": "https://technet.microsoft.com/en-us/library/cc787851.aspx",
+          "description": "Microsoft. (2003, March 28). What Is RPC?. Retrieved June 12, 2016."
+        },
+        {
+          "source_name": "Wikipedia SMB",
+          "url": "https://en.wikipedia.org/wiki/Server_Message_Block",
+          "description": "Wikipedia. (2016, June 12). Server Message Block. Retrieved June 12, 2016."
+        }
+      ],
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ],
+      "x_mitre_detection": [
+        "Monitor network traffic for WMI connections; the use of WMI in environments that do not typically use WMI may be suspect. Perform process monitoring to capture command-line arguments of \"wmic\" and detect commands that are used to perform remote behavior. (Citation: FireEye WMI 2015)"
+      ],
+      "x_mitre_platforms": [
+        "Windows"
+      ],
+      "x_mitre_data_sources": [
+        "Authentication logs",
+        "Netflow/Enclave netflow",
+        "Process command-line parameters",
+        "Process monitoring"
+      ],
+      "x_mitre_permissions_required": [
+        "Administrator",
+        "User"
+      ],
+      "x_mitre_system_requirements": [
+        "WMI service, winmgmt, running.\nHost/network firewalls allowing SMB and WMI ports from source to destination.\nSMB authentication."
+      ],
+      "x_mitre_remote_support": "true",
+      "x_mitre_version": "1.1"
+    },
+    {
+      "type": "attack-pattern",
+      "id": "attack-pattern--03d7999c-1f4c-42cc-8373-e7690d318104",
+      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "created": "2018-08-03T19:54:02.821Z",
+      "modified": "2020-07-27T14:54:36.978Z",
+      "name": "T1033: System Owner/User Discovery",
+      "description": "Adversaries may attempt to identify the primary user, currently logged in user, set of users that commonly uses a system, or whether a user is actively using the system. They may do this, for example, by retrieving account usernames or by using [OS Credential Dumping](https://attack.mitre.org/techniques/T1003). The information may be collected in a number of different ways using other Discovery techniques, because user and username details are prevalent throughout a system and include running process ownership, file/directory ownership, session information, and system logs. Adversaries may use the information from [System Owner/User Discovery](https://attack.mitre.org/techniques/T1033) during automated discovery to shape follow-on behaviors, including whether or not the adversary fully infects the target and/or attempts specific actions.\n\nUtilities and commands that acquire this information include <code>whoami</code>. In Mac and Linux, the currently logged in user can be identified with <code>w</code> and <code>who</code>.",
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "lockheed",
+          "phase_name": "act-on-objectives"
+        },
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "discovery"
+        }
+      ],
+      "external_references": [
+        {
+          "source_name": "capec",
+          "url": "https://capec.mitre.org/data/definitions/577.html",
+          "external_id": "CAPEC-577"
+        },
+        {
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1033",
+          "external_id": "T1033"
+        }
+      ],
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ],
+      "x_mitre_detection": [
+        "System and network discovery techniques normally occur throughout an operation as an adversary learns the environment. Data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities based on the information obtained.\n\nMonitor processes and command-line arguments for actions that could be taken to gather system and network information. Remote access tools with built-in features may interact directly with the Windows API to gather information. Information may also be acquired through Windows system management tools such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) and [PowerShell](https://attack.mitre.org/techniques/T1059/001)."
+      ],
+      "x_mitre_platforms": [
+        "Linux",
+        "Windows",
+        "macOS"
+      ],
+      "x_mitre_data_sources": [
+        "File monitoring",
+        "Process command-line parameters",
+        "Process monitoring"
+      ],
+      "x_mitre_permissions_required": [
+        "Administrator",
+        "User"
+      ],
+      "x_mitre_version": "1.2"
     },
     {
       "type": "attack-pattern",
@@ -281,6 +409,68 @@
     },
     {
       "type": "attack-pattern",
+      "id": "attack-pattern--15dbf668-795c-41e6-8219-f0447c0e64ce",
+      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "created": "2018-08-03T19:54:02.821Z",
+      "modified": "2020-07-27T14:54:37.379Z",
+      "name": "T1069: Permission Groups Discovery",
+      "description": "Adversaries may attempt to find group and permission settings. This information can help adversaries determine which user accounts and groups are available, the membership of users in particular groups, and which users and groups have elevated permissions.",
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "lockheed",
+          "phase_name": "act-on-objectives"
+        },
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "discovery"
+        }
+      ],
+      "external_references": [
+        {
+          "source_name": "capec",
+          "url": "https://capec.mitre.org/data/definitions/576.html",
+          "external_id": "CAPEC-576"
+        },
+        {
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1069",
+          "external_id": "T1069"
+        }
+      ],
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ],
+      "x_mitre_detection": [
+        "System and network discovery techniques normally occur throughout an operation as an adversary learns the environment. Data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities, such as Lateral Movement, based on the information obtained.\n\nMonitor processes and command-line arguments for actions that could be taken to gather system and network information. Remote access tools with built-in features may interact directly with the Windows API to gather information. Information may also be acquired through Windows system management tools such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) and [PowerShell](https://attack.mitre.org/techniques/T1059/001)."
+      ],
+      "x_mitre_platforms": [
+        "AWS",
+        "Azure",
+        "Azure AD",
+        "GCP",
+        "Linux",
+        "Office 365",
+        "SaaS",
+        "Windows",
+        "macOS"
+      ],
+      "x_mitre_data_sources": [
+        "API monitoring",
+        "Azure activity logs",
+        "Office 365 account logs",
+        "Process command-line parameters",
+        "Process monitoring"
+      ],
+      "x_mitre_permissions_required": [
+        "User"
+      ],
+      "x_mitre_contributors": [
+        "Microsoft Threat Intelligence Center (MSTIC)"
+      ],
+      "x_mitre_version": "2.1"
+    },
+    {
+      "type": "attack-pattern",
       "id": "attack-pattern--1608f3e1-598a-42f4-a01a-2e252e81728f",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
       "created": "2018-08-03T19:54:02.821Z",
@@ -402,6 +592,57 @@
     },
     {
       "type": "attack-pattern",
+      "id": "attack-pattern--21875073-b0ee-49e3-9077-1e2a885359af",
+      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "created": "2020-07-27T14:54:34.415Z",
+      "modified": "2020-07-27T14:54:34.415Z",
+      "name": "T1087.002: Domain Account",
+      "description": "Adversaries may attempt to get a listing of domain accounts. This information can help adversaries determine which domain accounts exist to aid in follow-on behavior.\n\nCommands such as <code>net user /domain</code> and <code>net group /domain</code> of the [Net](https://attack.mitre.org/software/S0039) utility, <code>dscacheutil -q group</code>on macOS, and <code>ldapsearch</code> on Linux can list domain users and groups.",
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "lockheed",
+          "phase_name": "act-on-objectives"
+        },
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "discovery"
+        }
+      ],
+      "external_references": [
+        {
+          "source_name": "capec",
+          "url": "https://capec.mitre.org/data/definitions/575.html",
+          "external_id": "CAPEC-575"
+        },
+        {
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1087/002",
+          "external_id": "T1087.002"
+        }
+      ],
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ],
+      "x_mitre_detection": [
+        "System and network discovery techniques normally occur throughout an operation as an adversary learns the environment. Data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities, such as Lateral Movement, based on the information obtained.\nMonitor processes and command-line arguments for actions that could be taken to gather system and network information. Remote access tools with built-in features may interact directly with the Windows API to gather information. Information may also be acquired through Windows system management tools such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) and [PowerShell](https://attack.mitre.org/techniques/T1059/001).\n"
+      ],
+      "x_mitre_platforms": [
+        "Linux",
+        "Windows",
+        "macOS"
+      ],
+      "x_mitre_data_sources": [
+        "API monitoring",
+        "Process command-line parameters",
+        "Process monitoring"
+      ],
+      "x_mitre_permissions_required": [
+        "User"
+      ],
+      "x_mitre_version": "1.0"
+    },
+    {
+      "type": "attack-pattern",
       "id": "attack-pattern--2b742742-28c3-4e1b-bab7-8350d6300fa7",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
       "created": "2018-08-03T19:54:02.821Z",
@@ -464,6 +705,84 @@
         "Shailesh Tiwary (Indian Army)"
       ],
       "x_mitre_version": "1.0"
+    },
+    {
+      "type": "attack-pattern",
+      "id": "attack-pattern--3489cfc5-640f-4bb3-a103-9137b97de79f",
+      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "created": "2018-08-03T19:54:02.821Z",
+      "modified": "2020-07-27T14:54:38.097Z",
+      "name": "T1135: Network Share Discovery",
+      "description": "Adversaries may look for folders and drives shared on remote systems as a means of identifying sources of information to gather as a precursor for Collection and to identify potential systems of interest for Lateral Movement. Networks often contain shared network drives and folders that enable users to access file directories on various systems across a network. \n\nFile sharing over a Windows network occurs over the SMB protocol. (Citation: Wikipedia Shared Resource) (Citation: TechNet Shared Folder) [Net](https://attack.mitre.org/software/S0039) can be used to query a remote system for available shared drives using the <code>net view \\\\remotesystem</code> command. It can also be used to query shared drives on the local system using <code>net share</code>.\n\nCloud virtual networks may contain remote network shares or file storage services accessible to an adversary after they have obtained access to a system. For example, AWS, GCP, and Azure support creation of Network File System (NFS) shares and Server Message Block (SMB) shares that may be mapped on endpoint or cloud-based systems.(Citation: Amazon Creating an NFS File Share)(Citation: Google File servers on Compute Engine)",
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "lockheed",
+          "phase_name": "act-on-objectives"
+        },
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "discovery"
+        }
+      ],
+      "external_references": [
+        {
+          "source_name": "Amazon Creating an NFS File Share",
+          "url": "https://docs.aws.amazon.com/storagegateway/latest/userguide/CreatingAnNFSFileShare.html",
+          "description": "Amazon. (n.d.). Creating an NFS File Share. Retrieved October 23, 2019."
+        },
+        {
+          "source_name": "capec",
+          "url": "https://capec.mitre.org/data/definitions/643.html",
+          "external_id": "CAPEC-643"
+        },
+        {
+          "source_name": "Google File servers on Compute Engine",
+          "url": "https://cloud.google.com/solutions/filers-on-compute-engine",
+          "description": "Google Cloud. (2019, October 10). File servers on Compute Engine. Retrieved October 23, 2019."
+        },
+        {
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1135",
+          "external_id": "T1135"
+        },
+        {
+          "source_name": "TechNet Shared Folder",
+          "url": "https://technet.microsoft.com/library/cc770880.aspx",
+          "description": "Microsoft. (n.d.). Share a Folder or Drive. Retrieved June 30, 2017."
+        },
+        {
+          "source_name": "Wikipedia Shared Resource",
+          "url": "https://en.wikipedia.org/wiki/Shared_resource",
+          "description": "Wikipedia. (2017, April 15). Shared resource. Retrieved June 30, 2017."
+        }
+      ],
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ],
+      "x_mitre_detection": [
+        "System and network discovery techniques normally occur throughout an operation as an adversary learns the environment. Data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities, such as Lateral Movement, based on the information obtained.\n\nNormal, benign system and network events related to legitimate remote system discovery may be uncommon, depending on the environment and how they are used. Monitor processes and command-line arguments for actions that could be taken to gather system and network information. Remote access tools with built-in features may interact directly with the Windows API to gather information. Information may also be acquired through Windows system management tools such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) and [PowerShell](https://attack.mitre.org/techniques/T1059/001).\n\nIn cloud-based systems, native logging can be used to identify access to certain APIs and dashboards that may contain system information. Depending on how the environment is used, that data alone may not be sufficient due to benign use during normal operations."
+      ],
+      "x_mitre_platforms": [
+        "AWS",
+        "Azure",
+        "GCP",
+        "Linux",
+        "Windows",
+        "macOS"
+      ],
+      "x_mitre_data_sources": [
+        "Network protocol analysis",
+        "Process command-line parameters",
+        "Process monitoring",
+        "Process use of network"
+      ],
+      "x_mitre_permissions_required": [
+        "User"
+      ],
+      "x_mitre_contributors": [
+        "Praetorian"
+      ],
+      "x_mitre_version": "2.1"
     },
     {
       "type": "attack-pattern",
@@ -844,6 +1163,235 @@
     },
     {
       "type": "attack-pattern",
+      "id": "attack-pattern--4fe28b27-b13c-453e-a386-c2ef362a573b",
+      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "created": "2020-07-27T14:54:36.157Z",
+      "modified": "2020-07-27T14:54:36.157Z",
+      "name": "T1572: Protocol Tunneling",
+      "description": "Adversaries may tunnel network communications to and from a victim system within a separate protocol to avoid detection/network filtering and/or enable access to otherwise unreachable systems. Tunneling involves explicitly encapsulating a protocol within another. This behavior may conceal malicious traffic by blending in with existing traffic and/or provide an outer layer of encryption (similar to a VPN). Tunneling could also enable routing of network packets that would otherwise not reach their intended destination, such as SMB, RDP, or other traffic that would be filtered by network appliances or not routed over the Internet. \n\nThere are various means to encapsulate a protocol within another protocol. For example, adversaries may perform SSH tunneling (also known as SSH port forwarding), which involves forwarding arbitrary data over an encrypted SSH tunnel.(Citation: SSH Tunneling) \n\n[Protocol Tunneling](https://attack.mitre.org/techniques/T1572) may also be abused by adversaries during [Dynamic Resolution](https://attack.mitre.org/techniques/T1568). Known as DNS over HTTPS (DoH), queries to resolve C2 infrastructure may be encapsulated within encrypted HTTPS packets.(Citation: BleepingComp Godlua JUL19) \n\nAdversaries may also leverage [Protocol Tunneling](https://attack.mitre.org/techniques/T1572) in conjunction with [Proxy](https://attack.mitre.org/techniques/T1090) and/or [Protocol Impersonation](https://attack.mitre.org/techniques/T1001/003) to further conceal C2 communications and infrastructure.",
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "lockheed",
+          "phase_name": "command-and-control"
+        },
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "command-and-control"
+        }
+      ],
+      "external_references": [
+        {
+          "source_name": "BleepingComp Godlua JUL19",
+          "url": "https://www.bleepingcomputer.com/news/security/new-godlua-malware-evades-traffic-monitoring-via-dns-over-https/",
+          "description": "Gatlan, S. (2019, July 3). New Godlua Malware Evades Traffic Monitoring via DNS over HTTPS. Retrieved March 15, 2020."
+        },
+        {
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1572",
+          "external_id": "T1572"
+        },
+        {
+          "source_name": "SSH Tunneling",
+          "url": "https://www.ssh.com/ssh/tunneling",
+          "description": "SSH.COM. (n.d.). SSH tunnel. Retrieved March 15, 2020."
+        },
+        {
+          "source_name": "University of Birmingham C2",
+          "url": "https://arxiv.org/ftp/arxiv/papers/1408/1408.1136.pdf",
+          "description": "Gardiner, J.,  Cova, M., Nagaraja, S. (2014, February). Command & Control Understanding, Denying and Detecting. Retrieved April 20, 2016."
+        }
+      ],
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ],
+      "x_mitre_detection": [
+        "Monitoring for systems listening and/or establishing external connections using ports/protocols commonly associated with tunneling, such as SSH (port 22). Also monitor for processes commonly associated with tunneling, such as Plink and the OpenSSH client. \n\nAnalyze network data for uncommon data flows (e.g., a client sending significantly more data than it receives from a server). Processes utilizing the network that do not normally have network communication or have never been seen before are suspicious. Analyze packet contents to detect application layer protocols that do not follow the expected protocol standards regarding syntax, structure, or any other variable adversaries could leverage to conceal data.(Citation: University of Birmingham C2)"
+      ],
+      "x_mitre_platforms": [
+        "Linux",
+        "Windows",
+        "macOS"
+      ],
+      "x_mitre_data_sources": [
+        "Netflow/Enclave netflow",
+        "Network protocol analysis",
+        "Packet capture",
+        "Process monitoring",
+        "Process use of network"
+      ],
+      "x_mitre_version": "1.0"
+    },
+    {
+      "type": "attack-pattern",
+      "id": "attack-pattern--5d0d3609-d06d-49e1-b9c9-b544e0c618cb",
+      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "created": "2018-08-03T19:54:02.821Z",
+      "modified": "2020-07-27T14:54:42.474Z",
+      "name": "T1505.003: Web Shell",
+      "description": "Adversaries may backdoor web servers with web shells to establish persistent access to systems. A Web shell is a Web script that is placed on an openly accessible Web server to allow an adversary to use the Web server as a gateway into a network. A Web shell may provide a set of functions to execute or a command-line interface on the system that hosts the Web server.\n\nIn addition to a server-side script, a Web shell may have a client interface program that is used to talk to the Web server (ex: [China Chopper](https://attack.mitre.org/software/S0020) Web shell client).(Citation: Lee 2013)",
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "lockheed",
+          "phase_name": "installation"
+        },
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "persistence"
+        }
+      ],
+      "external_references": [
+        {
+          "source_name": "Lee 2013",
+          "url": "https://www.fireeye.com/blog/threat-research/2013/08/breaking-down-the-china-chopper-web-shell-part-i.html",
+          "description": "Lee, T., Hanzlik, D., Ahl, I. (2013, August 7). Breaking Down the China Chopper Web Shell - Part I. Retrieved March 27, 2015."
+        },
+        {
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1505/003",
+          "external_id": "T1505.003"
+        },
+        {
+          "source_name": "US-CERT Alert TA15-314A Web Shells",
+          "url": "https://www.us-cert.gov/ncas/alerts/TA15-314A",
+          "description": "US-CERT. (2015, November 13). Compromised Web Servers and Web Shells - Threat Awareness and Guidance. Retrieved June 8, 2016."
+        }
+      ],
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ],
+      "x_mitre_detection": [
+        "Web shells can be difficult to detect. Unlike other forms of persistent remote access, they do not initiate connections. The portion of the Web shell that is on the server may be small and innocuous looking. The PHP version of the China Chopper Web shell, for example, is the following short payload: (Citation: Lee 2013) \n\n<code>&lt;?php @eval($_POST['password']);&gt;</code>\n\nNevertheless, detection mechanisms exist. Process monitoring may be used to detect Web servers that perform suspicious actions such as running cmd.exe or accessing files that are not in the Web directory. File monitoring may be used to detect changes to files in the Web directory of a Web server that do not match with updates to the Web server's content and may indicate implantation of a Web shell script. Log authentication attempts to the server and any unusual traffic patterns to or from the server and internal network. (Citation: US-CERT Alert TA15-314A Web Shells) "
+      ],
+      "x_mitre_platforms": [
+        "Linux",
+        "Windows",
+        "macOS"
+      ],
+      "x_mitre_data_sources": [
+        "Authentication logs",
+        "File monitoring",
+        "Netflow/Enclave netflow",
+        "Process monitoring"
+      ],
+      "x_mitre_permissions_required": [
+        "SYSTEM",
+        "User"
+      ],
+      "x_mitre_system_requirements": [
+        "Adversary access to Web server with vulnerability or account to upload and serve the Web shell file."
+      ],
+      "x_mitre_version": "1.0"
+    },
+    {
+      "type": "attack-pattern",
+      "id": "attack-pattern--707399d6-ab3e-4963-9315-d9d3818cd6a0",
+      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "created": "2018-08-03T19:54:02.821Z",
+      "modified": "2020-07-27T14:54:36.653Z",
+      "name": "T1016: System Network Configuration Discovery",
+      "description": "Adversaries may look for details about the network configuration and settings of systems they access or through information discovery of remote systems. Several operating system administration utilities exist that can be used to gather this information. Examples include [Arp](https://attack.mitre.org/software/S0099), [ipconfig](https://attack.mitre.org/software/S0100)/[ifconfig](https://attack.mitre.org/software/S0101), [nbtstat](https://attack.mitre.org/software/S0102), and [route](https://attack.mitre.org/software/S0103).\n\nAdversaries may use the information from [System Network Configuration Discovery](https://attack.mitre.org/techniques/T1016) during automated discovery to shape follow-on behaviors, including whether or not the adversary fully infects the target and/or attempts specific actions.",
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "lockheed",
+          "phase_name": "act-on-objectives"
+        },
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "discovery"
+        }
+      ],
+      "external_references": [
+        {
+          "source_name": "capec",
+          "url": "https://capec.mitre.org/data/definitions/309.html",
+          "external_id": "CAPEC-309"
+        },
+        {
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1016",
+          "external_id": "T1016"
+        }
+      ],
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ],
+      "x_mitre_detection": [
+        "System and network discovery techniques normally occur throughout an operation as an adversary learns the environment. Data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities, such as Lateral Movement, based on the information obtained.\n\nMonitor processes and command-line arguments for actions that could be taken to gather system and network information. Remote access tools with built-in features may interact directly with the Windows API to gather information. Information may also be acquired through Windows system management tools such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) and [PowerShell](https://attack.mitre.org/techniques/T1059/001)."
+      ],
+      "x_mitre_platforms": [
+        "Linux",
+        "Windows",
+        "macOS"
+      ],
+      "x_mitre_data_sources": [
+        "Process command-line parameters",
+        "Process monitoring"
+      ],
+      "x_mitre_permissions_required": [
+        "User"
+      ],
+      "x_mitre_version": "1.2"
+    },
+    {
+      "type": "attack-pattern",
+      "id": "attack-pattern--72b74d71-8169-42aa-92e0-e7b04b9f5a08",
+      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "created": "2018-08-03T19:54:02.821Z",
+      "modified": "2020-07-27T14:54:37.764Z",
+      "name": "T1087: Account Discovery",
+      "description": "Adversaries may attempt to get a listing of accounts on a system or within an environment. This information can help adversaries determine which accounts exist to aid in follow-on behavior.",
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "lockheed",
+          "phase_name": "act-on-objectives"
+        },
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "discovery"
+        }
+      ],
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1087",
+          "external_id": "T1087"
+        }
+      ],
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ],
+      "x_mitre_detection": [
+        "System and network discovery techniques normally occur throughout an operation as an adversary learns the environment. Data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities, such as Lateral Movement, based on the information obtained.\n\nMonitor processes and command-line arguments for actions that could be taken to gather system and network information. Remote access tools with built-in features may interact directly with the Windows API to gather information. Information may also be acquired through Windows system management tools such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) and [PowerShell](https://attack.mitre.org/techniques/T1059/001)."
+      ],
+      "x_mitre_platforms": [
+        "AWS",
+        "Azure",
+        "Azure AD",
+        "GCP",
+        "Linux",
+        "Office 365",
+        "SaaS",
+        "Windows",
+        "macOS"
+      ],
+      "x_mitre_data_sources": [
+        "API monitoring",
+        "Azure activity logs",
+        "Office 365 account logs",
+        "Process command-line parameters",
+        "Process monitoring"
+      ],
+      "x_mitre_permissions_required": [
+        "User"
+      ],
+      "x_mitre_contributors": [
+        "Microsoft Threat Intelligence Center (MSTIC)",
+        "Travis Smith, Tripwire"
+      ],
+      "x_mitre_version": "2.1"
+    },
+    {
+      "type": "attack-pattern",
       "id": "attack-pattern--7385dfaf-6886-4229-9ecd-6fd678040830",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
       "created": "2018-08-03T19:54:02.821Z",
@@ -889,6 +1437,62 @@
       ],
       "x_mitre_remote_support": "false",
       "x_mitre_version": "2.0"
+    },
+    {
+      "type": "attack-pattern",
+      "id": "attack-pattern--7bc57495-ea59-4380-be31-a64af124ef18",
+      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "created": "2018-08-03T19:54:02.821Z",
+      "modified": "2020-07-27T14:54:37.764Z",
+      "name": "T1083: File and Directory Discovery",
+      "description": "Adversaries may enumerate files and directories or may search in specific locations of a host or network share for certain information within a file system. Adversaries may use the information from [File and Directory Discovery](https://attack.mitre.org/techniques/T1083) during automated discovery to shape follow-on behaviors, including whether or not the adversary fully infects the target and/or attempts specific actions.\n\nMany command shell utilities can be used to obtain this information. Examples include <code>dir</code>, <code>tree</code>, <code>ls</code>, <code>find</code>, and <code>locate</code>. (Citation: Windows Commands JPCERT) Custom tools may also be used to gather file and directory information and interact with the [Native API](https://attack.mitre.org/techniques/T1106).",
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "lockheed",
+          "phase_name": "act-on-objectives"
+        },
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "discovery"
+        }
+      ],
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1083",
+          "external_id": "T1083"
+        },
+        {
+          "source_name": "Windows Commands JPCERT",
+          "url": "http://blog.jpcert.or.jp/2016/01/windows-commands-abused-by-attackers.html",
+          "description": "Tomonaga, S. (2016, January 26). Windows Commands Abused by Attackers. Retrieved February 2, 2016."
+        }
+      ],
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ],
+      "x_mitre_detection": [
+        "System and network discovery techniques normally occur throughout an operation as an adversary learns the environment. Data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities, such as Collection and Exfiltration, based on the information obtained.\n\nMonitor processes and command-line arguments for actions that could be taken to gather system and network information. Remote access tools with built-in features may interact directly with the Windows API to gather information. Information may also be acquired through Windows system management tools such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) and [PowerShell](https://attack.mitre.org/techniques/T1059/001)."
+      ],
+      "x_mitre_platforms": [
+        "Linux",
+        "Windows",
+        "macOS"
+      ],
+      "x_mitre_data_sources": [
+        "File monitoring",
+        "Process command-line parameters",
+        "Process monitoring"
+      ],
+      "x_mitre_permissions_required": [
+        "Administrator",
+        "SYSTEM",
+        "User"
+      ],
+      "x_mitre_system_requirements": [
+        "Some folders may require Administrator, SYSTEM or specific user depending on permission levels and access controls"
+      ],
+      "x_mitre_version": "1.2"
     },
     {
       "type": "attack-pattern",
@@ -1371,6 +1975,57 @@
     },
     {
       "type": "attack-pattern",
+      "id": "attack-pattern--ae676644-d2d2-41b7-af7e-9bed1b55898c",
+      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "created": "2018-08-03T19:54:02.821Z",
+      "modified": "2020-07-27T14:54:36.978Z",
+      "name": "T1039: Data from Network Shared Drive",
+      "description": "Adversaries may search network shares on computers they have compromised to find files of interest. Sensitive data can be collected from remote systems via shared network drives (host shared directory, network file server, etc.) that are accessible from the current system prior to Exfiltration. Interactive command shells may be in use, and common functionality within [cmd](https://attack.mitre.org/software/S0106) may be used to gather information.",
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "lockheed",
+          "phase_name": "act-on-objectives"
+        },
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "collection"
+        }
+      ],
+      "external_references": [
+        {
+          "source_name": "capec",
+          "url": "https://capec.mitre.org/data/definitions/639.html",
+          "external_id": "CAPEC-639"
+        },
+        {
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1039",
+          "external_id": "T1039"
+        }
+      ],
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ],
+      "x_mitre_detection": [
+        "Monitor processes and command-line arguments for actions that could be taken to collect files from a network share. Remote access tools with built-in features may interact directly with the Windows API to gather data. Data may also be acquired through Windows system management tools such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) and [PowerShell](https://attack.mitre.org/techniques/T1059/001)."
+      ],
+      "x_mitre_platforms": [
+        "Linux",
+        "Windows",
+        "macOS"
+      ],
+      "x_mitre_data_sources": [
+        "File monitoring",
+        "Process command-line parameters",
+        "Process monitoring"
+      ],
+      "x_mitre_system_requirements": [
+        "Privileges to access network shared drive"
+      ],
+      "x_mitre_version": "1.2"
+    },
+    {
+      "type": "attack-pattern",
       "id": "attack-pattern--b17a1a56-e99c-403c-8948-561df0cffe81",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
       "created": "2018-08-03T19:54:02.821Z",
@@ -1561,6 +2216,56 @@
     },
     {
       "type": "attack-pattern",
+      "id": "attack-pattern--bf90d72c-c00b-45e3-b3aa-68560560d4c5",
+      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "created": "2020-07-27T14:54:36.157Z",
+      "modified": "2020-09-14T14:57:07.257Z",
+      "name": "T1570: Lateral Tool Transfer",
+      "description": "Adversaries may transfer tools or other files between systems in a compromised environment. Files may be copied from one system to another to stage adversary tools or other files over the course of an operation. Adversaries may copy files laterally between internal victim systems to support lateral movement using inherent file sharing protocols such as file sharing over SMB to connected network shares or with authenticated connections with [SMB/Windows Admin Shares](https://attack.mitre.org/techniques/T1021/002) or [Remote Desktop Protocol](https://attack.mitre.org/techniques/T1021/001). Files can also be copied over on Mac and Linux with native tools like scp, rsync, and sftp.",
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "lockheed",
+          "phase_name": "act-on-objectives"
+        },
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "lateral-movement"
+        }
+      ],
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1570",
+          "external_id": "T1570"
+        }
+      ],
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ],
+      "x_mitre_detection": [
+        "Monitor for file creation and files transferred within a network using protocols such as SMB. Unusual processes with internal network connections creating files on-system may be suspicious. Consider monitoring for abnormal usage of utilities and command-line arguments that may be used in support of remote transfer of files. Considering monitoring for alike file hashes or characteristics (ex: filename) that are created on multiple hosts."
+      ],
+      "x_mitre_platforms": [
+        "Linux",
+        "Windows",
+        "macOS"
+      ],
+      "x_mitre_data_sources": [
+        "File monitoring",
+        "Netflow/Enclave netflow",
+        "Network protocol analysis",
+        "Packet capture",
+        "Process command-line parameters",
+        "Process monitoring",
+        "Process use of network"
+      ],
+      "x_mitre_permissions_required": [
+        "User"
+      ],
+      "x_mitre_version": "1.0"
+    },
+    {
+      "type": "attack-pattern",
       "id": "attack-pattern--cc3502b5-30cc-4473-ad48-42d51a6ef6d1",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
       "created": "2018-08-03T19:54:02.821Z",
@@ -1725,6 +2430,133 @@
     },
     {
       "type": "attack-pattern",
+      "id": "attack-pattern--d28ef391-8ed4-45dc-bc4a-2f43abf54416",
+      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "created": "2018-08-03T19:54:02.821Z",
+      "modified": "2020-07-27T14:54:38.428Z",
+      "name": "T1213: Data from Information Repositories",
+      "description": "Adversaries may leverage information repositories to mine valuable information. Information repositories are tools that allow for storage of information, typically to facilitate collaboration or information sharing between users, and can store a wide variety of data that may aid adversaries in further objectives, or direct access to the target information.\n\nAdversaries may also collect information from shared storage repositories hosted on cloud infrastructure or in software-as-a-service (SaaS) applications, as storage is one of the more fundamental requirements for cloud services and systems.\n\nThe following is a brief list of example information that may hold potential value to an adversary and may also be found on an information repository:\n\n* Policies, procedures, and standards\n* Physical / logical network diagrams\n* System architecture diagrams\n* Technical system documentation\n* Testing / development credentials\n* Work / project schedules\n* Source code snippets\n* Links to network shares and other internal resources\n\nInformation stored in a repository may vary based on the specific instance or environment. Specific common information repositories include [Sharepoint](https://attack.mitre.org/techniques/T1213/002), [Confluence](https://attack.mitre.org/techniques/T1213/001), and enterprise databases such as SQL Server.",
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "lockheed",
+          "phase_name": "act-on-objectives"
+        },
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "collection"
+        }
+      ],
+      "external_references": [
+        {
+          "source_name": "Atlassian Confluence Logging",
+          "url": "https://confluence.atlassian.com/confkb/how-to-enable-user-access-logging-182943.html",
+          "description": "Atlassian. (2018, January 9). How to Enable User Access Logging. Retrieved April 4, 2018."
+        },
+        {
+          "source_name": "Microsoft SharePoint Logging",
+          "url": "https://support.office.com/en-us/article/configure-audit-settings-for-a-site-collection-a9920c97-38c0-44f2-8bcb-4cf1e2ae22d2",
+          "description": "Microsoft. (2017, July 19). Configure audit settings for a site collection. Retrieved April 4, 2018."
+        },
+        {
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1213",
+          "external_id": "T1213"
+        }
+      ],
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ],
+      "x_mitre_detection": [
+        "As information repositories generally have a considerably large user base, detection of malicious use can be non-trivial. At minimum, access to information repositories performed by privileged users (for example, Active Directory Domain, Enterprise, or Schema Administrators) should be closely monitored and alerted upon, as these types of accounts should not generally used to access information repositories. If the capability exists, it may be of value to monitor and alert on users that are retrieving and viewing a large number of documents and pages; this behavior may be indicative of programmatic means being used to retrieve all data within the repository. In environments with high-maturity, it may be possible to leverage User-Behavioral Analytics (UBA) platforms to detect and alert on user based anomalies.\n\nThe user access logging within Microsoft's SharePoint can be configured to report access to certain pages and documents. (Citation: Microsoft SharePoint Logging) The user access logging within Atlassian's Confluence can also be configured to report access to certain pages and documents through AccessLogFilter. (Citation: Atlassian Confluence Logging) Additional log storage and analysis infrastructure will likely be required for more robust detection capabilities."
+      ],
+      "x_mitre_platforms": [
+        "AWS",
+        "Azure",
+        "GCP",
+        "Linux",
+        "Office 365",
+        "SaaS",
+        "Windows",
+        "macOS"
+      ],
+      "x_mitre_data_sources": [
+        "AWS CloudTrail logs",
+        "Application logs",
+        "Authentication logs",
+        "Azure activity logs",
+        "Data loss prevention",
+        "OAuth audit logs",
+        "Stackdriver logs",
+        "Third-party application logs"
+      ],
+      "x_mitre_permissions_required": [
+        "User"
+      ],
+      "x_mitre_contributors": [
+        "Milos Stojadinovic",
+        "Praetorian"
+      ],
+      "x_mitre_version": "2.1"
+    },
+    {
+      "type": "attack-pattern",
+      "id": "attack-pattern--d63a3fb8-9452-4e9d-a60a-54be68d5998c",
+      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "created": "2018-08-03T19:54:02.821Z",
+      "modified": "2020-07-27T14:54:37.379Z",
+      "name": "T1070.004: File Deletion",
+      "description": "Adversaries may delete files left behind by the actions of their intrusion activity. Malware, tools, or other non-native files dropped or created on a system by an adversary may leave traces to indicate to what was done within a network and how. Removal of these files can occur during an intrusion, or as part of a post-intrusion process to minimize the adversary's footprint.\n\nThere are tools available from the host operating system to perform cleanup, but adversaries may use other tools as well. Examples include native [cmd](https://attack.mitre.org/software/S0106) functions such as DEL, secure deletion tools such as Windows Sysinternals SDelete, or other third-party file deletion tools. (Citation: Trend Micro APT Attack Tools)",
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "lockheed",
+          "phase_name": "installation"
+        },
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "defense-evasion"
+        }
+      ],
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1070/004",
+          "external_id": "T1070.004"
+        },
+        {
+          "source_name": "Trend Micro APT Attack Tools",
+          "url": "http://blog.trendmicro.com/trendlabs-security-intelligence/in-depth-look-apt-attack-tools-of-the-trade/",
+          "description": "Wilhoit, K. (2013, March 4). In-Depth Look: APT Attack Tools of the Trade. Retrieved December 2, 2015."
+        }
+      ],
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ],
+      "x_mitre_detection": [
+        "It may be uncommon for events related to benign command-line functions such as DEL or third-party utilities or tools to be found in an environment, depending on the user base and how systems are typically used. Monitoring for command-line deletion functions to correlate with binaries or other files that an adversary may drop and remove may lead to detection of malicious activity. Another good practice is monitoring for known deletion and secure deletion tools that are not already on systems within an enterprise network that an adversary could introduce. Some monitoring tools may collect command-line arguments, but may not capture DEL commands since DEL is a native function within cmd.exe."
+      ],
+      "x_mitre_platforms": [
+        "Linux",
+        "Windows",
+        "macOS"
+      ],
+      "x_mitre_data_sources": [
+        "Binary file metadata",
+        "File monitoring",
+        "Process command-line parameters"
+      ],
+      "x_mitre_permissions_required": [
+        "User"
+      ],
+      "x_mitre_defense_bypassed": [
+        "Host forensic analysis"
+      ],
+      "x_mitre_contributors": [
+        "Walker Johnson"
+      ],
+      "x_mitre_version": "1.0"
+    },
+    {
+      "type": "attack-pattern",
       "id": "attack-pattern--d742a578-d70e-4d0e-96a6-02a9c30204e6",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
       "created": "2018-12-17T14:33:52.372Z",
@@ -1856,6 +2688,90 @@
         "User"
       ],
       "x_mitre_version": "1.0"
+    },
+    {
+      "type": "attack-pattern",
+      "id": "attack-pattern--e358d692-23c0-4a31-9eb6-ecc13a8d7735",
+      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "created": "2018-08-03T19:54:02.821Z",
+      "modified": "2020-07-27T14:54:36.653Z",
+      "name": "T1018: Remote System Discovery",
+      "description": "Adversaries may attempt to get a listing of other systems by IP address, hostname, or other logical identifier on a network that may be used for Lateral Movement from the current system. Functionality could exist within remote access tools to enable this, but utilities available on the operating system could also be used such as  [Ping](https://attack.mitre.org/software/S0097) or <code>net view</code> using [Net](https://attack.mitre.org/software/S0039). Adversaries may also use local host files (ex: <code>C:\\Windows\\System32\\Drivers\\etc\\hosts</code> or <code>/etc/hosts</code>) in order to discover the hostname to IP address mappings of remote systems. \n\nSpecific to macOS, the <code>bonjour</code> protocol exists to discover additional Mac-based systems within the same broadcast domain.\n\nWithin IaaS (Infrastructure as a Service) environments, remote systems include instances and virtual machines in various states, including the running or stopped state. Cloud providers have created methods to serve information about remote systems, such as APIs and CLIs. For example, AWS provides a <code>DescribeInstances</code> API within the Amazon EC2 API and a <code>describe-instances</code> command within the AWS CLI that can return information about all instances within an account.(Citation: Amazon Describe Instances API)(Citation: Amazon Describe Instances CLI) Similarly, GCP's Cloud SDK CLI provides the <code>gcloud compute instances list</code> command to list all Google Compute Engine instances in a project, and Azure's CLI <code>az vm list</code> lists details of virtual machines.(Citation: Google Compute Instances)(Citation: Azure VM List)",
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "lockheed",
+          "phase_name": "act-on-objectives"
+        },
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "discovery"
+        }
+      ],
+      "external_references": [
+        {
+          "source_name": "Amazon Describe Instances API",
+          "url": "https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeInstances.html",
+          "description": "Amazon. (n.d.). DescribeInstances. Retrieved May 26, 2020."
+        },
+        {
+          "source_name": "Amazon Describe Instances CLI",
+          "url": "https://awscli.amazonaws.com/v2/documentation/api/latest/reference/ec2/describe-instances.html",
+          "description": "Amazon. (n.d.). describe-instances. Retrieved May 26, 2020."
+        },
+        {
+          "source_name": "Azure VM List",
+          "url": "https://docs.microsoft.com/en-us/cli/azure/vm?view=azure-cli-latest",
+          "description": "Microsoft. (n.d.). az vm. Retrieved May 26, 2020."
+        },
+        {
+          "source_name": "capec",
+          "url": "https://capec.mitre.org/data/definitions/292.html",
+          "external_id": "CAPEC-292"
+        },
+        {
+          "source_name": "Google Compute Instances",
+          "url": "https://cloud.google.com/sdk/gcloud/reference/compute/instances/list",
+          "description": "Google. (n.d.). gcloud compute instances list. Retrieved May 26, 2020."
+        },
+        {
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1018",
+          "external_id": "T1018"
+        }
+      ],
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ],
+      "x_mitre_detection": [
+        "System and network discovery techniques normally occur throughout an operation as an adversary learns the environment. Data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities, such as Lateral Movement, based on the information obtained.\n\nNormal, benign system and network events related to legitimate remote system discovery may be uncommon, depending on the environment and how they are used. Monitor processes and command-line arguments for actions that could be taken to gather system and network information. Remote access tools with built-in features may interact directly with the Windows API to gather information. Information may also be acquired through Windows system management tools such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) and [PowerShell](https://attack.mitre.org/techniques/T1059/001).\n\nIn cloud environments, the usage of particular commands or APIs to request information about remote systems may be common. Where possible, anomalous usage of these commands and APIs or the usage of these commands and APIs in conjunction with additional unexpected commands may be a sign of malicious use. Logging methods provided by cloud providers that capture history of CLI commands executed or API usage may be utilized for detection."
+      ],
+      "x_mitre_platforms": [
+        "AWS",
+        "Azure",
+        "GCP",
+        "Linux",
+        "Windows",
+        "macOS"
+      ],
+      "x_mitre_data_sources": [
+        "AWS CloudTrail logs",
+        "Azure activity logs",
+        "Network protocol analysis",
+        "Process command-line parameters",
+        "Process monitoring",
+        "Process use of network",
+        "Stackdriver logs"
+      ],
+      "x_mitre_permissions_required": [
+        "Administrator",
+        "SYSTEM",
+        "User"
+      ],
+      "x_mitre_contributors": [
+        "Praetorian",
+        "RedHuntLabs, @redhuntlabs"
+      ],
+      "x_mitre_version": "2.1"
     },
     {
       "type": "attack-pattern",
@@ -2047,6 +2963,70 @@
     },
     {
       "type": "attack-pattern",
+      "id": "attack-pattern--f3c544dc-673c-4ef3-accb-53229f1ae077",
+      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "created": "2018-08-03T19:54:02.821Z",
+      "modified": "2020-07-27T14:54:38.097Z",
+      "name": "T1124: System Time Discovery",
+      "description": "An adversary may gather the system time and/or time zone from a local or remote system. The system time is set and stored by the Windows Time Service within a domain to maintain time synchronization between systems and services in an enterprise network. (Citation: MSDN System Time) (Citation: Technet Windows Time Service)\n\nSystem time information may be gathered in a number of ways, such as with [Net](https://attack.mitre.org/software/S0039) on Windows by performing <code>net time \\\\hostname</code> to gather the system time on a remote system. The victim's time zone may also be inferred from the current system time or gathered by using <code>w32tm /tz</code>. (Citation: Technet Windows Time Service) The information could be useful for performing other techniques, such as executing a file with a [Scheduled Task/Job](https://attack.mitre.org/techniques/T1053) (Citation: RSA EU12 They're Inside), or to discover locality information based on time zone to assist in victim targeting.",
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "lockheed",
+          "phase_name": "act-on-objectives"
+        },
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "discovery"
+        }
+      ],
+      "external_references": [
+        {
+          "source_name": "capec",
+          "url": "https://capec.mitre.org/data/definitions/295.html",
+          "external_id": "CAPEC-295"
+        },
+        {
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1124",
+          "external_id": "T1124"
+        },
+        {
+          "source_name": "MSDN System Time",
+          "url": "https://msdn.microsoft.com/ms724961.aspx",
+          "description": "Microsoft. (n.d.). System Time. Retrieved November 25, 2016."
+        },
+        {
+          "source_name": "RSA EU12 They're Inside",
+          "url": "https://www.rsaconference.com/writable/presentations/file_upload/ht-209_rivner_schwartz.pdf",
+          "description": "Rivner, U., Schwartz, E. (2012). They\u2019re Inside\u2026 Now What?. Retrieved November 25, 2016."
+        },
+        {
+          "source_name": "Technet Windows Time Service",
+          "url": "https://technet.microsoft.com/windows-server-docs/identity/ad-ds/get-started/windows-time-service/windows-time-service-tools-and-settings",
+          "description": "Mathers, B. (2016, September 30). Windows Time Service Tools and Settings. Retrieved November 25, 2016."
+        }
+      ],
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ],
+      "x_mitre_detection": [
+        "Command-line interface monitoring may be useful to detect instances of net.exe or other command-line utilities being used to gather system time or time zone. Methods of detecting API use for gathering this information are likely less useful due to how often they may be used by legitimate software."
+      ],
+      "x_mitre_platforms": [
+        "Windows"
+      ],
+      "x_mitre_data_sources": [
+        "API monitoring",
+        "Process command-line parameters",
+        "Process monitoring"
+      ],
+      "x_mitre_permissions_required": [
+        "User"
+      ],
+      "x_mitre_version": "1.1"
+    },
+    {
+      "type": "attack-pattern",
       "id": "attack-pattern--f72eb8a8-cd4c-461d-a814-3f862befbf00",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
       "created": "2018-08-03T19:54:02.821Z",
@@ -2132,6 +3112,16 @@
       "description": "Recently, we observed evidence that the threat actors compromised an Exchange server of an organization. We do not have visibility into how the actors gained access to this Exchange server, as our Cortex XDR agent was not installed on the server until September 2019. However, based on the creation timestamps of scheduled tasks associated with the breach, we believe the threat actors had gained access to the Exchange server on or before August 22, 2019.\n\nThe activity we observed involved two backdoors, which we call TriFive, a variant of CASHY200 we call Snugy and a webshell that we call BumbleBee. The TriFive and Snugy backdoors are PowerShell scripts that provide backdoor access to the server, using different command and control (C2) channels to communicate with the actors. The Snugy backdoor uses a DNS tunneling channel to run commands on the compromised server, while the TriFive backdoor uses an email-based channel that uses Exchange Web Services (EWS) to create drafts within the Deleted Items folder of a compromised email account. The actors have used backdoors using both DNS tunneling and a similar email-based channel in previous tools used in previous attacks in the xHunt campaign.",
       "first_seen": "2020-09-01T00:00:00.000Z",
       "last_seen": "2020-10-01T00:00:00.000Z"
+    },
+    {
+      "type": "campaign",
+      "id": "campaign--de03a905-560e-4d3f-a8e4-3f59bf55fa37",
+      "created": "2020-11-17T21:16:02.371Z",
+      "modified": "2020-12-09T15:37:00.261Z",
+      "name": "xHunt BumbleBee Webshell Activity",
+      "description": "In September 2020, we began investigating a Microsoft Exchange server at a Kuwaiti organization that a threat group compromised as part of a continued xHunt campaign. This investigation resulted in the discovery of two new backdoors called TriFive and Snugy, which we discussed in a prior blog, as well as a new webshell that we call BumbleBee that we will explain in greater detail in this blog. We call the webshell BumbleBee because the color scheme of the webshell includes white, black and yellow, as seen in Figure 1.",
+      "first_seen": "2020-09-01T00:00:00.000Z",
+      "last_seen": "2020-11-01T00:00:00.000Z"
     },
     {
       "type": "course-of-action",
@@ -2402,6 +3392,22 @@
       "x_panw_coa_bp_references": [
         "\u201cWhat Information is Submitted to the Palo Alto Networks when Enabling the Passive DNS Feature\u201d - https://live.paloaltonetworks.com/docs/DOC-7256:'PAN-OS Administrator's Guide 9.0 (English) - DNS Security' - https://docs.paloaltonetworks.com/pan-os/9-0/pan-os-admin/threat-prevention/dns-security.html#"
       ]
+    },
+    {
+      "type": "course-of-action",
+      "id": "course-of-action--58d4b1e7-a7d1-45d8-855b-b5e13ace3dba",
+      "name": "XDR monitors for behavioral events via BIOCs along a causality chain to identify discovery behaviors",
+      "created": "2020-06-23T19:50:31.722Z",
+      "modified": "2020-06-26T13:02:55.805Z",
+      "x_panw_coa_u42_id": "x.27",
+      "x_panw_coa_u42_title": "XDR monitors for behavioral events via BIOCs along a causality chain to identify discovery behaviors"
+    },
+    {
+      "type": "course-of-action",
+      "id": "course-of-action--5c05fcbe-aadd-4f64-9437-c1181c641f35",
+      "name": "Configure Restrictions Security Profile",
+      "created": "2020-06-23T19:50:31.722Z",
+      "modified": "2020-09-04T13:59:35.882Z"
     },
     {
       "type": "course-of-action",
@@ -2746,6 +3752,17 @@
     },
     {
       "type": "identity",
+      "id": "identity--1aa1b4d2-52f1-4ff6-8c8b-7d07df7bad87",
+      "identity_class": "organization",
+      "name": "Identity (xHunt BumbleBee Webshell Activity)",
+      "created": "2020-11-17T21:16:59.274Z",
+      "modified": "2021-02-03T13:52:57.443Z",
+      "x_cta_country": [
+        "KW"
+      ]
+    },
+    {
+      "type": "identity",
       "id": "identity--788bb29e-8040-4f45-8985-7cb2dfe78f2e",
       "identity_class": "class",
       "name": "Identity (Campaign 2018)",
@@ -2951,6 +3968,18 @@
     },
     {
       "type": "indicator",
+      "id": "indicator--28c6ee2f-0d1a-4365-ba41-7e6c992ecd56",
+      "created": "2020-11-17T21:18:25.642Z",
+      "modified": "2020-11-25T16:54:00.510Z",
+      "name": "192.119.110.194",
+      "pattern": "[ipv4-addr:value = '192.119.110.194']",
+      "valid_from": "2020-11-17T21:18:25.642Z",
+      "labels": [
+        "malicious-activity"
+      ]
+    },
+    {
+      "type": "indicator",
       "id": "indicator--30fc83dd-4785-4c91-9581-428ff0904dec",
       "created": "2020-10-20T13:17:16.831Z",
       "modified": "2020-11-02T18:42:05.554Z",
@@ -2975,6 +4004,18 @@
     },
     {
       "type": "indicator",
+      "id": "indicator--3625524d-4ff0-4bd0-a88e-d502dc7097d7",
+      "created": "2020-11-17T21:18:25.642Z",
+      "modified": "2020-11-25T16:54:00.510Z",
+      "name": "91.92.109.59",
+      "pattern": "[ipv4-addr:value = '91.92.109.59']",
+      "valid_from": "2020-11-17T21:18:25.642Z",
+      "labels": [
+        "malicious-activity"
+      ]
+    },
+    {
+      "type": "indicator",
       "id": "indicator--39ea6965-f22a-4523-a7ae-5fdbb47371df",
       "created": "2020-10-28T19:31:29.324Z",
       "modified": "2020-11-09T14:04:00.925Z",
@@ -2993,6 +4034,18 @@
       "name": "deman1.icu",
       "pattern": "[domain-name:value = 'deman1.icu']",
       "valid_from": "2020-10-20T13:17:16.831Z",
+      "labels": [
+        "malicious-activity"
+      ]
+    },
+    {
+      "type": "indicator",
+      "id": "indicator--3b9f55b7-8e8b-45a4-8322-7d8208348484",
+      "created": "2020-11-17T21:18:25.642Z",
+      "modified": "2020-11-25T16:54:00.510Z",
+      "name": "142.11.211.79",
+      "pattern": "[ipv4-addr:value = '142.11.211.79']",
+      "valid_from": "2020-11-17T21:18:25.642Z",
       "labels": [
         "malicious-activity"
       ]
@@ -3053,6 +4106,18 @@
       "name": "66e57d2909e37d39791bee91eb9e8121aa48ea89eae8a09275ae078e9dda2f50",
       "pattern": "[file:hashes.'SHA-256' = '66e57d2909e37d39791bee91eb9e8121aa48ea89eae8a09275ae078e9dda2f50']",
       "valid_from": "2019-06-17T15:16:21.535Z",
+      "labels": [
+        "malicious-activity"
+      ]
+    },
+    {
+      "type": "indicator",
+      "id": "indicator--47953032-d95b-42a7-9162-68ba696b22ca",
+      "created": "2020-11-17T21:18:25.642Z",
+      "modified": "2020-11-25T16:54:00.510Z",
+      "name": "192.255.166.158",
+      "pattern": "[ipv4-addr:value = '192.255.166.158']",
+      "valid_from": "2020-11-17T21:18:25.642Z",
       "labels": [
         "malicious-activity"
       ]
@@ -3371,6 +4436,30 @@
     },
     {
       "type": "indicator",
+      "id": "indicator--b2fbf205-e8ea-43be-914c-c5e297a779a6",
+      "created": "2020-11-17T21:18:25.642Z",
+      "modified": "2020-11-25T16:54:00.510Z",
+      "name": "windowsmicrosofte.online",
+      "pattern": "[domain-name:value = 'windowsmicrosofte.online']",
+      "valid_from": "2020-11-17T21:18:25.642Z",
+      "labels": [
+        "malicious-activity"
+      ]
+    },
+    {
+      "type": "indicator",
+      "id": "indicator--b3ed35f1-5691-4a2a-94e2-4926f27d56e0",
+      "created": "2020-11-17T21:18:25.642Z",
+      "modified": "2020-11-25T16:54:00.510Z",
+      "name": "backendloop.online",
+      "pattern": "[domain-name:value = 'backendloop.online']",
+      "valid_from": "2020-11-17T21:18:25.642Z",
+      "labels": [
+        "malicious-activity"
+      ]
+    },
+    {
+      "type": "indicator",
       "id": "indicator--b5831ba0-e043-490a-b851-c27cf41ddafb",
       "created": "2019-06-10T16:26:11.354Z",
       "modified": "2020-06-01T16:52:46.203Z",
@@ -3509,6 +4598,18 @@
       "name": "a391c5b80a729cc661614f3e64d65cb136eca9900a9025aee3af9a167b38f5c9",
       "pattern": "[file:hashes.'SHA-256' = 'a391c5b80a729cc661614f3e64d65cb136eca9900a9025aee3af9a167b38f5c9']",
       "valid_from": "2019-06-17T15:15:49.238Z",
+      "labels": [
+        "malicious-activity"
+      ]
+    },
+    {
+      "type": "indicator",
+      "id": "indicator--ebf1d45e-262e-458c-9f19-73a3eba91458",
+      "created": "2020-11-17T21:18:25.642Z",
+      "modified": "2020-11-25T16:54:00.510Z",
+      "name": "bestmg.info",
+      "pattern": "[domain-name:value = 'bestmg.info']",
+      "valid_from": "2020-11-17T21:18:25.642Z",
       "labels": [
         "malicious-activity"
       ]
@@ -3745,12 +4846,45 @@
     },
     {
       "type": "relationship",
+      "id": "relationship--01a5a209-b94c-450b-b7f9-946497d91055",
+      "created": "2020-11-17T21:16:02.371Z",
+      "modified": "2020-12-09T15:37:00.261Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--de03a905-560e-4d3f-a8e4-3f59bf55fa37",
+      "target_ref": "attack-pattern--01a5a209-b94c-450b-b7f9-946497d91055"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--01b3f2ca-08a0-467d-a2c7-86b6b3d572a1",
+      "created": "2020-06-23T19:50:42.481Z",
+      "modified": "2021-02-03T14:12:37.644Z",
+      "relationship_type": "mitigates",
+      "source_ref": "course-of-action--dcd486e6-fcf5-4692-9187-115efdae9694",
+      "target_ref": "attack-pattern--01a5a209-b94c-450b-b7f9-946497d91055",
+      "x_panw_coa_u42_panw_product": [
+        "NGFW"
+      ]
+    },
+    {
+      "type": "relationship",
       "id": "relationship--024d0688-fb1a-41a8-bb41-a0d361990a9b",
       "created": "2020-02-18T16:25:53.037Z",
       "modified": "2020-02-26T18:48:39.701Z",
       "relationship_type": "indicates",
       "source_ref": "indicator--a426deda-69ee-43bc-8c64-d3dda3b25cac",
       "target_ref": "campaign--37226399-e587-4b39-946b-7cdc80f48485"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--025263b6-efac-4cb4-a211-d3565a08157d",
+      "created": "2020-06-23T19:50:42.481Z",
+      "modified": "2020-06-26T19:00:11.079Z",
+      "relationship_type": "mitigates",
+      "source_ref": "course-of-action--04a2db1c-3e80-43a4-a9c6-3864195bbf73",
+      "target_ref": "attack-pattern--5d0d3609-d06d-49e1-b9c9-b544e0c618cb",
+      "x_panw_coa_u42_panw_product": [
+        "Wildfire"
+      ]
     },
     {
       "type": "relationship",
@@ -3795,12 +4929,24 @@
     },
     {
       "type": "relationship",
+      "id": "relationship--03d7999c-1f4c-42cc-8373-e7690d318104",
+      "created": "2020-11-17T21:16:02.371Z",
+      "modified": "2020-12-09T15:37:00.261Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--de03a905-560e-4d3f-a8e4-3f59bf55fa37",
+      "target_ref": "attack-pattern--03d7999c-1f4c-42cc-8373-e7690d318104"
+    },
+    {
+      "type": "relationship",
       "id": "relationship--04c11862-6d27-47f8-a0c4-9d6dd92a0305",
       "created": "2020-07-27T14:54:55.988Z",
-      "modified": "2020-07-30T12:59:01.830Z",
+      "modified": "2020-12-17T01:14:32.690Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--95432623-8819-4f74-a8f9-b10b9c4118c3",
-      "target_ref": "attack-pattern--dfd7cc1d-e1d8-4394-a198-97c4cab8aa67"
+      "target_ref": "attack-pattern--dfd7cc1d-e1d8-4394-a198-97c4cab8aa67",
+      "x_panw_coa_u42_panw_product": [
+        "Wildfire"
+      ]
     },
     {
       "type": "relationship",
@@ -3969,6 +5115,18 @@
     },
     {
       "type": "relationship",
+      "id": "relationship--0bcb6a87-86d8-408f-bd39-9a1696d3959a",
+      "created": "2020-06-23T19:50:42.481Z",
+      "modified": "2020-06-26T19:00:11.074Z",
+      "relationship_type": "mitigates",
+      "source_ref": "course-of-action--39928312-81bb-4445-a269-9f3d0bb88d5c",
+      "target_ref": "attack-pattern--d63a3fb8-9452-4e9d-a60a-54be68d5998c",
+      "x_panw_coa_u42_panw_product": [
+        "NGFW"
+      ]
+    },
+    {
+      "type": "relationship",
       "id": "relationship--0bf9b1f0-6eac-4fa7-9d66-8e505ad3fabd",
       "created": "2020-06-09T16:38:12.181Z",
       "modified": "2020-06-26T19:00:39.448Z",
@@ -4104,10 +5262,13 @@
       "type": "relationship",
       "id": "relationship--10b43bc7-5398-4e27-af0d-0f06e5597ab5",
       "created": "2020-07-27T14:54:55.988Z",
-      "modified": "2020-07-30T12:59:01.831Z",
+      "modified": "2020-12-17T00:55:58.253Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--fafab9a4-1478-499e-9088-2043c42720d1",
-      "target_ref": "attack-pattern--dfd7cc1d-e1d8-4394-a198-97c4cab8aa67"
+      "target_ref": "attack-pattern--dfd7cc1d-e1d8-4394-a198-97c4cab8aa67",
+      "x_panw_coa_u42_panw_product": [
+        "Wildfire"
+      ]
     },
     {
       "type": "relationship",
@@ -4134,10 +5295,13 @@
       "type": "relationship",
       "id": "relationship--125e714f-b5eb-4054-80e2-acccce728cfd",
       "created": "2020-07-27T14:54:55.988Z",
-      "modified": "2020-07-30T12:59:01.831Z",
+      "modified": "2020-12-17T00:56:06.992Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--fafab9a4-1478-499e-9088-2043c42720d1",
-      "target_ref": "attack-pattern--0f4a0c76-ab2d-4cb0-85d3-3f0efb8cba0d"
+      "target_ref": "attack-pattern--0f4a0c76-ab2d-4cb0-85d3-3f0efb8cba0d",
+      "x_panw_coa_u42_panw_product": [
+        "Wildfire"
+      ]
     },
     {
       "type": "relationship",
@@ -4155,10 +5319,13 @@
       "type": "relationship",
       "id": "relationship--12f06656-19c7-4a0b-aafc-fa164959980c",
       "created": "2020-06-23T19:50:42.481Z",
-      "modified": "2020-09-04T13:59:35.890Z",
+      "modified": "2020-12-17T00:56:22.465Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--fafab9a4-1478-499e-9088-2043c42720d1",
-      "target_ref": "attack-pattern--970a3432-3237-47ad-bcca-7d8cbb217736"
+      "target_ref": "attack-pattern--970a3432-3237-47ad-bcca-7d8cbb217736",
+      "x_panw_coa_u42_panw_product": [
+        "Wildfire"
+      ]
     },
     {
       "type": "relationship",
@@ -4216,6 +5383,15 @@
     },
     {
       "type": "relationship",
+      "id": "relationship--15dbf668-795c-41e6-8219-f0447c0e64ce",
+      "created": "2020-11-17T21:16:02.371Z",
+      "modified": "2020-12-09T15:37:00.261Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--de03a905-560e-4d3f-a8e4-3f59bf55fa37",
+      "target_ref": "attack-pattern--15dbf668-795c-41e6-8219-f0447c0e64ce"
+    },
+    {
+      "type": "relationship",
       "id": "relationship--1608f3e1-598a-42f4-a01a-2e252e81728f",
       "created": "2020-02-14T18:41:35.339Z",
       "modified": "2020-02-26T18:48:39.693Z",
@@ -4259,10 +5435,13 @@
       "type": "relationship",
       "id": "relationship--1653bdd5-4167-4c3f-959b-1e7c9031fb9c",
       "created": "2020-07-27T14:54:55.988Z",
-      "modified": "2020-07-30T12:59:01.830Z",
+      "modified": "2020-12-17T00:55:50.192Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--fafab9a4-1478-499e-9088-2043c42720d1",
-      "target_ref": "attack-pattern--a9d4b653-6915-42af-98b2-5758c4ceee56"
+      "target_ref": "attack-pattern--a9d4b653-6915-42af-98b2-5758c4ceee56",
+      "x_panw_coa_u42_panw_product": [
+        "Wildfire"
+      ]
     },
     {
       "type": "relationship",
@@ -4282,6 +5461,18 @@
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--553711d6-06e4-49e2-a1ad-929d9cce8e39",
       "target_ref": "attack-pattern--b17a1a56-e99c-403c-8948-561df0cffe81",
+      "x_panw_coa_u42_panw_product": [
+        "NGFW"
+      ]
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--17fbfdf8-6815-4a5d-8c80-d65c6e99b6ab",
+      "created": "2020-06-23T19:50:42.481Z",
+      "modified": "2021-02-03T14:12:43.500Z",
+      "relationship_type": "mitigates",
+      "source_ref": "course-of-action--49881f38-2571-47a1-a122-26a5968f1137",
+      "target_ref": "attack-pattern--01a5a209-b94c-450b-b7f9-946497d91055",
       "x_panw_coa_u42_panw_product": [
         "NGFW"
       ]
@@ -4367,6 +5558,15 @@
       "x_panw_coa_u42_panw_product": [
         "XSOAR"
       ]
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--1c40ddbc-c80d-4f39-ba67-8c332a752f30",
+      "created": "2020-11-17T21:19:27.073Z",
+      "modified": "2020-11-25T16:54:00.511Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--ebf1d45e-262e-458c-9f19-73a3eba91458",
+      "target_ref": "campaign--de03a905-560e-4d3f-a8e4-3f59bf55fa37"
     },
     {
       "type": "relationship",
@@ -4503,6 +5703,15 @@
     },
     {
       "type": "relationship",
+      "id": "relationship--21875073-b0ee-49e3-9077-1e2a885359af",
+      "created": "2020-11-17T21:16:02.371Z",
+      "modified": "2020-12-09T15:37:00.261Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--de03a905-560e-4d3f-a8e4-3f59bf55fa37",
+      "target_ref": "attack-pattern--21875073-b0ee-49e3-9077-1e2a885359af"
+    },
+    {
+      "type": "relationship",
       "id": "relationship--21f17835-c0d1-4530-85e1-1b35813f4ab4",
       "created": "2020-06-23T19:50:42.481Z",
       "modified": "2020-06-26T19:00:39.449Z",
@@ -4546,10 +5755,13 @@
       "type": "relationship",
       "id": "relationship--24411d5e-211b-4483-8455-29271218bbfd",
       "created": "2020-07-27T14:54:55.988Z",
-      "modified": "2020-07-30T12:59:01.831Z",
+      "modified": "2020-12-17T01:20:29.033Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--9352128e-2dbe-4621-8800-9e7cc17336e3",
-      "target_ref": "attack-pattern--0f4a0c76-ab2d-4cb0-85d3-3f0efb8cba0d"
+      "target_ref": "attack-pattern--0f4a0c76-ab2d-4cb0-85d3-3f0efb8cba0d",
+      "x_panw_coa_u42_panw_product": [
+        "Cortex XDR Prevent"
+      ]
     },
     {
       "type": "relationship",
@@ -4565,10 +5777,13 @@
       "type": "relationship",
       "id": "relationship--24e35654-d1ce-4f7c-8bb4-a5063f290fba",
       "created": "2020-07-27T14:54:55.988Z",
-      "modified": "2020-07-30T12:59:01.830Z",
+      "modified": "2020-12-17T01:15:17.267Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--04a2db1c-3e80-43a4-a9c6-3864195bbf73",
-      "target_ref": "attack-pattern--a9d4b653-6915-42af-98b2-5758c4ceee56"
+      "target_ref": "attack-pattern--a9d4b653-6915-42af-98b2-5758c4ceee56",
+      "x_panw_coa_u42_panw_product": [
+        "Wildfire"
+      ]
     },
     {
       "type": "relationship",
@@ -4611,6 +5826,15 @@
     },
     {
       "type": "relationship",
+      "id": "relationship--2aa6d102-2af8-4dcc-b6f9-dda681976cab",
+      "created": "2020-11-17T21:29:52.827Z",
+      "modified": "2020-11-25T16:54:00.511Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--de03a905-560e-4d3f-a8e4-3f59bf55fa37",
+      "target_ref": "attack-pattern--72b74d71-8169-42aa-92e0-e7b04b9f5a08"
+    },
+    {
+      "type": "relationship",
       "id": "relationship--2ade6d76-83e1-4a04-9f04-a1a709270ebf",
       "created": "2020-11-12T16:13:12.026Z",
       "modified": "2020-11-12T16:22:31.871Z",
@@ -4643,10 +5867,13 @@
       "type": "relationship",
       "id": "relationship--2bf462e4-2582-4923-a47c-7626405833b3",
       "created": "2020-06-23T19:50:42.481Z",
-      "modified": "2020-09-04T13:59:35.890Z",
+      "modified": "2020-12-17T01:16:41.571Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--3de85a76-a879-43e6-80ba-38e09e7e2b0c",
-      "target_ref": "attack-pattern--970a3432-3237-47ad-bcca-7d8cbb217736"
+      "target_ref": "attack-pattern--970a3432-3237-47ad-bcca-7d8cbb217736",
+      "x_panw_coa_u42_panw_product": [
+        "Wildfire"
+      ]
     },
     {
       "type": "relationship",
@@ -4661,10 +5888,13 @@
       "type": "relationship",
       "id": "relationship--2e82479c-8775-4a90-a66e-e65908061f85",
       "created": "2020-07-27T14:54:55.988Z",
-      "modified": "2020-07-30T12:59:01.831Z",
+      "modified": "2020-12-17T01:04:27.162Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--67289170-1bd4-4944-be31-d680954141f5",
-      "target_ref": "attack-pattern--dfd7cc1d-e1d8-4394-a198-97c4cab8aa67"
+      "target_ref": "attack-pattern--dfd7cc1d-e1d8-4394-a198-97c4cab8aa67",
+      "x_panw_coa_u42_panw_product": [
+        "Wildfire"
+      ]
     },
     {
       "type": "relationship",
@@ -4700,10 +5930,13 @@
       "type": "relationship",
       "id": "relationship--2ff27afa-e6c0-4b4c-961e-7c2a20752973",
       "created": "2020-07-27T14:54:55.988Z",
-      "modified": "2020-07-30T12:59:01.831Z",
+      "modified": "2020-12-17T01:16:19.682Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--3de85a76-a879-43e6-80ba-38e09e7e2b0c",
-      "target_ref": "attack-pattern--dfd7cc1d-e1d8-4394-a198-97c4cab8aa67"
+      "target_ref": "attack-pattern--dfd7cc1d-e1d8-4394-a198-97c4cab8aa67",
+      "x_panw_coa_u42_panw_product": [
+        "Wildfire"
+      ]
     },
     {
       "type": "relationship",
@@ -4758,6 +5991,16 @@
     },
     {
       "type": "relationship",
+      "id": "relationship--32e951c4-c660-4a5e-ae6f-dbb66997f187",
+      "created": "2020-12-01T18:58:46.327Z",
+      "modified": "2020-12-01T20:41:42.294Z",
+      "relationship_type": "uses",
+      "description": "windowsmicrosofte.online",
+      "source_ref": "indicator--b2fbf205-e8ea-43be-914c-c5e297a779a6",
+      "target_ref": "attack-pattern--4fe28b27-b13c-453e-a386-c2ef362a573b"
+    },
+    {
+      "type": "relationship",
       "id": "relationship--334a6b24-a0c2-4020-a788-12c928a29eec",
       "created": "2020-06-23T19:50:42.481Z",
       "modified": "2020-06-26T19:00:12.607Z",
@@ -4791,11 +6034,32 @@
     },
     {
       "type": "relationship",
-      "id": "relationship--354a7f88-63fb-41b5-a801-ce3b377b36f1",
-      "created": "2020-10-28T18:36:16.075Z",
-      "modified": "2020-11-09T14:04:00.924Z",
+      "id": "relationship--3489cfc5-640f-4bb3-a103-9137b97de79f",
+      "created": "2020-11-17T21:16:02.371Z",
+      "modified": "2020-12-09T15:37:00.261Z",
       "relationship_type": "uses",
-      "source_ref": "campaign--690ab0de-5922-494c-bdf0-ee24131942a0",
+      "source_ref": "campaign--de03a905-560e-4d3f-a8e4-3f59bf55fa37",
+      "target_ref": "attack-pattern--3489cfc5-640f-4bb3-a103-9137b97de79f"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--34b921df-e039-4742-afdb-12fba04271b6",
+      "created": "2020-06-23T19:50:42.481Z",
+      "modified": "2021-02-03T14:11:52.899Z",
+      "relationship_type": "mitigates",
+      "source_ref": "course-of-action--553711d6-06e4-49e2-a1ad-929d9cce8e39",
+      "target_ref": "attack-pattern--01a5a209-b94c-450b-b7f9-946497d91055",
+      "x_panw_coa_u42_panw_product": [
+        "NGFW"
+      ]
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--354a7f88-63fb-41b5-a801-ce3b377b36f1",
+      "created": "2020-11-17T21:16:02.371Z",
+      "modified": "2020-12-09T15:37:00.261Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--de03a905-560e-4d3f-a8e4-3f59bf55fa37",
       "target_ref": "attack-pattern--354a7f88-63fb-41b5-a801-ce3b377b36f1"
     },
     {
@@ -5084,10 +6348,10 @@
     {
       "type": "relationship",
       "id": "relationship--3c4a2599-71ee-4405-ba1e-0e28414b4bc5",
-      "created": "2020-02-14T18:41:35.339Z",
-      "modified": "2020-02-26T18:48:39.693Z",
+      "created": "2020-11-17T21:16:02.371Z",
+      "modified": "2020-12-09T15:37:00.261Z",
       "relationship_type": "uses",
-      "source_ref": "campaign--37226399-e587-4b39-946b-7cdc80f48485",
+      "source_ref": "campaign--de03a905-560e-4d3f-a8e4-3f59bf55fa37",
       "target_ref": "attack-pattern--3c4a2599-71ee-4405-ba1e-0e28414b4bc5"
     },
     {
@@ -5106,10 +6370,13 @@
       "type": "relationship",
       "id": "relationship--3cb00f22-8efd-4b4c-9737-cc31667e85d6",
       "created": "2020-06-23T19:50:42.481Z",
-      "modified": "2020-09-04T13:59:35.889Z",
+      "modified": "2020-12-17T01:14:50.730Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--95432623-8819-4f74-a8f9-b10b9c4118c3",
-      "target_ref": "attack-pattern--970a3432-3237-47ad-bcca-7d8cbb217736"
+      "target_ref": "attack-pattern--970a3432-3237-47ad-bcca-7d8cbb217736",
+      "x_panw_coa_u42_panw_product": [
+        "Wildfire"
+      ]
     },
     {
       "type": "relationship",
@@ -5134,12 +6401,36 @@
     },
     {
       "type": "relationship",
+      "id": "relationship--3d17a550-380d-4fe0-9089-de0d0c7cb96b",
+      "created": "2020-06-23T19:50:42.481Z",
+      "modified": "2020-06-26T19:00:11.074Z",
+      "relationship_type": "mitigates",
+      "source_ref": "course-of-action--09cad5e4-8c95-494f-862e-0c640b175348",
+      "target_ref": "attack-pattern--d63a3fb8-9452-4e9d-a60a-54be68d5998c",
+      "x_panw_coa_u42_panw_product": [
+        "NGFW"
+      ]
+    },
+    {
+      "type": "relationship",
       "id": "relationship--3d46381d-6497-4063-83da-eee7a562ddc3",
       "created": "2020-07-27T14:54:55.988Z",
       "modified": "2020-07-30T12:59:27.715Z",
       "relationship_type": "uses",
       "source_ref": "campaign--37226399-e587-4b39-946b-7cdc80f48485",
       "target_ref": "attack-pattern--0f4a0c76-ab2d-4cb0-85d3-3f0efb8cba0d"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--3de16d52-c1d6-4802-a6bb-b1dc0bc5ffc6",
+      "created": "2020-06-23T19:50:42.481Z",
+      "modified": "2021-02-03T14:13:06.703Z",
+      "relationship_type": "mitigates",
+      "source_ref": "course-of-action--5c05fcbe-aadd-4f64-9437-c1181c641f35",
+      "target_ref": "attack-pattern--01a5a209-b94c-450b-b7f9-946497d91055",
+      "x_panw_coa_u42_panw_product": [
+        "Cortex XDR Prevent"
+      ]
     },
     {
       "type": "relationship",
@@ -5213,6 +6504,18 @@
     },
     {
       "type": "relationship",
+      "id": "relationship--4036260d-945a-4fa7-960a-19938dbad9be",
+      "created": "2020-06-23T19:50:42.481Z",
+      "modified": "2021-02-03T14:11:40.738Z",
+      "relationship_type": "mitigates",
+      "source_ref": "course-of-action--b62423f4-1849-4d9f-88c0-7160a8bed5c2",
+      "target_ref": "attack-pattern--01a5a209-b94c-450b-b7f9-946497d91055",
+      "x_panw_coa_u42_panw_product": [
+        "NGFW"
+      ]
+    },
+    {
+      "type": "relationship",
       "id": "relationship--409c125a-7278-414e-a177-8fd15081f648",
       "created": "2020-10-28T19:52:38.682Z",
       "modified": "2020-11-02T18:42:05.555Z",
@@ -5244,6 +6547,18 @@
     },
     {
       "type": "relationship",
+      "id": "relationship--41cfa6d4-6593-48aa-b742-332a5e45658e",
+      "created": "2020-06-23T19:50:42.481Z",
+      "modified": "2020-06-26T19:00:11.078Z",
+      "relationship_type": "mitigates",
+      "source_ref": "course-of-action--dcd486e6-fcf5-4692-9187-115efdae9694",
+      "target_ref": "attack-pattern--5d0d3609-d06d-49e1-b9c9-b544e0c618cb",
+      "x_panw_coa_u42_panw_product": [
+        "NGFW"
+      ]
+    },
+    {
+      "type": "relationship",
       "id": "relationship--42f7f9f0-37a9-4416-913f-ded7cb6b9013",
       "created": "2020-06-23T19:50:42.481Z",
       "modified": "2020-06-26T19:00:15.015Z",
@@ -5262,6 +6577,18 @@
       "relationship_type": "uses",
       "source_ref": "campaign--37226399-e587-4b39-946b-7cdc80f48485",
       "target_ref": "attack-pattern--1608f3e1-598a-42f4-a01a-2e252e81728f"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--439af09f-4105-4246-9e8f-af81fd51cdd2",
+      "created": "2020-06-23T19:50:42.481Z",
+      "modified": "2020-06-26T19:00:11.074Z",
+      "relationship_type": "mitigates",
+      "source_ref": "course-of-action--b07fe965-d582-4581-aa2f-9676705f5560",
+      "target_ref": "attack-pattern--d63a3fb8-9452-4e9d-a60a-54be68d5998c",
+      "x_panw_coa_u42_panw_product": [
+        "NGFW"
+      ]
     },
     {
       "type": "relationship",
@@ -5328,10 +6655,13 @@
       "type": "relationship",
       "id": "relationship--4733c6d7-b135-47da-8396-5b1063285d06",
       "created": "2020-06-23T19:50:42.481Z",
-      "modified": "2020-09-04T13:59:35.890Z",
+      "modified": "2020-12-17T01:12:38.167Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--be1d0eb5-a628-4d91-9096-9158e68816cd",
-      "target_ref": "attack-pattern--970a3432-3237-47ad-bcca-7d8cbb217736"
+      "target_ref": "attack-pattern--970a3432-3237-47ad-bcca-7d8cbb217736",
+      "x_panw_coa_u42_panw_product": [
+        "Wildfire"
+      ]
     },
     {
       "type": "relationship",
@@ -5342,6 +6672,18 @@
       "description": "66e57d2909e37d39791bee91eb9e8121aa48ea89eae8a09275ae078e9dda2f50",
       "source_ref": "indicator--43eecfbd-7492-4389-924c-33e60114c813",
       "target_ref": "attack-pattern--82caa33e-d11a-433a-94ea-9b5a5fbef81d"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--4886e73d-48eb-4ebe-b234-bad694db5357",
+      "created": "2020-06-23T19:50:42.481Z",
+      "modified": "2020-06-26T19:00:11.078Z",
+      "relationship_type": "mitigates",
+      "source_ref": "course-of-action--bca382b3-2a97-451f-a849-80f7a4e7edce",
+      "target_ref": "attack-pattern--5d0d3609-d06d-49e1-b9c9-b544e0c618cb",
+      "x_panw_coa_u42_panw_product": [
+        "NGFW"
+      ]
     },
     {
       "type": "relationship",
@@ -5441,6 +6783,16 @@
     },
     {
       "type": "relationship",
+      "id": "relationship--4b3caf92-c8d4-4679-8d4f-ac90946c2b3e",
+      "created": "2020-12-01T18:58:46.327Z",
+      "modified": "2020-12-01T20:41:42.294Z",
+      "relationship_type": "uses",
+      "description": "bestmg.info",
+      "source_ref": "indicator--ebf1d45e-262e-458c-9f19-73a3eba91458",
+      "target_ref": "attack-pattern--4fe28b27-b13c-453e-a386-c2ef362a573b"
+    },
+    {
+      "type": "relationship",
       "id": "relationship--4ce02538-c986-46b2-a440-bcef6bf02450",
       "created": "2020-06-23T19:50:42.481Z",
       "modified": "2020-06-26T13:02:55.808Z",
@@ -5467,10 +6819,13 @@
       "type": "relationship",
       "id": "relationship--4d3faa7e-946c-49b4-b404-661d61bfa3e7",
       "created": "2020-07-27T14:54:55.988Z",
-      "modified": "2020-07-30T12:59:01.831Z",
+      "modified": "2020-12-17T01:12:16.545Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--be1d0eb5-a628-4d91-9096-9158e68816cd",
-      "target_ref": "attack-pattern--dfd7cc1d-e1d8-4394-a198-97c4cab8aa67"
+      "target_ref": "attack-pattern--dfd7cc1d-e1d8-4394-a198-97c4cab8aa67",
+      "x_panw_coa_u42_panw_product": [
+        "Wildfire"
+      ]
     },
     {
       "type": "relationship",
@@ -5484,10 +6839,10 @@
     {
       "type": "relationship",
       "id": "relationship--4f9ca633-15c5-463c-9724-bdcd54fde541",
-      "created": "2020-02-14T18:41:35.339Z",
-      "modified": "2020-02-26T18:48:39.693Z",
+      "created": "2020-11-17T21:16:02.371Z",
+      "modified": "2020-12-09T15:37:00.261Z",
       "relationship_type": "uses",
-      "source_ref": "campaign--37226399-e587-4b39-946b-7cdc80f48485",
+      "source_ref": "campaign--de03a905-560e-4d3f-a8e4-3f59bf55fa37",
       "target_ref": "attack-pattern--4f9ca633-15c5-463c-9724-bdcd54fde541"
     },
     {
@@ -5507,6 +6862,15 @@
       "relationship_type": "uses",
       "source_ref": "campaign--37226399-e587-4b39-946b-7cdc80f48485",
       "target_ref": "attack-pattern--ad255bfe-a9e6-4b52-a258-8d3462abe842"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--4fe28b27-b13c-453e-a386-c2ef362a573b",
+      "created": "2020-11-17T21:16:02.371Z",
+      "modified": "2020-12-09T15:37:00.261Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--de03a905-560e-4d3f-a8e4-3f59bf55fa37",
+      "target_ref": "attack-pattern--4fe28b27-b13c-453e-a386-c2ef362a573b"
     },
     {
       "type": "relationship",
@@ -5565,10 +6929,22 @@
       "type": "relationship",
       "id": "relationship--527c7489-8e91-4cd1-9313-ea68456c9248",
       "created": "2020-07-27T14:54:55.988Z",
-      "modified": "2020-07-30T12:59:01.831Z",
+      "modified": "2020-12-17T01:12:32.016Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--be1d0eb5-a628-4d91-9096-9158e68816cd",
-      "target_ref": "attack-pattern--0f4a0c76-ab2d-4cb0-85d3-3f0efb8cba0d"
+      "target_ref": "attack-pattern--0f4a0c76-ab2d-4cb0-85d3-3f0efb8cba0d",
+      "x_panw_coa_u42_panw_product": [
+        "Wildfire"
+      ]
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--52f755da-6f27-4fde-bb13-9a85be423776",
+      "created": "2020-11-17T21:29:52.827Z",
+      "modified": "2020-11-25T16:54:00.511Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--de03a905-560e-4d3f-a8e4-3f59bf55fa37",
+      "target_ref": "attack-pattern--3c4a2599-71ee-4405-ba1e-0e28414b4bc5"
     },
     {
       "type": "relationship",
@@ -5578,6 +6954,28 @@
       "relationship_type": "indicates",
       "source_ref": "indicator--1fb4d826-0872-4bc4-8b2b-94d17b5a94f9",
       "target_ref": "malware--18619547-8bf1-41b9-8be0-386512151bdd"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--539ee21c-114a-4df8-9d69-f750ce6f91e2",
+      "created": "2020-11-30T17:35:14.093Z",
+      "modified": "2020-12-01T20:41:42.293Z",
+      "relationship_type": "uses",
+      "description": "Actor used the SSH tunnels to access the web servers by including the following IP.",
+      "source_ref": "indicator--28c6ee2f-0d1a-4365-ba41-7e6c992ecd56",
+      "target_ref": "attack-pattern--4fe28b27-b13c-453e-a386-c2ef362a573b"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--5406f85b-9f3d-407e-b755-6b9fdc6358f9",
+      "created": "2020-06-23T19:50:42.481Z",
+      "modified": "2020-06-26T19:00:11.078Z",
+      "relationship_type": "mitigates",
+      "source_ref": "course-of-action--d84f79f8-219c-43cb-a918-ab7dd235413a",
+      "target_ref": "attack-pattern--5d0d3609-d06d-49e1-b9c9-b544e0c618cb",
+      "x_panw_coa_u42_panw_product": [
+        "Threat Prevention"
+      ]
     },
     {
       "type": "relationship",
@@ -5623,10 +7021,13 @@
       "type": "relationship",
       "id": "relationship--55013626-3e5e-4c77-9f09-426be78c616d",
       "created": "2020-07-27T14:54:55.988Z",
-      "modified": "2020-07-30T12:59:01.830Z",
+      "modified": "2020-12-17T01:20:14.805Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--9352128e-2dbe-4621-8800-9e7cc17336e3",
-      "target_ref": "attack-pattern--a9d4b653-6915-42af-98b2-5758c4ceee56"
+      "target_ref": "attack-pattern--a9d4b653-6915-42af-98b2-5758c4ceee56",
+      "x_panw_coa_u42_panw_product": [
+        "Cortex XDR Prevent"
+      ]
     },
     {
       "type": "relationship",
@@ -5656,10 +7057,13 @@
       "type": "relationship",
       "id": "relationship--56187649-2846-4f46-8f36-28fac0c92751",
       "created": "2020-07-27T14:54:55.988Z",
-      "modified": "2020-07-30T12:59:01.831Z",
+      "modified": "2020-12-17T01:16:26.004Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--3de85a76-a879-43e6-80ba-38e09e7e2b0c",
-      "target_ref": "attack-pattern--0f4a0c76-ab2d-4cb0-85d3-3f0efb8cba0d"
+      "target_ref": "attack-pattern--0f4a0c76-ab2d-4cb0-85d3-3f0efb8cba0d",
+      "x_panw_coa_u42_panw_product": [
+        "Wildfire"
+      ]
     },
     {
       "type": "relationship",
@@ -5705,6 +7109,18 @@
     },
     {
       "type": "relationship",
+      "id": "relationship--5a0f3bae-f669-4fb8-8151-1f9f7752f8ac",
+      "created": "2020-06-23T19:50:42.481Z",
+      "modified": "2020-06-26T19:00:11.074Z",
+      "relationship_type": "mitigates",
+      "source_ref": "course-of-action--dcd486e6-fcf5-4692-9187-115efdae9694",
+      "target_ref": "attack-pattern--d63a3fb8-9452-4e9d-a60a-54be68d5998c",
+      "x_panw_coa_u42_panw_product": [
+        "NGFW"
+      ]
+    },
+    {
+      "type": "relationship",
       "id": "relationship--5a534613-0ed8-41a4-99ef-971159c4b005",
       "created": "2020-06-23T19:50:42.481Z",
       "modified": "2020-06-26T19:00:18.110Z",
@@ -5714,6 +7130,15 @@
       "x_panw_coa_u42_panw_product": [
         "Threat Prevention"
       ]
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--5a83253a-bb65-4ee2-82bc-f11d8d8a4c90",
+      "created": "2020-11-17T21:19:27.073Z",
+      "modified": "2020-11-25T16:54:00.511Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--47953032-d95b-42a7-9162-68ba696b22ca",
+      "target_ref": "campaign--de03a905-560e-4d3f-a8e4-3f59bf55fa37"
     },
     {
       "type": "relationship",
@@ -5797,6 +7222,15 @@
     },
     {
       "type": "relationship",
+      "id": "relationship--5d0d3609-d06d-49e1-b9c9-b544e0c618cb",
+      "created": "2020-11-17T21:16:02.371Z",
+      "modified": "2020-12-09T15:37:00.261Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--de03a905-560e-4d3f-a8e4-3f59bf55fa37",
+      "target_ref": "attack-pattern--5d0d3609-d06d-49e1-b9c9-b544e0c618cb"
+    },
+    {
+      "type": "relationship",
       "id": "relationship--5d8c7c15-3ce4-46a2-8f8e-0a8609e9c55d",
       "created": "2020-06-23T19:50:42.481Z",
       "modified": "2020-06-26T13:02:55.808Z",
@@ -5806,6 +7240,16 @@
       "x_panw_coa_u42_panw_product": [
         "XSOAR"
       ]
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--5db54cc1-24e6-4a46-bb12-adbb32b31789",
+      "created": "2020-12-01T18:58:46.327Z",
+      "modified": "2020-12-01T20:41:42.293Z",
+      "relationship_type": "uses",
+      "description": "backendloop.online",
+      "source_ref": "indicator--b3ed35f1-5691-4a2a-94e2-4926f27d56e0",
+      "target_ref": "attack-pattern--4fe28b27-b13c-453e-a386-c2ef362a573b"
     },
     {
       "type": "relationship",
@@ -5882,6 +7326,15 @@
     },
     {
       "type": "relationship",
+      "id": "relationship--626e920c-50b7-4e87-9d4a-04f7b17a2b12",
+      "created": "2020-11-17T21:29:52.827Z",
+      "modified": "2020-11-25T16:54:00.511Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--de03a905-560e-4d3f-a8e4-3f59bf55fa37",
+      "target_ref": "attack-pattern--f3c544dc-673c-4ef3-accb-53229f1ae077"
+    },
+    {
+      "type": "relationship",
       "id": "relationship--6330ef91-54e2-423a-acca-ef0666cfe4c8",
       "created": "2020-06-09T16:38:12.181Z",
       "modified": "2020-06-26T19:00:39.448Z",
@@ -5942,6 +7395,15 @@
       "x_panw_coa_u42_panw_product": [
         "URL Filtering"
       ]
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--65b95649-6300-412f-b5fe-4e4f0c876816",
+      "created": "2020-11-17T21:29:52.827Z",
+      "modified": "2020-11-25T16:54:00.511Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--de03a905-560e-4d3f-a8e4-3f59bf55fa37",
+      "target_ref": "attack-pattern--7bc57495-ea59-4380-be31-a64af124ef18"
     },
     {
       "type": "relationship",
@@ -6039,6 +7501,15 @@
     },
     {
       "type": "relationship",
+      "id": "relationship--69cce53f-c079-408b-aba7-2632e14a7274",
+      "created": "2020-11-17T21:29:52.827Z",
+      "modified": "2020-11-25T16:54:00.511Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--de03a905-560e-4d3f-a8e4-3f59bf55fa37",
+      "target_ref": "attack-pattern--e358d692-23c0-4a31-9eb6-ecc13a8d7735"
+    },
+    {
+      "type": "relationship",
       "id": "relationship--6a5ff5bb-8171-4eda-89c2-6ea5fe93aef5",
       "created": "2020-06-23T19:50:42.481Z",
       "modified": "2020-06-26T13:02:55.809Z",
@@ -6053,10 +7524,13 @@
       "type": "relationship",
       "id": "relationship--6a64d167-f04e-49de-a274-ea457e0b303c",
       "created": "2020-06-23T19:50:42.481Z",
-      "modified": "2020-09-04T13:59:35.890Z",
+      "modified": "2020-12-17T01:04:42.247Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--67289170-1bd4-4944-be31-d680954141f5",
-      "target_ref": "attack-pattern--970a3432-3237-47ad-bcca-7d8cbb217736"
+      "target_ref": "attack-pattern--970a3432-3237-47ad-bcca-7d8cbb217736",
+      "x_panw_coa_u42_panw_product": [
+        "Wildfire"
+      ]
     },
     {
       "type": "relationship",
@@ -6074,10 +7548,13 @@
       "type": "relationship",
       "id": "relationship--6a748b4b-a7e1-4326-b699-acdc4b7c2161",
       "created": "2020-07-27T14:54:55.988Z",
-      "modified": "2020-07-30T12:59:01.831Z",
+      "modified": "2020-12-17T01:20:21.602Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--9352128e-2dbe-4621-8800-9e7cc17336e3",
-      "target_ref": "attack-pattern--dfd7cc1d-e1d8-4394-a198-97c4cab8aa67"
+      "target_ref": "attack-pattern--dfd7cc1d-e1d8-4394-a198-97c4cab8aa67",
+      "x_panw_coa_u42_panw_product": [
+        "Cortex XDR Prevent"
+      ]
     },
     {
       "type": "relationship",
@@ -6176,6 +7653,16 @@
     },
     {
       "type": "relationship",
+      "id": "relationship--6dcd8404-cb85-42d9-8bbd-13716032adf7",
+      "created": "2020-11-30T17:35:14.093Z",
+      "modified": "2020-12-01T20:41:42.293Z",
+      "relationship_type": "uses",
+      "description": "Actor used the SSH tunnels to access the web servers by including the following IP.",
+      "source_ref": "indicator--3625524d-4ff0-4bd0-a88e-d502dc7097d7",
+      "target_ref": "attack-pattern--4fe28b27-b13c-453e-a386-c2ef362a573b"
+    },
+    {
+      "type": "relationship",
       "id": "relationship--6e0ea1c7-203d-4bb9-9a40-75f6da72a2fc",
       "created": "2020-06-23T19:50:42.481Z",
       "modified": "2020-06-26T19:00:18.110Z",
@@ -6221,6 +7708,15 @@
     },
     {
       "type": "relationship",
+      "id": "relationship--707399d6-ab3e-4963-9315-d9d3818cd6a0",
+      "created": "2020-11-17T21:16:02.371Z",
+      "modified": "2020-12-09T15:37:00.261Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--de03a905-560e-4d3f-a8e4-3f59bf55fa37",
+      "target_ref": "attack-pattern--707399d6-ab3e-4963-9315-d9d3818cd6a0"
+    },
+    {
+      "type": "relationship",
       "id": "relationship--71df5ff8-d33c-49c7-9a47-db44e0bb9fbc",
       "created": "2020-06-09T17:14:54.348Z",
       "modified": "2020-06-26T19:00:39.447Z",
@@ -6236,6 +7732,24 @@
       "relationship_type": "indicates",
       "source_ref": "indicator--ecc1f55c-d504-4dac-8792-6957a2083146",
       "target_ref": "malware--6954d23c-fac1-475f-8bb8-85db57230fc6"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--72b74d71-8169-42aa-92e0-e7b04b9f5a08",
+      "created": "2020-11-17T21:16:02.371Z",
+      "modified": "2020-12-09T15:37:00.261Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--de03a905-560e-4d3f-a8e4-3f59bf55fa37",
+      "target_ref": "attack-pattern--72b74d71-8169-42aa-92e0-e7b04b9f5a08"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--7366726e-4f01-4482-9751-f578e4e25226",
+      "created": "2020-11-17T21:29:52.827Z",
+      "modified": "2020-11-25T16:54:00.511Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--de03a905-560e-4d3f-a8e4-3f59bf55fa37",
+      "target_ref": "attack-pattern--970a3432-3237-47ad-bcca-7d8cbb217736"
     },
     {
       "type": "relationship",
@@ -6269,12 +7783,45 @@
     },
     {
       "type": "relationship",
+      "id": "relationship--74905d48-4555-4023-b847-f5e132634899",
+      "created": "2020-11-17T21:29:52.827Z",
+      "modified": "2020-11-25T16:54:00.511Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--de03a905-560e-4d3f-a8e4-3f59bf55fa37",
+      "target_ref": "attack-pattern--21875073-b0ee-49e3-9077-1e2a885359af"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--75565046-3fdb-4d19-a368-231d564f8072",
+      "created": "2020-06-23T19:50:42.481Z",
+      "modified": "2020-06-26T19:00:11.079Z",
+      "relationship_type": "mitigates",
+      "source_ref": "course-of-action--fafab9a4-1478-499e-9088-2043c42720d1",
+      "target_ref": "attack-pattern--5d0d3609-d06d-49e1-b9c9-b544e0c618cb",
+      "x_panw_coa_u42_panw_product": [
+        "Wildfire"
+      ]
+    },
+    {
+      "type": "relationship",
       "id": "relationship--75f64f81-888a-4418-9cf0-bec660dca7da",
       "created": "2020-07-27T14:54:55.988Z",
-      "modified": "2020-07-30T12:59:01.830Z",
+      "modified": "2020-12-17T01:17:06.766Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--f1a1d494-3463-4067-abc7-a731f7dfb9ff",
-      "target_ref": "attack-pattern--a9d4b653-6915-42af-98b2-5758c4ceee56"
+      "target_ref": "attack-pattern--a9d4b653-6915-42af-98b2-5758c4ceee56",
+      "x_panw_coa_u42_panw_product": [
+        "Wildfire"
+      ]
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--76568d37-13ed-4a2b-bb2a-0725499e4ef4",
+      "created": "2020-11-17T21:29:52.827Z",
+      "modified": "2020-11-25T16:54:00.511Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--de03a905-560e-4d3f-a8e4-3f59bf55fa37",
+      "target_ref": "attack-pattern--4f9ca633-15c5-463c-9724-bdcd54fde541"
     },
     {
       "type": "relationship",
@@ -6363,6 +7910,15 @@
     },
     {
       "type": "relationship",
+      "id": "relationship--79a708db-9ea9-48f3-bff3-79428131c3e1",
+      "created": "2020-11-17T21:19:27.073Z",
+      "modified": "2020-11-25T16:54:00.511Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--28c6ee2f-0d1a-4365-ba41-7e6c992ecd56",
+      "target_ref": "campaign--de03a905-560e-4d3f-a8e4-3f59bf55fa37"
+    },
+    {
+      "type": "relationship",
       "id": "relationship--79abe144-1714-49c9-8bed-76ae89886ec8",
       "created": "2020-02-18T14:47:16.386Z",
       "modified": "2020-02-26T18:48:39.700Z",
@@ -6381,6 +7937,15 @@
       "x_panw_coa_u42_panw_product": [
         "XSOAR"
       ]
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--7bc57495-ea59-4380-be31-a64af124ef18",
+      "created": "2020-11-17T21:16:02.371Z",
+      "modified": "2020-12-09T15:37:00.261Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--de03a905-560e-4d3f-a8e4-3f59bf55fa37",
+      "target_ref": "attack-pattern--7bc57495-ea59-4380-be31-a64af124ef18"
     },
     {
       "type": "relationship",
@@ -6481,6 +8046,15 @@
     },
     {
       "type": "relationship",
+      "id": "relationship--80556c93-60e0-4f0a-9fc1-0822d93dda06",
+      "created": "2020-11-17T21:29:52.827Z",
+      "modified": "2020-11-25T16:54:00.511Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--de03a905-560e-4d3f-a8e4-3f59bf55fa37",
+      "target_ref": "attack-pattern--15dbf668-795c-41e6-8219-f0447c0e64ce"
+    },
+    {
+      "type": "relationship",
       "id": "relationship--8191d63a-d48f-4252-a462-ee37f6a02ecc",
       "created": "2020-06-09T16:49:44.044Z",
       "modified": "2020-06-26T19:00:39.447Z",
@@ -6534,6 +8108,15 @@
       "relationship_type": "indicates",
       "source_ref": "indicator--de686f01-69b6-4d13-85d9-593bdbe336cc",
       "target_ref": "campaign--37226399-e587-4b39-946b-7cdc80f48485"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--8429c3ae-ddf5-4911-8442-845c2a049210",
+      "created": "2020-11-17T21:29:52.827Z",
+      "modified": "2020-11-25T16:54:00.511Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--de03a905-560e-4d3f-a8e4-3f59bf55fa37",
+      "target_ref": "attack-pattern--01a5a209-b94c-450b-b7f9-946497d91055"
     },
     {
       "type": "relationship",
@@ -6677,6 +8260,18 @@
     },
     {
       "type": "relationship",
+      "id": "relationship--8a1a1a65-1121-4549-ad81-ee11fac08c99",
+      "created": "2020-06-23T19:50:42.481Z",
+      "modified": "2020-06-26T19:00:11.079Z",
+      "relationship_type": "mitigates",
+      "source_ref": "course-of-action--58d4b1e7-a7d1-45d8-855b-b5e13ace3dba",
+      "target_ref": "attack-pattern--72b74d71-8169-42aa-92e0-e7b04b9f5a08",
+      "x_panw_coa_u42_panw_product": [
+        "Cortex XDR Prevent"
+      ]
+    },
+    {
+      "type": "relationship",
       "id": "relationship--8a83132d-0a30-4cae-aa27-88feef4e229a",
       "created": "2020-06-23T19:50:42.481Z",
       "modified": "2020-06-26T19:00:11.080Z",
@@ -6695,6 +8290,18 @@
       "relationship_type": "indicates",
       "source_ref": "indicator--e46936c5-e155-42bd-bc2a-afbf8fa3b50d",
       "target_ref": "malware--6954d23c-fac1-475f-8bb8-85db57230fc6"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--8a9c32af-84dc-4b27-8f16-d643e09fe948",
+      "created": "2020-06-23T19:50:42.481Z",
+      "modified": "2021-02-03T14:12:07.575Z",
+      "relationship_type": "mitigates",
+      "source_ref": "course-of-action--39928312-81bb-4445-a269-9f3d0bb88d5c",
+      "target_ref": "attack-pattern--01a5a209-b94c-450b-b7f9-946497d91055",
+      "x_panw_coa_u42_panw_product": [
+        "NGFW"
+      ]
     },
     {
       "type": "relationship",
@@ -6807,10 +8414,13 @@
       "type": "relationship",
       "id": "relationship--9142312e-6d96-486c-9e33-9792dd5cf3ca",
       "created": "2020-07-27T14:54:55.988Z",
-      "modified": "2020-07-30T12:59:01.830Z",
+      "modified": "2021-01-06T19:12:58.783Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--f36dcd51-156b-497a-a565-0301a105eb79",
-      "target_ref": "attack-pattern--a9d4b653-6915-42af-98b2-5758c4ceee56"
+      "target_ref": "attack-pattern--a9d4b653-6915-42af-98b2-5758c4ceee56",
+      "x_panw_coa_u42_panw_product": [
+        "XSOAR"
+      ]
     },
     {
       "type": "relationship",
@@ -6834,10 +8444,13 @@
       "type": "relationship",
       "id": "relationship--928acff3-6932-40cc-8bea-0e7a23ac3c4b",
       "created": "2020-07-27T14:54:55.988Z",
-      "modified": "2020-07-30T12:59:01.830Z",
+      "modified": "2020-12-17T01:14:25.876Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--95432623-8819-4f74-a8f9-b10b9c4118c3",
-      "target_ref": "attack-pattern--a9d4b653-6915-42af-98b2-5758c4ceee56"
+      "target_ref": "attack-pattern--a9d4b653-6915-42af-98b2-5758c4ceee56",
+      "x_panw_coa_u42_panw_product": [
+        "Wildfire"
+      ]
     },
     {
       "type": "relationship",
@@ -6899,11 +8512,20 @@
     },
     {
       "type": "relationship",
-      "id": "relationship--970a3432-3237-47ad-bcca-7d8cbb217736",
-      "created": "2020-10-28T18:36:16.075Z",
-      "modified": "2020-11-09T14:04:00.924Z",
+      "id": "relationship--964b0d95-3d98-4cfe-84f8-c6a24798f22f",
+      "created": "2020-11-17T21:29:52.827Z",
+      "modified": "2020-11-25T16:54:00.511Z",
       "relationship_type": "uses",
-      "source_ref": "campaign--690ab0de-5922-494c-bdf0-ee24131942a0",
+      "source_ref": "campaign--de03a905-560e-4d3f-a8e4-3f59bf55fa37",
+      "target_ref": "attack-pattern--5d0d3609-d06d-49e1-b9c9-b544e0c618cb"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--970a3432-3237-47ad-bcca-7d8cbb217736",
+      "created": "2020-11-17T21:16:02.371Z",
+      "modified": "2020-12-09T15:37:00.261Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--de03a905-560e-4d3f-a8e4-3f59bf55fa37",
       "target_ref": "attack-pattern--970a3432-3237-47ad-bcca-7d8cbb217736"
     },
     {
@@ -6965,6 +8587,27 @@
       "relationship_type": "indicates",
       "source_ref": "indicator--6c6219b8-7d3b-4a10-bb99-214d7b2cc0a0",
       "target_ref": "malware--9e951810-80ea-4663-a1f6-8e9dd4774f58"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--98f45185-6e7b-46a7-a556-7d485db554c9",
+      "created": "2020-06-23T19:50:42.481Z",
+      "modified": "2020-06-26T19:00:11.078Z",
+      "relationship_type": "mitigates",
+      "source_ref": "course-of-action--49881f38-2571-47a1-a122-26a5968f1137",
+      "target_ref": "attack-pattern--5d0d3609-d06d-49e1-b9c9-b544e0c618cb",
+      "x_panw_coa_u42_panw_product": [
+        "NGFW"
+      ]
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--993d8908-d2a7-482e-9657-226e576918f6",
+      "created": "2020-11-17T21:19:27.073Z",
+      "modified": "2020-11-25T16:54:00.511Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--3625524d-4ff0-4bd0-a88e-d502dc7097d7",
+      "target_ref": "campaign--de03a905-560e-4d3f-a8e4-3f59bf55fa37"
     },
     {
       "type": "relationship",
@@ -7179,19 +8822,25 @@
       "type": "relationship",
       "id": "relationship--a0b7f3d8-5583-42f5-846d-8415e0d335d7",
       "created": "2020-07-27T14:54:55.988Z",
-      "modified": "2020-07-30T12:59:01.831Z",
+      "modified": "2021-01-06T19:13:16.219Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--f36dcd51-156b-497a-a565-0301a105eb79",
-      "target_ref": "attack-pattern--0f4a0c76-ab2d-4cb0-85d3-3f0efb8cba0d"
+      "target_ref": "attack-pattern--0f4a0c76-ab2d-4cb0-85d3-3f0efb8cba0d",
+      "x_panw_coa_u42_panw_product": [
+        "XSOAR"
+      ]
     },
     {
       "type": "relationship",
       "id": "relationship--a0d4c094-449a-434d-9b90-60cfd97bef85",
       "created": "2020-07-27T14:54:55.988Z",
-      "modified": "2020-07-30T12:59:01.830Z",
+      "modified": "2020-12-17T01:21:21.645Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--c9efabbf-c21b-4213-a192-6a8e3b3a0905",
-      "target_ref": "attack-pattern--a9d4b653-6915-42af-98b2-5758c4ceee56"
+      "target_ref": "attack-pattern--a9d4b653-6915-42af-98b2-5758c4ceee56",
+      "x_panw_coa_u42_panw_product": [
+        "Cortex XDR Prevent"
+      ]
     },
     {
       "type": "relationship",
@@ -7267,6 +8916,18 @@
     },
     {
       "type": "relationship",
+      "id": "relationship--a3510d8d-8626-4b13-a179-f21c9897de13",
+      "created": "2020-06-23T19:50:42.481Z",
+      "modified": "2020-06-26T19:00:11.078Z",
+      "relationship_type": "mitigates",
+      "source_ref": "course-of-action--5839cd6c-7897-43c4-82f3-5c03096a51c4",
+      "target_ref": "attack-pattern--5d0d3609-d06d-49e1-b9c9-b544e0c618cb",
+      "x_panw_coa_u42_panw_product": [
+        "Threat Prevention"
+      ]
+    },
+    {
+      "type": "relationship",
       "id": "relationship--a35f6dfe-1a4c-44e5-af0d-4371543d3062",
       "created": "2020-06-23T19:50:42.481Z",
       "modified": "2020-06-26T19:00:11.076Z",
@@ -7297,6 +8958,18 @@
       "relationship_type": "indicates",
       "source_ref": "indicator--3ff28e75-ed6f-4881-ac49-b2da26b7640e",
       "target_ref": "malware--6954d23c-fac1-475f-8bb8-85db57230fc6"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--a43c3575-2529-46b0-980d-b733d836f4d9",
+      "created": "2020-06-23T19:50:42.481Z",
+      "modified": "2020-06-26T19:00:11.078Z",
+      "relationship_type": "mitigates",
+      "source_ref": "course-of-action--a1294d38-0f0d-4973-a949-f38cccbc7469",
+      "target_ref": "attack-pattern--5d0d3609-d06d-49e1-b9c9-b544e0c618cb",
+      "x_panw_coa_u42_panw_product": [
+        "Threat Prevention"
+      ]
     },
     {
       "type": "relationship",
@@ -7355,6 +9028,18 @@
     },
     {
       "type": "relationship",
+      "id": "relationship--a564b76e-5f03-48e6-9758-eca9cde3e49f",
+      "created": "2020-06-23T19:50:42.481Z",
+      "modified": "2020-06-26T19:00:11.079Z",
+      "relationship_type": "mitigates",
+      "source_ref": "course-of-action--49790670-d365-43f8-a906-8e45c3c80f63",
+      "target_ref": "attack-pattern--5d0d3609-d06d-49e1-b9c9-b544e0c618cb",
+      "x_panw_coa_u42_panw_product": [
+        "Threat Prevention"
+      ]
+    },
+    {
+      "type": "relationship",
       "id": "relationship--a62f8427-ef1e-4a80-b681-105699970adc",
       "created": "2020-06-23T19:50:42.481Z",
       "modified": "2020-06-26T19:00:39.449Z",
@@ -7376,6 +9061,18 @@
     },
     {
       "type": "relationship",
+      "id": "relationship--a71b947f-8e3c-406f-b487-80f0fdb6cd94",
+      "created": "2020-06-23T19:50:42.481Z",
+      "modified": "2021-02-03T14:12:15.197Z",
+      "relationship_type": "mitigates",
+      "source_ref": "course-of-action--b07fe965-d582-4581-aa2f-9676705f5560",
+      "target_ref": "attack-pattern--01a5a209-b94c-450b-b7f9-946497d91055",
+      "x_panw_coa_u42_panw_product": [
+        "NGFW"
+      ]
+    },
+    {
+      "type": "relationship",
       "id": "relationship--a73101ab-c72e-4af6-b2b1-dcfe1dc613d5",
       "created": "2020-06-09T16:49:44.044Z",
       "modified": "2020-06-26T19:00:39.447Z",
@@ -7383,6 +9080,18 @@
       "description": "ff0bd8f8dee90ba71a491f17b9fda52c918ef9d3580d562029268a99b7410e19",
       "source_ref": "indicator--cd1df75c-2bcb-4193-b42d-46801d3ebed9",
       "target_ref": "attack-pattern--eb062747-2193-45de-8fa2-e62549c37ddf"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--a76b95e8-4523-4f85-bdc7-1a140db6eb18",
+      "created": "2020-06-23T19:50:42.481Z",
+      "modified": "2020-06-26T19:00:11.079Z",
+      "relationship_type": "mitigates",
+      "source_ref": "course-of-action--be1d0eb5-a628-4d91-9096-9158e68816cd",
+      "target_ref": "attack-pattern--5d0d3609-d06d-49e1-b9c9-b544e0c618cb",
+      "x_panw_coa_u42_panw_product": [
+        "Wildfire"
+      ]
     },
     {
       "type": "relationship",
@@ -7394,6 +9103,18 @@
       "target_ref": "attack-pattern--8c32eb4d-805f-4fc5-bf60-c4d476c131b5",
       "x_panw_coa_u42_panw_product": [
         "URL Filtering"
+      ]
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--a8410043-55d6-4ea1-950c-73c13bc08376",
+      "created": "2020-06-23T19:50:42.481Z",
+      "modified": "2021-02-03T14:12:49.966Z",
+      "relationship_type": "mitigates",
+      "source_ref": "course-of-action--bca382b3-2a97-451f-a849-80f7a4e7edce",
+      "target_ref": "attack-pattern--01a5a209-b94c-450b-b7f9-946497d91055",
+      "x_panw_coa_u42_panw_product": [
+        "NGFW"
       ]
     },
     {
@@ -7457,10 +9178,13 @@
       "type": "relationship",
       "id": "relationship--ac1fb6bb-bf7b-44f8-9113-545d120c503c",
       "created": "2020-07-27T14:54:55.988Z",
-      "modified": "2020-07-30T12:59:01.831Z",
+      "modified": "2020-12-17T01:21:37.126Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--c9efabbf-c21b-4213-a192-6a8e3b3a0905",
-      "target_ref": "attack-pattern--0f4a0c76-ab2d-4cb0-85d3-3f0efb8cba0d"
+      "target_ref": "attack-pattern--0f4a0c76-ab2d-4cb0-85d3-3f0efb8cba0d",
+      "x_panw_coa_u42_panw_product": [
+        "Cortex XDR Prevent"
+      ]
     },
     {
       "type": "relationship",
@@ -7470,6 +9194,15 @@
       "relationship_type": "uses",
       "source_ref": "campaign--4a0826a8-7d36-4743-9592-0183c5eaddc2",
       "target_ref": "attack-pattern--f72eb8a8-cd4c-461d-a814-3f862befbf00"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--ac68cae3-24bb-4167-9cc5-41f87a1c9a2d",
+      "created": "2020-11-17T21:19:27.073Z",
+      "modified": "2020-11-25T16:54:00.511Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--b2fbf205-e8ea-43be-914c-c5e297a779a6",
+      "target_ref": "campaign--de03a905-560e-4d3f-a8e4-3f59bf55fa37"
     },
     {
       "type": "relationship",
@@ -7489,6 +9222,15 @@
       "relationship_type": "indicates",
       "source_ref": "indicator--39ea6965-f22a-4523-a7ae-5fdbb47371df",
       "target_ref": "campaign--690ab0de-5922-494c-bdf0-ee24131942a0"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--acd559f3-028d-496c-9967-26e2efb5864f",
+      "created": "2020-11-17T21:19:27.073Z",
+      "modified": "2020-11-25T16:54:00.511Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--3b9f55b7-8e8b-45a4-8322-7d8208348484",
+      "target_ref": "campaign--de03a905-560e-4d3f-a8e4-3f59bf55fa37"
     },
     {
       "type": "relationship",
@@ -7556,6 +9298,15 @@
       "x_panw_coa_u42_panw_product": [
         "NGFW"
       ]
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--ae676644-d2d2-41b7-af7e-9bed1b55898c",
+      "created": "2020-11-17T21:16:02.371Z",
+      "modified": "2020-12-09T15:37:00.261Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--de03a905-560e-4d3f-a8e4-3f59bf55fa37",
+      "target_ref": "attack-pattern--ae676644-d2d2-41b7-af7e-9bed1b55898c"
     },
     {
       "type": "relationship",
@@ -7627,6 +9378,18 @@
     },
     {
       "type": "relationship",
+      "id": "relationship--b07a1eb9-56a0-4fa0-b7e6-c98ff4f0a3a4",
+      "created": "2020-06-23T19:50:42.481Z",
+      "modified": "2020-06-26T19:00:11.074Z",
+      "relationship_type": "mitigates",
+      "source_ref": "course-of-action--bca382b3-2a97-451f-a849-80f7a4e7edce",
+      "target_ref": "attack-pattern--d63a3fb8-9452-4e9d-a60a-54be68d5998c",
+      "x_panw_coa_u42_panw_product": [
+        "NGFW"
+      ]
+    },
+    {
+      "type": "relationship",
       "id": "relationship--b0c2e7a7-e87a-4acc-b52b-173a5b4e12ae",
       "created": "2020-02-18T14:36:07.300Z",
       "modified": "2020-02-26T18:48:39.700Z",
@@ -7664,6 +9427,15 @@
       "description": "d0f57e566c6b457d6e97dc02266d67d81ef561fba50a86e9f9fc889dc5167068",
       "source_ref": "indicator--f57f40c5-7fa2-4a99-a595-80b148a7134d",
       "target_ref": "attack-pattern--82caa33e-d11a-433a-94ea-9b5a5fbef81d"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--b2aad0af-d33d-43c4-9a44-6ffb8b3f5fb5",
+      "created": "2020-11-17T21:19:27.073Z",
+      "modified": "2020-11-25T16:54:00.511Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--b3ed35f1-5691-4a2a-94e2-4926f27d56e0",
+      "target_ref": "campaign--de03a905-560e-4d3f-a8e4-3f59bf55fa37"
     },
     {
       "type": "relationship",
@@ -7722,12 +9494,36 @@
     },
     {
       "type": "relationship",
+      "id": "relationship--b48ee271-dba9-481c-9834-8678689dbdca",
+      "created": "2020-06-23T19:50:42.481Z",
+      "modified": "2020-06-26T19:00:11.079Z",
+      "relationship_type": "mitigates",
+      "source_ref": "course-of-action--3de85a76-a879-43e6-80ba-38e09e7e2b0c",
+      "target_ref": "attack-pattern--5d0d3609-d06d-49e1-b9c9-b544e0c618cb",
+      "x_panw_coa_u42_panw_product": [
+        "Wildfire"
+      ]
+    },
+    {
+      "type": "relationship",
       "id": "relationship--b522e0de-f888-48ba-878a-0a43554ee25f",
       "created": "2020-07-27T14:54:55.988Z",
       "modified": "2020-07-30T12:59:27.715Z",
       "relationship_type": "uses",
       "source_ref": "campaign--4a0826a8-7d36-4743-9592-0183c5eaddc2",
       "target_ref": "attack-pattern--dfd7cc1d-e1d8-4394-a198-97c4cab8aa67"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--b562dc37-8869-4ada-b1fd-00291f7c0efa",
+      "created": "2020-06-23T19:50:42.481Z",
+      "modified": "2020-06-26T13:02:55.809Z",
+      "relationship_type": "mitigates",
+      "source_ref": "course-of-action--58d4b1e7-a7d1-45d8-855b-b5e13ace3dba",
+      "target_ref": "attack-pattern--7bc57495-ea59-4380-be31-a64af124ef18",
+      "x_panw_coa_u42_panw_product": [
+        "Cortex XDR Prevent"
+      ]
     },
     {
       "type": "relationship",
@@ -7781,6 +9577,18 @@
     },
     {
       "type": "relationship",
+      "id": "relationship--b8f24ca0-e44a-4755-8d50-7226e2f01fb5",
+      "created": "2020-06-23T19:50:42.481Z",
+      "modified": "2020-06-26T19:00:11.074Z",
+      "relationship_type": "mitigates",
+      "source_ref": "course-of-action--b62423f4-1849-4d9f-88c0-7160a8bed5c2",
+      "target_ref": "attack-pattern--d63a3fb8-9452-4e9d-a60a-54be68d5998c",
+      "x_panw_coa_u42_panw_product": [
+        "NGFW"
+      ]
+    },
+    {
+      "type": "relationship",
       "id": "relationship--b8fdaa8d-5e82-4d8e-af2a-e8d48bc89e89",
       "created": "2020-02-14T19:24:06.990Z",
       "modified": "2020-02-26T18:48:39.710Z",
@@ -7813,10 +9621,13 @@
       "type": "relationship",
       "id": "relationship--b976a57f-d320-4837-baf4-80a53b910472",
       "created": "2020-07-27T14:54:55.988Z",
-      "modified": "2020-07-30T12:59:01.830Z",
+      "modified": "2020-12-17T01:16:13.697Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--3de85a76-a879-43e6-80ba-38e09e7e2b0c",
-      "target_ref": "attack-pattern--a9d4b653-6915-42af-98b2-5758c4ceee56"
+      "target_ref": "attack-pattern--a9d4b653-6915-42af-98b2-5758c4ceee56",
+      "x_panw_coa_u42_panw_product": [
+        "Wildfire"
+      ]
     },
     {
       "type": "relationship",
@@ -7835,6 +9646,18 @@
       "relationship_type": "indicates",
       "source_ref": "indicator--e2a1fe14-0fe7-42f6-a25b-9ce3cb2e212a",
       "target_ref": "campaign--4a0826a8-7d36-4743-9592-0183c5eaddc2"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--ba508fce-3c98-4f1b-af65-d14a5dc07f95",
+      "created": "2020-06-23T19:50:42.481Z",
+      "modified": "2020-06-26T19:00:11.078Z",
+      "relationship_type": "mitigates",
+      "source_ref": "course-of-action--21ce34c9-4220-41cf-85c7-bc289bb2c79d",
+      "target_ref": "attack-pattern--5d0d3609-d06d-49e1-b9c9-b544e0c618cb",
+      "x_panw_coa_u42_panw_product": [
+        "Threat Prevention"
+      ]
     },
     {
       "type": "relationship",
@@ -7859,6 +9682,15 @@
     },
     {
       "type": "relationship",
+      "id": "relationship--bb144bd4-bccc-4974-b47c-cd764dd1326f",
+      "created": "2020-11-17T21:29:52.827Z",
+      "modified": "2020-11-25T16:54:00.511Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--de03a905-560e-4d3f-a8e4-3f59bf55fa37",
+      "target_ref": "attack-pattern--eb062747-2193-45de-8fa2-e62549c37ddf"
+    },
+    {
+      "type": "relationship",
       "id": "relationship--bb88a35f-ed52-465b-8811-c161b92106b7",
       "created": "2020-06-23T19:50:42.481Z",
       "modified": "2020-06-26T19:00:39.449Z",
@@ -7868,6 +9700,15 @@
       "x_panw_coa_u42_panw_product": [
         "NGFW"
       ]
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--bbaee5b4-56ca-4c8e-b7ad-2826c87479f4",
+      "created": "2020-11-17T21:29:52.827Z",
+      "modified": "2020-11-25T16:54:00.511Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--de03a905-560e-4d3f-a8e4-3f59bf55fa37",
+      "target_ref": "attack-pattern--707399d6-ab3e-4963-9315-d9d3818cd6a0"
     },
     {
       "type": "relationship",
@@ -7935,6 +9776,15 @@
     },
     {
       "type": "relationship",
+      "id": "relationship--bf90d72c-c00b-45e3-b3aa-68560560d4c5",
+      "created": "2020-11-17T21:16:02.371Z",
+      "modified": "2020-12-09T15:37:00.261Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--de03a905-560e-4d3f-a8e4-3f59bf55fa37",
+      "target_ref": "attack-pattern--bf90d72c-c00b-45e3-b3aa-68560560d4c5"
+    },
+    {
+      "type": "relationship",
       "id": "relationship--bfbf75c7-99bb-4cbc-b935-7de4fd88881c",
       "created": "2020-02-18T16:24:27.586Z",
       "modified": "2020-02-26T18:48:39.712Z",
@@ -7947,10 +9797,13 @@
       "type": "relationship",
       "id": "relationship--bfe491d4-3c81-4d46-bcf5-94766edc796e",
       "created": "2020-07-27T14:54:55.988Z",
-      "modified": "2020-07-30T12:59:01.831Z",
+      "modified": "2020-12-17T01:21:27.822Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--c9efabbf-c21b-4213-a192-6a8e3b3a0905",
-      "target_ref": "attack-pattern--dfd7cc1d-e1d8-4394-a198-97c4cab8aa67"
+      "target_ref": "attack-pattern--dfd7cc1d-e1d8-4394-a198-97c4cab8aa67",
+      "x_panw_coa_u42_panw_product": [
+        "Cortex XDR Prevent"
+      ]
     },
     {
       "type": "relationship",
@@ -8042,6 +9895,15 @@
     },
     {
       "type": "relationship",
+      "id": "relationship--c2c3709b-4f18-4c17-8d2d-aea3da97f84e",
+      "created": "2020-11-17T21:29:52.827Z",
+      "modified": "2020-11-25T16:54:00.511Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--de03a905-560e-4d3f-a8e4-3f59bf55fa37",
+      "target_ref": "attack-pattern--03d7999c-1f4c-42cc-8373-e7690d318104"
+    },
+    {
+      "type": "relationship",
       "id": "relationship--c3e9909d-857e-4198-86ef-92e96e7d5459",
       "created": "2020-02-18T16:24:39.560Z",
       "modified": "2020-02-26T18:48:39.712Z",
@@ -8053,10 +9915,13 @@
       "type": "relationship",
       "id": "relationship--c45c1543-157e-494f-92a1-c1f51d2d1eb0",
       "created": "2020-07-27T14:54:55.988Z",
-      "modified": "2020-07-30T12:59:01.831Z",
+      "modified": "2020-12-17T01:15:24.148Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--04a2db1c-3e80-43a4-a9c6-3864195bbf73",
-      "target_ref": "attack-pattern--dfd7cc1d-e1d8-4394-a198-97c4cab8aa67"
+      "target_ref": "attack-pattern--dfd7cc1d-e1d8-4394-a198-97c4cab8aa67",
+      "x_panw_coa_u42_panw_product": [
+        "Wildfire"
+      ]
     },
     {
       "type": "relationship",
@@ -8068,6 +9933,18 @@
       "target_ref": "attack-pattern--f72eb8a8-cd4c-461d-a814-3f862befbf00",
       "x_panw_coa_u42_panw_product": [
         "URL Filtering"
+      ]
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--c471d28a-8edf-497e-8905-217fe67b0c5b",
+      "created": "2020-06-23T19:50:42.481Z",
+      "modified": "2020-06-26T19:00:11.074Z",
+      "relationship_type": "mitigates",
+      "source_ref": "course-of-action--dfbe8c4c-b5c9-4ac2-a2f4-a43a73d1d621",
+      "target_ref": "attack-pattern--d63a3fb8-9452-4e9d-a60a-54be68d5998c",
+      "x_panw_coa_u42_panw_product": [
+        "XSOAR"
       ]
     },
     {
@@ -8167,10 +10044,13 @@
       "type": "relationship",
       "id": "relationship--c7af7cc6-e6a2-4e17-b8b8-d827ec79e2bd",
       "created": "2020-07-27T14:54:55.988Z",
-      "modified": "2020-07-30T12:59:01.831Z",
+      "modified": "2021-01-06T19:13:06.736Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--f36dcd51-156b-497a-a565-0301a105eb79",
-      "target_ref": "attack-pattern--dfd7cc1d-e1d8-4394-a198-97c4cab8aa67"
+      "target_ref": "attack-pattern--dfd7cc1d-e1d8-4394-a198-97c4cab8aa67",
+      "x_panw_coa_u42_panw_product": [
+        "XSOAR"
+      ]
     },
     {
       "type": "relationship",
@@ -8197,10 +10077,13 @@
       "type": "relationship",
       "id": "relationship--c8fd8256-1840-45a3-9f99-505a545c42aa",
       "created": "2020-07-27T14:54:55.988Z",
-      "modified": "2020-07-30T12:59:01.831Z",
+      "modified": "2020-12-17T01:15:29.914Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--04a2db1c-3e80-43a4-a9c6-3864195bbf73",
-      "target_ref": "attack-pattern--0f4a0c76-ab2d-4cb0-85d3-3f0efb8cba0d"
+      "target_ref": "attack-pattern--0f4a0c76-ab2d-4cb0-85d3-3f0efb8cba0d",
+      "x_panw_coa_u42_panw_product": [
+        "Wildfire"
+      ]
     },
     {
       "type": "relationship",
@@ -8246,6 +10129,15 @@
       "x_panw_coa_u42_panw_product": [
         "XSOAR"
       ]
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--cc1c0ef7-3ef2-4dcd-8167-5ff4f97fd52b",
+      "created": "2020-11-17T21:29:52.827Z",
+      "modified": "2020-11-25T16:54:00.511Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--de03a905-560e-4d3f-a8e4-3f59bf55fa37",
+      "target_ref": "attack-pattern--d63a3fb8-9452-4e9d-a60a-54be68d5998c"
     },
     {
       "type": "relationship",
@@ -8301,6 +10193,18 @@
     },
     {
       "type": "relationship",
+      "id": "relationship--cd05d39c-63af-4795-8a46-301be042fd5d",
+      "created": "2020-06-23T19:50:42.481Z",
+      "modified": "2020-06-26T19:00:11.079Z",
+      "relationship_type": "mitigates",
+      "source_ref": "course-of-action--f1a1d494-3463-4067-abc7-a731f7dfb9ff",
+      "target_ref": "attack-pattern--5d0d3609-d06d-49e1-b9c9-b544e0c618cb",
+      "x_panw_coa_u42_panw_product": [
+        "Wildfire"
+      ]
+    },
+    {
+      "type": "relationship",
       "id": "relationship--cd132908-9ac8-4bfb-a6a4-c05d813957f2",
       "created": "2020-06-23T19:50:42.481Z",
       "modified": "2020-06-26T19:00:18.110Z",
@@ -8310,6 +10214,16 @@
       "x_panw_coa_u42_panw_product": [
         "Threat Prevention"
       ]
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--cdc2f739-d187-49e1-a37c-0a6bf4bf1907",
+      "created": "2020-11-30T17:35:14.093Z",
+      "modified": "2020-12-01T20:41:42.293Z",
+      "relationship_type": "uses",
+      "description": "Actor used the SSH tunnels to access the web servers by including the following IP.",
+      "source_ref": "indicator--3b9f55b7-8e8b-45a4-8322-7d8208348484",
+      "target_ref": "attack-pattern--4fe28b27-b13c-453e-a386-c2ef362a573b"
     },
     {
       "type": "relationship",
@@ -8402,6 +10316,18 @@
     },
     {
       "type": "relationship",
+      "id": "relationship--d18784d8-8b03-4db3-b7cb-1bbe55c07f1c",
+      "created": "2020-06-23T19:50:42.481Z",
+      "modified": "2020-06-26T19:00:11.074Z",
+      "relationship_type": "mitigates",
+      "source_ref": "course-of-action--513f7288-0f4f-49d1-8447-8664f065d798",
+      "target_ref": "attack-pattern--d63a3fb8-9452-4e9d-a60a-54be68d5998c",
+      "x_panw_coa_u42_panw_product": [
+        "XSOAR"
+      ]
+    },
+    {
+      "type": "relationship",
       "id": "relationship--d199ca19-dd2b-44b4-b9e4-f426d43944b3",
       "created": "2020-06-23T19:50:42.481Z",
       "modified": "2020-06-26T19:00:18.110Z",
@@ -8423,12 +10349,24 @@
     },
     {
       "type": "relationship",
+      "id": "relationship--d28ef391-8ed4-45dc-bc4a-2f43abf54416",
+      "created": "2020-11-17T21:16:02.371Z",
+      "modified": "2020-12-09T15:37:00.261Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--de03a905-560e-4d3f-a8e4-3f59bf55fa37",
+      "target_ref": "attack-pattern--d28ef391-8ed4-45dc-bc4a-2f43abf54416"
+    },
+    {
+      "type": "relationship",
       "id": "relationship--d2afbd91-b1aa-482d-b95a-a29a97a5126f",
       "created": "2020-07-27T14:54:55.988Z",
-      "modified": "2020-07-30T12:59:01.830Z",
+      "modified": "2020-12-17T01:17:12.102Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--f1a1d494-3463-4067-abc7-a731f7dfb9ff",
-      "target_ref": "attack-pattern--dfd7cc1d-e1d8-4394-a198-97c4cab8aa67"
+      "target_ref": "attack-pattern--dfd7cc1d-e1d8-4394-a198-97c4cab8aa67",
+      "x_panw_coa_u42_panw_product": [
+        "Wildfire"
+      ]
     },
     {
       "type": "relationship",
@@ -8476,6 +10414,15 @@
     },
     {
       "type": "relationship",
+      "id": "relationship--d3d649c6-1ffb-4c56-a1dc-c0d8a62a2074",
+      "created": "2020-11-17T21:37:25.375Z",
+      "modified": "2020-11-25T16:54:00.511Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--de03a905-560e-4d3f-a8e4-3f59bf55fa37",
+      "target_ref": "attack-pattern--bf90d72c-c00b-45e3-b3aa-68560560d4c5"
+    },
+    {
+      "type": "relationship",
       "id": "relationship--d493a676-6071-4796-9d64-75d5b4b092ed",
       "created": "2020-06-23T19:50:42.481Z",
       "modified": "2020-06-26T19:00:11.079Z",
@@ -8512,10 +10459,19 @@
       "type": "relationship",
       "id": "relationship--d5c8bfcf-e2f7-4427-8fa8-6fbc05a8938e",
       "created": "2020-02-26T15:49:22.431Z",
-      "modified": "2020-11-09T14:04:01.271Z",
+      "modified": "2021-02-03T13:52:57.830Z",
       "relationship_type": "attributed-to",
       "source_ref": "report--d5c8bfcf-e2f7-4427-8fa8-6fbc05a8938e",
       "target_ref": "intrusion-set--92e421c1-8652-4f9c-b05e-c0e9e4d6d75c"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--d63a3fb8-9452-4e9d-a60a-54be68d5998c",
+      "created": "2020-11-17T21:16:02.371Z",
+      "modified": "2020-12-09T15:37:00.261Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--de03a905-560e-4d3f-a8e4-3f59bf55fa37",
+      "target_ref": "attack-pattern--d63a3fb8-9452-4e9d-a60a-54be68d5998c"
     },
     {
       "type": "relationship",
@@ -8668,6 +10624,24 @@
     },
     {
       "type": "relationship",
+      "id": "relationship--de03a905-560e-4d3f-a8e4-3f59bf55fa37",
+      "created": "2020-11-17T21:16:02.371Z",
+      "modified": "2020-12-09T15:37:00.261Z",
+      "relationship_type": "attributed-to",
+      "source_ref": "campaign--de03a905-560e-4d3f-a8e4-3f59bf55fa37",
+      "target_ref": "intrusion-set--92e421c1-8652-4f9c-b05e-c0e9e4d6d75c"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--de0ae94e-5312-4fdf-9b5c-25e70ed5c283",
+      "created": "2020-11-17T21:29:52.827Z",
+      "modified": "2020-11-25T16:54:00.511Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--de03a905-560e-4d3f-a8e4-3f59bf55fa37",
+      "target_ref": "attack-pattern--354a7f88-63fb-41b5-a801-ce3b377b36f1"
+    },
+    {
+      "type": "relationship",
       "id": "relationship--deb41095-070d-446a-811a-6ab574fc9022",
       "created": "2020-06-23T19:50:42.481Z",
       "modified": "2020-06-26T19:00:15.015Z",
@@ -8719,6 +10693,18 @@
     },
     {
       "type": "relationship",
+      "id": "relationship--e0869000-4bb8-4018-9abc-f63dec086ec2",
+      "created": "2020-06-23T19:50:42.481Z",
+      "modified": "2020-06-26T19:00:11.078Z",
+      "relationship_type": "mitigates",
+      "source_ref": "course-of-action--c45b79a8-2d29-4d8c-95ab-acea7e478e50",
+      "target_ref": "attack-pattern--5d0d3609-d06d-49e1-b9c9-b544e0c618cb",
+      "x_panw_coa_u42_panw_product": [
+        "Threat Prevention"
+      ]
+    },
+    {
+      "type": "relationship",
       "id": "relationship--e0aa4771-9c3a-4996-97dc-a3a763b6d9e0",
       "created": "2020-06-23T19:50:42.481Z",
       "modified": "2020-06-26T19:00:11.076Z",
@@ -8727,6 +10713,18 @@
       "target_ref": "attack-pattern--cc7b8c4e-9be0-47ca-b0bb-83915ec3ee2f",
       "x_panw_coa_u42_panw_product": [
         "XSOAR"
+      ]
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--e0aad12a-2d55-466b-aaaf-42f1a23fa089",
+      "created": "2020-06-23T19:50:42.481Z",
+      "modified": "2021-02-03T14:12:22.654Z",
+      "relationship_type": "mitigates",
+      "source_ref": "course-of-action--09cad5e4-8c95-494f-862e-0c640b175348",
+      "target_ref": "attack-pattern--01a5a209-b94c-450b-b7f9-946497d91055",
+      "x_panw_coa_u42_panw_product": [
+        "NGFW"
       ]
     },
     {
@@ -8788,6 +10786,15 @@
     },
     {
       "type": "relationship",
+      "id": "relationship--e20894f5-ebaf-4937-ae06-54c3f0850b31",
+      "created": "2020-11-17T21:29:52.827Z",
+      "modified": "2020-11-25T16:54:00.511Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--de03a905-560e-4d3f-a8e4-3f59bf55fa37",
+      "target_ref": "attack-pattern--ae676644-d2d2-41b7-af7e-9bed1b55898c"
+    },
+    {
+      "type": "relationship",
       "id": "relationship--e21c2996-8c3e-4973-8d61-9488387fa9e0",
       "created": "2020-06-23T19:50:42.481Z",
       "modified": "2020-06-26T13:02:55.808Z",
@@ -8816,6 +10823,15 @@
       "description": "b63cb7453a835d3af235b6424ffae9ce8b20716c4b35eec6d448d4c95121da69",
       "source_ref": "indicator--49a0590d-fe10-43a1-adc5-0ab56cf3f7e6",
       "target_ref": "attack-pattern--3c4a2599-71ee-4405-ba1e-0e28414b4bc5"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--e358d692-23c0-4a31-9eb6-ecc13a8d7735",
+      "created": "2020-11-17T21:16:02.371Z",
+      "modified": "2020-12-09T15:37:00.261Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--de03a905-560e-4d3f-a8e4-3f59bf55fa37",
+      "target_ref": "attack-pattern--e358d692-23c0-4a31-9eb6-ecc13a8d7735"
     },
     {
       "type": "relationship",
@@ -8941,10 +10957,13 @@
       "type": "relationship",
       "id": "relationship--e69451ea-708d-46ab-ae45-5eceb4e5896f",
       "created": "2020-07-27T14:54:55.988Z",
-      "modified": "2020-07-30T12:59:01.830Z",
+      "modified": "2020-12-17T01:04:19.079Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--67289170-1bd4-4944-be31-d680954141f5",
-      "target_ref": "attack-pattern--a9d4b653-6915-42af-98b2-5758c4ceee56"
+      "target_ref": "attack-pattern--a9d4b653-6915-42af-98b2-5758c4ceee56",
+      "x_panw_coa_u42_panw_product": [
+        "Wildfire"
+      ]
     },
     {
       "type": "relationship",
@@ -8966,12 +10985,36 @@
     },
     {
       "type": "relationship",
+      "id": "relationship--e787b90a-e13b-4499-99f3-f3ad35cdbb60",
+      "created": "2020-11-17T21:29:52.827Z",
+      "modified": "2020-11-25T16:54:00.511Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--de03a905-560e-4d3f-a8e4-3f59bf55fa37",
+      "target_ref": "attack-pattern--d28ef391-8ed4-45dc-bc4a-2f43abf54416"
+    },
+    {
+      "type": "relationship",
       "id": "relationship--e793a5f2-02d9-41fd-a0b1-b96ad9926ab6",
       "created": "2020-06-23T19:50:42.481Z",
-      "modified": "2020-09-04T13:59:35.889Z",
+      "modified": "2020-12-17T01:17:26.139Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--f1a1d494-3463-4067-abc7-a731f7dfb9ff",
-      "target_ref": "attack-pattern--970a3432-3237-47ad-bcca-7d8cbb217736"
+      "target_ref": "attack-pattern--970a3432-3237-47ad-bcca-7d8cbb217736",
+      "x_panw_coa_u42_panw_product": [
+        "Wildfire"
+      ]
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--e7d9db31-76d3-42f3-9bf5-7e82f04c597d",
+      "created": "2020-06-23T19:50:42.481Z",
+      "modified": "2020-06-26T19:00:11.079Z",
+      "relationship_type": "mitigates",
+      "source_ref": "course-of-action--67289170-1bd4-4944-be31-d680954141f5",
+      "target_ref": "attack-pattern--5d0d3609-d06d-49e1-b9c9-b544e0c618cb",
+      "x_panw_coa_u42_panw_product": [
+        "Wildfire"
+      ]
     },
     {
       "type": "relationship",
@@ -9030,10 +11073,10 @@
     {
       "type": "relationship",
       "id": "relationship--eb062747-2193-45de-8fa2-e62549c37ddf",
-      "created": "2020-02-14T18:35:17.244Z",
-      "modified": "2020-02-26T18:48:39.693Z",
+      "created": "2020-11-17T21:16:02.371Z",
+      "modified": "2020-12-09T15:37:00.261Z",
       "relationship_type": "uses",
-      "source_ref": "campaign--4a0826a8-7d36-4743-9592-0183c5eaddc2",
+      "source_ref": "campaign--de03a905-560e-4d3f-a8e4-3f59bf55fa37",
       "target_ref": "attack-pattern--eb062747-2193-45de-8fa2-e62549c37ddf"
     },
     {
@@ -9055,6 +11098,18 @@
       "description": "cc21bc11d9aed226e9c511480e54bb1305cea086ab0b5e310de68228debdc80e",
       "source_ref": "indicator--3ff28e75-ed6f-4881-ac49-b2da26b7640e",
       "target_ref": "attack-pattern--eb062747-2193-45de-8fa2-e62549c37ddf"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--ed0a8d3a-3efd-480f-94e0-497266cacf8b",
+      "created": "2020-06-23T19:50:42.481Z",
+      "modified": "2020-06-26T19:00:11.074Z",
+      "relationship_type": "mitigates",
+      "source_ref": "course-of-action--68c5676d-ab2f-4e68-a57c-28880a9f5709",
+      "target_ref": "attack-pattern--d63a3fb8-9452-4e9d-a60a-54be68d5998c",
+      "x_panw_coa_u42_panw_product": [
+        "NGFW"
+      ]
     },
     {
       "type": "relationship",
@@ -9160,10 +11215,13 @@
       "type": "relationship",
       "id": "relationship--efbc10dd-778a-4f84-9c78-b62ce3fadf64",
       "created": "2020-06-23T19:50:42.481Z",
-      "modified": "2020-09-04T13:59:35.890Z",
+      "modified": "2020-12-17T01:15:42.233Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--04a2db1c-3e80-43a4-a9c6-3864195bbf73",
-      "target_ref": "attack-pattern--970a3432-3237-47ad-bcca-7d8cbb217736"
+      "target_ref": "attack-pattern--970a3432-3237-47ad-bcca-7d8cbb217736",
+      "x_panw_coa_u42_panw_product": [
+        "Wildfire"
+      ]
     },
     {
       "type": "relationship",
@@ -9192,6 +11250,18 @@
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--dcd486e6-fcf5-4692-9187-115efdae9694",
       "target_ref": "attack-pattern--eb062747-2193-45de-8fa2-e62549c37ddf",
+      "x_panw_coa_u42_panw_product": [
+        "NGFW"
+      ]
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--f2d8ff20-ffc1-4e1e-b2b0-19ccc5f8c74b",
+      "created": "2020-06-23T19:50:42.481Z",
+      "modified": "2020-06-26T19:00:11.074Z",
+      "relationship_type": "mitigates",
+      "source_ref": "course-of-action--49881f38-2571-47a1-a122-26a5968f1137",
+      "target_ref": "attack-pattern--d63a3fb8-9452-4e9d-a60a-54be68d5998c",
       "x_panw_coa_u42_panw_product": [
         "NGFW"
       ]
@@ -9230,12 +11300,24 @@
     },
     {
       "type": "relationship",
+      "id": "relationship--f3c544dc-673c-4ef3-accb-53229f1ae077",
+      "created": "2020-11-17T21:16:02.371Z",
+      "modified": "2020-12-09T15:37:00.261Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--de03a905-560e-4d3f-a8e4-3f59bf55fa37",
+      "target_ref": "attack-pattern--f3c544dc-673c-4ef3-accb-53229f1ae077"
+    },
+    {
+      "type": "relationship",
       "id": "relationship--f3e5d7ed-907a-46e7-88e4-74c0f977407d",
       "created": "2020-07-27T14:54:55.988Z",
-      "modified": "2020-07-30T12:59:01.830Z",
+      "modified": "2020-12-17T01:12:08.151Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--be1d0eb5-a628-4d91-9096-9158e68816cd",
-      "target_ref": "attack-pattern--a9d4b653-6915-42af-98b2-5758c4ceee56"
+      "target_ref": "attack-pattern--a9d4b653-6915-42af-98b2-5758c4ceee56",
+      "x_panw_coa_u42_panw_product": [
+        "Wildfire"
+      ]
     },
     {
       "type": "relationship",
@@ -9310,6 +11392,27 @@
       "relationship_type": "indicates",
       "source_ref": "indicator--2152e7bd-f66d-4157-b92f-fbee0adb5e4c",
       "target_ref": "malware--6954d23c-fac1-475f-8bb8-85db57230fc6"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--f709ebce-cebb-4a93-876f-731f1540bea4",
+      "created": "2020-11-17T21:29:52.827Z",
+      "modified": "2020-11-25T16:54:00.511Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--de03a905-560e-4d3f-a8e4-3f59bf55fa37",
+      "target_ref": "attack-pattern--3489cfc5-640f-4bb3-a103-9137b97de79f"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--f7186df7-7b3a-46fb-ac0b-bc6ab604f0cd",
+      "created": "2020-06-23T19:50:42.481Z",
+      "modified": "2021-02-03T14:12:01.505Z",
+      "relationship_type": "mitigates",
+      "source_ref": "course-of-action--68c5676d-ab2f-4e68-a57c-28880a9f5709",
+      "target_ref": "attack-pattern--01a5a209-b94c-450b-b7f9-946497d91055",
+      "x_panw_coa_u42_panw_product": [
+        "NGFW"
+      ]
     },
     {
       "type": "relationship",
@@ -9425,10 +11528,25 @@
       "type": "relationship",
       "id": "relationship--f8f55b59-ccc5-4cf7-bc4e-b5414848de39",
       "created": "2020-07-27T14:54:55.988Z",
-      "modified": "2020-07-30T12:59:01.831Z",
+      "modified": "2020-12-17T01:14:38.830Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--95432623-8819-4f74-a8f9-b10b9c4118c3",
-      "target_ref": "attack-pattern--0f4a0c76-ab2d-4cb0-85d3-3f0efb8cba0d"
+      "target_ref": "attack-pattern--0f4a0c76-ab2d-4cb0-85d3-3f0efb8cba0d",
+      "x_panw_coa_u42_panw_product": [
+        "Wildfire"
+      ]
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--f90f0fdd-df33-4c66-8c22-d44c774e783c",
+      "created": "2020-06-23T19:50:42.481Z",
+      "modified": "2020-06-26T19:00:11.074Z",
+      "relationship_type": "mitigates",
+      "source_ref": "course-of-action--553711d6-06e4-49e2-a1ad-929d9cce8e39",
+      "target_ref": "attack-pattern--d63a3fb8-9452-4e9d-a60a-54be68d5998c",
+      "x_panw_coa_u42_panw_product": [
+        "NGFW"
+      ]
     },
     {
       "type": "relationship",
@@ -9501,12 +11619,37 @@
     },
     {
       "type": "relationship",
+      "id": "relationship--fbdbc7a5-242c-4f8b-9345-2f2f1a438451",
+      "created": "2020-06-23T19:50:42.481Z",
+      "modified": "2020-06-26T19:00:11.074Z",
+      "relationship_type": "mitigates",
+      "source_ref": "course-of-action--51bcc0dd-f051-4786-aa93-429358ea6238",
+      "target_ref": "attack-pattern--d63a3fb8-9452-4e9d-a60a-54be68d5998c",
+      "x_panw_coa_u42_panw_product": [
+        "XSOAR"
+      ]
+    },
+    {
+      "type": "relationship",
       "id": "relationship--fbec2466-04da-4608-8693-769d847f414a",
       "created": "2020-07-27T14:54:55.988Z",
-      "modified": "2020-07-30T12:59:01.831Z",
+      "modified": "2020-12-17T01:04:35.279Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--67289170-1bd4-4944-be31-d680954141f5",
-      "target_ref": "attack-pattern--0f4a0c76-ab2d-4cb0-85d3-3f0efb8cba0d"
+      "target_ref": "attack-pattern--0f4a0c76-ab2d-4cb0-85d3-3f0efb8cba0d",
+      "x_panw_coa_u42_panw_product": [
+        "Wildfire"
+      ]
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--fc22eabd-a85b-41a6-b03d-ad0d56fdf374",
+      "created": "2020-11-30T17:35:14.093Z",
+      "modified": "2020-12-01T20:41:42.293Z",
+      "relationship_type": "uses",
+      "description": "Actor used the SSH tunnels to access the web servers by including the following IP.",
+      "source_ref": "indicator--47953032-d95b-42a7-9162-68ba696b22ca",
+      "target_ref": "attack-pattern--4fe28b27-b13c-453e-a386-c2ef362a573b"
     },
     {
       "type": "relationship",
@@ -9524,10 +11667,13 @@
       "type": "relationship",
       "id": "relationship--fc655f2b-1955-40f6-b583-4f9180c70f4f",
       "created": "2020-07-27T14:54:55.988Z",
-      "modified": "2020-07-30T12:59:01.831Z",
+      "modified": "2020-12-17T01:17:17.230Z",
       "relationship_type": "mitigates",
       "source_ref": "course-of-action--f1a1d494-3463-4067-abc7-a731f7dfb9ff",
-      "target_ref": "attack-pattern--0f4a0c76-ab2d-4cb0-85d3-3f0efb8cba0d"
+      "target_ref": "attack-pattern--0f4a0c76-ab2d-4cb0-85d3-3f0efb8cba0d",
+      "x_panw_coa_u42_panw_product": [
+        "Wildfire"
+      ]
     },
     {
       "type": "relationship",
@@ -9572,12 +11718,33 @@
     },
     {
       "type": "relationship",
+      "id": "relationship--fe120dbc-2812-4e78-aaf2-c4ef5fbfea69",
+      "created": "2020-06-23T19:50:42.481Z",
+      "modified": "2020-06-26T19:00:11.079Z",
+      "relationship_type": "mitigates",
+      "source_ref": "course-of-action--95432623-8819-4f74-a8f9-b10b9c4118c3",
+      "target_ref": "attack-pattern--5d0d3609-d06d-49e1-b9c9-b544e0c618cb",
+      "x_panw_coa_u42_panw_product": [
+        "Wildfire"
+      ]
+    },
+    {
+      "type": "relationship",
       "id": "relationship--fe4405a0-4b65-4da4-a769-615ecd0be403",
       "created": "2020-02-18T14:47:16.386Z",
       "modified": "2020-02-26T18:48:39.700Z",
       "relationship_type": "indicates",
       "source_ref": "indicator--fa023681-b5a6-46ce-b947-4586d506a162",
       "target_ref": "campaign--4a0826a8-7d36-4743-9592-0183c5eaddc2"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--fe683945-9046-44b5-ab45-30bdf7b4cb50",
+      "created": "2020-11-17T21:17:02.507Z",
+      "modified": "2021-02-03T13:52:57.444Z",
+      "relationship_type": "targets",
+      "source_ref": "campaign--de03a905-560e-4d3f-a8e4-3f59bf55fa37",
+      "target_ref": "identity--1aa1b4d2-52f1-4ff6-8c8b-7d07df7bad87"
     },
     {
       "type": "relationship",
@@ -10686,6 +12853,200 @@
         "relationship--f8704bfe-566b-4a4b-8b83-7290ed8a2a97",
         "relationship--fdceaa58-f945-43a8-b47e-4ab5bc7405d8",
         "relationship--fed2cb9b-d85b-4ed8-aaac-9b18d8486e5f"
+      ],
+      "labels": [
+        "campaign"
+      ]
+    },
+    {
+      "type": "report",
+      "id": "report--de03a905-560e-4d3f-a8e4-3f59bf55fa37",
+      "created": "2020-11-17T21:16:02.371Z",
+      "modified": "2020-12-09T15:37:00.261Z",
+      "name": "xHunt BumbleBee Webshell Activity",
+      "published": "2020-12-09T15:37:00.261Z",
+      "object_refs": [
+        "attack-pattern--01a5a209-b94c-450b-b7f9-946497d91055",
+        "attack-pattern--03d7999c-1f4c-42cc-8373-e7690d318104",
+        "attack-pattern--15dbf668-795c-41e6-8219-f0447c0e64ce",
+        "attack-pattern--21875073-b0ee-49e3-9077-1e2a885359af",
+        "attack-pattern--3489cfc5-640f-4bb3-a103-9137b97de79f",
+        "attack-pattern--354a7f88-63fb-41b5-a801-ce3b377b36f1",
+        "attack-pattern--3c4a2599-71ee-4405-ba1e-0e28414b4bc5",
+        "attack-pattern--4f9ca633-15c5-463c-9724-bdcd54fde541",
+        "attack-pattern--4fe28b27-b13c-453e-a386-c2ef362a573b",
+        "attack-pattern--5d0d3609-d06d-49e1-b9c9-b544e0c618cb",
+        "attack-pattern--707399d6-ab3e-4963-9315-d9d3818cd6a0",
+        "attack-pattern--72b74d71-8169-42aa-92e0-e7b04b9f5a08",
+        "attack-pattern--7bc57495-ea59-4380-be31-a64af124ef18",
+        "attack-pattern--970a3432-3237-47ad-bcca-7d8cbb217736",
+        "attack-pattern--ae676644-d2d2-41b7-af7e-9bed1b55898c",
+        "attack-pattern--bf90d72c-c00b-45e3-b3aa-68560560d4c5",
+        "attack-pattern--d28ef391-8ed4-45dc-bc4a-2f43abf54416",
+        "attack-pattern--d63a3fb8-9452-4e9d-a60a-54be68d5998c",
+        "attack-pattern--e358d692-23c0-4a31-9eb6-ecc13a8d7735",
+        "attack-pattern--eb062747-2193-45de-8fa2-e62549c37ddf",
+        "attack-pattern--f3c544dc-673c-4ef3-accb-53229f1ae077",
+        "campaign--de03a905-560e-4d3f-a8e4-3f59bf55fa37",
+        "course-of-action--02d40837-4b7a-4bd1-a3c6-1cb4695e02e2",
+        "course-of-action--04a2db1c-3e80-43a4-a9c6-3864195bbf73",
+        "course-of-action--09cad5e4-8c95-494f-862e-0c640b175348",
+        "course-of-action--21ce34c9-4220-41cf-85c7-bc289bb2c79d",
+        "course-of-action--39928312-81bb-4445-a269-9f3d0bb88d5c",
+        "course-of-action--3de85a76-a879-43e6-80ba-38e09e7e2b0c",
+        "course-of-action--49790670-d365-43f8-a906-8e45c3c80f63",
+        "course-of-action--49881f38-2571-47a1-a122-26a5968f1137",
+        "course-of-action--513f7288-0f4f-49d1-8447-8664f065d798",
+        "course-of-action--51bcc0dd-f051-4786-aa93-429358ea6238",
+        "course-of-action--553711d6-06e4-49e2-a1ad-929d9cce8e39",
+        "course-of-action--5839cd6c-7897-43c4-82f3-5c03096a51c4",
+        "course-of-action--58d4b1e7-a7d1-45d8-855b-b5e13ace3dba",
+        "course-of-action--5c05fcbe-aadd-4f64-9437-c1181c641f35",
+        "course-of-action--67289170-1bd4-4944-be31-d680954141f5",
+        "course-of-action--68c5676d-ab2f-4e68-a57c-28880a9f5709",
+        "course-of-action--8f755f3d-1df7-4345-915a-ed63f243a8d9",
+        "course-of-action--9352128e-2dbe-4621-8800-9e7cc17336e3",
+        "course-of-action--95432623-8819-4f74-a8f9-b10b9c4118c3",
+        "course-of-action--a1294d38-0f0d-4973-a949-f38cccbc7469",
+        "course-of-action--b07fe965-d582-4581-aa2f-9676705f5560",
+        "course-of-action--b62423f4-1849-4d9f-88c0-7160a8bed5c2",
+        "course-of-action--bca382b3-2a97-451f-a849-80f7a4e7edce",
+        "course-of-action--be1d0eb5-a628-4d91-9096-9158e68816cd",
+        "course-of-action--c45b79a8-2d29-4d8c-95ab-acea7e478e50",
+        "course-of-action--c9efabbf-c21b-4213-a192-6a8e3b3a0905",
+        "course-of-action--d84f79f8-219c-43cb-a918-ab7dd235413a",
+        "course-of-action--dcd486e6-fcf5-4692-9187-115efdae9694",
+        "course-of-action--dfbe8c4c-b5c9-4ac2-a2f4-a43a73d1d621",
+        "course-of-action--f1a1d494-3463-4067-abc7-a731f7dfb9ff",
+        "course-of-action--fafab9a4-1478-499e-9088-2043c42720d1",
+        "identity--1aa1b4d2-52f1-4ff6-8c8b-7d07df7bad87",
+        "indicator--28c6ee2f-0d1a-4365-ba41-7e6c992ecd56",
+        "indicator--3625524d-4ff0-4bd0-a88e-d502dc7097d7",
+        "indicator--3b9f55b7-8e8b-45a4-8322-7d8208348484",
+        "indicator--47953032-d95b-42a7-9162-68ba696b22ca",
+        "indicator--b2fbf205-e8ea-43be-914c-c5e297a779a6",
+        "indicator--b3ed35f1-5691-4a2a-94e2-4926f27d56e0",
+        "indicator--ebf1d45e-262e-458c-9f19-73a3eba91458",
+        "intrusion-set--92e421c1-8652-4f9c-b05e-c0e9e4d6d75c",
+        "relationship--01a5a209-b94c-450b-b7f9-946497d91055",
+        "relationship--01b3f2ca-08a0-467d-a2c7-86b6b3d572a1",
+        "relationship--025263b6-efac-4cb4-a211-d3565a08157d",
+        "relationship--03d7999c-1f4c-42cc-8373-e7690d318104",
+        "relationship--0b0b2af4-2513-4c8d-b760-6d0cf69a9c56",
+        "relationship--0bcb6a87-86d8-408f-bd39-9a1696d3959a",
+        "relationship--12d2020a-40a3-413c-85ca-3bb5a1d36091",
+        "relationship--12f06656-19c7-4a0b-aafc-fa164959980c",
+        "relationship--15dbf668-795c-41e6-8219-f0447c0e64ce",
+        "relationship--17fbfdf8-6815-4a5d-8c80-d65c6e99b6ab",
+        "relationship--1adf94ea-f963-4a60-a073-dc042acc4d2d",
+        "relationship--1c40ddbc-c80d-4f39-ba67-8c332a752f30",
+        "relationship--21875073-b0ee-49e3-9077-1e2a885359af",
+        "relationship--21f17835-c0d1-4530-85e1-1b35813f4ab4",
+        "relationship--2aa6d102-2af8-4dcc-b6f9-dda681976cab",
+        "relationship--2bf462e4-2582-4923-a47c-7626405833b3",
+        "relationship--32e951c4-c660-4a5e-ae6f-dbb66997f187",
+        "relationship--3489cfc5-640f-4bb3-a103-9137b97de79f",
+        "relationship--34b921df-e039-4742-afdb-12fba04271b6",
+        "relationship--354a7f88-63fb-41b5-a801-ce3b377b36f1",
+        "relationship--3891f064-13ee-4302-ba5f-720b3d3db838",
+        "relationship--3c4a2599-71ee-4405-ba1e-0e28414b4bc5",
+        "relationship--3cb00f22-8efd-4b4c-9737-cc31667e85d6",
+        "relationship--3d17a550-380d-4fe0-9089-de0d0c7cb96b",
+        "relationship--3de16d52-c1d6-4802-a6bb-b1dc0bc5ffc6",
+        "relationship--4036260d-945a-4fa7-960a-19938dbad9be",
+        "relationship--41cfa6d4-6593-48aa-b742-332a5e45658e",
+        "relationship--439af09f-4105-4246-9e8f-af81fd51cdd2",
+        "relationship--4733c6d7-b135-47da-8396-5b1063285d06",
+        "relationship--4886e73d-48eb-4ebe-b234-bad694db5357",
+        "relationship--4b3caf92-c8d4-4679-8d4f-ac90946c2b3e",
+        "relationship--4f9ca633-15c5-463c-9724-bdcd54fde541",
+        "relationship--4fe28b27-b13c-453e-a386-c2ef362a573b",
+        "relationship--52f755da-6f27-4fde-bb13-9a85be423776",
+        "relationship--539ee21c-114a-4df8-9d69-f750ce6f91e2",
+        "relationship--5406f85b-9f3d-407e-b755-6b9fdc6358f9",
+        "relationship--5a0f3bae-f669-4fb8-8151-1f9f7752f8ac",
+        "relationship--5a83253a-bb65-4ee2-82bc-f11d8d8a4c90",
+        "relationship--5d0d3609-d06d-49e1-b9c9-b544e0c618cb",
+        "relationship--5db54cc1-24e6-4a46-bb12-adbb32b31789",
+        "relationship--626e920c-50b7-4e87-9d4a-04f7b17a2b12",
+        "relationship--65b95649-6300-412f-b5fe-4e4f0c876816",
+        "relationship--6914b0b8-0429-4549-90b3-f23e0814bbfd",
+        "relationship--69cce53f-c079-408b-aba7-2632e14a7274",
+        "relationship--6a64d167-f04e-49de-a274-ea457e0b303c",
+        "relationship--6dcd8404-cb85-42d9-8bbd-13716032adf7",
+        "relationship--707399d6-ab3e-4963-9315-d9d3818cd6a0",
+        "relationship--72b74d71-8169-42aa-92e0-e7b04b9f5a08",
+        "relationship--7366726e-4f01-4482-9751-f578e4e25226",
+        "relationship--7462de5b-30c1-4fa6-814c-90edfefa1ce9",
+        "relationship--74905d48-4555-4023-b847-f5e132634899",
+        "relationship--75565046-3fdb-4d19-a368-231d564f8072",
+        "relationship--76568d37-13ed-4a2b-bb2a-0725499e4ef4",
+        "relationship--7724fe3f-8b7b-45b3-9516-41b593e0c08b",
+        "relationship--79a708db-9ea9-48f3-bff3-79428131c3e1",
+        "relationship--7bc57495-ea59-4380-be31-a64af124ef18",
+        "relationship--7d520366-d362-4fa6-a389-30645d5dd58c",
+        "relationship--7e461513-5e43-40d4-bed9-a73ab0737593",
+        "relationship--80556c93-60e0-4f0a-9fc1-0822d93dda06",
+        "relationship--8429c3ae-ddf5-4911-8442-845c2a049210",
+        "relationship--8a1a1a65-1121-4549-ad81-ee11fac08c99",
+        "relationship--8a9c32af-84dc-4b27-8f16-d643e09fe948",
+        "relationship--964b0d95-3d98-4cfe-84f8-c6a24798f22f",
+        "relationship--970a3432-3237-47ad-bcca-7d8cbb217736",
+        "relationship--98f45185-6e7b-46a7-a556-7d485db554c9",
+        "relationship--993d8908-d2a7-482e-9657-226e576918f6",
+        "relationship--a250cc83-a100-4d27-8750-a1f64a2e8105",
+        "relationship--a3510d8d-8626-4b13-a179-f21c9897de13",
+        "relationship--a43c3575-2529-46b0-980d-b733d836f4d9",
+        "relationship--a564b76e-5f03-48e6-9758-eca9cde3e49f",
+        "relationship--a71b947f-8e3c-406f-b487-80f0fdb6cd94",
+        "relationship--a76b95e8-4523-4f85-bdc7-1a140db6eb18",
+        "relationship--a8410043-55d6-4ea1-950c-73c13bc08376",
+        "relationship--ac68cae3-24bb-4167-9cc5-41f87a1c9a2d",
+        "relationship--acd559f3-028d-496c-9967-26e2efb5864f",
+        "relationship--ae676644-d2d2-41b7-af7e-9bed1b55898c",
+        "relationship--af73cb7d-4616-4044-a628-e7351324540b",
+        "relationship--b07a1eb9-56a0-4fa0-b7e6-c98ff4f0a3a4",
+        "relationship--b2aad0af-d33d-43c4-9a44-6ffb8b3f5fb5",
+        "relationship--b48ee271-dba9-481c-9834-8678689dbdca",
+        "relationship--b562dc37-8869-4ada-b1fd-00291f7c0efa",
+        "relationship--b8f24ca0-e44a-4755-8d50-7226e2f01fb5",
+        "relationship--ba508fce-3c98-4f1b-af65-d14a5dc07f95",
+        "relationship--bb144bd4-bccc-4974-b47c-cd764dd1326f",
+        "relationship--bb88a35f-ed52-465b-8811-c161b92106b7",
+        "relationship--bbaee5b4-56ca-4c8e-b7ad-2826c87479f4",
+        "relationship--bf90d72c-c00b-45e3-b3aa-68560560d4c5",
+        "relationship--c2c3709b-4f18-4c17-8d2d-aea3da97f84e",
+        "relationship--c471d28a-8edf-497e-8905-217fe67b0c5b",
+        "relationship--cc1c0ef7-3ef2-4dcd-8167-5ff4f97fd52b",
+        "relationship--cd05d39c-63af-4795-8a46-301be042fd5d",
+        "relationship--cdc2f739-d187-49e1-a37c-0a6bf4bf1907",
+        "relationship--d18784d8-8b03-4db3-b7cb-1bbe55c07f1c",
+        "relationship--d28ef391-8ed4-45dc-bc4a-2f43abf54416",
+        "relationship--d3d649c6-1ffb-4c56-a1dc-c0d8a62a2074",
+        "relationship--d63a3fb8-9452-4e9d-a60a-54be68d5998c",
+        "relationship--de03a905-560e-4d3f-a8e4-3f59bf55fa37",
+        "relationship--de0ae94e-5312-4fdf-9b5c-25e70ed5c283",
+        "relationship--e0869000-4bb8-4018-9abc-f63dec086ec2",
+        "relationship--e0aad12a-2d55-466b-aaaf-42f1a23fa089",
+        "relationship--e20894f5-ebaf-4937-ae06-54c3f0850b31",
+        "relationship--e358d692-23c0-4a31-9eb6-ecc13a8d7735",
+        "relationship--e787b90a-e13b-4499-99f3-f3ad35cdbb60",
+        "relationship--e793a5f2-02d9-41fd-a0b1-b96ad9926ab6",
+        "relationship--e7d9db31-76d3-42f3-9bf5-7e82f04c597d",
+        "relationship--eb062747-2193-45de-8fa2-e62549c37ddf",
+        "relationship--ed0a8d3a-3efd-480f-94e0-497266cacf8b",
+        "relationship--efbc10dd-778a-4f84-9c78-b62ce3fadf64",
+        "relationship--f0969785-4459-4302-a0fe-81869460fad0",
+        "relationship--f2d8ff20-ffc1-4e1e-b2b0-19ccc5f8c74b",
+        "relationship--f3c544dc-673c-4ef3-accb-53229f1ae077",
+        "relationship--f709ebce-cebb-4a93-876f-731f1540bea4",
+        "relationship--f7186df7-7b3a-46fb-ac0b-bc6ab604f0cd",
+        "relationship--f90f0fdd-df33-4c66-8c22-d44c774e783c",
+        "relationship--fbdbc7a5-242c-4f8b-9345-2f2f1a438451",
+        "relationship--fc22eabd-a85b-41a6-b03d-ad0d56fdf374",
+        "relationship--fc37337d-adbe-46d2-93d5-f1e454fe279d",
+        "relationship--fe120dbc-2812-4e78-aaf2-c4ef5fbfea69",
+        "relationship--fe683945-9046-44b5-ab45-30bdf7b4cb50"
       ],
       "labels": [
         "campaign"
