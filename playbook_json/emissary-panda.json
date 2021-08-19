@@ -30,10 +30,10 @@
       "type": "attack-pattern",
       "id": "attack-pattern--355be19c-ffc9-46d5-8d50-d6a036c675b6",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-07-27T14:54:37.379Z",
+      "created": "2017-05-31T21:30:56.776Z",
+      "modified": "2020-10-21T16:35:45.986Z",
       "name": "T1071: Application Layer Protocol",
-      "description": "Adversaries may communicate using application layer protocols to avoid detection/network filtering by blending in with existing traffic. Commands to the remote system, and often the results of those commands, will be embedded within the protocol traffic between the client and server. \n\nAdversaries may utilize many different protocols, including those used for web browsing, transferring files, electronic mail, or DNS. For connections that occur internally within an enclave (such as those between a proxy or pivot node and other nodes), commonly used protocols are SMB, SSH, or RDP.",
+      "description": "Adversaries may communicate using application layer protocols to avoid detection/network filtering by blending in with existing traffic. Commands to the remote system, and often the results of those commands, will be embedded within the protocol traffic between the client and server. \n\nAdversaries may utilize many different protocols, including those used for web browsing, transferring files, electronic mail, or DNS. For connections that occur internally within an enclave (such as those between a proxy or pivot node and other nodes), commonly used protocols are SMB, SSH, or RDP. ",
       "kill_chain_phases": [
         {
           "kill_chain_name": "lockheed",
@@ -59,35 +59,28 @@
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "Analyze network data for uncommon data flows (e.g., a client sending significantly more data than it receives from a server). Processes utilizing the network that do not normally have network communication or have never been seen before are suspicious. Analyze packet contents to detect application layer protocols that do not follow the expected protocol standards regarding syntax, structure, or any other variable adversaries could leverage to conceal data.(Citation: University of Birmingham C2)"
-      ],
+      "x_mitre_detection": "Analyze network data for uncommon data flows (e.g., a client sending significantly more data than it receives from a server). Processes utilizing the network that do not normally have network communication or have never been seen before are suspicious. Analyze packet contents to detect application layer protocols that do not follow the expected protocol standards regarding syntax, structure, or any other variable adversaries could leverage to conceal data.(Citation: University of Birmingham C2)",
       "x_mitre_platforms": [
         "Linux",
-        "Windows",
-        "macOS"
+        "macOS",
+        "Windows"
       ],
       "x_mitre_data_sources": [
-        "DNS records",
-        "Netflow/Enclave netflow",
-        "Network protocol analysis",
-        "Packet capture",
-        "Process monitoring",
-        "Process use of network"
+        "Network Traffic: Network Traffic Content",
+        "Network Traffic: Network Traffic Flow"
       ],
-      "x_mitre_network_requirements": [
-        "true"
-      ],
+      "x_mitre_is_subtechnique": false,
+      "x_mitre_network_requirements": true,
       "x_mitre_version": "2.0"
     },
     {
       "type": "attack-pattern",
       "id": "attack-pattern--3f886f2a-874f-4333-b794-aa6075009b1c",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-07-27T14:54:38.428Z",
+      "created": "2018-04-18T17:59:24.739Z",
+      "modified": "2021-04-12T18:25:16.409Z",
       "name": "T1190: Exploit Public-Facing Application",
-      "description": "Adversaries may attempt to take advantage of a weakness in an Internet-facing computer or program using software, data, or commands in order to cause unintended or unanticipated behavior. The weakness in the system can be a bug, a glitch, or a design vulnerability. These applications are often websites, but can include databases (like SQL)(Citation: NVD CVE-2016-6662), standard services (like SMB(Citation: CIS Multiple SMB Vulnerabilities) or SSH), and any other applications with Internet accessible open sockets, such as web servers and related services.(Citation: NVD CVE-2014-7169) Depending on the flaw being exploited this may include [Exploitation for Defense Evasion](https://attack.mitre.org/techniques/T1211).\n\nIf an application is hosted on cloud-based infrastructure, then exploiting it may lead to compromise of the underlying instance. This can allow an adversary a path to access the cloud APIs or to take advantage of weak identity and access management policies.\n\nFor websites and databases, the OWASP top 10 and CWE top 25 highlight the most common web-based vulnerabilities.(Citation: OWASP Top 10)(Citation: CWE top 25)",
+      "description": "Adversaries may attempt to take advantage of a weakness in an Internet-facing computer or program using software, data, or commands in order to cause unintended or unanticipated behavior. The weakness in the system can be a bug, a glitch, or a design vulnerability. These applications are often websites, but can include databases (like SQL)(Citation: NVD CVE-2016-6662), standard services (like SMB(Citation: CIS Multiple SMB Vulnerabilities) or SSH), network device administration and management protocols (like SNMP and Smart Install(Citation: US-CERT TA18-106A Network Infrastructure Devices 2018)(Citation: Cisco Blog Legacy Device Attacks)), and any other applications with Internet accessible open sockets, such as web servers and related services.(Citation: NVD CVE-2014-7169) Depending on the flaw being exploited this may include [Exploitation for Defense Evasion](https://attack.mitre.org/techniques/T1211). \n\nIf an application is hosted on cloud-based infrastructure and/or is containerized, then exploiting it may lead to compromise of the underlying instance or container. This can allow an adversary a path to access the cloud or container APIs, exploit container host access via [Escape to Host](https://attack.mitre.org/techniques/T1611), or take advantage of weak identity and access management policies.\n\nFor websites and databases, the OWASP top 10 and CWE top 25 highlight the most common web-based vulnerabilities.(Citation: OWASP Top 10)(Citation: CWE top 25)",
       "kill_chain_phases": [
         {
           "kill_chain_name": "lockheed",
@@ -100,24 +93,9 @@
       ],
       "external_references": [
         {
-          "source_name": "CIS Multiple SMB Vulnerabilities",
-          "url": "https://www.cisecurity.org/advisory/multiple-vulnerabilities-in-microsoft-windows-smb-server-could-allow-for-remote-code-execution/",
-          "description": "CIS. (2017, May 15). Multiple Vulnerabilities in Microsoft Windows SMB Server Could Allow for Remote Code Execution. Retrieved April 3, 2018."
-        },
-        {
-          "source_name": "CWE top 25",
-          "url": "https://cwe.mitre.org/top25/index.html",
-          "description": "Christey, S., Brown, M., Kirby, D., Martin, B., Paller, A.. (2011, September 13). 2011 CWE/SANS Top 25 Most Dangerous Software Errors. Retrieved April 10, 2019."
-        },
-        {
           "source_name": "mitre-attack",
           "url": "https://attack.mitre.org/techniques/T1190",
           "external_id": "T1190"
-        },
-        {
-          "source_name": "NVD CVE-2014-7169",
-          "url": "https://nvd.nist.gov/vuln/detail/CVE-2014-7169",
-          "description": "National Vulnerability Database. (2017, September 24). CVE-2014-7169 Detail. Retrieved April 3, 2018."
         },
         {
           "source_name": "NVD CVE-2016-6662",
@@ -125,45 +103,65 @@
           "description": "National Vulnerability Database. (2017, February 2). CVE-2016-6662 Detail. Retrieved April 3, 2018."
         },
         {
+          "source_name": "CIS Multiple SMB Vulnerabilities",
+          "url": "https://www.cisecurity.org/advisory/multiple-vulnerabilities-in-microsoft-windows-smb-server-could-allow-for-remote-code-execution/",
+          "description": "CIS. (2017, May 15). Multiple Vulnerabilities in Microsoft Windows SMB Server Could Allow for Remote Code Execution. Retrieved April 3, 2018."
+        },
+        {
+          "source_name": "US-CERT TA18-106A Network Infrastructure Devices 2018",
+          "url": "https://us-cert.cisa.gov/ncas/alerts/TA18-106A",
+          "description": "US-CERT. (2018, April 20). Russian State-Sponsored Cyber Actors Targeting Network Infrastructure Devices. Retrieved October 19, 2020."
+        },
+        {
+          "source_name": "Cisco Blog Legacy Device Attacks",
+          "url": "https://community.cisco.com/t5/security-blogs/attackers-continue-to-target-legacy-devices/ba-p/4169954",
+          "description": "Omar Santos. (2020, October 19). Attackers Continue to Target Legacy Devices. Retrieved October 20, 2020."
+        },
+        {
+          "source_name": "NVD CVE-2014-7169",
+          "url": "https://nvd.nist.gov/vuln/detail/CVE-2014-7169",
+          "description": "National Vulnerability Database. (2017, September 24). CVE-2014-7169 Detail. Retrieved April 3, 2018."
+        },
+        {
           "source_name": "OWASP Top 10",
           "url": "https://www.owasp.org/index.php/Category:OWASP_Top_Ten_Project",
           "description": "OWASP. (2018, February 23). OWASP Top Ten Project. Retrieved April 3, 2018."
+        },
+        {
+          "source_name": "CWE top 25",
+          "url": "https://cwe.mitre.org/top25/index.html",
+          "description": "Christey, S., Brown, M., Kirby, D., Martin, B., Paller, A.. (2011, September 13). 2011 CWE/SANS Top 25 Most Dangerous Software Errors. Retrieved April 10, 2019."
         }
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "Monitor application logs for abnormal behavior that may indicate attempted or successful exploitation. Use deep packet inspection to look for artifacts of common exploit traffic, such as SQL injection. Web Application Firewalls may detect improper inputs attempting exploitation."
-      ],
+      "x_mitre_detection": "Monitor application logs for abnormal behavior that may indicate attempted or successful exploitation. Use deep packet inspection to look for artifacts of common exploit traffic, such as SQL injection. Web Application Firewalls may detect improper inputs attempting exploitation.",
       "x_mitre_platforms": [
-        "AWS",
-        "Azure",
-        "GCP",
+        "Containers",
+        "IaaS",
         "Linux",
-        "Windows",
-        "macOS"
+        "macOS",
+        "Network",
+        "Windows"
       ],
       "x_mitre_data_sources": [
-        "AWS CloudTrail logs",
-        "Application logs",
-        "Azure activity logs",
-        "Packet capture",
-        "Stackdriver logs",
-        "Web application firewall logs",
-        "Web logs"
+        "Application Log: Application Log Content",
+        "Network Traffic: Network Traffic Content"
       ],
+      "x_mitre_is_subtechnique": false,
       "x_mitre_contributors": [
-        "Praetorian"
+        "Praetorian",
+        "Yossi Weizman, Azure Defender Research Team"
       ],
-      "x_mitre_version": "2.1"
+      "x_mitre_version": "2.3"
     },
     {
       "type": "attack-pattern",
       "id": "attack-pattern--4f9ca633-15c5-463c-9724-bdcd54fde541",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-07-27T14:54:36.653Z",
+      "created": "2020-02-11T18:25:28.212Z",
+      "modified": "2020-03-23T21:16:02.812Z",
       "name": "T1021.002: SMB/Windows Admin Shares",
       "description": "Adversaries may use [Valid Accounts](https://attack.mitre.org/techniques/T1078) to interact with a remote network share using Server Message Block (SMB). The adversary may then perform actions as the logged-on user.\n\nSMB is a file, printer, and serial port sharing protocol for Windows machines on the same network or domain. Adversaries may use SMB to interact with file shares, allowing them to move laterally throughout a network. Linux and macOS implementations of SMB typically use Samba.\n\nWindows systems have hidden network shares that are accessible only to administrators and provide the ability for remote file copy and other administrative functions. Example network shares include `C$`, `ADMIN$`, and `IPC$`. Adversaries may use this technique in conjunction with administrator-level [Valid Accounts](https://attack.mitre.org/techniques/T1078) to remotely access a networked system over SMB,(Citation: Wikipedia Server Message Block) to interact with systems using remote procedure calls (RPCs),(Citation: TechNet RPC) transfer files, and run transferred binaries through remote Execution. Example execution techniques that rely on authenticated sessions over SMB/RPC are [Scheduled Task/Job](https://attack.mitre.org/techniques/T1053), [Service Execution](https://attack.mitre.org/techniques/T1569/002), and [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047). Adversaries can also use NTLM hashes to access administrator shares on systems with [Pass the Hash](https://attack.mitre.org/techniques/T1550/002) and certain configuration and patch levels.(Citation: Microsoft Admin Shares)",
       "kill_chain_phases": [
@@ -178,34 +176,14 @@
       ],
       "external_references": [
         {
-          "source_name": "capec",
-          "url": "https://capec.mitre.org/data/definitions/561.html",
-          "external_id": "CAPEC-561"
-        },
-        {
-          "source_name": "Lateral Movement Payne",
-          "url": "https://docs.microsoft.com/en-us/archive/blogs/jepayne/tracking-lateral-movement-part-one-special-groups-and-specific-service-accounts",
-          "description": "Payne, J. (2015, November 26). Tracking Lateral Movement Part One - Special Groups and Specific Service Accounts. Retrieved February 1, 2016."
-        },
-        {
-          "source_name": "Medium Detecting WMI Persistence",
-          "url": "https://medium.com/threatpunter/detecting-removing-wmi-persistence-60ccbb7dff96",
-          "description": "French, D. (2018, October 9). Detecting & Removing an Attacker\u2019s WMI Persistence. Retrieved October 11, 2019."
-        },
-        {
-          "source_name": "Microsoft Admin Shares",
-          "url": "http://support.microsoft.com/kb/314984",
-          "description": "Microsoft. (n.d.). How to create and delete hidden or administrative shares on client computers. Retrieved November 20, 2014."
-        },
-        {
           "source_name": "mitre-attack",
           "url": "https://attack.mitre.org/techniques/T1021/002",
           "external_id": "T1021.002"
         },
         {
-          "source_name": "TechNet RPC",
-          "url": "https://technet.microsoft.com/en-us/library/cc787851.aspx",
-          "description": "Microsoft. (2003, March 28). What Is RPC?. Retrieved June 12, 2016."
+          "source_name": "capec",
+          "url": "https://capec.mitre.org/data/definitions/561.html",
+          "external_id": "CAPEC-561"
         },
         {
           "source_name": "Wikipedia Server Message Block",
@@ -213,26 +191,46 @@
           "description": "Wikipedia. (2017, December 16). Server Message Block. Retrieved December 21, 2017."
         },
         {
+          "source_name": "TechNet RPC",
+          "url": "https://technet.microsoft.com/en-us/library/cc787851.aspx",
+          "description": "Microsoft. (2003, March 28). What Is RPC?. Retrieved June 12, 2016."
+        },
+        {
+          "source_name": "Microsoft Admin Shares",
+          "url": "http://support.microsoft.com/kb/314984",
+          "description": "Microsoft. (n.d.). How to create and delete hidden or administrative shares on client computers. Retrieved November 20, 2014."
+        },
+        {
+          "source_name": "Lateral Movement Payne",
+          "url": "https://docs.microsoft.com/en-us/archive/blogs/jepayne/tracking-lateral-movement-part-one-special-groups-and-specific-service-accounts",
+          "description": "Payne, J. (2015, November 26). Tracking Lateral Movement Part One - Special Groups and Specific Service Accounts. Retrieved February 1, 2016."
+        },
+        {
           "source_name": "Windows Event Forwarding Payne",
           "url": "https://docs.microsoft.com/en-us/archive/blogs/jepayne/monitoring-what-matters-windows-event-forwarding-for-everyone-even-if-you-already-have-a-siem",
           "description": "Payne, J. (2015, November 23). Monitoring what matters - Windows Event Forwarding for everyone (even if you already have a SIEM.). Retrieved February 1, 2016."
+        },
+        {
+          "source_name": "Medium Detecting WMI Persistence",
+          "url": "https://medium.com/threatpunter/detecting-removing-wmi-persistence-60ccbb7dff96",
+          "description": "French, D. (2018, October 9). Detecting & Removing an Attacker\u2019s WMI Persistence. Retrieved October 11, 2019."
         }
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "Ensure that proper logging of accounts used to log into systems is turned on and centrally collected. Windows logging is able to collect success/failure for accounts that may be used to move laterally and can be collected using tools such as Windows Event Forwarding. (Citation: Lateral Movement Payne)(Citation: Windows Event Forwarding Payne) Monitor remote login events and associated SMB activity for file transfers and remote process execution. Monitor the actions of remote users who connect to administrative shares. Monitor for use of tools and commands to connect to remote shares, such as [Net](https://attack.mitre.org/software/S0039), on the command-line interface and Discovery techniques that could be used to find remotely accessible systems.(Citation: Medium Detecting WMI Persistence)"
-      ],
+      "x_mitre_detection": "Ensure that proper logging of accounts used to log into systems is turned on and centrally collected. Windows logging is able to collect success/failure for accounts that may be used to move laterally and can be collected using tools such as Windows Event Forwarding. (Citation: Lateral Movement Payne)(Citation: Windows Event Forwarding Payne) Monitor remote login events and associated SMB activity for file transfers and remote process execution. Monitor the actions of remote users who connect to administrative shares. Monitor for use of tools and commands to connect to remote shares, such as [Net](https://attack.mitre.org/software/S0039), on the command-line interface and Discovery techniques that could be used to find remotely accessible systems.(Citation: Medium Detecting WMI Persistence)",
       "x_mitre_platforms": [
         "Windows"
       ],
       "x_mitre_data_sources": [
-        "Authentication logs",
-        "Process command-line parameters",
-        "Process monitoring",
-        "Process use of network"
+        "Command: Command Execution",
+        "Logon Session: Logon Session Creation",
+        "Network Share: Network Share Access",
+        "Network Traffic: Network Connection Creation",
+        "Network Traffic: Network Traffic Flow"
       ],
+      "x_mitre_is_subtechnique": true,
       "x_mitre_permissions_required": [
         "Administrator",
         "User"
@@ -240,16 +238,18 @@
       "x_mitre_system_requirements": [
         "SMB enabled; Host/network firewalls not blocking SMB ports between source and destination; Use of domain account in administrator group on remote system or default system admin account."
       ],
-      "x_mitre_version": "1.0"
+      "x_mitre_version": "1.0",
+      "x_panw_parent_technique": "Remote Services",
+      "x_panw_parent_technique_subtechnique": "Remote Services: SMB/Windows Admin Shares"
     },
     {
       "type": "attack-pattern",
       "id": "attack-pattern--5d0d3609-d06d-49e1-b9c9-b544e0c618cb",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-07-27T14:54:42.474Z",
+      "created": "2019-12-13T16:46:18.927Z",
+      "modified": "2020-09-16T19:34:19.752Z",
       "name": "T1505.003: Web Shell",
-      "description": "Adversaries may backdoor web servers with web shells to establish persistent access to systems. A Web shell is a Web script that is placed on an openly accessible Web server to allow an adversary to use the Web server as a gateway into a network. A Web shell may provide a set of functions to execute or a command-line interface on the system that hosts the Web server.\n\nIn addition to a server-side script, a Web shell may have a client interface program that is used to talk to the Web server (ex: [China Chopper](https://attack.mitre.org/software/S0020) Web shell client).(Citation: Lee 2013)",
+      "description": "Adversaries may backdoor web servers with web shells to establish persistent access to systems. A Web shell is a Web script that is placed on an openly accessible Web server to allow an adversary to use the Web server as a gateway into a network. A Web shell may provide a set of functions to execute or a command-line interface on the system that hosts the Web server.\n\nIn addition to a server-side script, a Web shell may have a client interface program that is used to talk to the Web server (ex: [China Chopper](https://attack.mitre.org/software/S0020) Web shell client).(Citation: Lee 2013) ",
       "kill_chain_phases": [
         {
           "kill_chain_name": "lockheed",
@@ -262,14 +262,19 @@
       ],
       "external_references": [
         {
-          "source_name": "Lee 2013",
-          "url": "https://www.fireeye.com/blog/threat-research/2013/08/breaking-down-the-china-chopper-web-shell-part-i.html",
-          "description": "Lee, T., Hanzlik, D., Ahl, I. (2013, August 7). Breaking Down the China Chopper Web Shell - Part I. Retrieved March 27, 2015."
-        },
-        {
           "source_name": "mitre-attack",
           "url": "https://attack.mitre.org/techniques/T1505/003",
           "external_id": "T1505.003"
+        },
+        {
+          "source_name": "capec",
+          "url": "https://capec.mitre.org/data/definitions/650.html",
+          "external_id": "CAPEC-650"
+        },
+        {
+          "source_name": "Lee 2013",
+          "url": "https://www.fireeye.com/blog/threat-research/2013/08/breaking-down-the-china-chopper-web-shell-part-i.html",
+          "description": "Lee, T., Hanzlik, D., Ahl, I. (2013, August 7). Breaking Down the China Chopper Web Shell - Part I. Retrieved March 27, 2015."
         },
         {
           "source_name": "US-CERT Alert TA15-314A Web Shells",
@@ -280,20 +285,21 @@
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "Web shells can be difficult to detect. Unlike other forms of persistent remote access, they do not initiate connections. The portion of the Web shell that is on the server may be small and innocuous looking. The PHP version of the China Chopper Web shell, for example, is the following short payload: (Citation: Lee 2013) \n\n<code>&lt;?php @eval($_POST['password']);&gt;</code>\n\nNevertheless, detection mechanisms exist. Process monitoring may be used to detect Web servers that perform suspicious actions such as running cmd.exe or accessing files that are not in the Web directory. File monitoring may be used to detect changes to files in the Web directory of a Web server that do not match with updates to the Web server's content and may indicate implantation of a Web shell script. Log authentication attempts to the server and any unusual traffic patterns to or from the server and internal network. (Citation: US-CERT Alert TA15-314A Web Shells) "
-      ],
+      "x_mitre_detection": "Web shells can be difficult to detect. Unlike other forms of persistent remote access, they do not initiate connections. The portion of the Web shell that is on the server may be small and innocuous looking. The PHP version of the China Chopper Web shell, for example, is the following short payload: (Citation: Lee 2013) \n\n<code>&lt;?php @eval($_POST['password']);&gt;</code>\n\nNevertheless, detection mechanisms exist. Process monitoring may be used to detect Web servers that perform suspicious actions such as running cmd.exe or accessing files that are not in the Web directory. File monitoring may be used to detect changes to files in the Web directory of a Web server that do not match with updates to the Web server's content and may indicate implantation of a Web shell script. Log authentication attempts to the server and any unusual traffic patterns to or from the server and internal network. (Citation: US-CERT Alert TA15-314A Web Shells) ",
       "x_mitre_platforms": [
         "Linux",
-        "Windows",
-        "macOS"
+        "macOS",
+        "Windows"
       ],
       "x_mitre_data_sources": [
-        "Authentication logs",
-        "File monitoring",
-        "Netflow/Enclave netflow",
-        "Process monitoring"
+        "Application Log: Application Log Content",
+        "File: File Creation",
+        "File: File Modification",
+        "Network Traffic: Network Traffic Content",
+        "Network Traffic: Network Traffic Flow",
+        "Process: Process Creation"
       ],
+      "x_mitre_is_subtechnique": true,
       "x_mitre_permissions_required": [
         "SYSTEM",
         "User"
@@ -301,14 +307,16 @@
       "x_mitre_system_requirements": [
         "Adversary access to Web server with vulnerability or account to upload and serve the Web shell file."
       ],
-      "x_mitre_version": "1.0"
+      "x_mitre_version": "1.1",
+      "x_panw_parent_technique": "Server Software Component",
+      "x_panw_parent_technique_subtechnique": "Server Software Component: Web Shell"
     },
     {
       "type": "attack-pattern",
       "id": "attack-pattern--92d7da27-2d91-488e-a00c-059dc162766d",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-07-27T14:54:36.978Z",
+      "created": "2017-05-31T21:30:41.804Z",
+      "modified": "2020-03-12T15:59:47.470Z",
       "name": "T1041: Exfiltration Over C2 Channel",
       "description": "Adversaries may steal data by exfiltrating it over an existing command and control channel. Stolen data is encoded into the normal communications channel using the same protocol as command and control communications.",
       "kill_chain_phases": [
@@ -336,31 +344,29 @@
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "Analyze network data for uncommon data flows (e.g., a client sending significantly more data than it receives from a server). Processes utilizing the network that do not normally have network communication or have never been seen before are suspicious. Analyze packet contents to detect communications that do not follow the expected protocol behavior for the port that is being used. (Citation: University of Birmingham C2)"
-      ],
+      "x_mitre_detection": "Analyze network data for uncommon data flows (e.g., a client sending significantly more data than it receives from a server). Processes utilizing the network that do not normally have network communication or have never been seen before are suspicious. Analyze packet contents to detect communications that do not follow the expected protocol behavior for the port that is being used. (Citation: University of Birmingham C2)",
       "x_mitre_platforms": [
         "Linux",
-        "Windows",
-        "macOS"
+        "macOS",
+        "Windows"
       ],
       "x_mitre_data_sources": [
-        "Netflow/Enclave netflow",
-        "Packet capture",
-        "Process monitoring",
-        "Process use of network"
+        "Command: Command Execution",
+        "File: File Access",
+        "Network Traffic: Network Connection Creation",
+        "Network Traffic: Network Traffic Content",
+        "Network Traffic: Network Traffic Flow"
       ],
-      "x_mitre_network_requirements": [
-        "true"
-      ],
+      "x_mitre_is_subtechnique": false,
+      "x_mitre_network_requirements": true,
       "x_mitre_version": "2.0"
     },
     {
       "type": "attack-pattern",
       "id": "attack-pattern--9db0cf3a-a3c9-4012-8268-123b9db6fd82",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-07-27T14:54:38.428Z",
+      "created": "2018-04-18T17:59:24.739Z",
+      "modified": "2021-04-22T20:23:01.478Z",
       "name": "T1210: Exploitation of Remote Services",
       "description": "Adversaries may exploit remote services to gain unauthorized access to internal systems once inside of a network. Exploitation of a software vulnerability occurs when an adversary takes advantage of a programming error in a program, service, or within the operating system software or kernel itself to execute adversary-controlled code.\u00a0A common goal for post-compromise exploitation of remote services is for lateral movement to enable access to a remote system.\n\nAn adversary may need to determine if the remote system is in a vulnerable state, which may be done through [Network Service Scanning](https://attack.mitre.org/techniques/T1046) or other Discovery methods looking for common, vulnerable software that may be deployed in the network, the lack of certain patches that may indicate vulnerabilities,  or security software that may be used to detect or contain remote exploitation. Servers are likely a high value target for lateral movement exploitation, but endpoint systems may also be at risk if they provide an advantage or access to additional resources.\n\nThere are several well-known vulnerabilities that exist in common services such as SMB (Citation: CIS Multiple SMB Vulnerabilities) and RDP (Citation: NVD CVE-2017-0176) as well as applications that may be used within internal networks such as MySQL (Citation: NVD CVE-2016-6662) and web server services. (Citation: NVD CVE-2014-7169)\n\nDepending on the permissions level of the vulnerable remote service an adversary may achieve [Exploitation for Privilege Escalation](https://attack.mitre.org/techniques/T1068) as a result of lateral movement exploitation as well.",
       "kill_chain_phases": [
@@ -375,19 +381,19 @@
       ],
       "external_references": [
         {
-          "source_name": "CIS Multiple SMB Vulnerabilities",
-          "url": "https://www.cisecurity.org/advisory/multiple-vulnerabilities-in-microsoft-windows-smb-server-could-allow-for-remote-code-execution/",
-          "description": "CIS. (2017, May 15). Multiple Vulnerabilities in Microsoft Windows SMB Server Could Allow for Remote Code Execution. Retrieved April 3, 2018."
-        },
-        {
           "source_name": "mitre-attack",
           "url": "https://attack.mitre.org/techniques/T1210",
           "external_id": "T1210"
         },
         {
-          "source_name": "NVD CVE-2014-7169",
-          "url": "https://nvd.nist.gov/vuln/detail/CVE-2014-7169",
-          "description": "National Vulnerability Database. (2017, September 24). CVE-2014-7169 Detail. Retrieved April 3, 2018."
+          "source_name": "CIS Multiple SMB Vulnerabilities",
+          "url": "https://www.cisecurity.org/advisory/multiple-vulnerabilities-in-microsoft-windows-smb-server-could-allow-for-remote-code-execution/",
+          "description": "CIS. (2017, May 15). Multiple Vulnerabilities in Microsoft Windows SMB Server Could Allow for Remote Code Execution. Retrieved April 3, 2018."
+        },
+        {
+          "source_name": "NVD CVE-2017-0176",
+          "url": "https://nvd.nist.gov/vuln/detail/CVE-2017-0176",
+          "description": "National Vulnerability Database. (2017, June 22). CVE-2017-0176 Detail. Retrieved April 3, 2018."
         },
         {
           "source_name": "NVD CVE-2016-6662",
@@ -395,32 +401,33 @@
           "description": "National Vulnerability Database. (2017, February 2). CVE-2016-6662 Detail. Retrieved April 3, 2018."
         },
         {
-          "source_name": "NVD CVE-2017-0176",
-          "url": "https://nvd.nist.gov/vuln/detail/CVE-2017-0176",
-          "description": "National Vulnerability Database. (2017, June 22). CVE-2017-0176 Detail. Retrieved April 3, 2018."
+          "source_name": "NVD CVE-2014-7169",
+          "url": "https://nvd.nist.gov/vuln/detail/CVE-2014-7169",
+          "description": "National Vulnerability Database. (2017, September 24). CVE-2014-7169 Detail. Retrieved April 3, 2018."
         }
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "Detecting software exploitation may be difficult depending on the tools available. Software exploits may not always succeed or may cause the exploited process to become unstable or crash. Also look for behavior on the endpoint system that might indicate successful compromise, such as abnormal behavior of the processes. This could include suspicious files written to disk, evidence of [Process Injection](https://attack.mitre.org/techniques/T1055) for attempts to hide execution, evidence of Discovery, or other unusual network traffic that may indicate additional tools transferred to the system."
-      ],
+      "x_mitre_detection": "Detecting software exploitation may be difficult depending on the tools available. Software exploits may not always succeed or may cause the exploited process to become unstable or crash. Also look for behavior on the endpoint system that might indicate successful compromise, such as abnormal behavior of the processes. This could include suspicious files written to disk, evidence of [Process Injection](https://attack.mitre.org/techniques/T1055) for attempts to hide execution, evidence of Discovery, or other unusual network traffic that may indicate additional tools transferred to the system.",
       "x_mitre_platforms": [
         "Linux",
-        "Windows",
-        "macOS"
+        "macOS",
+        "Windows"
       ],
       "x_mitre_data_sources": [
-        "File monitoring",
-        "Process monitoring",
-        "Windows Error Reporting"
+        "Application Log: Application Log Content",
+        "Network Traffic: Network Traffic Content"
       ],
+      "x_mitre_is_subtechnique": false,
       "x_mitre_permissions_required": [
         "User"
       ],
       "x_mitre_system_requirements": [
         "Unpatched software or otherwise vulnerable target. Depending on the target and goal, the system and exploitable service may need to be remotely accessible from the internal network."
+      ],
+      "x_mitre_contributors": [
+        "ExtraHop"
       ],
       "x_mitre_version": "1.1"
     },
@@ -428,8 +435,8 @@
       "type": "attack-pattern",
       "id": "attack-pattern--e3a12395-188d-4051-9a16-ea8e14d07b88",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-07-27T14:54:36.978Z",
+      "created": "2017-05-31T21:30:43.915Z",
+      "modified": "2021-04-09T14:56:26.562Z",
       "name": "T1046: Network Service Scanning",
       "description": "Adversaries may attempt to get a listing of services running on remote hosts, including those that may be vulnerable to remote software exploitation. Methods to acquire this information include port scans and vulnerability scans using tools that are brought onto a system. \n\nWithin cloud environments, adversaries may attempt to discover services running on other cloud hosts. Additionally, if the cloud environment is connected to a on-premises environment, adversaries may be able to identify services running on non-cloud systems as well.",
       "kill_chain_phases": [
@@ -444,37 +451,33 @@
       ],
       "external_references": [
         {
-          "source_name": "capec",
-          "url": "https://capec.mitre.org/data/definitions/300.html",
-          "external_id": "CAPEC-300"
-        },
-        {
           "source_name": "mitre-attack",
           "url": "https://attack.mitre.org/techniques/T1046",
           "external_id": "T1046"
+        },
+        {
+          "source_name": "capec",
+          "url": "https://capec.mitre.org/data/definitions/300.html",
+          "external_id": "CAPEC-300"
         }
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "System and network discovery techniques normally occur throughout an operation as an adversary learns the environment. Data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities, such as Lateral Movement, based on the information obtained.\n\nNormal, benign system and network events from legitimate remote service scanning may be uncommon, depending on the environment and how they are used. Legitimate open port and vulnerability scanning may be conducted within the environment and will need to be deconflicted with any detection capabilities developed. Network intrusion detection systems can also be used to identify scanning activity. Monitor for process use of the networks and inspect intra-network flows to detect port scans."
-      ],
+      "x_mitre_detection": "System and network discovery techniques normally occur throughout an operation as an adversary learns the environment. Data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities, such as Lateral Movement, based on the information obtained.\n\nNormal, benign system and network events from legitimate remote service scanning may be uncommon, depending on the environment and how they are used. Legitimate open port and vulnerability scanning may be conducted within the environment and will need to be deconflicted with any detection capabilities developed. Network intrusion detection systems can also be used to identify scanning activity. Monitor for process use of the networks and inspect intra-network flows to detect port scans.",
       "x_mitre_platforms": [
-        "AWS",
-        "Azure",
-        "GCP",
+        "Containers",
+        "IaaS",
         "Linux",
-        "Windows",
-        "macOS"
+        "macOS",
+        "Windows"
       ],
       "x_mitre_data_sources": [
-        "Netflow/Enclave netflow",
-        "Network protocol analysis",
-        "Packet capture",
-        "Process command-line parameters",
-        "Process use of network"
+        "Cloud Service: Cloud Service Enumeration",
+        "Command: Command Execution",
+        "Network Traffic: Network Traffic Flow"
       ],
+      "x_mitre_is_subtechnique": false,
       "x_mitre_permissions_required": [
         "Administrator",
         "SYSTEM",
@@ -483,16 +486,16 @@
       "x_mitre_contributors": [
         "Praetorian"
       ],
-      "x_mitre_version": "2.1"
+      "x_mitre_version": "2.2"
     },
     {
       "type": "attack-pattern",
       "id": "attack-pattern--e624264c-033a-424d-9fd7-fc9c3bbdb03e",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-07-27T14:54:43.438Z",
+      "created": "2020-01-30T16:36:51.184Z",
+      "modified": "2021-03-15T21:04:33.228Z",
       "name": "T1550.002: Pass the Hash",
-      "description": "Adversaries may \u201cpass the hash\u201d using stolen password hashes to move laterally within an environment, bypassing normal system access controls. Pass the hash (PtH) is a method of authenticating as a user without having access to the user's cleartext password. This method bypasses standard authentication steps that require a cleartext password, moving directly into the portion of the authentication that uses the password hash. In this technique, valid password hashes for the account being used are captured using a Credential Access technique. Captured hashes are used with PtH to authenticate as that user. Once authenticated, PtH may be used to perform actions on local or remote systems.\n\nWindows 7 and higher with KB2871997 require valid domain user credentials or RID 500 administrator hashes.(Citation: NSA Spotting)",
+      "description": "Adversaries may \u201cpass the hash\u201d using stolen password hashes to move laterally within an environment, bypassing normal system access controls. Pass the hash (PtH) is a method of authenticating as a user without having access to the user's cleartext password. This method bypasses standard authentication steps that require a cleartext password, moving directly into the portion of the authentication that uses the password hash.\n\nWhen performing PtH, valid password hashes for the account being used are captured using a [Credential Access](https://attack.mitre.org/tactics/TA0006) technique. Captured hashes are used with PtH to authenticate as that user. Once authenticated, PtH may be used to perform actions on local or remote systems.\n\nAdversaries may also use stolen password hashes to \"overpass the hash.\" Similar to PtH, this involves using a password hash to authenticate as a user but also uses the password hash to create a valid Kerberos ticket. This ticket can then be used to perform [Pass the Ticket](https://attack.mitre.org/techniques/T1550/003) attacks.(Citation: Stealthbits Overpass-the-Hash)",
       "kill_chain_phases": [
         {
           "kill_chain_name": "lockheed",
@@ -513,45 +516,51 @@
       ],
       "external_references": [
         {
-          "source_name": "capec",
-          "url": "https://capec.mitre.org/data/definitions/644.html",
-          "external_id": "CAPEC-644"
-        },
-        {
           "source_name": "mitre-attack",
           "url": "https://attack.mitre.org/techniques/T1550/002",
           "external_id": "T1550.002"
         },
         {
-          "source_name": "NSA Spotting",
-          "url": "https://apps.nsa.gov/iaarchive/library/reports/spotting-the-adversary-with-windows-event-log-monitoring.cfm",
-          "description": "National Security Agency/Central Security Service Information Assurance Directorate. (2015, August 7). Spotting the Adversary with Windows Event Log Monitoring. Retrieved September 6, 2018."
+          "source_name": "capec",
+          "url": "https://capec.mitre.org/data/definitions/644.html",
+          "external_id": "CAPEC-644"
+        },
+        {
+          "source_name": "Stealthbits Overpass-the-Hash",
+          "url": "https://stealthbits.com/blog/how-to-detect-overpass-the-hash-attacks/",
+          "description": "Warren, J. (2019, February 26). How to Detect Overpass-the-Hash Attacks. Retrieved February 4, 2021."
         }
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "Audit all logon and credential use events and review for discrepancies. Unusual remote logins that correlate with other suspicious activity (such as writing and executing binaries) may indicate malicious activity. NTLM LogonType 3 authentications that are not associated to a domain login and are not anonymous logins are suspicious."
-      ],
+      "x_mitre_detection": "Audit all logon and credential use events and review for discrepancies. Unusual remote logins that correlate with other suspicious activity (such as writing and executing binaries) may indicate malicious activity. NTLM LogonType 3 authentications that are not associated to a domain login and are not anonymous logins are suspicious.\n\nEvent ID 4768 and 4769 will also be generated on the Domain Controller when a user requests a new ticket granting ticket or service ticket. These events combined with the above activity may be indicative of an overpass the hash attempt.(Citation: Stealthbits Overpass-the-Hash)",
       "x_mitre_platforms": [
         "Windows"
       ],
-      "x_mitre_data_sources": "Authentication logs",
+      "x_mitre_data_sources": [
+        "Active Directory: Active Directory Credential Request",
+        "Logon Session: Logon Session Creation",
+        "User Account: User Account Authentication"
+      ],
+      "x_mitre_is_subtechnique": true,
       "x_mitre_defense_bypassed": [
         "System Access Controls"
       ],
       "x_mitre_contributors": [
+        "Blake Strom, Microsoft 365 Defender",
         "Travis Smith, Tripwire"
       ],
-      "x_mitre_version": "1.0"
+      "x_mitre_version": "1.1",
+      "x_panw_parent_technique": "Use Alternate Authentication Material",
+      "x_panw_parent_technique_subtechnique": "Use Alternate Authentication Material: Pass the Hash"
     },
     {
       "type": "attack-pattern",
       "id": "attack-pattern--e6919abc-99f9-4c6c-95a5-14761e7b2add",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-07-27T14:54:37.764Z",
+      "created": "2017-05-31T21:31:16.408Z",
+      "modified": "2020-03-20T15:42:48.595Z",
       "name": "T1105: Ingress Tool Transfer",
       "description": "Adversaries may transfer tools or other files from an external system into a compromised environment. Files may be copied from an external adversary controlled system through the command and control channel to bring tools into the victim network or through alternate protocols with another tool such as FTP. Files can also be copied over on Mac and Linux with native tools like scp, rsync, and sftp.",
       "kill_chain_phases": [
@@ -579,23 +588,19 @@
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "Monitor for file creation and files transferred into the network. Unusual processes with external network connections creating files on-system may be suspicious. Use of utilities, such as FTP, that does not normally occur may also be suspicious.\n\nAnalyze network data for uncommon data flows (e.g., a client sending significantly more data than it receives from a server). Processes utilizing the network that do not normally have network communication or have never been seen before are suspicious. Analyze packet contents to detect communications that do not follow the expected protocol behavior for the port that is being used.(Citation: University of Birmingham C2)"
-      ],
+      "x_mitre_detection": "Monitor for file creation and files transferred into the network. Unusual processes with external network connections creating files on-system may be suspicious. Use of utilities, such as FTP, that does not normally occur may also be suspicious.\n\nAnalyze network data for uncommon data flows (e.g., a client sending significantly more data than it receives from a server). Processes utilizing the network that do not normally have network communication or have never been seen before are suspicious. Analyze packet contents to detect communications that do not follow the expected protocol behavior for the port that is being used.(Citation: University of Birmingham C2)",
       "x_mitre_platforms": [
         "Linux",
-        "Windows",
-        "macOS"
+        "macOS",
+        "Windows"
       ],
       "x_mitre_data_sources": [
-        "File monitoring",
-        "Netflow/Enclave netflow",
-        "Network protocol analysis",
-        "Packet capture",
-        "Process command-line parameters",
-        "Process monitoring",
-        "Process use of network"
+        "File: File Creation",
+        "Network Traffic: Network Connection Creation",
+        "Network Traffic: Network Traffic Content",
+        "Network Traffic: Network Traffic Flow"
       ],
+      "x_mitre_is_subtechnique": false,
       "x_mitre_permissions_required": [
         "User"
       ],
@@ -605,10 +610,10 @@
       "type": "attack-pattern",
       "id": "attack-pattern--f879d51c-5476-431c-aedf-f14d207e4d1e",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-03-18T19:43:59.299Z",
+      "created": "2017-05-31T21:30:42.657Z",
+      "modified": "2020-07-06T17:54:28.071Z",
       "name": "T1043: Commonly Used Port",
-      "description": "Adversaries may communicate over a commonly used port to bypass firewalls or network detection systems and to blend with normal network activity to avoid more detailed inspection. They may use commonly open ports such as\n\n* TCP:80 (HTTP)\n* TCP:443 (HTTPS)\n* TCP:25 (SMTP)\n* TCP/UDP:53 (DNS)\n\nThey may use the protocol associated with the port or a completely different protocol. \n\nFor connections that occur internally within an enclave (such as those between a proxy or pivot node and other nodes), examples of common ports are \n\n* TCP/UDP:135 (RPC)\n* TCP/UDP:22 (SSH)\n* TCP/UDP:3389 (RDP)",
+      "description": "**This technique has been deprecated. Please use [Non-Standard Port](https://attack.mitre.org/techniques/T1571) where appropriate.**\n\nAdversaries may communicate over a commonly used port to bypass firewalls or network detection systems and to blend with normal network activity to avoid more detailed inspection. They may use commonly open ports such as\n\n* TCP:80 (HTTP)\n* TCP:443 (HTTPS)\n* TCP:25 (SMTP)\n* TCP/UDP:53 (DNS)\n\nThey may use the protocol associated with the port or a completely different protocol. \n\nFor connections that occur internally within an enclave (such as those between a proxy or pivot node and other nodes), examples of common ports are \n\n* TCP/UDP:135 (RPC)\n* TCP/UDP:22 (SSH)\n* TCP/UDP:3389 (RDP)",
       "kill_chain_phases": [
         {
           "kill_chain_name": "lockheed",
@@ -634,23 +639,14 @@
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "Analyze network data for uncommon data flows (e.g., a client sending significantly more data than it receives from a server). Processes utilizing the network that do not normally have network communication or have never been seen before are suspicious. Analyze packet contents to detect communications that do not follow the expected protocol behavior for the port that is being used. (Citation: University of Birmingham C2)"
-      ],
+      "x_mitre_detection": "Analyze network data for uncommon data flows (e.g., a client sending significantly more data than it receives from a server). Processes utilizing the network that do not normally have network communication or have never been seen before are suspicious. Analyze packet contents to detect communications that do not follow the expected protocol behavior for the port that is being used. (Citation: University of Birmingham C2)",
       "x_mitre_platforms": [
         "Linux",
-        "Windows",
-        "macOS"
+        "macOS",
+        "Windows"
       ],
-      "x_mitre_data_sources": [
-        "Netflow/Enclave netflow",
-        "Packet capture",
-        "Process monitoring",
-        "Process use of network"
-      ],
-      "x_mitre_network_requirements": [
-        "true"
-      ],
+      "x_mitre_is_subtechnique": false,
+      "x_mitre_network_requirements": true,
       "x_mitre_version": "1.0"
     },
     {

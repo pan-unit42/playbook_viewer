@@ -31,10 +31,10 @@
       "type": "attack-pattern",
       "id": "attack-pattern--0f4a0c76-ab2d-4cb0-85d3-3f0efb8cba0d",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2020-07-27T14:54:34.130Z",
-      "modified": "2020-07-27T14:54:34.130Z",
+      "created": "2020-06-23T19:12:24.924Z",
+      "modified": "2021-04-27T19:21:05.521Z",
       "name": "T1059.007: JavaScript/JScript",
-      "description": "Adversaries may abuse JavaScript and/or JScript for execution. JavaScript (JS) is a platform-agnostic scripting language (compiled just-in-time at runtime) commonly associated with scripts in webpages, though JS can be executed in runtime environments outside the browser.(Citation: NodeJS)\n\nJScript is the Microsoft implementation of the same scripting standard. JScript is interpreted via the Windows Script engine and thus integrated with many components of Windows such as the [Component Object Model](https://attack.mitre.org/techniques/T1559/001) and Internet Explorer HTML Application (HTA) pages.(Citation: JScrip May 2018)(Citation: Microsoft JScript 2007)(Citation: Microsoft Windows Scripts)\n\nAdversaries may abuse JavaScript / JScript to execute various behaviors. Common uses include hosting malicious scripts on websites as part of a [Drive-by Compromise](https://attack.mitre.org/techniques/T1189) or downloading and executing these script files as secondary payloads. Since these payloads are text-based, it is also very common for adversaries to obfuscate their content as part of [Obfuscated Files or Information](https://attack.mitre.org/techniques/T1027).",
+      "description": "Adversaries may abuse various implementations of JavaScript for execution. JavaScript (JS) is a platform-independent scripting language (compiled just-in-time at runtime) commonly associated with scripts in webpages, though JS can be executed in runtime environments outside the browser.(Citation: NodeJS)\n\nJScript is the Microsoft implementation of the same scripting standard. JScript is interpreted via the Windows Script engine and thus integrated with many components of Windows such as the [Component Object Model](https://attack.mitre.org/techniques/T1559/001) and Internet Explorer HTML Application (HTA) pages.(Citation: JScrip May 2018)(Citation: Microsoft JScript 2007)(Citation: Microsoft Windows Scripts)\n\nJavaScript for Automation (JXA) is a macOS scripting language based on JavaScript, included as part of Apple\u2019s Open Scripting Architecture (OSA), that was introduced in OSX 10.10. Apple\u2019s OSA provides scripting capabilities to control applications, interface with the operating system, and bridge access into the rest of Apple\u2019s internal APIs. As of OSX 10.10, OSA only supports two languages, JXA and [AppleScript](https://attack.mitre.org/techniques/T1059/002). Scripts can be executed via the command line utility <code>osascript</code>, they can be compiled into applications or script files via <code>osacompile</code>, and they can be compiled and executed in memory of other programs by leveraging the OSAKit Framework.(Citation: Apple About Mac Scripting 2016)(Citation: SpecterOps JXA 2020)(Citation: SentinelOne macOS Red Team)(Citation: Red Canary Silver Sparrow Feb2021)(Citation: MDSec macOS JXA and VSCode)\n\nAdversaries may abuse various implementations of JavaScript to execute various behaviors. Common uses include hosting malicious scripts on websites as part of a [Drive-by Compromise](https://attack.mitre.org/techniques/T1189) or downloading and executing these script files as secondary payloads. Since these payloads are text-based, it is also very common for adversaries to obfuscate their content as part of [Obfuscated Files or Information](https://attack.mitre.org/techniques/T1027).",
       "kill_chain_phases": [
         {
           "kill_chain_name": "lockheed",
@@ -46,6 +46,16 @@
         }
       ],
       "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1059/007",
+          "external_id": "T1059.007"
+        },
+        {
+          "source_name": "NodeJS",
+          "url": "https://nodejs.org/",
+          "description": "OpenJS Foundation. (n.d.). Node.js. Retrieved June 23, 2020."
+        },
         {
           "source_name": "JScrip May 2018",
           "url": "https://docs.microsoft.com/windows/win32/com/translating-to-jscript",
@@ -62,47 +72,65 @@
           "description": "Microsoft. (2017, January 18). Windows Script Interfaces. Retrieved June 23, 2020."
         },
         {
-          "source_name": "mitre-attack",
-          "url": "https://attack.mitre.org/techniques/T1059/007",
-          "external_id": "T1059.007"
+          "source_name": "Apple About Mac Scripting 2016",
+          "url": "https://developer.apple.com/library/archive/documentation/LanguagesUtilities/Conceptual/MacAutomationScriptingGuide/index.html",
+          "description": "Apple. (2016, June 13). About Mac Scripting. Retrieved April 14, 2021."
         },
         {
-          "source_name": "NodeJS",
-          "url": "https://nodejs.org/",
-          "description": "OpenJS Foundation. (n.d.). Node.js. Retrieved June 23, 2020."
+          "source_name": "SpecterOps JXA 2020",
+          "url": "https://posts.specterops.io/persistent-jxa-66e1c3cd1cf5",
+          "description": "Pitt, L. (2020, August 6). Persistent JXA. Retrieved April 14, 2021."
+        },
+        {
+          "source_name": "SentinelOne macOS Red Team",
+          "url": "https://www.sentinelone.com/blog/macos-red-team-calling-apple-apis-without-building-binaries/",
+          "description": "Phil Stokes. (2019, December 5). macOS Red Team: Calling Apple APIs Without Building Binaries. Retrieved July 17, 2020."
+        },
+        {
+          "source_name": "Red Canary Silver Sparrow Feb2021",
+          "url": "https://redcanary.com/blog/clipping-silver-sparrows-wings/",
+          "description": "Tony Lambert. (2021, February 18). Clipping Silver Sparrow\u2019s wings: Outing macOS malware before it takes flight. Retrieved April 20, 2021."
+        },
+        {
+          "source_name": "MDSec macOS JXA and VSCode",
+          "url": "https://www.mdsec.co.uk/2021/01/macos-post-exploitation-shenanigans-with-vscode-extensions/",
+          "description": "Dominic Chell. (2021, January 1). macOS Post-Exploitation Shenanigans with VSCode Extensions. Retrieved April 20, 2021."
         }
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "Monitor for events associated with scripting execution, such as process activity, usage of the Windows Script Host (typically cscript.exe or wscript.exe), file activity involving scripts, or loading of modules associated with scripting languages (ex: JScript.dll). Scripting execution is likely to perform actions with various effects on a system that may generate events, depending on the types of monitoring used. Monitor processes and command-line arguments for execution and subsequent behavior. Actions may be related to network and system information [Discovery](https://attack.mitre.org/tactics/TA0007), [Collection](https://attack.mitre.org/tactics/TA0009), or other programmable post-compromise behaviors and could be used as indicators of detection leading back to the source.\n\nUnderstanding standard usage patterns is important to avoid a high number of false positives. If scripting is restricted for normal users, then any attempts to enable related components running on a system would be considered suspicious. If scripting is not commonly used on a system, but enabled, execution running out of cycle from patching or other administrator functions is suspicious. Scripts should be captured from the file system when possible to determine their actions and intent."
-      ],
+      "x_mitre_detection": "Monitor for events associated with scripting execution, such as process activity, usage of the Windows Script Host (typically cscript.exe or wscript.exe), file activity involving scripts, or loading of modules associated with scripting languages (ex: JScript.dll). Scripting execution is likely to perform actions with various effects on a system that may generate events, depending on the types of monitoring used. Monitor processes and command-line arguments for execution and subsequent behavior. Actions may be related to network and system information [Discovery](https://attack.mitre.org/tactics/TA0007), [Collection](https://attack.mitre.org/tactics/TA0009), or other programmable post-compromise behaviors and could be used as indicators of detection leading back to the source.\n\nMonitor for execution of JXA through <code>osascript</code> and usage of <code>OSAScript</code> API that may be related to other suspicious behavior occurring on the system.\n\nUnderstanding standard usage patterns is important to avoid a high number of false positives. If scripting is restricted for normal users, then any attempts to enable related components running on a system would be considered suspicious. If scripting is not commonly used on a system, but enabled, execution running out of cycle from patching or other administrator functions is suspicious. Scripts should be captured from the file system when possible to determine their actions and intent.",
       "x_mitre_platforms": [
         "Linux",
-        "Windows",
-        "macOS"
+        "macOS",
+        "Windows"
       ],
       "x_mitre_data_sources": [
-        "DLL monitoring",
-        "File monitoring",
-        "Loaded DLLs",
-        "Process command-line parameters",
-        "Process monitoring"
+        "Command: Command Execution",
+        "Module: Module Load",
+        "Process: Process Creation",
+        "Script: Script Execution"
       ],
+      "x_mitre_is_subtechnique": true,
       "x_mitre_permissions_required": [
         "Administrator",
         "SYSTEM",
         "User"
       ],
-      "x_mitre_version": "1.0"
+      "x_mitre_contributors": [
+        "Cody Thomas, SpecterOps"
+      ],
+      "x_mitre_version": "2.0",
+      "x_panw_parent_technique": "Command and Scripting Interpreter",
+      "x_panw_parent_technique_subtechnique": "Command and Scripting Interpreter: JavaScript"
     },
     {
       "type": "attack-pattern",
       "id": "attack-pattern--731f4f55-b6d0-41d1-a7a9-072a66389aea",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-07-27T14:54:37.764Z",
+      "created": "2017-05-31T21:31:08.479Z",
+      "modified": "2020-10-21T17:54:28.531Z",
       "name": "T1090: Proxy",
       "description": "Adversaries may use a connection proxy to direct network traffic between systems or act as an intermediary for network communications to a command and control server to avoid direct connections to their infrastructure. Many tools exist that enable traffic redirection through proxies or port redirection, including [HTRAN](https://attack.mitre.org/software/S0040), ZXProxy, and ZXPortMap. (Citation: Trend Micro APT Attack Tools) Adversaries use these types of proxies to manage command and control communications, reduce the number of simultaneous outbound network connections, provide resiliency in the face of connection loss, or to ride over existing trusted communications paths between victims to avoid suspicion. Adversaries may chain together multiple proxies to further disguise the source of malicious traffic.\n\nAdversaries can also take advantage of routing schemes in Content Delivery Networks (CDNs) to proxy command and control traffic.",
       "kill_chain_phases": [
@@ -135,34 +163,32 @@
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "Analyze network data for uncommon data flows (e.g., a client sending significantly more data than it receives from a server or between clients that should not or often do not communicate with one another). Processes utilizing the network that do not normally have network communication or have never been seen before are suspicious. Analyze packet contents to detect communications that do not follow the expected protocol behavior for the port that is being used. (Citation: University of Birmingham C2)\n\nConsider monitoring for traffic to known anonymity networks (such as [Tor](https://attack.mitre.org/software/S0183))."
-      ],
+      "x_mitre_detection": "Analyze network data for uncommon data flows (e.g., a client sending significantly more data than it receives from a server or between clients that should not or often do not communicate with one another). Processes utilizing the network that do not normally have network communication or have never been seen before are suspicious. Analyze packet contents to detect communications that do not follow the expected protocol behavior for the port that is being used. (Citation: University of Birmingham C2)\n\nConsider monitoring for traffic to known anonymity networks (such as [Tor](https://attack.mitre.org/software/S0183)).",
       "x_mitre_platforms": [
         "Linux",
-        "Windows",
-        "macOS"
+        "macOS",
+        "Network",
+        "Windows"
       ],
       "x_mitre_data_sources": [
-        "Netflow/Enclave netflow",
-        "Packet capture",
-        "Process monitoring",
-        "Process use of network",
-        "SSL/TLS inspection"
+        "Network Traffic: Network Connection Creation",
+        "Network Traffic: Network Traffic Content",
+        "Network Traffic: Network Traffic Flow"
       ],
+      "x_mitre_is_subtechnique": false,
       "x_mitre_contributors": [
         "Brian Prange",
         "Heather Linn",
         "Walker Johnson"
       ],
-      "x_mitre_version": "3.0"
+      "x_mitre_version": "3.1"
     },
     {
       "type": "attack-pattern",
       "id": "attack-pattern--830c9528-df21-472c-8c14-a036bf17d665",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-07-27T14:54:37.764Z",
+      "created": "2017-05-31T21:31:13.915Z",
+      "modified": "2020-03-26T23:26:10.297Z",
       "name": "T1102: Web Service",
       "description": "Adversaries may use an existing, legitimate external Web service as a means for relaying data to/from a compromised system. Popular websites and social media acting as a mechanism for C2 may give a significant amount of cover due to the likelihood that hosts within a network are already communicating with them prior to a compromise. Using common services, such as those offered by Google or Twitter, makes it easier for adversaries to hide in expected noise. Web service providers commonly use SSL/TLS encryption, giving adversaries an added level of protection.\n\nUse of Web services may also protect back-end C2 infrastructure from discovery through malware binary analysis while also enabling operational resiliency (since this infrastructure may be dynamically changed).",
       "kill_chain_phases": [
@@ -190,21 +216,18 @@
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "Host data that can relate unknown or suspicious process activity using a network connection is important to supplement any existing indicators of compromise based on malware command and control signatures and infrastructure or the presence of strong encryption. Packet capture analysis will require SSL/TLS inspection if data is encrypted. Analyze network data for uncommon data flows (e.g., a client sending significantly more data than it receives from a server). User behavior monitoring may help to detect abnormal patterns of activity.(Citation: University of Birmingham C2)"
-      ],
+      "x_mitre_detection": "Host data that can relate unknown or suspicious process activity using a network connection is important to supplement any existing indicators of compromise based on malware command and control signatures and infrastructure or the presence of strong encryption. Packet capture analysis will require SSL/TLS inspection if data is encrypted. Analyze network data for uncommon data flows (e.g., a client sending significantly more data than it receives from a server). User behavior monitoring may help to detect abnormal patterns of activity.(Citation: University of Birmingham C2)",
       "x_mitre_platforms": [
         "Linux",
-        "Windows",
-        "macOS"
+        "macOS",
+        "Windows"
       ],
       "x_mitre_data_sources": [
-        "Host network interface",
-        "Netflow/Enclave netflow",
-        "Network protocol analysis",
-        "Packet capture",
-        "SSL/TLS inspection"
+        "Network Traffic: Network Connection Creation",
+        "Network Traffic: Network Traffic Content",
+        "Network Traffic: Network Traffic Flow"
       ],
+      "x_mitre_is_subtechnique": false,
       "x_mitre_permissions_required": [
         "User"
       ],
@@ -217,8 +240,8 @@
       "type": "attack-pattern",
       "id": "attack-pattern--8c32eb4d-805f-4fc5-bf60-c4d476c131b5",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-07-27T14:54:38.428Z",
+      "created": "2018-04-18T17:59:24.739Z",
+      "modified": "2021-04-20T16:34:09.236Z",
       "name": "T1204: User Execution",
       "description": "An adversary may rely upon specific actions by a user in order to gain execution. Users may be subjected to social engineering to get them to execute malicious code by, for example, opening a malicious document file or link. These user actions will typically be observed as follow-on behavior from forms of [Phishing](https://attack.mitre.org/techniques/T1566).\n\nWhile [User Execution](https://attack.mitre.org/techniques/T1204) frequently occurs shortly after Initial Access it may occur at other phases of an intrusion, such as when an adversary places a file in a shared directory or on a user's desktop hoping that a user will click on it. This activity may also be seen shortly after [Internal Spearphishing](https://attack.mitre.org/techniques/T1534).",
       "kill_chain_phases": [
@@ -241,35 +264,44 @@
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "Monitor the execution of and command-line arguments for applications that may be used by an adversary to gain Initial Access that require user interaction. This includes compression applications, such as those for zip files, that can be used to [Deobfuscate/Decode Files or Information](https://attack.mitre.org/techniques/T1140) in payloads.\n\nAnti-virus can potentially detect malicious documents and files that are downloaded and executed on the user's computer. Endpoint sensing or network sensing can potentially detect malicious events once the file is opened (such as a Microsoft Word document or PDF reaching out to the internet or spawning powershell.exe)."
-      ],
+      "x_mitre_detection": "Monitor the execution of and command-line arguments for applications that may be used by an adversary to gain Initial Access that require user interaction. This includes compression applications, such as those for zip files, that can be used to [Deobfuscate/Decode Files or Information](https://attack.mitre.org/techniques/T1140) in payloads.\n\nAnti-virus can potentially detect malicious documents and files that are downloaded and executed on the user's computer. Endpoint sensing or network sensing can potentially detect malicious events once the file is opened (such as a Microsoft Word document or PDF reaching out to the internet or spawning powershell.exe).",
       "x_mitre_platforms": [
+        "Containers",
+        "IaaS",
         "Linux",
-        "Windows",
-        "macOS"
+        "macOS",
+        "Windows"
       ],
       "x_mitre_data_sources": [
-        "Anti-virus",
-        "Process command-line parameters",
-        "Process monitoring"
+        "Application Log: Application Log Content",
+        "Command: Command Execution",
+        "Container: Container Creation",
+        "Container: Container Start",
+        "File: File Creation",
+        "Image: Image Creation",
+        "Instance: Instance Creation",
+        "Instance: Instance Start",
+        "Network Traffic: Network Connection Creation",
+        "Network Traffic: Network Traffic Content",
+        "Process: Process Creation"
       ],
+      "x_mitre_is_subtechnique": false,
       "x_mitre_permissions_required": [
         "User"
       ],
       "x_mitre_contributors": [
         "Oleg Skulkin, Group-IB"
       ],
-      "x_mitre_version": "1.2"
+      "x_mitre_version": "1.3"
     },
     {
       "type": "attack-pattern",
       "id": "attack-pattern--92a78814-b191-47ca-909c-1ccfe3777414",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-07-27T14:54:37.764Z",
+      "created": "2017-05-31T21:30:57.201Z",
+      "modified": "2020-12-11T17:00:00.938Z",
       "name": "T1072: Software Deployment Tools",
-      "description": "Adversaries may gain access to and use third-party software suites installed within an enterprise network, such as administration, monitoring, and deployment systems, to move laterally through the network. Third-party applications and software deployment systems may be in use in the network environment for administration purposes (e.g., SCCM, VNC, HBSS, Altiris, etc.).\n\nAccess to a third-party network-wide or enterprise-wide software system may enable an adversary to have remote code execution on all systems that are connected to such a system. The access may be used to laterally move to other systems, gather information, or cause a specific effect, such as wiping the hard drives on all endpoints.\n\nThe permissions required for this action vary by system configuration; local credentials may be sufficient with direct access to the third-party system, or specific domain credentials may be required. However, the system may require an administrative account to log in or to perform it's intended purpose.",
+      "description": "Adversaries may gain access to and use third-party software suites installed within an enterprise network, such as administration, monitoring, and deployment systems, to move laterally through the network. Third-party applications and software deployment systems may be in use in the network environment for administration purposes (e.g., SCCM, HBSS, Altiris, etc.).\n\nAccess to a third-party network-wide or enterprise-wide software system may enable an adversary to have remote code execution on all systems that are connected to such a system. The access may be used to laterally move to other systems, gather information, or cause a specific effect, such as wiping the hard drives on all endpoints.\n\nThe permissions required for this action vary by system configuration; local credentials may be sufficient with direct access to the third-party system, or specific domain credentials may be required. However, the system may require an administrative account to log in or to perform it's intended purpose.",
       "kill_chain_phases": [
         {
           "kill_chain_name": "lockheed",
@@ -293,47 +325,46 @@
           "source_name": "mitre-attack",
           "url": "https://attack.mitre.org/techniques/T1072",
           "external_id": "T1072"
+        },
+        {
+          "source_name": "capec",
+          "url": "https://capec.mitre.org/data/definitions/187.html",
+          "external_id": "CAPEC-187"
         }
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "Detection methods will vary depending on the type of third-party software or system and how it is typically used. \n\nThe same investigation process can be applied here as with other potentially malicious activities where the distribution vector is initially unknown but the resulting activity follows a discernible pattern. Analyze the process execution trees, historical activities from the third-party application (such as what types of files are usually pushed), and the resulting activities or events from the file/binary/script pushed to systems. \n\nOften these third-party applications will have logs of their own that can be collected and correlated with other data from the environment. Ensure that third-party application logs are on-boarded to the enterprise logging system and the logs are regularly reviewed. Audit software deployment logs and look for suspicious or unauthorized activity. A system not typically used to push software to clients that suddenly is used for such a task outside of a known admin function may be suspicious. Monitor account login activity on these applications to detect suspicious/abnormal usage.\n\nPerform application deployment at regular times so that irregular deployment activity stands out. Monitor process activity that does not correlate to known good software. Monitor account login activity on the deployment system."
-      ],
+      "x_mitre_detection": "Detection methods will vary depending on the type of third-party software or system and how it is typically used. \n\nThe same investigation process can be applied here as with other potentially malicious activities where the distribution vector is initially unknown but the resulting activity follows a discernible pattern. Analyze the process execution trees, historical activities from the third-party application (such as what types of files are usually pushed), and the resulting activities or events from the file/binary/script pushed to systems. \n\nOften these third-party applications will have logs of their own that can be collected and correlated with other data from the environment. Ensure that third-party application logs are on-boarded to the enterprise logging system and the logs are regularly reviewed. Audit software deployment logs and look for suspicious or unauthorized activity. A system not typically used to push software to clients that suddenly is used for such a task outside of a known admin function may be suspicious. Monitor account login activity on these applications to detect suspicious/abnormal usage.\n\nPerform application deployment at regular times so that irregular deployment activity stands out. Monitor process activity that does not correlate to known good software. Monitor account login activity on the deployment system.",
       "x_mitre_platforms": [
         "Linux",
-        "Windows",
-        "macOS"
+        "macOS",
+        "Windows"
       ],
       "x_mitre_data_sources": [
-        "Authentication logs",
-        "Binary file metadata",
-        "File monitoring",
-        "Process monitoring",
-        "Process use of network",
-        "Third-party application logs",
-        "Windows Registry"
+        "Application Log: Application Log Content",
+        "Process: Process Creation"
       ],
+      "x_mitre_is_subtechnique": false,
       "x_mitre_permissions_required": [
         "Administrator",
         "SYSTEM",
         "User"
       ],
-      "x_mitre_remote_support": "true",
+      "x_mitre_remote_support": true,
       "x_mitre_contributors": [
         "Shane Tully, @securitygypsy"
       ],
-      "x_mitre_version": "2.0"
+      "x_mitre_version": "2.1"
     },
     {
       "type": "attack-pattern",
       "id": "attack-pattern--9efb1ea7-c37b-4595-9640-b7680cd84279",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-07-27T14:54:43.075Z",
+      "created": "2020-01-23T22:02:48.566Z",
+      "modified": "2021-01-06T18:36:29.226Z",
       "name": "T1547.001: Registry Run Keys / Startup Folder",
-      "description": "Adversaries may achieve persistence by adding a program to a startup folder or referencing it with a Registry run key. Adding an entry to the \"run keys\" in the Registry or startup folder will cause the program referenced to be executed when a user logs in. (Citation: Microsoft Run Key) These programs will be executed under the context of the user and will have the account's associated permissions level.\n\nPlacing a program within a startup folder will also cause that program to execute when a user logs in. There is a startup folder location for individual user accounts as well as a system-wide startup folder that will be checked regardless of which user account logs in. The startup folder path for the current user is <code>C:\\Users\\[Username]\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Startup</code>. The startup folder path for all users is <code>C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\StartUp</code>.\n\nThe following run keys are created by default on Windows systems:\n* <code>HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Run</code>\n* <code>HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\RunOnce</code>\n* <code>HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Run</code>\n* <code>HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\RunOnce</code>\n\nThe <code>HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\RunOnceEx</code> is also available but is not created by default on Windows Vista and newer. Registry run key entries can reference programs directly or list them as a dependency. (Citation: Microsoft RunOnceEx APR 2018) For example, it is possible to load a DLL at logon using a \"Depend\" key with RunOnceEx: <code>reg add HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\RunOnceEx\\0001\\Depend /v 1 /d \"C:\\temp\\evil[.]dll\"</code> (Citation: Oddvar Moe RunOnceEx Mar 2018)\n\nThe following Registry keys can be used to set startup folder items for persistence:\n* <code>HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\User Shell Folders</code>\n* <code>HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders</code>\n* <code>HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders</code>\n* <code>HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\User Shell Folders</code>\n\nThe following Registry keys can control automatic startup of services during boot:\n* <code>HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\RunServicesOnce</code>\n* <code>HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\RunServicesOnce</code>\n* <code>HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\RunServices</code>\n* <code>HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\RunServices</code>\n\nUsing policy settings to specify startup programs creates corresponding values in either of two Registry keys:\n* <code>HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\Run</code>\n* <code>HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\Run</code>\n\nThe Winlogon key controls actions that occur when a user logs on to a computer running Windows 7. Most of these actions are under the control of the operating system, but you can also add custom actions here. The <code>HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\Userinit</code> and <code>HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\Shell</code> subkeys can automatically launch programs.\n\nPrograms listed in the load value of the registry key <code>HKEY_CURRENT_USER\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Windows</code> run when any user logs on.\n\nBy default, the multistring <code>BootExecute</code> value of the registry key <code>HKEY_LOCAL_MACHINE\\System\\CurrentControlSet\\Control\\Session Manager</code> is set to <code>autocheck autochk *</code>. This value causes Windows, at startup, to check the file-system integrity of the hard disks if the system has been shut down abnormally. Adversaries can add other programs or processes to this registry value which will automatically launch at boot.\n\nAdversaries can use these configuration locations to execute malware, such as remote access tools, to maintain persistence through system reboots. Adversaries may also use [Masquerading](https://attack.mitre.org/techniques/T1036) to make the Registry entries look as if they are associated with legitimate programs.",
+      "description": "Adversaries may achieve persistence by adding a program to a startup folder or referencing it with a Registry run key. Adding an entry to the \"run keys\" in the Registry or startup folder will cause the program referenced to be executed when a user logs in. (Citation: Microsoft Run Key) These programs will be executed under the context of the user and will have the account's associated permissions level.\n\nPlacing a program within a startup folder will also cause that program to execute when a user logs in. There is a startup folder location for individual user accounts as well as a system-wide startup folder that will be checked regardless of which user account logs in. The startup folder path for the current user is <code>C:\\Users\\\\[Username]\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Startup</code>. The startup folder path for all users is <code>C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\StartUp</code>.\n\nThe following run keys are created by default on Windows systems:\n\n* <code>HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Run</code>\n* <code>HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\RunOnce</code>\n* <code>HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Run</code>\n* <code>HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\RunOnce</code>\n\nRun keys may exist under multiple hives.(Citation: Microsoft Wow6432Node 2018)(Citation: Malwarebytes Wow6432Node 2016) The <code>HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\RunOnceEx</code> is also available but is not created by default on Windows Vista and newer. Registry run key entries can reference programs directly or list them as a dependency. (Citation: Microsoft RunOnceEx APR 2018) For example, it is possible to load a DLL at logon using a \"Depend\" key with RunOnceEx: <code>reg add HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\RunOnceEx\\0001\\Depend /v 1 /d \"C:\\temp\\evil[.]dll\"</code> (Citation: Oddvar Moe RunOnceEx Mar 2018)\n\nThe following Registry keys can be used to set startup folder items for persistence:\n\n* <code>HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\User Shell Folders</code>\n* <code>HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders</code>\n* <code>HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders</code>\n* <code>HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\User Shell Folders</code>\n\nThe following Registry keys can control automatic startup of services during boot:\n\n* <code>HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\RunServicesOnce</code>\n* <code>HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\RunServicesOnce</code>\n* <code>HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\RunServices</code>\n* <code>HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\RunServices</code>\n\nUsing policy settings to specify startup programs creates corresponding values in either of two Registry keys:\n\n* <code>HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\Run</code>\n* <code>HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\Run</code>\n\nThe Winlogon key controls actions that occur when a user logs on to a computer running Windows 7. Most of these actions are under the control of the operating system, but you can also add custom actions here. The <code>HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\Userinit</code> and <code>HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\Shell</code> subkeys can automatically launch programs.\n\nPrograms listed in the load value of the registry key <code>HKEY_CURRENT_USER\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Windows</code> run when any user logs on.\n\nBy default, the multistring <code>BootExecute</code> value of the registry key <code>HKEY_LOCAL_MACHINE\\System\\CurrentControlSet\\Control\\Session Manager</code> is set to <code>autocheck autochk *</code>. This value causes Windows, at startup, to check the file-system integrity of the hard disks if the system has been shut down abnormally. Adversaries can add other programs or processes to this registry value which will automatically launch at boot.\n\nAdversaries can use these configuration locations to execute malware, such as remote access tools, to maintain persistence through system reboots. Adversaries may also use [Masquerading](https://attack.mitre.org/techniques/T1036) to make the Registry entries look as if they are associated with legitimate programs.",
       "kill_chain_phases": [
         {
           "kill_chain_name": "lockheed",
@@ -354,6 +385,11 @@
       ],
       "external_references": [
         {
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1547/001",
+          "external_id": "T1547.001"
+        },
+        {
           "source_name": "capec",
           "url": "https://capec.mitre.org/data/definitions/270.html",
           "external_id": "CAPEC-270"
@@ -364,14 +400,19 @@
           "description": "Microsoft. (n.d.). Run and RunOnce Registry Keys. Retrieved November 12, 2014."
         },
         {
+          "source_name": "Microsoft Wow6432Node 2018",
+          "url": "https://docs.microsoft.com/en-us/windows/win32/sysinfo/32-bit-and-64-bit-application-data-in-the-registry",
+          "description": "Microsoft. (2018, May 31). 32-bit and 64-bit Application Data in the Registry. Retrieved August 3, 2020."
+        },
+        {
+          "source_name": "Malwarebytes Wow6432Node 2016",
+          "url": "https://blog.malwarebytes.com/cybercrime/2013/10/hiding-in-plain-sight/",
+          "description": "Arntz, P. (2016, March 30). Hiding in Plain Sight. Retrieved August 3, 2020."
+        },
+        {
           "source_name": "Microsoft RunOnceEx APR 2018",
           "url": "https://support.microsoft.com/help/310593/description-of-the-runonceex-registry-key",
           "description": "Microsoft. (2018, August 20). Description of the RunOnceEx Registry Key. Retrieved June 29, 2018."
-        },
-        {
-          "source_name": "mitre-attack",
-          "url": "https://attack.mitre.org/techniques/T1547/001",
-          "external_id": "T1547.001"
         },
         {
           "source_name": "Oddvar Moe RunOnceEx Mar 2018",
@@ -387,16 +428,18 @@
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "Monitor Registry for changes to run keys that do not correlate with known software, patch cycles, etc. Monitor the start folder for additions or changes. Tools such as Sysinternals Autoruns may also be used to detect system changes that could be attempts at persistence, including listing the run keys' Registry locations and startup folders. (Citation: TechNet Autoruns) Suspicious program execution as startup programs may show up as outlier processes that have not been seen before when compared against historical data.\n\nChanges to these locations typically happen under normal conditions when legitimate software is installed. To increase confidence of malicious activity, data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities, such as network connections made for Command and Control, learning details about the environment through Discovery, and Lateral Movement."
-      ],
+      "x_mitre_detection": "Monitor Registry for changes to run keys that do not correlate with known software, patch cycles, etc. Monitor the start folder for additions or changes. Tools such as Sysinternals Autoruns may also be used to detect system changes that could be attempts at persistence, including listing the run keys' Registry locations and startup folders. (Citation: TechNet Autoruns) Suspicious program execution as startup programs may show up as outlier processes that have not been seen before when compared against historical data.\n\nChanges to these locations typically happen under normal conditions when legitimate software is installed. To increase confidence of malicious activity, data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities, such as network connections made for Command and Control, learning details about the environment through Discovery, and Lateral Movement.",
       "x_mitre_platforms": [
         "Windows"
       ],
       "x_mitre_data_sources": [
-        "File monitoring",
-        "Windows Registry"
+        "Command: Command Execution",
+        "File: File Modification",
+        "Process: Process Creation",
+        "Windows Registry: Windows Registry Key Creation",
+        "Windows Registry: Windows Registry Key Modification"
       ],
+      "x_mitre_is_subtechnique": true,
       "x_mitre_permissions_required": [
         "Administrator",
         "User"
@@ -404,14 +447,16 @@
       "x_mitre_contributors": [
         "Oddvar Moe, @oddvarmoe"
       ],
-      "x_mitre_version": "1.0"
+      "x_mitre_version": "1.1",
+      "x_panw_parent_technique": "Boot or Logon Autostart Execution",
+      "x_panw_parent_technique_subtechnique": "Boot or Logon Autostart Execution: Registry Run Keys / Startup Folder"
     },
     {
       "type": "attack-pattern",
       "id": "attack-pattern--a9d4b653-6915-42af-98b2-5758c4ceee56",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2020-07-27T14:54:34.130Z",
-      "modified": "2020-07-27T14:54:34.130Z",
+      "created": "2020-03-09T14:15:05.330Z",
+      "modified": "2020-06-15T16:55:44.483Z",
       "name": "T1059.004: Unix Shell",
       "description": "Adversaries may abuse Unix shell commands and scripts for execution. Unix shells are the primary command prompt on Linux and macOS systems, though many variations of the Unix shell exist (e.g. sh, bash, zsh, etc.) depending on the specific OS or distribution.(Citation: DieNet Bash)(Citation: Apple ZShell) Unix shells can control every aspect of a system, with certain commands requiring elevated privileges.\n\nUnix shells also support scripts that enable sequential execution of commands as well as other typical programming operations such as conditionals and loops. Common uses of shell scripts include long or repetitive tasks, or the need to run the same set of commands on multiple systems.\n\nAdversaries may abuse Unix shells to execute various commands or payloads. Interactive shells may be accessed through command and control channels or during lateral movement such as with [SSH](https://attack.mitre.org/techniques/T1021/004). Adversaries may also leverage shell scripts to deliver and execute multiple commands on victims or as part of payloads used for persistence.",
       "kill_chain_phases": [
@@ -426,9 +471,9 @@
       ],
       "external_references": [
         {
-          "source_name": "Apple ZShell",
-          "url": "https://support.apple.com/HT208050",
-          "description": "Apple. (2020, January 28). Use zsh as the default shell on your Mac. Retrieved June 12, 2020."
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1059/004",
+          "external_id": "T1059.004"
         },
         {
           "source_name": "DieNet Bash",
@@ -436,38 +481,38 @@
           "description": "die.net. (n.d.). bash(1) - Linux man page. Retrieved June 12, 2020."
         },
         {
-          "source_name": "mitre-attack",
-          "url": "https://attack.mitre.org/techniques/T1059/004",
-          "external_id": "T1059.004"
+          "source_name": "Apple ZShell",
+          "url": "https://support.apple.com/HT208050",
+          "description": "Apple. (2020, January 28). Use zsh as the default shell on your Mac. Retrieved June 12, 2020."
         }
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "Unix shell usage may be common on administrator, developer, or power user systems, depending on job function. If scripting is restricted for normal users, then any attempt to enable scripts running on a system would be considered suspicious. If scripts are not commonly used on a system, but enabled, scripts running out of cycle from patching or other administrator functions are suspicious. Scripts should be captured from the file system when possible to determine their actions and intent.\n\nScripts are likely to perform actions with various effects on a system that may generate events, depending on the types of monitoring used. Monitor processes and command-line arguments for script execution and subsequent behavior. Actions may be related to network and system information discovery, collection, or other scriptable post-compromise behaviors and could be used as indicators of detection leading back to the source script. "
-      ],
+      "x_mitre_detection": "Unix shell usage may be common on administrator, developer, or power user systems, depending on job function. If scripting is restricted for normal users, then any attempt to enable scripts running on a system would be considered suspicious. If scripts are not commonly used on a system, but enabled, scripts running out of cycle from patching or other administrator functions are suspicious. Scripts should be captured from the file system when possible to determine their actions and intent.\n\nScripts are likely to perform actions with various effects on a system that may generate events, depending on the types of monitoring used. Monitor processes and command-line arguments for script execution and subsequent behavior. Actions may be related to network and system information discovery, collection, or other scriptable post-compromise behaviors and could be used as indicators of detection leading back to the source script. ",
       "x_mitre_platforms": [
         "Linux",
         "macOS"
       ],
       "x_mitre_data_sources": [
-        "File monitoring",
-        "Process command-line parameters",
-        "Process monitoring"
+        "Command: Command Execution",
+        "Process: Process Creation"
       ],
+      "x_mitre_is_subtechnique": true,
       "x_mitre_permissions_required": [
-        "User",
-        "root"
+        "root",
+        "User"
       ],
-      "x_mitre_version": "1.0"
+      "x_mitre_version": "1.0",
+      "x_panw_parent_technique": "Command and Scripting Interpreter",
+      "x_panw_parent_technique_subtechnique": "Command and Scripting Interpreter: Unix Shell"
     },
     {
       "type": "attack-pattern",
       "id": "attack-pattern--cc3502b5-30cc-4473-ad48-42d51a6ef6d1",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-07-27T14:54:37.379Z",
+      "created": "2020-03-09T14:38:24.334Z",
+      "modified": "2020-06-23T19:03:15.180Z",
       "name": "T1059.006: Python",
       "description": "Adversaries may abuse Python commands and scripts for execution. Python is a very popular scripting/programming language, with capabilities to perform many functions. Python can be executed interactively from the command-line (via the <code>python.exe</code> interpreter) or via scripts (.py) that can be written and distributed to different systems. Python code can also be compiled into binary executables.\n\nPython comes with many built-in packages to interact with the underlying system, such as file operations and device I/O. Adversaries can use these libraries to download and execute commands or other scripts as well as perform various malicious behaviors.",
       "kill_chain_phases": [
@@ -490,38 +535,37 @@
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "Monitor systems for abnormal Python usage and python.exe behavior, which could be an indicator of malicious activity. Understanding standard usage patterns is important to avoid a high number of false positives. If scripting is restricted for normal users, then any attempts to enable scripts running on a system would be considered suspicious. If scripts are not commonly used on a system, but enabled, scripts running out of cycle from patching or other administrator functions are suspicious. Scripts should be captured from the file system when possible to determine their actions and intent.\n\nScripts are likely to perform actions with various effects on a system that may generate events, depending on the types of monitoring used. Monitor processes and command-line arguments for script execution and subsequent behavior. Actions may be related to network and system information Discovery, Collection, or other scriptable post-compromise behaviors and could be used as indicators of detection leading back to the source script."
-      ],
+      "x_mitre_detection": "Monitor systems for abnormal Python usage and python.exe behavior, which could be an indicator of malicious activity. Understanding standard usage patterns is important to avoid a high number of false positives. If scripting is restricted for normal users, then any attempts to enable scripts running on a system would be considered suspicious. If scripts are not commonly used on a system, but enabled, scripts running out of cycle from patching or other administrator functions are suspicious. Scripts should be captured from the file system when possible to determine their actions and intent.\n\nScripts are likely to perform actions with various effects on a system that may generate events, depending on the types of monitoring used. Monitor processes and command-line arguments for script execution and subsequent behavior. Actions may be related to network and system information Discovery, Collection, or other scriptable post-compromise behaviors and could be used as indicators of detection leading back to the source script.",
       "x_mitre_platforms": [
         "Linux",
-        "Windows",
-        "macOS"
+        "macOS",
+        "Windows"
       ],
       "x_mitre_data_sources": [
-        "API monitoring",
-        "Process command-line parameters",
-        "Process monitoring",
-        "System calls"
+        "Command: Command Execution",
+        "Process: Process Creation"
       ],
+      "x_mitre_is_subtechnique": true,
       "x_mitre_permissions_required": [
         "Administrator",
-        "SYSTEM",
-        "root"
+        "root",
+        "SYSTEM"
       ],
       "x_mitre_system_requirements": [
         "Python is installed."
       ],
-      "x_mitre_version": "1.0"
+      "x_mitre_version": "1.0",
+      "x_panw_parent_technique": "Command and Scripting Interpreter",
+      "x_panw_parent_technique_subtechnique": "Command and Scripting Interpreter: Python"
     },
     {
       "type": "attack-pattern",
       "id": "attack-pattern--cd25c1b4-935c-4f0e-ba8d-552f28bc4783",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2019-05-06T20:46:01.730Z",
-      "modified": "2020-07-27T14:54:42.176Z",
+      "created": "2019-04-17T14:50:05.682Z",
+      "modified": "2021-04-14T12:06:32.187Z",
       "name": "T1496: Resource Hijacking",
-      "description": "Adversaries may leverage the resources of co-opted systems in order to solve resource intensive problems which may impact system and/or hosted service availability. \n\nOne common purpose for Resource Hijacking is to validate transactions of cryptocurrency networks and earn virtual currency. Adversaries may consume enough system resources to negatively impact and/or cause affected machines to become unresponsive.(Citation: Kaspersky Lazarus Under The Hood Blog 2017) Servers and cloud-based(Citation: CloudSploit - Unused AWS Regions) systems are common targets because of the high potential for available resources, but user endpoint systems may also be compromised and used for Resource Hijacking and cryptocurrency mining.",
+      "description": "Adversaries may leverage the resources of co-opted systems in order to solve resource intensive problems which may impact system and/or hosted service availability. \n\nOne common purpose for Resource Hijacking is to validate transactions of cryptocurrency networks and earn virtual currency. Adversaries may consume enough system resources to negatively impact and/or cause affected machines to become unresponsive.(Citation: Kaspersky Lazarus Under The Hood Blog 2017) Servers and cloud-based(Citation: CloudSploit - Unused AWS Regions) systems are common targets because of the high potential for available resources, but user endpoint systems may also be compromised and used for Resource Hijacking and cryptocurrency mining. Containerized environments may also be targeted due to the ease of deployment via exposed APIs and the potential for scaling mining activities by deploying or compromising multiple containers within an environment or cluster.(Citation: Unit 42 Hildegard Malware)(Citation: Trend Micro Exposed Docker APIs)\n\nAdditionally, some cryptocurrency mining malware kills off processes for competing malware to ensure it\u2019s not competing for resources.(Citation: Trend Micro War of Crypto Miners)",
       "kill_chain_phases": [
         {
           "kill_chain_name": "lockheed",
@@ -534,9 +578,9 @@
       ],
       "external_references": [
         {
-          "source_name": "CloudSploit - Unused AWS Regions",
-          "url": "https://blog.cloudsploit.com/the-danger-of-unused-aws-regions-af0bf1b878fc",
-          "description": "CloudSploit. (2019, June 8). The Danger of Unused AWS Regions. Retrieved October 8, 2019."
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1496",
+          "external_id": "T1496"
         },
         {
           "source_name": "Kaspersky Lazarus Under The Hood Blog 2017",
@@ -544,49 +588,69 @@
           "description": "GReAT. (2017, April 3). Lazarus Under the Hood. Retrieved April 17, 2019."
         },
         {
-          "source_name": "mitre-attack",
-          "url": "https://attack.mitre.org/techniques/T1496",
-          "external_id": "T1496"
+          "source_name": "CloudSploit - Unused AWS Regions",
+          "url": "https://blog.cloudsploit.com/the-danger-of-unused-aws-regions-af0bf1b878fc",
+          "description": "CloudSploit. (2019, June 8). The Danger of Unused AWS Regions. Retrieved October 8, 2019."
+        },
+        {
+          "source_name": "Unit 42 Hildegard Malware",
+          "url": "https://unit42.paloaltonetworks.com/hildegard-malware-teamtnt/",
+          "description": "Chen, J. et al. (2021, February 3). Hildegard: New TeamTNT Cryptojacking Malware Targeting Kubernetes. Retrieved April 5, 2021."
+        },
+        {
+          "source_name": "Trend Micro Exposed Docker APIs",
+          "url": "https://www.trendmicro.com/en_us/research/19/e/infected-cryptocurrency-mining-containers-target-docker-hosts-with-exposed-apis-use-shodan-to-find-additional-victims.html",
+          "description": "Oliveira, A. (2019, May 30). Infected Containers Target Docker via Exposed APIs. Retrieved April 6, 2021."
+        },
+        {
+          "source_name": "Trend Micro War of Crypto Miners",
+          "url": "https://www.trendmicro.com/en_us/research/20/i/war-of-linux-cryptocurrency-miners-a-battle-for-resources.html",
+          "description": "Oliveira, A., Fiser, D. (2020, September 10). War of Linux Cryptocurrency Miners: A Battle for Resources. Retrieved April 6, 2021."
         }
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "Consider monitoring process resource usage to determine anomalous activity associated with malicious hijacking of computer resources such as CPU, memory, and graphics processing resources. Monitor for suspicious use of network resources associated with cryptocurrency mining software. Monitor for common cryptomining software process names and files on local systems that may indicate compromise and resource usage."
-      ],
+      "x_mitre_detection": "Consider monitoring process resource usage to determine anomalous activity associated with malicious hijacking of computer resources such as CPU, memory, and graphics processing resources. Monitor for suspicious use of network resources associated with cryptocurrency mining software. Monitor for common cryptomining software process names and files on local systems that may indicate compromise and resource usage.",
       "x_mitre_platforms": [
-        "AWS",
-        "Azure",
-        "GCP",
+        "Containers",
+        "IaaS",
         "Linux",
-        "Windows",
-        "macOS"
+        "macOS",
+        "Windows"
       ],
       "x_mitre_data_sources": [
-        "AWS CloudTrail logs",
-        "Azure activity logs",
-        "Network device logs",
-        "Network protocol analysis",
-        "Process monitoring",
-        "Process use of network",
-        "Stackdriver logs"
+        "Command: Command Execution",
+        "File: File Creation",
+        "Network Traffic: Network Connection Creation",
+        "Network Traffic: Network Traffic Flow",
+        "Process: Process Creation",
+        "Sensor Health: Host Status"
       ],
+      "x_mitre_is_subtechnique": false,
       "x_mitre_permissions_required": [
         "Administrator",
         "User"
       ],
+      "x_mitre_contributors": [
+        "Alfredo Oliveira, Trend Micro",
+        "David Fiser, @anu4is, Trend Micro",
+        "Jay Chen, Palo Alto Networks",
+        "Magno Logan, @magnologan, Trend Micro",
+        "Vishwas Manral, McAfee",
+        "Yossi Weizman, Azure Defender Research Team"
+      ],
       "x_mitre_impact_type": [
         "Availability"
       ],
-      "x_mitre_version": "1.1"
+      "x_mitre_version": "1.2"
     },
     {
       "type": "attack-pattern",
       "id": "attack-pattern--d742a578-d70e-4d0e-96a6-02a9c30204e6",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-12-17T14:33:52.372Z",
-      "modified": "2020-07-27T14:54:38.428Z",
+      "created": "2018-04-18T17:59:24.739Z",
+      "modified": "2020-03-29T23:48:15.056Z",
       "name": "T1189: Drive-by Compromise",
       "description": "Adversaries may gain access to a system through a user visiting a website over the normal course of browsing. With this technique, the user's web browser is typically targeted for exploitation, but adversaries may also use compromised websites for non-exploitation behavior such as acquiring [Application Access Token](https://attack.mitre.org/techniques/T1550/001).\n\nMultiple ways of delivering exploit code to a browser exist, including:\n\n* A legitimate website is compromised where adversaries have injected some form of malicious code such as JavaScript, iFrames, and cross-site scripting.\n* Malicious ads are paid for and served through legitimate ad providers.\n* Built-in web application interfaces are leveraged for the insertion of any other kind of object that can be used to display web content or contain a script that executes on the visiting client (e.g. forum posts, comments, and other user controllable web content).\n\nOften the website used by an adversary is one visited by a specific community, such as government, a particular industry, or region, where the goal is to compromise a specific user or set of users based on a shared interest. This kind of targeted attack is referred to a strategic web compromise or watering hole attack. There are several known examples of this occurring.(Citation: Shadowserver Strategic Web Compromise)\n\nTypical drive-by compromise process:\n\n1. A user visits a website that is used to host the adversary controlled content.\n2. Scripts automatically execute, typically searching versions of the browser and plugins for a potentially vulnerable version. \n    * The user may be required to assist in this process by enabling scripting or active website components and ignoring warning dialog boxes.\n3. Upon finding a vulnerable version, exploit code is delivered to the browser.\n4. If exploitation is successful, then it will give the adversary code execution on the user's system unless other protections are in place.\n    * In some cases a second visit to the website after the initial scan is required before exploit code is delivered.\n\nUnlike [Exploit Public-Facing Application](https://attack.mitre.org/techniques/T1190), the focus of this technique is to exploit software on a client endpoint upon visiting a website. This will commonly give an adversary access to systems on the internal network instead of external systems that may be in a DMZ.\n\nAdversaries may also use compromised websites to deliver a user to a malicious application designed to [Steal Application Access Token](https://attack.mitre.org/techniques/T1528)s, like OAuth tokens, to gain access to protected applications and information. These malicious applications have been delivered through popups on legitimate websites.(Citation: Volexity OceanLotus Nov 2017)",
       "kill_chain_phases": [
@@ -619,23 +683,21 @@
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "Firewalls and proxies can inspect URLs for potentially known-bad domains or parameters. They can also do reputation-based analytics on websites and their requested resources such as how old a domain is, who it's registered to, if it's on a known bad list, or how many other users have connected to it before.\n\nNetwork intrusion detection systems, sometimes with SSL/TLS MITM inspection, can be used to look for known malicious scripts (recon, heap spray, and browser identification scripts have been frequently reused), common script obfuscation, and exploit code.\n\nDetecting compromise based on the drive-by exploit from a legitimate website may be difficult. Also look for behavior on the endpoint system that might indicate successful compromise, such as abnormal behavior of browser processes. This could include suspicious files written to disk, evidence of [Process Injection](https://attack.mitre.org/techniques/T1055) for attempts to hide execution, evidence of Discovery, or other unusual network traffic that may indicate additional tools transferred to the system."
-      ],
+      "x_mitre_detection": "Firewalls and proxies can inspect URLs for potentially known-bad domains or parameters. They can also do reputation-based analytics on websites and their requested resources such as how old a domain is, who it's registered to, if it's on a known bad list, or how many other users have connected to it before.\n\nNetwork intrusion detection systems, sometimes with SSL/TLS MITM inspection, can be used to look for known malicious scripts (recon, heap spray, and browser identification scripts have been frequently reused), common script obfuscation, and exploit code.\n\nDetecting compromise based on the drive-by exploit from a legitimate website may be difficult. Also look for behavior on the endpoint system that might indicate successful compromise, such as abnormal behavior of browser processes. This could include suspicious files written to disk, evidence of [Process Injection](https://attack.mitre.org/techniques/T1055) for attempts to hide execution, evidence of Discovery, or other unusual network traffic that may indicate additional tools transferred to the system.",
       "x_mitre_platforms": [
         "Linux",
+        "macOS",
         "SaaS",
-        "Windows",
-        "macOS"
+        "Windows"
       ],
       "x_mitre_data_sources": [
-        "Network device logs",
-        "Network intrusion detection system",
-        "Packet capture",
-        "Process use of network",
-        "SSL/TLS inspection",
-        "Web proxy"
+        "Application Log: Application Log Content",
+        "File: File Creation",
+        "Network Traffic: Network Connection Creation",
+        "Network Traffic: Network Traffic Content",
+        "Process: Process Creation"
       ],
+      "x_mitre_is_subtechnique": false,
       "x_mitre_permissions_required": [
         "User"
       ],
@@ -649,10 +711,10 @@
       "type": "attack-pattern",
       "id": "attack-pattern--dfd7cc1d-e1d8-4394-a198-97c4cab8aa67",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2020-07-27T14:54:34.130Z",
-      "modified": "2020-07-27T14:54:34.130Z",
+      "created": "2020-03-09T14:29:51.508Z",
+      "modified": "2020-08-13T20:09:39.122Z",
       "name": "T1059.005: Visual Basic",
-      "description": "Adversaries may abuse Visual Basic (VB) for execution. VB is a programming language created by Microsoft with interoperability with many Windows technologies such as [Component Object Model](https://attack.mitre.org/techniques/T1559/001) and the [Native API](https://attack.mitre.org/techniques/T1106) through the Windows API. Although tagged as legacy with no planned future evolutions, VB is integrated and supported in the .NET Framework and cross-platform .NET Core.(Citation: VB .NET Mar 2020)(Citation: VB Microsoft)\n\nDerivative languages based on VB have also been created, such as Visual Basic for Applications (VBA) and VBScript. VBA is an event-driven programming language built into Office applications.(Citation: Microsoft VBA)  VBA enables documents to contain macros used to automate the execution of tasks and other functionality on the host. VBScript is a default scripting language on Windows hosts and can also be used in place of [JavaScript/JScript](https://attack.mitre.org/techniques/T1059/007) on HTML Application (HTA) webpages served to Internet Explorer (though most modern browsers do not come with VBScript support).(Citation: Microsoft VBScript)\n\nAdversaries may use VB payloads to execute malicious commands. Common malicious usage includes automating execution of behaviors with VBScript or embedding VBA content into [Spearphishing Attachment](https://attack.mitre.org/techniques/T1566/001) payloads.",
+      "description": "Adversaries may abuse Visual Basic (VB) for execution. VB is a programming language created by Microsoft with interoperability with many Windows technologies such as [Component Object Model](https://attack.mitre.org/techniques/T1559/001) and the [Native API](https://attack.mitre.org/techniques/T1106) through the Windows API. Although tagged as legacy with no planned future evolutions, VB is integrated and supported in the .NET Framework and cross-platform .NET Core.(Citation: VB .NET Mar 2020)(Citation: VB Microsoft)\n\nDerivative languages based on VB have also been created, such as Visual Basic for Applications (VBA) and VBScript. VBA is an event-driven programming language built into Microsoft Office, as well as several third-party applications.(Citation: Microsoft VBA)(Citation: Wikipedia VBA) VBA enables documents to contain macros used to automate the execution of tasks and other functionality on the host. VBScript is a default scripting language on Windows hosts and can also be used in place of [JavaScript](https://attack.mitre.org/techniques/T1059/007) on HTML Application (HTA) webpages served to Internet Explorer (though most modern browsers do not come with VBScript support).(Citation: Microsoft VBScript)\n\nAdversaries may use VB payloads to execute malicious commands. Common malicious usage includes automating execution of behaviors with VBScript or embedding VBA content into [Spearphishing Attachment](https://attack.mitre.org/techniques/T1566/001) payloads.",
       "kill_chain_phases": [
         {
           "kill_chain_name": "lockheed",
@@ -664,16 +726,6 @@
         }
       ],
       "external_references": [
-        {
-          "source_name": "Microsoft VBA",
-          "url": "https://docs.microsoft.com/office/vba/api/overview/",
-          "description": "Microsoft. (2019, June 11). Office VBA Reference. Retrieved June 23, 2020."
-        },
-        {
-          "source_name": "Microsoft VBScript",
-          "url": "https://docs.microsoft.com/previous-versions//1kw29xwf(v=vs.85)",
-          "description": "Microsoft. (2011, April 19). What Is VBScript?. Retrieved March 28, 2020."
-        },
         {
           "source_name": "mitre-attack",
           "url": "https://attack.mitre.org/techniques/T1059/005",
@@ -688,32 +740,47 @@
           "source_name": "VB Microsoft",
           "url": "https://docs.microsoft.com/dotnet/visual-basic/",
           "description": "Microsoft. (n.d.). Visual Basic documentation. Retrieved June 23, 2020."
+        },
+        {
+          "source_name": "Microsoft VBA",
+          "url": "https://docs.microsoft.com/office/vba/api/overview/",
+          "description": "Microsoft. (2019, June 11). Office VBA Reference. Retrieved June 23, 2020."
+        },
+        {
+          "source_name": "Wikipedia VBA",
+          "url": "https://en.wikipedia.org/wiki/Visual_Basic_for_Applications",
+          "description": "Wikipedia. (n.d.). Visual Basic for Applications. Retrieved August 13, 2020."
+        },
+        {
+          "source_name": "Microsoft VBScript",
+          "url": "https://docs.microsoft.com/previous-versions//1kw29xwf(v=vs.85)",
+          "description": "Microsoft. (2011, April 19). What Is VBScript?. Retrieved March 28, 2020."
         }
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "Monitor for events associated with VB execution, such as Office applications spawning processes, usage of the Windows Script Host (typically cscript.exe or wscript.exe), file activity involving VB payloads or scripts, or loading of modules associated with VB languages (ex: vbscript.dll). VB execution is likely to perform actions with various effects on a system that may generate events, depending on the types of monitoring used. Monitor processes and command-line arguments for execution and subsequent behavior. Actions may be related to network and system information [Discovery](https://attack.mitre.org/tactics/TA0007), [Collection](https://attack.mitre.org/tactics/TA0009), or other programable post-compromise behaviors and could be used as indicators of detection leading back to the source.\n\nUnderstanding standard usage patterns is important to avoid a high number of false positives. If VB execution is restricted for normal users, then any attempts to enable related components running on a system would be considered suspicious. If VB execution is not commonly used on a system, but enabled, execution running out of cycle from patching or other administrator functions is suspicious. Payloads and scripts should be captured from the file system when possible to determine their actions and intent."
-      ],
+      "x_mitre_detection": "Monitor for events associated with VB execution, such as Office applications spawning processes, usage of the Windows Script Host (typically cscript.exe or wscript.exe), file activity involving VB payloads or scripts, or loading of modules associated with VB languages (ex: vbscript.dll). VB execution is likely to perform actions with various effects on a system that may generate events, depending on the types of monitoring used. Monitor processes and command-line arguments for execution and subsequent behavior. Actions may be related to network and system information [Discovery](https://attack.mitre.org/tactics/TA0007), [Collection](https://attack.mitre.org/tactics/TA0009), or other programable post-compromise behaviors and could be used as indicators of detection leading back to the source.\n\nUnderstanding standard usage patterns is important to avoid a high number of false positives. If VB execution is restricted for normal users, then any attempts to enable related components running on a system would be considered suspicious. If VB execution is not commonly used on a system, but enabled, execution running out of cycle from patching or other administrator functions is suspicious. Payloads and scripts should be captured from the file system when possible to determine their actions and intent.",
       "x_mitre_platforms": [
         "Linux",
-        "Windows",
-        "macOS"
+        "macOS",
+        "Windows"
       ],
       "x_mitre_data_sources": [
-        "DLL monitoring",
-        "File monitoring",
-        "Loaded DLLs",
-        "Process command-line parameters",
-        "Process monitoring"
+        "Command: Command Execution",
+        "Module: Module Load",
+        "Process: Process Creation",
+        "Script: Script Execution"
       ],
+      "x_mitre_is_subtechnique": true,
       "x_mitre_permissions_required": [
         "Administrator",
         "SYSTEM",
         "User"
       ],
-      "x_mitre_version": "1.0"
+      "x_mitre_version": "1.1",
+      "x_panw_parent_technique": "Command and Scripting Interpreter",
+      "x_panw_parent_technique_subtechnique": "Command and Scripting Interpreter: Visual Basic"
     },
     {
       "type": "campaign",

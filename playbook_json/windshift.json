@@ -30,10 +30,10 @@
       "type": "attack-pattern",
       "id": "attack-pattern--2e34237d-8574-43f6-aace-ae2915de8597",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2019-08-26T15:33:33.158Z",
-      "modified": "2020-07-27T14:54:44.085Z",
+      "created": "2020-03-02T19:05:18.137Z",
+      "modified": "2021-04-01T16:21:17.553Z",
       "name": "T1566.001: Spearphishing Attachment",
-      "description": "Adversaries may send spearphishing emails with a malicious attachment in an attempt to elicit sensitive information and/or gain access to victim systems. Spearphishing attachment is a specific variant of spearphishing. Spearphishing attachment is different from other forms of spearphishing in that it employs the use of malware attached to an email. All forms of spearphishing are electronically delivered social engineering targeted at a specific individual, company, or industry. In this scenario, adversaries attach a file to the spearphishing email and usually rely upon [User Execution](https://attack.mitre.org/techniques/T1204) to gain execution.\n\nThere are many options for the attachment such as Microsoft Office documents, executables, PDFs, or archived files. Upon opening the attachment (and potentially clicking past protections), the adversary's payload exploits a vulnerability or directly executes on the user's system. The text of the spearphishing email usually tries to give a plausible reason why the file should be opened, and may explain how to bypass system protections in order to do so. The email may also contain instructions on how to decrypt an attachment, such as a zip file password, in order to evade email boundary defenses. Adversaries frequently manipulate file extensions and icons in order to make attached executables appear to be document files, or files exploiting one application appear to be a file for a different one.",
+      "description": "Adversaries may send spearphishing emails with a malicious attachment in an attempt to gain access to victim systems. Spearphishing attachment is a specific variant of spearphishing. Spearphishing attachment is different from other forms of spearphishing in that it employs the use of malware attached to an email. All forms of spearphishing are electronically delivered social engineering targeted at a specific individual, company, or industry. In this scenario, adversaries attach a file to the spearphishing email and usually rely upon [User Execution](https://attack.mitre.org/techniques/T1204) to gain execution. Spearphishing may also involve social engineering techniques, such as posing as a trusted source.\n\nThere are many options for the attachment such as Microsoft Office documents, executables, PDFs, or archived files. Upon opening the attachment (and potentially clicking past protections), the adversary's payload exploits a vulnerability or directly executes on the user's system. The text of the spearphishing email usually tries to give a plausible reason why the file should be opened, and may explain how to bypass system protections in order to do so. The email may also contain instructions on how to decrypt an attachment, such as a zip file password, in order to evade email boundary defenses. Adversaries frequently manipulate file extensions and icons in order to make attached executables appear to be document files, or files exploiting one application appear to be a file for a different one. ",
       "kill_chain_phases": [
         {
           "kill_chain_name": "lockheed",
@@ -46,45 +46,61 @@
       ],
       "external_references": [
         {
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1566/001",
+          "external_id": "T1566.001"
+        },
+        {
           "source_name": "capec",
           "url": "https://capec.mitre.org/data/definitions/163.html",
           "external_id": "CAPEC-163"
         },
         {
-          "source_name": "mitre-attack",
-          "url": "https://attack.mitre.org/techniques/T1566/001",
-          "external_id": "T1566.001"
+          "source_name": "Microsoft Anti Spoofing",
+          "url": "https://docs.microsoft.com/en-us/microsoft-365/security/office-365-security/anti-spoofing-protection?view=o365-worldwide",
+          "description": "Microsoft. (2020, October 13). Anti-spoofing protection in EOP. Retrieved October 19, 2020."
+        },
+        {
+          "source_name": "ACSC Email Spoofing",
+          "url": "https://www.cyber.gov.au/sites/default/files/2019-03/spoof_email_sender_policy_framework.pdf",
+          "description": "Australian Cyber Security Centre. (2012, December). Mitigating Spoofed Emails Using Sender Policy Framework. Retrieved October 19, 2020."
+        },
+        {
+          "source_name": "Elastic - Koadiac Detection with EQL",
+          "url": "https://www.elastic.co/blog/embracing-offensive-tooling-building-detections-against-koadic-using-eql",
+          "description": "Stepanic, D.. (2020, January 13). Embracing offensive tooling: Building detections against Koadic using EQL. Retrieved November 30, 2020."
         }
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "Network intrusion detection systems and email gateways can be used to detect spearphishing with malicious attachments in transit. Detonation chambers may also be used to identify malicious attachments. Solutions can be signature and behavior based, but adversaries may construct attachments in a way to avoid these systems.\n\nAnti-virus can potentially detect malicious documents and attachments as they're scanned to be stored on the email server or on the user's computer. Endpoint sensing or network sensing can potentially detect malicious events once the attachment is opened (such as a Microsoft Word document or PDF reaching out to the internet or spawning Powershell.exe) for techniques such as [Exploitation for Client Execution](https://attack.mitre.org/techniques/T1203) or usage of malicious scripts."
-      ],
+      "x_mitre_detection": "Network intrusion detection systems and email gateways can be used to detect spearphishing with malicious attachments in transit. Detonation chambers may also be used to identify malicious attachments. Solutions can be signature and behavior based, but adversaries may construct attachments in a way to avoid these systems.\n\nFiltering based on DKIM+SPF or header analysis can help detect when the email sender is spoofed.(Citation: Microsoft Anti Spoofing)(Citation: ACSC Email Spoofing)\n\nAnti-virus can potentially detect malicious documents and attachments as they're scanned to be stored on the email server or on the user's computer. Endpoint sensing or network sensing can potentially detect malicious events once the attachment is opened (such as a Microsoft Word document or PDF reaching out to the internet or spawning Powershell.exe) for techniques such as [Exploitation for Client Execution](https://attack.mitre.org/techniques/T1203) or usage of malicious scripts.\n\nMonitor for suspicious descendant process spawning from Microsoft Office and other productivity software.(Citation: Elastic - Koadiac Detection with EQL)",
       "x_mitre_platforms": [
         "Linux",
-        "Windows",
-        "macOS"
+        "macOS",
+        "Windows"
       ],
       "x_mitre_data_sources": [
-        "Detonation chamber",
-        "Email gateway",
-        "File monitoring",
-        "Mail server",
-        "Network intrusion detection system",
-        "Packet capture"
+        "Application Log: Application Log Content",
+        "Network Traffic: Network Traffic Content",
+        "Network Traffic: Network Traffic Flow"
       ],
-      "x_mitre_version": "1.0"
+      "x_mitre_is_subtechnique": true,
+      "x_mitre_contributors": [
+        "Philip Winther"
+      ],
+      "x_mitre_version": "2.1",
+      "x_panw_parent_technique": "Phishing",
+      "x_panw_parent_technique_subtechnique": "Phishing: Spearphishing Attachment"
     },
     {
       "type": "attack-pattern",
       "id": "attack-pattern--32901740-b42c-4fdd-bc02-345b5dc57082",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-07-27T14:54:43.438Z",
+      "created": "2020-02-05T16:27:37.784Z",
+      "modified": "2020-02-10T19:51:01.601Z",
       "name": "T1553.002: Code Signing",
-      "description": "Adversaries may create, acquire, or steal code signing materials to sign their malware or tools. Code signing provides a level of authenticity on a binary from the developer and a guarantee that the binary has not been tampered with. (Citation: Wikipedia Code Signing) The certificates used during an operation may be created, acquired, or stolen by the adversary. (Citation: Securelist Digital Certificates) (Citation: Symantec Digital Certificates) Unlike [Invalid Code Signature](https://attack.mitre.org/techniques/T1036/001), this activity will result in a valid signature.\n\nCode signing to verify software on first run can be used on modern Windows and macOS/OS X systems. It is not used on Linux due to the decentralized nature of the platform. (Citation: Wikipedia Code Signing) \n\nCode signing certificates may be used to bypass security policies that require signed code to execute on a system.",
+      "description": "Adversaries may create, acquire, or steal code signing materials to sign their malware or tools. Code signing provides a level of authenticity on a binary from the developer and a guarantee that the binary has not been tampered with. (Citation: Wikipedia Code Signing) The certificates used during an operation may be created, acquired, or stolen by the adversary. (Citation: Securelist Digital Certificates) (Citation: Symantec Digital Certificates) Unlike [Invalid Code Signature](https://attack.mitre.org/techniques/T1036/001), this activity will result in a valid signature.\n\nCode signing to verify software on first run can be used on modern Windows and macOS/OS X systems. It is not used on Linux due to the decentralized nature of the platform. (Citation: Wikipedia Code Signing) \n\nCode signing certificates may be used to bypass security policies that require signed code to execute on a system. ",
       "kill_chain_phases": [
         {
           "kill_chain_name": "lockheed",
@@ -102,6 +118,11 @@
           "external_id": "T1553.002"
         },
         {
+          "source_name": "Wikipedia Code Signing",
+          "url": "https://en.wikipedia.org/wiki/Code_signing",
+          "description": "Wikipedia. (2015, November 10). Code Signing. Retrieved March 31, 2016."
+        },
+        {
           "source_name": "Securelist Digital Certificates",
           "url": "https://securelist.com/why-you-shouldnt-completely-trust-files-signed-with-digital-certificates/68593/",
           "description": "Ladikov, A. (2015, January 29). Why You Shouldn\u2019t Completely Trust Files Signed with Digital Certificates. Retrieved March 31, 2016."
@@ -110,37 +131,35 @@
           "source_name": "Symantec Digital Certificates",
           "url": "http://www.symantec.com/connect/blogs/how-attackers-steal-private-keys-digital-certificates",
           "description": "Shinotsuka, H. (2013, February 22). How Attackers Steal Private Keys from Digital Certificates. Retrieved March 31, 2016."
-        },
-        {
-          "source_name": "Wikipedia Code Signing",
-          "url": "https://en.wikipedia.org/wiki/Code_signing",
-          "description": "Wikipedia. (2015, November 10). Code Signing. Retrieved March 31, 2016."
         }
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "Collect and analyze signing certificate metadata on software that executes within the environment to look for unusual certificate characteristics and outliers."
-      ],
+      "x_mitre_detection": "Collect and analyze signing certificate metadata on software that executes within the environment to look for unusual certificate characteristics and outliers.",
       "x_mitre_platforms": [
-        "Windows",
-        "macOS"
+        "macOS",
+        "Windows"
       ],
-      "x_mitre_data_sources": "Binary file metadata",
+      "x_mitre_data_sources": [
+        "File: File Metadata"
+      ],
+      "x_mitre_is_subtechnique": true,
       "x_mitre_defense_bypassed": [
         "Windows User Account Control"
       ],
-      "x_mitre_version": "1.0"
+      "x_mitre_version": "1.0",
+      "x_panw_parent_technique": "Subvert Trust Controls",
+      "x_panw_parent_technique_subtechnique": "Subvert Trust Controls: Code Signing"
     },
     {
       "type": "attack-pattern",
       "id": "attack-pattern--355be19c-ffc9-46d5-8d50-d6a036c675b6",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-07-27T14:54:37.379Z",
+      "created": "2017-05-31T21:30:56.776Z",
+      "modified": "2020-10-21T16:35:45.986Z",
       "name": "T1071: Application Layer Protocol",
-      "description": "Adversaries may communicate using application layer protocols to avoid detection/network filtering by blending in with existing traffic. Commands to the remote system, and often the results of those commands, will be embedded within the protocol traffic between the client and server. \n\nAdversaries may utilize many different protocols, including those used for web browsing, transferring files, electronic mail, or DNS. For connections that occur internally within an enclave (such as those between a proxy or pivot node and other nodes), commonly used protocols are SMB, SSH, or RDP.",
+      "description": "Adversaries may communicate using application layer protocols to avoid detection/network filtering by blending in with existing traffic. Commands to the remote system, and often the results of those commands, will be embedded within the protocol traffic between the client and server. \n\nAdversaries may utilize many different protocols, including those used for web browsing, transferring files, electronic mail, or DNS. For connections that occur internally within an enclave (such as those between a proxy or pivot node and other nodes), commonly used protocols are SMB, SSH, or RDP. ",
       "kill_chain_phases": [
         {
           "kill_chain_name": "lockheed",
@@ -166,33 +185,26 @@
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "Analyze network data for uncommon data flows (e.g., a client sending significantly more data than it receives from a server). Processes utilizing the network that do not normally have network communication or have never been seen before are suspicious. Analyze packet contents to detect application layer protocols that do not follow the expected protocol standards regarding syntax, structure, or any other variable adversaries could leverage to conceal data.(Citation: University of Birmingham C2)"
-      ],
+      "x_mitre_detection": "Analyze network data for uncommon data flows (e.g., a client sending significantly more data than it receives from a server). Processes utilizing the network that do not normally have network communication or have never been seen before are suspicious. Analyze packet contents to detect application layer protocols that do not follow the expected protocol standards regarding syntax, structure, or any other variable adversaries could leverage to conceal data.(Citation: University of Birmingham C2)",
       "x_mitre_platforms": [
         "Linux",
-        "Windows",
-        "macOS"
+        "macOS",
+        "Windows"
       ],
       "x_mitre_data_sources": [
-        "DNS records",
-        "Netflow/Enclave netflow",
-        "Network protocol analysis",
-        "Packet capture",
-        "Process monitoring",
-        "Process use of network"
+        "Network Traffic: Network Traffic Content",
+        "Network Traffic: Network Traffic Flow"
       ],
-      "x_mitre_network_requirements": [
-        "true"
-      ],
+      "x_mitre_is_subtechnique": false,
+      "x_mitre_network_requirements": true,
       "x_mitre_version": "2.0"
     },
     {
       "type": "attack-pattern",
       "id": "attack-pattern--8c32eb4d-805f-4fc5-bf60-c4d476c131b5",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-07-27T14:54:38.428Z",
+      "created": "2018-04-18T17:59:24.739Z",
+      "modified": "2021-04-20T16:34:09.236Z",
       "name": "T1204: User Execution",
       "description": "An adversary may rely upon specific actions by a user in order to gain execution. Users may be subjected to social engineering to get them to execute malicious code by, for example, opening a malicious document file or link. These user actions will typically be observed as follow-on behavior from forms of [Phishing](https://attack.mitre.org/techniques/T1566).\n\nWhile [User Execution](https://attack.mitre.org/techniques/T1204) frequently occurs shortly after Initial Access it may occur at other phases of an intrusion, such as when an adversary places a file in a shared directory or on a user's desktop hoping that a user will click on it. This activity may also be seen shortly after [Internal Spearphishing](https://attack.mitre.org/techniques/T1534).",
       "kill_chain_phases": [
@@ -215,33 +227,42 @@
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "Monitor the execution of and command-line arguments for applications that may be used by an adversary to gain Initial Access that require user interaction. This includes compression applications, such as those for zip files, that can be used to [Deobfuscate/Decode Files or Information](https://attack.mitre.org/techniques/T1140) in payloads.\n\nAnti-virus can potentially detect malicious documents and files that are downloaded and executed on the user's computer. Endpoint sensing or network sensing can potentially detect malicious events once the file is opened (such as a Microsoft Word document or PDF reaching out to the internet or spawning powershell.exe)."
-      ],
+      "x_mitre_detection": "Monitor the execution of and command-line arguments for applications that may be used by an adversary to gain Initial Access that require user interaction. This includes compression applications, such as those for zip files, that can be used to [Deobfuscate/Decode Files or Information](https://attack.mitre.org/techniques/T1140) in payloads.\n\nAnti-virus can potentially detect malicious documents and files that are downloaded and executed on the user's computer. Endpoint sensing or network sensing can potentially detect malicious events once the file is opened (such as a Microsoft Word document or PDF reaching out to the internet or spawning powershell.exe).",
       "x_mitre_platforms": [
+        "Containers",
+        "IaaS",
         "Linux",
-        "Windows",
-        "macOS"
+        "macOS",
+        "Windows"
       ],
       "x_mitre_data_sources": [
-        "Anti-virus",
-        "Process command-line parameters",
-        "Process monitoring"
+        "Application Log: Application Log Content",
+        "Command: Command Execution",
+        "Container: Container Creation",
+        "Container: Container Start",
+        "File: File Creation",
+        "Image: Image Creation",
+        "Instance: Instance Creation",
+        "Instance: Instance Start",
+        "Network Traffic: Network Connection Creation",
+        "Network Traffic: Network Traffic Content",
+        "Process: Process Creation"
       ],
+      "x_mitre_is_subtechnique": false,
       "x_mitre_permissions_required": [
         "User"
       ],
       "x_mitre_contributors": [
         "Oleg Skulkin, Group-IB"
       ],
-      "x_mitre_version": "1.2"
+      "x_mitre_version": "1.3"
     },
     {
       "type": "attack-pattern",
       "id": "attack-pattern--e6919abc-99f9-4c6c-95a5-14761e7b2add",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-07-27T14:54:37.764Z",
+      "created": "2017-05-31T21:31:16.408Z",
+      "modified": "2020-03-20T15:42:48.595Z",
       "name": "T1105: Ingress Tool Transfer",
       "description": "Adversaries may transfer tools or other files from an external system into a compromised environment. Files may be copied from an external adversary controlled system through the command and control channel to bring tools into the victim network or through alternate protocols with another tool such as FTP. Files can also be copied over on Mac and Linux with native tools like scp, rsync, and sftp.",
       "kill_chain_phases": [
@@ -269,23 +290,19 @@
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "Monitor for file creation and files transferred into the network. Unusual processes with external network connections creating files on-system may be suspicious. Use of utilities, such as FTP, that does not normally occur may also be suspicious.\n\nAnalyze network data for uncommon data flows (e.g., a client sending significantly more data than it receives from a server). Processes utilizing the network that do not normally have network communication or have never been seen before are suspicious. Analyze packet contents to detect communications that do not follow the expected protocol behavior for the port that is being used.(Citation: University of Birmingham C2)"
-      ],
+      "x_mitre_detection": "Monitor for file creation and files transferred into the network. Unusual processes with external network connections creating files on-system may be suspicious. Use of utilities, such as FTP, that does not normally occur may also be suspicious.\n\nAnalyze network data for uncommon data flows (e.g., a client sending significantly more data than it receives from a server). Processes utilizing the network that do not normally have network communication or have never been seen before are suspicious. Analyze packet contents to detect communications that do not follow the expected protocol behavior for the port that is being used.(Citation: University of Birmingham C2)",
       "x_mitre_platforms": [
         "Linux",
-        "Windows",
-        "macOS"
+        "macOS",
+        "Windows"
       ],
       "x_mitre_data_sources": [
-        "File monitoring",
-        "Netflow/Enclave netflow",
-        "Network protocol analysis",
-        "Packet capture",
-        "Process command-line parameters",
-        "Process monitoring",
-        "Process use of network"
+        "File: File Creation",
+        "Network Traffic: Network Connection Creation",
+        "Network Traffic: Network Traffic Content",
+        "Network Traffic: Network Traffic Flow"
       ],
+      "x_mitre_is_subtechnique": false,
       "x_mitre_permissions_required": [
         "User"
       ],
@@ -295,10 +312,10 @@
       "type": "attack-pattern",
       "id": "attack-pattern--f6ad61ee-65f3-4bd0-a3f5-2f0accb36317",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-07-27T14:54:44.085Z",
+      "created": "2020-03-02T19:24:00.951Z",
+      "modified": "2020-10-18T01:55:02.988Z",
       "name": "T1566.003: Spearphishing via Service",
-      "description": "Adversaries may send spearphishing messages via third-party services in an attempt to elicit sensitive information and/or gain access to victim systems. Spearphishing via service is a specific variant of spearphishing. It is different from other forms of spearphishing in that it employs the use of third party services rather than directly via enterprise email channels. \n\nAll forms of spearphishing are electronically delivered social engineering targeted at a specific individual, company, or industry. In this scenario, adversaries send messages through various social media services, personal webmail, and other non-enterprise controlled services. These services are more likely to have a less-strict security policy than an enterprise. As with most kinds of spearphishing, the goal is to generate rapport with the target or get the target's interest in some way. Adversaries will create fake social media accounts and message employees for potential job opportunities. Doing so allows a plausible reason for asking about services, policies, and software that's running in an environment. The adversary can then send malicious links or attachments through these services.\n\nA common example is to build rapport with a target via social media, then send content to a personal webmail service that the target uses on their work computer. This allows an adversary to bypass some email restrictions on the work account, and the target is more likely to open the file since it's something they were expecting. If the payload doesn't work as expected, the adversary can continue normal communications and troubleshoot with the target on how to get it working.",
+      "description": "Adversaries may send spearphishing messages via third-party services in an attempt to gain access to victim systems. Spearphishing via service is a specific variant of spearphishing. It is different from other forms of spearphishing in that it employs the use of third party services rather than directly via enterprise email channels. \n\nAll forms of spearphishing are electronically delivered social engineering targeted at a specific individual, company, or industry. In this scenario, adversaries send messages through various social media services, personal webmail, and other non-enterprise controlled services. These services are more likely to have a less-strict security policy than an enterprise. As with most kinds of spearphishing, the goal is to generate rapport with the target or get the target's interest in some way. Adversaries will create fake social media accounts and message employees for potential job opportunities. Doing so allows a plausible reason for asking about services, policies, and software that's running in an environment. The adversary can then send malicious links or attachments through these services.\n\nA common example is to build rapport with a target via social media, then send content to a personal webmail service that the target uses on their work computer. This allows an adversary to bypass some email restrictions on the work account, and the target is more likely to open the file since it's something they were expecting. If the payload doesn't work as expected, the adversary can continue normal communications and troubleshoot with the target on how to get it working.",
       "kill_chain_phases": [
         {
           "kill_chain_name": "lockheed",
@@ -311,33 +328,34 @@
       ],
       "external_references": [
         {
-          "source_name": "capec",
-          "url": "https://capec.mitre.org/data/definitions/163.html",
-          "external_id": "CAPEC-163"
-        },
-        {
           "source_name": "mitre-attack",
           "url": "https://attack.mitre.org/techniques/T1566/003",
           "external_id": "T1566.003"
+        },
+        {
+          "source_name": "capec",
+          "url": "https://capec.mitre.org/data/definitions/163.html",
+          "external_id": "CAPEC-163"
         }
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "Because most common third-party services used for spearphishing via service leverage TLS encryption, SSL/TLS inspection is generally required to detect the initial communication/delivery. With SSL/TLS inspection intrusion detection signatures or other security gateway appliances may be able to detect malware. \n\nAnti-virus can potentially detect malicious documents and files that are downloaded on the user's computer. Endpoint sensing or network sensing can potentially detect malicious events once the file is opened (such as a Microsoft Word document or PDF reaching out to the internet or spawning Powershell.exe) for techniques such as [Exploitation for Client Execution](https://attack.mitre.org/techniques/T1203) or usage of malicious scripts."
-      ],
+      "x_mitre_detection": "Because most common third-party services used for spearphishing via service leverage TLS encryption, SSL/TLS inspection is generally required to detect the initial communication/delivery. With SSL/TLS inspection intrusion detection signatures or other security gateway appliances may be able to detect malware. \n\nAnti-virus can potentially detect malicious documents and files that are downloaded on the user's computer. Endpoint sensing or network sensing can potentially detect malicious events once the file is opened (such as a Microsoft Word document or PDF reaching out to the internet or spawning Powershell.exe) for techniques such as [Exploitation for Client Execution](https://attack.mitre.org/techniques/T1203) or usage of malicious scripts.",
       "x_mitre_platforms": [
         "Linux",
-        "Windows",
-        "macOS"
+        "macOS",
+        "Windows"
       ],
       "x_mitre_data_sources": [
-        "Anti-virus",
-        "SSL/TLS inspection",
-        "Web proxy"
+        "Application Log: Application Log Content",
+        "Network Traffic: Network Traffic Content",
+        "Network Traffic: Network Traffic Flow"
       ],
-      "x_mitre_version": "1.0"
+      "x_mitre_is_subtechnique": true,
+      "x_mitre_version": "2.0",
+      "x_panw_parent_technique": "Phishing",
+      "x_panw_parent_technique_subtechnique": "Phishing: Spearphishing via Service"
     },
     {
       "type": "campaign",

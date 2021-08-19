@@ -30,8 +30,8 @@
       "type": "attack-pattern",
       "id": "attack-pattern--120d5519-3098-4e1c-9191-2aa61232f073",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-07-27T14:54:43.438Z",
+      "created": "2020-01-30T14:24:34.977Z",
+      "modified": "2020-07-22T21:36:52.458Z",
       "name": "T1548.002: Bypass User Access Control",
       "description": "Adversaries may bypass UAC mechanisms to elevate process privileges on system. Windows User Account Control (UAC) allows a program to elevate its privileges (tracked as integrity levels ranging from low to high) to perform a task under administrator-level permissions, possibly by prompting the user for confirmation. The impact to the user ranges from denying the operation under high enforcement to allowing the user to perform the action if they are in the local administrators group and click through the prompt or allowing them to enter an administrator password to complete the action. (Citation: TechNet How UAC Works)\n\nIf the UAC protection level of a computer is set to anything but the highest level, certain Windows programs can elevate privileges or execute some elevated [Component Object Model](https://attack.mitre.org/techniques/T1559/001) objects without prompting the user through the UAC notification box. (Citation: TechNet Inside UAC) (Citation: MSDN COM Elevation) An example of this is use of [Rundll32](https://attack.mitre.org/techniques/T1218/011) to load a specifically crafted DLL which loads an auto-elevated [Component Object Model](https://attack.mitre.org/techniques/T1559/001) object and performs a file operation in a protected directory which would typically require elevated access. Malicious software may also be injected into a trusted process to gain elevated privileges without prompting a user.(Citation: Davidson Windows)\n\nMany methods have been discovered to bypass UAC. The Github readme page for UACME contains an extensive list of methods(Citation: Github UACMe) that have been discovered and implemented, but may not be a comprehensive list of bypasses. Additional bypass methods are regularly discovered and some used in the wild, such as:\n\n* <code>eventvwr.exe</code> can auto-elevate and execute a specified binary or script.(Citation: enigma0x3 Fileless UAC Bypass)(Citation: Fortinet Fareit)\n\nAnother bypass is possible through some lateral movement techniques if credentials for an account with administrator privileges are known, since UAC is a single system security mechanism, and the privilege or integrity of a process running on one system will be unknown on remote systems and default to high integrity.(Citation: SANS UAC Bypass)",
       "kill_chain_phases": [
@@ -45,58 +45,18 @@
         },
         {
           "kill_chain_name": "mitre-attack",
-          "phase_name": "defense-evasion"
+          "phase_name": "privilege-escalation"
         },
         {
           "kill_chain_name": "mitre-attack",
-          "phase_name": "privilege-escalation"
+          "phase_name": "defense-evasion"
         }
       ],
       "external_references": [
         {
-          "source_name": "Davidson Windows",
-          "url": "http://www.pretentiousname.com/misc/win7_uac_whitelist2.html",
-          "description": "Davidson, L. (n.d.). Windows 7 UAC whitelist. Retrieved November 12, 2014."
-        },
-        {
-          "source_name": "enigma0x3 Fileless UAC Bypass",
-          "url": "https://enigma0x3.net/2016/08/15/fileless-uac-bypass-using-eventvwr-exe-and-registry-hijacking/",
-          "description": "Nelson, M. (2016, August 15). \"Fileless\" UAC Bypass using eventvwr.exe and Registry Hijacking. Retrieved December 27, 2016."
-        },
-        {
-          "source_name": "enigma0x3 sdclt app paths",
-          "url": "https://enigma0x3.net/2017/03/14/bypassing-uac-using-app-paths/",
-          "description": "Nelson, M. (2017, March 14). Bypassing UAC using App Paths. Retrieved May 25, 2017."
-        },
-        {
-          "source_name": "enigma0x3 sdclt bypass",
-          "url": "https://enigma0x3.net/2017/03/17/fileless-uac-bypass-using-sdclt-exe/",
-          "description": "Nelson, M. (2017, March 17). \"Fileless\" UAC Bypass Using sdclt.exe. Retrieved May 25, 2017."
-        },
-        {
-          "source_name": "Fortinet Fareit",
-          "url": "https://blog.fortinet.com/2016/12/16/malicious-macro-bypasses-uac-to-elevate-privilege-for-fareit-malware",
-          "description": "Salvio, J., Joven, R. (2016, December 16). Malicious Macro Bypasses UAC to Elevate Privilege for Fareit Malware. Retrieved December 27, 2016."
-        },
-        {
-          "source_name": "Github UACMe",
-          "url": "https://github.com/hfiref0x/UACME",
-          "description": "UACME Project. (2016, June 16). UACMe. Retrieved July 26, 2016."
-        },
-        {
           "source_name": "mitre-attack",
           "url": "https://attack.mitre.org/techniques/T1548/002",
           "external_id": "T1548.002"
-        },
-        {
-          "source_name": "MSDN COM Elevation",
-          "url": "https://msdn.microsoft.com/en-us/library/ms679687.aspx",
-          "description": "Microsoft. (n.d.). The COM Elevation Moniker. Retrieved July 26, 2016."
-        },
-        {
-          "source_name": "SANS UAC Bypass",
-          "url": "http://pen-testing.sans.org/blog/pen-testing/2013/08/08/psexec-uac-bypass",
-          "description": "Medin, T. (2013, August 8). PsExec UAC Bypass. Retrieved June 3, 2016."
         },
         {
           "source_name": "TechNet How UAC Works",
@@ -107,22 +67,62 @@
           "source_name": "TechNet Inside UAC",
           "url": "https://technet.microsoft.com/en-US/magazine/2009.07.uac.aspx",
           "description": "Russinovich, M. (2009, July). User Account Control: Inside Windows 7 User Account Control. Retrieved July 26, 2016."
+        },
+        {
+          "source_name": "MSDN COM Elevation",
+          "url": "https://msdn.microsoft.com/en-us/library/ms679687.aspx",
+          "description": "Microsoft. (n.d.). The COM Elevation Moniker. Retrieved July 26, 2016."
+        },
+        {
+          "source_name": "Davidson Windows",
+          "url": "http://www.pretentiousname.com/misc/win7_uac_whitelist2.html",
+          "description": "Davidson, L. (n.d.). Windows 7 UAC whitelist. Retrieved November 12, 2014."
+        },
+        {
+          "source_name": "Github UACMe",
+          "url": "https://github.com/hfiref0x/UACME",
+          "description": "UACME Project. (2016, June 16). UACMe. Retrieved July 26, 2016."
+        },
+        {
+          "source_name": "enigma0x3 Fileless UAC Bypass",
+          "url": "https://enigma0x3.net/2016/08/15/fileless-uac-bypass-using-eventvwr-exe-and-registry-hijacking/",
+          "description": "Nelson, M. (2016, August 15). \"Fileless\" UAC Bypass using eventvwr.exe and Registry Hijacking. Retrieved December 27, 2016."
+        },
+        {
+          "source_name": "Fortinet Fareit",
+          "url": "https://blog.fortinet.com/2016/12/16/malicious-macro-bypasses-uac-to-elevate-privilege-for-fareit-malware",
+          "description": "Salvio, J., Joven, R. (2016, December 16). Malicious Macro Bypasses UAC to Elevate Privilege for Fareit Malware. Retrieved December 27, 2016."
+        },
+        {
+          "source_name": "SANS UAC Bypass",
+          "url": "http://pen-testing.sans.org/blog/pen-testing/2013/08/08/psexec-uac-bypass",
+          "description": "Medin, T. (2013, August 8). PsExec UAC Bypass. Retrieved June 3, 2016."
+        },
+        {
+          "source_name": "enigma0x3 sdclt app paths",
+          "url": "https://enigma0x3.net/2017/03/14/bypassing-uac-using-app-paths/",
+          "description": "Nelson, M. (2017, March 14). Bypassing UAC using App Paths. Retrieved May 25, 2017."
+        },
+        {
+          "source_name": "enigma0x3 sdclt bypass",
+          "url": "https://enigma0x3.net/2017/03/17/fileless-uac-bypass-using-sdclt-exe/",
+          "description": "Nelson, M. (2017, March 17). \"Fileless\" UAC Bypass Using sdclt.exe. Retrieved May 25, 2017."
         }
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "There are many ways to perform UAC bypasses when a user is in the local administrator group on a system, so it may be difficult to target detection on all variations. Efforts should likely be placed on mitigation and collecting enough information on process launches and actions that could be performed before and after a UAC bypass is performed. Monitor process API calls for behavior that may be indicative of [Process Injection](https://attack.mitre.org/techniques/T1055) and unusual loaded DLLs through [DLL Search Order Hijacking](https://attack.mitre.org/techniques/T1574/001), which indicate attempts to gain access to higher privileged processes.\n\nSome UAC bypass methods rely on modifying specific, user-accessible Registry settings. For example:\n\n* The <code>eventvwr.exe</code> bypass uses the <code>[HKEY_CURRENT_USER]\\Software\\Classes\\mscfile\\shell\\open\\command</code> Registry key.(Citation: enigma0x3 Fileless UAC Bypass)\n\n* The <code>sdclt.exe</code> bypass uses the <code>[HKEY_CURRENT_USER]\\Software\\Microsoft\\Windows\\CurrentVersion\\App Paths\\control.exe</code> and <code>[HKEY_CURRENT_USER]\\Software\\Classes\\exefile\\shell\\runas\\command\\isolatedCommand</code> Registry keys.(Citation: enigma0x3 sdclt app paths)(Citation: enigma0x3 sdclt bypass)\n\nAnalysts should monitor these Registry settings for unauthorized changes."
-      ],
+      "x_mitre_detection": "There are many ways to perform UAC bypasses when a user is in the local administrator group on a system, so it may be difficult to target detection on all variations. Efforts should likely be placed on mitigation and collecting enough information on process launches and actions that could be performed before and after a UAC bypass is performed. Monitor process API calls for behavior that may be indicative of [Process Injection](https://attack.mitre.org/techniques/T1055) and unusual loaded DLLs through [DLL Search Order Hijacking](https://attack.mitre.org/techniques/T1574/001), which indicate attempts to gain access to higher privileged processes.\n\nSome UAC bypass methods rely on modifying specific, user-accessible Registry settings. For example:\n\n* The <code>eventvwr.exe</code> bypass uses the <code>[HKEY_CURRENT_USER]\\Software\\Classes\\mscfile\\shell\\open\\command</code> Registry key.(Citation: enigma0x3 Fileless UAC Bypass)\n\n* The <code>sdclt.exe</code> bypass uses the <code>[HKEY_CURRENT_USER]\\Software\\Microsoft\\Windows\\CurrentVersion\\App Paths\\control.exe</code> and <code>[HKEY_CURRENT_USER]\\Software\\Classes\\exefile\\shell\\runas\\command\\isolatedCommand</code> Registry keys.(Citation: enigma0x3 sdclt app paths)(Citation: enigma0x3 sdclt bypass)\n\nAnalysts should monitor these Registry settings for unauthorized changes.",
       "x_mitre_platforms": [
         "Windows"
       ],
       "x_mitre_data_sources": [
-        "Process command-line parameters",
-        "Process monitoring",
-        "Windows Registry"
+        "Command: Command Execution",
+        "Process: Process Creation",
+        "Process: Process Metadata",
+        "Windows Registry: Windows Registry Key Modification"
       ],
+      "x_mitre_is_subtechnique": true,
       "x_mitre_permissions_required": [
         "Administrator",
         "User"
@@ -137,14 +137,16 @@
         "Casey Smith",
         "Stefan Kanthak"
       ],
-      "x_mitre_version": "1.0"
+      "x_mitre_version": "2.0",
+      "x_panw_parent_technique": "Abuse Elevation Control Mechanism",
+      "x_panw_parent_technique_subtechnique": "Abuse Elevation Control Mechanism: Bypass User Account Control"
     },
     {
       "type": "attack-pattern",
       "id": "attack-pattern--391d824f-0ef1-47a0-b0ee-c59a75e27670",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-07-27T14:54:37.764Z",
+      "created": "2017-05-31T21:31:17.472Z",
+      "modified": "2020-07-01T16:19:54.646Z",
       "name": "T1106: Native API",
       "description": "Adversaries may directly interact with the native OS application programming interface (API) to execute behaviors. Native APIs provide a controlled means of calling low-level OS services within the kernel, such as those involving hardware/devices, memory, and processes.(Citation: NT API Windows)(Citation: Linux Kernel API) These native APIs are leveraged by the OS during system boot (when other system components are not yet initialized) as well as carrying out tasks and requests during routine operations.\n\nFunctionality provided by native APIs are often also exposed to user-mode applications via interfaces and libraries. For example, functions such as the Windows API <code>CreateProcess()</code> or GNU <code>fork()</code> will allow programs and scripts to start other processes.(Citation: Microsoft CreateProcess)(Citation: GNU Fork) This may allow API callers to execute a binary, run a CLI command, load modules, etc. as thousands of similar API functions exist for various system operations.(Citation: Microsoft Win32)(Citation: LIBC)(Citation: GLIBC)\n\nHigher level software frameworks, such as Microsoft .NET and macOS Cocoa, are also available to interact with native APIs. These frameworks typically provide language wrappers/abstractions to API functionalities and are designed for ease-of-use/portability of code.(Citation: Microsoft NET)(Citation: Apple Core Services)(Citation: MACOS Cocoa)(Citation: macOS Foundation)\n\nAdversaries may abuse these native API functions as a means of executing behaviors. Similar to [Command and Scripting Interpreter](https://attack.mitre.org/techniques/T1059), the native API and its hierarchy of interfaces, provide mechanisms to interact with and utilize various components of a victimized system.",
       "kill_chain_phases": [
@@ -159,14 +161,24 @@
       ],
       "external_references": [
         {
-          "source_name": "Apple Core Services",
-          "url": "https://developer.apple.com/documentation/coreservices",
-          "description": "Apple. (n.d.). Core Services. Retrieved June 25, 2020."
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1106",
+          "external_id": "T1106"
         },
         {
-          "source_name": "GLIBC",
-          "url": "https://www.gnu.org/software/libc/",
-          "description": "glibc developer community. (2020, February 1). The GNU C Library (glibc). Retrieved June 25, 2020."
+          "source_name": "NT API Windows",
+          "url": "https://undocumented.ntinternals.net/",
+          "description": "The NTinterlnals.net team. (n.d.). Nowak, T. Retrieved June 25, 2020."
+        },
+        {
+          "source_name": "Linux Kernel API",
+          "url": "https://www.kernel.org/doc/html/v4.12/core-api/kernel-api.html",
+          "description": "Linux Kernel Organization, Inc. (n.d.). The Linux Kernel API. Retrieved June 25, 2020."
+        },
+        {
+          "source_name": "Microsoft CreateProcess",
+          "url": "http://msdn.microsoft.com/en-us/library/ms682425",
+          "description": "Microsoft. (n.d.). CreateProcess function. Retrieved December 5, 2014."
         },
         {
           "source_name": "GNU Fork",
@@ -174,14 +186,29 @@
           "description": "Free Software Foundation, Inc.. (2020, June 18). Creating a Process. Retrieved June 25, 2020."
         },
         {
+          "source_name": "Microsoft Win32",
+          "url": "https://docs.microsoft.com/en-us/windows/win32/api/",
+          "description": "Microsoft. (n.d.). Programming reference for the Win32 API. Retrieved March 15, 2020."
+        },
+        {
           "source_name": "LIBC",
           "url": "https://man7.org/linux/man-pages//man7/libc.7.html",
           "description": "Kerrisk, M. (2016, December 12). libc(7) \u2014 Linux manual page. Retrieved June 25, 2020."
         },
         {
-          "source_name": "Linux Kernel API",
-          "url": "https://www.kernel.org/doc/html/v4.12/core-api/kernel-api.html",
-          "description": "Linux Kernel Organization, Inc. (n.d.). The Linux Kernel API. Retrieved June 25, 2020."
+          "source_name": "GLIBC",
+          "url": "https://www.gnu.org/software/libc/",
+          "description": "glibc developer community. (2020, February 1). The GNU C Library (glibc). Retrieved June 25, 2020."
+        },
+        {
+          "source_name": "Microsoft NET",
+          "url": "https://dotnet.microsoft.com/learn/dotnet/what-is-dotnet-framework",
+          "description": "Microsoft. (n.d.). What is .NET Framework?. Retrieved March 15, 2020."
+        },
+        {
+          "source_name": "Apple Core Services",
+          "url": "https://developer.apple.com/documentation/coreservices",
+          "description": "Apple. (n.d.). Core Services. Retrieved June 25, 2020."
         },
         {
           "source_name": "MACOS Cocoa",
@@ -192,54 +219,26 @@
           "source_name": "macOS Foundation",
           "url": "https://developer.apple.com/documentation/foundation",
           "description": "Apple. (n.d.). Foundation. Retrieved July 1, 2020."
-        },
-        {
-          "source_name": "Microsoft CreateProcess",
-          "url": "http://msdn.microsoft.com/en-us/library/ms682425",
-          "description": "Microsoft. (n.d.). CreateProcess function. Retrieved December 5, 2014."
-        },
-        {
-          "source_name": "Microsoft NET",
-          "url": "https://dotnet.microsoft.com/learn/dotnet/what-is-dotnet-framework",
-          "description": "Microsoft. (n.d.). What is .NET Framework?. Retrieved March 15, 2020."
-        },
-        {
-          "source_name": "Microsoft Win32",
-          "url": "https://docs.microsoft.com/en-us/windows/win32/api/",
-          "description": "Microsoft. (n.d.). Programming reference for the Win32 API. Retrieved March 15, 2020."
-        },
-        {
-          "source_name": "mitre-attack",
-          "url": "https://attack.mitre.org/techniques/T1106",
-          "external_id": "T1106"
-        },
-        {
-          "source_name": "NT API Windows",
-          "url": "https://undocumented.ntinternals.net/",
-          "description": "The NTinterlnals.net team. (n.d.). Nowak, T. Retrieved June 25, 2020."
         }
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "Monitoring API calls may generate a significant amount of data and may not be useful for defense unless collected under specific circumstances, since benign use of API functions are common and difficult to distinguish from malicious behavior. Correlation of other events with behavior surrounding API function calls using API monitoring will provide additional context to an event that may assist in determining if it is due to malicious behavior. Correlation of activity by process lineage by process ID may be sufficient. \n\nUtilization of the Windows API may involve processes loading/accessing system DLLs associated with providing called functions (ex: kernel32.dll, advapi32.dll, user32.dll, and gdi32.dll). Monitoring for DLL loads, especially to abnormal/unusual or potentially malicious processes, may indicate abuse of the Windows API. Though noisy, this data can be combined with other indicators to identify adversary activity. "
-      ],
+      "x_mitre_detection": "Monitoring API calls may generate a significant amount of data and may not be useful for defense unless collected under specific circumstances, since benign use of API functions are common and difficult to distinguish from malicious behavior. Correlation of other events with behavior surrounding API function calls using API monitoring will provide additional context to an event that may assist in determining if it is due to malicious behavior. Correlation of activity by process lineage by process ID may be sufficient. \n\nUtilization of the Windows API may involve processes loading/accessing system DLLs associated with providing called functions (ex: kernel32.dll, advapi32.dll, user32.dll, and gdi32.dll). Monitoring for DLL loads, especially to abnormal/unusual or potentially malicious processes, may indicate abuse of the Windows API. Though noisy, this data can be combined with other indicators to identify adversary activity. ",
       "x_mitre_platforms": [
         "Linux",
-        "Windows",
-        "macOS"
+        "macOS",
+        "Windows"
       ],
       "x_mitre_data_sources": [
-        "API monitoring",
-        "Loaded DLLs",
-        "Process monitoring",
-        "System calls"
+        "Module: Module Load",
+        "Process: OS API Execution"
       ],
+      "x_mitre_is_subtechnique": false,
       "x_mitre_permissions_required": [
         "User"
       ],
-      "x_mitre_remote_support": "false",
+      "x_mitre_remote_support": false,
       "x_mitre_contributors": [
         "Stefan Kanthak"
       ],
@@ -249,10 +248,10 @@
       "type": "attack-pattern",
       "id": "attack-pattern--3c4a2599-71ee-4405-ba1e-0e28414b4bc5",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-07-27T14:54:36.653Z",
+      "created": "2017-05-31T21:30:20.537Z",
+      "modified": "2020-05-26T19:21:25.974Z",
       "name": "T1005: Data from Local System",
-      "description": "Adversaries may search local system sources, such as file systems or local databases, to find files of interest and sensitive data prior to Exfiltration.\n\nAdversaries may do this using a [Command and Scripting Interpreter](https://attack.mitre.org/techniques/T1059), such as [cmd](https://attack.mitre.org/software/S0106), which has functionality to interact with the file system to gather information. Some adversaries may also use [Automated Collection](https://attack.mitre.org/techniques/T1119) on the local system.",
+      "description": "Adversaries may search local system sources, such as file systems or local databases, to find files of interest and sensitive data prior to Exfiltration.\n\nAdversaries may do this using a [Command and Scripting Interpreter](https://attack.mitre.org/techniques/T1059), such as [cmd](https://attack.mitre.org/software/S0106), which has functionality to interact with the file system to gather information. Some adversaries may also use [Automated Collection](https://attack.mitre.org/techniques/T1119) on the local system.\n",
       "kill_chain_phases": [
         {
           "kill_chain_name": "lockheed",
@@ -273,19 +272,17 @@
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "Monitor processes and command-line arguments for actions that could be taken to collect files from a system. Remote access tools with built-in features may interact directly with the Windows API to gather data. Data may also be acquired through Windows system management tools such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) and [PowerShell](https://attack.mitre.org/techniques/T1059/001)."
-      ],
+      "x_mitre_detection": "Monitor processes and command-line arguments for actions that could be taken to collect files from a system. Remote access tools with built-in features may interact directly with the Windows API to gather data. Data may also be acquired through Windows system management tools such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) and [PowerShell](https://attack.mitre.org/techniques/T1059/001).",
       "x_mitre_platforms": [
         "Linux",
-        "Windows",
-        "macOS"
+        "macOS",
+        "Windows"
       ],
       "x_mitre_data_sources": [
-        "File monitoring",
-        "Process command-line parameters",
-        "Process monitoring"
+        "Command: Command Execution",
+        "File: File Access"
       ],
+      "x_mitre_is_subtechnique": false,
       "x_mitre_system_requirements": [
         "Privileges to access certain files and directories"
       ],
@@ -295,8 +292,8 @@
       "type": "attack-pattern",
       "id": "attack-pattern--3d333250-30e4-4a82-9edc-756c68afc529",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2020-07-27T14:54:35.843Z",
-      "modified": "2020-07-27T14:54:35.843Z",
+      "created": "2020-02-21T20:22:13.470Z",
+      "modified": "2021-04-24T13:59:13.144Z",
       "name": "T1562: Impair Defenses",
       "description": "Adversaries may maliciously modify components of a victim environment in order to hinder or disable defensive mechanisms. This not only involves impairing preventative defenses, such as firewalls and anti-virus, but also detection capabilities that defenders can use to audit activity and identify malicious behavior. This may also span both native defenses as well as supplemental capabilities installed by users and administrators.\n\nAdversaries could also target event aggregation and analysis mechanisms, or otherwise disrupt these procedures by altering other system components.",
       "kill_chain_phases": [
@@ -319,31 +316,29 @@
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "Monitor processes and command-line arguments to see if security tools or logging services are killed or stop running. Monitor Registry edits for modifications to services and startup programs that correspond to security tools.  Lack of log events may be suspicious.\n\nMonitor environment variables and APIs that can be leveraged to disable security measures."
-      ],
+      "x_mitre_detection": "Monitor processes and command-line arguments to see if security tools or logging services are killed or stop running. Monitor Registry edits for modifications to services and startup programs that correspond to security tools.  Lack of log events may be suspicious.\n\nMonitor environment variables and APIs that can be leveraged to disable security measures.",
       "x_mitre_platforms": [
-        "AWS",
-        "Azure",
-        "GCP",
+        "Containers",
+        "IaaS",
         "Linux",
-        "Windows",
-        "macOS"
+        "macOS",
+        "Office 365",
+        "Windows"
       ],
       "x_mitre_data_sources": [
-        "API monitoring",
-        "AWS CloudTrail logs",
-        "Anti-virus",
-        "Authentication logs",
-        "Azure activity logs",
-        "Environment variable",
-        "File monitoring",
-        "GCP audit logs",
-        "Process command-line parameters",
-        "Process monitoring",
-        "Services",
-        "Windows Registry"
+        "Cloud Service: Cloud Service Disable",
+        "Cloud Service: Cloud Service Modification",
+        "Command: Command Execution",
+        "Firewall: Firewall Disable",
+        "Firewall: Firewall Rule Modification",
+        "Process: Process Termination",
+        "Script: Script Execution",
+        "Sensor Health: Host Status",
+        "Service: Service Metadata",
+        "Windows Registry: Windows Registry Key Deletion",
+        "Windows Registry: Windows Registry Key Modification"
       ],
+      "x_mitre_is_subtechnique": false,
       "x_mitre_permissions_required": [
         "Administrator",
         "User"
@@ -358,14 +353,14 @@
         "Log analysis",
         "Signature-based detection"
       ],
-      "x_mitre_version": "1.0"
+      "x_mitre_version": "1.1"
     },
     {
       "type": "attack-pattern",
       "id": "attack-pattern--57340c81-c025-4189-8fa0-fc7ede51bae4",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-07-27T14:54:38.097Z",
+      "created": "2017-05-31T21:31:23.587Z",
+      "modified": "2020-08-13T20:02:49.641Z",
       "name": "T1112: Modify Registry",
       "description": "Adversaries may interact with the Windows Registry to hide configuration information within Registry keys, remove information as part of cleaning up, or as part of other techniques to aid in persistence and execution.\n\nAccess to specific areas of the Registry depends on account permissions, some requiring administrator-level access. The built-in Windows command-line utility [Reg](https://attack.mitre.org/software/S0075) may be used for local or remote Registry modification. (Citation: Microsoft Reg) Other tools may also be used, such as a remote access tool, which may contain functionality to interact with the Registry through the Windows API.\n\nRegistry modifications may also include actions to hide keys, such as prepending key names with a null character, which will cause an error and/or be ignored when read via [Reg](https://attack.mitre.org/software/S0075) or other utilities using the Win32 API. (Citation: Microsoft Reghide NOV 2006) Adversaries may abuse these pseudo-hidden keys to conceal payloads/commands used to maintain persistence. (Citation: TrendMicro POWELIKS AUG 2014) (Citation: SpectorOps Hiding Reg Jul 2017)\n\nThe Registry of a remote system may be modified to aid in execution of files as part of lateral movement. It requires the remote Registry service to be running on the target system. (Citation: Microsoft Remote) Often [Valid Accounts](https://attack.mitre.org/techniques/T1078) are required, along with access to the remote system's [SMB/Windows Admin Shares](https://attack.mitre.org/techniques/T1021/002) for RPC communication.",
       "kill_chain_phases": [
@@ -380,14 +375,14 @@
       ],
       "external_references": [
         {
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1112",
+          "external_id": "T1112"
+        },
+        {
           "source_name": "capec",
           "url": "https://capec.mitre.org/data/definitions/203.html",
           "external_id": "CAPEC-203"
-        },
-        {
-          "source_name": "Microsoft 4657 APR 2017",
-          "url": "https://docs.microsoft.com/windows/security/threat-protection/auditing/event-4657",
-          "description": "Miroshnikov, A. & Hall, J. (2017, April 18). 4657(S): A registry value was modified. Retrieved August 9, 2018."
         },
         {
           "source_name": "Microsoft Reg",
@@ -395,24 +390,14 @@
           "description": "Microsoft. (2012, April 17). Reg. Retrieved May 1, 2015."
         },
         {
-          "source_name": "Microsoft RegDelNull July 2016",
-          "url": "https://docs.microsoft.com/en-us/sysinternals/downloads/regdelnull",
-          "description": "Russinovich, M. & Sharkey, K. (2016, July 4). RegDelNull v1.11. Retrieved August 10, 2018."
-        },
-        {
           "source_name": "Microsoft Reghide NOV 2006",
           "url": "https://docs.microsoft.com/sysinternals/downloads/reghide",
           "description": "Russinovich, M. & Sharkey, K. (2006, January 10). Reghide. Retrieved August 9, 2018."
         },
         {
-          "source_name": "Microsoft Remote",
-          "url": "https://technet.microsoft.com/en-us/library/cc754820.aspx",
-          "description": "Microsoft. (n.d.). Enable the Remote Registry Service. Retrieved May 1, 2015."
-        },
-        {
-          "source_name": "mitre-attack",
-          "url": "https://attack.mitre.org/techniques/T1112",
-          "external_id": "T1112"
+          "source_name": "TrendMicro POWELIKS AUG 2014",
+          "url": "https://blog.trendmicro.com/trendlabs-security-intelligence/poweliks-malware-hides-in-windows-registry/",
+          "description": "Santos, R. (2014, August 1). POWELIKS: Malware Hides In Windows Registry. Retrieved August 9, 2018."
         },
         {
           "source_name": "SpectorOps Hiding Reg Jul 2017",
@@ -420,27 +405,37 @@
           "description": "Reitz, B. (2017, July 14). Hiding Registry keys with PSReflect. Retrieved August 9, 2018."
         },
         {
-          "source_name": "TrendMicro POWELIKS AUG 2014",
-          "url": "https://blog.trendmicro.com/trendlabs-security-intelligence/poweliks-malware-hides-in-windows-registry/",
-          "description": "Santos, R. (2014, August 1). POWELIKS: Malware Hides In Windows Registry. Retrieved August 9, 2018."
+          "source_name": "Microsoft Remote",
+          "url": "https://technet.microsoft.com/en-us/library/cc754820.aspx",
+          "description": "Microsoft. (n.d.). Enable the Remote Registry Service. Retrieved May 1, 2015."
+        },
+        {
+          "source_name": "Microsoft 4657 APR 2017",
+          "url": "https://docs.microsoft.com/windows/security/threat-protection/auditing/event-4657",
+          "description": "Miroshnikov, A. & Hall, J. (2017, April 18). 4657(S): A registry value was modified. Retrieved August 9, 2018."
+        },
+        {
+          "source_name": "Microsoft RegDelNull July 2016",
+          "url": "https://docs.microsoft.com/en-us/sysinternals/downloads/regdelnull",
+          "description": "Russinovich, M. & Sharkey, K. (2016, July 4). RegDelNull v1.11. Retrieved August 10, 2018."
         }
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "Modifications to the Registry are normal and occur throughout typical use of the Windows operating system. Consider enabling Registry Auditing on specific keys to produce an alertable event (Event ID 4657) whenever a value is changed (though this may not trigger when values are created with Reghide or other evasive methods). (Citation: Microsoft 4657 APR 2017) Changes to Registry entries that load software on Windows startup that do not correlate with known software, patch cycles, etc., are suspicious, as are additions or changes to files within the startup folder. Changes could also include new services and modification of existing binary paths to point to malicious files. If a change to a service-related entry occurs, then it will likely be followed by a local or remote service start or restart to execute the file.\n\nMonitor processes and command-line arguments for actions that could be taken to change or delete information in the Registry. Remote access tools with built-in features may interact directly with the Windows API to gather information. Information may also be acquired through Windows system management tools such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) and [PowerShell](https://attack.mitre.org/techniques/T1059/001), which may require additional logging features to be configured in the operating system to collect necessary information for analysis.\n\nMonitor for processes, command-line arguments, and API calls associated with concealing Registry keys, such as Reghide. (Citation: Microsoft Reghide NOV 2006) Inspect and cleanup malicious hidden Registry entries using Native Windows API calls and/or tools such as Autoruns (Citation: SpectorOps Hiding Reg Jul 2017) and RegDelNull (Citation: Microsoft RegDelNull July 2016)."
-      ],
+      "x_mitre_detection": "Modifications to the Registry are normal and occur throughout typical use of the Windows operating system. Consider enabling Registry Auditing on specific keys to produce an alertable event (Event ID 4657) whenever a value is changed (though this may not trigger when values are created with Reghide or other evasive methods). (Citation: Microsoft 4657 APR 2017) Changes to Registry entries that load software on Windows startup that do not correlate with known software, patch cycles, etc., are suspicious, as are additions or changes to files within the startup folder. Changes could also include new services and modification of existing binary paths to point to malicious files. If a change to a service-related entry occurs, then it will likely be followed by a local or remote service start or restart to execute the file.\n\nMonitor processes and command-line arguments for actions that could be taken to change or delete information in the Registry. Remote access tools with built-in features may interact directly with the Windows API to gather information. The Registry may also be modified through Windows system management tools such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) and [PowerShell](https://attack.mitre.org/techniques/T1059/001), which may require additional logging features to be configured in the operating system to collect necessary information for analysis.\n\nMonitor for processes, command-line arguments, and API calls associated with concealing Registry keys, such as Reghide. (Citation: Microsoft Reghide NOV 2006) Inspect and cleanup malicious hidden Registry entries using Native Windows API calls and/or tools such as Autoruns (Citation: SpectorOps Hiding Reg Jul 2017) and RegDelNull (Citation: Microsoft RegDelNull July 2016).",
       "x_mitre_platforms": [
         "Windows"
       ],
       "x_mitre_data_sources": [
-        "File monitoring",
-        "Process command-line parameters",
-        "Process monitoring",
-        "Windows Registry",
-        "Windows event logs"
+        "Command: Command Execution",
+        "Process: OS API Execution",
+        "Process: Process Creation",
+        "Windows Registry: Windows Registry Key Creation",
+        "Windows Registry: Windows Registry Key Deletion",
+        "Windows Registry: Windows Registry Key Modification"
       ],
+      "x_mitre_is_subtechnique": false,
       "x_mitre_permissions_required": [
         "Administrator",
         "SYSTEM",
@@ -454,16 +449,16 @@
         "David Lu, Tripwire",
         "Travis Smith, Tripwire"
       ],
-      "x_mitre_version": "1.1"
+      "x_mitre_version": "1.2"
     },
     {
       "type": "attack-pattern",
       "id": "attack-pattern--65917ae0-b854-4139-83fe-bf2441cf0196",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-12-17T14:34:01.461Z",
-      "modified": "2020-07-27T14:54:38.828Z",
+      "created": "2018-10-17T00:14:20.652Z",
+      "modified": "2020-09-01T20:05:05.562Z",
       "name": "T1222: File and Directory Permissions Modification",
-      "description": "Adversaries may modify file or directory permissions/attributes to evade access control lists (ACLs) and access protected files.(Citation: Hybrid Analysis Icacls1 June 2018)(Citation: Hybrid Analysis Icacls2 May 2018) File and directory permissions are commonly managed by ACLs configured by the file or directory owner, or users with the appropriate permissions. File and directory ACL implementations vary by platform, but generally explicitly designate which users or groups can perform which actions (read, write, execute, etc.).\n\nModifications may include changing specific access rights, which may require taking ownership of a file or directory and/or elevated permissions depending on the file or directory\u2019s existing permissions. This may enable malicious activity such as modifying, replacing, or deleting specific files or directories. Specific file and directory modifications may be a required step for many techniques, such as establishing Persistence via [Accessibility Features](https://attack.mitre.org/techniques/T1546/008), [Boot or Logon Initialization Scripts](https://attack.mitre.org/techniques/T1037), [.bash_profile and .bashrc](https://attack.mitre.org/techniques/T1546/004), or tainting/hijacking other instrumental binary/configuration files via [Hijack Execution Flow](https://attack.mitre.org/techniques/T1574).",
+      "description": "Adversaries may modify file or directory permissions/attributes to evade access control lists (ACLs) and access protected files.(Citation: Hybrid Analysis Icacls1 June 2018)(Citation: Hybrid Analysis Icacls2 May 2018) File and directory permissions are commonly managed by ACLs configured by the file or directory owner, or users with the appropriate permissions. File and directory ACL implementations vary by platform, but generally explicitly designate which users or groups can perform which actions (read, write, execute, etc.).\n\nModifications may include changing specific access rights, which may require taking ownership of a file or directory and/or elevated permissions depending on the file or directory\u2019s existing permissions. This may enable malicious activity such as modifying, replacing, or deleting specific files or directories. Specific file and directory modifications may be a required step for many techniques, such as establishing Persistence via [Accessibility Features](https://attack.mitre.org/techniques/T1546/008), [Boot or Logon Initialization Scripts](https://attack.mitre.org/techniques/T1037), [Unix Shell Configuration Modification](https://attack.mitre.org/techniques/T1546/004), or tainting/hijacking other instrumental binary/configuration files via [Hijack Execution Flow](https://attack.mitre.org/techniques/T1574).",
       "kill_chain_phases": [
         {
           "kill_chain_name": "lockheed",
@@ -476,9 +471,9 @@
       ],
       "external_references": [
         {
-          "source_name": "EventTracker File Permissions Feb 2014",
-          "url": "https://www.eventtracker.com/tech-articles/monitoring-file-permission-changes-windows-security-log/",
-          "description": "Netsurion. (2014, February 19). Monitoring File Permission Changes with the Windows Security Log. Retrieved August 19, 2018."
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1222",
+          "external_id": "T1222"
         },
         {
           "source_name": "Hybrid Analysis Icacls1 June 2018",
@@ -491,33 +486,32 @@
           "description": "Hybrid Analysis. (2018, May 30). 2a8efbfadd798f6111340f7c1c956bee.dll. Retrieved August 19, 2018."
         },
         {
-          "source_name": "mitre-attack",
-          "url": "https://attack.mitre.org/techniques/T1222",
-          "external_id": "T1222"
+          "source_name": "EventTracker File Permissions Feb 2014",
+          "url": "https://www.eventtracker.com/tech-articles/monitoring-file-permission-changes-windows-security-log/",
+          "description": "Netsurion. (2014, February 19). Monitoring File Permission Changes with the Windows Security Log. Retrieved August 19, 2018."
         }
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "Monitor and investigate attempts to modify ACLs and file/directory ownership. Many of the commands used to modify ACLs and file/directory ownership are built-in system utilities and may generate a high false positive alert rate, so compare against baseline knowledge for how systems are typically used and correlate modification events with other indications of malicious activity where possible.\n\nConsider enabling file/directory permission change auditing on folders containing key binary/configuration files. For example, Windows Security Log events (Event ID 4670) are created when DACLs are modified.(Citation: EventTracker File Permissions Feb 2014)"
-      ],
+      "x_mitre_detection": "Monitor and investigate attempts to modify ACLs and file/directory ownership. Many of the commands used to modify ACLs and file/directory ownership are built-in system utilities and may generate a high false positive alert rate, so compare against baseline knowledge for how systems are typically used and correlate modification events with other indications of malicious activity where possible.\n\nConsider enabling file/directory permission change auditing on folders containing key binary/configuration files. For example, Windows Security Log events (Event ID 4670) are created when DACLs are modified.(Citation: EventTracker File Permissions Feb 2014)",
       "x_mitre_platforms": [
         "Linux",
-        "Windows",
-        "macOS"
+        "macOS",
+        "Windows"
       ],
       "x_mitre_data_sources": [
-        "File monitoring",
-        "Process command-line parameters",
-        "Process monitoring",
-        "Windows event logs"
+        "Active Directory: Active Directory Object Modification",
+        "Command: Command Execution",
+        "File: File Metadata",
+        "Process: Process Creation"
       ],
+      "x_mitre_is_subtechnique": false,
       "x_mitre_permissions_required": [
         "Administrator",
+        "root",
         "SYSTEM",
-        "User",
-        "root"
+        "User"
       ],
       "x_mitre_defense_bypassed": [
         "File system access controls"
@@ -532,8 +526,8 @@
       "type": "attack-pattern",
       "id": "attack-pattern--970a3432-3237-47ad-bcca-7d8cbb217736",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-07-27T14:54:37.379Z",
+      "created": "2020-03-09T13:48:55.078Z",
+      "modified": "2020-06-24T13:51:22.360Z",
       "name": "T1059.001: PowerShell",
       "description": "Adversaries may abuse PowerShell commands and scripts for execution. PowerShell is a powerful interactive command-line interface and scripting environment included in the Windows operating system. (Citation: TechNet PowerShell) Adversaries can use PowerShell to perform a number of actions, including discovery of information and execution of code. Examples include the <code>Start-Process</code> cmdlet which can be used to run an executable and the <code>Invoke-Command</code> cmdlet which runs a command locally or on a remote computer (though administrator permissions are required to use PowerShell to connect to remote systems).\n\nPowerShell may also be used to download and run executables from the Internet, which can be executed from disk or in memory without touching disk.\n\nA number of PowerShell-based offensive testing tools are available, including [Empire](https://attack.mitre.org/software/S0363),  [PowerSploit](https://attack.mitre.org/software/S0194), [PoshC2](https://attack.mitre.org/software/S0378), and PSAttack.(Citation: Github PSAttack)\n\nPowerShell commands/scripts can also be executed without directly invoking the <code>powershell.exe</code> binary through interfaces to PowerShell's underlying <code>System.Management.Automation</code> assembly DLL exposed through the .NET framework and Windows Common Language Interface (CLI). (Citation: Sixdub PowerPick Jan 2016)(Citation: SilentBreak Offensive PS Dec 2015)(Citation: Microsoft PSfromCsharp APR 2014)",
       "kill_chain_phases": [
@@ -548,9 +542,14 @@
       ],
       "external_references": [
         {
-          "source_name": "FireEye PowerShell Logging 2016",
-          "url": "https://www.fireeye.com/blog/threat-research/2016/02/greater_visibilityt.html",
-          "description": "Dunwoody, M. (2016, February 11). GREATER VISIBILITY THROUGH POWERSHELL LOGGING. Retrieved February 16, 2016."
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1059/001",
+          "external_id": "T1059.001"
+        },
+        {
+          "source_name": "TechNet PowerShell",
+          "url": "https://technet.microsoft.com/en-us/scriptcenter/dd742419.aspx",
+          "description": "Microsoft. (n.d.). Windows PowerShell Scripting. Retrieved April 28, 2016."
         },
         {
           "source_name": "Github PSAttack",
@@ -558,19 +557,9 @@
           "description": "Haight, J. (2016, April 21). PS>Attack. Retrieved June 1, 2016."
         },
         {
-          "source_name": "Malware Archaeology PowerShell Cheat Sheet",
-          "url": "http://www.malwarearchaeology.com/s/Windows-PowerShell-Logging-Cheat-Sheet-ver-June-2016-v2.pdf",
-          "description": "Malware Archaeology. (2016, June). WINDOWS POWERSHELL LOGGING CHEAT SHEET - Win 7/Win 2008 or later. Retrieved June 24, 2016."
-        },
-        {
-          "source_name": "Microsoft PSfromCsharp APR 2014",
-          "url": "https://blogs.msdn.microsoft.com/kebab/2014/04/28/executing-powershell-scripts-from-c/",
-          "description": "Babinec, K. (2014, April 28). Executing PowerShell scripts from C#. Retrieved April 22, 2019."
-        },
-        {
-          "source_name": "mitre-attack",
-          "url": "https://attack.mitre.org/techniques/T1059/001",
-          "external_id": "T1059.001"
+          "source_name": "Sixdub PowerPick Jan 2016",
+          "url": "http://www.sixdub.net/?p=367",
+          "description": "Warner, J.. (2015, January 6). Inexorable PowerShell \u2013 A Red Teamer\u2019s Tale of Overcoming Simple AppLocker Policies. Retrieved December 8, 2018."
         },
         {
           "source_name": "SilentBreak Offensive PS Dec 2015",
@@ -578,50 +567,53 @@
           "description": "Christensen, L.. (2015, December 28). The Evolution of Offensive PowerShell Invocation. Retrieved December 8, 2018."
         },
         {
-          "source_name": "Sixdub PowerPick Jan 2016",
-          "url": "http://www.sixdub.net/?p=367",
-          "description": "Warner, J.. (2015, January 6). Inexorable PowerShell \u2013 A Red Teamer\u2019s Tale of Overcoming Simple AppLocker Policies. Retrieved December 8, 2018."
+          "source_name": "Microsoft PSfromCsharp APR 2014",
+          "url": "https://blogs.msdn.microsoft.com/kebab/2014/04/28/executing-powershell-scripts-from-c/",
+          "description": "Babinec, K. (2014, April 28). Executing PowerShell scripts from C#. Retrieved April 22, 2019."
         },
         {
-          "source_name": "TechNet PowerShell",
-          "url": "https://technet.microsoft.com/en-us/scriptcenter/dd742419.aspx",
-          "description": "Microsoft. (n.d.). Windows PowerShell Scripting. Retrieved April 28, 2016."
+          "source_name": "Malware Archaeology PowerShell Cheat Sheet",
+          "url": "http://www.malwarearchaeology.com/s/Windows-PowerShell-Logging-Cheat-Sheet-ver-June-2016-v2.pdf",
+          "description": "Malware Archaeology. (2016, June). WINDOWS POWERSHELL LOGGING CHEAT SHEET - Win 7/Win 2008 or later. Retrieved June 24, 2016."
+        },
+        {
+          "source_name": "FireEye PowerShell Logging 2016",
+          "url": "https://www.fireeye.com/blog/threat-research/2016/02/greater_visibilityt.html",
+          "description": "Dunwoody, M. (2016, February 11). GREATER VISIBILITY THROUGH POWERSHELL LOGGING. Retrieved February 16, 2016."
         }
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "If proper execution policy is set, adversaries will likely be able to define their own execution policy if they obtain administrator or system access, either through the Registry or at the command line. This change in policy on a system may be a way to detect malicious use of PowerShell. If PowerShell is not used in an environment, then simply looking for PowerShell execution may detect malicious activity.\n\nMonitor for loading and/or execution of artifacts associated with PowerShell specific assemblies, such as System.Management.Automation.dll (especially to unusual process names/locations).(Citation: Sixdub PowerPick Jan 2016)(Citation: SilentBreak Offensive PS Dec 2015)\n\nIt is also beneficial to turn on PowerShell logging to gain increased fidelity in what occurs during execution (which is applied to .NET invocations). (Citation: Malware Archaeology PowerShell Cheat Sheet) PowerShell 5.0 introduced enhanced logging capabilities, and some of those features have since been added to PowerShell 4.0. Earlier versions of PowerShell do not have many logging features.(Citation: FireEye PowerShell Logging 2016) An organization can gather PowerShell execution details in a data analytic platform to supplement it with other data."
-      ],
+      "x_mitre_detection": "If proper execution policy is set, adversaries will likely be able to define their own execution policy if they obtain administrator or system access, either through the Registry or at the command line. This change in policy on a system may be a way to detect malicious use of PowerShell. If PowerShell is not used in an environment, then simply looking for PowerShell execution may detect malicious activity.\n\nMonitor for loading and/or execution of artifacts associated with PowerShell specific assemblies, such as System.Management.Automation.dll (especially to unusual process names/locations).(Citation: Sixdub PowerPick Jan 2016)(Citation: SilentBreak Offensive PS Dec 2015)\n\nIt is also beneficial to turn on PowerShell logging to gain increased fidelity in what occurs during execution (which is applied to .NET invocations). (Citation: Malware Archaeology PowerShell Cheat Sheet) PowerShell 5.0 introduced enhanced logging capabilities, and some of those features have since been added to PowerShell 4.0. Earlier versions of PowerShell do not have many logging features.(Citation: FireEye PowerShell Logging 2016) An organization can gather PowerShell execution details in a data analytic platform to supplement it with other data.",
       "x_mitre_platforms": [
         "Windows"
       ],
       "x_mitre_data_sources": [
-        "DLL monitoring",
-        "File monitoring",
-        "Loaded DLLs",
-        "PowerShell logs",
-        "Process command-line parameters",
-        "Process monitoring",
-        "Windows event logs"
+        "Command: Command Execution",
+        "Module: Module Load",
+        "Process: Process Creation",
+        "Script: Script Execution"
       ],
+      "x_mitre_is_subtechnique": true,
       "x_mitre_permissions_required": [
         "Administrator",
         "User"
       ],
-      "x_mitre_remote_support": "true",
+      "x_mitre_remote_support": true,
       "x_mitre_contributors": [
         "Praetorian"
       ],
-      "x_mitre_version": "1.0"
+      "x_mitre_version": "1.0",
+      "x_panw_parent_technique": "Command and Scripting Interpreter",
+      "x_panw_parent_technique_subtechnique": "Command and Scripting Interpreter: PowerShell"
     },
     {
       "type": "attack-pattern",
       "id": "attack-pattern--ac08589e-ee59-4935-8667-d845e38fe579",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-07-27T14:54:43.788Z",
+      "created": "2020-02-21T20:32:20.810Z",
+      "modified": "2021-04-19T13:41:17.746Z",
       "name": "T1562.001: Disable or Modify Tools",
       "description": "Adversaries may disable security tools to avoid possible detection of their tools and activities. This can take the form of killing security software or event logging processes, deleting Registry keys so that tools do not start at run time, or other methods to interfere with security tools scanning or reporting information.",
       "kill_chain_phases": [
@@ -636,33 +628,36 @@
       ],
       "external_references": [
         {
-          "source_name": "capec",
-          "url": "https://capec.mitre.org/data/definitions/578.html",
-          "external_id": "CAPEC-578"
-        },
-        {
           "source_name": "mitre-attack",
           "url": "https://attack.mitre.org/techniques/T1562/001",
           "external_id": "T1562.001"
+        },
+        {
+          "source_name": "capec",
+          "url": "https://capec.mitre.org/data/definitions/578.html",
+          "external_id": "CAPEC-578"
         }
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "Monitor processes and command-line arguments to see if security tools are killed or stop running. Monitor Registry edits for modifications to services and startup programs that correspond to security tools. Lack of log events may be suspicious."
-      ],
+      "x_mitre_detection": "Monitor processes and command-line arguments to see if security tools are killed or stop running. Monitor Registry edits for modifications to services and startup programs that correspond to security tools. Lack of log events may be suspicious.",
       "x_mitre_platforms": [
+        "Containers",
+        "IaaS",
         "Linux",
-        "Windows",
-        "macOS"
+        "macOS",
+        "Windows"
       ],
       "x_mitre_data_sources": [
-        "File monitoring",
-        "Process command-line parameters",
-        "Services",
-        "Windows Registry"
+        "Command: Command Execution",
+        "Process: Process Termination",
+        "Sensor Health: Host Status",
+        "Service: Service Metadata",
+        "Windows Registry: Windows Registry Key Deletion",
+        "Windows Registry: Windows Registry Key Modification"
       ],
+      "x_mitre_is_subtechnique": true,
       "x_mitre_permissions_required": [
         "Administrator",
         "User"
@@ -674,16 +669,23 @@
         "Log analysis",
         "Signature-based detection"
       ],
-      "x_mitre_version": "1.0"
+      "x_mitre_contributors": [
+        "Gal Singer, @galsinger29, Team Nautilus Aqua Security",
+        "Nathaniel Quist, Palo Alto Networks",
+        "Ziv Karliner, @ziv_kr, Team Nautilus Aqua Security"
+      ],
+      "x_mitre_version": "1.1",
+      "x_panw_parent_technique": "Impair Defenses",
+      "x_panw_parent_technique_subtechnique": "Impair Defenses: Disable or Modify Tools"
     },
     {
       "type": "attack-pattern",
       "id": "attack-pattern--b80d107d-fa0d-4b60-9684-b0433e8bdba0",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2019-05-06T20:45:52.682Z",
-      "modified": "2020-07-27T14:54:42.176Z",
+      "created": "2019-03-15T13:59:30.390Z",
+      "modified": "2021-04-20T16:39:06.594Z",
       "name": "T1486: Data Encrypted for Impact",
-      "description": "Adversaries may encrypt data on target systems or on large numbers of systems in a network to interrupt availability to system and network resources. They can attempt to render stored data inaccessible by encrypting files or data on local and remote drives and withholding access to a decryption key. This may be done in order to extract monetary compensation from a victim in exchange for decryption or a decryption key (ransomware) or to render data permanently inaccessible in cases where the key is not saved or transmitted.(Citation: US-CERT Ransomware 2016)(Citation: FireEye WannaCry 2017)(Citation: US-CERT NotPetya 2017)(Citation: US-CERT SamSam 2018) In the case of ransomware, it is typical that common user files like Office documents, PDFs, images, videos, audio, text, and source code files will be encrypted. In some cases, adversaries may encrypt critical system files, disk partitions, and the MBR.(Citation: US-CERT NotPetya 2017)\n\nTo maximize impact on the target organization, malware designed for encrypting data may have worm-like features to propagate across a network by leveraging other attack techniques like [Valid Accounts](https://attack.mitre.org/techniques/T1078), [OS Credential Dumping](https://attack.mitre.org/techniques/T1003), and [SMB/Windows Admin Shares](https://attack.mitre.org/techniques/T1021/002).(Citation: FireEye WannaCry 2017)(Citation: US-CERT NotPetya 2017)",
+      "description": "Adversaries may encrypt data on target systems or on large numbers of systems in a network to interrupt availability to system and network resources. They can attempt to render stored data inaccessible by encrypting files or data on local and remote drives and withholding access to a decryption key. This may be done in order to extract monetary compensation from a victim in exchange for decryption or a decryption key (ransomware) or to render data permanently inaccessible in cases where the key is not saved or transmitted.(Citation: US-CERT Ransomware 2016)(Citation: FireEye WannaCry 2017)(Citation: US-CERT NotPetya 2017)(Citation: US-CERT SamSam 2018) In the case of ransomware, it is typical that common user files like Office documents, PDFs, images, videos, audio, text, and source code files will be encrypted. In some cases, adversaries may encrypt critical system files, disk partitions, and the MBR.(Citation: US-CERT NotPetya 2017)\n\nTo maximize impact on the target organization, malware designed for encrypting data may have worm-like features to propagate across a network by leveraging other attack techniques like [Valid Accounts](https://attack.mitre.org/techniques/T1078), [OS Credential Dumping](https://attack.mitre.org/techniques/T1003), and [SMB/Windows Admin Shares](https://attack.mitre.org/techniques/T1021/002).(Citation: FireEye WannaCry 2017)(Citation: US-CERT NotPetya 2017)\n\nIn cloud environments, storage objects within compromised accounts may also be encrypted.(Citation: Rhino S3 Ransomware Part 1)",
       "kill_chain_phases": [
         {
           "kill_chain_name": "lockheed",
@@ -696,19 +698,9 @@
       ],
       "external_references": [
         {
-          "source_name": "FireEye WannaCry 2017",
-          "url": "https://www.fireeye.com/blog/threat-research/2017/05/wannacry-malware-profile.html",
-          "description": "Berry, A., Homan, J., and Eitzman, R. (2017, May 23). WannaCry Malware Profile. Retrieved March 15, 2019."
-        },
-        {
           "source_name": "mitre-attack",
           "url": "https://attack.mitre.org/techniques/T1486",
           "external_id": "T1486"
-        },
-        {
-          "source_name": "US-CERT NotPetya 2017",
-          "url": "https://www.us-cert.gov/ncas/alerts/TA17-181A",
-          "description": "US-CERT. (2017, July 1). Alert (TA17-181A): Petya Ransomware. Retrieved March 15, 2019."
         },
         {
           "source_name": "US-CERT Ransomware 2016",
@@ -716,45 +708,65 @@
           "description": "US-CERT. (2016, March 31). Alert (TA16-091A): Ransomware and Recent Variants. Retrieved March 15, 2019."
         },
         {
+          "source_name": "FireEye WannaCry 2017",
+          "url": "https://www.fireeye.com/blog/threat-research/2017/05/wannacry-malware-profile.html",
+          "description": "Berry, A., Homan, J., and Eitzman, R. (2017, May 23). WannaCry Malware Profile. Retrieved March 15, 2019."
+        },
+        {
+          "source_name": "US-CERT NotPetya 2017",
+          "url": "https://www.us-cert.gov/ncas/alerts/TA17-181A",
+          "description": "US-CERT. (2017, July 1). Alert (TA17-181A): Petya Ransomware. Retrieved March 15, 2019."
+        },
+        {
           "source_name": "US-CERT SamSam 2018",
           "url": "https://www.us-cert.gov/ncas/alerts/AA18-337A",
           "description": "US-CERT. (2018, December 3). Alert (AA18-337A): SamSam Ransomware. Retrieved March 15, 2019."
+        },
+        {
+          "source_name": "Rhino S3 Ransomware Part 1",
+          "url": "https://rhinosecuritylabs.com/aws/s3-ransomware-part-1-attack-vector/",
+          "description": "Gietzen, S. (n.d.). S3 Ransomware Part 1: Attack Vector. Retrieved April 14, 2021."
         }
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "Use process monitoring to monitor the execution and command line parameters of of binaries involved in data destruction activity, such as vssadmin, wbadmin, and bcdedit. Monitor for the creation of suspicious files as well as unusual file modification activity. In particular, look for large quantities of file modifications in user directories.\n\nIn some cases, monitoring for unusual kernel driver installation activity can aid in detection."
-      ],
+      "x_mitre_detection": "Use process monitoring to monitor the execution and command line parameters of binaries involved in data destruction activity, such as vssadmin, wbadmin, and bcdedit. Monitor for the creation of suspicious files as well as unusual file modification activity. In particular, look for large quantities of file modifications in user directories.\n\nIn some cases, monitoring for unusual kernel driver installation activity can aid in detection.\n\nIn cloud environments, monitor for events that indicate storage objects have been anomalously replaced by copies.",
       "x_mitre_platforms": [
+        "IaaS",
         "Linux",
-        "Windows",
-        "macOS"
+        "macOS",
+        "Windows"
       ],
       "x_mitre_data_sources": [
-        "File monitoring",
-        "Kernel drivers",
-        "Process command-line parameters",
-        "Process monitoring"
+        "Cloud Storage: Cloud Storage Metadata",
+        "Cloud Storage: Cloud Storage Modification",
+        "Command: Command Execution",
+        "File: File Creation",
+        "File: File Modification",
+        "Process: Process Creation"
       ],
+      "x_mitre_is_subtechnique": false,
       "x_mitre_permissions_required": [
         "Administrator",
+        "root",
         "SYSTEM",
-        "User",
-        "root"
+        "User"
+      ],
+      "x_mitre_contributors": [
+        "Oleg Kolesnikov, Securonix"
       ],
       "x_mitre_impact_type": [
         "Availability"
       ],
-      "x_mitre_version": "1.0"
+      "x_mitre_version": "1.1"
     },
     {
       "type": "attack-pattern",
       "id": "attack-pattern--c32f7008-9fea-41f7-8366-5eb9b74bd896",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-07-27T14:54:36.653Z",
+      "created": "2017-05-31T21:30:25.584Z",
+      "modified": "2020-03-26T18:08:20.049Z",
       "name": "T1012: Query Registry",
       "description": "Adversaries may interact with the Windows Registry to gather information about the system, configuration, and installed software.\n\nThe Registry contains a significant amount of information about the operating system, configuration, software, and security.(Citation: Wikipedia Windows Registry) Information can easily be queried using the [Reg](https://attack.mitre.org/software/S0075) utility, though other means to access the Registry exist. Some of the information may help adversaries to further their operation within a network. Adversaries may use the information from [Query Registry](https://attack.mitre.org/techniques/T1012) during automated discovery to shape follow-on behaviors, including whether or not the adversary fully infects the target and/or attempts specific actions.",
       "kill_chain_phases": [
@@ -769,14 +781,14 @@
       ],
       "external_references": [
         {
-          "source_name": "capec",
-          "url": "https://capec.mitre.org/data/definitions/647.html",
-          "external_id": "CAPEC-647"
-        },
-        {
           "source_name": "mitre-attack",
           "url": "https://attack.mitre.org/techniques/T1012",
           "external_id": "T1012"
+        },
+        {
+          "source_name": "capec",
+          "url": "https://capec.mitre.org/data/definitions/647.html",
+          "external_id": "CAPEC-647"
         },
         {
           "source_name": "Wikipedia Windows Registry",
@@ -787,17 +799,17 @@
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "System and network discovery techniques normally occur throughout an operation as an adversary learns the environment. Data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities, such as Lateral Movement, based on the information obtained.\n\nInteraction with the Windows Registry may come from the command line using utilities such as [Reg](https://attack.mitre.org/software/S0075) or through running malware that may interact with the Registry through an API. Command-line invocation of utilities used to query the Registry may be detected through process and command-line monitoring. Remote access tools with built-in features may interact directly with the Windows API to gather information. Information may also be acquired through Windows system management tools such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) and [PowerShell](https://attack.mitre.org/techniques/T1059/001)."
-      ],
+      "x_mitre_detection": "System and network discovery techniques normally occur throughout an operation as an adversary learns the environment. Data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities, such as Lateral Movement, based on the information obtained.\n\nInteraction with the Windows Registry may come from the command line using utilities such as [Reg](https://attack.mitre.org/software/S0075) or through running malware that may interact with the Registry through an API. Command-line invocation of utilities used to query the Registry may be detected through process and command-line monitoring. Remote access tools with built-in features may interact directly with the Windows API to gather information. Information may also be acquired through Windows system management tools such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) and [PowerShell](https://attack.mitre.org/techniques/T1059/001).",
       "x_mitre_platforms": [
         "Windows"
       ],
       "x_mitre_data_sources": [
-        "Process command-line parameters",
-        "Process monitoring",
-        "Windows Registry"
+        "Command: Command Execution",
+        "Process: OS API Execution",
+        "Process: Process Creation",
+        "Windows Registry: Windows Registry Key Access"
       ],
+      "x_mitre_is_subtechnique": false,
       "x_mitre_permissions_required": [
         "Administrator",
         "SYSTEM",
@@ -809,8 +821,8 @@
       "type": "attack-pattern",
       "id": "attack-pattern--d742a578-d70e-4d0e-96a6-02a9c30204e6",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-12-17T14:33:52.372Z",
-      "modified": "2020-07-27T14:54:38.428Z",
+      "created": "2018-04-18T17:59:24.739Z",
+      "modified": "2020-03-29T23:48:15.056Z",
       "name": "T1189: Drive-by Compromise",
       "description": "Adversaries may gain access to a system through a user visiting a website over the normal course of browsing. With this technique, the user's web browser is typically targeted for exploitation, but adversaries may also use compromised websites for non-exploitation behavior such as acquiring [Application Access Token](https://attack.mitre.org/techniques/T1550/001).\n\nMultiple ways of delivering exploit code to a browser exist, including:\n\n* A legitimate website is compromised where adversaries have injected some form of malicious code such as JavaScript, iFrames, and cross-site scripting.\n* Malicious ads are paid for and served through legitimate ad providers.\n* Built-in web application interfaces are leveraged for the insertion of any other kind of object that can be used to display web content or contain a script that executes on the visiting client (e.g. forum posts, comments, and other user controllable web content).\n\nOften the website used by an adversary is one visited by a specific community, such as government, a particular industry, or region, where the goal is to compromise a specific user or set of users based on a shared interest. This kind of targeted attack is referred to a strategic web compromise or watering hole attack. There are several known examples of this occurring.(Citation: Shadowserver Strategic Web Compromise)\n\nTypical drive-by compromise process:\n\n1. A user visits a website that is used to host the adversary controlled content.\n2. Scripts automatically execute, typically searching versions of the browser and plugins for a potentially vulnerable version. \n    * The user may be required to assist in this process by enabling scripting or active website components and ignoring warning dialog boxes.\n3. Upon finding a vulnerable version, exploit code is delivered to the browser.\n4. If exploitation is successful, then it will give the adversary code execution on the user's system unless other protections are in place.\n    * In some cases a second visit to the website after the initial scan is required before exploit code is delivered.\n\nUnlike [Exploit Public-Facing Application](https://attack.mitre.org/techniques/T1190), the focus of this technique is to exploit software on a client endpoint upon visiting a website. This will commonly give an adversary access to systems on the internal network instead of external systems that may be in a DMZ.\n\nAdversaries may also use compromised websites to deliver a user to a malicious application designed to [Steal Application Access Token](https://attack.mitre.org/techniques/T1528)s, like OAuth tokens, to gain access to protected applications and information. These malicious applications have been delivered through popups on legitimate websites.(Citation: Volexity OceanLotus Nov 2017)",
       "kill_chain_phases": [
@@ -843,23 +855,21 @@
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "Firewalls and proxies can inspect URLs for potentially known-bad domains or parameters. They can also do reputation-based analytics on websites and their requested resources such as how old a domain is, who it's registered to, if it's on a known bad list, or how many other users have connected to it before.\n\nNetwork intrusion detection systems, sometimes with SSL/TLS MITM inspection, can be used to look for known malicious scripts (recon, heap spray, and browser identification scripts have been frequently reused), common script obfuscation, and exploit code.\n\nDetecting compromise based on the drive-by exploit from a legitimate website may be difficult. Also look for behavior on the endpoint system that might indicate successful compromise, such as abnormal behavior of browser processes. This could include suspicious files written to disk, evidence of [Process Injection](https://attack.mitre.org/techniques/T1055) for attempts to hide execution, evidence of Discovery, or other unusual network traffic that may indicate additional tools transferred to the system."
-      ],
+      "x_mitre_detection": "Firewalls and proxies can inspect URLs for potentially known-bad domains or parameters. They can also do reputation-based analytics on websites and their requested resources such as how old a domain is, who it's registered to, if it's on a known bad list, or how many other users have connected to it before.\n\nNetwork intrusion detection systems, sometimes with SSL/TLS MITM inspection, can be used to look for known malicious scripts (recon, heap spray, and browser identification scripts have been frequently reused), common script obfuscation, and exploit code.\n\nDetecting compromise based on the drive-by exploit from a legitimate website may be difficult. Also look for behavior on the endpoint system that might indicate successful compromise, such as abnormal behavior of browser processes. This could include suspicious files written to disk, evidence of [Process Injection](https://attack.mitre.org/techniques/T1055) for attempts to hide execution, evidence of Discovery, or other unusual network traffic that may indicate additional tools transferred to the system.",
       "x_mitre_platforms": [
         "Linux",
+        "macOS",
         "SaaS",
-        "Windows",
-        "macOS"
+        "Windows"
       ],
       "x_mitre_data_sources": [
-        "Network device logs",
-        "Network intrusion detection system",
-        "Packet capture",
-        "Process use of network",
-        "SSL/TLS inspection",
-        "Web proxy"
+        "Application Log: Application Log Content",
+        "File: File Creation",
+        "Network Traffic: Network Connection Creation",
+        "Network Traffic: Network Traffic Content",
+        "Process: Process Creation"
       ],
+      "x_mitre_is_subtechnique": false,
       "x_mitre_permissions_required": [
         "User"
       ],
@@ -873,8 +883,8 @@
       "type": "attack-pattern",
       "id": "attack-pattern--ec8fc7e2-b356-455c-8db5-2e37be158e7d",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-07-27T14:54:43.788Z",
+      "created": "2020-02-26T17:46:13.128Z",
+      "modified": "2020-03-29T22:32:25.985Z",
       "name": "T1564.001: Hidden Files and Directories",
       "description": "Adversaries may set files and directories to be hidden to evade detection mechanisms. To prevent normal users from accidentally changing special files on a system, most operating systems have the concept of a \u2018hidden\u2019 file. These files don\u2019t show up when a user browses the file system with a GUI or when using normal commands on the command line. Users must explicitly ask to show the hidden files either via a series of Graphical User Interface (GUI) prompts or with command line switches (<code>dir /a</code> for Windows and <code>ls \u2013a</code> for Linux and macOS).\n\nOn Linux and Mac, users can mark specific files as hidden simply by putting a \u201c.\u201d as the first character in the file or folder name  (Citation: Sofacy Komplex Trojan) (Citation: Antiquated Mac Malware). Files and folders that start with a period, \u2018.\u2019, are by default hidden from being viewed in the Finder application and standard command-line utilities like \u201cls\u201d. Users must specifically change settings to have these files viewable.\n\nFiles on macOS can also be marked with the UF_HIDDEN flag which prevents them from being seen in Finder.app, but still allows them to be seen in Terminal.app (Citation: WireLurker). On Windows, users can mark specific files as hidden by using the attrib.exe binary. Many applications create these hidden files and folders to store information so that it doesn\u2019t clutter up the user\u2019s workspace. For example, SSH utilities create a .ssh folder that\u2019s hidden and contains the user\u2019s known hosts and keys.\n\nAdversaries can use this to their advantage to hide files and folders anywhere on the system and evading a typical user or system analysis that does not incorporate investigation of hidden files.",
       "kill_chain_phases": [
@@ -889,11 +899,6 @@
       ],
       "external_references": [
         {
-          "source_name": "Antiquated Mac Malware",
-          "url": "https://blog.malwarebytes.com/threat-analysis/2017/01/new-mac-backdoor-using-antiquated-code/",
-          "description": "Thomas Reed. (2017, January 18). New Mac backdoor using antiquated code. Retrieved July 5, 2017."
-        },
-        {
           "source_name": "mitre-attack",
           "url": "https://attack.mitre.org/techniques/T1564/001",
           "external_id": "T1564.001"
@@ -904,6 +909,11 @@
           "description": "Dani Creus, Tyler Halfpop, Robert Falcone. (2016, September 26). Sofacy's 'Komplex' OS X Trojan. Retrieved July 8, 2017."
         },
         {
+          "source_name": "Antiquated Mac Malware",
+          "url": "https://blog.malwarebytes.com/threat-analysis/2017/01/new-mac-backdoor-using-antiquated-code/",
+          "description": "Thomas Reed. (2017, January 18). New Mac backdoor using antiquated code. Retrieved July 5, 2017."
+        },
+        {
           "source_name": "WireLurker",
           "url": "https://www.paloaltonetworks.com/content/dam/pan/en_US/assets/pdf/reports/Unit_42/unit42-wirelurker.pdf",
           "description": "Claud Xiao. (n.d.). WireLurker: A New Era in iOS and OS X Malware. Retrieved July 10, 2017."
@@ -912,33 +922,35 @@
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "Monitor the file system and shell commands for files being created with a leading \".\" and the Windows command-line use of attrib.exe to add the hidden attribute."
-      ],
+      "x_mitre_detection": "Monitor the file system and shell commands for files being created with a leading \".\" and the Windows command-line use of attrib.exe to add the hidden attribute.",
       "x_mitre_platforms": [
         "Linux",
-        "Windows",
-        "macOS"
+        "macOS",
+        "Windows"
       ],
       "x_mitre_data_sources": [
-        "File monitoring",
-        "Process command-line parameters",
-        "Process monitoring"
+        "Command: Command Execution",
+        "File: File Creation",
+        "File: File Metadata",
+        "Process: Process Creation"
       ],
+      "x_mitre_is_subtechnique": true,
       "x_mitre_permissions_required": [
         "User"
       ],
       "x_mitre_defense_bypassed": [
         "Host forensic analysis"
       ],
-      "x_mitre_version": "1.0"
+      "x_mitre_version": "1.0",
+      "x_panw_parent_technique": "Hide Artifacts",
+      "x_panw_parent_technique_subtechnique": "Hide Artifacts: Hidden Files and Directories"
     },
     {
       "type": "attack-pattern",
       "id": "attack-pattern--f1951e8a-500e-4a26-8803-76d95c4554b4",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-07-27T14:54:44.085Z",
+      "created": "2020-03-10T18:33:36.159Z",
+      "modified": "2020-03-28T18:52:02.384Z",
       "name": "T1569.002: Service Execution",
       "description": "Adversaries may abuse the Windows service control manager to execute malicious commands or payloads. The Windows service control manager (<code>services.exe</code>) is an interface to manage and manipulate services.(Citation: Microsoft Service Control Manager) The service control manager is accessible to users via GUI components as well as system utilities such as <code>sc.exe</code> and [Net](https://attack.mitre.org/software/S0039).\n\n[PsExec](https://attack.mitre.org/software/S0029) can also be used to execute commands or payloads via a temporary Windows service created through the service control manager API.(Citation: Russinovich Sysinternals)\n\nAdversaries may leverage these mechanisms to execute malicious content. This can be done by either executing a new or modified service. This technique is the execution used in conjunction with [Windows Service](https://attack.mitre.org/techniques/T1543/003) during service persistence or privilege escalation.",
       "kill_chain_phases": [
@@ -953,14 +965,14 @@
       ],
       "external_references": [
         {
-          "source_name": "Microsoft Service Control Manager",
-          "url": "https://docs.microsoft.com/windows/win32/services/service-control-manager",
-          "description": "Microsoft. (2018, May 31). Service Control Manager. Retrieved March 28, 2020."
-        },
-        {
           "source_name": "mitre-attack",
           "url": "https://attack.mitre.org/techniques/T1569/002",
           "external_id": "T1569.002"
+        },
+        {
+          "source_name": "Microsoft Service Control Manager",
+          "url": "https://docs.microsoft.com/windows/win32/services/service-control-manager",
+          "description": "Microsoft. (2018, May 31). Service Control Manager. Retrieved March 28, 2020."
         },
         {
           "source_name": "Russinovich Sysinternals",
@@ -971,30 +983,32 @@
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "Changes to service Registry entries and command line invocation of tools capable of modifying services that do not correlate with known software, patch cycles, etc., may be suspicious. If a service is used only to execute a binary or script and not to persist, then it will likely be changed back to its original form shortly after the service is restarted so the service is not left broken, as is the case with the common administrator tool [PsExec](https://attack.mitre.org/software/S0029)."
-      ],
+      "x_mitre_detection": "Changes to service Registry entries and command line invocation of tools capable of modifying services that do not correlate with known software, patch cycles, etc., may be suspicious. If a service is used only to execute a binary or script and not to persist, then it will likely be changed back to its original form shortly after the service is restarted so the service is not left broken, as is the case with the common administrator tool [PsExec](https://attack.mitre.org/software/S0029).",
       "x_mitre_platforms": [
         "Windows"
       ],
       "x_mitre_data_sources": [
-        "Process command-line parameters",
-        "Process monitoring",
-        "Windows Registry"
+        "Command: Command Execution",
+        "Process: Process Creation",
+        "Service: Service Creation",
+        "Windows Registry: Windows Registry Key Modification"
       ],
+      "x_mitre_is_subtechnique": true,
       "x_mitre_permissions_required": [
         "Administrator",
         "SYSTEM"
       ],
-      "x_mitre_remote_support": "true",
-      "x_mitre_version": "1.0"
+      "x_mitre_remote_support": true,
+      "x_mitre_version": "1.0",
+      "x_panw_parent_technique": "System Services",
+      "x_panw_parent_technique_subtechnique": "System Services: Service Execution"
     },
     {
       "type": "attack-pattern",
       "id": "attack-pattern--f2857333-11d4-45bf-b064-2c28d8525be5",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-07-27T14:54:43.788Z",
+      "created": "2020-03-13T20:33:00.009Z",
+      "modified": "2020-03-29T22:46:56.308Z",
       "name": "T1564.004: NTFS File Attributes",
       "description": "Adversaries may use NTFS file attributes to hide their malicious data in order to evade detection. Every New Technology File System (NTFS) formatted partition contains a Master File Table (MFT) that maintains a record for every file/directory on the partition. (Citation: SpectorOps Host-Based Jul 2017) Within MFT entries are file attributes, (Citation: Microsoft NTFS File Attributes Aug 2010) such as Extended Attributes (EA) and Data [known as Alternate Data Streams (ADSs) when more than one Data attribute is present], that can be used to store arbitrary data (and even complete files). (Citation: SpectorOps Host-Based Jul 2017) (Citation: Microsoft File Streams) (Citation: MalwareBytes ADS July 2015) (Citation: Microsoft ADS Mar 2014)\n\nAdversaries may store malicious data or binaries in file attribute metadata instead of directly in files. This may be done to evade some defenses, such as static indicator scanning tools and anti-virus. (Citation: Journey into IR ZeroAccess NTFS EA) (Citation: MalwareBytes ADS July 2015)",
       "kill_chain_phases": [
@@ -1009,9 +1023,24 @@
       ],
       "external_references": [
         {
-          "source_name": "Journey into IR ZeroAccess NTFS EA",
-          "url": "http://journeyintoir.blogspot.com/2012/12/extracting-zeroaccess-from-ntfs.html",
-          "description": "Harrell, C. (2012, December 11). Extracting ZeroAccess from NTFS Extended Attributes. Retrieved June 3, 2016."
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1564/004",
+          "external_id": "T1564.004"
+        },
+        {
+          "source_name": "SpectorOps Host-Based Jul 2017",
+          "url": "https://posts.specterops.io/host-based-threat-modeling-indicator-design-a9dbbb53d5ea",
+          "description": "Atkinson, J. (2017, July 18). Host-based Threat Modeling & Indicator Design. Retrieved March 21, 2018."
+        },
+        {
+          "source_name": "Microsoft NTFS File Attributes Aug 2010",
+          "url": "https://blogs.technet.microsoft.com/askcore/2010/08/25/ntfs-file-attributes/",
+          "description": "Hughes, J. (2010, August 25). NTFS File Attributes. Retrieved March 21, 2018."
+        },
+        {
+          "source_name": "Microsoft File Streams",
+          "url": "http://msdn.microsoft.com/en-us/library/aa364404",
+          "description": "Microsoft. (n.d.). File Streams. Retrieved December 2, 2014."
         },
         {
           "source_name": "MalwareBytes ADS July 2015",
@@ -1024,19 +1053,9 @@
           "description": "Marlin, J. (2013, March 24). Alternate Data Streams in NTFS. Retrieved March 21, 2018."
         },
         {
-          "source_name": "Microsoft File Streams",
-          "url": "http://msdn.microsoft.com/en-us/library/aa364404",
-          "description": "Microsoft. (n.d.). File Streams. Retrieved December 2, 2014."
-        },
-        {
-          "source_name": "Microsoft NTFS File Attributes Aug 2010",
-          "url": "https://blogs.technet.microsoft.com/askcore/2010/08/25/ntfs-file-attributes/",
-          "description": "Hughes, J. (2010, August 25). NTFS File Attributes. Retrieved March 21, 2018."
-        },
-        {
-          "source_name": "mitre-attack",
-          "url": "https://attack.mitre.org/techniques/T1564/004",
-          "external_id": "T1564.004"
+          "source_name": "Journey into IR ZeroAccess NTFS EA",
+          "url": "http://journeyintoir.blogspot.com/2012/12/extracting-zeroaccess-from-ntfs.html",
+          "description": "Harrell, C. (2012, December 11). Extracting ZeroAccess from NTFS Extended Attributes. Retrieved June 3, 2016."
         },
         {
           "source_name": "Oddvar Moe ADS1 Jan 2018",
@@ -1049,11 +1068,6 @@
           "description": "Moe, O. (2018, April 11). Putting Data in Alternate Data Streams and How to Execute It - Part 2. Retrieved June 30, 2018."
         },
         {
-          "source_name": "SpectorOps Host-Based Jul 2017",
-          "url": "https://posts.specterops.io/host-based-threat-modeling-indicator-design-a9dbbb53d5ea",
-          "description": "Atkinson, J. (2017, July 18). Host-based Threat Modeling & Indicator Design. Retrieved March 21, 2018."
-        },
-        {
           "source_name": "Symantec ADS May 2009",
           "url": "https://www.symantec.com/connect/articles/what-you-need-know-about-alternate-data-streams-windows-your-data-secure-can-you-restore",
           "description": "Pravs. (2009, May 25). What you need to know about alternate data streams in windows? Is your Data secure? Can you restore that?. Retrieved March 21, 2018."
@@ -1062,17 +1076,17 @@
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "Forensic techniques exist to identify information stored in NTFS EA. (Citation: Journey into IR ZeroAccess NTFS EA) Monitor calls to the <code>ZwSetEaFile</code> and <code>ZwQueryEaFile</code> Windows API functions as well as binaries used to interact with EA, (Citation: Oddvar Moe ADS1 Jan 2018) (Citation: Oddvar Moe ADS2 Apr 2018) and consider regularly scanning for the presence of modified information. (Citation: SpectorOps Host-Based Jul 2017)\n\nThere are many ways to create and interact with ADSs using Windows utilities. Monitor for operations (execution, copies, etc.) with file names that contain colons. This syntax (ex: <code>file.ext:ads[.ext]</code>) is commonly associated with ADSs. (Citation: Microsoft ADS Mar 2014) (Citation: Oddvar Moe ADS1 Jan 2018) (Citation: Oddvar Moe ADS2 Apr 2018) For a more exhaustive list of utilities that can be used to execute and create ADSs, see https://gist.github.com/api0cradle/cdd2d0d0ec9abb686f0e89306e277b8f.\n\nThe Streams tool of Sysinternals can be used to uncover files with ADSs. The <code>dir /r</code> command can also be used to display ADSs. (Citation: Symantec ADS May 2009) Many PowerShell commands (such as Get-Item, Set-Item, Remove-Item, and Get-ChildItem) can also accept a <code>-stream</code> parameter to interact with ADSs. (Citation: MalwareBytes ADS July 2015) (Citation: Microsoft ADS Mar 2014)"
-      ],
+      "x_mitre_detection": "Forensic techniques exist to identify information stored in NTFS EA. (Citation: Journey into IR ZeroAccess NTFS EA) Monitor calls to the <code>ZwSetEaFile</code> and <code>ZwQueryEaFile</code> Windows API functions as well as binaries used to interact with EA, (Citation: Oddvar Moe ADS1 Jan 2018) (Citation: Oddvar Moe ADS2 Apr 2018) and consider regularly scanning for the presence of modified information. (Citation: SpectorOps Host-Based Jul 2017)\n\nThere are many ways to create and interact with ADSs using Windows utilities. Monitor for operations (execution, copies, etc.) with file names that contain colons. This syntax (ex: <code>file.ext:ads[.ext]</code>) is commonly associated with ADSs. (Citation: Microsoft ADS Mar 2014) (Citation: Oddvar Moe ADS1 Jan 2018) (Citation: Oddvar Moe ADS2 Apr 2018) For a more exhaustive list of utilities that can be used to execute and create ADSs, see https://gist.github.com/api0cradle/cdd2d0d0ec9abb686f0e89306e277b8f.\n\nThe Streams tool of Sysinternals can be used to uncover files with ADSs. The <code>dir /r</code> command can also be used to display ADSs. (Citation: Symantec ADS May 2009) Many PowerShell commands (such as Get-Item, Set-Item, Remove-Item, and Get-ChildItem) can also accept a <code>-stream</code> parameter to interact with ADSs. (Citation: MalwareBytes ADS July 2015) (Citation: Microsoft ADS Mar 2014)",
       "x_mitre_platforms": [
         "Windows"
       ],
       "x_mitre_data_sources": [
-        "API monitoring",
-        "File monitoring",
-        "Process command-line parameters"
+        "Command: Command Execution",
+        "File: File Metadata",
+        "File: File Modification",
+        "Process: OS API Execution"
       ],
+      "x_mitre_is_subtechnique": true,
       "x_mitre_defense_bypassed": [
         "Anti-virus",
         "Host forensic analysis",
@@ -1085,14 +1099,16 @@
         "Oddvar Moe, @oddvarmoe",
         "Red Canary"
       ],
-      "x_mitre_version": "1.0"
+      "x_mitre_version": "1.0",
+      "x_panw_parent_technique": "Hide Artifacts",
+      "x_panw_parent_technique_subtechnique": "Hide Artifacts: NTFS File Attributes"
     },
     {
       "type": "attack-pattern",
       "id": "attack-pattern--f5d8eed6-48a9-4cdf-a3d7-d1ffa99c3d2a",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2019-05-06T20:46:09.861Z",
-      "modified": "2020-07-27T14:54:42.176Z",
+      "created": "2019-04-02T13:54:43.136Z",
+      "modified": "2020-07-14T19:33:52.512Z",
       "name": "T1490: Inhibit System Recovery",
       "description": "Adversaries may delete or remove built-in operating system data and turn off services designed to aid in the recovery of a corrupted system to prevent recovery.(Citation: Talos Olympic Destroyer 2018)(Citation: FireEye WannaCry 2017) Operating systems may contain features that can help fix corrupted systems, such as a backup catalog, volume shadow copies, and automatic repair features. Adversaries may disable or delete system recovery features to augment the effects of [Data Destruction](https://attack.mitre.org/techniques/T1485) and [Data Encrypted for Impact](https://attack.mitre.org/techniques/T1486).(Citation: Talos Olympic Destroyer 2018)(Citation: FireEye WannaCry 2017)\n\nA number of native Windows utilities have been used by adversaries to disable or delete system recovery features:\n\n* <code>vssadmin.exe</code> can be used to delete all volume shadow copies on a system - <code>vssadmin.exe delete shadows /all /quiet</code>\n* [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) can be used to delete volume shadow copies - <code>wmic shadowcopy delete</code>\n* <code>wbadmin.exe</code> can be used to delete the Windows Backup Catalog - <code>wbadmin.exe delete catalog -quiet</code>\n* <code>bcdedit.exe</code> can be used to disable automatic Windows recovery features by modifying boot configuration data - <code>bcdedit.exe /set {default} bootstatuspolicy ignoreallfailures & bcdedit /set {default} recoveryenabled no</code>",
       "kill_chain_phases": [
@@ -1107,11 +1123,6 @@
       ],
       "external_references": [
         {
-          "source_name": "FireEye WannaCry 2017",
-          "url": "https://www.fireeye.com/blog/threat-research/2017/05/wannacry-malware-profile.html",
-          "description": "Berry, A., Homan, J., and Eitzman, R. (2017, May 23). WannaCry Malware Profile. Retrieved March 15, 2019."
-        },
-        {
           "source_name": "mitre-attack",
           "url": "https://attack.mitre.org/techniques/T1490",
           "external_id": "T1490"
@@ -1120,31 +1131,35 @@
           "source_name": "Talos Olympic Destroyer 2018",
           "url": "https://blog.talosintelligence.com/2018/02/olympic-destroyer.html",
           "description": "Mercer, W. and Rascagneres, P. (2018, February 12). Olympic Destroyer Takes Aim At Winter Olympics. Retrieved March 14, 2019."
+        },
+        {
+          "source_name": "FireEye WannaCry 2017",
+          "url": "https://www.fireeye.com/blog/threat-research/2017/05/wannacry-malware-profile.html",
+          "description": "Berry, A., Homan, J., and Eitzman, R. (2017, May 23). WannaCry Malware Profile. Retrieved March 15, 2019."
         }
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "Use process monitoring to monitor the execution and command line parameters of binaries involved in inhibiting system recovery, such as vssadmin, wbadmin, and bcdedit. The Windows event logs, ex. Event ID 524 indicating a system catalog was deleted, may contain entries associated with suspicious activity.\n\nMonitor the status of services involved in system recovery. Monitor the registry for changes associated with system recovery features (ex: the creation of <code>HKEY_CURRENT_USER\\Software\\Policies\\Microsoft\\PreviousVersions\\DisableLocalPage</code>)."
-      ],
+      "x_mitre_detection": "Use process monitoring to monitor the execution and command line parameters of binaries involved in inhibiting system recovery, such as vssadmin, wbadmin, and bcdedit. The Windows event logs, ex. Event ID 524 indicating a system catalog was deleted, may contain entries associated with suspicious activity.\n\nMonitor the status of services involved in system recovery. Monitor the registry for changes associated with system recovery features (ex: the creation of <code>HKEY_CURRENT_USER\\Software\\Policies\\Microsoft\\PreviousVersions\\DisableLocalPage</code>).",
       "x_mitre_platforms": [
         "Linux",
-        "Windows",
-        "macOS"
+        "macOS",
+        "Windows"
       ],
       "x_mitre_data_sources": [
-        "Process command-line parameters",
-        "Process monitoring",
-        "Services",
-        "Windows Registry",
-        "Windows event logs"
+        "Command: Command Execution",
+        "File: File Deletion",
+        "Process: Process Creation",
+        "Service: Service Metadata",
+        "Windows Registry: Windows Registry Key Modification"
       ],
+      "x_mitre_is_subtechnique": false,
       "x_mitre_permissions_required": [
         "Administrator",
+        "root",
         "SYSTEM",
-        "User",
-        "root"
+        "User"
       ],
       "x_mitre_contributors": [
         "Yonatan Gotlib, Deep Instinct"

@@ -30,8 +30,8 @@
       "type": "attack-pattern",
       "id": "attack-pattern--005a06c6-14bf-4118-afa0-ebcd8aebb0c9",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2020-07-27T14:54:33.812Z",
-      "modified": "2020-07-27T14:54:33.812Z",
+      "created": "2019-11-27T14:58:00.429Z",
+      "modified": "2020-12-30T14:26:44.730Z",
       "name": "T1053.005: Scheduled Task",
       "description": "Adversaries may abuse the Windows Task Scheduler to perform task scheduling for initial or recurring execution of malicious code. There are multiple ways to access the Task Scheduler in Windows. The <code>schtasks</code> can be run directly on the command line, or the Task Scheduler can be opened through the GUI within the Administrator Tools section of the Control Panel. In some cases, adversaries have used a .NET wrapper for the Windows Task Scheduler, and alternatively, adversaries have used the Windows netapi32 library to create a scheduled task.\n\nThe deprecated [at](https://attack.mitre.org/software/S0110) utility could also be abused by adversaries (ex: [At (Windows)](https://attack.mitre.org/techniques/T1053/002)), though <code>at.exe</code> can not access tasks created with <code>schtasks</code> or the Control Panel.\n\nAn adversary may use Windows Task Scheduler to execute programs at system startup or on a scheduled basis for persistence. The Windows Task Scheduler can also be abused to conduct remote Execution as part of Lateral Movement and or to run a process under the context of a specified account (such as SYSTEM).",
       "kill_chain_phases": [
@@ -58,19 +58,14 @@
       ],
       "external_references": [
         {
-          "source_name": "Microsoft Scheduled Task Events Win10",
-          "url": "https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/audit-other-object-access-events",
-          "description": "Microsoft. (2017, May 28). Audit Other Object Access Events. Retrieved June 27, 2019."
-        },
-        {
           "source_name": "mitre-attack",
           "url": "https://attack.mitre.org/techniques/T1053/005",
           "external_id": "T1053.005"
         },
         {
-          "source_name": "TechNet Autoruns",
-          "url": "https://technet.microsoft.com/en-us/sysinternals/bb963902",
-          "description": "Russinovich, M. (2016, January 4). Autoruns for Windows v13.51. Retrieved June 6, 2016."
+          "source_name": "Twitter Leoloobeek Scheduled Task",
+          "url": "https://twitter.com/leoloobeek/status/939248813465853953",
+          "description": "Loobeek, L. (2017, December 8). leoloobeek Status. Retrieved December 12, 2017."
         },
         {
           "source_name": "TechNet Forum Scheduled Task Operational Setting",
@@ -83,40 +78,46 @@
           "description": "Microsoft. (n.d.). General Task Registration. Retrieved December 12, 2017."
         },
         {
-          "source_name": "Twitter Leoloobeek Scheduled Task",
-          "url": "https://twitter.com/leoloobeek/status/939248813465853953",
-          "description": "Loobeek, L. (2017, December 8). leoloobeek Status. Retrieved December 12, 2017."
+          "source_name": "Microsoft Scheduled Task Events Win10",
+          "url": "https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/audit-other-object-access-events",
+          "description": "Microsoft. (2017, May 28). Audit Other Object Access Events. Retrieved June 27, 2019."
+        },
+        {
+          "source_name": "TechNet Autoruns",
+          "url": "https://technet.microsoft.com/en-us/sysinternals/bb963902",
+          "description": "Russinovich, M. (2016, January 4). Autoruns for Windows v13.51. Retrieved June 6, 2016."
         }
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "Monitor process execution from the <code>svchost.exe</code> in Windows 10 and the Windows Task Scheduler <code>taskeng.exe</code> for older versions of Windows. (Citation: Twitter Leoloobeek Scheduled Task) If scheduled tasks are not used for persistence, then the adversary is likely to remove the task when the action is complete. Monitor Windows Task Scheduler stores in %systemroot%\\System32\\Tasks for change entries related to scheduled tasks that do not correlate with known software, patch cycles, etc.\n\nConfigure event logging for scheduled task creation and changes by enabling the \"Microsoft-Windows-TaskScheduler/Operational\" setting within the event logging service. (Citation: TechNet Forum Scheduled Task Operational Setting) Several events will then be logged on scheduled task activity, including: (Citation: TechNet Scheduled Task Events)(Citation: Microsoft Scheduled Task Events Win10)\n\n* Event ID 106 on Windows 7, Server 2008 R2 - Scheduled task registered\n* Event ID 140 on Windows 7, Server 2008 R2 / 4702 on Windows 10, Server 2016 - Scheduled task updated\n* Event ID 141 on Windows 7, Server 2008 R2 / 4699 on Windows 10, Server 2016 - Scheduled task deleted\n* Event ID 4698 on Windows 10, Server 2016 - Scheduled task created\n* Event ID 4700 on Windows 10, Server 2016 - Scheduled task enabled\n* Event ID 4701 on Windows 10, Server 2016 - Scheduled task disabled\n\nTools such as Sysinternals Autoruns may also be used to detect system changes that could be attempts at persistence, including listing current scheduled tasks. (Citation: TechNet Autoruns)\n\nRemote access tools with built-in features may interact directly with the Windows API to perform these functions outside of typical system utilities. Tasks may also be created through Windows system management tools such as Windows Management Instrumentation and PowerShell, so additional logging may need to be configured to gather the appropriate data."
-      ],
+      "x_mitre_detection": "Monitor process execution from the <code>svchost.exe</code> in Windows 10 and the Windows Task Scheduler <code>taskeng.exe</code> for older versions of Windows. (Citation: Twitter Leoloobeek Scheduled Task) If scheduled tasks are not used for persistence, then the adversary is likely to remove the task when the action is complete. Monitor Windows Task Scheduler stores in %systemroot%\\System32\\Tasks for change entries related to scheduled tasks that do not correlate with known software, patch cycles, etc.\n\nConfigure event logging for scheduled task creation and changes by enabling the \"Microsoft-Windows-TaskScheduler/Operational\" setting within the event logging service. (Citation: TechNet Forum Scheduled Task Operational Setting) Several events will then be logged on scheduled task activity, including: (Citation: TechNet Scheduled Task Events)(Citation: Microsoft Scheduled Task Events Win10)\n\n* Event ID 106 on Windows 7, Server 2008 R2 - Scheduled task registered\n* Event ID 140 on Windows 7, Server 2008 R2 / 4702 on Windows 10, Server 2016 - Scheduled task updated\n* Event ID 141 on Windows 7, Server 2008 R2 / 4699 on Windows 10, Server 2016 - Scheduled task deleted\n* Event ID 4698 on Windows 10, Server 2016 - Scheduled task created\n* Event ID 4700 on Windows 10, Server 2016 - Scheduled task enabled\n* Event ID 4701 on Windows 10, Server 2016 - Scheduled task disabled\n\nTools such as Sysinternals Autoruns may also be used to detect system changes that could be attempts at persistence, including listing current scheduled tasks. (Citation: TechNet Autoruns)\n\nRemote access tools with built-in features may interact directly with the Windows API to perform these functions outside of typical system utilities. Tasks may also be created through Windows system management tools such as Windows Management Instrumentation and PowerShell, so additional logging may need to be configured to gather the appropriate data.",
       "x_mitre_platforms": [
         "Windows"
       ],
       "x_mitre_data_sources": [
-        "File monitoring",
-        "Process command-line parameters",
-        "Process monitoring",
-        "Windows event logs"
+        "Command: Command Execution",
+        "File: File Modification",
+        "Process: Process Creation",
+        "Scheduled Job: Scheduled Job Creation"
       ],
+      "x_mitre_is_subtechnique": true,
       "x_mitre_permissions_required": [
         "Administrator"
       ],
-      "x_mitre_remote_support": "true",
-      "x_mitre_version": "1.0"
+      "x_mitre_remote_support": true,
+      "x_mitre_version": "1.0",
+      "x_panw_parent_technique": "Scheduled Task/Job",
+      "x_panw_parent_technique_subtechnique": "Scheduled Task/Job: Scheduled Task"
     },
     {
       "type": "attack-pattern",
       "id": "attack-pattern--10d51417-ee35-4589-b1ff-b6df1c334e8d",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-07-27T14:54:38.097Z",
+      "created": "2017-05-31T21:31:44.421Z",
+      "modified": "2021-04-22T20:22:02.443Z",
       "name": "T1133: External Remote Services",
-      "description": "Adversaries may leverage external-facing remote services to initially access and/or persist within a network. Remote services such as VPNs, Citrix, and other access mechanisms allow users to connect to internal enterprise network resources from external locations. There are often remote service gateways that manage connections and credential authentication for these services. Services such as [Windows Remote Management](https://attack.mitre.org/techniques/T1021/006) can also be used externally.\n\nAccess to [Valid Accounts](https://attack.mitre.org/techniques/T1078) to use the service is often a requirement, which could be obtained through credential pharming or by obtaining the credentials from users after compromising the enterprise network.(Citation: Volexity Virtual Private Keylogging) Access to remote services may be used as a redundant or persistent access mechanism during an operation.",
+      "description": "Adversaries may leverage external-facing remote services to initially access and/or persist within a network. Remote services such as VPNs, Citrix, and other access mechanisms allow users to connect to internal enterprise network resources from external locations. There are often remote service gateways that manage connections and credential authentication for these services. Services such as [Windows Remote Management](https://attack.mitre.org/techniques/T1021/006) can also be used externally.\n\nAccess to [Valid Accounts](https://attack.mitre.org/techniques/T1078) to use the service is often a requirement, which could be obtained through credential pharming or by obtaining the credentials from users after compromising the enterprise network.(Citation: Volexity Virtual Private Keylogging) Access to remote services may be used as a redundant or persistent access mechanism during an operation.\n\nAccess may also be gained through an exposed service that doesn\u2019t require authentication. In containerized environments, this may include an exposed Docker API, Kubernetes API server, kubelet, or web application such as the Kubernetes dashboard.(Citation: Trend Micro Exposed Docker Server)(Citation: Unit 42 Hildegard Malware)",
       "kill_chain_phases": [
         {
           "kill_chain_name": "lockheed",
@@ -128,56 +129,82 @@
         },
         {
           "kill_chain_name": "mitre-attack",
-          "phase_name": "initial-access"
+          "phase_name": "persistence"
         },
         {
           "kill_chain_name": "mitre-attack",
-          "phase_name": "persistence"
+          "phase_name": "initial-access"
         }
       ],
       "external_references": [
-        {
-          "source_name": "capec",
-          "url": "https://capec.mitre.org/data/definitions/555.html",
-          "external_id": "CAPEC-555"
-        },
         {
           "source_name": "mitre-attack",
           "url": "https://attack.mitre.org/techniques/T1133",
           "external_id": "T1133"
         },
         {
+          "source_name": "capec",
+          "url": "https://capec.mitre.org/data/definitions/555.html",
+          "external_id": "CAPEC-555"
+        },
+        {
           "source_name": "Volexity Virtual Private Keylogging",
           "url": "https://www.volexity.com/blog/2015/10/07/virtual-private-keylogging-cisco-web-vpns-leveraged-for-access-and-persistence/",
           "description": "Adair, S. (2015, October 7). Virtual Private Keylogging: Cisco Web VPNs Leveraged for Access and Persistence. Retrieved March 20, 2017."
+        },
+        {
+          "source_name": "Trend Micro Exposed Docker Server",
+          "url": "https://www.trendmicro.com/en_us/research/20/f/xorddos-kaiji-botnet-malware-variants-target-exposed-docker-servers.html",
+          "description": "Remillano II, A., et al. (2020, June 20). XORDDoS, Kaiji Variants Target Exposed Docker Servers. Retrieved April 5, 2021."
+        },
+        {
+          "source_name": "Unit 42 Hildegard Malware",
+          "url": "https://unit42.paloaltonetworks.com/hildegard-malware-teamtnt/",
+          "description": "Chen, J. et al. (2021, February 3). Hildegard: New TeamTNT Cryptojacking Malware Targeting Kubernetes. Retrieved April 5, 2021."
         }
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "Follow best practices for detecting adversary use of [Valid Accounts](https://attack.mitre.org/techniques/T1078) for authenticating to remote services. Collect authentication logs and analyze for unusual access patterns, windows of activity, and access outside of normal business hours."
-      ],
+      "x_mitre_detection": "Follow best practices for detecting adversary use of [Valid Accounts](https://attack.mitre.org/techniques/T1078) for authenticating to remote services. Collect authentication logs and analyze for unusual access patterns, windows of activity, and access outside of normal business hours.\n\nWhen authentication is not required to access an exposed remote service, monitor for follow-on activities such as anomalous external use of the exposed API or application.",
       "x_mitre_platforms": [
+        "Containers",
         "Linux",
         "Windows"
       ],
-      "x_mitre_data_sources": "Authentication logs",
+      "x_mitre_data_sources": [
+        "Application Log: Application Log Content",
+        "Logon Session: Logon Session Metadata",
+        "Network Traffic: Network Traffic Flow"
+      ],
+      "x_mitre_is_subtechnique": false,
       "x_mitre_permissions_required": [
         "User"
       ],
       "x_mitre_contributors": [
+        "Alfredo Oliveira, Trend Micro",
+        "Ariel Shuper, Cisco",
+        "Brad Geesaman, @bradgeesaman",
         "Daniel Oakley",
-        "Travis Smith, Tripwire"
+        "David Fiser, @anu4is, Trend Micro",
+        "ExtraHop",
+        "Idan Frimark, Cisco",
+        "Jay Chen, Palo Alto Networks",
+        "Magno Logan, @magnologan, Trend Micro",
+        "Rory McCune, Aqua Security",
+        "Travis Smith, Tripwire",
+        "Vishwas Manral, McAfee",
+        "Yossi Weizman, Azure Defender Research Team",
+        "Yuval Avrahami, Palo Alto Networks"
       ],
-      "x_mitre_version": "2.1"
+      "x_mitre_version": "2.2"
     },
     {
       "type": "attack-pattern",
       "id": "attack-pattern--120d5519-3098-4e1c-9191-2aa61232f073",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-07-27T14:54:43.438Z",
+      "created": "2020-01-30T14:24:34.977Z",
+      "modified": "2020-07-22T21:36:52.458Z",
       "name": "T1548.002: Bypass User Access Control",
       "description": "Adversaries may bypass UAC mechanisms to elevate process privileges on system. Windows User Account Control (UAC) allows a program to elevate its privileges (tracked as integrity levels ranging from low to high) to perform a task under administrator-level permissions, possibly by prompting the user for confirmation. The impact to the user ranges from denying the operation under high enforcement to allowing the user to perform the action if they are in the local administrators group and click through the prompt or allowing them to enter an administrator password to complete the action. (Citation: TechNet How UAC Works)\n\nIf the UAC protection level of a computer is set to anything but the highest level, certain Windows programs can elevate privileges or execute some elevated [Component Object Model](https://attack.mitre.org/techniques/T1559/001) objects without prompting the user through the UAC notification box. (Citation: TechNet Inside UAC) (Citation: MSDN COM Elevation) An example of this is use of [Rundll32](https://attack.mitre.org/techniques/T1218/011) to load a specifically crafted DLL which loads an auto-elevated [Component Object Model](https://attack.mitre.org/techniques/T1559/001) object and performs a file operation in a protected directory which would typically require elevated access. Malicious software may also be injected into a trusted process to gain elevated privileges without prompting a user.(Citation: Davidson Windows)\n\nMany methods have been discovered to bypass UAC. The Github readme page for UACME contains an extensive list of methods(Citation: Github UACMe) that have been discovered and implemented, but may not be a comprehensive list of bypasses. Additional bypass methods are regularly discovered and some used in the wild, such as:\n\n* <code>eventvwr.exe</code> can auto-elevate and execute a specified binary or script.(Citation: enigma0x3 Fileless UAC Bypass)(Citation: Fortinet Fareit)\n\nAnother bypass is possible through some lateral movement techniques if credentials for an account with administrator privileges are known, since UAC is a single system security mechanism, and the privilege or integrity of a process running on one system will be unknown on remote systems and default to high integrity.(Citation: SANS UAC Bypass)",
       "kill_chain_phases": [
@@ -191,58 +218,18 @@
         },
         {
           "kill_chain_name": "mitre-attack",
-          "phase_name": "defense-evasion"
+          "phase_name": "privilege-escalation"
         },
         {
           "kill_chain_name": "mitre-attack",
-          "phase_name": "privilege-escalation"
+          "phase_name": "defense-evasion"
         }
       ],
       "external_references": [
         {
-          "source_name": "Davidson Windows",
-          "url": "http://www.pretentiousname.com/misc/win7_uac_whitelist2.html",
-          "description": "Davidson, L. (n.d.). Windows 7 UAC whitelist. Retrieved November 12, 2014."
-        },
-        {
-          "source_name": "enigma0x3 Fileless UAC Bypass",
-          "url": "https://enigma0x3.net/2016/08/15/fileless-uac-bypass-using-eventvwr-exe-and-registry-hijacking/",
-          "description": "Nelson, M. (2016, August 15). \"Fileless\" UAC Bypass using eventvwr.exe and Registry Hijacking. Retrieved December 27, 2016."
-        },
-        {
-          "source_name": "enigma0x3 sdclt app paths",
-          "url": "https://enigma0x3.net/2017/03/14/bypassing-uac-using-app-paths/",
-          "description": "Nelson, M. (2017, March 14). Bypassing UAC using App Paths. Retrieved May 25, 2017."
-        },
-        {
-          "source_name": "enigma0x3 sdclt bypass",
-          "url": "https://enigma0x3.net/2017/03/17/fileless-uac-bypass-using-sdclt-exe/",
-          "description": "Nelson, M. (2017, March 17). \"Fileless\" UAC Bypass Using sdclt.exe. Retrieved May 25, 2017."
-        },
-        {
-          "source_name": "Fortinet Fareit",
-          "url": "https://blog.fortinet.com/2016/12/16/malicious-macro-bypasses-uac-to-elevate-privilege-for-fareit-malware",
-          "description": "Salvio, J., Joven, R. (2016, December 16). Malicious Macro Bypasses UAC to Elevate Privilege for Fareit Malware. Retrieved December 27, 2016."
-        },
-        {
-          "source_name": "Github UACMe",
-          "url": "https://github.com/hfiref0x/UACME",
-          "description": "UACME Project. (2016, June 16). UACMe. Retrieved July 26, 2016."
-        },
-        {
           "source_name": "mitre-attack",
           "url": "https://attack.mitre.org/techniques/T1548/002",
           "external_id": "T1548.002"
-        },
-        {
-          "source_name": "MSDN COM Elevation",
-          "url": "https://msdn.microsoft.com/en-us/library/ms679687.aspx",
-          "description": "Microsoft. (n.d.). The COM Elevation Moniker. Retrieved July 26, 2016."
-        },
-        {
-          "source_name": "SANS UAC Bypass",
-          "url": "http://pen-testing.sans.org/blog/pen-testing/2013/08/08/psexec-uac-bypass",
-          "description": "Medin, T. (2013, August 8). PsExec UAC Bypass. Retrieved June 3, 2016."
         },
         {
           "source_name": "TechNet How UAC Works",
@@ -253,22 +240,62 @@
           "source_name": "TechNet Inside UAC",
           "url": "https://technet.microsoft.com/en-US/magazine/2009.07.uac.aspx",
           "description": "Russinovich, M. (2009, July). User Account Control: Inside Windows 7 User Account Control. Retrieved July 26, 2016."
+        },
+        {
+          "source_name": "MSDN COM Elevation",
+          "url": "https://msdn.microsoft.com/en-us/library/ms679687.aspx",
+          "description": "Microsoft. (n.d.). The COM Elevation Moniker. Retrieved July 26, 2016."
+        },
+        {
+          "source_name": "Davidson Windows",
+          "url": "http://www.pretentiousname.com/misc/win7_uac_whitelist2.html",
+          "description": "Davidson, L. (n.d.). Windows 7 UAC whitelist. Retrieved November 12, 2014."
+        },
+        {
+          "source_name": "Github UACMe",
+          "url": "https://github.com/hfiref0x/UACME",
+          "description": "UACME Project. (2016, June 16). UACMe. Retrieved July 26, 2016."
+        },
+        {
+          "source_name": "enigma0x3 Fileless UAC Bypass",
+          "url": "https://enigma0x3.net/2016/08/15/fileless-uac-bypass-using-eventvwr-exe-and-registry-hijacking/",
+          "description": "Nelson, M. (2016, August 15). \"Fileless\" UAC Bypass using eventvwr.exe and Registry Hijacking. Retrieved December 27, 2016."
+        },
+        {
+          "source_name": "Fortinet Fareit",
+          "url": "https://blog.fortinet.com/2016/12/16/malicious-macro-bypasses-uac-to-elevate-privilege-for-fareit-malware",
+          "description": "Salvio, J., Joven, R. (2016, December 16). Malicious Macro Bypasses UAC to Elevate Privilege for Fareit Malware. Retrieved December 27, 2016."
+        },
+        {
+          "source_name": "SANS UAC Bypass",
+          "url": "http://pen-testing.sans.org/blog/pen-testing/2013/08/08/psexec-uac-bypass",
+          "description": "Medin, T. (2013, August 8). PsExec UAC Bypass. Retrieved June 3, 2016."
+        },
+        {
+          "source_name": "enigma0x3 sdclt app paths",
+          "url": "https://enigma0x3.net/2017/03/14/bypassing-uac-using-app-paths/",
+          "description": "Nelson, M. (2017, March 14). Bypassing UAC using App Paths. Retrieved May 25, 2017."
+        },
+        {
+          "source_name": "enigma0x3 sdclt bypass",
+          "url": "https://enigma0x3.net/2017/03/17/fileless-uac-bypass-using-sdclt-exe/",
+          "description": "Nelson, M. (2017, March 17). \"Fileless\" UAC Bypass Using sdclt.exe. Retrieved May 25, 2017."
         }
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "There are many ways to perform UAC bypasses when a user is in the local administrator group on a system, so it may be difficult to target detection on all variations. Efforts should likely be placed on mitigation and collecting enough information on process launches and actions that could be performed before and after a UAC bypass is performed. Monitor process API calls for behavior that may be indicative of [Process Injection](https://attack.mitre.org/techniques/T1055) and unusual loaded DLLs through [DLL Search Order Hijacking](https://attack.mitre.org/techniques/T1574/001), which indicate attempts to gain access to higher privileged processes.\n\nSome UAC bypass methods rely on modifying specific, user-accessible Registry settings. For example:\n\n* The <code>eventvwr.exe</code> bypass uses the <code>[HKEY_CURRENT_USER]\\Software\\Classes\\mscfile\\shell\\open\\command</code> Registry key.(Citation: enigma0x3 Fileless UAC Bypass)\n\n* The <code>sdclt.exe</code> bypass uses the <code>[HKEY_CURRENT_USER]\\Software\\Microsoft\\Windows\\CurrentVersion\\App Paths\\control.exe</code> and <code>[HKEY_CURRENT_USER]\\Software\\Classes\\exefile\\shell\\runas\\command\\isolatedCommand</code> Registry keys.(Citation: enigma0x3 sdclt app paths)(Citation: enigma0x3 sdclt bypass)\n\nAnalysts should monitor these Registry settings for unauthorized changes."
-      ],
+      "x_mitre_detection": "There are many ways to perform UAC bypasses when a user is in the local administrator group on a system, so it may be difficult to target detection on all variations. Efforts should likely be placed on mitigation and collecting enough information on process launches and actions that could be performed before and after a UAC bypass is performed. Monitor process API calls for behavior that may be indicative of [Process Injection](https://attack.mitre.org/techniques/T1055) and unusual loaded DLLs through [DLL Search Order Hijacking](https://attack.mitre.org/techniques/T1574/001), which indicate attempts to gain access to higher privileged processes.\n\nSome UAC bypass methods rely on modifying specific, user-accessible Registry settings. For example:\n\n* The <code>eventvwr.exe</code> bypass uses the <code>[HKEY_CURRENT_USER]\\Software\\Classes\\mscfile\\shell\\open\\command</code> Registry key.(Citation: enigma0x3 Fileless UAC Bypass)\n\n* The <code>sdclt.exe</code> bypass uses the <code>[HKEY_CURRENT_USER]\\Software\\Microsoft\\Windows\\CurrentVersion\\App Paths\\control.exe</code> and <code>[HKEY_CURRENT_USER]\\Software\\Classes\\exefile\\shell\\runas\\command\\isolatedCommand</code> Registry keys.(Citation: enigma0x3 sdclt app paths)(Citation: enigma0x3 sdclt bypass)\n\nAnalysts should monitor these Registry settings for unauthorized changes.",
       "x_mitre_platforms": [
         "Windows"
       ],
       "x_mitre_data_sources": [
-        "Process command-line parameters",
-        "Process monitoring",
-        "Windows Registry"
+        "Command: Command Execution",
+        "Process: Process Creation",
+        "Process: Process Metadata",
+        "Windows Registry: Windows Registry Key Modification"
       ],
+      "x_mitre_is_subtechnique": true,
       "x_mitre_permissions_required": [
         "Administrator",
         "User"
@@ -283,16 +310,18 @@
         "Casey Smith",
         "Stefan Kanthak"
       ],
-      "x_mitre_version": "1.0"
+      "x_mitre_version": "2.0",
+      "x_panw_parent_technique": "Abuse Elevation Control Mechanism",
+      "x_panw_parent_technique_subtechnique": "Abuse Elevation Control Mechanism: Bypass User Account Control"
     },
     {
       "type": "attack-pattern",
       "id": "attack-pattern--1644e709-12d2-41e5-a60f-3470991f5011",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2020-07-27T14:54:33.398Z",
-      "modified": "2020-07-27T14:54:33.398Z",
+      "created": "2020-02-11T18:42:07.281Z",
+      "modified": "2020-03-25T15:17:30.640Z",
       "name": "T1003.002: Security Account Manager",
-      "description": "Adversaries may attempt to extract credential material from the Security Account Manager (SAM) database either through in-memory techniques or through the Windows Registry where the SAM database is stored. The SAM is a database file that contains local accounts for the host, typically those found with the <code>net user</code> command. Enumerating the SAM database requires SYSTEM level access.\n\nA number of tools can be used to retrieve the SAM file through in-memory techniques:\n\n* pwdumpx.exe\n* [gsecdump](https://attack.mitre.org/software/S0008)\n* [Mimikatz](https://attack.mitre.org/software/S0002)\n* secretsdump.py\n\nAlternatively, the SAM can be extracted from the Registry with Reg:\n\n* <code>reg save HKLM\\sam sam</code>\n* <code>reg save HKLM\\system system</code>\n\nCreddump7 can then be used to process the SAM database locally to retrieve hashes.(Citation: GitHub Creddump7)\n\nNotes: \n* RID 500 account is the local, built-in administrator.\n* RID 501 is the guest account.\n* User accounts start with a RID of 1,000+.",
+      "description": "Adversaries may attempt to extract credential material from the Security Account Manager (SAM) database either through in-memory techniques or through the Windows Registry where the SAM database is stored. The SAM is a database file that contains local accounts for the host, typically those found with the <code>net user</code> command. Enumerating the SAM database requires SYSTEM level access.\n\nA number of tools can be used to retrieve the SAM file through in-memory techniques:\n\n* pwdumpx.exe\n* [gsecdump](https://attack.mitre.org/software/S0008)\n* [Mimikatz](https://attack.mitre.org/software/S0002)\n* secretsdump.py\n\nAlternatively, the SAM can be extracted from the Registry with Reg:\n\n* <code>reg save HKLM\\sam sam</code>\n* <code>reg save HKLM\\system system</code>\n\nCreddump7 can then be used to process the SAM database locally to retrieve hashes.(Citation: GitHub Creddump7)\n\nNotes: \n* RID 500 account is the local, built-in administrator.\n* RID 501 is the guest account.\n* User accounts start with a RID of 1,000+.\n",
       "kill_chain_phases": [
         {
           "kill_chain_name": "lockheed",
@@ -305,46 +334,47 @@
       ],
       "external_references": [
         {
-          "source_name": "GitHub Creddump7",
-          "url": "https://github.com/Neohapsis/creddump7",
-          "description": "Flathers, R. (2018, February 19). creddump7. Retrieved April 11, 2018."
-        },
-        {
           "source_name": "mitre-attack",
           "url": "https://attack.mitre.org/techniques/T1003/002",
           "external_id": "T1003.002"
+        },
+        {
+          "source_name": "GitHub Creddump7",
+          "url": "https://github.com/Neohapsis/creddump7",
+          "description": "Flathers, R. (2018, February 19). creddump7. Retrieved April 11, 2018."
         }
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "Hash dumpers open the Security Accounts Manager (SAM) on the local file system (<code>%SystemRoot%/system32/config/SAM</code>) or create a dump of the Registry SAM key to access stored account password hashes. Some hash dumpers will open the local file system as a device and parse to the SAM table to avoid file access defenses. Others will make an in-memory copy of the SAM table before reading hashes. Detection of compromised [Valid Accounts](https://attack.mitre.org/techniques/T1078) in-use by adversaries may help as well."
-      ],
+      "x_mitre_detection": "Hash dumpers open the Security Accounts Manager (SAM) on the local file system (<code>%SystemRoot%/system32/config/SAM</code>) or create a dump of the Registry SAM key to access stored account password hashes. Some hash dumpers will open the local file system as a device and parse to the SAM table to avoid file access defenses. Others will make an in-memory copy of the SAM table before reading hashes. Detection of compromised [Valid Accounts](https://attack.mitre.org/techniques/T1078) in-use by adversaries may help as well.",
       "x_mitre_platforms": [
         "Windows"
       ],
       "x_mitre_data_sources": [
-        "PowerShell logs",
-        "Process command-line parameters",
-        "Process monitoring"
+        "Command: Command Execution",
+        "File: File Access",
+        "Windows Registry: Windows Registry Key Access"
       ],
+      "x_mitre_is_subtechnique": true,
       "x_mitre_permissions_required": [
         "SYSTEM"
       ],
       "x_mitre_contributors": [
         "Ed Williams, Trustwave, SpiderLabs"
       ],
-      "x_mitre_version": "1.0"
+      "x_mitre_version": "1.0",
+      "x_panw_parent_technique": "OS Credential Dumping",
+      "x_panw_parent_technique_subtechnique": "OS Credential Dumping: Security Account Manager"
     },
     {
       "type": "attack-pattern",
       "id": "attack-pattern--20fb2507-d71c-455d-9b6d-6104461cf26b",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2019-05-06T20:46:06.721Z",
-      "modified": "2020-07-27T14:54:42.176Z",
+      "created": "2019-03-29T19:00:55.901Z",
+      "modified": "2021-03-02T22:11:32.017Z",
       "name": "T1489: Service Stop",
-      "description": "Adversaries may stop or disable services on a system to render those services unavailable to legitimate users. Stopping critical services can inhibit or stop response to an incident or aid in the adversary's overall objectives to cause damage to the environment.(Citation: Talos Olympic Destroyer 2018)(Citation: Novetta Blockbuster) \n\nAdversaries may accomplish this by disabling individual services of high importance to an organization, such as <code>MSExchangeIS</code>, which will make Exchange content inaccessible (Citation: Novetta Blockbuster). In some cases, adversaries may stop or disable many or all services to render systems unusable.(Citation: Talos Olympic Destroyer 2018) Services may not allow for modification of their data stores while running. Adversaries may stop services in order to conduct [Data Destruction](https://attack.mitre.org/techniques/T1485) or [Data Encrypted for Impact](https://attack.mitre.org/techniques/T1486) on the data stores of services like Exchange and SQL Server.(Citation: SecureWorks WannaCry Analysis)",
+      "description": "Adversaries may stop or disable services on a system to render those services unavailable to legitimate users. Stopping critical services or processes can inhibit or stop response to an incident or aid in the adversary's overall objectives to cause damage to the environment.(Citation: Talos Olympic Destroyer 2018)(Citation: Novetta Blockbuster) \n\nAdversaries may accomplish this by disabling individual services of high importance to an organization, such as <code>MSExchangeIS</code>, which will make Exchange content inaccessible (Citation: Novetta Blockbuster). In some cases, adversaries may stop or disable many or all services to render systems unusable.(Citation: Talos Olympic Destroyer 2018) Services or processes may not allow for modification of their data stores while running. Adversaries may stop services or processes in order to conduct [Data Destruction](https://attack.mitre.org/techniques/T1485) or [Data Encrypted for Impact](https://attack.mitre.org/techniques/T1486) on the data stores of services like Exchange and SQL Server.(Citation: SecureWorks WannaCry Analysis)",
       "kill_chain_phases": [
         {
           "kill_chain_name": "lockheed",
@@ -362,6 +392,11 @@
           "external_id": "T1489"
         },
         {
+          "source_name": "Talos Olympic Destroyer 2018",
+          "url": "https://blog.talosintelligence.com/2018/02/olympic-destroyer.html",
+          "description": "Mercer, W. and Rascagneres, P. (2018, February 12). Olympic Destroyer Takes Aim At Winter Olympics. Retrieved March 14, 2019."
+        },
+        {
           "source_name": "Novetta Blockbuster",
           "url": "https://www.operationblockbuster.com/wp-content/uploads/2016/02/Operation-Blockbuster-Report.pdf",
           "description": "Novetta Threat Research Group. (2016, February 24). Operation Blockbuster: Unraveling the Long Thread of the Sony Attack. Retrieved February 25, 2016."
@@ -370,28 +405,27 @@
           "source_name": "SecureWorks WannaCry Analysis",
           "url": "https://www.secureworks.com/research/wcry-ransomware-analysis",
           "description": "Counter Threat Unit Research Team. (2017, May 18). WCry Ransomware Analysis. Retrieved March 26, 2019."
-        },
-        {
-          "source_name": "Talos Olympic Destroyer 2018",
-          "url": "https://blog.talosintelligence.com/2018/02/olympic-destroyer.html",
-          "description": "Mercer, W. and Rascagneres, P. (2018, February 12). Olympic Destroyer Takes Aim At Winter Olympics. Retrieved March 14, 2019."
         }
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "Monitor processes and command-line arguments to see if critical processes are terminated or stop running.\n\nMonitor Registry edits for modifications to services and startup programs that correspond to services of high importance. Look for changes to service Registry entries that do not correlate with known software, patch cycles, etc. Service information is stored in the Registry at <code>HKLM\\SYSTEM\\CurrentControlSet\\Services</code>.\n\nAlterations to the service binary path or the service startup type changed to disabled may be suspicious.\n\nRemote access tools with built-in features may interact directly with the Windows API to perform these functions outside of typical system utilities. For example, <code>ChangeServiceConfigW</code> may be used by an adversary to prevent services from starting.(Citation: Talos Olympic Destroyer 2018)"
-      ],
+      "x_mitre_detection": "Monitor processes and command-line arguments to see if critical processes are terminated or stop running.\n\nMonitor for edits for modifications to services and startup programs that correspond to services of high importance. Look for changes to services that do not correlate with known software, patch cycles, etc. Windows service information is stored in the Registry at <code>HKLM\\SYSTEM\\CurrentControlSet\\Services</code>. Systemd service unit files are stored within the /etc/systemd/system, /usr/lib/systemd/system/, and /home/.config/systemd/user/ directories, as well as associated symbolic links.\n\nAlterations to the service binary path or the service startup type changed to disabled may be suspicious.\n\nRemote access tools with built-in features may interact directly with the Windows API to perform these functions outside of typical system utilities. For example, <code>ChangeServiceConfigW</code> may be used by an adversary to prevent services from starting.(Citation: Talos Olympic Destroyer 2018)",
       "x_mitre_platforms": [
+        "Linux",
+        "macOS",
         "Windows"
       ],
       "x_mitre_data_sources": [
-        "API monitoring",
-        "Process command-line parameters",
-        "Process monitoring",
-        "Windows Registry"
+        "Command: Command Execution",
+        "File: File Modification",
+        "Process: OS API Execution",
+        "Process: Process Creation",
+        "Process: Process Termination",
+        "Service: Service Metadata",
+        "Windows Registry: Windows Registry Key Modification"
       ],
+      "x_mitre_is_subtechnique": false,
       "x_mitre_permissions_required": [
         "Administrator",
         "SYSTEM",
@@ -400,16 +434,16 @@
       "x_mitre_impact_type": [
         "Availability"
       ],
-      "x_mitre_version": "1.0"
+      "x_mitre_version": "1.2"
     },
     {
       "type": "attack-pattern",
       "id": "attack-pattern--246fd3c7-f5e3-466d-8787-4c13d9e3b61c",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-07-27T14:54:37.764Z",
+      "created": "2017-05-31T21:31:01.759Z",
+      "modified": "2020-03-31T22:14:56.107Z",
       "name": "T1080: Taint Shared Content",
-      "description": "Adversaries may deliver payloads to remote systems by adding content to shared storage locations, such as network drives or internal code repositories. Content stored on network drives or in other shared locations may be tainted by adding malicious programs, scripts, or exploit code to otherwise valid files. Once a user opens the shared tainted content, the malicious portion can be executed to run the adversary's code on a remote system. Adversaries may use tainted shared content to move laterally.\n\nA directory share pivot is a variation on this technique that uses several other techniques to propagate malware when users access a shared network directory. It uses [Shortcut Modification](https://attack.mitre.org/techniques/T1547/009) of directory .LNK files that use [Masquerading](https://attack.mitre.org/techniques/T1036) to look like the real directories, which are hidden through [Hidden Files and Directories](https://attack.mitre.org/techniques/T1564/001). The malicious .LNK-based directories have an embedded command that executes the hidden malware file in the directory and then opens the real intended directory so that the user's expected action still occurs. When used with frequently used network directories, the technique may result in frequent reinfections and broad access to systems and potentially to new and higher privileged accounts. (Citation: Retwin Directory Share Pivot)\n\nAdversaries may also compromise shared network directories through binary infections by appending or prepending its code to the healthy binary on the shared network directory. The malware may modify the original entry point (OEP) of the healthy binary to ensure that it is executed before the legitimate code. The infection could continue to spread via the newly infected file when it is executed by a remote system. These infections may target both binary and non-binary formats that end with extensions including, but not limited to, .EXE, .DLL, .SCR, .BAT, and/or .VBS.",
+      "description": "\nAdversaries may deliver payloads to remote systems by adding content to shared storage locations, such as network drives or internal code repositories. Content stored on network drives or in other shared locations may be tainted by adding malicious programs, scripts, or exploit code to otherwise valid files. Once a user opens the shared tainted content, the malicious portion can be executed to run the adversary's code on a remote system. Adversaries may use tainted shared content to move laterally.\n\nA directory share pivot is a variation on this technique that uses several other techniques to propagate malware when users access a shared network directory. It uses [Shortcut Modification](https://attack.mitre.org/techniques/T1547/009) of directory .LNK files that use [Masquerading](https://attack.mitre.org/techniques/T1036) to look like the real directories, which are hidden through [Hidden Files and Directories](https://attack.mitre.org/techniques/T1564/001). The malicious .LNK-based directories have an embedded command that executes the hidden malware file in the directory and then opens the real intended directory so that the user's expected action still occurs. When used with frequently used network directories, the technique may result in frequent reinfections and broad access to systems and potentially to new and higher privileged accounts. (Citation: Retwin Directory Share Pivot)\n\nAdversaries may also compromise shared network directories through binary infections by appending or prepending its code to the healthy binary on the shared network directory. The malware may modify the original entry point (OEP) of the healthy binary to ensure that it is executed before the legitimate code. The infection could continue to spread via the newly infected file when it is executed by a remote system. These infections may target both binary and non-binary formats that end with extensions including, but not limited to, .EXE, .DLL, .SCR, .BAT, and/or .VBS.",
       "kill_chain_phases": [
         {
           "kill_chain_name": "lockheed",
@@ -422,14 +456,14 @@
       ],
       "external_references": [
         {
-          "source_name": "capec",
-          "url": "https://capec.mitre.org/data/definitions/562.html",
-          "external_id": "CAPEC-562"
-        },
-        {
           "source_name": "mitre-attack",
           "url": "https://attack.mitre.org/techniques/T1080",
           "external_id": "T1080"
+        },
+        {
+          "source_name": "capec",
+          "url": "https://capec.mitre.org/data/definitions/562.html",
+          "external_id": "CAPEC-562"
         },
         {
           "source_name": "Retwin Directory Share Pivot",
@@ -440,16 +474,17 @@
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "Processes that write or overwrite many files to a network shared directory may be suspicious. Monitor processes that are executed from removable media for malicious or abnormal activity such as network connections due to Command and Control and possible network Discovery techniques.\n\nFrequently scan shared network directories for malicious files, hidden files, .LNK files, and other file types that may not typical exist in directories used to share specific types of content."
-      ],
+      "x_mitre_detection": "Processes that write or overwrite many files to a network shared directory may be suspicious. Monitor processes that are executed from removable media for malicious or abnormal activity such as network connections due to Command and Control and possible network Discovery techniques.\n\nFrequently scan shared network directories for malicious files, hidden files, .LNK files, and other file types that may not typical exist in directories used to share specific types of content.",
       "x_mitre_platforms": [
         "Windows"
       ],
       "x_mitre_data_sources": [
-        "File monitoring",
-        "Process monitoring"
+        "File: File Creation",
+        "File: File Modification",
+        "Network Share: Network Share Access",
+        "Process: Process Creation"
       ],
+      "x_mitre_is_subtechnique": false,
       "x_mitre_permissions_required": [
         "User"
       ],
@@ -466,8 +501,8 @@
       "type": "attack-pattern",
       "id": "attack-pattern--30208d3e-0d6b-43c8-883e-44462a514619",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-07-27T14:54:38.097Z",
+      "created": "2017-05-31T21:31:27.985Z",
+      "modified": "2020-03-31T22:18:43.019Z",
       "name": "T1119: Automated Collection",
       "description": "Once established within a system or network, an adversary may use automated techniques for collecting internal data. Methods for performing this technique could include use of a [Command and Scripting Interpreter](https://attack.mitre.org/techniques/T1059) to search for and copy information fitting set criteria such as file type, location, or name at specific time intervals. This functionality could also be built into remote access tools. \n\nThis technique may incorporate use of other techniques such as [File and Directory Discovery](https://attack.mitre.org/techniques/T1083) and [Lateral Tool Transfer](https://attack.mitre.org/techniques/T1570) to identify and move files.",
       "kill_chain_phases": [
@@ -490,19 +525,18 @@
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "Depending on the method used, actions could include common file system commands and parameters on the command-line interface within batch files or scripts. A sequence of actions like this may be unusual, depending on the system and network environment. Automated collection may occur along with other techniques such as [Data Staged](https://attack.mitre.org/techniques/T1074). As such, file access monitoring that shows an unusual process performing sequential file opens and potentially copy actions to another location on the file system for many files at once may indicate automated collection behavior. Remote access tools with built-in features may interact directly with the Windows API to gather data. Data may also be acquired through Windows system management tools such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) and [PowerShell](https://attack.mitre.org/techniques/T1059/001)."
-      ],
+      "x_mitre_detection": "Depending on the method used, actions could include common file system commands and parameters on the command-line interface within batch files or scripts. A sequence of actions like this may be unusual, depending on the system and network environment. Automated collection may occur along with other techniques such as [Data Staged](https://attack.mitre.org/techniques/T1074). As such, file access monitoring that shows an unusual process performing sequential file opens and potentially copy actions to another location on the file system for many files at once may indicate automated collection behavior. Remote access tools with built-in features may interact directly with the Windows API to gather data. Data may also be acquired through Windows system management tools such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) and [PowerShell](https://attack.mitre.org/techniques/T1059/001).",
       "x_mitre_platforms": [
         "Linux",
-        "Windows",
-        "macOS"
+        "macOS",
+        "Windows"
       ],
       "x_mitre_data_sources": [
-        "Data loss prevention",
-        "File monitoring",
-        "Process command-line parameters"
+        "Command: Command Execution",
+        "File: File Access",
+        "Script: Script Execution"
       ],
+      "x_mitre_is_subtechnique": false,
       "x_mitre_permissions_required": [
         "User"
       ],
@@ -515,8 +549,8 @@
       "type": "attack-pattern",
       "id": "attack-pattern--354a7f88-63fb-41b5-a801-ce3b377b36f1",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-07-27T14:54:37.764Z",
+      "created": "2017-05-31T21:31:04.307Z",
+      "modified": "2021-03-08T10:33:01.066Z",
       "name": "T1082: System Information Discovery",
       "description": "An adversary may attempt to get detailed information about the operating system and hardware, including version, patches, hotfixes, service packs, and architecture. Adversaries may use the information from [System Information Discovery](https://attack.mitre.org/techniques/T1082) during automated discovery to shape follow-on behaviors, including whether or not the adversary fully infects the target and/or attempts specific actions.\n\nTools such as [Systeminfo](https://attack.mitre.org/software/S0096) can be used to gather detailed system information. A breakdown of system data can also be gathered through the macOS <code>systemsetup</code> command, but it requires administrative privileges.\n\nInfrastructure as a Service (IaaS) cloud providers such as AWS, GCP, and Azure allow access to instance and virtual machine information via APIs. Successful authenticated API calls can return data such as the operating system platform and status of a particular instance or the model view of a virtual machine.(Citation: Amazon Describe Instance)(Citation: Google Instances Resource)(Citation: Microsoft Virutal Machine API)",
       "kill_chain_phases": [
@@ -531,14 +565,19 @@
       ],
       "external_references": [
         {
-          "source_name": "Amazon Describe Instance",
-          "url": "https://docs.aws.amazon.com/cli/latest/reference/ssm/describe-instance-information.html",
-          "description": "Amazon. (n.d.). describe-instance-information. Retrieved March 3, 2020."
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1082",
+          "external_id": "T1082"
         },
         {
           "source_name": "capec",
           "url": "https://capec.mitre.org/data/definitions/312.html",
           "external_id": "CAPEC-312"
+        },
+        {
+          "source_name": "Amazon Describe Instance",
+          "url": "https://docs.aws.amazon.com/cli/latest/reference/ssm/describe-instance-information.html",
+          "description": "Amazon. (n.d.). describe-instance-information. Retrieved March 3, 2020."
         },
         {
           "source_name": "Google Instances Resource",
@@ -549,50 +588,41 @@
           "source_name": "Microsoft Virutal Machine API",
           "url": "https://docs.microsoft.com/en-us/rest/api/compute/virtualmachines/get",
           "description": "Microsoft. (2019, March 1). Virtual Machines - Get. Retrieved October 8, 2019."
-        },
-        {
-          "source_name": "mitre-attack",
-          "url": "https://attack.mitre.org/techniques/T1082",
-          "external_id": "T1082"
         }
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "System and network discovery techniques normally occur throughout an operation as an adversary learns the environment. Data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities based on the information obtained.\n\nMonitor processes and command-line arguments for actions that could be taken to gather system and network information. Remote access tools with built-in features may interact directly with the Windows API to gather information. Information may also be acquired through Windows system management tools such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) and [PowerShell](https://attack.mitre.org/techniques/T1059/001).\n\nIn cloud-based systems, native logging can be used to identify access to certain APIs and dashboards that may contain system information. Depending on how the environment is used, that data alone may not be useful due to benign use during normal operations."
-      ],
+      "x_mitre_detection": "System and network discovery techniques normally occur throughout an operation as an adversary learns the environment. Data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities based on the information obtained.\n\nMonitor processes and command-line arguments for actions that could be taken to gather system and network information. Remote access tools with built-in features may interact directly with the Windows API to gather information. Information may also be acquired through Windows system management tools such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) and [PowerShell](https://attack.mitre.org/techniques/T1059/001).\n\nIn cloud-based systems, native logging can be used to identify access to certain APIs and dashboards that may contain system information. Depending on how the environment is used, that data alone may not be useful due to benign use during normal operations.",
       "x_mitre_platforms": [
-        "AWS",
-        "Azure",
-        "GCP",
+        "IaaS",
         "Linux",
-        "Windows",
-        "macOS"
+        "macOS",
+        "Windows"
       ],
       "x_mitre_data_sources": [
-        "AWS CloudTrail logs",
-        "Azure activity logs",
-        "Process command-line parameters",
-        "Process monitoring",
-        "Stackdriver logs"
+        "Command: Command Execution",
+        "Instance: Instance Metadata",
+        "Process: OS API Execution",
+        "Process: Process Creation"
       ],
+      "x_mitre_is_subtechnique": false,
       "x_mitre_permissions_required": [
         "User"
       ],
       "x_mitre_contributors": [
         "Praetorian"
       ],
-      "x_mitre_version": "2.1"
+      "x_mitre_version": "2.2"
     },
     {
       "type": "attack-pattern",
       "id": "attack-pattern--3f886f2a-874f-4333-b794-aa6075009b1c",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-07-27T14:54:38.428Z",
+      "created": "2018-04-18T17:59:24.739Z",
+      "modified": "2021-04-12T18:25:16.409Z",
       "name": "T1190: Exploit Public-Facing Application",
-      "description": "Adversaries may attempt to take advantage of a weakness in an Internet-facing computer or program using software, data, or commands in order to cause unintended or unanticipated behavior. The weakness in the system can be a bug, a glitch, or a design vulnerability. These applications are often websites, but can include databases (like SQL)(Citation: NVD CVE-2016-6662), standard services (like SMB(Citation: CIS Multiple SMB Vulnerabilities) or SSH), and any other applications with Internet accessible open sockets, such as web servers and related services.(Citation: NVD CVE-2014-7169) Depending on the flaw being exploited this may include [Exploitation for Defense Evasion](https://attack.mitre.org/techniques/T1211).\n\nIf an application is hosted on cloud-based infrastructure, then exploiting it may lead to compromise of the underlying instance. This can allow an adversary a path to access the cloud APIs or to take advantage of weak identity and access management policies.\n\nFor websites and databases, the OWASP top 10 and CWE top 25 highlight the most common web-based vulnerabilities.(Citation: OWASP Top 10)(Citation: CWE top 25)",
+      "description": "Adversaries may attempt to take advantage of a weakness in an Internet-facing computer or program using software, data, or commands in order to cause unintended or unanticipated behavior. The weakness in the system can be a bug, a glitch, or a design vulnerability. These applications are often websites, but can include databases (like SQL)(Citation: NVD CVE-2016-6662), standard services (like SMB(Citation: CIS Multiple SMB Vulnerabilities) or SSH), network device administration and management protocols (like SNMP and Smart Install(Citation: US-CERT TA18-106A Network Infrastructure Devices 2018)(Citation: Cisco Blog Legacy Device Attacks)), and any other applications with Internet accessible open sockets, such as web servers and related services.(Citation: NVD CVE-2014-7169) Depending on the flaw being exploited this may include [Exploitation for Defense Evasion](https://attack.mitre.org/techniques/T1211). \n\nIf an application is hosted on cloud-based infrastructure and/or is containerized, then exploiting it may lead to compromise of the underlying instance or container. This can allow an adversary a path to access the cloud or container APIs, exploit container host access via [Escape to Host](https://attack.mitre.org/techniques/T1611), or take advantage of weak identity and access management policies.\n\nFor websites and databases, the OWASP top 10 and CWE top 25 highlight the most common web-based vulnerabilities.(Citation: OWASP Top 10)(Citation: CWE top 25)",
       "kill_chain_phases": [
         {
           "kill_chain_name": "lockheed",
@@ -605,24 +635,9 @@
       ],
       "external_references": [
         {
-          "source_name": "CIS Multiple SMB Vulnerabilities",
-          "url": "https://www.cisecurity.org/advisory/multiple-vulnerabilities-in-microsoft-windows-smb-server-could-allow-for-remote-code-execution/",
-          "description": "CIS. (2017, May 15). Multiple Vulnerabilities in Microsoft Windows SMB Server Could Allow for Remote Code Execution. Retrieved April 3, 2018."
-        },
-        {
-          "source_name": "CWE top 25",
-          "url": "https://cwe.mitre.org/top25/index.html",
-          "description": "Christey, S., Brown, M., Kirby, D., Martin, B., Paller, A.. (2011, September 13). 2011 CWE/SANS Top 25 Most Dangerous Software Errors. Retrieved April 10, 2019."
-        },
-        {
           "source_name": "mitre-attack",
           "url": "https://attack.mitre.org/techniques/T1190",
           "external_id": "T1190"
-        },
-        {
-          "source_name": "NVD CVE-2014-7169",
-          "url": "https://nvd.nist.gov/vuln/detail/CVE-2014-7169",
-          "description": "National Vulnerability Database. (2017, September 24). CVE-2014-7169 Detail. Retrieved April 3, 2018."
         },
         {
           "source_name": "NVD CVE-2016-6662",
@@ -630,45 +645,65 @@
           "description": "National Vulnerability Database. (2017, February 2). CVE-2016-6662 Detail. Retrieved April 3, 2018."
         },
         {
+          "source_name": "CIS Multiple SMB Vulnerabilities",
+          "url": "https://www.cisecurity.org/advisory/multiple-vulnerabilities-in-microsoft-windows-smb-server-could-allow-for-remote-code-execution/",
+          "description": "CIS. (2017, May 15). Multiple Vulnerabilities in Microsoft Windows SMB Server Could Allow for Remote Code Execution. Retrieved April 3, 2018."
+        },
+        {
+          "source_name": "US-CERT TA18-106A Network Infrastructure Devices 2018",
+          "url": "https://us-cert.cisa.gov/ncas/alerts/TA18-106A",
+          "description": "US-CERT. (2018, April 20). Russian State-Sponsored Cyber Actors Targeting Network Infrastructure Devices. Retrieved October 19, 2020."
+        },
+        {
+          "source_name": "Cisco Blog Legacy Device Attacks",
+          "url": "https://community.cisco.com/t5/security-blogs/attackers-continue-to-target-legacy-devices/ba-p/4169954",
+          "description": "Omar Santos. (2020, October 19). Attackers Continue to Target Legacy Devices. Retrieved October 20, 2020."
+        },
+        {
+          "source_name": "NVD CVE-2014-7169",
+          "url": "https://nvd.nist.gov/vuln/detail/CVE-2014-7169",
+          "description": "National Vulnerability Database. (2017, September 24). CVE-2014-7169 Detail. Retrieved April 3, 2018."
+        },
+        {
           "source_name": "OWASP Top 10",
           "url": "https://www.owasp.org/index.php/Category:OWASP_Top_Ten_Project",
           "description": "OWASP. (2018, February 23). OWASP Top Ten Project. Retrieved April 3, 2018."
+        },
+        {
+          "source_name": "CWE top 25",
+          "url": "https://cwe.mitre.org/top25/index.html",
+          "description": "Christey, S., Brown, M., Kirby, D., Martin, B., Paller, A.. (2011, September 13). 2011 CWE/SANS Top 25 Most Dangerous Software Errors. Retrieved April 10, 2019."
         }
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "Monitor application logs for abnormal behavior that may indicate attempted or successful exploitation. Use deep packet inspection to look for artifacts of common exploit traffic, such as SQL injection. Web Application Firewalls may detect improper inputs attempting exploitation."
-      ],
+      "x_mitre_detection": "Monitor application logs for abnormal behavior that may indicate attempted or successful exploitation. Use deep packet inspection to look for artifacts of common exploit traffic, such as SQL injection. Web Application Firewalls may detect improper inputs attempting exploitation.",
       "x_mitre_platforms": [
-        "AWS",
-        "Azure",
-        "GCP",
+        "Containers",
+        "IaaS",
         "Linux",
-        "Windows",
-        "macOS"
+        "macOS",
+        "Network",
+        "Windows"
       ],
       "x_mitre_data_sources": [
-        "AWS CloudTrail logs",
-        "Application logs",
-        "Azure activity logs",
-        "Packet capture",
-        "Stackdriver logs",
-        "Web application firewall logs",
-        "Web logs"
+        "Application Log: Application Log Content",
+        "Network Traffic: Network Traffic Content"
       ],
+      "x_mitre_is_subtechnique": false,
       "x_mitre_contributors": [
-        "Praetorian"
+        "Praetorian",
+        "Yossi Weizman, Azure Defender Research Team"
       ],
-      "x_mitre_version": "2.1"
+      "x_mitre_version": "2.3"
     },
     {
       "type": "attack-pattern",
       "id": "attack-pattern--53ac20cd-aca3-406e-9aa0-9fc7fdc60a5a",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-07-27T14:54:43.788Z",
+      "created": "2020-02-20T20:53:45.725Z",
+      "modified": "2020-10-21T16:36:55.831Z",
       "name": "T1560: Archive Collected Data",
       "description": "An adversary may compress and/or encrypt data that is collected prior to exfiltration. Compressing the data can help to obfuscate the collected data and minimize the amount of data sent over the network. Encryption can be used to hide information that is being exfiltrated from detection or make exfiltration less conspicuous upon inspection by a defender.\n\nBoth compression and encryption are done prior to exfiltration, and can be performed using a utility, 3rd party library, or custom method.",
       "kill_chain_phases": [
@@ -696,28 +731,27 @@
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "Archival software and archived files can be detected in many ways. Common utilities that may be present on the system or brought in by an adversary may be detectable through process monitoring and monitoring for command-line arguments for known archival utilities. This may yield a significant number of benign events, depending on how systems in the environment are typically used.\n\nA process that loads the Windows DLL crypt32.dll may be used to perform encryption, decryption, or verification of file signatures.\n\nConsider detecting writing of files with extensions and/or headers associated with compressed or encrypted file types. Detection efforts may focus on follow-on exfiltration activity, where compressed or encrypted files can be detected in transit with a network intrusion detection or data loss prevention system analyzing file headers.(Citation: Wikipedia File Header Signatures)"
-      ],
+      "x_mitre_detection": "Archival software and archived files can be detected in many ways. Common utilities that may be present on the system or brought in by an adversary may be detectable through process monitoring and monitoring for command-line arguments for known archival utilities. This may yield a significant number of benign events, depending on how systems in the environment are typically used.\n\nA process that loads the Windows DLL crypt32.dll may be used to perform encryption, decryption, or verification of file signatures.\n\nConsider detecting writing of files with extensions and/or headers associated with compressed or encrypted file types. Detection efforts may focus on follow-on exfiltration activity, where compressed or encrypted files can be detected in transit with a network intrusion detection or data loss prevention system analyzing file headers.(Citation: Wikipedia File Header Signatures)",
       "x_mitre_platforms": [
         "Linux",
-        "Windows",
-        "macOS"
+        "macOS",
+        "Windows"
       ],
       "x_mitre_data_sources": [
-        "Binary file metadata",
-        "File monitoring",
-        "Process command-line parameters",
-        "Process monitoring"
+        "Command: Command Execution",
+        "File: File Creation",
+        "Process: Process Creation",
+        "Script: Script Execution"
       ],
+      "x_mitre_is_subtechnique": false,
       "x_mitre_version": "1.0"
     },
     {
       "type": "attack-pattern",
       "id": "attack-pattern--57340c81-c025-4189-8fa0-fc7ede51bae4",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-07-27T14:54:38.097Z",
+      "created": "2017-05-31T21:31:23.587Z",
+      "modified": "2020-08-13T20:02:49.641Z",
       "name": "T1112: Modify Registry",
       "description": "Adversaries may interact with the Windows Registry to hide configuration information within Registry keys, remove information as part of cleaning up, or as part of other techniques to aid in persistence and execution.\n\nAccess to specific areas of the Registry depends on account permissions, some requiring administrator-level access. The built-in Windows command-line utility [Reg](https://attack.mitre.org/software/S0075) may be used for local or remote Registry modification. (Citation: Microsoft Reg) Other tools may also be used, such as a remote access tool, which may contain functionality to interact with the Registry through the Windows API.\n\nRegistry modifications may also include actions to hide keys, such as prepending key names with a null character, which will cause an error and/or be ignored when read via [Reg](https://attack.mitre.org/software/S0075) or other utilities using the Win32 API. (Citation: Microsoft Reghide NOV 2006) Adversaries may abuse these pseudo-hidden keys to conceal payloads/commands used to maintain persistence. (Citation: TrendMicro POWELIKS AUG 2014) (Citation: SpectorOps Hiding Reg Jul 2017)\n\nThe Registry of a remote system may be modified to aid in execution of files as part of lateral movement. It requires the remote Registry service to be running on the target system. (Citation: Microsoft Remote) Often [Valid Accounts](https://attack.mitre.org/techniques/T1078) are required, along with access to the remote system's [SMB/Windows Admin Shares](https://attack.mitre.org/techniques/T1021/002) for RPC communication.",
       "kill_chain_phases": [
@@ -732,14 +766,14 @@
       ],
       "external_references": [
         {
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1112",
+          "external_id": "T1112"
+        },
+        {
           "source_name": "capec",
           "url": "https://capec.mitre.org/data/definitions/203.html",
           "external_id": "CAPEC-203"
-        },
-        {
-          "source_name": "Microsoft 4657 APR 2017",
-          "url": "https://docs.microsoft.com/windows/security/threat-protection/auditing/event-4657",
-          "description": "Miroshnikov, A. & Hall, J. (2017, April 18). 4657(S): A registry value was modified. Retrieved August 9, 2018."
         },
         {
           "source_name": "Microsoft Reg",
@@ -747,24 +781,14 @@
           "description": "Microsoft. (2012, April 17). Reg. Retrieved May 1, 2015."
         },
         {
-          "source_name": "Microsoft RegDelNull July 2016",
-          "url": "https://docs.microsoft.com/en-us/sysinternals/downloads/regdelnull",
-          "description": "Russinovich, M. & Sharkey, K. (2016, July 4). RegDelNull v1.11. Retrieved August 10, 2018."
-        },
-        {
           "source_name": "Microsoft Reghide NOV 2006",
           "url": "https://docs.microsoft.com/sysinternals/downloads/reghide",
           "description": "Russinovich, M. & Sharkey, K. (2006, January 10). Reghide. Retrieved August 9, 2018."
         },
         {
-          "source_name": "Microsoft Remote",
-          "url": "https://technet.microsoft.com/en-us/library/cc754820.aspx",
-          "description": "Microsoft. (n.d.). Enable the Remote Registry Service. Retrieved May 1, 2015."
-        },
-        {
-          "source_name": "mitre-attack",
-          "url": "https://attack.mitre.org/techniques/T1112",
-          "external_id": "T1112"
+          "source_name": "TrendMicro POWELIKS AUG 2014",
+          "url": "https://blog.trendmicro.com/trendlabs-security-intelligence/poweliks-malware-hides-in-windows-registry/",
+          "description": "Santos, R. (2014, August 1). POWELIKS: Malware Hides In Windows Registry. Retrieved August 9, 2018."
         },
         {
           "source_name": "SpectorOps Hiding Reg Jul 2017",
@@ -772,27 +796,37 @@
           "description": "Reitz, B. (2017, July 14). Hiding Registry keys with PSReflect. Retrieved August 9, 2018."
         },
         {
-          "source_name": "TrendMicro POWELIKS AUG 2014",
-          "url": "https://blog.trendmicro.com/trendlabs-security-intelligence/poweliks-malware-hides-in-windows-registry/",
-          "description": "Santos, R. (2014, August 1). POWELIKS: Malware Hides In Windows Registry. Retrieved August 9, 2018."
+          "source_name": "Microsoft Remote",
+          "url": "https://technet.microsoft.com/en-us/library/cc754820.aspx",
+          "description": "Microsoft. (n.d.). Enable the Remote Registry Service. Retrieved May 1, 2015."
+        },
+        {
+          "source_name": "Microsoft 4657 APR 2017",
+          "url": "https://docs.microsoft.com/windows/security/threat-protection/auditing/event-4657",
+          "description": "Miroshnikov, A. & Hall, J. (2017, April 18). 4657(S): A registry value was modified. Retrieved August 9, 2018."
+        },
+        {
+          "source_name": "Microsoft RegDelNull July 2016",
+          "url": "https://docs.microsoft.com/en-us/sysinternals/downloads/regdelnull",
+          "description": "Russinovich, M. & Sharkey, K. (2016, July 4). RegDelNull v1.11. Retrieved August 10, 2018."
         }
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "Modifications to the Registry are normal and occur throughout typical use of the Windows operating system. Consider enabling Registry Auditing on specific keys to produce an alertable event (Event ID 4657) whenever a value is changed (though this may not trigger when values are created with Reghide or other evasive methods). (Citation: Microsoft 4657 APR 2017) Changes to Registry entries that load software on Windows startup that do not correlate with known software, patch cycles, etc., are suspicious, as are additions or changes to files within the startup folder. Changes could also include new services and modification of existing binary paths to point to malicious files. If a change to a service-related entry occurs, then it will likely be followed by a local or remote service start or restart to execute the file.\n\nMonitor processes and command-line arguments for actions that could be taken to change or delete information in the Registry. Remote access tools with built-in features may interact directly with the Windows API to gather information. Information may also be acquired through Windows system management tools such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) and [PowerShell](https://attack.mitre.org/techniques/T1059/001), which may require additional logging features to be configured in the operating system to collect necessary information for analysis.\n\nMonitor for processes, command-line arguments, and API calls associated with concealing Registry keys, such as Reghide. (Citation: Microsoft Reghide NOV 2006) Inspect and cleanup malicious hidden Registry entries using Native Windows API calls and/or tools such as Autoruns (Citation: SpectorOps Hiding Reg Jul 2017) and RegDelNull (Citation: Microsoft RegDelNull July 2016)."
-      ],
+      "x_mitre_detection": "Modifications to the Registry are normal and occur throughout typical use of the Windows operating system. Consider enabling Registry Auditing on specific keys to produce an alertable event (Event ID 4657) whenever a value is changed (though this may not trigger when values are created with Reghide or other evasive methods). (Citation: Microsoft 4657 APR 2017) Changes to Registry entries that load software on Windows startup that do not correlate with known software, patch cycles, etc., are suspicious, as are additions or changes to files within the startup folder. Changes could also include new services and modification of existing binary paths to point to malicious files. If a change to a service-related entry occurs, then it will likely be followed by a local or remote service start or restart to execute the file.\n\nMonitor processes and command-line arguments for actions that could be taken to change or delete information in the Registry. Remote access tools with built-in features may interact directly with the Windows API to gather information. The Registry may also be modified through Windows system management tools such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) and [PowerShell](https://attack.mitre.org/techniques/T1059/001), which may require additional logging features to be configured in the operating system to collect necessary information for analysis.\n\nMonitor for processes, command-line arguments, and API calls associated with concealing Registry keys, such as Reghide. (Citation: Microsoft Reghide NOV 2006) Inspect and cleanup malicious hidden Registry entries using Native Windows API calls and/or tools such as Autoruns (Citation: SpectorOps Hiding Reg Jul 2017) and RegDelNull (Citation: Microsoft RegDelNull July 2016).",
       "x_mitre_platforms": [
         "Windows"
       ],
       "x_mitre_data_sources": [
-        "File monitoring",
-        "Process command-line parameters",
-        "Process monitoring",
-        "Windows Registry",
-        "Windows event logs"
+        "Command: Command Execution",
+        "Process: OS API Execution",
+        "Process: Process Creation",
+        "Windows Registry: Windows Registry Key Creation",
+        "Windows Registry: Windows Registry Key Deletion",
+        "Windows Registry: Windows Registry Key Modification"
       ],
+      "x_mitre_is_subtechnique": false,
       "x_mitre_permissions_required": [
         "Administrator",
         "SYSTEM",
@@ -806,16 +840,16 @@
         "David Lu, Tripwire",
         "Travis Smith, Tripwire"
       ],
-      "x_mitre_version": "1.1"
+      "x_mitre_version": "1.2"
     },
     {
       "type": "attack-pattern",
       "id": "attack-pattern--65f2d882-3f41-4d48-8a06-29af77ec9f90",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2020-07-27T14:54:33.398Z",
-      "modified": "2020-07-27T14:54:33.398Z",
+      "created": "2020-02-11T18:41:44.783Z",
+      "modified": "2020-06-09T20:46:00.393Z",
       "name": "T1003.001: LSASS Memory",
-      "description": "Adversaries may attempt to access credential material stored in the process memory of the Local Security Authority Subsystem Service (LSASS). After a user logs on, the system generates and stores a variety of credential materials in LSASS process memory. These credential materials can be harvested by an administrative user or SYSTEM and used to conduct [Lateral Movement](https://attack.mitre.org/tactics/TA0008) using [Use Alternate Authentication Material](https://attack.mitre.org/techniques/T1550).\n\nAs well as in-memory techniques, the LSASS process memory can be dumped from the target host and analyzed on a local system.\n\nFor example, on the target host use procdump:\n\n* <code>procdump -ma lsass.exe lsass_dump</code>\n\nLocally, mimikatz can be run using:\n\n* <code>sekurlsa::Minidump lsassdump.dmp</code>\n* <code>sekurlsa::logonPasswords</code>\n\n\nWindows Security Support Provider (SSP) DLLs are loaded into LSSAS process at system start. Once loaded into the LSA, SSP DLLs have access to encrypted and plaintext passwords that are stored in Windows, such as any logged-on user's Domain password or smart card PINs. The SSP configuration is stored in two Registry keys: <code>HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa\\Security Packages</code> and <code>HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa\\OSConfig\\Security Packages</code>. An adversary may modify these Registry keys to add new SSPs, which will be loaded the next time the system boots, or when the AddSecurityPackage Windows API function is called.(Citation: Graeber 2014)\n\nThe following SSPs can be used to access credentials:\n\n* Msv: Interactive logons, batch logons, and service logons are done through the MSV authentication package.\n* Wdigest: The Digest Authentication protocol is designed for use with Hypertext Transfer Protocol (HTTP) and Simple Authentication Security Layer (SASL) exchanges.(Citation: TechNet Blogs Credential Protection)\n* Kerberos: Preferred for mutual client-server domain authentication in Windows 2000 and later.\n* CredSSP:  Provides SSO and Network Level Authentication for Remote Desktop Services.(Citation: TechNet Blogs Credential Protection)",
+      "description": "Adversaries may attempt to access credential material stored in the process memory of the Local Security Authority Subsystem Service (LSASS). After a user logs on, the system generates and stores a variety of credential materials in LSASS process memory. These credential materials can be harvested by an administrative user or SYSTEM and used to conduct [Lateral Movement](https://attack.mitre.org/tactics/TA0008) using [Use Alternate Authentication Material](https://attack.mitre.org/techniques/T1550).\n\nAs well as in-memory techniques, the LSASS process memory can be dumped from the target host and analyzed on a local system.\n\nFor example, on the target host use procdump:\n\n* <code>procdump -ma lsass.exe lsass_dump</code>\n\nLocally, mimikatz can be run using:\n\n* <code>sekurlsa::Minidump lsassdump.dmp</code>\n* <code>sekurlsa::logonPasswords</code>\n\n\nWindows Security Support Provider (SSP) DLLs are loaded into LSSAS process at system start. Once loaded into the LSA, SSP DLLs have access to encrypted and plaintext passwords that are stored in Windows, such as any logged-on user's Domain password or smart card PINs. The SSP configuration is stored in two Registry keys: <code>HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa\\Security Packages</code> and <code>HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa\\OSConfig\\Security Packages</code>. An adversary may modify these Registry keys to add new SSPs, which will be loaded the next time the system boots, or when the AddSecurityPackage Windows API function is called.(Citation: Graeber 2014)\n\nThe following SSPs can be used to access credentials:\n\n* Msv: Interactive logons, batch logons, and service logons are done through the MSV authentication package.\n* Wdigest: The Digest Authentication protocol is designed for use with Hypertext Transfer Protocol (HTTP) and Simple Authentication Security Layer (SASL) exchanges.(Citation: TechNet Blogs Credential Protection)\n* Kerberos: Preferred for mutual client-server domain authentication in Windows 2000 and later.\n* CredSSP:  Provides SSO and Network Level Authentication for Remote Desktop Services.(Citation: TechNet Blogs Credential Protection)\n",
       "kill_chain_phases": [
         {
           "kill_chain_name": "lockheed",
@@ -828,9 +862,19 @@
       ],
       "external_references": [
         {
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1003/001",
+          "external_id": "T1003.001"
+        },
+        {
           "source_name": "Graeber 2014",
           "url": "http://docplayer.net/20839173-Analysis-of-malicious-security-support-provider-dlls.html",
           "description": "Graeber, M. (2014, October). Analysis of Malicious Security Support Provider DLLs. Retrieved March 1, 2017."
+        },
+        {
+          "source_name": "TechNet Blogs Credential Protection",
+          "url": "https://blogs.technet.microsoft.com/askpfeplat/2016/04/18/the-importance-of-kb2871997-and-kb2928120-for-credential-protection/",
+          "description": "Wilson, B. (2016, April 18). The Importance of KB2871997 and KB2928120 for Credential Protection. Retrieved April 11, 2018."
         },
         {
           "source_name": "Medium Detecting Attempts to Steal Passwords from Memory",
@@ -838,35 +882,25 @@
           "description": "French, D. (2018, October 2). Detecting Attempts to Steal Passwords from Memory. Retrieved October 11, 2019."
         },
         {
-          "source_name": "mitre-attack",
-          "url": "https://attack.mitre.org/techniques/T1003/001",
-          "external_id": "T1003.001"
-        },
-        {
           "source_name": "Powersploit",
           "url": "https://github.com/mattifestation/PowerSploit",
           "description": "PowerSploit. (n.d.). Retrieved December 4, 2014."
-        },
-        {
-          "source_name": "TechNet Blogs Credential Protection",
-          "url": "https://blogs.technet.microsoft.com/askpfeplat/2016/04/18/the-importance-of-kb2871997-and-kb2928120-for-credential-protection/",
-          "description": "Wilson, B. (2016, April 18). The Importance of KB2871997 and KB2928120 for Credential Protection. Retrieved April 11, 2018."
         }
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "Monitor for unexpected processes interacting with LSASS.exe.(Citation: Medium Detecting Attempts to Steal Passwords from Memory) Common credential dumpers such as Mimikatz access LSASS.exe by opening the process, locating the LSA secrets key, and decrypting the sections in memory where credential details are stored. Credential dumpers may also use methods for reflective [Process Injection](https://attack.mitre.org/techniques/T1055) to reduce potential indicators of malicious activity.\n\nOn Windows 8.1 and Windows Server 2012 R2, monitor Windows Logs for LSASS.exe creation to verify that LSASS started as a protected process.\n\nMonitor processes and command-line arguments for program execution that may be indicative of credential dumping. Remote access tools may contain built-in features or incorporate existing tools like Mimikatz. PowerShell scripts also exist that contain credential dumping functionality, such as PowerSploit's Invoke-Mimikatz module,(Citation: Powersploit) which may require additional logging features to be configured in the operating system to collect necessary information for analysis."
-      ],
+      "x_mitre_detection": "Monitor for unexpected processes interacting with LSASS.exe.(Citation: Medium Detecting Attempts to Steal Passwords from Memory) Common credential dumpers such as Mimikatz access LSASS.exe by opening the process, locating the LSA secrets key, and decrypting the sections in memory where credential details are stored. Credential dumpers may also use methods for reflective [Process Injection](https://attack.mitre.org/techniques/T1055) to reduce potential indicators of malicious activity.\n\nOn Windows 8.1 and Windows Server 2012 R2, monitor Windows Logs for LSASS.exe creation to verify that LSASS started as a protected process.\n\nMonitor processes and command-line arguments for program execution that may be indicative of credential dumping. Remote access tools may contain built-in features or incorporate existing tools like Mimikatz. PowerShell scripts also exist that contain credential dumping functionality, such as PowerSploit's Invoke-Mimikatz module,(Citation: Powersploit) which may require additional logging features to be configured in the operating system to collect necessary information for analysis.",
       "x_mitre_platforms": [
         "Windows"
       ],
       "x_mitre_data_sources": [
-        "PowerShell logs",
-        "Process command-line parameters",
-        "Process monitoring"
+        "Command: Command Execution",
+        "Process: OS API Execution",
+        "Process: Process Access",
+        "Process: Process Creation"
       ],
+      "x_mitre_is_subtechnique": true,
       "x_mitre_permissions_required": [
         "Administrator",
         "SYSTEM"
@@ -874,14 +908,16 @@
       "x_mitre_contributors": [
         "Ed Williams, Trustwave, SpiderLabs"
       ],
-      "x_mitre_version": "1.0"
+      "x_mitre_version": "1.0",
+      "x_panw_parent_technique": "OS Credential Dumping",
+      "x_panw_parent_technique_subtechnique": "OS Credential Dumping: LSASS Memory"
     },
     {
       "type": "attack-pattern",
       "id": "attack-pattern--72b74d71-8169-42aa-92e0-e7b04b9f5a08",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-07-27T14:54:37.764Z",
+      "created": "2017-05-31T21:31:06.988Z",
+      "modified": "2021-04-14T12:26:11.595Z",
       "name": "T1087: Account Discovery",
       "description": "Adversaries may attempt to get a listing of accounts on a system or within an environment. This information can help adversaries determine which accounts exist to aid in follow-on behavior.",
       "kill_chain_phases": [
@@ -899,47 +935,55 @@
           "source_name": "mitre-attack",
           "url": "https://attack.mitre.org/techniques/T1087",
           "external_id": "T1087"
+        },
+        {
+          "source_name": "capec",
+          "url": "https://capec.mitre.org/data/definitions/575.html",
+          "external_id": "CAPEC-575"
+        },
+        {
+          "source_name": "Elastic - Koadiac Detection with EQL",
+          "url": "https://www.elastic.co/blog/embracing-offensive-tooling-building-detections-against-koadic-using-eql",
+          "description": "Stepanic, D.. (2020, January 13). Embracing offensive tooling: Building detections against Koadic using EQL. Retrieved November 30, 2020."
         }
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "System and network discovery techniques normally occur throughout an operation as an adversary learns the environment. Data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities, such as Lateral Movement, based on the information obtained.\n\nMonitor processes and command-line arguments for actions that could be taken to gather system and network information. Remote access tools with built-in features may interact directly with the Windows API to gather information. Information may also be acquired through Windows system management tools such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) and [PowerShell](https://attack.mitre.org/techniques/T1059/001)."
-      ],
+      "x_mitre_detection": "System and network discovery techniques normally occur throughout an operation as an adversary learns the environment. Data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities, such as Lateral Movement, based on the information obtained.\n\nMonitor processes and command-line arguments for actions that could be taken to gather system and network information. Remote access tools with built-in features may interact directly with the Windows API to gather information. Information may also be acquired through Windows system management tools such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) and [PowerShell](https://attack.mitre.org/techniques/T1059/001).\n\nMonitor for processes that can be used to enumerate user accounts, such as <code>net.exe</code> and <code>net1.exe</code>, especially when executed in quick succession.(Citation: Elastic - Koadiac Detection with EQL)",
       "x_mitre_platforms": [
-        "AWS",
-        "Azure",
         "Azure AD",
-        "GCP",
+        "Google Workspace",
+        "IaaS",
         "Linux",
+        "macOS",
         "Office 365",
         "SaaS",
-        "Windows",
-        "macOS"
+        "Windows"
       ],
       "x_mitre_data_sources": [
-        "API monitoring",
-        "Azure activity logs",
-        "Office 365 account logs",
-        "Process command-line parameters",
-        "Process monitoring"
+        "Command: Command Execution",
+        "File: File Access",
+        "Process: Process Creation",
+        "User Account: User Account Metadata"
       ],
+      "x_mitre_is_subtechnique": false,
       "x_mitre_permissions_required": [
         "User"
       ],
       "x_mitre_contributors": [
+        "Daniel Stepanic, Elastic",
         "Microsoft Threat Intelligence Center (MSTIC)",
         "Travis Smith, Tripwire"
       ],
-      "x_mitre_version": "2.1"
+      "x_mitre_version": "2.3"
     },
     {
       "type": "attack-pattern",
       "id": "attack-pattern--774a3188-6ba9-4dc4-879d-d54ee48a5ce9",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-07-27T14:54:36.653Z",
+      "created": "2017-05-31T21:30:29.458Z",
+      "modified": "2021-04-22T20:21:10.590Z",
       "name": "T1020: Automated Exfiltration",
       "description": "Adversaries may exfiltrate data, such as sensitive documents, through the use of automated processing after being gathered during Collection. \n\nWhen automated exfiltration is used, other exfiltration techniques likely apply as well to transfer the information out of the network, such as [Exfiltration Over C2 Channel](https://attack.mitre.org/techniques/T1041) and [Exfiltration Over Alternative Protocol](https://attack.mitre.org/techniques/T1048).",
       "kill_chain_phases": [
@@ -962,30 +1006,34 @@
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "Monitor process file access patterns and network behavior. Unrecognized processes or scripts that appear to be traversing file systems and sending network traffic may be suspicious."
-      ],
+      "x_mitre_detection": "Monitor process file access patterns and network behavior. Unrecognized processes or scripts that appear to be traversing file systems and sending network traffic may be suspicious.",
       "x_mitre_platforms": [
         "Linux",
-        "Windows",
-        "macOS"
+        "macOS",
+        "Network",
+        "Windows"
       ],
       "x_mitre_data_sources": [
-        "File monitoring",
-        "Process monitoring",
-        "Process use of network"
+        "Command: Command Execution",
+        "File: File Access",
+        "Network Traffic: Network Connection Creation",
+        "Network Traffic: Network Traffic Content",
+        "Network Traffic: Network Traffic Flow",
+        "Script: Script Execution"
       ],
-      "x_mitre_network_requirements": [
-        "true"
+      "x_mitre_is_subtechnique": false,
+      "x_mitre_network_requirements": true,
+      "x_mitre_contributors": [
+        "ExtraHop"
       ],
-      "x_mitre_version": "1.1"
+      "x_mitre_version": "1.2"
     },
     {
       "type": "attack-pattern",
       "id": "attack-pattern--7bc57495-ea59-4380-be31-a64af124ef18",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-07-27T14:54:37.764Z",
+      "created": "2017-05-31T21:31:04.710Z",
+      "modified": "2020-09-16T16:02:16.770Z",
       "name": "T1083: File and Directory Discovery",
       "description": "Adversaries may enumerate files and directories or may search in specific locations of a host or network share for certain information within a file system. Adversaries may use the information from [File and Directory Discovery](https://attack.mitre.org/techniques/T1083) during automated discovery to shape follow-on behaviors, including whether or not the adversary fully infects the target and/or attempts specific actions.\n\nMany command shell utilities can be used to obtain this information. Examples include <code>dir</code>, <code>tree</code>, <code>ls</code>, <code>find</code>, and <code>locate</code>. (Citation: Windows Commands JPCERT) Custom tools may also be used to gather file and directory information and interact with the [Native API](https://attack.mitre.org/techniques/T1106).",
       "kill_chain_phases": [
@@ -1005,6 +1053,16 @@
           "external_id": "T1083"
         },
         {
+          "source_name": "capec",
+          "url": "https://capec.mitre.org/data/definitions/127.html",
+          "external_id": "CAPEC-127"
+        },
+        {
+          "source_name": "capec",
+          "url": "https://capec.mitre.org/data/definitions/497.html",
+          "external_id": "CAPEC-497"
+        },
+        {
           "source_name": "Windows Commands JPCERT",
           "url": "http://blog.jpcert.or.jp/2016/01/windows-commands-abused-by-attackers.html",
           "description": "Tomonaga, S. (2016, January 26). Windows Commands Abused by Attackers. Retrieved February 2, 2016."
@@ -1013,19 +1071,18 @@
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "System and network discovery techniques normally occur throughout an operation as an adversary learns the environment. Data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities, such as Collection and Exfiltration, based on the information obtained.\n\nMonitor processes and command-line arguments for actions that could be taken to gather system and network information. Remote access tools with built-in features may interact directly with the Windows API to gather information. Information may also be acquired through Windows system management tools such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) and [PowerShell](https://attack.mitre.org/techniques/T1059/001)."
-      ],
+      "x_mitre_detection": "System and network discovery techniques normally occur throughout an operation as an adversary learns the environment. Data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities, such as Collection and Exfiltration, based on the information obtained.\n\nMonitor processes and command-line arguments for actions that could be taken to gather system and network information. Remote access tools with built-in features may interact directly with the Windows API to gather information. Information may also be acquired through Windows system management tools such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) and [PowerShell](https://attack.mitre.org/techniques/T1059/001).",
       "x_mitre_platforms": [
         "Linux",
-        "Windows",
-        "macOS"
+        "macOS",
+        "Windows"
       ],
       "x_mitre_data_sources": [
-        "File monitoring",
-        "Process command-line parameters",
-        "Process monitoring"
+        "Command: Command Execution",
+        "Process: OS API Execution",
+        "Process: Process Creation"
       ],
+      "x_mitre_is_subtechnique": false,
       "x_mitre_permissions_required": [
         "Administrator",
         "SYSTEM",
@@ -1034,16 +1091,16 @@
       "x_mitre_system_requirements": [
         "Some folders may require Administrator, SYSTEM or specific user depending on permission levels and access controls"
       ],
-      "x_mitre_version": "1.2"
+      "x_mitre_version": "1.3"
     },
     {
       "type": "attack-pattern",
       "id": "attack-pattern--82caa33e-d11a-433a-94ea-9b5a5fbef81d",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2019-05-06T20:46:02.570Z",
-      "modified": "2020-07-27T14:54:42.176Z",
+      "created": "2019-04-17T22:22:24.505Z",
+      "modified": "2021-04-21T15:16:10.835Z",
       "name": "T1497: Virtualization/Sandbox Evasion",
-      "description": "Adversaries may employ various means to detect and avoid virtualization and analysis environments. This may include changing behaviors based on the results of checks for the presence of artifacts indicative of a virtual machine environment (VME) or sandbox. If the adversary detects a VME, they may alter their malware to disengage from the victim or conceal the core functions of the implant. They may also search for VME artifacts before dropping secondary or additional payloads. Adversaries may use the information learned from [Virtualization/Sandbox Evasion](https://attack.mitre.org/techniques/T1497) during automated discovery to shape follow-on behaviors. \n\nAdversaries may use several methods to accomplish [Virtualization/Sandbox Evasion](https://attack.mitre.org/techniques/T1497) such as checking for security monitoring tools (e.g., Sysinternals, Wireshark, etc.) or other system artifacts associated with analysis or virtualization. Adversaries may also check for legitimate user activity to help determine if it is in an analysis environment. Additional methods include use of sleep timers or loops within malware code to avoid operating within a temporary sandbox.(Citation: Unit 42 Pirpi July 2015)",
+      "description": "Adversaries may employ various means to detect and avoid virtualization and analysis environments. This may include changing behaviors based on the results of checks for the presence of artifacts indicative of a virtual machine environment (VME) or sandbox. If the adversary detects a VME, they may alter their malware to disengage from the victim or conceal the core functions of the implant. They may also search for VME artifacts before dropping secondary or additional payloads. Adversaries may use the information learned from [Virtualization/Sandbox Evasion](https://attack.mitre.org/techniques/T1497) during automated discovery to shape follow-on behaviors. \n\nAdversaries may use several methods to accomplish [Virtualization/Sandbox Evasion](https://attack.mitre.org/techniques/T1497) such as checking for security monitoring tools (e.g., Sysinternals, Wireshark, etc.) or other system artifacts associated with analysis or virtualization. Adversaries may also check for legitimate user activity to help determine if it is in an analysis environment. Additional methods include use of sleep timers or loops within malware code to avoid operating within a temporary sandbox.(Citation: Unit 42 Pirpi July 2015)\n\n",
       "kill_chain_phases": [
         {
           "kill_chain_name": "lockheed",
@@ -1077,18 +1134,18 @@
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "Virtualization, sandbox, user activity, and related discovery techniques will likely occur in the first steps of an operation but may also occur throughout as an adversary learns the environment. Data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities, such as lateral movement, based on the information obtained. Detecting actions related to virtualization and sandbox identification may be difficult depending on the adversary's implementation and monitoring required. Monitoring for suspicious processes being spawned that gather a variety of system information or perform other forms of Discovery, especially in a short period of time, may aid in detection."
-      ],
+      "x_mitre_detection": "Virtualization, sandbox, user activity, and related discovery techniques will likely occur in the first steps of an operation but may also occur throughout as an adversary learns the environment. Data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities, such as lateral movement, based on the information obtained. Detecting actions related to virtualization and sandbox identification may be difficult depending on the adversary's implementation and monitoring required. Monitoring for suspicious processes being spawned that gather a variety of system information or perform other forms of Discovery, especially in a short period of time, may aid in detection.",
       "x_mitre_platforms": [
         "Linux",
-        "Windows",
-        "macOS"
+        "macOS",
+        "Windows"
       ],
       "x_mitre_data_sources": [
-        "Process command-line parameters",
-        "Process monitoring"
+        "Command: Command Execution",
+        "Process: OS API Execution",
+        "Process: Process Creation"
       ],
+      "x_mitre_is_subtechnique": false,
       "x_mitre_defense_bypassed": [
         "Anti-virus",
         "Host forensic analysis",
@@ -1105,8 +1162,8 @@
       "type": "attack-pattern",
       "id": "attack-pattern--8f4a33ec-8b1f-4b80-a2f6-642b2e479580",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-07-27T14:54:37.379Z",
+      "created": "2017-05-31T21:30:48.728Z",
+      "modified": "2020-03-26T18:05:53.130Z",
       "name": "T1057: Process Discovery",
       "description": "Adversaries may attempt to get information about running processes on a system. Information obtained could be used to gain an understanding of common software/applications running on systems within the network. Adversaries may use the information from [Process Discovery](https://attack.mitre.org/techniques/T1057) during automated discovery to shape follow-on behaviors, including whether or not the adversary fully infects the target and/or attempts specific actions.\n\nIn Windows environments, adversaries could obtain details on running processes using the [Tasklist](https://attack.mitre.org/software/S0057) utility via [cmd](https://attack.mitre.org/software/S0106) or <code>Get-Process</code> via [PowerShell](https://attack.mitre.org/techniques/T1059/001). Information about processes can also be extracted from the output of [Native API](https://attack.mitre.org/techniques/T1106) calls such as <code>CreateToolhelp32Snapshot</code>. In Mac and Linux, this is accomplished with the <code>ps</code> command. Adversaries may also opt to enumerate processes via /proc.",
       "kill_chain_phases": [
@@ -1121,32 +1178,31 @@
       ],
       "external_references": [
         {
-          "source_name": "capec",
-          "url": "https://capec.mitre.org/data/definitions/573.html",
-          "external_id": "CAPEC-573"
-        },
-        {
           "source_name": "mitre-attack",
           "url": "https://attack.mitre.org/techniques/T1057",
           "external_id": "T1057"
+        },
+        {
+          "source_name": "capec",
+          "url": "https://capec.mitre.org/data/definitions/573.html",
+          "external_id": "CAPEC-573"
         }
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "System and network discovery techniques normally occur throughout an operation as an adversary learns the environment. Data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities, such as Lateral Movement, based on the information obtained.\n\nNormal, benign system and network events that look like process discovery may be uncommon, depending on the environment and how they are used. Monitor processes and command-line arguments for actions that could be taken to gather system and network information. Remote access tools with built-in features may interact directly with the Windows API to gather information. Information may also be acquired through Windows system management tools such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) and [PowerShell](https://attack.mitre.org/techniques/T1059/001)."
-      ],
+      "x_mitre_detection": "System and network discovery techniques normally occur throughout an operation as an adversary learns the environment. Data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities, such as Lateral Movement, based on the information obtained.\n\nNormal, benign system and network events that look like process discovery may be uncommon, depending on the environment and how they are used. Monitor processes and command-line arguments for actions that could be taken to gather system and network information. Remote access tools with built-in features may interact directly with the Windows API to gather information. Information may also be acquired through Windows system management tools such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) and [PowerShell](https://attack.mitre.org/techniques/T1059/001).",
       "x_mitre_platforms": [
         "Linux",
-        "Windows",
-        "macOS"
+        "macOS",
+        "Windows"
       ],
       "x_mitre_data_sources": [
-        "API monitoring",
-        "Process command-line parameters",
-        "Process monitoring"
+        "Command: Command Execution",
+        "Process: OS API Execution",
+        "Process: Process Creation"
       ],
+      "x_mitre_is_subtechnique": false,
       "x_mitre_permissions_required": [
         "Administrator",
         "SYSTEM",
@@ -1161,8 +1217,8 @@
       "type": "attack-pattern",
       "id": "attack-pattern--970a3432-3237-47ad-bcca-7d8cbb217736",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-09-14T14:57:07.257Z",
+      "created": "2020-03-09T13:48:55.078Z",
+      "modified": "2020-06-24T13:51:22.360Z",
       "name": "T1059.001: PowerShell",
       "description": "Adversaries may abuse PowerShell commands and scripts for execution. PowerShell is a powerful interactive command-line interface and scripting environment included in the Windows operating system. (Citation: TechNet PowerShell) Adversaries can use PowerShell to perform a number of actions, including discovery of information and execution of code. Examples include the <code>Start-Process</code> cmdlet which can be used to run an executable and the <code>Invoke-Command</code> cmdlet which runs a command locally or on a remote computer (though administrator permissions are required to use PowerShell to connect to remote systems).\n\nPowerShell may also be used to download and run executables from the Internet, which can be executed from disk or in memory without touching disk.\n\nA number of PowerShell-based offensive testing tools are available, including [Empire](https://attack.mitre.org/software/S0363),  [PowerSploit](https://attack.mitre.org/software/S0194), [PoshC2](https://attack.mitre.org/software/S0378), and PSAttack.(Citation: Github PSAttack)\n\nPowerShell commands/scripts can also be executed without directly invoking the <code>powershell.exe</code> binary through interfaces to PowerShell's underlying <code>System.Management.Automation</code> assembly DLL exposed through the .NET framework and Windows Common Language Interface (CLI). (Citation: Sixdub PowerPick Jan 2016)(Citation: SilentBreak Offensive PS Dec 2015)(Citation: Microsoft PSfromCsharp APR 2014)",
       "kill_chain_phases": [
@@ -1177,9 +1233,14 @@
       ],
       "external_references": [
         {
-          "source_name": "FireEye PowerShell Logging 2016",
-          "url": "https://www.fireeye.com/blog/threat-research/2016/02/greater_visibilityt.html",
-          "description": "Dunwoody, M. (2016, February 11). GREATER VISIBILITY THROUGH POWERSHELL LOGGING. Retrieved February 16, 2016."
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1059/001",
+          "external_id": "T1059.001"
+        },
+        {
+          "source_name": "TechNet PowerShell",
+          "url": "https://technet.microsoft.com/en-us/scriptcenter/dd742419.aspx",
+          "description": "Microsoft. (n.d.). Windows PowerShell Scripting. Retrieved April 28, 2016."
         },
         {
           "source_name": "Github PSAttack",
@@ -1187,19 +1248,9 @@
           "description": "Haight, J. (2016, April 21). PS>Attack. Retrieved June 1, 2016."
         },
         {
-          "source_name": "Malware Archaeology PowerShell Cheat Sheet",
-          "url": "http://www.malwarearchaeology.com/s/Windows-PowerShell-Logging-Cheat-Sheet-ver-June-2016-v2.pdf",
-          "description": "Malware Archaeology. (2016, June). WINDOWS POWERSHELL LOGGING CHEAT SHEET - Win 7/Win 2008 or later. Retrieved June 24, 2016."
-        },
-        {
-          "source_name": "Microsoft PSfromCsharp APR 2014",
-          "url": "https://blogs.msdn.microsoft.com/kebab/2014/04/28/executing-powershell-scripts-from-c/",
-          "description": "Babinec, K. (2014, April 28). Executing PowerShell scripts from C#. Retrieved April 22, 2019."
-        },
-        {
-          "source_name": "mitre-attack",
-          "url": "https://attack.mitre.org/techniques/T1059/001",
-          "external_id": "T1059.001"
+          "source_name": "Sixdub PowerPick Jan 2016",
+          "url": "http://www.sixdub.net/?p=367",
+          "description": "Warner, J.. (2015, January 6). Inexorable PowerShell \u2013 A Red Teamer\u2019s Tale of Overcoming Simple AppLocker Policies. Retrieved December 8, 2018."
         },
         {
           "source_name": "SilentBreak Offensive PS Dec 2015",
@@ -1207,52 +1258,55 @@
           "description": "Christensen, L.. (2015, December 28). The Evolution of Offensive PowerShell Invocation. Retrieved December 8, 2018."
         },
         {
-          "source_name": "Sixdub PowerPick Jan 2016",
-          "url": "http://www.sixdub.net/?p=367",
-          "description": "Warner, J.. (2015, January 6). Inexorable PowerShell \u2013 A Red Teamer\u2019s Tale of Overcoming Simple AppLocker Policies. Retrieved December 8, 2018."
+          "source_name": "Microsoft PSfromCsharp APR 2014",
+          "url": "https://blogs.msdn.microsoft.com/kebab/2014/04/28/executing-powershell-scripts-from-c/",
+          "description": "Babinec, K. (2014, April 28). Executing PowerShell scripts from C#. Retrieved April 22, 2019."
         },
         {
-          "source_name": "TechNet PowerShell",
-          "url": "https://technet.microsoft.com/en-us/scriptcenter/dd742419.aspx",
-          "description": "Microsoft. (n.d.). Windows PowerShell Scripting. Retrieved April 28, 2016."
+          "source_name": "Malware Archaeology PowerShell Cheat Sheet",
+          "url": "http://www.malwarearchaeology.com/s/Windows-PowerShell-Logging-Cheat-Sheet-ver-June-2016-v2.pdf",
+          "description": "Malware Archaeology. (2016, June). WINDOWS POWERSHELL LOGGING CHEAT SHEET - Win 7/Win 2008 or later. Retrieved June 24, 2016."
+        },
+        {
+          "source_name": "FireEye PowerShell Logging 2016",
+          "url": "https://www.fireeye.com/blog/threat-research/2016/02/greater_visibilityt.html",
+          "description": "Dunwoody, M. (2016, February 11). GREATER VISIBILITY THROUGH POWERSHELL LOGGING. Retrieved February 16, 2016."
         }
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "If proper execution policy is set, adversaries will likely be able to define their own execution policy if they obtain administrator or system access, either through the Registry or at the command line. This change in policy on a system may be a way to detect malicious use of PowerShell. If PowerShell is not used in an environment, then simply looking for PowerShell execution may detect malicious activity.\n\nMonitor for loading and/or execution of artifacts associated with PowerShell specific assemblies, such as System.Management.Automation.dll (especially to unusual process names/locations).(Citation: Sixdub PowerPick Jan 2016)(Citation: SilentBreak Offensive PS Dec 2015)\n\nIt is also beneficial to turn on PowerShell logging to gain increased fidelity in what occurs during execution (which is applied to .NET invocations). (Citation: Malware Archaeology PowerShell Cheat Sheet) PowerShell 5.0 introduced enhanced logging capabilities, and some of those features have since been added to PowerShell 4.0. Earlier versions of PowerShell do not have many logging features.(Citation: FireEye PowerShell Logging 2016) An organization can gather PowerShell execution details in a data analytic platform to supplement it with other data."
-      ],
+      "x_mitre_detection": "If proper execution policy is set, adversaries will likely be able to define their own execution policy if they obtain administrator or system access, either through the Registry or at the command line. This change in policy on a system may be a way to detect malicious use of PowerShell. If PowerShell is not used in an environment, then simply looking for PowerShell execution may detect malicious activity.\n\nMonitor for loading and/or execution of artifacts associated with PowerShell specific assemblies, such as System.Management.Automation.dll (especially to unusual process names/locations).(Citation: Sixdub PowerPick Jan 2016)(Citation: SilentBreak Offensive PS Dec 2015)\n\nIt is also beneficial to turn on PowerShell logging to gain increased fidelity in what occurs during execution (which is applied to .NET invocations). (Citation: Malware Archaeology PowerShell Cheat Sheet) PowerShell 5.0 introduced enhanced logging capabilities, and some of those features have since been added to PowerShell 4.0. Earlier versions of PowerShell do not have many logging features.(Citation: FireEye PowerShell Logging 2016) An organization can gather PowerShell execution details in a data analytic platform to supplement it with other data.",
       "x_mitre_platforms": [
         "Windows"
       ],
       "x_mitre_data_sources": [
-        "DLL monitoring",
-        "File monitoring",
-        "Loaded DLLs",
-        "PowerShell logs",
-        "Process command-line parameters",
-        "Process monitoring",
-        "Windows event logs"
+        "Command: Command Execution",
+        "Module: Module Load",
+        "Process: Process Creation",
+        "Script: Script Execution"
       ],
+      "x_mitre_is_subtechnique": true,
       "x_mitre_permissions_required": [
         "Administrator",
         "User"
       ],
-      "x_mitre_remote_support": "true",
+      "x_mitre_remote_support": true,
       "x_mitre_contributors": [
         "Praetorian"
       ],
-      "x_mitre_version": "1.0"
+      "x_mitre_version": "1.0",
+      "x_panw_parent_technique": "Command and Scripting Interpreter",
+      "x_panw_parent_technique_subtechnique": "Command and Scripting Interpreter: PowerShell"
     },
     {
       "type": "attack-pattern",
       "id": "attack-pattern--a62a8db3-f23a-4d8f-afd6-9dbc77e7813b",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2020-07-27T14:54:36.157Z",
-      "modified": "2020-07-27T14:54:36.157Z",
+      "created": "2020-03-02T18:45:07.892Z",
+      "modified": "2021-04-14T14:38:43.211Z",
       "name": "T1566: Phishing",
-      "description": "Adversaries may send phishing messages to elicit sensitive information and/or gain access to victim systems. All forms of phishing are electronically delivered social engineering. Phishing can be targeted, known as spearphishing. In spearphishing, a specific individual, company, or industry will be targeted by the adversary. More generally, adversaries can conduct non-targeted phishing, such as in mass malware spam campaigns.\n\nAdversaries may send victim\u2019s emails containing malicious attachments or links, typically to execute malicious code on victim systems or to gather credentials for use of [Valid Accounts](https://attack.mitre.org/techniques/T1078). Phishing may also be conducted via third-party services, like social media platforms.",
+      "description": "Adversaries may send phishing messages to gain access to victim systems. All forms of phishing are electronically delivered social engineering. Phishing can be targeted, known as spearphishing. In spearphishing, a specific individual, company, or industry will be targeted by the adversary. More generally, adversaries can conduct non-targeted phishing, such as in mass malware spam campaigns.\n\nAdversaries may send victims emails containing malicious attachments or links, typically to execute malicious code on victim systems. Phishing may also be conducted via third-party services, like social media platforms. Phishing may also involve social engineering techniques, such as posing as a trusted source.",
       "kill_chain_phases": [
         {
           "kill_chain_name": "lockheed",
@@ -1265,50 +1319,57 @@
       ],
       "external_references": [
         {
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1566",
+          "external_id": "T1566"
+        },
+        {
           "source_name": "capec",
           "url": "https://capec.mitre.org/data/definitions/98.html",
           "external_id": "CAPEC-98"
         },
         {
-          "source_name": "mitre-attack",
-          "url": "https://attack.mitre.org/techniques/T1566",
-          "external_id": "T1566"
+          "source_name": "Microsoft Anti Spoofing",
+          "url": "https://docs.microsoft.com/en-us/microsoft-365/security/office-365-security/anti-spoofing-protection?view=o365-worldwide",
+          "description": "Microsoft. (2020, October 13). Anti-spoofing protection in EOP. Retrieved October 19, 2020."
+        },
+        {
+          "source_name": "ACSC Email Spoofing",
+          "url": "https://www.cyber.gov.au/sites/default/files/2019-03/spoof_email_sender_policy_framework.pdf",
+          "description": "Australian Cyber Security Centre. (2012, December). Mitigating Spoofed Emails Using Sender Policy Framework. Retrieved October 19, 2020."
         }
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "Network intrusion detection systems and email gateways can be used to detect phishing with malicious attachments in transit. Detonation chambers may also be used to identify malicious attachments. Solutions can be signature and behavior based, but adversaries may construct attachments in a way to avoid these systems.\n\nURL inspection within email (including expanding shortened links) can help detect links leading to known malicious sites. Detonation chambers can be used to detect these links and either automatically go to these sites to determine if they're potentially malicious, or wait and capture the content if a user visits the link.\n\nBecause most common third-party services used for phishing via service leverage TLS encryption, SSL/TLS inspection is generally required to detect the initial communication/delivery. With SSL/TLS inspection intrusion detection signatures or other security gateway appliances may be able to detect malware.\n\nAnti-virus can potentially detect malicious documents and files that are downloaded on the user's computer. Many possible detections of follow-on behavior may take place once [User Execution](https://attack.mitre.org/techniques/T1204) occurs."
-      ],
+      "x_mitre_detection": "Network intrusion detection systems and email gateways can be used to detect phishing with malicious attachments in transit. Detonation chambers may also be used to identify malicious attachments. Solutions can be signature and behavior based, but adversaries may construct attachments in a way to avoid these systems.\n\nFiltering based on DKIM+SPF or header analysis can help detect when the email sender is spoofed.(Citation: Microsoft Anti Spoofing)(Citation: ACSC Email Spoofing)\n\nURL inspection within email (including expanding shortened links) can help detect links leading to known malicious sites. Detonation chambers can be used to detect these links and either automatically go to these sites to determine if they're potentially malicious, or wait and capture the content if a user visits the link.\n\nBecause most common third-party services used for phishing via service leverage TLS encryption, SSL/TLS inspection is generally required to detect the initial communication/delivery. With SSL/TLS inspection intrusion detection signatures or other security gateway appliances may be able to detect malware.\n\nAnti-virus can potentially detect malicious documents and files that are downloaded on the user's computer. Many possible detections of follow-on behavior may take place once [User Execution](https://attack.mitre.org/techniques/T1204) occurs.",
       "x_mitre_platforms": [
+        "Google Workspace",
         "Linux",
+        "macOS",
         "Office 365",
         "SaaS",
-        "Windows",
-        "macOS"
+        "Windows"
       ],
       "x_mitre_data_sources": [
-        "Anti-virus",
-        "Detonation chamber",
-        "Email gateway",
-        "File monitoring",
-        "Mail server",
-        "Network intrusion detection system",
-        "Packet capture",
-        "SSL/TLS inspection",
-        "Web proxy"
+        "Application Log: Application Log Content",
+        "Network Traffic: Network Traffic Content",
+        "Network Traffic: Network Traffic Flow"
       ],
-      "x_mitre_version": "1.0"
+      "x_mitre_is_subtechnique": false,
+      "x_mitre_contributors": [
+        "Philip Winther"
+      ],
+      "x_mitre_version": "2.1"
     },
     {
       "type": "attack-pattern",
       "id": "attack-pattern--a782ebe2-daba-42c7-bc82-e8e9d923162d",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-07-27T14:54:37.764Z",
+      "created": "2020-03-14T23:23:41.770Z",
+      "modified": "2020-10-21T17:54:28.280Z",
       "name": "T1090.003: Multi-hop Proxy",
-      "description": "To disguise the source of malicious traffic, adversaries may chain together multiple proxies. Typically, a defender will be able to identify the last proxy traffic traversed before it enters their network; the defender may or may not be able to identify any previous proxies before the last-hop proxy. This technique makes identifying the original source of the malicious traffic even more difficult by requiring the defender to trace malicious traffic through several proxies to identify its source.",
+      "description": "To disguise the source of malicious traffic, adversaries may chain together multiple proxies. Typically, a defender will be able to identify the last proxy traffic traversed before it enters their network; the defender may or may not be able to identify any previous proxies before the last-hop proxy. This technique makes identifying the original source of the malicious traffic even more difficult by requiring the defender to trace malicious traffic through several proxies to identify its source. A particular variant of this behavior is to use onion routing networks, such as the publicly available TOR network. (Citation: Onion Routing)\n\nIn the case of network infrastructure, particularly routers, it is possible for an adversary to leverage multiple compromised devices to create a multi-hop proxy chain within the Wide-Area Network (WAN) of the enterprise.  By leveraging [Patch System Image](https://attack.mitre.org/techniques/T1601/001), adversaries can add custom code to the affected network devices that will implement onion routing between those nodes.  This custom onion routing network will transport the encrypted C2 traffic through the compromised population, allowing adversaries to communicate with any device within the onion routing network.  This method is dependent upon the [Network Boundary Bridging](https://attack.mitre.org/techniques/T1599) method in order to allow the adversaries to cross the protected network boundary of the Internet perimeter and into the organization\u2019s WAN. Protocols such as ICMP may be used as a transport.",
       "kill_chain_phases": [
         {
           "kill_chain_name": "lockheed",
@@ -1324,31 +1385,39 @@
           "source_name": "mitre-attack",
           "url": "https://attack.mitre.org/techniques/T1090/003",
           "external_id": "T1090.003"
+        },
+        {
+          "source_name": "Onion Routing",
+          "url": "https://en.wikipedia.org/wiki/Onion_routing",
+          "description": "Wikipedia. (n.d.). Onion Routing. Retrieved October 20, 2020."
         }
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "When observing use of Multi-hop proxies, network data from the actual command and control servers could allow correlating incoming and outgoing flows to trace malicious traffic back to its source. Multi-hop proxies can also be detected by alerting on traffic to known anonymity networks (such as [Tor](https://attack.mitre.org/software/S0183)) or known adversary infrastructure that uses this technique."
-      ],
+      "x_mitre_detection": "When observing use of Multi-hop proxies, network data from the actual command and control servers could allow correlating incoming and outgoing flows to trace malicious traffic back to its source. Multi-hop proxies can also be detected by alerting on traffic to known anonymity networks (such as [Tor](https://attack.mitre.org/software/S0183)) or known adversary infrastructure that uses this technique.\n\nIn context of network devices, monitor traffic for encrypted communications from the Internet that is addressed to border routers.  Compare this traffic with the configuration to determine whether it matches with any configured site-to-site Virtual Private Network (VPN) connections the device was intended to have. Monitor traffic for encrypted communications originating from potentially breached routers that is addressed to other routers within the organization.  Compare the source and destination with the configuration of the device to determine if these channels are an authorized Virtual Private Network (VPN) connections or other encrypted modes of communication. Monitor ICMP traffic from the Internet that is addressed to border routers and is encrypted.  Few if any legitimate use cases exist for sending encrypted data to a network device via ICMP.",
       "x_mitre_platforms": [
         "Linux",
-        "Windows",
-        "macOS"
+        "macOS",
+        "Network",
+        "Windows"
       ],
       "x_mitre_data_sources": [
-        "Netflow/Enclave netflow",
-        "Network protocol analysis"
+        "Network Traffic: Network Connection Creation",
+        "Network Traffic: Network Traffic Content",
+        "Network Traffic: Network Traffic Flow"
       ],
-      "x_mitre_version": "1.0"
+      "x_mitre_is_subtechnique": true,
+      "x_mitre_version": "2.0",
+      "x_panw_parent_technique": "Proxy",
+      "x_panw_parent_technique_subtechnique": "Proxy: Multi-hop Proxy"
     },
     {
       "type": "attack-pattern",
       "id": "attack-pattern--b17a1a56-e99c-403c-8948-561df0cffe81",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-07-27T14:54:37.764Z",
+      "created": "2017-05-31T21:31:00.645Z",
+      "modified": "2021-04-12T18:27:52.298Z",
       "name": "T1078: Valid Accounts",
       "description": "Adversaries may obtain and abuse credentials of existing accounts as a means of gaining Initial Access, Persistence, Privilege Escalation, or Defense Evasion. Compromised credentials may be used to bypass access controls placed on various resources on systems within the network and may even be used for persistent access to remote systems and externally available services, such as VPNs, Outlook Web Access and remote desktop. Compromised credentials may also grant an adversary increased privilege to specific systems or access to restricted areas of the network. Adversaries may choose not to use malware or tools in conjunction with the legitimate access those credentials provide to make it harder to detect their presence.\n\nThe overlap of permissions for local, domain, and cloud accounts across a network of systems is of concern because the adversary may be able to pivot across accounts and systems to reach a high level of access (i.e., domain or enterprise administrator) to bypass access controls set within the enterprise. (Citation: TechNet Credential Theft)",
       "kill_chain_phases": [
@@ -1370,62 +1439,59 @@
         },
         {
           "kill_chain_name": "mitre-attack",
-          "phase_name": "initial-access"
-        },
-        {
-          "kill_chain_name": "mitre-attack",
           "phase_name": "persistence"
         },
         {
           "kill_chain_name": "mitre-attack",
           "phase_name": "privilege-escalation"
+        },
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "initial-access"
         }
       ],
       "external_references": [
-        {
-          "source_name": "capec",
-          "url": "https://capec.mitre.org/data/definitions/560.html",
-          "external_id": "CAPEC-560"
-        },
         {
           "source_name": "mitre-attack",
           "url": "https://attack.mitre.org/techniques/T1078",
           "external_id": "T1078"
         },
         {
-          "source_name": "TechNet Audit Policy",
-          "url": "https://technet.microsoft.com/en-us/library/dn487457.aspx",
-          "description": "Microsoft. (2016, April 15). Audit Policy Recommendations. Retrieved June 3, 2016."
+          "source_name": "capec",
+          "url": "https://capec.mitre.org/data/definitions/560.html",
+          "external_id": "CAPEC-560"
         },
         {
           "source_name": "TechNet Credential Theft",
           "url": "https://technet.microsoft.com/en-us/library/dn535501.aspx",
           "description": "Microsoft. (2016, April 15). Attractive Accounts for Credential Theft. Retrieved June 3, 2016."
+        },
+        {
+          "source_name": "TechNet Audit Policy",
+          "url": "https://technet.microsoft.com/en-us/library/dn487457.aspx",
+          "description": "Microsoft. (2016, April 15). Audit Policy Recommendations. Retrieved June 3, 2016."
         }
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "Configure robust, consistent account activity audit policies across the enterprise and with externally accessible services. (Citation: TechNet Audit Policy) Look for suspicious account behavior across systems that share accounts, either user, admin, or service accounts. Examples: one account logged into multiple systems simultaneously; multiple accounts logged into the same machine simultaneously; accounts logged in at odd times or outside of business hours. Activity may be from interactive login sessions or process ownership from accounts being used to execute binaries on a remote system as a particular account. Correlate other security systems with login information (e.g., a user has an active login session but has not entered the building or does not have VPN access).\n\nPerform regular audits of domain and local system accounts to detect accounts that may have been created by an adversary for persistence. Checks on these accounts could also include whether default accounts such as Guest have been activated. These audits should also include checks on any appliances and applications for default credentials or SSH keys, and if any are discovered, they should be updated immediately."
-      ],
+      "x_mitre_detection": "Configure robust, consistent account activity audit policies across the enterprise and with externally accessible services. (Citation: TechNet Audit Policy) Look for suspicious account behavior across systems that share accounts, either user, admin, or service accounts. Examples: one account logged into multiple systems simultaneously; multiple accounts logged into the same machine simultaneously; accounts logged in at odd times or outside of business hours. Activity may be from interactive login sessions or process ownership from accounts being used to execute binaries on a remote system as a particular account. Correlate other security systems with login information (e.g., a user has an active login session but has not entered the building or does not have VPN access).\n\nPerform regular audits of domain and local system accounts to detect accounts that may have been created by an adversary for persistence. Checks on these accounts could also include whether default accounts such as Guest have been activated. These audits should also include checks on any appliances and applications for default credentials or SSH keys, and if any are discovered, they should be updated immediately.",
       "x_mitre_platforms": [
-        "AWS",
-        "Azure",
         "Azure AD",
-        "GCP",
+        "Containers",
+        "Google Workspace",
+        "IaaS",
         "Linux",
+        "macOS",
         "Office 365",
         "SaaS",
-        "Windows",
-        "macOS"
+        "Windows"
       ],
       "x_mitre_data_sources": [
-        "AWS CloudTrail logs",
-        "Authentication logs",
-        "Process monitoring",
-        "Stackdriver logs"
+        "Logon Session: Logon Session Creation",
+        "User Account: User Account Authentication"
       ],
+      "x_mitre_is_subtechnique": false,
       "x_mitre_permissions_required": [
         "Administrator",
         "User"
@@ -1445,18 +1511,19 @@
       "x_mitre_contributors": [
         "Mark Wee",
         "Netskope",
-        "Praetorian"
+        "Praetorian",
+        "Yossi Weizman, Azure Defender Research Team"
       ],
-      "x_mitre_version": "2.1"
+      "x_mitre_version": "2.2"
     },
     {
       "type": "attack-pattern",
       "id": "attack-pattern--b80d107d-fa0d-4b60-9684-b0433e8bdba0",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2019-05-06T20:45:52.682Z",
-      "modified": "2020-09-14T14:57:07.257Z",
+      "created": "2019-03-15T13:59:30.390Z",
+      "modified": "2021-04-20T16:39:06.594Z",
       "name": "T1486: Data Encrypted for Impact",
-      "description": "Adversaries may encrypt data on target systems or on large numbers of systems in a network to interrupt availability to system and network resources. They can attempt to render stored data inaccessible by encrypting files or data on local and remote drives and withholding access to a decryption key. This may be done in order to extract monetary compensation from a victim in exchange for decryption or a decryption key (ransomware) or to render data permanently inaccessible in cases where the key is not saved or transmitted.(Citation: US-CERT Ransomware 2016)(Citation: FireEye WannaCry 2017)(Citation: US-CERT NotPetya 2017)(Citation: US-CERT SamSam 2018) In the case of ransomware, it is typical that common user files like Office documents, PDFs, images, videos, audio, text, and source code files will be encrypted. In some cases, adversaries may encrypt critical system files, disk partitions, and the MBR.(Citation: US-CERT NotPetya 2017)\n\nTo maximize impact on the target organization, malware designed for encrypting data may have worm-like features to propagate across a network by leveraging other attack techniques like [Valid Accounts](https://attack.mitre.org/techniques/T1078), [OS Credential Dumping](https://attack.mitre.org/techniques/T1003), and [SMB/Windows Admin Shares](https://attack.mitre.org/techniques/T1021/002).(Citation: FireEye WannaCry 2017)(Citation: US-CERT NotPetya 2017)",
+      "description": "Adversaries may encrypt data on target systems or on large numbers of systems in a network to interrupt availability to system and network resources. They can attempt to render stored data inaccessible by encrypting files or data on local and remote drives and withholding access to a decryption key. This may be done in order to extract monetary compensation from a victim in exchange for decryption or a decryption key (ransomware) or to render data permanently inaccessible in cases where the key is not saved or transmitted.(Citation: US-CERT Ransomware 2016)(Citation: FireEye WannaCry 2017)(Citation: US-CERT NotPetya 2017)(Citation: US-CERT SamSam 2018) In the case of ransomware, it is typical that common user files like Office documents, PDFs, images, videos, audio, text, and source code files will be encrypted. In some cases, adversaries may encrypt critical system files, disk partitions, and the MBR.(Citation: US-CERT NotPetya 2017)\n\nTo maximize impact on the target organization, malware designed for encrypting data may have worm-like features to propagate across a network by leveraging other attack techniques like [Valid Accounts](https://attack.mitre.org/techniques/T1078), [OS Credential Dumping](https://attack.mitre.org/techniques/T1003), and [SMB/Windows Admin Shares](https://attack.mitre.org/techniques/T1021/002).(Citation: FireEye WannaCry 2017)(Citation: US-CERT NotPetya 2017)\n\nIn cloud environments, storage objects within compromised accounts may also be encrypted.(Citation: Rhino S3 Ransomware Part 1)",
       "kill_chain_phases": [
         {
           "kill_chain_name": "lockheed",
@@ -1469,19 +1536,9 @@
       ],
       "external_references": [
         {
-          "source_name": "FireEye WannaCry 2017",
-          "url": "https://www.fireeye.com/blog/threat-research/2017/05/wannacry-malware-profile.html",
-          "description": "Berry, A., Homan, J., and Eitzman, R. (2017, May 23). WannaCry Malware Profile. Retrieved March 15, 2019."
-        },
-        {
           "source_name": "mitre-attack",
           "url": "https://attack.mitre.org/techniques/T1486",
           "external_id": "T1486"
-        },
-        {
-          "source_name": "US-CERT NotPetya 2017",
-          "url": "https://www.us-cert.gov/ncas/alerts/TA17-181A",
-          "description": "US-CERT. (2017, July 1). Alert (TA17-181A): Petya Ransomware. Retrieved March 15, 2019."
         },
         {
           "source_name": "US-CERT Ransomware 2016",
@@ -1489,47 +1546,67 @@
           "description": "US-CERT. (2016, March 31). Alert (TA16-091A): Ransomware and Recent Variants. Retrieved March 15, 2019."
         },
         {
+          "source_name": "FireEye WannaCry 2017",
+          "url": "https://www.fireeye.com/blog/threat-research/2017/05/wannacry-malware-profile.html",
+          "description": "Berry, A., Homan, J., and Eitzman, R. (2017, May 23). WannaCry Malware Profile. Retrieved March 15, 2019."
+        },
+        {
+          "source_name": "US-CERT NotPetya 2017",
+          "url": "https://www.us-cert.gov/ncas/alerts/TA17-181A",
+          "description": "US-CERT. (2017, July 1). Alert (TA17-181A): Petya Ransomware. Retrieved March 15, 2019."
+        },
+        {
           "source_name": "US-CERT SamSam 2018",
           "url": "https://www.us-cert.gov/ncas/alerts/AA18-337A",
           "description": "US-CERT. (2018, December 3). Alert (AA18-337A): SamSam Ransomware. Retrieved March 15, 2019."
+        },
+        {
+          "source_name": "Rhino S3 Ransomware Part 1",
+          "url": "https://rhinosecuritylabs.com/aws/s3-ransomware-part-1-attack-vector/",
+          "description": "Gietzen, S. (n.d.). S3 Ransomware Part 1: Attack Vector. Retrieved April 14, 2021."
         }
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "Use process monitoring to monitor the execution and command line parameters of of binaries involved in data destruction activity, such as vssadmin, wbadmin, and bcdedit. Monitor for the creation of suspicious files as well as unusual file modification activity. In particular, look for large quantities of file modifications in user directories.\n\nIn some cases, monitoring for unusual kernel driver installation activity can aid in detection."
-      ],
+      "x_mitre_detection": "Use process monitoring to monitor the execution and command line parameters of binaries involved in data destruction activity, such as vssadmin, wbadmin, and bcdedit. Monitor for the creation of suspicious files as well as unusual file modification activity. In particular, look for large quantities of file modifications in user directories.\n\nIn some cases, monitoring for unusual kernel driver installation activity can aid in detection.\n\nIn cloud environments, monitor for events that indicate storage objects have been anomalously replaced by copies.",
       "x_mitre_platforms": [
+        "IaaS",
         "Linux",
-        "Windows",
-        "macOS"
+        "macOS",
+        "Windows"
       ],
       "x_mitre_data_sources": [
-        "File monitoring",
-        "Kernel drivers",
-        "Process command-line parameters",
-        "Process monitoring"
+        "Cloud Storage: Cloud Storage Metadata",
+        "Cloud Storage: Cloud Storage Modification",
+        "Command: Command Execution",
+        "File: File Creation",
+        "File: File Modification",
+        "Process: Process Creation"
       ],
+      "x_mitre_is_subtechnique": false,
       "x_mitre_permissions_required": [
         "Administrator",
+        "root",
         "SYSTEM",
-        "User",
-        "root"
+        "User"
+      ],
+      "x_mitre_contributors": [
+        "Oleg Kolesnikov, Securonix"
       ],
       "x_mitre_impact_type": [
         "Availability"
       ],
-      "x_mitre_version": "1.0"
+      "x_mitre_version": "1.1"
     },
     {
       "type": "attack-pattern",
       "id": "attack-pattern--df8b2a25-8bdf-4856-953c-a04372b1c161",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2020-07-27T14:54:34.130Z",
-      "modified": "2020-07-27T14:54:34.130Z",
+      "created": "2020-03-15T16:13:46.151Z",
+      "modified": "2020-03-26T20:15:35.821Z",
       "name": "T1071.001: Web Protocols",
-      "description": "Adversaries may communicate using application layer protocols associated with web traffic to avoid detection/network filtering by blending in with existing traffic. Commands to the remote system, and often the results of those commands, will be embedded within the protocol traffic between the client and server. \n\nProtocols such as HTTP and HTTPS that carry web traffic may be very common in environments. HTTP/S packets have many fields and headers in which data can be concealed. An adversary may abuse these protocols to communicate with systems under their control within a victim network while also mimicking normal, expected traffic.",
+      "description": "Adversaries may communicate using application layer protocols associated with web traffic to avoid detection/network filtering by blending in with existing traffic. Commands to the remote system, and often the results of those commands, will be embedded within the protocol traffic between the client and server. \n\nProtocols such as HTTP and HTTPS that carry web traffic may be very common in environments. HTTP/S packets have many fields and headers in which data can be concealed. An adversary may abuse these protocols to communicate with systems under their control within a victim network while also mimicking normal, expected traffic. ",
       "kill_chain_phases": [
         {
           "kill_chain_name": "lockheed",
@@ -1555,29 +1632,27 @@
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "Analyze network data for uncommon data flows (e.g., a client sending significantly more data than it receives from a server). Processes utilizing the network that do not normally have network communication or have never been seen before are suspicious. Analyze packet contents to detect application layer protocols that do not follow the expected protocol standards regarding syntax, structure, or any other variable adversaries could leverage to conceal data.(Citation: University of Birmingham C2)\n\nMonitor for web traffic to/from known-bad or suspicious domains. "
-      ],
+      "x_mitre_detection": "Analyze network data for uncommon data flows (e.g., a client sending significantly more data than it receives from a server). Processes utilizing the network that do not normally have network communication or have never been seen before are suspicious. Analyze packet contents to detect application layer protocols that do not follow the expected protocol standards regarding syntax, structure, or any other variable adversaries could leverage to conceal data.(Citation: University of Birmingham C2)\n\nMonitor for web traffic to/from known-bad or suspicious domains. ",
       "x_mitre_platforms": [
         "Linux",
-        "Windows",
-        "macOS"
+        "macOS",
+        "Windows"
       ],
       "x_mitre_data_sources": [
-        "Netflow/Enclave netflow",
-        "Network protocol analysis",
-        "Packet capture",
-        "Process monitoring",
-        "Process use of network"
+        "Network Traffic: Network Traffic Content",
+        "Network Traffic: Network Traffic Flow"
       ],
-      "x_mitre_version": "1.0"
+      "x_mitre_is_subtechnique": true,
+      "x_mitre_version": "1.0",
+      "x_panw_parent_technique": "Application Layer Protocol",
+      "x_panw_parent_technique_subtechnique": "Application Layer Protocol: Web Protocols"
     },
     {
       "type": "attack-pattern",
       "id": "attack-pattern--eb062747-2193-45de-8fa2-e62549c37ddf",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-07-27T14:54:36.653Z",
+      "created": "2020-02-11T18:23:26.059Z",
+      "modified": "2020-02-25T19:23:34.204Z",
       "name": "T1021.001: Remote Desktop Protocol",
       "description": "Adversaries may use [Valid Accounts](https://attack.mitre.org/techniques/T1078) to log into a computer using the Remote Desktop Protocol (RDP). The adversary may then perform actions as the logged-on user.\n\nRemote desktop is a common feature in operating systems. It allows a user to log into an interactive session with a system desktop graphical user interface on a remote system. Microsoft refers to its implementation of the Remote Desktop Protocol (RDP) as Remote Desktop Services (RDS).(Citation: TechNet Remote Desktop Services) \n\nAdversaries may connect to a remote system over RDP/RDS to expand access if the service is enabled and allows access to accounts with known credentials. Adversaries will likely use Credential Access techniques to acquire credentials to use with RDP. Adversaries may also use RDP in conjunction with the [Accessibility Features](https://attack.mitre.org/techniques/T1546/008) technique for Persistence.(Citation: Alperovitch Malware)",
       "kill_chain_phases": [
@@ -1592,9 +1667,9 @@
       ],
       "external_references": [
         {
-          "source_name": "Alperovitch Malware",
-          "url": "http://blog.crowdstrike.com/adversary-tricks-crowdstrike-treats/",
-          "description": "Alperovitch, D. (2014, October 31). Malware-Free Intrusions. Retrieved November 4, 2014."
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1021/001",
+          "external_id": "T1021.001"
         },
         {
           "source_name": "capec",
@@ -1602,30 +1677,30 @@
           "external_id": "CAPEC-555"
         },
         {
-          "source_name": "mitre-attack",
-          "url": "https://attack.mitre.org/techniques/T1021/001",
-          "external_id": "T1021.001"
-        },
-        {
           "source_name": "TechNet Remote Desktop Services",
           "url": "https://technet.microsoft.com/en-us/windowsserver/ee236407.aspx",
           "description": "Microsoft. (n.d.). Remote Desktop Services. Retrieved June 1, 2016."
+        },
+        {
+          "source_name": "Alperovitch Malware",
+          "url": "http://blog.crowdstrike.com/adversary-tricks-crowdstrike-treats/",
+          "description": "Alperovitch, D. (2014, October 31). Malware-Free Intrusions. Retrieved November 4, 2014."
         }
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "Use of RDP may be legitimate, depending on the network environment and how it is used. Other factors, such as access patterns and activity that occurs after a remote login, may indicate suspicious or malicious behavior with RDP. Monitor for user accounts logged into systems they would not normally access or access patterns to multiple systems over a relatively short period of time."
-      ],
+      "x_mitre_detection": "Use of RDP may be legitimate, depending on the network environment and how it is used. Other factors, such as access patterns and activity that occurs after a remote login, may indicate suspicious or malicious behavior with RDP. Monitor for user accounts logged into systems they would not normally access or access patterns to multiple systems over a relatively short period of time.",
       "x_mitre_platforms": [
         "Windows"
       ],
       "x_mitre_data_sources": [
-        "Authentication logs",
-        "Netflow/Enclave netflow",
-        "Process monitoring"
+        "Logon Session: Logon Session Creation",
+        "Network Traffic: Network Connection Creation",
+        "Network Traffic: Network Traffic Flow",
+        "Process: Process Creation"
       ],
+      "x_mitre_is_subtechnique": true,
       "x_mitre_permissions_required": [
         "Remote Desktop Users",
         "User"
@@ -1636,14 +1711,16 @@
       "x_mitre_contributors": [
         "Matthew Demaske, Adaptforward"
       ],
-      "x_mitre_version": "1.0"
+      "x_mitre_version": "1.0",
+      "x_panw_parent_technique": "Remote Services",
+      "x_panw_parent_technique_subtechnique": "Remote Services: Remote Desktop Protocol"
     },
     {
       "type": "attack-pattern",
       "id": "attack-pattern--f303a39a-6255-4b89-aecc-18c4d8ca7163",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2020-07-27T14:54:33.398Z",
-      "modified": "2020-07-27T14:54:33.398Z",
+      "created": "2020-02-11T18:45:34.293Z",
+      "modified": "2021-04-22T20:20:14.595Z",
       "name": "T1003.006: DCSync",
       "description": "Adversaries may attempt to access credentials and other sensitive information by abusing a Windows Domain Controller's application programming interface (API)(Citation: Microsoft DRSR Dec 2017) (Citation: Microsoft GetNCCChanges) (Citation: Samba DRSUAPI) (Citation: Wine API samlib.dll) to simulate the replication process from a remote domain controller using a technique called DCSync.\n\nMembers of the Administrators, Domain Admins, and Enterprise Admin groups or computer accounts on the domain controller are able to run DCSync to pull password data(Citation: ADSecurity Mimikatz DCSync) from Active Directory, which may include current and historical hashes of potentially useful accounts such as KRBTGT and Administrators. The hashes can then in turn be used to create a [Golden Ticket](https://attack.mitre.org/techniques/T1558/001) for use in [Pass the Ticket](https://attack.mitre.org/techniques/T1550/003)(Citation: Harmj0y Mimikatz and DCSync) or change an account's password as noted in [Account Manipulation](https://attack.mitre.org/techniques/T1098).(Citation: InsiderThreat ChangeNTLM July 2017)\n\nDCSync functionality has been included in the \"lsadump\" module in [Mimikatz](https://attack.mitre.org/software/S0002).(Citation: GitHub Mimikatz lsadump Module) Lsadump also includes NetSync, which performs DCSync over a legacy replication protocol.(Citation: Microsoft NRPC Dec 2017)",
       "kill_chain_phases": [
@@ -1658,34 +1735,9 @@
       ],
       "external_references": [
         {
-          "source_name": "AdSecurity DCSync Sept 2015",
-          "url": "https://adsecurity.org/?p=1729",
-          "description": "Metcalf, S. (2015, September 25). Mimikatz DCSync Usage, Exploitation, and Detection. Retrieved December 4, 2017."
-        },
-        {
-          "source_name": "ADSecurity Mimikatz DCSync",
-          "url": "https://adsecurity.org/?p=1729",
-          "description": "Metcalf, S. (2015, September 25). Mimikatz DCSync Usage, Exploitation, and Detection. Retrieved August 7, 2017."
-        },
-        {
-          "source_name": "GitHub Mimikatz lsadump Module",
-          "url": "https://github.com/gentilkiwi/mimikatz/wiki/module-~-lsadump",
-          "description": "Deply, B., Le Toux, V. (2016, June 5). module ~ lsadump. Retrieved August 7, 2017."
-        },
-        {
-          "source_name": "Harmj0y DCSync Sept 2015",
-          "url": "http://www.harmj0y.net/blog/redteaming/mimikatz-and-dcsync-and-extrasids-oh-my/",
-          "description": "Schroeder, W. (2015, September 22). Mimikatz and DCSync and ExtraSids, Oh My. Retrieved December 4, 2017."
-        },
-        {
-          "source_name": "Harmj0y Mimikatz and DCSync",
-          "url": "http://www.harmj0y.net/blog/redteaming/mimikatz-and-dcsync-and-extrasids-oh-my/",
-          "description": "Schroeder, W. (2015, September 22). Mimikatz and DCSync and ExtraSids, Oh My. Retrieved August 7, 2017."
-        },
-        {
-          "source_name": "InsiderThreat ChangeNTLM July 2017",
-          "url": "https://blog.stealthbits.com/manipulating-user-passwords-with-mimikatz-SetNTLM-ChangeNTLM",
-          "description": "Warren, J. (2017, July 11). Manipulating User Passwords with Mimikatz. Retrieved December 4, 2017."
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1003/006",
+          "external_id": "T1003.006"
         },
         {
           "source_name": "Microsoft DRSR Dec 2017",
@@ -1698,6 +1750,36 @@
           "description": "Microsoft. (n.d.). IDL_DRSGetNCChanges (Opnum 3). Retrieved December 4, 2017."
         },
         {
+          "source_name": "Samba DRSUAPI",
+          "url": "https://wiki.samba.org/index.php/DRSUAPI",
+          "description": "SambaWiki. (n.d.). DRSUAPI. Retrieved December 4, 2017."
+        },
+        {
+          "source_name": "Wine API samlib.dll",
+          "url": "https://source.winehq.org/WineAPI/samlib.html",
+          "description": "Wine API. (n.d.). samlib.dll. Retrieved December 4, 2017."
+        },
+        {
+          "source_name": "ADSecurity Mimikatz DCSync",
+          "url": "https://adsecurity.org/?p=1729",
+          "description": "Metcalf, S. (2015, September 25). Mimikatz DCSync Usage, Exploitation, and Detection. Retrieved August 7, 2017."
+        },
+        {
+          "source_name": "Harmj0y Mimikatz and DCSync",
+          "url": "http://www.harmj0y.net/blog/redteaming/mimikatz-and-dcsync-and-extrasids-oh-my/",
+          "description": "Schroeder, W. (2015, September 22). Mimikatz and DCSync and ExtraSids, Oh My. Retrieved August 7, 2017."
+        },
+        {
+          "source_name": "InsiderThreat ChangeNTLM July 2017",
+          "url": "https://blog.stealthbits.com/manipulating-user-passwords-with-mimikatz-SetNTLM-ChangeNTLM",
+          "description": "Warren, J. (2017, July 11). Manipulating User Passwords with Mimikatz. Retrieved December 4, 2017."
+        },
+        {
+          "source_name": "GitHub Mimikatz lsadump Module",
+          "url": "https://github.com/gentilkiwi/mimikatz/wiki/module-~-lsadump",
+          "description": "Deply, B., Le Toux, V. (2016, June 5). module ~ lsadump. Retrieved August 7, 2017."
+        },
+        {
           "source_name": "Microsoft NRPC Dec 2017",
           "url": "https://msdn.microsoft.com/library/cc237008.aspx",
           "description": "Microsoft. (2017, December 1). MS-NRPC - Netlogon Remote Protocol. Retrieved December 6, 2017."
@@ -1708,45 +1790,46 @@
           "description": "Microsoft. (n.d.). MS-SAMR Security Account Manager (SAM) Remote Protocol (Client-to-Server) - Transport. Retrieved December 4, 2017."
         },
         {
-          "source_name": "mitre-attack",
-          "url": "https://attack.mitre.org/techniques/T1003/006",
-          "external_id": "T1003.006"
+          "source_name": "AdSecurity DCSync Sept 2015",
+          "url": "https://adsecurity.org/?p=1729",
+          "description": "Metcalf, S. (2015, September 25). Mimikatz DCSync Usage, Exploitation, and Detection. Retrieved December 4, 2017."
         },
         {
-          "source_name": "Samba DRSUAPI",
-          "url": "https://wiki.samba.org/index.php/DRSUAPI",
-          "description": "SambaWiki. (n.d.). DRSUAPI. Retrieved December 4, 2017."
-        },
-        {
-          "source_name": "Wine API samlib.dll",
-          "url": "https://source.winehq.org/WineAPI/samlib.html",
-          "description": "Wine API. (n.d.). samlib.dll. Retrieved December 4, 2017."
+          "source_name": "Harmj0y DCSync Sept 2015",
+          "url": "http://www.harmj0y.net/blog/redteaming/mimikatz-and-dcsync-and-extrasids-oh-my/",
+          "description": "Schroeder, W. (2015, September 22). Mimikatz and DCSync and ExtraSids, Oh My. Retrieved December 4, 2017."
         }
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "Monitor domain controller logs for replication requests and other unscheduled activity possibly associated with DCSync.(Citation: Microsoft DRSR Dec 2017) (Citation: Microsoft GetNCCChanges) (Citation: Samba DRSUAPI) Also monitor for network protocols(Citation: Microsoft DRSR Dec 2017) (Citation: Microsoft NRPC Dec 2017) and other replication requests(Citation: Microsoft SAMR) from IPs not associated with known domain controllers.(Citation: AdSecurity DCSync Sept 2015)\n\nNote: Domain controllers may not log replication requests originating from the default domain controller account.(Citation: Harmj0y DCSync Sept 2015)"
-      ],
+      "x_mitre_detection": "Monitor domain controller logs for replication requests and other unscheduled activity possibly associated with DCSync.(Citation: Microsoft DRSR Dec 2017) (Citation: Microsoft GetNCCChanges) (Citation: Samba DRSUAPI) Also monitor for network protocols(Citation: Microsoft DRSR Dec 2017) (Citation: Microsoft NRPC Dec 2017) and other replication requests(Citation: Microsoft SAMR) from IPs not associated with known domain controllers.(Citation: AdSecurity DCSync Sept 2015)\n\nNote: Domain controllers may not log replication requests originating from the default domain controller account.(Citation: Harmj0y DCSync Sept 2015)",
       "x_mitre_platforms": [
         "Windows"
       ],
-      "x_mitre_data_sources": "Windows event logs",
+      "x_mitre_data_sources": [
+        "Active Directory: Active Directory Object Access",
+        "Network Traffic: Network Traffic Content",
+        "Network Traffic: Network Traffic Flow"
+      ],
+      "x_mitre_is_subtechnique": true,
       "x_mitre_permissions_required": [
         "Administrator"
       ],
       "x_mitre_contributors": [
+        "ExtraHop",
         "Vincent Le Toux"
       ],
-      "x_mitre_version": "1.0"
+      "x_mitre_version": "1.0",
+      "x_panw_parent_technique": "OS Credential Dumping",
+      "x_panw_parent_technique_subtechnique": "OS Credential Dumping: DCSync"
     },
     {
       "type": "attack-pattern",
       "id": "attack-pattern--f5d8eed6-48a9-4cdf-a3d7-d1ffa99c3d2a",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2019-05-06T20:46:09.861Z",
-      "modified": "2020-09-14T14:57:07.257Z",
+      "created": "2019-04-02T13:54:43.136Z",
+      "modified": "2020-07-14T19:33:52.512Z",
       "name": "T1490: Inhibit System Recovery",
       "description": "Adversaries may delete or remove built-in operating system data and turn off services designed to aid in the recovery of a corrupted system to prevent recovery.(Citation: Talos Olympic Destroyer 2018)(Citation: FireEye WannaCry 2017) Operating systems may contain features that can help fix corrupted systems, such as a backup catalog, volume shadow copies, and automatic repair features. Adversaries may disable or delete system recovery features to augment the effects of [Data Destruction](https://attack.mitre.org/techniques/T1485) and [Data Encrypted for Impact](https://attack.mitre.org/techniques/T1486).(Citation: Talos Olympic Destroyer 2018)(Citation: FireEye WannaCry 2017)\n\nA number of native Windows utilities have been used by adversaries to disable or delete system recovery features:\n\n* <code>vssadmin.exe</code> can be used to delete all volume shadow copies on a system - <code>vssadmin.exe delete shadows /all /quiet</code>\n* [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) can be used to delete volume shadow copies - <code>wmic shadowcopy delete</code>\n* <code>wbadmin.exe</code> can be used to delete the Windows Backup Catalog - <code>wbadmin.exe delete catalog -quiet</code>\n* <code>bcdedit.exe</code> can be used to disable automatic Windows recovery features by modifying boot configuration data - <code>bcdedit.exe /set {default} bootstatuspolicy ignoreallfailures & bcdedit /set {default} recoveryenabled no</code>",
       "kill_chain_phases": [
@@ -1761,11 +1844,6 @@
       ],
       "external_references": [
         {
-          "source_name": "FireEye WannaCry 2017",
-          "url": "https://www.fireeye.com/blog/threat-research/2017/05/wannacry-malware-profile.html",
-          "description": "Berry, A., Homan, J., and Eitzman, R. (2017, May 23). WannaCry Malware Profile. Retrieved March 15, 2019."
-        },
-        {
           "source_name": "mitre-attack",
           "url": "https://attack.mitre.org/techniques/T1490",
           "external_id": "T1490"
@@ -1774,31 +1852,35 @@
           "source_name": "Talos Olympic Destroyer 2018",
           "url": "https://blog.talosintelligence.com/2018/02/olympic-destroyer.html",
           "description": "Mercer, W. and Rascagneres, P. (2018, February 12). Olympic Destroyer Takes Aim At Winter Olympics. Retrieved March 14, 2019."
+        },
+        {
+          "source_name": "FireEye WannaCry 2017",
+          "url": "https://www.fireeye.com/blog/threat-research/2017/05/wannacry-malware-profile.html",
+          "description": "Berry, A., Homan, J., and Eitzman, R. (2017, May 23). WannaCry Malware Profile. Retrieved March 15, 2019."
         }
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "Use process monitoring to monitor the execution and command line parameters of binaries involved in inhibiting system recovery, such as vssadmin, wbadmin, and bcdedit. The Windows event logs, ex. Event ID 524 indicating a system catalog was deleted, may contain entries associated with suspicious activity.\n\nMonitor the status of services involved in system recovery. Monitor the registry for changes associated with system recovery features (ex: the creation of <code>HKEY_CURRENT_USER\\Software\\Policies\\Microsoft\\PreviousVersions\\DisableLocalPage</code>)."
-      ],
+      "x_mitre_detection": "Use process monitoring to monitor the execution and command line parameters of binaries involved in inhibiting system recovery, such as vssadmin, wbadmin, and bcdedit. The Windows event logs, ex. Event ID 524 indicating a system catalog was deleted, may contain entries associated with suspicious activity.\n\nMonitor the status of services involved in system recovery. Monitor the registry for changes associated with system recovery features (ex: the creation of <code>HKEY_CURRENT_USER\\Software\\Policies\\Microsoft\\PreviousVersions\\DisableLocalPage</code>).",
       "x_mitre_platforms": [
         "Linux",
-        "Windows",
-        "macOS"
+        "macOS",
+        "Windows"
       ],
       "x_mitre_data_sources": [
-        "Process command-line parameters",
-        "Process monitoring",
-        "Services",
-        "Windows Registry",
-        "Windows event logs"
+        "Command: Command Execution",
+        "File: File Deletion",
+        "Process: Process Creation",
+        "Service: Service Metadata",
+        "Windows Registry: Windows Registry Key Modification"
       ],
+      "x_mitre_is_subtechnique": false,
       "x_mitre_permissions_required": [
         "Administrator",
+        "root",
         "SYSTEM",
-        "User",
-        "root"
+        "User"
       ],
       "x_mitre_contributors": [
         "Yonatan Gotlib, Deep Instinct"

