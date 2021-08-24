@@ -1,0 +1,2054 @@
+{
+  "type": "bundle",
+  "id": "bundle--178b7328-66f7-49bd-a205-14511dd14b08",
+  "spec_version": "2.0",
+  "objects": [
+    {
+      "type": "report",
+      "id": "report--178b7328-66f7-49bd-a205-14511dd14b08",
+      "created": "2021-07-21T14:42:08.636Z",
+      "modified": "2021-08-24T12:53:49.771Z",
+      "name": "Hive Leaks Ransomware",
+      "description": "Hive ransomware began operations in June 2021 and has already shown notable disregard for its victims\u2019 welfare, attacking organizations including healthcare providers and mid-size organizations ill-equipped for managing a ransomware attack.",
+      "published": "2021-08-24T12:53:49.771Z",
+      "object_refs": [
+        "intrusion-set--8015e2a5-c123-4893-859e-15338546ea6b",
+        "report--ba2add2c-66db-4cf4-b0aa-57101510216d"
+      ],
+      "labels": [
+        "intrusion-set"
+      ]
+    },
+    {
+      "type": "intrusion-set",
+      "id": "intrusion-set--8015e2a5-c123-4893-859e-15338546ea6b",
+      "created": "2021-07-21T14:42:08.907Z",
+      "modified": "2021-08-24T12:54:43.908Z",
+      "name": "Hive Leaks"
+    },
+    {
+      "type": "attack-pattern",
+      "id": "attack-pattern--005a06c6-14bf-4118-afa0-ebcd8aebb0c9",
+      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "created": "2019-11-27T14:58:00.429Z",
+      "modified": "2020-12-30T14:26:44.730Z",
+      "name": "T1053.005: Scheduled Task",
+      "description": "Adversaries may abuse the Windows Task Scheduler to perform task scheduling for initial or recurring execution of malicious code. There are multiple ways to access the Task Scheduler in Windows. The <code>schtasks</code> can be run directly on the command line, or the Task Scheduler can be opened through the GUI within the Administrator Tools section of the Control Panel. In some cases, adversaries have used a .NET wrapper for the Windows Task Scheduler, and alternatively, adversaries have used the Windows netapi32 library to create a scheduled task.\n\nThe deprecated [at](https://attack.mitre.org/software/S0110) utility could also be abused by adversaries (ex: [At (Windows)](https://attack.mitre.org/techniques/T1053/002)), though <code>at.exe</code> can not access tasks created with <code>schtasks</code> or the Control Panel.\n\nAn adversary may use Windows Task Scheduler to execute programs at system startup or on a scheduled basis for persistence. The Windows Task Scheduler can also be abused to conduct remote Execution as part of Lateral Movement and or to run a process under the context of a specified account (such as SYSTEM).",
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "lockheed",
+          "phase_name": "act-on-objectives"
+        },
+        {
+          "kill_chain_name": "lockheed",
+          "phase_name": "installation"
+        },
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "execution"
+        },
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "persistence"
+        },
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "privilege-escalation"
+        }
+      ],
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1053/005",
+          "external_id": "T1053.005"
+        },
+        {
+          "source_name": "Twitter Leoloobeek Scheduled Task",
+          "url": "https://twitter.com/leoloobeek/status/939248813465853953",
+          "description": "Loobeek, L. (2017, December 8). leoloobeek Status. Retrieved December 12, 2017."
+        },
+        {
+          "source_name": "TechNet Forum Scheduled Task Operational Setting",
+          "url": "https://social.technet.microsoft.com/Forums/en-US/e5bca729-52e7-4fcb-ba12-3225c564674c/scheduled-tasks-history-retention-settings?forum=winserver8gen",
+          "description": "Satyajit321. (2015, November 3). Scheduled Tasks History Retention settings. Retrieved December 12, 2017."
+        },
+        {
+          "source_name": "TechNet Scheduled Task Events",
+          "url": "https://technet.microsoft.com/library/dd315590.aspx",
+          "description": "Microsoft. (n.d.). General Task Registration. Retrieved December 12, 2017."
+        },
+        {
+          "source_name": "Microsoft Scheduled Task Events Win10",
+          "url": "https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/audit-other-object-access-events",
+          "description": "Microsoft. (2017, May 28). Audit Other Object Access Events. Retrieved June 27, 2019."
+        },
+        {
+          "source_name": "TechNet Autoruns",
+          "url": "https://technet.microsoft.com/en-us/sysinternals/bb963902",
+          "description": "Russinovich, M. (2016, January 4). Autoruns for Windows v13.51. Retrieved June 6, 2016."
+        }
+      ],
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ],
+      "x_mitre_detection": "Monitor process execution from the <code>svchost.exe</code> in Windows 10 and the Windows Task Scheduler <code>taskeng.exe</code> for older versions of Windows. (Citation: Twitter Leoloobeek Scheduled Task) If scheduled tasks are not used for persistence, then the adversary is likely to remove the task when the action is complete. Monitor Windows Task Scheduler stores in %systemroot%\\System32\\Tasks for change entries related to scheduled tasks that do not correlate with known software, patch cycles, etc.\n\nConfigure event logging for scheduled task creation and changes by enabling the \"Microsoft-Windows-TaskScheduler/Operational\" setting within the event logging service. (Citation: TechNet Forum Scheduled Task Operational Setting) Several events will then be logged on scheduled task activity, including: (Citation: TechNet Scheduled Task Events)(Citation: Microsoft Scheduled Task Events Win10)\n\n* Event ID 106 on Windows 7, Server 2008 R2 - Scheduled task registered\n* Event ID 140 on Windows 7, Server 2008 R2 / 4702 on Windows 10, Server 2016 - Scheduled task updated\n* Event ID 141 on Windows 7, Server 2008 R2 / 4699 on Windows 10, Server 2016 - Scheduled task deleted\n* Event ID 4698 on Windows 10, Server 2016 - Scheduled task created\n* Event ID 4700 on Windows 10, Server 2016 - Scheduled task enabled\n* Event ID 4701 on Windows 10, Server 2016 - Scheduled task disabled\n\nTools such as Sysinternals Autoruns may also be used to detect system changes that could be attempts at persistence, including listing current scheduled tasks. (Citation: TechNet Autoruns)\n\nRemote access tools with built-in features may interact directly with the Windows API to perform these functions outside of typical system utilities. Tasks may also be created through Windows system management tools such as Windows Management Instrumentation and PowerShell, so additional logging may need to be configured to gather the appropriate data.",
+      "x_mitre_platforms": [
+        "Windows"
+      ],
+      "x_mitre_data_sources": [
+        "Command: Command Execution",
+        "File: File Modification",
+        "Process: Process Creation",
+        "Scheduled Job: Scheduled Job Creation"
+      ],
+      "x_mitre_is_subtechnique": true,
+      "x_mitre_permissions_required": [
+        "Administrator"
+      ],
+      "x_mitre_remote_support": true,
+      "x_mitre_version": "1.0",
+      "x_panw_parent_technique": "Scheduled Task/Job",
+      "x_panw_parent_technique_subtechnique": "Scheduled Task/Job: Scheduled Task"
+    },
+    {
+      "type": "attack-pattern",
+      "id": "attack-pattern--7bc57495-ea59-4380-be31-a64af124ef18",
+      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "created": "2017-05-31T21:31:04.710Z",
+      "modified": "2020-09-16T16:02:16.770Z",
+      "name": "T1083: File and Directory Discovery",
+      "description": "Adversaries may enumerate files and directories or may search in specific locations of a host or network share for certain information within a file system. Adversaries may use the information from [File and Directory Discovery](https://attack.mitre.org/techniques/T1083) during automated discovery to shape follow-on behaviors, including whether or not the adversary fully infects the target and/or attempts specific actions.\n\nMany command shell utilities can be used to obtain this information. Examples include <code>dir</code>, <code>tree</code>, <code>ls</code>, <code>find</code>, and <code>locate</code>. (Citation: Windows Commands JPCERT) Custom tools may also be used to gather file and directory information and interact with the [Native API](https://attack.mitre.org/techniques/T1106).",
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "lockheed",
+          "phase_name": "act-on-objectives"
+        },
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "discovery"
+        }
+      ],
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1083",
+          "external_id": "T1083"
+        },
+        {
+          "source_name": "capec",
+          "url": "https://capec.mitre.org/data/definitions/127.html",
+          "external_id": "CAPEC-127"
+        },
+        {
+          "source_name": "capec",
+          "url": "https://capec.mitre.org/data/definitions/497.html",
+          "external_id": "CAPEC-497"
+        },
+        {
+          "source_name": "Windows Commands JPCERT",
+          "url": "http://blog.jpcert.or.jp/2016/01/windows-commands-abused-by-attackers.html",
+          "description": "Tomonaga, S. (2016, January 26). Windows Commands Abused by Attackers. Retrieved February 2, 2016."
+        }
+      ],
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ],
+      "x_mitre_detection": "System and network discovery techniques normally occur throughout an operation as an adversary learns the environment. Data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities, such as Collection and Exfiltration, based on the information obtained.\n\nMonitor processes and command-line arguments for actions that could be taken to gather system and network information. Remote access tools with built-in features may interact directly with the Windows API to gather information. Information may also be acquired through Windows system management tools such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) and [PowerShell](https://attack.mitre.org/techniques/T1059/001).",
+      "x_mitre_platforms": [
+        "Linux",
+        "macOS",
+        "Windows"
+      ],
+      "x_mitre_data_sources": [
+        "Command: Command Execution",
+        "Process: OS API Execution",
+        "Process: Process Creation"
+      ],
+      "x_mitre_is_subtechnique": false,
+      "x_mitre_permissions_required": [
+        "Administrator",
+        "SYSTEM",
+        "User"
+      ],
+      "x_mitre_system_requirements": [
+        "Some folders may require Administrator, SYSTEM or specific user depending on permission levels and access controls"
+      ],
+      "x_mitre_version": "1.3"
+    },
+    {
+      "type": "attack-pattern",
+      "id": "attack-pattern--8c32eb4d-805f-4fc5-bf60-c4d476c131b5",
+      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "created": "2018-04-18T17:59:24.739Z",
+      "modified": "2021-04-20T16:34:09.236Z",
+      "name": "T1204: User Execution",
+      "description": "An adversary may rely upon specific actions by a user in order to gain execution. Users may be subjected to social engineering to get them to execute malicious code by, for example, opening a malicious document file or link. These user actions will typically be observed as follow-on behavior from forms of [Phishing](https://attack.mitre.org/techniques/T1566).\n\nWhile [User Execution](https://attack.mitre.org/techniques/T1204) frequently occurs shortly after Initial Access it may occur at other phases of an intrusion, such as when an adversary places a file in a shared directory or on a user's desktop hoping that a user will click on it. This activity may also be seen shortly after [Internal Spearphishing](https://attack.mitre.org/techniques/T1534).",
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "lockheed",
+          "phase_name": "installation"
+        },
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "execution"
+        }
+      ],
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1204",
+          "external_id": "T1204"
+        }
+      ],
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ],
+      "x_mitre_detection": "Monitor the execution of and command-line arguments for applications that may be used by an adversary to gain Initial Access that require user interaction. This includes compression applications, such as those for zip files, that can be used to [Deobfuscate/Decode Files or Information](https://attack.mitre.org/techniques/T1140) in payloads.\n\nAnti-virus can potentially detect malicious documents and files that are downloaded and executed on the user's computer. Endpoint sensing or network sensing can potentially detect malicious events once the file is opened (such as a Microsoft Word document or PDF reaching out to the internet or spawning powershell.exe).",
+      "x_mitre_platforms": [
+        "Containers",
+        "IaaS",
+        "Linux",
+        "macOS",
+        "Windows"
+      ],
+      "x_mitre_data_sources": [
+        "Application Log: Application Log Content",
+        "Command: Command Execution",
+        "Container: Container Creation",
+        "Container: Container Start",
+        "File: File Creation",
+        "Image: Image Creation",
+        "Instance: Instance Creation",
+        "Instance: Instance Start",
+        "Network Traffic: Network Connection Creation",
+        "Network Traffic: Network Traffic Content",
+        "Process: Process Creation"
+      ],
+      "x_mitre_is_subtechnique": false,
+      "x_mitre_permissions_required": [
+        "User"
+      ],
+      "x_mitre_contributors": [
+        "Oleg Skulkin, Group-IB"
+      ],
+      "x_mitre_version": "1.3"
+    },
+    {
+      "type": "attack-pattern",
+      "id": "attack-pattern--8f4a33ec-8b1f-4b80-a2f6-642b2e479580",
+      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "created": "2017-05-31T21:30:48.728Z",
+      "modified": "2020-03-26T18:05:53.130Z",
+      "name": "T1057: Process Discovery",
+      "description": "Adversaries may attempt to get information about running processes on a system. Information obtained could be used to gain an understanding of common software/applications running on systems within the network. Adversaries may use the information from [Process Discovery](https://attack.mitre.org/techniques/T1057) during automated discovery to shape follow-on behaviors, including whether or not the adversary fully infects the target and/or attempts specific actions.\n\nIn Windows environments, adversaries could obtain details on running processes using the [Tasklist](https://attack.mitre.org/software/S0057) utility via [cmd](https://attack.mitre.org/software/S0106) or <code>Get-Process</code> via [PowerShell](https://attack.mitre.org/techniques/T1059/001). Information about processes can also be extracted from the output of [Native API](https://attack.mitre.org/techniques/T1106) calls such as <code>CreateToolhelp32Snapshot</code>. In Mac and Linux, this is accomplished with the <code>ps</code> command. Adversaries may also opt to enumerate processes via /proc.",
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "lockheed",
+          "phase_name": "act-on-objectives"
+        },
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "discovery"
+        }
+      ],
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1057",
+          "external_id": "T1057"
+        },
+        {
+          "source_name": "capec",
+          "url": "https://capec.mitre.org/data/definitions/573.html",
+          "external_id": "CAPEC-573"
+        }
+      ],
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ],
+      "x_mitre_detection": "System and network discovery techniques normally occur throughout an operation as an adversary learns the environment. Data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities, such as Lateral Movement, based on the information obtained.\n\nNormal, benign system and network events that look like process discovery may be uncommon, depending on the environment and how they are used. Monitor processes and command-line arguments for actions that could be taken to gather system and network information. Remote access tools with built-in features may interact directly with the Windows API to gather information. Information may also be acquired through Windows system management tools such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) and [PowerShell](https://attack.mitre.org/techniques/T1059/001).",
+      "x_mitre_platforms": [
+        "Linux",
+        "macOS",
+        "Windows"
+      ],
+      "x_mitre_data_sources": [
+        "Command: Command Execution",
+        "Process: OS API Execution",
+        "Process: Process Creation"
+      ],
+      "x_mitre_is_subtechnique": false,
+      "x_mitre_permissions_required": [
+        "Administrator",
+        "SYSTEM",
+        "User"
+      ],
+      "x_mitre_system_requirements": [
+        "Administrator, SYSTEM may provide better process ownership details"
+      ],
+      "x_mitre_version": "1.2"
+    },
+    {
+      "type": "attack-pattern",
+      "id": "attack-pattern--9efb1ea7-c37b-4595-9640-b7680cd84279",
+      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "created": "2020-01-23T22:02:48.566Z",
+      "modified": "2021-01-06T18:36:29.226Z",
+      "name": "T1547.001: Registry Run Keys / Startup Folder",
+      "description": "Adversaries may achieve persistence by adding a program to a startup folder or referencing it with a Registry run key. Adding an entry to the \"run keys\" in the Registry or startup folder will cause the program referenced to be executed when a user logs in. (Citation: Microsoft Run Key) These programs will be executed under the context of the user and will have the account's associated permissions level.\n\nPlacing a program within a startup folder will also cause that program to execute when a user logs in. There is a startup folder location for individual user accounts as well as a system-wide startup folder that will be checked regardless of which user account logs in. The startup folder path for the current user is <code>C:\\Users\\\\[Username]\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Startup</code>. The startup folder path for all users is <code>C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\StartUp</code>.\n\nThe following run keys are created by default on Windows systems:\n\n* <code>HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Run</code>\n* <code>HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\RunOnce</code>\n* <code>HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Run</code>\n* <code>HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\RunOnce</code>\n\nRun keys may exist under multiple hives.(Citation: Microsoft Wow6432Node 2018)(Citation: Malwarebytes Wow6432Node 2016) The <code>HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\RunOnceEx</code> is also available but is not created by default on Windows Vista and newer. Registry run key entries can reference programs directly or list them as a dependency. (Citation: Microsoft RunOnceEx APR 2018) For example, it is possible to load a DLL at logon using a \"Depend\" key with RunOnceEx: <code>reg add HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\RunOnceEx\\0001\\Depend /v 1 /d \"C:\\temp\\evil[.]dll\"</code> (Citation: Oddvar Moe RunOnceEx Mar 2018)\n\nThe following Registry keys can be used to set startup folder items for persistence:\n\n* <code>HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\User Shell Folders</code>\n* <code>HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders</code>\n* <code>HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders</code>\n* <code>HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\User Shell Folders</code>\n\nThe following Registry keys can control automatic startup of services during boot:\n\n* <code>HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\RunServicesOnce</code>\n* <code>HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\RunServicesOnce</code>\n* <code>HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\RunServices</code>\n* <code>HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\RunServices</code>\n\nUsing policy settings to specify startup programs creates corresponding values in either of two Registry keys:\n\n* <code>HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\Run</code>\n* <code>HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\Run</code>\n\nThe Winlogon key controls actions that occur when a user logs on to a computer running Windows 7. Most of these actions are under the control of the operating system, but you can also add custom actions here. The <code>HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\Userinit</code> and <code>HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\Shell</code> subkeys can automatically launch programs.\n\nPrograms listed in the load value of the registry key <code>HKEY_CURRENT_USER\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Windows</code> run when any user logs on.\n\nBy default, the multistring <code>BootExecute</code> value of the registry key <code>HKEY_LOCAL_MACHINE\\System\\CurrentControlSet\\Control\\Session Manager</code> is set to <code>autocheck autochk *</code>. This value causes Windows, at startup, to check the file-system integrity of the hard disks if the system has been shut down abnormally. Adversaries can add other programs or processes to this registry value which will automatically launch at boot.\n\nAdversaries can use these configuration locations to execute malware, such as remote access tools, to maintain persistence through system reboots. Adversaries may also use [Masquerading](https://attack.mitre.org/techniques/T1036) to make the Registry entries look as if they are associated with legitimate programs.",
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "lockheed",
+          "phase_name": "act-on-objectives"
+        },
+        {
+          "kill_chain_name": "lockheed",
+          "phase_name": "installation"
+        },
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "persistence"
+        },
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "privilege-escalation"
+        }
+      ],
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1547/001",
+          "external_id": "T1547.001"
+        },
+        {
+          "source_name": "capec",
+          "url": "https://capec.mitre.org/data/definitions/270.html",
+          "external_id": "CAPEC-270"
+        },
+        {
+          "source_name": "Microsoft Run Key",
+          "url": "http://msdn.microsoft.com/en-us/library/aa376977",
+          "description": "Microsoft. (n.d.). Run and RunOnce Registry Keys. Retrieved November 12, 2014."
+        },
+        {
+          "source_name": "Microsoft Wow6432Node 2018",
+          "url": "https://docs.microsoft.com/en-us/windows/win32/sysinfo/32-bit-and-64-bit-application-data-in-the-registry",
+          "description": "Microsoft. (2018, May 31). 32-bit and 64-bit Application Data in the Registry. Retrieved August 3, 2020."
+        },
+        {
+          "source_name": "Malwarebytes Wow6432Node 2016",
+          "url": "https://blog.malwarebytes.com/cybercrime/2013/10/hiding-in-plain-sight/",
+          "description": "Arntz, P. (2016, March 30). Hiding in Plain Sight. Retrieved August 3, 2020."
+        },
+        {
+          "source_name": "Microsoft RunOnceEx APR 2018",
+          "url": "https://support.microsoft.com/help/310593/description-of-the-runonceex-registry-key",
+          "description": "Microsoft. (2018, August 20). Description of the RunOnceEx Registry Key. Retrieved June 29, 2018."
+        },
+        {
+          "source_name": "Oddvar Moe RunOnceEx Mar 2018",
+          "url": "https://oddvar.moe/2018/03/21/persistence-using-runonceex-hidden-from-autoruns-exe/",
+          "description": "Moe, O. (2018, March 21). Persistence using RunOnceEx - Hidden from Autoruns.exe. Retrieved June 29, 2018."
+        },
+        {
+          "source_name": "TechNet Autoruns",
+          "url": "https://technet.microsoft.com/en-us/sysinternals/bb963902",
+          "description": "Russinovich, M. (2016, January 4). Autoruns for Windows v13.51. Retrieved June 6, 2016."
+        }
+      ],
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ],
+      "x_mitre_detection": "Monitor Registry for changes to run keys that do not correlate with known software, patch cycles, etc. Monitor the start folder for additions or changes. Tools such as Sysinternals Autoruns may also be used to detect system changes that could be attempts at persistence, including listing the run keys' Registry locations and startup folders. (Citation: TechNet Autoruns) Suspicious program execution as startup programs may show up as outlier processes that have not been seen before when compared against historical data.\n\nChanges to these locations typically happen under normal conditions when legitimate software is installed. To increase confidence of malicious activity, data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities, such as network connections made for Command and Control, learning details about the environment through Discovery, and Lateral Movement.",
+      "x_mitre_platforms": [
+        "Windows"
+      ],
+      "x_mitre_data_sources": [
+        "Command: Command Execution",
+        "File: File Modification",
+        "Process: Process Creation",
+        "Windows Registry: Windows Registry Key Creation",
+        "Windows Registry: Windows Registry Key Modification"
+      ],
+      "x_mitre_is_subtechnique": true,
+      "x_mitre_permissions_required": [
+        "Administrator",
+        "User"
+      ],
+      "x_mitre_contributors": [
+        "Oddvar Moe, @oddvarmoe"
+      ],
+      "x_mitre_version": "1.1",
+      "x_panw_parent_technique": "Boot or Logon Autostart Execution",
+      "x_panw_parent_technique_subtechnique": "Boot or Logon Autostart Execution: Registry Run Keys / Startup Folder"
+    },
+    {
+      "type": "attack-pattern",
+      "id": "attack-pattern--b80d107d-fa0d-4b60-9684-b0433e8bdba0",
+      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "created": "2019-03-15T13:59:30.390Z",
+      "modified": "2021-04-20T16:39:06.594Z",
+      "name": "T1486: Data Encrypted for Impact",
+      "description": "Adversaries may encrypt data on target systems or on large numbers of systems in a network to interrupt availability to system and network resources. They can attempt to render stored data inaccessible by encrypting files or data on local and remote drives and withholding access to a decryption key. This may be done in order to extract monetary compensation from a victim in exchange for decryption or a decryption key (ransomware) or to render data permanently inaccessible in cases where the key is not saved or transmitted.(Citation: US-CERT Ransomware 2016)(Citation: FireEye WannaCry 2017)(Citation: US-CERT NotPetya 2017)(Citation: US-CERT SamSam 2018) In the case of ransomware, it is typical that common user files like Office documents, PDFs, images, videos, audio, text, and source code files will be encrypted. In some cases, adversaries may encrypt critical system files, disk partitions, and the MBR.(Citation: US-CERT NotPetya 2017)\n\nTo maximize impact on the target organization, malware designed for encrypting data may have worm-like features to propagate across a network by leveraging other attack techniques like [Valid Accounts](https://attack.mitre.org/techniques/T1078), [OS Credential Dumping](https://attack.mitre.org/techniques/T1003), and [SMB/Windows Admin Shares](https://attack.mitre.org/techniques/T1021/002).(Citation: FireEye WannaCry 2017)(Citation: US-CERT NotPetya 2017)\n\nIn cloud environments, storage objects within compromised accounts may also be encrypted.(Citation: Rhino S3 Ransomware Part 1)",
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "lockheed",
+          "phase_name": "act-on-objectives"
+        },
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "impact"
+        }
+      ],
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1486",
+          "external_id": "T1486"
+        },
+        {
+          "source_name": "US-CERT Ransomware 2016",
+          "url": "https://www.us-cert.gov/ncas/alerts/TA16-091A",
+          "description": "US-CERT. (2016, March 31). Alert (TA16-091A): Ransomware and Recent Variants. Retrieved March 15, 2019."
+        },
+        {
+          "source_name": "FireEye WannaCry 2017",
+          "url": "https://www.fireeye.com/blog/threat-research/2017/05/wannacry-malware-profile.html",
+          "description": "Berry, A., Homan, J., and Eitzman, R. (2017, May 23). WannaCry Malware Profile. Retrieved March 15, 2019."
+        },
+        {
+          "source_name": "US-CERT NotPetya 2017",
+          "url": "https://www.us-cert.gov/ncas/alerts/TA17-181A",
+          "description": "US-CERT. (2017, July 1). Alert (TA17-181A): Petya Ransomware. Retrieved March 15, 2019."
+        },
+        {
+          "source_name": "US-CERT SamSam 2018",
+          "url": "https://www.us-cert.gov/ncas/alerts/AA18-337A",
+          "description": "US-CERT. (2018, December 3). Alert (AA18-337A): SamSam Ransomware. Retrieved March 15, 2019."
+        },
+        {
+          "source_name": "Rhino S3 Ransomware Part 1",
+          "url": "https://rhinosecuritylabs.com/aws/s3-ransomware-part-1-attack-vector/",
+          "description": "Gietzen, S. (n.d.). S3 Ransomware Part 1: Attack Vector. Retrieved April 14, 2021."
+        }
+      ],
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ],
+      "x_mitre_detection": "Use process monitoring to monitor the execution and command line parameters of binaries involved in data destruction activity, such as vssadmin, wbadmin, and bcdedit. Monitor for the creation of suspicious files as well as unusual file modification activity. In particular, look for large quantities of file modifications in user directories.\n\nIn some cases, monitoring for unusual kernel driver installation activity can aid in detection.\n\nIn cloud environments, monitor for events that indicate storage objects have been anomalously replaced by copies.",
+      "x_mitre_platforms": [
+        "IaaS",
+        "Linux",
+        "macOS",
+        "Windows"
+      ],
+      "x_mitre_data_sources": [
+        "Cloud Storage: Cloud Storage Metadata",
+        "Cloud Storage: Cloud Storage Modification",
+        "Command: Command Execution",
+        "File: File Creation",
+        "File: File Modification",
+        "Process: Process Creation"
+      ],
+      "x_mitre_is_subtechnique": false,
+      "x_mitre_permissions_required": [
+        "Administrator",
+        "root",
+        "SYSTEM",
+        "User"
+      ],
+      "x_mitre_contributors": [
+        "Oleg Kolesnikov, Securonix"
+      ],
+      "x_mitre_impact_type": [
+        "Availability"
+      ],
+      "x_mitre_version": "1.1"
+    },
+    {
+      "type": "attack-pattern",
+      "id": "attack-pattern--d1fcf083-a721-4223-aedf-bf8960798d62",
+      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "created": "2020-03-09T14:12:31.196Z",
+      "modified": "2021-04-14T15:36:02.195Z",
+      "name": "T1059.003: Windows Command Shell",
+      "description": "Adversaries may abuse the Windows command shell for execution. The Windows command shell ([cmd](https://attack.mitre.org/software/S0106)) is the primary command prompt on Windows systems. The Windows command prompt can be used to control almost any aspect of a system, with various permission levels required for different subsets of commands. \n\nBatch files (ex: .bat or .cmd) also provide the shell with a list of sequential commands to run, as well as normal scripting operations such as conditionals and loops. Common uses of batch files include long or repetitive tasks, or the need to run the same set of commands on multiple systems.\n\nAdversaries may leverage [cmd](https://attack.mitre.org/software/S0106) to execute various commands and payloads. Common uses include [cmd](https://attack.mitre.org/software/S0106) to execute a single command, or abusing [cmd](https://attack.mitre.org/software/S0106) interactively with input and output forwarded over a command and control channel.",
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "lockheed",
+          "phase_name": "installation"
+        },
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "execution"
+        }
+      ],
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1059/003",
+          "external_id": "T1059.003"
+        }
+      ],
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ],
+      "x_mitre_detection": "Usage of the Windows command shell may be common on administrator, developer, or power user systems depending on job function. If scripting is restricted for normal users, then any attempt to enable scripts running on a system would be considered suspicious. If scripts are not commonly used on a system, but enabled, scripts running out of cycle from patching or other administrator functions are suspicious. Scripts should be captured from the file system when possible to determine their actions and intent.\n\nScripts are likely to perform actions with various effects on a system that may generate events, depending on the types of monitoring used. Monitor processes and command-line arguments for script execution and subsequent behavior. Actions may be related to network and system information Discovery, Collection, or other scriptable post-compromise behaviors and could be used as indicators of detection leading back to the source script.",
+      "x_mitre_platforms": [
+        "Windows"
+      ],
+      "x_mitre_data_sources": [
+        "Command: Command Execution",
+        "Process: Process Creation"
+      ],
+      "x_mitre_is_subtechnique": true,
+      "x_mitre_permissions_required": [
+        "User"
+      ],
+      "x_mitre_version": "1.1",
+      "x_panw_parent_technique": "Command and Scripting Interpreter",
+      "x_panw_parent_technique_subtechnique": "Command and Scripting Interpreter: Windows Command Shell"
+    },
+    {
+      "type": "attack-pattern",
+      "id": "attack-pattern--f5d8eed6-48a9-4cdf-a3d7-d1ffa99c3d2a",
+      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "created": "2019-04-02T13:54:43.136Z",
+      "modified": "2020-07-14T19:33:52.512Z",
+      "name": "T1490: Inhibit System Recovery",
+      "description": "Adversaries may delete or remove built-in operating system data and turn off services designed to aid in the recovery of a corrupted system to prevent recovery.(Citation: Talos Olympic Destroyer 2018)(Citation: FireEye WannaCry 2017) Operating systems may contain features that can help fix corrupted systems, such as a backup catalog, volume shadow copies, and automatic repair features. Adversaries may disable or delete system recovery features to augment the effects of [Data Destruction](https://attack.mitre.org/techniques/T1485) and [Data Encrypted for Impact](https://attack.mitre.org/techniques/T1486).(Citation: Talos Olympic Destroyer 2018)(Citation: FireEye WannaCry 2017)\n\nA number of native Windows utilities have been used by adversaries to disable or delete system recovery features:\n\n* <code>vssadmin.exe</code> can be used to delete all volume shadow copies on a system - <code>vssadmin.exe delete shadows /all /quiet</code>\n* [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) can be used to delete volume shadow copies - <code>wmic shadowcopy delete</code>\n* <code>wbadmin.exe</code> can be used to delete the Windows Backup Catalog - <code>wbadmin.exe delete catalog -quiet</code>\n* <code>bcdedit.exe</code> can be used to disable automatic Windows recovery features by modifying boot configuration data - <code>bcdedit.exe /set {default} bootstatuspolicy ignoreallfailures & bcdedit /set {default} recoveryenabled no</code>",
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "lockheed",
+          "phase_name": "act-on-objectives"
+        },
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "impact"
+        }
+      ],
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1490",
+          "external_id": "T1490"
+        },
+        {
+          "source_name": "Talos Olympic Destroyer 2018",
+          "url": "https://blog.talosintelligence.com/2018/02/olympic-destroyer.html",
+          "description": "Mercer, W. and Rascagneres, P. (2018, February 12). Olympic Destroyer Takes Aim At Winter Olympics. Retrieved March 14, 2019."
+        },
+        {
+          "source_name": "FireEye WannaCry 2017",
+          "url": "https://www.fireeye.com/blog/threat-research/2017/05/wannacry-malware-profile.html",
+          "description": "Berry, A., Homan, J., and Eitzman, R. (2017, May 23). WannaCry Malware Profile. Retrieved March 15, 2019."
+        }
+      ],
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ],
+      "x_mitre_detection": "Use process monitoring to monitor the execution and command line parameters of binaries involved in inhibiting system recovery, such as vssadmin, wbadmin, and bcdedit. The Windows event logs, ex. Event ID 524 indicating a system catalog was deleted, may contain entries associated with suspicious activity.\n\nMonitor the status of services involved in system recovery. Monitor the registry for changes associated with system recovery features (ex: the creation of <code>HKEY_CURRENT_USER\\Software\\Policies\\Microsoft\\PreviousVersions\\DisableLocalPage</code>).",
+      "x_mitre_platforms": [
+        "Linux",
+        "macOS",
+        "Windows"
+      ],
+      "x_mitre_data_sources": [
+        "Command: Command Execution",
+        "File: File Deletion",
+        "Process: Process Creation",
+        "Service: Service Metadata",
+        "Windows Registry: Windows Registry Key Modification"
+      ],
+      "x_mitre_is_subtechnique": false,
+      "x_mitre_permissions_required": [
+        "Administrator",
+        "root",
+        "SYSTEM",
+        "User"
+      ],
+      "x_mitre_contributors": [
+        "Yonatan Gotlib, Deep Instinct"
+      ],
+      "x_mitre_impact_type": [
+        "Availability"
+      ],
+      "x_mitre_version": "1.0"
+    },
+    {
+      "type": "campaign",
+      "id": "campaign--ba2add2c-66db-4cf4-b0aa-57101510216d",
+      "created": "2021-07-21T14:42:08.907Z",
+      "modified": "2021-08-24T12:54:43.908Z",
+      "name": "Campaign 1 - Hive Leaks",
+      "description": "Unit 42 has tracked Hive since they published their first victim on their leak site, in late June. Since then, 28 victims have been published on the Hive Leaks site, including a European airline company and three U.S.-based organizations, one each in hardware retail, manufacturing and law. The posts include the date and time the victim was affected",
+      "first_seen": "2021-06-01T00:00:00.000Z",
+      "last_seen": "2021-08-15T00:00:00.000Z"
+    },
+    {
+      "type": "course-of-action",
+      "id": "course-of-action--00d97976-e97e-4878-b530-9f37d7a3e2e5",
+      "name": "Deploy XSOAR Playbook - Phishing Investigation - Generic V2",
+      "created": "2020-06-23T19:50:31.722Z",
+      "modified": "2020-09-04T13:59:35.883Z"
+    },
+    {
+      "type": "course-of-action",
+      "id": "course-of-action--04a2db1c-3e80-43a4-a9c6-3864195bbf73",
+      "name": "Ensure alerts are enabled for malicious files detected  by WildFire",
+      "created": "2020-06-23T19:50:31.722Z",
+      "modified": "2020-09-04T13:59:35.882Z",
+      "description": "Configure WildFire to send an alert when a malicious or greyware file is detected. This alert could be sent by whichever means is preferable, including email, SNMP trap, or syslog message.\n\nAlternatively, configure the WildFire cloud to generate alerts for malicious files. The cloud can generate alerts in addition to or instead of the local WildFire implementation. Note that the destination email address of alerts configured in the WildFire cloud portal is tied to the logged in account, and cannot be modified. Also, new systems added to the WildFire cloud portal will not be automatically set to email alerts."
+    },
+    {
+      "type": "course-of-action",
+      "id": "course-of-action--09cad5e4-8c95-494f-862e-0c640b175348",
+      "name": "Ensure that security policies restrict User-ID Agent traffic from crossing into untrusted zones",
+      "created": "2020-06-23T19:50:31.722Z",
+      "modified": "2020-09-04T13:59:35.882Z",
+      "description": "Create security policies to deny Palo Alto User-ID traffic originating from the interface configured for the UID Agent service that are destined to any untrusted zone."
+    },
+    {
+      "type": "course-of-action",
+      "id": "course-of-action--0a8741c9-240e-4a87-8d0f-7ced73cbd50d",
+      "name": "Deploy XSOAR Playbook - Cortex XDR - Isolate Endpoint",
+      "created": "2020-06-23T19:50:31.722Z",
+      "modified": "2020-06-26T13:02:55.804Z",
+      "x_panw_coa_u42_id": "x.19",
+      "x_panw_coa_u42_title": "Deploy XSOAR Playbook - Cortex XDR - Isolate Endpoint"
+    },
+    {
+      "type": "course-of-action",
+      "id": "course-of-action--2c886776-61fb-487c-a880-41f4b7195627",
+      "name": "Ensure that PAN-DB URL Filtering is used",
+      "created": "2020-06-23T19:50:31.722Z",
+      "modified": "2020-06-26T13:02:55.804Z",
+      "description": "Configure the device to use PAN-DB URL Filtering instead of BrightCloud.",
+      "x_panw_coa_bp_section_number": "6",
+      "x_panw_coa_bp_recommendation_number": "6.9",
+      "x_panw_coa_bp_title": "Ensure that PAN-DB URL Filtering is used",
+      "x_panw_coa_bp_status": "published",
+      "x_panw_coa_bp_scoring_status": "full",
+      "x_panw_coa_bp_description": "Configure the device to use PAN-DB URL Filtering instead of BrightCloud.",
+      "x_panw_coa_bp_rationale_statement": "Standard URL filtering provides protection against inappropriate and malicious URLs and IP addresses. PAN-DB URL Filtering is slightly less granular than the BrightCloud URL filtering. However the PAN-DB Filter offers additional malware protection and PAN threat intelligence by using the Wildfire service as an additional input, which is currently not available in the BrightCloud URL Filtering license. This makes the PAN-DB filter more responsive to specific malware 'campaigns'.",
+      "x_panw_coa_bp_remediation_procedure": "Navigate to `Device > Licenses`.\n\nClick on `PAN-DB URL Filtering`.\n\nSet `Active` to `Yes`.",
+      "x_panw_coa_bp_audit_procedure": "Navigate to `Device > Licenses`.\n\nClick on `PAN-DB URL Filtering`.\n\nVerify `Active` is set to `Yes`.",
+      "x_panw_coa_bp_impact_statement": "Not having an effective URL Filtering configuration can leave an organization open to legal action, internal HR issues, non-compliance with regulatory policies or productivity loss.",
+      "x_panw_coa_bp_cis_controls": [
+        "TITLE:Deploy, Use, And Maintain Network-based URL Filters CONTROL:v6 7.6 DESCRIPTION:The organization shall maintain and enforce network based URL filters that limit a system's ability to connect to websites not approved by the organization. The organization shall subscribe to URL categorization services to ensure that they are up-to-date with the most recent website category definitions available. Uncategorized sites shall be blocked by default. This filtering shall be enforced for each of the organization's systems, whether they are physically at an organization's facilities or not.;TITLE:Maintain and Enforce Network-Based URL Filters CONTROL:v7 7.4 DESCRIPTION:Enforce network-based URL filters that limit a system's ability to connect to websites not approved by the organization. This filtering shall be enforced for each of the organization's systems, whether they are physically at an organization's facilities or not.;TITLE:Subscribe to URL-Categorization service CONTROL:v7 7.5 DESCRIPTION:Subscribe to URL categorization services to ensure that they are up-to-date with the most recent website category definitions available. Uncategorized sites shall be blocked by default.;"
+      ],
+      "x_panw_coa_bp_references": [
+        "\u201cPAN-OS Administrator's Guide 9.0 (English) - URL Filtering\u201d - https://docs.paloaltonetworks.com/pan-os/9-0/pan-os-admin/url-filtering.html:\u201cPAN-OS Administrator's Guide 9.0 (English) - URL Filtering Best Practices': https://docs.paloaltonetworks.com/pan-os/9-0/pan-os-admin/url-filtering/url-filtering-best-practices.html"
+      ]
+    },
+    {
+      "type": "course-of-action",
+      "id": "course-of-action--2fd9769c-5e50-4528-985f-a1d117329991",
+      "name": "Ensure that URL Filtering uses the action of \u201cblock\u201d or \u201coverride\u201d on the <enterprise approved value> URL categories",
+      "created": "2020-06-23T19:50:31.722Z",
+      "modified": "2020-06-26T13:02:55.804Z",
+      "description": "Ideally, deciding which URL categories to block, and which to allow, is a joint effort between IT and another entity of authority within an organization\u2014such as the legal department or administration. For most organizations, blocking or requiring an override on the following categories represents a minimum baseline: adult, hacking, command-and-control, copyright-infringement, extremism, malware, phishing, proxy-avoidance-and-anonymizers, and parked. Some organizations may add 'unknown' and 'dynamic-dns' to this list, at the expense of some support calls on those topics.",
+      "x_panw_coa_bp_section_number": "6",
+      "x_panw_coa_bp_recommendation_number": "6.10",
+      "x_panw_coa_bp_title": "Ensure that URL Filtering uses the action of \u201cblock\u201d or \u201coverride\u201d on the <enterprise approved value> URL categories",
+      "x_panw_coa_bp_status": "published",
+      "x_panw_coa_bp_scoring_status": "full",
+      "x_panw_coa_bp_description": "Ideally, deciding which URL categories to block, and which to allow, is a joint effort between IT and another entity of authority within an organization\u2014such as the legal department or administration. For most organizations, blocking or requiring an override on the following categories represents a minimum baseline: adult, hacking, command-and-control, copyright-infringement, extremism, malware, phishing, proxy-avoidance-and-anonymizers, and parked. Some organizations may add 'unknown' and 'dynamic-dns' to this list, at the expense of some support calls on those topics.",
+      "x_panw_coa_bp_rationale_statement": "Certain URL categories pose a technology-centric threat, such as command-and-control, copyright-infringement, extremism, malware, phishing, proxy-avoidance-and-anonymizers, and parked. Users visiting websites in these categories, many times unintentionally, are at greater risk of compromising the security of their system. Other categories, such as adult, may pose a legal liability and will be blocked for those reasons.",
+      "x_panw_coa_bp_remediation_procedure": "Navigate to `Objects > Security Profiles > URL Filtering`.\n\nSet a URL filter so that all URL categories designated by the organization are listed.\nNavigate to the `Actions` tab. \nSet the action to `Block`.",
+      "x_panw_coa_bp_audit_procedure": "Navigate to `Objects > Security Profiles > URL Filtering`.\n\nVerify that all URL categories designated by the organization are listed, and the action is set to `Block`.",
+      "x_panw_coa_bp_impact_statement": "Not having an effective URL Filtering configuration can leave an organization open to legal action, internal HR issues, non-compliance with regulatory policies or productivity loss.",
+      "x_panw_coa_bp_cis_controls": [
+        "TITLE:Deploy, Use, And Maintain Network-based URL Filters CONTROL:v6 7.6 DESCRIPTION:The organization shall maintain and enforce network based URL filters that limit a system's ability to connect to websites not approved by the organization. The organization shall subscribe to URL categorization services to ensure that they are up-to-date with the most recent website category definitions available. Uncategorized sites shall be blocked by default. This filtering shall be enforced for each of the organization's systems, whether they are physically at an organization's facilities or not.;TITLE:Maintain and Enforce Network-Based URL Filters CONTROL:v7 7.4 DESCRIPTION:Enforce network-based URL filters that limit a system's ability to connect to websites not approved by the organization. This filtering shall be enforced for each of the organization's systems, whether they are physically at an organization's facilities or not.;TITLE:Subscribe to URL-Categorization service CONTROL:v7 7.5 DESCRIPTION:Subscribe to URL categorization services to ensure that they are up-to-date with the most recent website category definitions available. Uncategorized sites shall be blocked by default.;"
+      ],
+      "x_panw_coa_bp_references": [
+        "\u201cPAN-OS Administrator's Guide 9.0 (English) - Security Profiles\u201d - https://docs.paloaltonetworks.com/pan-os/9-0/pan-os-admin/policy/security-profiles.html:\u201cPAN-OS Administrator's Guide 9.0 (English) - URL Filtering\u201d - https://docs.paloaltonetworks.com/pan-os/9-0/pan-os-admin/url-filtering.html:\u201cPAN-OS Admin Guide 9.0 (English) - URL Filtering Best Practices': https://docs.paloaltonetworks.com/pan-os/9-0/pan-os-admin/url-filtering/url-filtering-best-practices.html"
+      ]
+    },
+    {
+      "type": "course-of-action",
+      "id": "course-of-action--39928312-81bb-4445-a269-9f3d0bb88d5c",
+      "name": "Ensure that the User-ID service account does not have interactive logon rights",
+      "created": "2020-06-23T19:50:31.722Z",
+      "modified": "2020-09-04T13:59:35.882Z",
+      "description": "Restrict the User-ID service account from interactively logging on to systems in the Active Directory domain."
+    },
+    {
+      "type": "course-of-action",
+      "id": "course-of-action--3de85a76-a879-43e6-80ba-38e09e7e2b0c",
+      "name": "Ensure a WildFire Analysis profile is enabled for all security policies",
+      "created": "2020-06-23T19:50:31.722Z",
+      "modified": "2020-09-04T13:59:35.882Z",
+      "description": "Ensure that all files traversing the firewall are inspected by WildFire by setting a Wildfire file blocking profile on all security policies."
+    },
+    {
+      "type": "course-of-action",
+      "id": "course-of-action--3f6f590f-2752-40d2-8cfa-1e833435bbf6",
+      "name": "Deploy XSOAR - Block Account Generic",
+      "created": "2020-06-23T19:50:31.722Z",
+      "modified": "2020-06-26T13:02:55.804Z",
+      "x_panw_coa_u42_id": "x.20",
+      "x_panw_coa_u42_title": "Deploy XSOAR - Block Account Generic"
+    },
+    {
+      "type": "course-of-action",
+      "id": "course-of-action--553711d6-06e4-49e2-a1ad-929d9cce8e39",
+      "name": "Ensure that 'Include/Exclude Networks' is used if User-ID is enabled",
+      "created": "2020-06-23T19:50:31.722Z",
+      "modified": "2020-09-04T13:59:35.882Z",
+      "description": "If User-ID is configured, use the Include/Exclude Networks section to limit the User-ID scope to operate only on trusted networks. There is rarely a legitimate need to allow WMI probing or other User identification on an untrusted network."
+    },
+    {
+      "type": "course-of-action",
+      "id": "course-of-action--5839cd6c-7897-43c4-82f3-5c03096a51c4",
+      "name": "Ensure passive DNS monitoring is set to enabled on all anti-spyware profiles in use",
+      "created": "2020-06-23T19:50:31.722Z",
+      "modified": "2020-06-26T13:02:55.804Z",
+      "description": "Enable passive DNS monitoring within all anti-spyware profiles in use.",
+      "x_panw_coa_bp_section_number": "6",
+      "x_panw_coa_bp_recommendation_number": "6.5",
+      "x_panw_coa_bp_title": "Ensure passive DNS monitoring is set to enabled on all anti-spyware profiles in use",
+      "x_panw_coa_bp_status": "published",
+      "x_panw_coa_bp_scoring_status": "full",
+      "x_panw_coa_bp_description": "Enable passive DNS monitoring within all anti-spyware profiles in use.",
+      "x_panw_coa_bp_rationale_statement": "Enabling passive DNS monitoring improves PAN\u2019s threat prevention and threat intelligence capabilities. This is performed without source information delivered to PAN to ensure sensitive DNS information of the organization is not compromised.",
+      "x_panw_coa_bp_remediation_procedure": "Navigate to `Device > Setup > Telemetry`. Set `Passive DNS Monitoring` to enabled",
+      "x_panw_coa_bp_audit_procedure": "Navigate to `Device > Setup > Telemetry`. Ensure that `Passive DNS Monitoring` is enabled",
+      "x_panw_coa_bp_cis_controls": [
+        "TITLE:Enabled DNS Query Logging CONTROL:v6 8.6 DESCRIPTION:Enable domain name system (DNS) query logging to detect hostname lookup for known malicious C2 domains.;TITLE:Deploy Network-based Anti-malware Tools CONTROL:v6 8.5 DESCRIPTION:Use network-based anti-malware tools to identify executables in all network traffic and use techniques other than signature-based detection to identify and filter out malicious content before it arrives at the endpoint.;TITLE:Enable DNS Query Logging CONTROL:v7 8.7 DESCRIPTION:Enable Domain Name System (DNS) query logging to detect hostname lookups for known malicious domains.;TITLE:Malware Defenses CONTROL:v7 8 DESCRIPTION:Malware Defenses;"
+      ],
+      "x_panw_coa_bp_references": [
+        "\u201cWhat Information is Submitted to the Palo Alto Networks when Enabling the Passive DNS Feature\u201d - https://live.paloaltonetworks.com/docs/DOC-7256:'PAN-OS Administrator's Guide 9.0 (English) - DNS Security' - https://docs.paloaltonetworks.com/pan-os/9-0/pan-os-admin/threat-prevention/dns-security.html#"
+      ]
+    },
+    {
+      "type": "course-of-action",
+      "id": "course-of-action--58d4b1e7-a7d1-45d8-855b-b5e13ace3dba",
+      "name": "XDR monitors for behavioral events via BIOCs along a causality chain to identify discovery behaviors",
+      "created": "2020-06-23T19:50:31.722Z",
+      "modified": "2020-06-26T13:02:55.805Z",
+      "x_panw_coa_u42_id": "x.27",
+      "x_panw_coa_u42_title": "XDR monitors for behavioral events via BIOCs along a causality chain to identify discovery behaviors"
+    },
+    {
+      "type": "course-of-action",
+      "id": "course-of-action--5e951942-0565-46f4-b09e-80426812b6b5",
+      "name": "Ensure that access to every URL is logged",
+      "created": "2020-06-23T19:50:31.722Z",
+      "modified": "2020-06-26T13:02:55.804Z",
+      "description": "URL filters should not specify any categories as `Allow Categories`.",
+      "x_panw_coa_bp_section_number": "6",
+      "x_panw_coa_bp_recommendation_number": "6.11",
+      "x_panw_coa_bp_title": "Ensure that access to every URL is logged",
+      "x_panw_coa_bp_status": "published",
+      "x_panw_coa_bp_scoring_status": "full",
+      "x_panw_coa_bp_description": "URL filters should not specify any categories as `Allow Categories`.",
+      "x_panw_coa_bp_rationale_statement": "Setting a URL filter to have one or more entries under Allow Categories will cause no log entries to be produced in the URL Filtering logs for access to URLs in those categories. For forensic, legal, and HR purposes, it is advisable to log access to every URL. In many cases failure to log all URL access is a violation of corporate policy, legal requirements or regulatory requirements.",
+      "x_panw_coa_bp_remediation_procedure": "Navigate to `Objects > Security Profiles > URL Filtering`.\n\nFor each permitted category, set the `Site Access` actioun to `alert`",
+      "x_panw_coa_bp_audit_procedure": "Navigate to `Objects > Security Profiles > URL Filtering`.\n\nVerify that the for all allowed categories, that the `Site Access` action is set to `alert`",
+      "x_panw_coa_bp_impact_statement": "Not having an effective URL Filtering configuration can leave an organization open to legal action, internal HR issues, non-compliance with regulatory policies or productivity loss.",
+      "x_panw_coa_bp_cis_controls": [
+        "TITLE:Log All URL Requests From Systems CONTROL:v6 7.4 DESCRIPTION:Log all URL requests from each of the organization's systems, whether onsite or a mobile device, in order to identify potentially malicious activity and assist incident handlers with identifying potentially compromised systems.;TITLE:Log all URL requests CONTROL:v7 7.6 DESCRIPTION:Log all URL requests from each of the organization's systems, whether onsite or a mobile device, in order to identify potentially malicious activity and assist incident handlers with identifying potentially compromised systems.;TITLE:Ensure Network Boundary Devices Log Verbosely CONTROL:v6 6.5 DESCRIPTION:Configure network boundary devices, including firewalls, network-based IPS, and inbound and outbound proxies, to verbosely log all traffic (both allowed and blocked) arriving at the device.;TITLE:Activate audit logging CONTROL:v7 6.2 DESCRIPTION:Ensure that local logging has been enabled on all systems and networking devices.;TITLE:Enable Detailed Logging CONTROL:v7 6.3 DESCRIPTION:Enable system logging to include detailed information such as an event source, date, user, timestamp, source addresses, destination addresses, and other useful elements.;"
+      ],
+      "x_panw_coa_bp_references": [
+        "\u201cPAN-OS Administrator's Guide 9.0 (English) - URL Filtering Best Practices': https://docs.paloaltonetworks.com/pan-os/9-0/pan-os-admin/url-filtering/url-filtering-best-practices.html:\u201cPAN-OS Administrator's Guide 9.0 (English) - URL Filtering\u201d - https://docs.paloaltonetworks.com/pan-os/9-0/pan-os-admin/url-filtering.html"
+      ]
+    },
+    {
+      "type": "course-of-action",
+      "id": "course-of-action--67289170-1bd4-4944-be31-d680954141f5",
+      "name": "Ensure 'WildFire Update Schedule' is set to download and install updates every minute",
+      "created": "2020-06-23T19:50:31.722Z",
+      "modified": "2020-09-04T13:59:35.882Z",
+      "description": "Set the WildFire update schedule to download and install updates every minute."
+    },
+    {
+      "type": "course-of-action",
+      "id": "course-of-action--68c5676d-ab2f-4e68-a57c-28880a9f5709",
+      "name": "Ensure that the User-ID Agent has minimal permissions if User-ID is enabled",
+      "created": "2020-06-23T19:50:31.722Z",
+      "modified": "2020-09-04T13:59:35.882Z",
+      "description": "If the integrated (on-device) User-ID Agent is utilized, the Active Directory account for the agent should only be a member of the Event Log Readers group, Distributed COM Users group, and Domain Users group. If the Windows User-ID agent is utilized, the Active Directory account for the agent should only be a member of the Event Log Readers group, Server Operators group, and Domain Users group."
+    },
+    {
+      "type": "course-of-action",
+      "id": "course-of-action--6e7fd69d-8042-45eb-a459-16ef3160080d",
+      "name": "Deploy XSOAR Playbook - Palo Alto Networks Endpoint  Malware Investigation",
+      "created": "2020-06-23T19:50:31.722Z",
+      "modified": "2020-09-04T13:59:35.882Z"
+    },
+    {
+      "type": "course-of-action",
+      "id": "course-of-action--7bbb332f-22cf-48f2-a4a1-5bc9d2b034ca",
+      "name": "Ensure that antivirus profiles are set to block on all decoders except 'imap' and 'pop3'",
+      "created": "2020-06-23T19:50:31.722Z",
+      "modified": "2020-09-04T13:59:35.882Z",
+      "description": "Configure antivirus profiles to a value of 'block' for all decoders except imap and pop3 under both Action and WildFire Action. If required by the organization's email implementation, configure imap and pop3 decoders to 'alert' under both Action and WildFire Action."
+    },
+    {
+      "type": "course-of-action",
+      "id": "course-of-action--9352128e-2dbe-4621-8800-9e7cc17336e3",
+      "name": "Enable Anti-Exploit",
+      "created": "2020-06-23T19:50:31.722Z",
+      "modified": "2020-09-04T13:59:35.882Z"
+    },
+    {
+      "type": "course-of-action",
+      "id": "course-of-action--95432623-8819-4f74-a8f9-b10b9c4118c3",
+      "name": "Ensure forwarding is enabled for all applications and file types in WildFire file blocking profiles",
+      "created": "2020-06-23T19:50:31.722Z",
+      "modified": "2020-09-04T13:59:35.882Z",
+      "description": "Set Applications and File Types fields to any in WildFire file blocking profiles. With a WildFire license, seven file types are supported, while only PE (Portable Executable) files are supported without a license.\nFor the 'web browsing' application, the action 'continue' can be selected. This still forwards the file to the Wildfire service, but also presents the end user with a confirmation message before they receive the file. Selecting 'continue' for any other application will block the file (because the end user will not see the prompt).\nIf there is a 'continue' rule, there should still be an 'any traffic / any application / forward' rule after that in the list."
+    },
+    {
+      "type": "course-of-action",
+      "id": "course-of-action--9f39b252-d548-4657-9426-28b6c25d53ed",
+      "name": "Configure Behavioral Threat Protection under the Malware Security Profile",
+      "created": "2020-06-23T19:50:31.722Z",
+      "modified": "2020-09-04T13:59:35.882Z"
+    },
+    {
+      "type": "course-of-action",
+      "id": "course-of-action--a1294d38-0f0d-4973-a949-f38cccbc7469",
+      "name": "Ensure an anti-spyware profile is configured to block on all spyware severity levels, categories, and threats",
+      "created": "2020-06-23T19:50:31.722Z",
+      "modified": "2020-06-26T13:02:55.804Z",
+      "description": "If a single rule exists within the anti-spyware profile, configure it to block on any spyware severity level, any category, and any threat. If multiple rules exist within the anti-spyware profile, ensure all spyware categories, threats, and severity levels are set to be blocked. Additional rules may exist for packet capture or exclusion purposes.",
+      "x_panw_coa_bp_section_number": "6",
+      "x_panw_coa_bp_recommendation_number": "6.3",
+      "x_panw_coa_bp_title": "Ensure an anti-spyware profile is configured to block on all spyware severity levels, categories, and threats",
+      "x_panw_coa_bp_status": "published",
+      "x_panw_coa_bp_scoring_status": "full",
+      "x_panw_coa_bp_description": "If a single rule exists within the anti-spyware profile, configure it to block on any spyware severity level, any category, and any threat. If multiple rules exist within the anti-spyware profile, ensure all spyware categories, threats, and severity levels are set to be blocked. Additional rules may exist for packet capture or exclusion purposes.",
+      "x_panw_coa_bp_rationale_statement": "Requiring a blocking policy for all spyware threats, categories, and severities reduces the risk of spyware traffic from successfully exiting the organization. Without an anti-spyware profile assigned to any potential hostile zone, the first protection in the path against malware is removed, leaving in most cases only the desktop endpoint protection application to detect and remediate any potential spyware.",
+      "x_panw_coa_bp_remediation_procedure": "Navigate to `Objects > Security Profiles > Anti-Spyware`.\n\nSet a rule within the anti-spyware profile that is configured to perform the `Block Action` on `any Severity` level, `any Category`, and `any Threat Name`.",
+      "x_panw_coa_bp_audit_procedure": "Navigate to `Objects > Security Profiles > Anti-Spyware`.\n\nVerify a rule exists within the anti-spyware profile that is configured to perform the `Block Action` on `any Severity` level, `any Category`, and `any Threat Name`.",
+      "x_panw_coa_bp_cis_controls": [
+        "TITLE:Deploy Network-based Anti-malware Tools CONTROL:v6 8.5 DESCRIPTION:Use network-based anti-malware tools to identify executables in all network traffic and use techniques other than signature-based detection to identify and filter out malicious content before it arrives at the endpoint.;TITLE:Malware Defenses CONTROL:v7 8 DESCRIPTION:Malware Defenses;"
+      ],
+      "x_panw_coa_bp_references": [
+        "\u201cPAN-OS Administrator's Guide 9.0 (English) - Security Profiles': https://docs.paloaltonetworks.com/pan-os/9-0/pan-os-admin/policy/security-policy.html"
+      ]
+    },
+    {
+      "type": "course-of-action",
+      "id": "course-of-action--ae18aab6-0a08-4c09-9a97-6c6ef58061a7",
+      "name": "Enable DNS Security in Anti-Spyware profile",
+      "created": "2020-06-23T19:50:31.722Z",
+      "modified": "2020-06-26T13:02:55.804Z",
+      "x_panw_coa_u42_id": "x.1",
+      "x_panw_coa_u42_title": "Enable DNS Security in Anti-Spyware profile"
+    },
+    {
+      "type": "course-of-action",
+      "id": "course-of-action--b07fe965-d582-4581-aa2f-9676705f5560",
+      "name": "Ensure remote access capabilities for the User-ID service account are forbidden.",
+      "created": "2020-06-23T19:50:31.722Z",
+      "modified": "2020-09-04T13:59:35.882Z",
+      "description": "Restrict the User-ID service account\u2019s ability to gain remote access into the organization. This capability could be made available through a variety of technologies, such as VPN, Citrix GoToMyPC, or TeamViewer. Remote services that integrate authentication with the organization\u2019s Active Directory may unintentionally allow the User-ID service account to gain remote access."
+    },
+    {
+      "type": "course-of-action",
+      "id": "course-of-action--b62423f4-1849-4d9f-88c0-7160a8bed5c2",
+      "name": "Ensure that User-ID is only enabled for internal trusted interfaces",
+      "created": "2020-06-23T19:50:31.722Z",
+      "modified": "2020-09-04T13:59:35.882Z",
+      "description": "Only enable the User-ID option for interfaces that are both internal and trusted. There is rarely a legitimate need to allow WMI probing (or any user-id identification) on an untrusted interface.\nThe exception to this is identification of remote-access VPN users, who are identified as they connect."
+    },
+    {
+      "type": "course-of-action",
+      "id": "course-of-action--be1d0eb5-a628-4d91-9096-9158e68816cd",
+      "name": "Ensure all WildFire session information settings are enabled",
+      "created": "2020-06-23T19:50:31.722Z",
+      "modified": "2020-09-04T13:59:35.882Z",
+      "description": "Enable all options under Session Information Settings for WildFire."
+    },
+    {
+      "type": "course-of-action",
+      "id": "course-of-action--c45b79a8-2d29-4d8c-95ab-acea7e478e50",
+      "name": "Ensure DNS sinkholing is configured on all anti-spyware profiles in use",
+      "created": "2020-06-23T19:50:31.722Z",
+      "modified": "2020-06-26T13:02:55.804Z",
+      "description": "Configure DNS sinkholing for all anti-spyware profiles in use. All internal requests to the selected sinkhole IP address must traverse the firewall. Any device attempting to communicate with the DNS sinkhole IP address should be considered infected.",
+      "x_panw_coa_bp_section_number": "6",
+      "x_panw_coa_bp_recommendation_number": "6.4",
+      "x_panw_coa_bp_title": "Ensure DNS sinkholing is configured on all anti-spyware profiles in use",
+      "x_panw_coa_bp_status": "published",
+      "x_panw_coa_bp_scoring_status": "full",
+      "x_panw_coa_bp_description": "Configure DNS sinkholing for all anti-spyware profiles in use. All internal requests to the selected sinkhole IP address must traverse the firewall. Any device attempting to communicate with the DNS sinkhole IP address should be considered infected.",
+      "x_panw_coa_bp_rationale_statement": "DNS sinkholing helps to identify infected clients by spoofing DNS responses for malware domain queries. Without sinkholing, the DNS server itself may be seen as infected, while the truly infected device remains unidentified. In addition, sinkholing also ensures that DNS queries that might be indicators of compromise do not transit the internet, where they could be potentially used to negatively impact the 'ip reputation' of the organization's internet network subnets.",
+      "x_panw_coa_bp_remediation_procedure": "Navigate to `Objects > Security Profiles > Anti-Spyware`.\n\nWithin the each anti-spyware profile, under its `DNS Signatures` tab, set the `DNS Signature Source` List:\n`Palo Alto Networks Content DNS Signatures` should have as its `Action on DNS Queries` set to `sinkhole`\nIf licensed, the `Palo Alto Networks Cloud DNS Security` should have as its `Action on DNS Queries` set to `sinkhole`\n\nVerify the '`Sinkhole IPv4`' IP address is correct. This should be set to `sinkhole.paloaltnetworks.com`, or if an internal host is set then that host IP or FQDN should be in that field\n\nVerify the '`Sinkhole IPv6`' IP address is correct. This should be set to `IPv6 Loopback IP (::1)`, or if an internal DNS Sinkhole host is set then that host IP or FQDN should be in that field\n\nNavigate to `Policies > Security Policies`\nFor each outbound security Policy, in the `Actions` tab, set the `Anti-Spyware` setting to include the Spyware Profile created, either explicitly or as a `Group Profile`",
+      "x_panw_coa_bp_audit_procedure": "Navigate to `Objects > Security Profiles > Anti-Spyware`.\n\nWithin the each anti-spyware profile, under its `DNS Signatures` tab, verify the `DNS Signature Source` List:\n`Palo Alto Networks Content DNS Signatures` should have as its `Action on DNS Queries` set to `sinkhole`\nIf licensed, the `Palo Alto Networks Cloud DNS Security` should have as its `Action on DNS Queries` set to `sinkhole`\n\nVerify the '`Sinkhole IPv4`' IP address is correct. This should be set to `sinkhole.paloaltnetworks.com`, or if an internal host is set then that host IP or FQDN should be in that field\n\nVerify the '`Sinkhole IPv6`' IP address is correct. This should be set to `IPv6 Loopback IP (::1)`, or if an internal DNS Sinkhole host is set then that host IP or FQDN should be in that field\n\nNavigate to `Policies > Security Policies`\nFor each outbound security Policy, in the `Actions` tab, verify that the `Anti-Spyware` setting includes the Spyware Profile created, either explicitly or as a `Group Profile`\n\nTo verify correct operation of DNS Security, from an internal station make a DNS request to each of the following hosts:\n- `test-malware.testpanw.com` to test `Malware` DNS Signature checks\n- `test-c2.testpanw.com` to test `C2` DNS Signature checks\n- `test-dga.testpanw.com` to test `DGA` (Domain Generation Algorithm) DNS attack checks \n- `test-dnstun.testpanw.com` to test `DNS Tunneling` attack checks\nEach of these DNS requests should be redirected to the configured DNS Sinkhole server IP address\nEach of these DNS requests should appear in the firewall logs, under `Monitor > Logs > Threat`. If configured, each of these requests should generate an alert in the organization's SIEM.",
+      "x_panw_coa_bp_cis_controls": [
+        "TITLE:Enabled DNS Query Logging CONTROL:v6 8.6 DESCRIPTION:Enable domain name system (DNS) query logging to detect hostname lookup for known malicious C2 domains.;TITLE:Deploy Network-based Anti-malware Tools CONTROL:v6 8.5 DESCRIPTION:Use network-based anti-malware tools to identify executables in all network traffic and use techniques other than signature-based detection to identify and filter out malicious content before it arrives at the endpoint.;TITLE:Enable DNS Query Logging CONTROL:v7 8.7 DESCRIPTION:Enable Domain Name System (DNS) query logging to detect hostname lookups for known malicious domains.;TITLE:Malware Defenses CONTROL:v7 8 DESCRIPTION:Malware Defenses;"
+      ],
+      "x_panw_coa_bp_references": [
+        "\u201cHow to Deal with Conficker using DNS Sinkhole\u201d - https://live.paloaltonetworks.com/docs/DOC-6628:\u201cThreat Prevention Deployment Tech Note\u201d - https://live.paloaltonetworks.com/docs/DOC-3094:'PANOS Administrator's Guide 9.0 (English) - Security Profiles': https://docs.paloaltonetworks.com/pan-os/9-0/pan-os-admin/policy/security-profiles.html:'PAN-OS Administrator's Guide 9.0 (English) - DNS Security' - https://docs.paloaltonetworks.com/pan-os/9-0/pan-os-admin/threat-prevention/dns-security.html#"
+      ]
+    },
+    {
+      "type": "course-of-action",
+      "id": "course-of-action--c9efabbf-c21b-4213-a192-6a8e3b3a0905",
+      "name": "Enable Anti-Malware Protection",
+      "created": "2020-06-23T19:50:31.722Z",
+      "modified": "2020-09-04T13:59:35.882Z"
+    },
+    {
+      "type": "course-of-action",
+      "id": "course-of-action--d84f79f8-219c-43cb-a918-ab7dd235413a",
+      "name": "Ensure a secure anti-spyware profile is applied to all security policies permitting traffic to the Internet",
+      "created": "2020-06-23T19:50:31.722Z",
+      "modified": "2020-06-26T13:02:55.804Z",
+      "description": "Create one or more anti-spyware profiles and collectively apply them to all security policies permitting traffic to the Internet. The anti-spyware profiles may be applied to the security policies directly or through a profile group.",
+      "x_panw_coa_bp_section_number": "6",
+      "x_panw_coa_bp_recommendation_number": "6.6",
+      "x_panw_coa_bp_title": "Ensure a secure anti-spyware profile is applied to all security policies permitting traffic to the Internet",
+      "x_panw_coa_bp_status": "published",
+      "x_panw_coa_bp_scoring_status": "full",
+      "x_panw_coa_bp_description": "Create one or more anti-spyware profiles and collectively apply them to all security policies permitting traffic to the Internet. The anti-spyware profiles may be applied to the security policies directly or through a profile group.",
+      "x_panw_coa_bp_rationale_statement": "By applying secure anti-spyware profiles to all applicable traffic, the threat of sensitive data exfiltration or command-and-control traffic successfully passing through the firewall is greatly reduced. Anti-spyware profiles are not restricted to particular protocols like antivirus profiles, so anti-spyware profiles should be applied to all security policies permitting traffic to the Internet. Assigning an anti-spyware profile to each trusted zone will quickly and easily identify trusted hosts that have been infected with spyware, by identifying the infection from their outbound network traffic. In addition, that outbound network traffic will be blocked by the profile.",
+      "x_panw_coa_bp_remediation_procedure": "Navigate to `Objects > Security Profiles > Anti-Spyware`.\n\nAlso navigate to `Policies > Security`.\n\nSet one or more anti-spyware profiles to collectively apply to all inside to outside traffic from any address to any address and any application and service.",
+      "x_panw_coa_bp_audit_procedure": "Navigate to `Objects > Security Profiles > Anti-Spyware`.\n\nAlso navigate to `Policies > Security`.\n\nVerify there are one or more anti-spyware profiles that collectively apply to all inside to outside traffic from any address to any address and any application and service.",
+      "x_panw_coa_bp_cis_controls": [
+        "TITLE:Deploy Network-based Anti-malware Tools CONTROL:v6 8.5 DESCRIPTION:Use network-based anti-malware tools to identify executables in all network traffic and use techniques other than signature-based detection to identify and filter out malicious content before it arrives at the endpoint.;TITLE:Malware Defenses CONTROL:v7 8 DESCRIPTION:Malware Defenses;"
+      ],
+      "x_panw_coa_bp_references": [
+        "\u201cThreat Prevention Deployment Tech Note\u201d - https://live.paloaltonetworks.com/docs/DOC-3094:\u201cPAN-OS Administrator's Guide 9.0 (English) - Security Profiles\u201d - https://docs.paloaltonetworks.com/pan-os/9-0/pan-os-admin/policy/security-profiles.html"
+      ]
+    },
+    {
+      "type": "course-of-action",
+      "id": "course-of-action--dff22e97-a89e-4ff7-b615-0165258bf8d5",
+      "name": "Ensure all HTTP Header Logging options are enabled",
+      "created": "2020-06-23T19:50:31.722Z",
+      "modified": "2020-06-26T13:02:55.804Z",
+      "description": "Enable all options (User-Agent, Referer, and X-Forwarded-For) for HTTP header logging.",
+      "x_panw_coa_bp_section_number": "6",
+      "x_panw_coa_bp_recommendation_number": "6.12",
+      "x_panw_coa_bp_title": "Ensure all HTTP Header Logging options are enabled",
+      "x_panw_coa_bp_status": "published",
+      "x_panw_coa_bp_scoring_status": "full",
+      "x_panw_coa_bp_description": "Enable all options (User-Agent, Referer, and X-Forwarded-For) for HTTP header logging.",
+      "x_panw_coa_bp_rationale_statement": "Logging HTTP header information provides additional information in the URL logs, which may be useful during forensic investigations. The User-Agent option logs which browser was used during the web session, which could provide insight to the vector used for malware retrieval. The Referer option logs the source webpage responsible for referring the user to the logged webpage. The X-Forwarded-For option is useful for preserving the user\u2019s source IP address, such as if a user traverses a proxy server prior to the firewall. Un-checking the Log container page only box produces substantially more information about web activity, with the expense of producing far more entries in the URL logs. If this option remains checked, a URL filter log entry showing details of a malicious file download may not exist.",
+      "x_panw_coa_bp_remediation_procedure": "Navigate to `Objects > Security Profiles > URL Filtering > URL Filtering Profile > URL Filtering Settings`.\n\nSet the following four settings:\n\n a. `Log container page only` box is un-checked\n\n b. Check the `User-Agent` box\n\n c. Check the `Referer` box\n\n d. Check the `X-Forwarded-For` box",
+      "x_panw_coa_bp_audit_procedure": "Navigate to `Objects > Security Profiles > URL Filtering > URL Filtering Profile > URL Filtering Settings`.\n\nVerify these four settings:\n\n a. `Log container page only` box is un-checked\n\n b. `User-Agent` box is checked\n\n c. `Referer` box is checked\n\n d. `X-Forwarded-For` box is checked",
+      "x_panw_coa_bp_impact_statement": "Not having an effective URL Filtering configuration can leave an organization open to legal action, internal HR issues, non-compliance with regulatory policies or productivity loss.",
+      "x_panw_coa_bp_cis_controls": [
+        "TITLE:Log All URL Requests From Systems CONTROL:v6 7.4 DESCRIPTION:Log all URL requests from each of the organization's systems, whether onsite or a mobile device, in order to identify potentially malicious activity and assist incident handlers with identifying potentially compromised systems.;TITLE:Ensure Network Boundary Devices Log Verbosely CONTROL:v6 6.5 DESCRIPTION:Configure network boundary devices, including firewalls, network-based IPS, and inbound and outbound proxies, to verbosely log all traffic (both allowed and blocked) arriving at the device.;TITLE:Log all URL requests CONTROL:v7 7.6 DESCRIPTION:Log all URL requests from each of the organization's systems, whether onsite or a mobile device, in order to identify potentially malicious activity and assist incident handlers with identifying potentially compromised systems.;TITLE:Activate audit logging CONTROL:v7 6.2 DESCRIPTION:Ensure that local logging has been enabled on all systems and networking devices.;TITLE:Enable Detailed Logging CONTROL:v7 6.3 DESCRIPTION:Enable system logging to include detailed information such as an event source, date, user, timestamp, source addresses, destination addresses, and other useful elements.;"
+      ],
+      "x_panw_coa_bp_references": [
+        "\u201cPAN-OS Administrator's Guide 9.0 (English) - URL Filtering Best Practices': https://docs.paloaltonetworks.com/pan-os/9-0/pan-os-admin/url-filtering/url-filtering-best-practices.html"
+      ]
+    },
+    {
+      "type": "course-of-action",
+      "id": "course-of-action--e15f23e0-f6ae-4440-865f-63ac76b93bf5",
+      "name": "Ensure a secure antivirus profile is applied to all relevant security policies",
+      "created": "2020-06-23T19:50:31.722Z",
+      "modified": "2020-09-04T13:59:35.882Z",
+      "description": "Create a secure antivirus profile and apply it to all security policies that could pass HTTP, SMTP, IMAP, POP3, FTP, or SMB traffic. The antivirus profile may be applied to the security policies directly or through a profile group."
+    },
+    {
+      "type": "course-of-action",
+      "id": "course-of-action--ee3e1dca-24ea-48a8-825a-e2d2c4b916d9",
+      "name": "Deploy XSOAR Playbook - Ransomware Manual for incident response.",
+      "created": "2020-06-23T19:50:31.722Z",
+      "modified": "2020-09-04T13:59:35.883Z"
+    },
+    {
+      "type": "course-of-action",
+      "id": "course-of-action--f1a1d494-3463-4067-abc7-a731f7dfb9ff",
+      "name": "Ensure that WildFire file size upload limits are maximized",
+      "created": "2020-06-23T19:50:31.722Z",
+      "modified": "2020-09-04T13:59:35.882Z",
+      "description": "Increase WildFire file size limits to the maximum file size supported by the environment. An organization with bandwidth constraints or heavy usage of unique files under a supported file type may require lower settings.\nThe recommendations account for the CPU load on smaller platforms. If an organization consistently has CPU to spare, it's recommended to set some or all of these values to the maximum."
+    },
+    {
+      "type": "course-of-action",
+      "id": "course-of-action--f4a8da12-c6f0-4a33-ae42-590c5602be99",
+      "name": "Ensure secure URL filtering is enabled for all security policies allowing traffic to the Internet",
+      "created": "2020-06-23T19:50:31.722Z",
+      "modified": "2020-06-26T13:02:55.804Z",
+      "description": "Apply a secure URL filtering profile to all security policies permitting traffic to the Internet. The URL Filtering profile may be applied to the security policies directly or through a profile group.",
+      "x_panw_coa_bp_section_number": "6",
+      "x_panw_coa_bp_recommendation_number": "6.13",
+      "x_panw_coa_bp_title": "Ensure secure URL filtering is enabled for all security policies allowing traffic to the Internet",
+      "x_panw_coa_bp_status": "published",
+      "x_panw_coa_bp_scoring_status": "full",
+      "x_panw_coa_bp_description": "Apply a secure URL filtering profile to all security policies permitting traffic to the Internet. The URL Filtering profile may be applied to the security policies directly or through a profile group.",
+      "x_panw_coa_bp_rationale_statement": "URL Filtering policies dramatically reduce the risk of users visiting malicious or inappropriate websites. In addition, a complete URL history log for all devices is invaluable when performing forensic analysis in the event of a security incident. Applying complete and approved URL filtering to outbound traffic is a frequent requirement in corporate policies, legal requirements or regulatory requirements.",
+      "x_panw_coa_bp_remediation_procedure": "To Set URL Filtering:\nFor each Security Profile that transits traffic to the internet, navigate to `Policies > Security > Security Profiles > [Policy Name] > Actions`.\n\nSet a URL Filtering profile that complies with the policies of the organization is applied to all Security Policies that transit traffic to the public internet.",
+      "x_panw_coa_bp_audit_procedure": "To Verify URL Filtering:\n\nFor each Security Policy that transits traffic to the public internet, navigate to `Policies > Security > Security Profiles > [Policy Name] > Actions`.\n\nVerify there is a URL Filtering profile that complies with the policies of the organization is applied to all Security Policies that transit traffic to the public internet.",
+      "x_panw_coa_bp_impact_statement": "Not having an effective URL Filtering configuration can leave an organization open to legal action, internal HR issues, non-compliance with regulatory policies or productivity loss.",
+      "x_panw_coa_bp_cis_controls": [
+        "TITLE:Deploy, Use, And Maintain Network-based URL Filters CONTROL:v6 7.6 DESCRIPTION:The organization shall maintain and enforce network based URL filters that limit a system's ability to connect to websites not approved by the organization. The organization shall subscribe to URL categorization services to ensure that they are up-to-date with the most recent website category definitions available. Uncategorized sites shall be blocked by default. This filtering shall be enforced for each of the organization's systems, whether they are physically at an organization's facilities or not.;TITLE:Maintain and Enforce Network-Based URL Filters CONTROL:v7 7.4 DESCRIPTION:Enforce network-based URL filters that limit a system's ability to connect to websites not approved by the organization. This filtering shall be enforced for each of the organization's systems, whether they are physically at an organization's facilities or not.;TITLE:Subscribe to URL-Categorization service CONTROL:v7 7.5 DESCRIPTION:Subscribe to URL categorization services to ensure that they are up-to-date with the most recent website category definitions available. Uncategorized sites shall be blocked by default.;"
+      ],
+      "x_panw_coa_bp_references": [
+        "\u201cPAN-OS Administrator's Guide 9.0 (English) - URL Filtering Best Practices': https://docs.paloaltonetworks.com/pan-os/9-0/pan-os-admin/url-filtering/url-filtering-best-practices.html"
+      ]
+    },
+    {
+      "type": "course-of-action",
+      "id": "course-of-action--fafab9a4-1478-499e-9088-2043c42720d1",
+      "name": "Ensure forwarding of decrypted content to WildFire is enabled",
+      "created": "2020-06-23T19:50:31.722Z",
+      "modified": "2020-09-04T13:59:35.882Z",
+      "description": "Allow the firewall to forward decrypted content to WildFire. Note that SSL Forward-Proxy must also be enabled and configured for this setting to take effect on inside-to-outside traffic flows."
+    },
+    {
+      "type": "identity",
+      "id": "identity--2fc5e415-3422-4a97-bc90-6585d29477fd",
+      "identity_class": "unknown",
+      "name": "Identity (Campaign 1 - Hive Leaks)",
+      "created": "2021-08-23T17:05:56.379Z",
+      "modified": "2021-08-24T12:54:43.908Z",
+      "sectors": [
+        "aerospace",
+        "communications",
+        "construction",
+        "education",
+        "financial-services",
+        "hospitality-leisure",
+        "non-profit",
+        "retail",
+        "technology",
+        "transportation"
+      ],
+      "x_cta_country": [
+        "GB",
+        "IN",
+        "PE",
+        "US"
+      ]
+    },
+    {
+      "type": "indicator",
+      "id": "indicator--13b409fb-4a69-4a15-acd8-cb5d0d414b5f",
+      "created": "2021-08-23T17:36:56.721Z",
+      "modified": "2021-08-24T12:54:43.908Z",
+      "name": "1e21c8e27a97de1796ca47a9613477cf7aec335a783469c5ca3a09d4f07db0ff",
+      "pattern": "[file:hashes.'SHA-256' = '1e21c8e27a97de1796ca47a9613477cf7aec335a783469c5ca3a09d4f07db0ff']",
+      "valid_from": "2021-08-23T17:36:56.721Z",
+      "labels": [
+        "malicious-activity"
+      ]
+    },
+    {
+      "type": "indicator",
+      "id": "indicator--57f722bc-d7ab-4537-a846-e79bf33a039c",
+      "created": "2021-08-23T17:33:20.079Z",
+      "modified": "2021-08-24T12:54:43.908Z",
+      "name": "Windows\\SysWOW64\\cmd.exe cmd /c shadow.bat",
+      "pattern": "[process:command_line = 'Windows\\\\SysWOW64\\\\cmd.exe cmd /c shadow.bat']",
+      "valid_from": "2021-08-23T17:33:20.079Z",
+      "labels": [
+        "malicious-activity"
+      ]
+    },
+    {
+      "type": "indicator",
+      "id": "indicator--6385c79f-52d1-4b2c-b76f-e50f55fb3dfe",
+      "created": "2020-08-11T15:54:27.241Z",
+      "modified": "2020-09-04T13:59:35.882Z",
+      "name": "vssadmin.exe Delete Shadows /all /quiet",
+      "pattern": "[process:command_line = 'vssadmin.exe Delete Shadows /all /quiet']",
+      "valid_from": "2020-08-11T15:54:27.241Z",
+      "labels": [
+        "malicious-activity"
+      ]
+    },
+    {
+      "type": "indicator",
+      "id": "indicator--7eac737f-b0c9-4045-bc0e-53e5b845d08b",
+      "created": "2021-08-23T17:36:56.721Z",
+      "modified": "2021-08-24T12:54:43.908Z",
+      "name": "A0b4e3d7e4cd20d25ad2f92be954b95eea44f8f1944118a3194295c5677db749",
+      "pattern": "[file:hashes.'SHA-256' = 'A0b4e3d7e4cd20d25ad2f92be954b95eea44f8f1944118a3194295c5677db749']",
+      "valid_from": "2021-08-23T17:36:56.721Z",
+      "labels": [
+        "malicious-activity"
+      ]
+    },
+    {
+      "type": "indicator",
+      "id": "indicator--85cd6ed5-0e34-4f95-b094-6c14b4a7aaff",
+      "created": "2021-08-23T17:36:56.721Z",
+      "modified": "2021-08-24T12:54:43.908Z",
+      "name": "88f7544a29a2ceb175a135d9fa221cbfd3e8c71f32dd6b09399717f85ea9afd1",
+      "pattern": "[file:hashes.'SHA-256' = '88f7544a29a2ceb175a135d9fa221cbfd3e8c71f32dd6b09399717f85ea9afd1']",
+      "valid_from": "2021-08-23T17:36:56.721Z",
+      "labels": [
+        "malicious-activity"
+      ]
+    },
+    {
+      "type": "indicator",
+      "id": "indicator--bb173a09-a910-40c3-8e18-d85b23f2fbb9",
+      "created": "2021-08-23T17:33:20.079Z",
+      "modified": "2021-08-24T12:54:43.908Z",
+      "name": "Windows\\SysWOW64\\cmd.exe cmd /c hive.bat",
+      "pattern": "[process:command_line = 'Windows\\\\SysWOW64\\\\cmd.exe cmd /c hive.bat']",
+      "valid_from": "2021-08-23T17:33:20.079Z",
+      "labels": [
+        "malicious-activity"
+      ]
+    },
+    {
+      "type": "indicator",
+      "id": "indicator--eed03800-9eb6-4e1c-be83-dbe3ba5e222b",
+      "created": "2021-08-23T17:36:56.721Z",
+      "modified": "2021-08-24T12:54:43.908Z",
+      "name": "Fdbc66ebe7af710e15946e1541e2e81ddfd62aa3b35339288a9a244fb56a74cf",
+      "pattern": "[file:hashes.'SHA-256' = 'Fdbc66ebe7af710e15946e1541e2e81ddfd62aa3b35339288a9a244fb56a74cf']",
+      "valid_from": "2021-08-23T17:36:56.721Z",
+      "labels": [
+        "malicious-activity"
+      ]
+    },
+    {
+      "type": "malware",
+      "id": "malware--dfeab308-29ad-4d69-bcc3-8d7d985f862b",
+      "name": "Hive",
+      "labels": [
+        "ransomware"
+      ],
+      "created": "2021-08-23T17:35:52.627Z",
+      "modified": "2021-08-24T12:54:43.908Z",
+      "description": "Hive is a double-extortion ransomware that began operations in June 2021 and has already shown notable disregard for its victims\u2019 welfare, attacking organizations including healthcare providers and mid-size organizations ill-equipped for managing a ransomware attack."
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--005a06c6-14bf-4118-afa0-ebcd8aebb0c9",
+      "created": "2021-07-21T14:42:08.907Z",
+      "modified": "2021-08-24T12:54:43.908Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--ba2add2c-66db-4cf4-b0aa-57101510216d",
+      "target_ref": "attack-pattern--005a06c6-14bf-4118-afa0-ebcd8aebb0c9"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--029cc316-3bf3-4c93-b96a-34ac42e87434",
+      "created": "2021-08-23T17:36:58.108Z",
+      "modified": "2021-08-24T12:54:43.909Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--13b409fb-4a69-4a15-acd8-cb5d0d414b5f",
+      "target_ref": "campaign--ba2add2c-66db-4cf4-b0aa-57101510216d"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--07adbd5d-12a8-46f2-b38b-772754668b90",
+      "created": "2020-06-23T19:50:42.481Z",
+      "modified": "2020-06-26T13:02:55.808Z",
+      "relationship_type": "mitigates",
+      "source_ref": "course-of-action--553711d6-06e4-49e2-a1ad-929d9cce8e39",
+      "target_ref": "attack-pattern--8c32eb4d-805f-4fc5-bf60-c4d476c131b5",
+      "x_panw_coa_u42_panw_product": [
+        "NGFW"
+      ]
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--0802fe18-54b3-459d-8d4d-87d9f31279e6",
+      "created": "2021-08-23T17:37:52.873Z",
+      "modified": "2021-08-24T12:54:43.912Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--13b409fb-4a69-4a15-acd8-cb5d0d414b5f",
+      "target_ref": "malware--dfeab308-29ad-4d69-bcc3-8d7d985f862b"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--09d2664c-2477-40f0-b19c-c7b08173eff3",
+      "created": "2021-08-23T17:33:21.020Z",
+      "modified": "2021-08-24T12:54:43.909Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--57f722bc-d7ab-4537-a846-e79bf33a039c",
+      "target_ref": "campaign--ba2add2c-66db-4cf4-b0aa-57101510216d"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--0f653c28-3ff7-4d1e-96ca-edb4cf632a29",
+      "created": "2020-06-23T19:50:42.481Z",
+      "modified": "2020-06-26T13:02:55.808Z",
+      "relationship_type": "mitigates",
+      "source_ref": "course-of-action--7bbb332f-22cf-48f2-a4a1-5bc9d2b034ca",
+      "target_ref": "attack-pattern--8c32eb4d-805f-4fc5-bf60-c4d476c131b5",
+      "x_panw_coa_u42_panw_product": [
+        "Threat Prevention"
+      ]
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--178b7328-66f7-49bd-a205-14511dd14b08",
+      "created": "2021-07-21T14:42:08.636Z",
+      "modified": "2021-08-24T12:53:49.771Z",
+      "relationship_type": "attributed-to",
+      "source_ref": "report--178b7328-66f7-49bd-a205-14511dd14b08",
+      "target_ref": "intrusion-set--8015e2a5-c123-4893-859e-15338546ea6b"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--1d384542-d727-43d7-9ca8-1c4ab426a064",
+      "created": "2021-08-23T17:40:01.362Z",
+      "modified": "2021-08-24T12:54:43.909Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--ba2add2c-66db-4cf4-b0aa-57101510216d",
+      "target_ref": "attack-pattern--7bc57495-ea59-4380-be31-a64af124ef18"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--233e5232-2d65-4ddc-ba0b-fb5955b4a591",
+      "created": "2021-08-23T17:36:58.108Z",
+      "modified": "2021-08-24T12:54:43.909Z",
+      "relationship_type": "uses",
+      "description": "Ransomware payload",
+      "source_ref": "indicator--7eac737f-b0c9-4045-bc0e-53e5b845d08b",
+      "target_ref": "attack-pattern--b80d107d-fa0d-4b60-9684-b0433e8bdba0"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--28a5a536-2f5f-415b-a268-79bb7b2d7a1c",
+      "created": "2020-06-23T19:50:42.481Z",
+      "modified": "2020-06-26T13:02:55.808Z",
+      "relationship_type": "mitigates",
+      "source_ref": "course-of-action--c9efabbf-c21b-4213-a192-6a8e3b3a0905",
+      "target_ref": "attack-pattern--8c32eb4d-805f-4fc5-bf60-c4d476c131b5",
+      "x_panw_coa_u42_panw_product": [
+        "Cortex XDR Prevent"
+      ]
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--2d2330c7-2625-4550-8e1a-4fc7be2f41d9",
+      "created": "2020-06-23T19:50:42.481Z",
+      "modified": "2020-06-26T13:02:55.809Z",
+      "relationship_type": "mitigates",
+      "source_ref": "course-of-action--c9efabbf-c21b-4213-a192-6a8e3b3a0905",
+      "target_ref": "attack-pattern--9efb1ea7-c37b-4595-9640-b7680cd84279",
+      "x_panw_coa_u42_panw_product": [
+        "Cortex XDR Prevent"
+      ]
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--2f0c7f94-f1bf-4c6b-a0ba-420234522f6a",
+      "created": "2021-08-23T17:36:58.108Z",
+      "modified": "2021-08-24T12:54:43.909Z",
+      "relationship_type": "uses",
+      "description": "Ransomware payload",
+      "source_ref": "indicator--13b409fb-4a69-4a15-acd8-cb5d0d414b5f",
+      "target_ref": "attack-pattern--b80d107d-fa0d-4b60-9684-b0433e8bdba0"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--358f84a0-3129-43fd-b485-797350c245f8",
+      "created": "2021-08-23T17:36:58.108Z",
+      "modified": "2021-08-24T12:54:43.909Z",
+      "relationship_type": "uses",
+      "description": "Ransomware payload",
+      "source_ref": "indicator--85cd6ed5-0e34-4f95-b094-6c14b4a7aaff",
+      "target_ref": "attack-pattern--b80d107d-fa0d-4b60-9684-b0433e8bdba0"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--3654e0f4-2dd0-47dc-858b-3de3acc37c44",
+      "created": "2020-06-23T19:50:42.481Z",
+      "modified": "2020-06-26T13:02:55.808Z",
+      "relationship_type": "mitigates",
+      "source_ref": "course-of-action--e15f23e0-f6ae-4440-865f-63ac76b93bf5",
+      "target_ref": "attack-pattern--8c32eb4d-805f-4fc5-bf60-c4d476c131b5",
+      "x_panw_coa_u42_panw_product": [
+        "Threat Prevention"
+      ]
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--3922ea85-cf50-4d3e-becc-01d0c1efc307",
+      "created": "2020-06-23T19:50:42.481Z",
+      "modified": "2020-06-26T13:02:55.808Z",
+      "relationship_type": "mitigates",
+      "source_ref": "course-of-action--ae18aab6-0a08-4c09-9a97-6c6ef58061a7",
+      "target_ref": "attack-pattern--8c32eb4d-805f-4fc5-bf60-c4d476c131b5",
+      "x_panw_coa_u42_panw_product": [
+        "DNS Security"
+      ]
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--3b4d3dd1-df77-4267-8fff-9eda563fe60e",
+      "created": "2020-06-23T19:50:42.481Z",
+      "modified": "2020-06-26T13:02:55.808Z",
+      "relationship_type": "mitigates",
+      "source_ref": "course-of-action--5e951942-0565-46f4-b09e-80426812b6b5",
+      "target_ref": "attack-pattern--8c32eb4d-805f-4fc5-bf60-c4d476c131b5",
+      "x_panw_coa_u42_panw_product": [
+        "URL Filtering"
+      ]
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--3f09d478-8ab3-4438-ba45-cc863a830d93",
+      "created": "2020-06-23T19:50:42.481Z",
+      "modified": "2020-06-26T13:02:55.809Z",
+      "relationship_type": "mitigates",
+      "source_ref": "course-of-action--58d4b1e7-a7d1-45d8-855b-b5e13ace3dba",
+      "target_ref": "attack-pattern--8f4a33ec-8b1f-4b80-a2f6-642b2e479580",
+      "x_panw_coa_u42_panw_product": [
+        "Cortex XDR Prevent"
+      ]
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--4183db77-5a4b-4c41-9dcd-45a1b5cac1b7",
+      "created": "2021-08-23T17:36:23.916Z",
+      "modified": "2021-08-24T12:54:43.909Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--57f722bc-d7ab-4537-a846-e79bf33a039c",
+      "target_ref": "malware--dfeab308-29ad-4d69-bcc3-8d7d985f862b"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--494e857e-375d-43ec-9fd1-f3c6c23bce30",
+      "created": "2021-08-23T17:06:15.676Z",
+      "modified": "2021-08-24T12:54:43.909Z",
+      "relationship_type": "targets",
+      "source_ref": "campaign--ba2add2c-66db-4cf4-b0aa-57101510216d",
+      "target_ref": "identity--2fc5e415-3422-4a97-bc90-6585d29477fd"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--4b74540f-8d22-4119-a9e7-a44dcd75f830",
+      "created": "2020-06-23T19:50:42.481Z",
+      "modified": "2021-04-12T18:23:23.382Z",
+      "relationship_type": "mitigates",
+      "source_ref": "course-of-action--6e7fd69d-8042-45eb-a459-16ef3160080d",
+      "target_ref": "attack-pattern--f5d8eed6-48a9-4cdf-a3d7-d1ffa99c3d2a",
+      "x_panw_coa_u42_panw_product": [
+        "XSOAR"
+      ]
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--4ce02538-c986-46b2-a440-bcef6bf02450",
+      "created": "2020-06-23T19:50:42.481Z",
+      "modified": "2020-06-26T13:02:55.808Z",
+      "relationship_type": "mitigates",
+      "source_ref": "course-of-action--a1294d38-0f0d-4973-a949-f38cccbc7469",
+      "target_ref": "attack-pattern--8c32eb4d-805f-4fc5-bf60-c4d476c131b5",
+      "x_panw_coa_u42_panw_product": [
+        "Threat Prevention"
+      ]
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--5d8c7c15-3ce4-46a2-8f8e-0a8609e9c55d",
+      "created": "2020-06-23T19:50:42.481Z",
+      "modified": "2020-06-26T13:02:55.808Z",
+      "relationship_type": "mitigates",
+      "source_ref": "course-of-action--00d97976-e97e-4878-b530-9f37d7a3e2e5",
+      "target_ref": "attack-pattern--8c32eb4d-805f-4fc5-bf60-c4d476c131b5",
+      "x_panw_coa_u42_panw_product": [
+        "XSOAR"
+      ]
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--5ed807c7-29cb-4c7a-a59c-4dee9973d679",
+      "created": "2020-06-23T19:50:42.481Z",
+      "modified": "2020-06-26T13:02:55.808Z",
+      "relationship_type": "mitigates",
+      "source_ref": "course-of-action--fafab9a4-1478-499e-9088-2043c42720d1",
+      "target_ref": "attack-pattern--8c32eb4d-805f-4fc5-bf60-c4d476c131b5",
+      "x_panw_coa_u42_panw_product": [
+        "Wildfire"
+      ]
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--69c857d6-f01d-490d-9828-748a707583a4",
+      "created": "2021-08-23T17:33:49.636Z",
+      "modified": "2021-08-24T12:54:43.909Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--6385c79f-52d1-4b2c-b76f-e50f55fb3dfe",
+      "target_ref": "campaign--ba2add2c-66db-4cf4-b0aa-57101510216d"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--6ab3a547-6afb-4ae2-b4c7-9ab9c45de5e0",
+      "created": "2020-06-23T19:50:42.481Z",
+      "modified": "2020-06-26T13:02:55.808Z",
+      "relationship_type": "mitigates",
+      "source_ref": "course-of-action--04a2db1c-3e80-43a4-a9c6-3864195bbf73",
+      "target_ref": "attack-pattern--8c32eb4d-805f-4fc5-bf60-c4d476c131b5",
+      "x_panw_coa_u42_panw_product": [
+        "Wildfire"
+      ]
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--7bc57495-ea59-4380-be31-a64af124ef18",
+      "created": "2021-07-21T14:42:08.907Z",
+      "modified": "2021-08-24T12:54:43.908Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--ba2add2c-66db-4cf4-b0aa-57101510216d",
+      "target_ref": "attack-pattern--7bc57495-ea59-4380-be31-a64af124ef18"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--8c32eb4d-805f-4fc5-bf60-c4d476c131b5",
+      "created": "2021-07-21T14:42:08.907Z",
+      "modified": "2021-08-24T12:54:43.908Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--ba2add2c-66db-4cf4-b0aa-57101510216d",
+      "target_ref": "attack-pattern--8c32eb4d-805f-4fc5-bf60-c4d476c131b5"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--8c3a203a-c8a0-41cc-9301-8dc44b850b0b",
+      "created": "2020-06-23T19:50:42.481Z",
+      "modified": "2020-06-26T13:02:55.808Z",
+      "relationship_type": "mitigates",
+      "source_ref": "course-of-action--9352128e-2dbe-4621-8800-9e7cc17336e3",
+      "target_ref": "attack-pattern--8c32eb4d-805f-4fc5-bf60-c4d476c131b5",
+      "x_panw_coa_u42_panw_product": [
+        "Cortex XDR Prevent"
+      ]
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--8dd1f528-580c-4540-be0c-eeddf767e747",
+      "created": "2021-08-23T17:33:21.020Z",
+      "modified": "2021-08-24T12:54:43.909Z",
+      "relationship_type": "uses",
+      "description": "Observed commands",
+      "source_ref": "indicator--57f722bc-d7ab-4537-a846-e79bf33a039c",
+      "target_ref": "attack-pattern--d1fcf083-a721-4223-aedf-bf8960798d62"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--8f4a33ec-8b1f-4b80-a2f6-642b2e479580",
+      "created": "2021-07-21T14:42:08.907Z",
+      "modified": "2021-08-24T12:54:43.908Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--ba2add2c-66db-4cf4-b0aa-57101510216d",
+      "target_ref": "attack-pattern--8f4a33ec-8b1f-4b80-a2f6-642b2e479580"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--8ffcfda6-33ef-4fcd-ba11-afce2a26b2b3",
+      "created": "2020-06-23T19:50:42.481Z",
+      "modified": "2020-06-26T13:02:55.808Z",
+      "relationship_type": "mitigates",
+      "source_ref": "course-of-action--f4a8da12-c6f0-4a33-ae42-590c5602be99",
+      "target_ref": "attack-pattern--8c32eb4d-805f-4fc5-bf60-c4d476c131b5",
+      "x_panw_coa_u42_panw_product": [
+        "URL Filtering"
+      ]
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--96614067-6057-4b33-9d7e-2a767ea89921",
+      "created": "2021-08-23T17:36:58.108Z",
+      "modified": "2021-08-24T12:54:43.909Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--eed03800-9eb6-4e1c-be83-dbe3ba5e222b",
+      "target_ref": "campaign--ba2add2c-66db-4cf4-b0aa-57101510216d"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--966f4de5-f695-4b21-8970-a285419fc94e",
+      "created": "2021-08-23T17:37:52.873Z",
+      "modified": "2021-08-24T12:54:43.912Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--7eac737f-b0c9-4045-bc0e-53e5b845d08b",
+      "target_ref": "malware--dfeab308-29ad-4d69-bcc3-8d7d985f862b"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--9a316d5e-1d88-4799-bb22-9170e6cf1723",
+      "created": "2021-08-23T17:36:58.108Z",
+      "modified": "2021-08-24T12:54:43.909Z",
+      "relationship_type": "uses",
+      "description": "Ransomware payload",
+      "source_ref": "indicator--eed03800-9eb6-4e1c-be83-dbe3ba5e222b",
+      "target_ref": "attack-pattern--b80d107d-fa0d-4b60-9684-b0433e8bdba0"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--9d7f6452-2793-40cb-ab38-966196d1b12b",
+      "created": "2020-06-23T19:50:42.481Z",
+      "modified": "2020-06-26T13:02:55.808Z",
+      "relationship_type": "mitigates",
+      "source_ref": "course-of-action--d84f79f8-219c-43cb-a918-ab7dd235413a",
+      "target_ref": "attack-pattern--8c32eb4d-805f-4fc5-bf60-c4d476c131b5",
+      "x_panw_coa_u42_panw_product": [
+        "Threat Prevention"
+      ]
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--9ed809cb-6ffa-4edc-8914-97ae7e43c75f",
+      "created": "2020-06-23T19:50:42.481Z",
+      "modified": "2020-06-26T13:02:55.808Z",
+      "relationship_type": "mitigates",
+      "source_ref": "course-of-action--68c5676d-ab2f-4e68-a57c-28880a9f5709",
+      "target_ref": "attack-pattern--8c32eb4d-805f-4fc5-bf60-c4d476c131b5",
+      "x_panw_coa_u42_panw_product": [
+        "NGFW"
+      ]
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--9efb1ea7-c37b-4595-9640-b7680cd84279",
+      "created": "2021-07-21T14:42:08.907Z",
+      "modified": "2021-08-24T12:54:43.908Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--ba2add2c-66db-4cf4-b0aa-57101510216d",
+      "target_ref": "attack-pattern--9efb1ea7-c37b-4595-9640-b7680cd84279"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--a29d70c8-2658-43e8-83bb-4468bb95af7c",
+      "created": "2021-08-23T17:36:58.108Z",
+      "modified": "2021-08-24T12:54:43.909Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--7eac737f-b0c9-4045-bc0e-53e5b845d08b",
+      "target_ref": "campaign--ba2add2c-66db-4cf4-b0aa-57101510216d"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--a7f21a7d-072c-48ff-96e2-4e14b98e01c3",
+      "created": "2020-06-23T19:50:42.481Z",
+      "modified": "2020-06-26T13:02:55.808Z",
+      "relationship_type": "mitigates",
+      "source_ref": "course-of-action--2c886776-61fb-487c-a880-41f4b7195627",
+      "target_ref": "attack-pattern--8c32eb4d-805f-4fc5-bf60-c4d476c131b5",
+      "x_panw_coa_u42_panw_product": [
+        "URL Filtering"
+      ]
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--a8e25856-9583-471b-aae0-5a86f2cc9213",
+      "created": "2021-08-23T17:32:01.417Z",
+      "modified": "2021-08-24T12:54:43.909Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--ba2add2c-66db-4cf4-b0aa-57101510216d",
+      "target_ref": "attack-pattern--9efb1ea7-c37b-4595-9640-b7680cd84279"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--ad42f1ee-2fc2-4741-a9c2-224074c9d080",
+      "created": "2020-06-23T19:50:42.481Z",
+      "modified": "2020-06-26T13:02:55.808Z",
+      "relationship_type": "mitigates",
+      "source_ref": "course-of-action--2fd9769c-5e50-4528-985f-a1d117329991",
+      "target_ref": "attack-pattern--8c32eb4d-805f-4fc5-bf60-c4d476c131b5",
+      "x_panw_coa_u42_panw_product": [
+        "URL Filtering"
+      ]
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--ae33522b-59ca-42d5-9cd0-28a61362d146",
+      "created": "2020-06-23T19:50:42.481Z",
+      "modified": "2020-06-26T13:02:55.808Z",
+      "relationship_type": "mitigates",
+      "source_ref": "course-of-action--b62423f4-1849-4d9f-88c0-7160a8bed5c2",
+      "target_ref": "attack-pattern--8c32eb4d-805f-4fc5-bf60-c4d476c131b5",
+      "x_panw_coa_u42_panw_product": [
+        "NGFW"
+      ]
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--af30307c-2d9c-4b87-aeda-91748cc07131",
+      "created": "2021-08-23T17:37:52.873Z",
+      "modified": "2021-08-24T12:54:43.912Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--eed03800-9eb6-4e1c-be83-dbe3ba5e222b",
+      "target_ref": "malware--dfeab308-29ad-4d69-bcc3-8d7d985f862b"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--af44a46b-84ce-4b3a-bede-d889c35c4499",
+      "created": "2020-06-23T19:50:42.481Z",
+      "modified": "2020-06-26T13:02:55.808Z",
+      "relationship_type": "mitigates",
+      "source_ref": "course-of-action--67289170-1bd4-4944-be31-d680954141f5",
+      "target_ref": "attack-pattern--8c32eb4d-805f-4fc5-bf60-c4d476c131b5",
+      "x_panw_coa_u42_panw_product": [
+        "Wildfire"
+      ]
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--af7c505b-e072-4bc4-9b79-36e2a6862eb7",
+      "created": "2021-08-23T17:33:49.636Z",
+      "modified": "2021-08-24T12:54:43.909Z",
+      "relationship_type": "uses",
+      "description": "Observed commands ",
+      "source_ref": "indicator--6385c79f-52d1-4b2c-b76f-e50f55fb3dfe",
+      "target_ref": "attack-pattern--d1fcf083-a721-4223-aedf-bf8960798d62"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--b0c9f423-990f-48c9-92e7-0cae81480a0c",
+      "created": "2020-06-23T19:50:42.481Z",
+      "modified": "2020-06-26T13:02:55.809Z",
+      "relationship_type": "mitigates",
+      "source_ref": "course-of-action--3f6f590f-2752-40d2-8cfa-1e833435bbf6",
+      "target_ref": "attack-pattern--8c32eb4d-805f-4fc5-bf60-c4d476c131b5",
+      "x_panw_coa_u42_panw_product": [
+        "XSOAR"
+      ]
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--b0d6ed1d-6d59-46fa-990e-d12abd2f6910",
+      "created": "2021-08-23T17:31:35.404Z",
+      "modified": "2021-08-24T12:54:43.909Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--ba2add2c-66db-4cf4-b0aa-57101510216d",
+      "target_ref": "attack-pattern--8c32eb4d-805f-4fc5-bf60-c4d476c131b5"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--b562dc37-8869-4ada-b1fd-00291f7c0efa",
+      "created": "2020-06-23T19:50:42.481Z",
+      "modified": "2020-06-26T13:02:55.809Z",
+      "relationship_type": "mitigates",
+      "source_ref": "course-of-action--58d4b1e7-a7d1-45d8-855b-b5e13ace3dba",
+      "target_ref": "attack-pattern--7bc57495-ea59-4380-be31-a64af124ef18",
+      "x_panw_coa_u42_panw_product": [
+        "Cortex XDR Prevent"
+      ]
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--b640356c-ed97-45a9-999e-854147c54503",
+      "created": "2021-08-23T17:36:23.916Z",
+      "modified": "2021-08-24T12:54:43.909Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--bb173a09-a910-40c3-8e18-d85b23f2fbb9",
+      "target_ref": "malware--dfeab308-29ad-4d69-bcc3-8d7d985f862b"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--b80d107d-fa0d-4b60-9684-b0433e8bdba0",
+      "created": "2021-07-21T14:42:08.907Z",
+      "modified": "2021-08-24T12:54:43.908Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--ba2add2c-66db-4cf4-b0aa-57101510216d",
+      "target_ref": "attack-pattern--b80d107d-fa0d-4b60-9684-b0433e8bdba0"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--b81bf8ee-d1a4-4387-bc00-fadbadb00f03",
+      "created": "2021-08-23T17:33:21.020Z",
+      "modified": "2021-08-24T12:54:43.909Z",
+      "relationship_type": "uses",
+      "description": "Observed commands",
+      "source_ref": "indicator--bb173a09-a910-40c3-8e18-d85b23f2fbb9",
+      "target_ref": "attack-pattern--d1fcf083-a721-4223-aedf-bf8960798d62"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--b924249f-1ca8-4ea6-897d-db5187addc93",
+      "created": "2020-06-23T19:50:42.481Z",
+      "modified": "2020-06-26T13:02:55.808Z",
+      "relationship_type": "mitigates",
+      "source_ref": "course-of-action--95432623-8819-4f74-a8f9-b10b9c4118c3",
+      "target_ref": "attack-pattern--8c32eb4d-805f-4fc5-bf60-c4d476c131b5",
+      "x_panw_coa_u42_panw_product": [
+        "Wildfire"
+      ]
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--ba2add2c-66db-4cf4-b0aa-57101510216d",
+      "created": "2021-07-21T14:42:08.907Z",
+      "modified": "2021-08-24T12:54:43.908Z",
+      "relationship_type": "attributed-to",
+      "source_ref": "campaign--ba2add2c-66db-4cf4-b0aa-57101510216d",
+      "target_ref": "intrusion-set--8015e2a5-c123-4893-859e-15338546ea6b"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--c2d6dc0c-2921-4fdd-b8db-0e6b100cc347",
+      "created": "2021-08-23T17:40:01.362Z",
+      "modified": "2021-08-24T12:54:43.909Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--ba2add2c-66db-4cf4-b0aa-57101510216d",
+      "target_ref": "attack-pattern--8f4a33ec-8b1f-4b80-a2f6-642b2e479580"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--c37ee5d7-2007-4e9c-b84b-bfc356921837",
+      "created": "2021-08-23T17:38:14.595Z",
+      "modified": "2021-08-24T12:54:43.909Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--ba2add2c-66db-4cf4-b0aa-57101510216d",
+      "target_ref": "attack-pattern--f5d8eed6-48a9-4cdf-a3d7-d1ffa99c3d2a"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--cb22c44c-e830-4f52-b42a-b52fd2fe4a1b",
+      "created": "2020-06-23T19:50:42.481Z",
+      "modified": "2020-06-26T13:02:55.808Z",
+      "relationship_type": "mitigates",
+      "source_ref": "course-of-action--0a8741c9-240e-4a87-8d0f-7ced73cbd50d",
+      "target_ref": "attack-pattern--8c32eb4d-805f-4fc5-bf60-c4d476c131b5",
+      "x_panw_coa_u42_panw_product": [
+        "XSOAR"
+      ]
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--cb8da9a2-c4d5-461c-9e2f-3e67b35ea137",
+      "created": "2021-08-23T17:36:58.108Z",
+      "modified": "2021-08-24T12:54:43.909Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--85cd6ed5-0e34-4f95-b094-6c14b4a7aaff",
+      "target_ref": "campaign--ba2add2c-66db-4cf4-b0aa-57101510216d"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--d1fcf083-a721-4223-aedf-bf8960798d62",
+      "created": "2021-07-21T14:42:08.907Z",
+      "modified": "2021-08-24T12:54:43.908Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--ba2add2c-66db-4cf4-b0aa-57101510216d",
+      "target_ref": "attack-pattern--d1fcf083-a721-4223-aedf-bf8960798d62"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--d3239375-4ff0-4635-add2-233a25657d04",
+      "created": "2020-06-23T19:50:42.481Z",
+      "modified": "2020-06-26T13:02:55.808Z",
+      "relationship_type": "mitigates",
+      "source_ref": "course-of-action--be1d0eb5-a628-4d91-9096-9158e68816cd",
+      "target_ref": "attack-pattern--8c32eb4d-805f-4fc5-bf60-c4d476c131b5",
+      "x_panw_coa_u42_panw_product": [
+        "Wildfire"
+      ]
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--d721d21e-9965-4a73-8ebe-003d4a5fae81",
+      "created": "2020-06-23T19:50:42.481Z",
+      "modified": "2020-06-26T13:02:55.808Z",
+      "relationship_type": "mitigates",
+      "source_ref": "course-of-action--09cad5e4-8c95-494f-862e-0c640b175348",
+      "target_ref": "attack-pattern--8c32eb4d-805f-4fc5-bf60-c4d476c131b5",
+      "x_panw_coa_u42_panw_product": [
+        "NGFW"
+      ]
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--da24d671-b7ba-427a-b154-55d3d677917b",
+      "created": "2021-08-23T17:37:52.873Z",
+      "modified": "2021-08-24T12:54:43.909Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--85cd6ed5-0e34-4f95-b094-6c14b4a7aaff",
+      "target_ref": "malware--dfeab308-29ad-4d69-bcc3-8d7d985f862b"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--dcd2f607-6fdb-4b1d-b7e6-953b5f427895",
+      "created": "2021-08-23T17:39:11.702Z",
+      "modified": "2021-08-24T12:54:43.909Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--ba2add2c-66db-4cf4-b0aa-57101510216d",
+      "target_ref": "attack-pattern--005a06c6-14bf-4118-afa0-ebcd8aebb0c9"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--e21c2996-8c3e-4973-8d61-9488387fa9e0",
+      "created": "2020-06-23T19:50:42.481Z",
+      "modified": "2020-06-26T13:02:55.808Z",
+      "relationship_type": "mitigates",
+      "source_ref": "course-of-action--f1a1d494-3463-4067-abc7-a731f7dfb9ff",
+      "target_ref": "attack-pattern--8c32eb4d-805f-4fc5-bf60-c4d476c131b5",
+      "x_panw_coa_u42_panw_product": [
+        "Wildfire"
+      ]
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--e57c011f-57bf-4dd9-b419-e96d79914c3e",
+      "created": "2020-06-23T19:50:42.481Z",
+      "modified": "2020-06-26T13:02:55.808Z",
+      "relationship_type": "mitigates",
+      "source_ref": "course-of-action--b07fe965-d582-4581-aa2f-9676705f5560",
+      "target_ref": "attack-pattern--8c32eb4d-805f-4fc5-bf60-c4d476c131b5",
+      "x_panw_coa_u42_panw_product": [
+        "NGFW"
+      ]
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--e698b3bd-51b2-403a-b7e9-88df6424fb39",
+      "created": "2021-08-23T17:33:21.020Z",
+      "modified": "2021-08-24T12:54:43.909Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--bb173a09-a910-40c3-8e18-d85b23f2fbb9",
+      "target_ref": "campaign--ba2add2c-66db-4cf4-b0aa-57101510216d"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--ed11bc15-c9d0-47ec-bd9e-d9047044e3b3",
+      "created": "2020-06-23T19:50:42.481Z",
+      "modified": "2020-06-26T13:02:55.808Z",
+      "relationship_type": "mitigates",
+      "source_ref": "course-of-action--3de85a76-a879-43e6-80ba-38e09e7e2b0c",
+      "target_ref": "attack-pattern--8c32eb4d-805f-4fc5-bf60-c4d476c131b5",
+      "x_panw_coa_u42_panw_product": [
+        "Wildfire"
+      ]
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--ef84a92b-6e51-4933-860e-416527f975ea",
+      "created": "2020-08-11T15:54:32.900Z",
+      "modified": "2020-09-04T13:59:35.895Z",
+      "relationship_type": "uses",
+      "description": "vssadmin.exe Delete Shadows /all /quiet",
+      "source_ref": "indicator--6385c79f-52d1-4b2c-b76f-e50f55fb3dfe",
+      "target_ref": "attack-pattern--f5d8eed6-48a9-4cdf-a3d7-d1ffa99c3d2a"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--f47d37fd-f5fe-4536-af21-d6ab9573f894",
+      "created": "2020-06-23T19:50:42.481Z",
+      "modified": "2020-06-26T13:02:55.809Z",
+      "relationship_type": "mitigates",
+      "source_ref": "course-of-action--9f39b252-d548-4657-9426-28b6c25d53ed",
+      "target_ref": "attack-pattern--9efb1ea7-c37b-4595-9640-b7680cd84279",
+      "x_panw_coa_u42_panw_product": [
+        "Cortex XDR Prevent"
+      ]
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--f4a3286a-e9db-416e-85bc-c39b1b03af31",
+      "created": "2020-06-23T19:50:42.481Z",
+      "modified": "2021-04-12T18:24:34.257Z",
+      "relationship_type": "mitigates",
+      "source_ref": "course-of-action--ee3e1dca-24ea-48a8-825a-e2d2c4b916d9",
+      "target_ref": "attack-pattern--b80d107d-fa0d-4b60-9684-b0433e8bdba0",
+      "x_panw_coa_u42_panw_product": [
+        "XSOAR"
+      ]
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--f5bd5d5d-f4c8-4d49-a5eb-ff6c98c72821",
+      "created": "2020-06-23T19:50:42.481Z",
+      "modified": "2020-06-26T13:02:55.809Z",
+      "relationship_type": "mitigates",
+      "source_ref": "course-of-action--9352128e-2dbe-4621-8800-9e7cc17336e3",
+      "target_ref": "attack-pattern--9efb1ea7-c37b-4595-9640-b7680cd84279",
+      "x_panw_coa_u42_panw_product": [
+        "Cortex XDR Prevent"
+      ]
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--f5d8eed6-48a9-4cdf-a3d7-d1ffa99c3d2a",
+      "created": "2021-07-21T14:42:08.907Z",
+      "modified": "2021-08-24T12:54:43.908Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--ba2add2c-66db-4cf4-b0aa-57101510216d",
+      "target_ref": "attack-pattern--f5d8eed6-48a9-4cdf-a3d7-d1ffa99c3d2a"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--f67f22a3-508c-448c-a8f7-976d066d32bf",
+      "created": "2020-06-23T19:50:42.481Z",
+      "modified": "2020-06-26T13:02:55.808Z",
+      "relationship_type": "mitigates",
+      "source_ref": "course-of-action--c45b79a8-2d29-4d8c-95ab-acea7e478e50",
+      "target_ref": "attack-pattern--8c32eb4d-805f-4fc5-bf60-c4d476c131b5",
+      "x_panw_coa_u42_panw_product": [
+        "Threat Prevention"
+      ]
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--f723e75f-9ec3-4d19-b16f-473839dbd5bf",
+      "created": "2020-06-23T19:50:42.481Z",
+      "modified": "2020-06-26T13:02:55.808Z",
+      "relationship_type": "mitigates",
+      "source_ref": "course-of-action--dff22e97-a89e-4ff7-b615-0165258bf8d5",
+      "target_ref": "attack-pattern--8c32eb4d-805f-4fc5-bf60-c4d476c131b5",
+      "x_panw_coa_u42_panw_product": [
+        "URL Filtering"
+      ]
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--fd37acab-8903-45ae-8194-47ee81cd0681",
+      "created": "2020-06-23T19:50:42.481Z",
+      "modified": "2020-06-26T13:02:55.808Z",
+      "relationship_type": "mitigates",
+      "source_ref": "course-of-action--39928312-81bb-4445-a269-9f3d0bb88d5c",
+      "target_ref": "attack-pattern--8c32eb4d-805f-4fc5-bf60-c4d476c131b5",
+      "x_panw_coa_u42_panw_product": [
+        "NGFW"
+      ]
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--fef6f410-1d0b-4cf0-8b94-1f2ac468c05f",
+      "created": "2020-06-23T19:50:42.481Z",
+      "modified": "2020-06-26T13:02:55.808Z",
+      "relationship_type": "mitigates",
+      "source_ref": "course-of-action--5839cd6c-7897-43c4-82f3-5c03096a51c4",
+      "target_ref": "attack-pattern--8c32eb4d-805f-4fc5-bf60-c4d476c131b5",
+      "x_panw_coa_u42_panw_product": [
+        "Threat Prevention"
+      ]
+    },
+    {
+      "type": "report",
+      "id": "report--ba2add2c-66db-4cf4-b0aa-57101510216d",
+      "created": "2021-07-21T14:42:08.907Z",
+      "modified": "2021-08-24T12:54:43.908Z",
+      "name": "Campaign 1 - Hive Leaks",
+      "published": "2021-08-24T12:54:43.908Z",
+      "object_refs": [
+        "attack-pattern--005a06c6-14bf-4118-afa0-ebcd8aebb0c9",
+        "attack-pattern--7bc57495-ea59-4380-be31-a64af124ef18",
+        "attack-pattern--8c32eb4d-805f-4fc5-bf60-c4d476c131b5",
+        "attack-pattern--8f4a33ec-8b1f-4b80-a2f6-642b2e479580",
+        "attack-pattern--9efb1ea7-c37b-4595-9640-b7680cd84279",
+        "attack-pattern--b80d107d-fa0d-4b60-9684-b0433e8bdba0",
+        "attack-pattern--d1fcf083-a721-4223-aedf-bf8960798d62",
+        "attack-pattern--f5d8eed6-48a9-4cdf-a3d7-d1ffa99c3d2a",
+        "campaign--ba2add2c-66db-4cf4-b0aa-57101510216d",
+        "course-of-action--00d97976-e97e-4878-b530-9f37d7a3e2e5",
+        "course-of-action--04a2db1c-3e80-43a4-a9c6-3864195bbf73",
+        "course-of-action--09cad5e4-8c95-494f-862e-0c640b175348",
+        "course-of-action--0a8741c9-240e-4a87-8d0f-7ced73cbd50d",
+        "course-of-action--2c886776-61fb-487c-a880-41f4b7195627",
+        "course-of-action--2fd9769c-5e50-4528-985f-a1d117329991",
+        "course-of-action--39928312-81bb-4445-a269-9f3d0bb88d5c",
+        "course-of-action--3de85a76-a879-43e6-80ba-38e09e7e2b0c",
+        "course-of-action--3f6f590f-2752-40d2-8cfa-1e833435bbf6",
+        "course-of-action--553711d6-06e4-49e2-a1ad-929d9cce8e39",
+        "course-of-action--5839cd6c-7897-43c4-82f3-5c03096a51c4",
+        "course-of-action--58d4b1e7-a7d1-45d8-855b-b5e13ace3dba",
+        "course-of-action--5e951942-0565-46f4-b09e-80426812b6b5",
+        "course-of-action--67289170-1bd4-4944-be31-d680954141f5",
+        "course-of-action--68c5676d-ab2f-4e68-a57c-28880a9f5709",
+        "course-of-action--6e7fd69d-8042-45eb-a459-16ef3160080d",
+        "course-of-action--7bbb332f-22cf-48f2-a4a1-5bc9d2b034ca",
+        "course-of-action--9352128e-2dbe-4621-8800-9e7cc17336e3",
+        "course-of-action--95432623-8819-4f74-a8f9-b10b9c4118c3",
+        "course-of-action--9f39b252-d548-4657-9426-28b6c25d53ed",
+        "course-of-action--a1294d38-0f0d-4973-a949-f38cccbc7469",
+        "course-of-action--ae18aab6-0a08-4c09-9a97-6c6ef58061a7",
+        "course-of-action--b07fe965-d582-4581-aa2f-9676705f5560",
+        "course-of-action--b62423f4-1849-4d9f-88c0-7160a8bed5c2",
+        "course-of-action--be1d0eb5-a628-4d91-9096-9158e68816cd",
+        "course-of-action--c45b79a8-2d29-4d8c-95ab-acea7e478e50",
+        "course-of-action--c9efabbf-c21b-4213-a192-6a8e3b3a0905",
+        "course-of-action--d84f79f8-219c-43cb-a918-ab7dd235413a",
+        "course-of-action--dff22e97-a89e-4ff7-b615-0165258bf8d5",
+        "course-of-action--e15f23e0-f6ae-4440-865f-63ac76b93bf5",
+        "course-of-action--ee3e1dca-24ea-48a8-825a-e2d2c4b916d9",
+        "course-of-action--f1a1d494-3463-4067-abc7-a731f7dfb9ff",
+        "course-of-action--f4a8da12-c6f0-4a33-ae42-590c5602be99",
+        "course-of-action--fafab9a4-1478-499e-9088-2043c42720d1",
+        "identity--2fc5e415-3422-4a97-bc90-6585d29477fd",
+        "indicator--13b409fb-4a69-4a15-acd8-cb5d0d414b5f",
+        "indicator--57f722bc-d7ab-4537-a846-e79bf33a039c",
+        "indicator--6385c79f-52d1-4b2c-b76f-e50f55fb3dfe",
+        "indicator--7eac737f-b0c9-4045-bc0e-53e5b845d08b",
+        "indicator--85cd6ed5-0e34-4f95-b094-6c14b4a7aaff",
+        "indicator--bb173a09-a910-40c3-8e18-d85b23f2fbb9",
+        "indicator--eed03800-9eb6-4e1c-be83-dbe3ba5e222b",
+        "intrusion-set--8015e2a5-c123-4893-859e-15338546ea6b",
+        "malware--dfeab308-29ad-4d69-bcc3-8d7d985f862b",
+        "relationship--005a06c6-14bf-4118-afa0-ebcd8aebb0c9",
+        "relationship--029cc316-3bf3-4c93-b96a-34ac42e87434",
+        "relationship--07adbd5d-12a8-46f2-b38b-772754668b90",
+        "relationship--0802fe18-54b3-459d-8d4d-87d9f31279e6",
+        "relationship--09d2664c-2477-40f0-b19c-c7b08173eff3",
+        "relationship--0f653c28-3ff7-4d1e-96ca-edb4cf632a29",
+        "relationship--1d384542-d727-43d7-9ca8-1c4ab426a064",
+        "relationship--233e5232-2d65-4ddc-ba0b-fb5955b4a591",
+        "relationship--28a5a536-2f5f-415b-a268-79bb7b2d7a1c",
+        "relationship--2d2330c7-2625-4550-8e1a-4fc7be2f41d9",
+        "relationship--2f0c7f94-f1bf-4c6b-a0ba-420234522f6a",
+        "relationship--358f84a0-3129-43fd-b485-797350c245f8",
+        "relationship--3654e0f4-2dd0-47dc-858b-3de3acc37c44",
+        "relationship--3922ea85-cf50-4d3e-becc-01d0c1efc307",
+        "relationship--3b4d3dd1-df77-4267-8fff-9eda563fe60e",
+        "relationship--3f09d478-8ab3-4438-ba45-cc863a830d93",
+        "relationship--4183db77-5a4b-4c41-9dcd-45a1b5cac1b7",
+        "relationship--494e857e-375d-43ec-9fd1-f3c6c23bce30",
+        "relationship--4b74540f-8d22-4119-a9e7-a44dcd75f830",
+        "relationship--4ce02538-c986-46b2-a440-bcef6bf02450",
+        "relationship--5d8c7c15-3ce4-46a2-8f8e-0a8609e9c55d",
+        "relationship--5ed807c7-29cb-4c7a-a59c-4dee9973d679",
+        "relationship--69c857d6-f01d-490d-9828-748a707583a4",
+        "relationship--6ab3a547-6afb-4ae2-b4c7-9ab9c45de5e0",
+        "relationship--7bc57495-ea59-4380-be31-a64af124ef18",
+        "relationship--8c32eb4d-805f-4fc5-bf60-c4d476c131b5",
+        "relationship--8c3a203a-c8a0-41cc-9301-8dc44b850b0b",
+        "relationship--8dd1f528-580c-4540-be0c-eeddf767e747",
+        "relationship--8f4a33ec-8b1f-4b80-a2f6-642b2e479580",
+        "relationship--8ffcfda6-33ef-4fcd-ba11-afce2a26b2b3",
+        "relationship--96614067-6057-4b33-9d7e-2a767ea89921",
+        "relationship--966f4de5-f695-4b21-8970-a285419fc94e",
+        "relationship--9a316d5e-1d88-4799-bb22-9170e6cf1723",
+        "relationship--9d7f6452-2793-40cb-ab38-966196d1b12b",
+        "relationship--9ed809cb-6ffa-4edc-8914-97ae7e43c75f",
+        "relationship--9efb1ea7-c37b-4595-9640-b7680cd84279",
+        "relationship--a29d70c8-2658-43e8-83bb-4468bb95af7c",
+        "relationship--a7f21a7d-072c-48ff-96e2-4e14b98e01c3",
+        "relationship--a8e25856-9583-471b-aae0-5a86f2cc9213",
+        "relationship--ad42f1ee-2fc2-4741-a9c2-224074c9d080",
+        "relationship--ae33522b-59ca-42d5-9cd0-28a61362d146",
+        "relationship--af30307c-2d9c-4b87-aeda-91748cc07131",
+        "relationship--af44a46b-84ce-4b3a-bede-d889c35c4499",
+        "relationship--af7c505b-e072-4bc4-9b79-36e2a6862eb7",
+        "relationship--b0c9f423-990f-48c9-92e7-0cae81480a0c",
+        "relationship--b0d6ed1d-6d59-46fa-990e-d12abd2f6910",
+        "relationship--b562dc37-8869-4ada-b1fd-00291f7c0efa",
+        "relationship--b640356c-ed97-45a9-999e-854147c54503",
+        "relationship--b80d107d-fa0d-4b60-9684-b0433e8bdba0",
+        "relationship--b81bf8ee-d1a4-4387-bc00-fadbadb00f03",
+        "relationship--b924249f-1ca8-4ea6-897d-db5187addc93",
+        "relationship--ba2add2c-66db-4cf4-b0aa-57101510216d",
+        "relationship--c2d6dc0c-2921-4fdd-b8db-0e6b100cc347",
+        "relationship--c37ee5d7-2007-4e9c-b84b-bfc356921837",
+        "relationship--cb22c44c-e830-4f52-b42a-b52fd2fe4a1b",
+        "relationship--cb8da9a2-c4d5-461c-9e2f-3e67b35ea137",
+        "relationship--d1fcf083-a721-4223-aedf-bf8960798d62",
+        "relationship--d3239375-4ff0-4635-add2-233a25657d04",
+        "relationship--d721d21e-9965-4a73-8ebe-003d4a5fae81",
+        "relationship--da24d671-b7ba-427a-b154-55d3d677917b",
+        "relationship--dcd2f607-6fdb-4b1d-b7e6-953b5f427895",
+        "relationship--e21c2996-8c3e-4973-8d61-9488387fa9e0",
+        "relationship--e57c011f-57bf-4dd9-b419-e96d79914c3e",
+        "relationship--e698b3bd-51b2-403a-b7e9-88df6424fb39",
+        "relationship--ed11bc15-c9d0-47ec-bd9e-d9047044e3b3",
+        "relationship--ef84a92b-6e51-4933-860e-416527f975ea",
+        "relationship--f47d37fd-f5fe-4536-af21-d6ab9573f894",
+        "relationship--f4a3286a-e9db-416e-85bc-c39b1b03af31",
+        "relationship--f5bd5d5d-f4c8-4d49-a5eb-ff6c98c72821",
+        "relationship--f5d8eed6-48a9-4cdf-a3d7-d1ffa99c3d2a",
+        "relationship--f67f22a3-508c-448c-a8f7-976d066d32bf",
+        "relationship--f723e75f-9ec3-4d19-b16f-473839dbd5bf",
+        "relationship--fd37acab-8903-45ae-8194-47ee81cd0681",
+        "relationship--fef6f410-1d0b-4cf0-8b94-1f2ac468c05f"
+      ],
+      "labels": [
+        "campaign"
+      ]
+    }
+  ]
+}

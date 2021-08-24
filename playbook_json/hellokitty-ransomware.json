@@ -1,0 +1,748 @@
+{
+  "type": "bundle",
+  "id": "bundle--c67a9b09-e3a1-407c-942c-d0bea138be04",
+  "spec_version": "2.0",
+  "objects": [
+    {
+      "type": "report",
+      "id": "report--c67a9b09-e3a1-407c-942c-d0bea138be04",
+      "created": "2021-07-21T14:41:49.943Z",
+      "modified": "2021-08-24T12:54:02.899Z",
+      "name": "HelloKitty Ransomware",
+      "description": "HelloKitty is a ransomware family that first surfaced at the end of 2020, primarily targeting Windows systems. The malware family got its name due to its use of a Mutex with the same name: HelloKittyMutex. The ransomware samples seem to evolve quickly and frequently, with different versions making use of the .crypted or .kitty file extensions for encrypted files. Some newer samples make use of a Golang packer that ensures the final ransomware code is only loaded in memory, most likely to evade detection by security solutions.",
+      "published": "2021-08-24T12:54:02.899Z",
+      "object_refs": [
+        "intrusion-set--bb32cab3-1d14-4aae-a7aa-4d6c152d1a56",
+        "report--486c7e2a-d463-46aa-9ae0-a19ace647f1c"
+      ],
+      "labels": [
+        "intrusion-set"
+      ]
+    },
+    {
+      "type": "intrusion-set",
+      "id": "intrusion-set--bb32cab3-1d14-4aae-a7aa-4d6c152d1a56",
+      "created": "2021-07-21T14:41:50.252Z",
+      "modified": "2021-08-24T12:58:14.377Z",
+      "name": "HelloKitty Linux"
+    },
+    {
+      "type": "attack-pattern",
+      "id": "attack-pattern--77532a55-c283-4cd2-bc5d-2d0b65e9d88c",
+      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "created": "2020-06-24T16:55:46.243Z",
+      "modified": "2021-03-08T10:33:02.146Z",
+      "name": "T1562.007: Disable or Modify Cloud Firewall",
+      "description": "Adversaries may disable or modify a firewall within a cloud environment to bypass controls that limit access to cloud resources. Cloud firewalls are separate from system firewalls that are described in [Disable or Modify System Firewall](https://attack.mitre.org/techniques/T1562/004). \n\nCloud environments typically utilize restrictive security groups and firewall rules that only allow network activity from trusted IP addresses via expected ports and protocols. An adversary may introduce new firewall rules or policies to allow access into a victim cloud environment. For example, an adversary may use a script or utility that creates new ingress rules in existing security groups to allow any TCP/IP connectivity.(Citation: Expel IO Evil in AWS)\n\nModifying or disabling a cloud firewall may enable adversary C2 communications, lateral movement, and/or data exfiltration that would otherwise not be allowed.",
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "lockheed",
+          "phase_name": "installation"
+        },
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "defense-evasion"
+        }
+      ],
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1562/007",
+          "external_id": "T1562.007"
+        },
+        {
+          "source_name": "Expel IO Evil in AWS",
+          "url": "https://expel.io/blog/finding-evil-in-aws/",
+          "description": "A. Randazzo, B. Manahan and S. Lipton. (2020, April 28). Finding Evil in AWS. Retrieved June 25, 2020."
+        }
+      ],
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ],
+      "x_mitre_detection": "Monitor cloud logs for modification or creation of new security groups or firewall rules.",
+      "x_mitre_platforms": [
+        "IaaS"
+      ],
+      "x_mitre_data_sources": [
+        "Firewall: Firewall Disable",
+        "Firewall: Firewall Rule Modification"
+      ],
+      "x_mitre_is_subtechnique": true,
+      "x_mitre_permissions_required": [
+        "User"
+      ],
+      "x_mitre_contributors": [
+        "Expel"
+      ],
+      "x_mitre_version": "1.1",
+      "x_panw_parent_technique": "Impair Defenses",
+      "x_panw_parent_technique_subtechnique": "Impair Defenses: Disable or Modify Cloud Firewall"
+    },
+    {
+      "type": "attack-pattern",
+      "id": "attack-pattern--b80d107d-fa0d-4b60-9684-b0433e8bdba0",
+      "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+      "created": "2019-03-15T13:59:30.390Z",
+      "modified": "2021-04-20T16:39:06.594Z",
+      "name": "T1486: Data Encrypted for Impact",
+      "description": "Adversaries may encrypt data on target systems or on large numbers of systems in a network to interrupt availability to system and network resources. They can attempt to render stored data inaccessible by encrypting files or data on local and remote drives and withholding access to a decryption key. This may be done in order to extract monetary compensation from a victim in exchange for decryption or a decryption key (ransomware) or to render data permanently inaccessible in cases where the key is not saved or transmitted.(Citation: US-CERT Ransomware 2016)(Citation: FireEye WannaCry 2017)(Citation: US-CERT NotPetya 2017)(Citation: US-CERT SamSam 2018) In the case of ransomware, it is typical that common user files like Office documents, PDFs, images, videos, audio, text, and source code files will be encrypted. In some cases, adversaries may encrypt critical system files, disk partitions, and the MBR.(Citation: US-CERT NotPetya 2017)\n\nTo maximize impact on the target organization, malware designed for encrypting data may have worm-like features to propagate across a network by leveraging other attack techniques like [Valid Accounts](https://attack.mitre.org/techniques/T1078), [OS Credential Dumping](https://attack.mitre.org/techniques/T1003), and [SMB/Windows Admin Shares](https://attack.mitre.org/techniques/T1021/002).(Citation: FireEye WannaCry 2017)(Citation: US-CERT NotPetya 2017)\n\nIn cloud environments, storage objects within compromised accounts may also be encrypted.(Citation: Rhino S3 Ransomware Part 1)",
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "lockheed",
+          "phase_name": "act-on-objectives"
+        },
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "impact"
+        }
+      ],
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "url": "https://attack.mitre.org/techniques/T1486",
+          "external_id": "T1486"
+        },
+        {
+          "source_name": "US-CERT Ransomware 2016",
+          "url": "https://www.us-cert.gov/ncas/alerts/TA16-091A",
+          "description": "US-CERT. (2016, March 31). Alert (TA16-091A): Ransomware and Recent Variants. Retrieved March 15, 2019."
+        },
+        {
+          "source_name": "FireEye WannaCry 2017",
+          "url": "https://www.fireeye.com/blog/threat-research/2017/05/wannacry-malware-profile.html",
+          "description": "Berry, A., Homan, J., and Eitzman, R. (2017, May 23). WannaCry Malware Profile. Retrieved March 15, 2019."
+        },
+        {
+          "source_name": "US-CERT NotPetya 2017",
+          "url": "https://www.us-cert.gov/ncas/alerts/TA17-181A",
+          "description": "US-CERT. (2017, July 1). Alert (TA17-181A): Petya Ransomware. Retrieved March 15, 2019."
+        },
+        {
+          "source_name": "US-CERT SamSam 2018",
+          "url": "https://www.us-cert.gov/ncas/alerts/AA18-337A",
+          "description": "US-CERT. (2018, December 3). Alert (AA18-337A): SamSam Ransomware. Retrieved March 15, 2019."
+        },
+        {
+          "source_name": "Rhino S3 Ransomware Part 1",
+          "url": "https://rhinosecuritylabs.com/aws/s3-ransomware-part-1-attack-vector/",
+          "description": "Gietzen, S. (n.d.). S3 Ransomware Part 1: Attack Vector. Retrieved April 14, 2021."
+        }
+      ],
+      "object_marking_refs": [
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ],
+      "x_mitre_detection": "Use process monitoring to monitor the execution and command line parameters of binaries involved in data destruction activity, such as vssadmin, wbadmin, and bcdedit. Monitor for the creation of suspicious files as well as unusual file modification activity. In particular, look for large quantities of file modifications in user directories.\n\nIn some cases, monitoring for unusual kernel driver installation activity can aid in detection.\n\nIn cloud environments, monitor for events that indicate storage objects have been anomalously replaced by copies.",
+      "x_mitre_platforms": [
+        "IaaS",
+        "Linux",
+        "macOS",
+        "Windows"
+      ],
+      "x_mitre_data_sources": [
+        "Cloud Storage: Cloud Storage Metadata",
+        "Cloud Storage: Cloud Storage Modification",
+        "Command: Command Execution",
+        "File: File Creation",
+        "File: File Modification",
+        "Process: Process Creation"
+      ],
+      "x_mitre_is_subtechnique": false,
+      "x_mitre_permissions_required": [
+        "Administrator",
+        "root",
+        "SYSTEM",
+        "User"
+      ],
+      "x_mitre_contributors": [
+        "Oleg Kolesnikov, Securonix"
+      ],
+      "x_mitre_impact_type": [
+        "Availability"
+      ],
+      "x_mitre_version": "1.1"
+    },
+    {
+      "type": "campaign",
+      "id": "campaign--486c7e2a-d463-46aa-9ae0-a19ace647f1c",
+      "created": "2021-07-21T14:41:50.252Z",
+      "modified": "2021-08-24T12:58:14.377Z",
+      "name": "Campaign 1 - HelloKitty Linux",
+      "description": "In July 2021, Unit 42 came across a Linux (ELF) sample with the name funny_linux.elf containing a ransom note with verbiage that directly matched ransom notes seen in later samples of HelloKitty for Windows. This led to the discovery of other samples of this Linux strain of the HelloKitty ransomware, dating as far back as October 2020. However, starting in March, the samples began targeting ESXi, a target of choice for recent Linux ransomware variants.",
+      "first_seen": "2020-10-01T00:00:00.000Z",
+      "last_seen": "2021-07-31T00:00:00.000Z"
+    },
+    {
+      "type": "course-of-action",
+      "id": "course-of-action--ee3e1dca-24ea-48a8-825a-e2d2c4b916d9",
+      "name": "Deploy XSOAR Playbook - Ransomware Manual for incident response.",
+      "created": "2020-06-23T19:50:31.722Z",
+      "modified": "2020-09-04T13:59:35.883Z"
+    },
+    {
+      "type": "identity",
+      "id": "identity--8cdd18a4-5b18-47ea-aa99-0394abffe16a",
+      "identity_class": "unknown",
+      "name": "Identity (Campaign 1 - HelloKitty Linux)",
+      "created": "2021-08-23T17:48:08.728Z",
+      "modified": "2021-08-24T12:58:14.377Z",
+      "sectors": [
+        "healthcare",
+        "manufacturing",
+        "pharmaceuticals"
+      ],
+      "x_cta_country": [
+        "DE",
+        "IT",
+        "NL",
+        "US"
+      ]
+    },
+    {
+      "type": "indicator",
+      "id": "indicator--2ea0473c-1973-46a7-8200-710fb2a230b0",
+      "created": "2021-08-23T18:48:27.618Z",
+      "modified": "2021-08-24T12:58:14.377Z",
+      "name": "Ca607e431062ee49a21d69d722750e5edbd8ffabcb54fa92b231814101756041",
+      "pattern": "[file:hashes.'SHA-256' = 'Ca607e431062ee49a21d69d722750e5edbd8ffabcb54fa92b231814101756041']",
+      "valid_from": "2021-08-23T18:48:27.618Z",
+      "labels": [
+        "malicious-activity"
+      ]
+    },
+    {
+      "type": "indicator",
+      "id": "indicator--3cb48fd8-b493-4e3d-934b-1fd8e26b7873",
+      "created": "2021-08-23T18:48:27.618Z",
+      "modified": "2021-08-24T12:58:14.377Z",
+      "name": "bedf30bbcefc54bc48432674255856f47c0ba2ec46e913d078a53e66ac9dcff8",
+      "pattern": "[file:hashes.'SHA-256' = 'bedf30bbcefc54bc48432674255856f47c0ba2ec46e913d078a53e66ac9dcff8']",
+      "valid_from": "2021-08-23T18:48:27.618Z",
+      "labels": [
+        "malicious-activity"
+      ]
+    },
+    {
+      "type": "indicator",
+      "id": "indicator--3cfd4fa2-32e0-42ce-b596-27bb6c7d9d84",
+      "created": "2021-08-23T18:48:27.618Z",
+      "modified": "2021-08-24T12:58:14.377Z",
+      "name": "16a0054a277d8c26beb97850ac3e86dd0736ae6661db912b8782b4eb08cfd36e",
+      "pattern": "[file:hashes.'SHA-256' = '16a0054a277d8c26beb97850ac3e86dd0736ae6661db912b8782b4eb08cfd36e']",
+      "valid_from": "2021-08-23T18:48:27.618Z",
+      "labels": [
+        "malicious-activity"
+      ]
+    },
+    {
+      "type": "indicator",
+      "id": "indicator--4bb3ffed-8e39-46f6-aa00-194ac7fdae3d",
+      "created": "2021-08-23T18:48:27.618Z",
+      "modified": "2021-08-24T12:58:14.377Z",
+      "name": "8f3db63f70fad912a3d5994e80ad9a6d1db6c38d119b38bc04890dfba4c4a2b2",
+      "pattern": "[file:hashes.'SHA-256' = '8f3db63f70fad912a3d5994e80ad9a6d1db6c38d119b38bc04890dfba4c4a2b2']",
+      "valid_from": "2021-08-23T18:48:27.618Z",
+      "labels": [
+        "malicious-activity"
+      ]
+    },
+    {
+      "type": "indicator",
+      "id": "indicator--5a88c4dc-f463-4daa-acc8-fc244791e886",
+      "created": "2021-08-23T18:48:27.618Z",
+      "modified": "2021-08-24T12:58:14.377Z",
+      "name": "b4f90cff1e3900a3906c3b74f307498760462d719c31d008fc01937f5400fb85",
+      "pattern": "[file:hashes.'SHA-256' = 'b4f90cff1e3900a3906c3b74f307498760462d719c31d008fc01937f5400fb85']",
+      "valid_from": "2021-08-23T18:48:27.618Z",
+      "labels": [
+        "malicious-activity"
+      ]
+    },
+    {
+      "type": "indicator",
+      "id": "indicator--a9eb5437-697f-4654-8998-dab7b3ffcd77",
+      "created": "2021-08-23T17:46:16.123Z",
+      "modified": "2021-08-24T12:58:14.377Z",
+      "name": "esxcli vm process kill -t=force -w=%d %",
+      "pattern": "[process:command_line = 'esxcli vm process kill -t=force -w=%d %']",
+      "valid_from": "2021-08-23T17:46:16.123Z",
+      "labels": [
+        "malicious-activity"
+      ]
+    },
+    {
+      "type": "indicator",
+      "id": "indicator--af27a965-9e61-49f2-9489-8da74235f168",
+      "created": "2021-08-23T17:47:05.715Z",
+      "modified": "2021-08-24T12:58:14.378Z",
+      "name": ".README_TO_RESTORE",
+      "pattern": "[file:name = '.README_TO_RESTORE']",
+      "valid_from": "2021-08-23T17:47:05.715Z",
+      "labels": [
+        "malicious-activity"
+      ]
+    },
+    {
+      "type": "indicator",
+      "id": "indicator--c1997803-9e4f-4c77-93cf-d84bb85c793b",
+      "created": "2021-08-23T17:46:16.123Z",
+      "modified": "2021-08-24T12:58:14.377Z",
+      "name": "esxcli vm process list",
+      "pattern": "[process:command_line = 'esxcli vm process list']",
+      "valid_from": "2021-08-23T17:46:16.123Z",
+      "labels": [
+        "malicious-activity"
+      ]
+    },
+    {
+      "type": "indicator",
+      "id": "indicator--d0768bf1-cb8a-4945-8a95-fb31859925d1",
+      "created": "2021-08-23T17:46:16.123Z",
+      "modified": "2021-08-24T12:58:14.377Z",
+      "name": "esxcli vm process kill -t=soft -w=%d %",
+      "pattern": "[process:command_line = 'esxcli vm process kill -t=soft -w=%d %']",
+      "valid_from": "2021-08-23T17:46:16.123Z",
+      "labels": [
+        "malicious-activity"
+      ]
+    },
+    {
+      "type": "indicator",
+      "id": "indicator--ea5090c2-5417-429d-8717-8c664eec44fe",
+      "created": "2021-08-23T18:48:27.618Z",
+      "modified": "2021-08-24T12:58:14.377Z",
+      "name": "9f82f22c137688d0b3e7912d415605d2bbc56478311fd0b3dc265f8d0006aa8c",
+      "pattern": "[file:hashes.'SHA-256' = '9f82f22c137688d0b3e7912d415605d2bbc56478311fd0b3dc265f8d0006aa8c']",
+      "valid_from": "2021-08-23T18:48:27.618Z",
+      "labels": [
+        "malicious-activity"
+      ]
+    },
+    {
+      "type": "indicator",
+      "id": "indicator--f07e468b-0afc-4f32-b98f-f9f809839b33",
+      "created": "2021-08-23T18:48:27.618Z",
+      "modified": "2021-08-24T12:58:14.377Z",
+      "name": "556e5cb5e4e77678110961c8d9260a726a363e00bf8d278e5302cb4bfccc3eed",
+      "pattern": "[file:hashes.'SHA-256' = '556e5cb5e4e77678110961c8d9260a726a363e00bf8d278e5302cb4bfccc3eed']",
+      "valid_from": "2021-08-23T18:48:27.618Z",
+      "labels": [
+        "malicious-activity"
+      ]
+    },
+    {
+      "type": "malware",
+      "id": "malware--ed25c578-1450-4ca7-98f9-3418a13e2692",
+      "name": "Hello Kitty",
+      "labels": [
+        "ransomware"
+      ],
+      "created": "2021-08-23T18:53:59.743Z",
+      "modified": "2021-08-24T12:58:14.378Z",
+      "description": "HelloKitty is a ransomware family that first surfaced at the end of 2020, primarily targeting Windows systems. The malware family got its name due to its use of a Mutex with the same name: HelloKittyMutex. The ransomware samples seem to evolve quickly and frequently, with different versions making use of the .crypted or .kitty file extensions for encrypted files."
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--0390514b-505b-4c02-82eb-874356051571",
+      "created": "2021-08-23T18:55:01.854Z",
+      "modified": "2021-08-24T12:58:14.379Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--af27a965-9e61-49f2-9489-8da74235f168",
+      "target_ref": "malware--ed25c578-1450-4ca7-98f9-3418a13e2692"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--13e7c7ab-4597-44b9-819d-486dac6b5a28",
+      "created": "2021-08-23T18:55:01.854Z",
+      "modified": "2021-08-24T12:58:14.378Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--5a88c4dc-f463-4daa-acc8-fc244791e886",
+      "target_ref": "malware--ed25c578-1450-4ca7-98f9-3418a13e2692"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--171705c6-c08d-4a0e-b4c8-e8fa33268f23",
+      "created": "2021-08-23T18:48:31.638Z",
+      "modified": "2021-08-24T12:58:14.378Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--4bb3ffed-8e39-46f6-aa00-194ac7fdae3d",
+      "target_ref": "campaign--486c7e2a-d463-46aa-9ae0-a19ace647f1c"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--19e89746-3f69-4ac8-a6f0-d48b0b210304",
+      "created": "2021-08-23T18:48:31.638Z",
+      "modified": "2021-08-24T12:58:14.378Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--ea5090c2-5417-429d-8717-8c664eec44fe",
+      "target_ref": "campaign--486c7e2a-d463-46aa-9ae0-a19ace647f1c"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--1a4c26e2-77aa-4928-ac29-d0d7eb23040b",
+      "created": "2021-08-23T18:48:31.638Z",
+      "modified": "2021-08-24T12:58:14.378Z",
+      "relationship_type": "uses",
+      "description": "ELF Payload",
+      "source_ref": "indicator--5a88c4dc-f463-4daa-acc8-fc244791e886",
+      "target_ref": "attack-pattern--b80d107d-fa0d-4b60-9684-b0433e8bdba0"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--1aa49671-1618-4cf5-9e98-218f1b221b6f",
+      "created": "2021-08-23T17:47:06.752Z",
+      "modified": "2021-08-24T12:58:14.378Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--af27a965-9e61-49f2-9489-8da74235f168",
+      "target_ref": "campaign--486c7e2a-d463-46aa-9ae0-a19ace647f1c"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--1fad0620-17d5-49b1-bc32-b3f34064b2c8",
+      "created": "2021-08-23T18:48:31.638Z",
+      "modified": "2021-08-24T12:58:14.378Z",
+      "relationship_type": "uses",
+      "description": "ELF Payload",
+      "source_ref": "indicator--f07e468b-0afc-4f32-b98f-f9f809839b33",
+      "target_ref": "attack-pattern--b80d107d-fa0d-4b60-9684-b0433e8bdba0"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--25c33a0f-768c-474e-a0ff-979ad84dbb22",
+      "created": "2021-08-23T18:48:31.638Z",
+      "modified": "2021-08-24T12:58:14.378Z",
+      "relationship_type": "uses",
+      "description": "ELF Payload",
+      "source_ref": "indicator--4bb3ffed-8e39-46f6-aa00-194ac7fdae3d",
+      "target_ref": "attack-pattern--b80d107d-fa0d-4b60-9684-b0433e8bdba0"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--40be993c-15b5-4ea0-9563-b24585077bb3",
+      "created": "2021-08-23T17:46:17.571Z",
+      "modified": "2021-08-24T12:58:14.378Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--c1997803-9e4f-4c77-93cf-d84bb85c793b",
+      "target_ref": "campaign--486c7e2a-d463-46aa-9ae0-a19ace647f1c"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--486c7e2a-d463-46aa-9ae0-a19ace647f1c",
+      "created": "2021-07-21T14:41:50.252Z",
+      "modified": "2021-08-24T12:58:14.377Z",
+      "relationship_type": "attributed-to",
+      "source_ref": "campaign--486c7e2a-d463-46aa-9ae0-a19ace647f1c",
+      "target_ref": "intrusion-set--bb32cab3-1d14-4aae-a7aa-4d6c152d1a56"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--5b13bc72-61cf-4bbc-ba49-e631b5cc7263",
+      "created": "2021-08-23T17:48:09.813Z",
+      "modified": "2021-08-24T12:58:14.378Z",
+      "relationship_type": "targets",
+      "source_ref": "campaign--486c7e2a-d463-46aa-9ae0-a19ace647f1c",
+      "target_ref": "identity--8cdd18a4-5b18-47ea-aa99-0394abffe16a"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--5bbae607-9226-46f0-ac83-209ae0a3d972",
+      "created": "2021-08-23T18:48:31.638Z",
+      "modified": "2021-08-24T12:58:14.378Z",
+      "relationship_type": "uses",
+      "description": "ELF Payload",
+      "source_ref": "indicator--3cb48fd8-b493-4e3d-934b-1fd8e26b7873",
+      "target_ref": "attack-pattern--b80d107d-fa0d-4b60-9684-b0433e8bdba0"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--60cb67c4-855a-4fd5-b1b7-7cadc96dda72",
+      "created": "2021-08-23T18:55:01.854Z",
+      "modified": "2021-08-24T12:58:14.378Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--3cb48fd8-b493-4e3d-934b-1fd8e26b7873",
+      "target_ref": "malware--ed25c578-1450-4ca7-98f9-3418a13e2692"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--696d4acc-507a-44de-804f-0cd1a8464553",
+      "created": "2021-08-23T18:55:01.854Z",
+      "modified": "2021-08-24T12:58:14.378Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--4bb3ffed-8e39-46f6-aa00-194ac7fdae3d",
+      "target_ref": "malware--ed25c578-1450-4ca7-98f9-3418a13e2692"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--77532a55-c283-4cd2-bc5d-2d0b65e9d88c",
+      "created": "2021-07-21T14:41:50.252Z",
+      "modified": "2021-08-24T12:58:14.377Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--486c7e2a-d463-46aa-9ae0-a19ace647f1c",
+      "target_ref": "attack-pattern--77532a55-c283-4cd2-bc5d-2d0b65e9d88c"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--78a269e9-fc8c-45bc-a828-971eea51b44d",
+      "created": "2021-08-23T18:48:31.638Z",
+      "modified": "2021-08-24T12:58:14.378Z",
+      "relationship_type": "uses",
+      "description": "ELF Payload",
+      "source_ref": "indicator--ea5090c2-5417-429d-8717-8c664eec44fe",
+      "target_ref": "attack-pattern--b80d107d-fa0d-4b60-9684-b0433e8bdba0"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--8bbe3bb5-4ff4-4ed2-afef-2ba0137d4837",
+      "created": "2021-08-23T18:48:31.638Z",
+      "modified": "2021-08-24T12:58:14.378Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--2ea0473c-1973-46a7-8200-710fb2a230b0",
+      "target_ref": "campaign--486c7e2a-d463-46aa-9ae0-a19ace647f1c"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--8c27d8b6-3fe7-4bca-a2a8-046e5d660055",
+      "created": "2021-08-23T17:46:17.571Z",
+      "modified": "2021-08-24T12:58:14.378Z",
+      "relationship_type": "uses",
+      "description": "The following esxcli commands are executed to kill running VM.",
+      "source_ref": "indicator--a9eb5437-697f-4654-8998-dab7b3ffcd77",
+      "target_ref": "attack-pattern--77532a55-c283-4cd2-bc5d-2d0b65e9d88c"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--8f72b007-04b8-49df-a33f-c4e835a4dbb8",
+      "created": "2021-08-23T18:55:01.854Z",
+      "modified": "2021-08-24T12:58:14.378Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--ea5090c2-5417-429d-8717-8c664eec44fe",
+      "target_ref": "malware--ed25c578-1450-4ca7-98f9-3418a13e2692"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--950b2fe2-effc-4c52-893e-bdab9e7fa443",
+      "created": "2021-08-23T17:46:17.571Z",
+      "modified": "2021-08-24T12:58:14.378Z",
+      "relationship_type": "uses",
+      "description": "The following esxcli commands are executed to kill running VM",
+      "source_ref": "indicator--d0768bf1-cb8a-4945-8a95-fb31859925d1",
+      "target_ref": "attack-pattern--77532a55-c283-4cd2-bc5d-2d0b65e9d88c"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--9668de41-d6c6-472d-bd75-9ceba52431d3",
+      "created": "2021-08-23T18:48:31.638Z",
+      "modified": "2021-08-24T12:58:14.378Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--3cfd4fa2-32e0-42ce-b596-27bb6c7d9d84",
+      "target_ref": "campaign--486c7e2a-d463-46aa-9ae0-a19ace647f1c"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--9c2c7d05-dc2d-4470-aec8-05d6f27629f8",
+      "created": "2021-08-23T17:46:17.571Z",
+      "modified": "2021-08-24T12:58:14.378Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--d0768bf1-cb8a-4945-8a95-fb31859925d1",
+      "target_ref": "campaign--486c7e2a-d463-46aa-9ae0-a19ace647f1c"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--a93cea4e-03cb-47f5-af16-97357cbf43ee",
+      "created": "2021-08-23T17:47:06.752Z",
+      "modified": "2021-08-24T12:58:14.378Z",
+      "relationship_type": "uses",
+      "description": "Hello Kitty linux variant ransom note.",
+      "source_ref": "indicator--af27a965-9e61-49f2-9489-8da74235f168",
+      "target_ref": "attack-pattern--b80d107d-fa0d-4b60-9684-b0433e8bdba0"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--b80d107d-fa0d-4b60-9684-b0433e8bdba0",
+      "created": "2021-07-21T14:41:50.252Z",
+      "modified": "2021-08-24T12:58:14.377Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--486c7e2a-d463-46aa-9ae0-a19ace647f1c",
+      "target_ref": "attack-pattern--b80d107d-fa0d-4b60-9684-b0433e8bdba0"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--b91096d2-24b8-4b73-9387-6485e79609d1",
+      "created": "2021-08-23T17:46:17.571Z",
+      "modified": "2021-08-24T12:58:14.378Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--a9eb5437-697f-4654-8998-dab7b3ffcd77",
+      "target_ref": "campaign--486c7e2a-d463-46aa-9ae0-a19ace647f1c"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--c23258b9-bfe3-4eac-98a7-0f088f5a6085",
+      "created": "2021-08-23T18:48:31.638Z",
+      "modified": "2021-08-24T12:58:14.378Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--f07e468b-0afc-4f32-b98f-f9f809839b33",
+      "target_ref": "campaign--486c7e2a-d463-46aa-9ae0-a19ace647f1c"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--c67a9b09-e3a1-407c-942c-d0bea138be04",
+      "created": "2021-07-21T14:41:49.943Z",
+      "modified": "2021-08-24T12:54:02.899Z",
+      "relationship_type": "attributed-to",
+      "source_ref": "report--c67a9b09-e3a1-407c-942c-d0bea138be04",
+      "target_ref": "intrusion-set--bb32cab3-1d14-4aae-a7aa-4d6c152d1a56"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--cf98316f-a6ac-4568-87c9-57d3e1ef0ce5",
+      "created": "2021-08-23T18:55:01.854Z",
+      "modified": "2021-08-24T12:58:14.378Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--f07e468b-0afc-4f32-b98f-f9f809839b33",
+      "target_ref": "malware--ed25c578-1450-4ca7-98f9-3418a13e2692"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--d077e6b9-4dd8-43dd-873f-70803b45a73e",
+      "created": "2021-08-23T18:48:31.638Z",
+      "modified": "2021-08-24T12:58:14.378Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--5a88c4dc-f463-4daa-acc8-fc244791e886",
+      "target_ref": "campaign--486c7e2a-d463-46aa-9ae0-a19ace647f1c"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--d30b13fc-8052-449c-af2e-f47b24df2eef",
+      "created": "2021-08-23T18:48:31.638Z",
+      "modified": "2021-08-24T12:58:14.378Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--3cb48fd8-b493-4e3d-934b-1fd8e26b7873",
+      "target_ref": "campaign--486c7e2a-d463-46aa-9ae0-a19ace647f1c"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--d40a90eb-99f0-44a8-b6ab-1c8d96a737d2",
+      "created": "2021-08-23T18:55:01.854Z",
+      "modified": "2021-08-24T12:58:14.379Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--3cfd4fa2-32e0-42ce-b596-27bb6c7d9d84",
+      "target_ref": "malware--ed25c578-1450-4ca7-98f9-3418a13e2692"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--e15f959a-8b06-4c43-823b-a77248d63dd7",
+      "created": "2021-08-23T18:48:31.638Z",
+      "modified": "2021-08-24T12:58:14.378Z",
+      "relationship_type": "uses",
+      "description": "ELF Payload. ",
+      "source_ref": "indicator--3cfd4fa2-32e0-42ce-b596-27bb6c7d9d84",
+      "target_ref": "attack-pattern--b80d107d-fa0d-4b60-9684-b0433e8bdba0"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--e5ed3b62-2f19-4791-a94a-e99a219aa141",
+      "created": "2021-08-23T18:48:31.638Z",
+      "modified": "2021-08-24T12:58:14.378Z",
+      "relationship_type": "uses",
+      "description": "ELF Payload",
+      "source_ref": "indicator--2ea0473c-1973-46a7-8200-710fb2a230b0",
+      "target_ref": "attack-pattern--b80d107d-fa0d-4b60-9684-b0433e8bdba0"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--f4a3286a-e9db-416e-85bc-c39b1b03af31",
+      "created": "2020-06-23T19:50:42.481Z",
+      "modified": "2021-04-12T18:24:34.257Z",
+      "relationship_type": "mitigates",
+      "source_ref": "course-of-action--ee3e1dca-24ea-48a8-825a-e2d2c4b916d9",
+      "target_ref": "attack-pattern--b80d107d-fa0d-4b60-9684-b0433e8bdba0",
+      "x_panw_coa_u42_panw_product": [
+        "XSOAR"
+      ]
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--f95b6864-fb56-4902-8258-7b260bd43079",
+      "created": "2021-08-23T18:55:01.854Z",
+      "modified": "2021-08-24T12:58:14.378Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--2ea0473c-1973-46a7-8200-710fb2a230b0",
+      "target_ref": "malware--ed25c578-1450-4ca7-98f9-3418a13e2692"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--ffa7b2c4-71d7-4481-8afd-ee30078d3d66",
+      "created": "2021-08-23T17:46:17.571Z",
+      "modified": "2021-08-24T12:58:14.378Z",
+      "relationship_type": "uses",
+      "description": "The following esxcli commands are executed to kill running VM",
+      "source_ref": "indicator--c1997803-9e4f-4c77-93cf-d84bb85c793b",
+      "target_ref": "attack-pattern--77532a55-c283-4cd2-bc5d-2d0b65e9d88c"
+    },
+    {
+      "type": "report",
+      "id": "report--486c7e2a-d463-46aa-9ae0-a19ace647f1c",
+      "created": "2021-07-21T14:41:50.252Z",
+      "modified": "2021-08-24T12:58:14.377Z",
+      "name": "Campaign 1 - HelloKitty Linux",
+      "published": "2021-08-24T12:58:14.377Z",
+      "object_refs": [
+        "attack-pattern--77532a55-c283-4cd2-bc5d-2d0b65e9d88c",
+        "attack-pattern--b80d107d-fa0d-4b60-9684-b0433e8bdba0",
+        "campaign--486c7e2a-d463-46aa-9ae0-a19ace647f1c",
+        "course-of-action--ee3e1dca-24ea-48a8-825a-e2d2c4b916d9",
+        "identity--8cdd18a4-5b18-47ea-aa99-0394abffe16a",
+        "indicator--2ea0473c-1973-46a7-8200-710fb2a230b0",
+        "indicator--3cb48fd8-b493-4e3d-934b-1fd8e26b7873",
+        "indicator--3cfd4fa2-32e0-42ce-b596-27bb6c7d9d84",
+        "indicator--4bb3ffed-8e39-46f6-aa00-194ac7fdae3d",
+        "indicator--5a88c4dc-f463-4daa-acc8-fc244791e886",
+        "indicator--a9eb5437-697f-4654-8998-dab7b3ffcd77",
+        "indicator--af27a965-9e61-49f2-9489-8da74235f168",
+        "indicator--c1997803-9e4f-4c77-93cf-d84bb85c793b",
+        "indicator--d0768bf1-cb8a-4945-8a95-fb31859925d1",
+        "indicator--ea5090c2-5417-429d-8717-8c664eec44fe",
+        "indicator--f07e468b-0afc-4f32-b98f-f9f809839b33",
+        "intrusion-set--bb32cab3-1d14-4aae-a7aa-4d6c152d1a56",
+        "malware--ed25c578-1450-4ca7-98f9-3418a13e2692",
+        "relationship--0390514b-505b-4c02-82eb-874356051571",
+        "relationship--13e7c7ab-4597-44b9-819d-486dac6b5a28",
+        "relationship--171705c6-c08d-4a0e-b4c8-e8fa33268f23",
+        "relationship--19e89746-3f69-4ac8-a6f0-d48b0b210304",
+        "relationship--1a4c26e2-77aa-4928-ac29-d0d7eb23040b",
+        "relationship--1aa49671-1618-4cf5-9e98-218f1b221b6f",
+        "relationship--1fad0620-17d5-49b1-bc32-b3f34064b2c8",
+        "relationship--25c33a0f-768c-474e-a0ff-979ad84dbb22",
+        "relationship--40be993c-15b5-4ea0-9563-b24585077bb3",
+        "relationship--486c7e2a-d463-46aa-9ae0-a19ace647f1c",
+        "relationship--5b13bc72-61cf-4bbc-ba49-e631b5cc7263",
+        "relationship--5bbae607-9226-46f0-ac83-209ae0a3d972",
+        "relationship--60cb67c4-855a-4fd5-b1b7-7cadc96dda72",
+        "relationship--696d4acc-507a-44de-804f-0cd1a8464553",
+        "relationship--77532a55-c283-4cd2-bc5d-2d0b65e9d88c",
+        "relationship--78a269e9-fc8c-45bc-a828-971eea51b44d",
+        "relationship--8bbe3bb5-4ff4-4ed2-afef-2ba0137d4837",
+        "relationship--8c27d8b6-3fe7-4bca-a2a8-046e5d660055",
+        "relationship--8f72b007-04b8-49df-a33f-c4e835a4dbb8",
+        "relationship--950b2fe2-effc-4c52-893e-bdab9e7fa443",
+        "relationship--9668de41-d6c6-472d-bd75-9ceba52431d3",
+        "relationship--9c2c7d05-dc2d-4470-aec8-05d6f27629f8",
+        "relationship--a93cea4e-03cb-47f5-af16-97357cbf43ee",
+        "relationship--b80d107d-fa0d-4b60-9684-b0433e8bdba0",
+        "relationship--b91096d2-24b8-4b73-9387-6485e79609d1",
+        "relationship--c23258b9-bfe3-4eac-98a7-0f088f5a6085",
+        "relationship--cf98316f-a6ac-4568-87c9-57d3e1ef0ce5",
+        "relationship--d077e6b9-4dd8-43dd-873f-70803b45a73e",
+        "relationship--d30b13fc-8052-449c-af2e-f47b24df2eef",
+        "relationship--d40a90eb-99f0-44a8-b6ab-1c8d96a737d2",
+        "relationship--e15f959a-8b06-4c43-823b-a77248d63dd7",
+        "relationship--e5ed3b62-2f19-4791-a94a-e99a219aa141",
+        "relationship--f4a3286a-e9db-416e-85bc-c39b1b03af31",
+        "relationship--f95b6864-fb56-4902-8258-7b260bd43079",
+        "relationship--ffa7b2c4-71d7-4481-8afd-ee30078d3d66"
+      ],
+      "labels": [
+        "campaign"
+      ]
+    }
+  ]
+}
