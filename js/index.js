@@ -1,4 +1,4 @@
-const default_killchain = 'lockheed';
+const default_killchain = 'mitre-attack';
 let consts = null;
 let playbook_information = null;
 let current_playbook = null;
@@ -99,8 +99,8 @@ function initTour() {
             },
             {
                 element: ".dropdown",
-                title: "Hover to select a Kill Chain",
-                content: "Lockheed Martin's Kill Chain is the default. Mitre ATT&CK is also supported.",
+                title: "Hover to select a Lifecycle or Kill Chain",
+                content: "The Mitre ATT&CK Lifecycle is the default. The Lockheed Martin's Kill Chain  is also supported.",
                 placement: "top"
             },
             {
@@ -454,7 +454,7 @@ function buildMap() {
             name: `${n} : ${pbs.map(i => i.title).join(', ')}`,
             pbs: pbs,
             count: n,
-            radius: 20 * (n / 2),
+            radius: 15 * (n / 2),
             code: i,
             country: iso3_to_data[i]['country'],
             fillKey: 'target'
@@ -513,7 +513,7 @@ function buildMap() {
 
             $('.extrainfo').remove();
             $('.container').append(containerContents);
-            $('.extrainfo').css({top: e.offsetY, left: e.offsetX});
+            $('.extrainfo').css({top: e.offsetY, left: e.offsetX, "min-width": "250px", "max-height": "500px", overflow: "scroll"});
         }
     });
 
@@ -1358,7 +1358,8 @@ function writeAPModal(ap, report, playbook) {
     const coasByProduct = coas.reduce((r, coa) => {
         const rel = relationships.find(x => coa['id'] === x['source_ref'] && ap['id'] === x['target_ref']);
         const products = rel['x_panw_coa_u42_panw_product'];
-        products.forEach(p => {
+
+        (products || []).forEach(p => {
             const v = getValueForCOARow(coa, ap, relationships);
             p in r ? r[p].push(v) : r[p] = [v];
         });
