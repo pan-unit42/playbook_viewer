@@ -87,6 +87,8 @@ At the top level is a [Bundle object][1], containing an [Intrusion Set][2],
 [Reports][3], [Campaigns][4], [Indicators][5], [Attack Patterns][6], 
 [Identities][8], [Malwares][9] and [Relationship][7] objects.
 
+A later update to the structure of a Playbook added the [Course of Action][10] object.
+
 The Playbook is represented by a Report object, containing a description and a reference list.
 
 The reference list contains an id for the Intrusion Set object, as well as an id for each additional Report object
@@ -105,7 +107,9 @@ Each Indicator object contains an [indicator pattern][5].
 
 Each Indicator object may also be related to Malware object(s) which provide details on the family of malware.
 
-The Attack Patterns are from the MITRE [ATT&CK][10] Framework, with the addition of a Lockheed Martin Kill Chain phase.
+The Attack Patterns are from the MITRE [ATT&CK][11] Framework, with the addition of a Lockheed Martin Kill Chain phase.
+
+The Course of Action (CoA) contains details about how to protect against a particular Attack Pattern.
 
 The structure of a Playbook is provided by Relationship objects, which are directional (source_ref and target_ref).
 
@@ -119,6 +123,11 @@ The structure of a Playbook is provided by Relationship objects, which are direc
   
 * Indicator --> Malware
   * The Indicator 'indicates' the Malware
+
+* Course of Action --> Attack Pattern
+  * The Course of Action 'mitigates' the Attack Pattern
+  * The Relationship between a Course of Action and an Attack Pattern contains a custom field
+  * This custom field, 'x_panw_coa_u42_panw_product', is an array of PANW Products that can implement the described CoA
 
 * Campaign --> Attack Pattern
   * The Campaign 'uses' the Attack Pattern
@@ -148,4 +157,5 @@ contextual without having to duplicate the indicator pattern.
 [7]: http://docs.oasis-open.org/cti/stix/v2.0/cs01/part2-stix-objects/stix-v2.0-cs01-part2-stix-objects.html#_Toc496714338
 [8]: http://docs.oasis-open.org/cti/stix/v2.0/cs01/part2-stix-objects/stix-v2.0-cs01-part2-stix-objects.html#_Toc496714310
 [9]: http://docs.oasis-open.org/cti/stix/v2.0/cs01/part2-stix-objects/stix-v2.0-cs01-part2-stix-objects.html#_Toc496714319
-[10]: https://attack.mitre.org/
+[10]: http://docs.oasis-open.org/cti/stix/v2.0/cs01/part2-stix-objects/stix-v2.0-cs01-part2-stix-objects.html#_Toc496714307
+[11]: https://attack.mitre.org/
