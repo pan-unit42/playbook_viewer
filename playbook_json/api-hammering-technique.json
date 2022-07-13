@@ -1,0 +1,651 @@
+{
+    "id": "bundle--4de0dde8-7f18-4b66-9eed-c31de73c3999",
+    "objects": [
+        {
+            "created": "2022-02-16T15:12:38.237Z",
+            "description": "Zloader and Bazarloader use a unique detection evasion technique called API Hammering.  ",
+            "id": "report--523c204a-d965-4a7b-95d6-25c63e86a2d5",
+            "labels": [
+                "atom-playbook",
+                "intrusion-set"
+            ],
+            "modified": "2022-05-10T18:16:57.138Z",
+            "name": "API Hammering Technique",
+            "object_refs": [
+                "intrusion-set--a0959e8f-f1ce-4c1b-a7cf-13df0d05ffec",
+                "report--14ff715a-4979-40e0-a9d2-85b13be87046"
+            ],
+            "published": "2022-02-16T15:12:38.237Z",
+            "type": "report"
+        },
+        {
+            "created": "2022-02-16T15:12:38.237Z",
+            "id": "intrusion-set--a0959e8f-f1ce-4c1b-a7cf-13df0d05ffec",
+            "modified": "2022-05-10T18:16:57.138Z",
+            "name": "Zloader and BazarLoader Sandbox Evasion",
+            "type": "intrusion-set"
+        },
+        {
+            "created": "2022-02-16T15:26:04.882Z",
+            "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+            "description": "Adversaries may employ various time-based methods to detect and avoid virtualization and analysis environments. This may include enumerating time-based properties, such as uptime or the system clock, as well as the use of timers or other triggers to avoid a virtual machine environment (VME) or sandbox, specifically those that are automated or only operate for a limited amount of time.\n\nAdversaries may employ various time-based evasions, such as delaying malware functionality upon initial execution using programmatic sleep commands or native system scheduling functionality (ex: [Scheduled Task/Job](https://attack.mitre.org/techniques/T1053)). Delays may also be based on waiting for specific victim conditions to be met (ex: system time, events, etc.) or employ scheduled [Multi-Stage Channels](https://attack.mitre.org/techniques/T1104) to avoid analysis and scrutiny.\n\nAdversaries may also use time as a metric to detect sandboxes and analysis environments, particularly those that attempt to manipulate time mechanisms to simulate longer elapses of time. For example, an adversary may be able to identify a sandbox accelerating time by sampling and calculating the expected value for an environment's timestamp before and after execution of a sleep function.(Citation: ISACA Malware Tricks)",
+            "external_references": [
+                {
+                    "external_id": "T1497.003",
+                    "source_name": "mitre-attack",
+                    "url": "https://attack.mitre.org/techniques/T1497/003"
+                },
+                {
+                    "description": "Kolbitsch, C. (2017, November 1). Evasive Malware Tricks: How Malware Evades Detection by Sandboxes. Retrieved March 30, 2021.",
+                    "source_name": "ISACA Malware Tricks",
+                    "url": "https://www.isaca.org/resources/isaca-journal/issues/2017/volume-6/evasive-malware-tricks-how-malware-evades-detection-by-sandboxes"
+                }
+            ],
+            "id": "attack-pattern--4bed873f-0b7d-41d4-b93a-b6905d1f90b0",
+            "kill_chain_phases": [
+                {
+                    "kill_chain_name": "mitre-attack",
+                    "phase_name": "defense-evasion"
+                },
+                {
+                    "kill_chain_name": "mitre-attack",
+                    "phase_name": "discovery"
+                }
+            ],
+            "modified": "2022-05-10T18:16:57.138Z",
+            "name": "T1497.003: Time Based Evasion",
+            "object_marking_refs": [
+                "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+            ],
+            "type": "attack-pattern",
+            "x_mitre_contributors": [
+                "Deloitte Threat Library Team"
+            ],
+            "x_mitre_data_sources": [
+                "Command: Command Execution",
+                "Process: OS API Execution",
+                "Process: Process Creation"
+            ],
+            "x_mitre_defense_bypassed": [
+                "Anti-virus",
+                "Host forensic analysis",
+                "Signature-based detection",
+                "Static File Analysis"
+            ],
+            "x_mitre_detection": "Time-based evasion will likely occur in the first steps of an operation but may also occur throughout as an adversary learns the environment. Data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities, such as lateral movement, based on the information obtained. Detecting actions related to virtualization and sandbox identification may be difficult depending on the adversary's implementation and monitoring required. Monitoring for suspicious processes being spawned that gather a variety of system information or perform other forms of Discovery, especially in a short period of time, may aid in detection. ",
+            "x_mitre_is_subtechnique": true,
+            "x_mitre_platforms": [
+                "Linux",
+                "Windows",
+                "macOS"
+            ],
+            "x_mitre_version": "1.1",
+            "x_panw_parent_technique": "Virtualization/Sandbox Evasion",
+            "x_panw_parent_technique_subtechnique": "Virtualization/Sandbox Evasion: Time Based Evasion"
+        },
+        {
+            "created": "2022-02-16T15:26:04.882Z",
+            "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+            "description": "Adversaries may employ various means to detect and avoid virtualization and analysis environments. This may include changing behaviors based on the results of checks for the presence of artifacts indicative of a virtual machine environment (VME) or sandbox. If the adversary detects a VME, they may alter their malware to disengage from the victim or conceal the core functions of the implant. They may also search for VME artifacts before dropping secondary or additional payloads. Adversaries may use the information learned from [Virtualization/Sandbox Evasion](https://attack.mitre.org/techniques/T1497) during automated discovery to shape follow-on behaviors. \n\nAdversaries may use several methods to accomplish [Virtualization/Sandbox Evasion](https://attack.mitre.org/techniques/T1497) such as checking for security monitoring tools (e.g., Sysinternals, Wireshark, etc.) or other system artifacts associated with analysis or virtualization. Adversaries may also check for legitimate user activity to help determine if it is in an analysis environment. Additional methods include use of sleep timers or loops within malware code to avoid operating within a temporary sandbox.(Citation: Unit 42 Pirpi July 2015)\n\n",
+            "external_references": [
+                {
+                    "external_id": "T1497",
+                    "source_name": "mitre-attack",
+                    "url": "https://attack.mitre.org/techniques/T1497"
+                },
+                {
+                    "description": "Falcone, R., Wartell, R.. (2015, July 27). UPS: Observations on CVE-2015-3113, Prior Zero-Days and the Pirpi Payload. Retrieved April 23, 2019.",
+                    "source_name": "Unit 42 Pirpi July 2015",
+                    "url": "https://unit42.paloaltonetworks.com/ups-observations-on-cve-2015-3113-prior-zero-days-and-the-pirpi-payload/"
+                }
+            ],
+            "id": "attack-pattern--82caa33e-d11a-433a-94ea-9b5a5fbef81d",
+            "kill_chain_phases": [
+                {
+                    "kill_chain_name": "mitre-attack",
+                    "phase_name": "defense-evasion"
+                },
+                {
+                    "kill_chain_name": "mitre-attack",
+                    "phase_name": "discovery"
+                }
+            ],
+            "modified": "2022-05-10T18:16:57.138Z",
+            "name": "T1497: Virtualization/Sandbox Evasion",
+            "object_marking_refs": [
+                "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+            ],
+            "type": "attack-pattern",
+            "x_mitre_contributors": [
+                "Deloitte Threat Library Team",
+                "Sunny Neo"
+            ],
+            "x_mitre_data_sources": [
+                "Command: Command Execution",
+                "Process: OS API Execution",
+                "Process: Process Creation"
+            ],
+            "x_mitre_defense_bypassed": [
+                "Anti-virus",
+                "Host forensic analysis",
+                "Signature-based detection",
+                "Static File Analysis"
+            ],
+            "x_mitre_detection": "Virtualization, sandbox, user activity, and related discovery techniques will likely occur in the first steps of an operation but may also occur throughout as an adversary learns the environment. Data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities, such as lateral movement, based on the information obtained. Detecting actions related to virtualization and sandbox identification may be difficult depending on the adversary's implementation and monitoring required. Monitoring for suspicious processes being spawned that gather a variety of system information or perform other forms of Discovery, especially in a short period of time, may aid in detection.",
+            "x_mitre_is_subtechnique": false,
+            "x_mitre_platforms": [
+                "Linux",
+                "Windows",
+                "macOS"
+            ],
+            "x_mitre_version": "1.2"
+        },
+        {
+            "created": "2022-02-16T15:26:04.882Z",
+            "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+            "description": "Adversaries may perform software packing or virtual machine software protection to conceal their code. Software packing is a method of compressing or encrypting an executable. Packing an executable changes the file signature in an attempt to avoid signature-based detection. Most decompression techniques decompress the executable code in memory. Virtual machine software protection translates an executable's original code into a special format that only a special virtual machine can run. A virtual machine is then called to run this code.(Citation: ESET FinFisher Jan 2018) \n\nUtilities used to perform software packing are called packers. Example packers are MPRESS and UPX. A more comprehensive list of known packers is available, (Citation: Wikipedia Exe Compression) but adversaries may create their own packing techniques that do not leave the same artifacts as well-known packers to evade defenses.  ",
+            "external_references": [
+                {
+                    "external_id": "T1027.002",
+                    "source_name": "mitre-attack",
+                    "url": "https://attack.mitre.org/techniques/T1027/002"
+                },
+                {
+                    "external_id": "CAPEC-570",
+                    "source_name": "capec",
+                    "url": "https://capec.mitre.org/data/definitions/570.html"
+                },
+                {
+                    "description": "Kafka, F. (2018, January). ESET's Guide to Deobfuscating and Devirtualizing FinFisher. Retrieved August 12, 2019.",
+                    "source_name": "ESET FinFisher Jan 2018",
+                    "url": "https://www.welivesecurity.com/wp-content/uploads/2018/01/WP-FinFisher.pdf"
+                },
+                {
+                    "description": "Executable compression. (n.d.). Retrieved December 4, 2014.",
+                    "source_name": "Wikipedia Exe Compression",
+                    "url": "http://en.wikipedia.org/wiki/Executable_compression"
+                }
+            ],
+            "id": "attack-pattern--deb98323-e13f-4b0c-8d94-175379069062",
+            "kill_chain_phases": [
+                {
+                    "kill_chain_name": "mitre-attack",
+                    "phase_name": "defense-evasion"
+                }
+            ],
+            "modified": "2022-05-10T18:16:57.138Z",
+            "name": "T1027.002: Software Packing",
+            "object_marking_refs": [
+                "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+            ],
+            "type": "attack-pattern",
+            "x_mitre_contributors": [
+                "Filip Kafka, ESET"
+            ],
+            "x_mitre_data_sources": [
+                "File: File Content",
+                "File: File Metadata"
+            ],
+            "x_mitre_defense_bypassed": [
+                "Anti-virus",
+                "Heuristic detection",
+                "Signature-based detection"
+            ],
+            "x_mitre_detection": "Use file scanning to look for known software packers or artifacts of packing techniques. Packing is not a definitive indicator of malicious activity, because legitimate software may use packing techniques to reduce binary size or to protect proprietary code.",
+            "x_mitre_is_subtechnique": true,
+            "x_mitre_platforms": [
+                "Windows",
+                "macOS"
+            ],
+            "x_mitre_version": "1.0",
+            "x_panw_parent_technique": "Obfuscated Files or Information",
+            "x_panw_parent_technique_subtechnique": "Obfuscated Files or Information: Software Packing"
+        },
+        {
+            "created": "2022-02-16T15:12:38.237Z",
+            "description": "Unit 42 has discovered Zloader and BazarLoader samples that had interesting implementations of a sandbox evasion technique. API Hammering involves the use of a massive number of calls to Windows APIs as a form of extended sleep to evade detection in sandbox environments.\n",
+            "id": "campaign--b214b49f-bfd9-4d1f-b265-48861312da24",
+            "modified": "2022-05-10T18:16:57.138Z",
+            "name": "Zloader and Bazarloader user API Hammering Technique",
+            "type": "campaign"
+        },
+        {
+            "created": "2022-02-16T15:26:04.882Z",
+            "description": "Configure WildFire to send an alert when a malicious or greyware file is detected. This alert could be sent by whichever means is preferable, including email, SNMP trap, or syslog message.\n\nAlternatively, configure the WildFire cloud to generate alerts for malicious files. The cloud can generate alerts in addition to or instead of the local WildFire implementation. Note that the destination email address of alerts configured in the WildFire cloud portal is tied to the logged in account, and cannot be modified. Also, new systems added to the WildFire cloud portal will not be automatically set to email alerts.",
+            "id": "course-of-action--04a2db1c-3e80-43a4-a9c6-3864195bbf73",
+            "modified": "2022-05-10T18:16:57.138Z",
+            "name": "Ensure alerts are enabled for malicious files detected  by WildFire",
+            "type": "course-of-action",
+            "x_panw_coa_bp_audit_procedure": "Navigate to `Objects > Log Forwarding`.\n\nVerify that the `WildFire` log type is configured to generate alerts using the desired alerting mechanism(s).",
+            "x_panw_coa_bp_cis_controls": "TITLE:Deploy Network-based Anti-malware Tools CONTROL:v6 8.5 DESCRIPTION:Use network-based anti-malware tools to identify executables in all network traffic and use techniques other than signature-based detection to identify and filter out malicious content before it arrives at the endpoint.;TITLE:Ensure Network Boundary Devices Log Verbosely CONTROL:v6 6.5 DESCRIPTION:Configure network boundary devices, including firewalls, network-based IPS, and inbound and outbound proxies, to verbosely log all traffic (both allowed and blocked) arriving at the device.;TITLE:Activate audit logging CONTROL:v7 6.2 DESCRIPTION:Ensure that local logging has been enabled on all systems and networking devices.;TITLE:Malware Defenses CONTROL:v7 8 DESCRIPTION:Malware Defenses;TITLE:Central Log Management CONTROL:v7 6.5 DESCRIPTION:Ensure that appropriate logs are being aggregated to a central log management system for analysis and review.;TITLE:Centralize Anti-malware Logging CONTROL:v7 8.6 DESCRIPTION:Send all malware detection events to enterprise anti-malware administration tools and event log servers for analysis and alerting.;",
+            "x_panw_coa_bp_description": "Configure WildFire to send an alert when a malicious or greyware file is detected. This alert could be sent by whichever means is preferable, including email, SNMP trap, or syslog message.\n\nAlternatively, configure the WildFire cloud to generate alerts for malicious files. The cloud can generate alerts in addition to or instead of the local WildFire implementation. Note that the destination email address of alerts configured in the WildFire cloud portal is tied to the logged in account, and cannot be modified. Also, new systems added to the WildFire cloud portal will not be automatically set to email alerts.",
+            "x_panw_coa_bp_rationale_statement": "WildFire analyzes files that have already been downloaded and possibly executed. A WildFire verdict of malicious indicates that a computer could already be infected. In addition, because WildFire only analyzes files it has not already seen that were not flagged by the firewall’s antivirus filter, files deemed malicious by WildFire are more likely to evade detection by desktop antivirus products.",
+            "x_panw_coa_bp_recommendation_number": "5.6",
+            "x_panw_coa_bp_references": "“WildFire Email Alerts: Subscribe or Add Additional Recipients” - https://live.paloaltonetworks.com/docs/DOC-7740:“Wildfire Administrator's Guide 9.0 (English)' - https://docs.paloaltonetworks.com/wildfire/9-0/wildfire-admin.html",
+            "x_panw_coa_bp_remediation_procedure": "From GUI, configure some combination of the following Server Profiles:\n\nConfigure the Email Server:\nSelect `Device > Server Profiles > Email`\nClick `Add` \nEnter a name for the Profile. \nSelect the virtual system from the Location drop down menu (if applicable) \nClick `Add`\n\nConfigure the Syslog Server: \nSelect `Device > Server Profiles > Syslog > Add` \nEnter `Name, Display Name, Syslog Server, Transport, Port, Format, Facility` \nClick `OK` \nClick `Commit` to save the configuration\n\nConfigure the SMTP Server: \nSelect `Device > Server Profiles > Email` \nSelect `Add, Name, Display Name, From, To, Additional Recipients, Gateway IP or Hostname` \nClick `OK` \nClick `Commit` to save the configuration\n\nNavigate to `Objects, Log Forwarding`\nChoose `Add`, set the log type to 'wildfire', add the filter '(verdict neq benign)', then add log destinations for SNMP, Syslog, Email or HTTP as required.",
+            "x_panw_coa_bp_scoring_status": "full",
+            "x_panw_coa_bp_section_number": "5",
+            "x_panw_coa_bp_status": "published",
+            "x_panw_coa_bp_title": "Ensure alerts are enabled for malicious files detected  by WildFire",
+            "x_panw_coa_source": "best-practices",
+            "x_panw_coa_spreadsheet_id": "5.6"
+        },
+        {
+            "created": "2022-02-16T15:26:04.882Z",
+            "description": "Ensure that all files traversing the firewall are inspected by WildFire by setting a Wildfire file blocking profile on all security policies.",
+            "id": "course-of-action--3de85a76-a879-43e6-80ba-38e09e7e2b0c",
+            "modified": "2022-05-10T18:16:57.138Z",
+            "name": "Ensure a WildFire Analysis profile is enabled for all security policies",
+            "type": "course-of-action",
+            "x_panw_coa_bp_audit_procedure": "To verify WildFire Analysis Profile:\n\n- Navigate to `Objects > Security Profiles > WildFire Analysis Profile` verify that a profile exists. \n\nTo verify File Blocking Rules:\n\n- For each Security Policy were the action is set to Allow, edit the Rule and navigate to `Actions > Profile Setting. Ensure that the WildFire Analysis` is set to `Allow` and verify that a profile is set.\n\nIf **Group Profiles** are used:\n- Navigate to `Policies > Security`\n- For each Security Policy were the action is set to Allow, edit the Rule and navigate to `Actions > Profile Setting`. Ensure that the `Profile Type` is set to `Group`.\n- Navigate to Objects > Security Profile Groups. Open the Security Profile Group used above, and ensure that the Wildfire Analysis Profile is set.",
+            "x_panw_coa_bp_cis_controls": "TITLE:Deploy Network-based Anti-malware Tools CONTROL:v6 8.5 DESCRIPTION:Use network-based anti-malware tools to identify executables in all network traffic and use techniques other than signature-based detection to identify and filter out malicious content before it arrives at the endpoint.;TITLE:Malware Defenses CONTROL:v7 8 DESCRIPTION:Malware Defenses;",
+            "x_panw_coa_bp_description": "Ensure that all files traversing the firewall are inspected by WildFire by setting a Wildfire file blocking profile on all security policies.",
+            "x_panw_coa_bp_rationale_statement": "Traffic matching security policies that do not include a WildFire file blocking profile will not utilize WildFire for file analysis. Wildfire analysis is one of the key security measures available on this platform. Without Wildfire analysis enabled, inbound malware can only be analyzed by signature - which industry wide is roughly 40-60% effective. In a targeted attack, the success of signature-based-only analysis drops even further.",
+            "x_panw_coa_bp_recommendation_number": "5.3",
+            "x_panw_coa_bp_references": "“Wildfire Administrator's Guide 9.0 (English)' - https://docs.paloaltonetworks.com/wildfire/9-0/wildfire-admin.html",
+            "x_panw_coa_bp_remediation_procedure": "To Set File Blocking Profile:\n\n- Navigate to `Objects > Security Profiles > WildFire Analysis Profile`.\n- Create a WildFire profile that has 'Application Any', 'File Types Any', and 'Direction Both' \n\nTo Set WildFire Analysis Rules: \n\n- Navigate to `Policies > Security`.\n- For each Security Policy Rule where the action is 'Allow', Navigate to `Actions > Profile Setting > WildFire Analysis` and set a WildFire Analysis profile.\n\n**Group Profiles** can also be used. To take this approach:\n- Navigate to `Objects > Security Profile Groups`. Create a Security Profile Group, and ensure that (among other settings) the `Wildfire Analysis Profile` is set to the created profile.\n- Navigate to `Policies > Security`. For each Security Policy Rule where the action is 'Allow', Navigate to `Actions > Profile Setting`. Modify the `Profile Type` to `Group`, and set the `Group Profile` to the created Security Profile Group.",
+            "x_panw_coa_bp_scoring_status": "full",
+            "x_panw_coa_bp_section_number": "5",
+            "x_panw_coa_bp_status": "published",
+            "x_panw_coa_bp_title": "Ensure a WildFire Analysis profile is enabled for all security policies",
+            "x_panw_coa_source": "best-practices",
+            "x_panw_coa_spreadsheet_id": "5.3"
+        },
+        {
+            "created": "2022-02-16T15:26:04.882Z",
+            "description": "Set the WildFire update schedule to download and install updates every minute.",
+            "id": "course-of-action--67289170-1bd4-4944-be31-d680954141f5",
+            "modified": "2022-05-10T18:16:57.138Z",
+            "name": "Ensure 'WildFire Update Schedule' is set to download and install updates every minute",
+            "type": "course-of-action",
+            "x_panw_coa_bp_audit_procedure": "Navigate to `Device > Dynamic Updates > WildFire Update Schedule`.\n\nVerify that `Action` is set to `Download and Install`.\n\nVerify that `Recurrence` is set to `Every Minute`.",
+            "x_panw_coa_bp_cis_controls": "TITLE:Boundary Defense CONTROL:v6 12 DESCRIPTION:Boundary Defense;TITLE:Deploy Network-based Anti-malware Tools CONTROL:v6 8.5 DESCRIPTION:Use network-based anti-malware tools to identify executables in all network traffic and use techniques other than signature-based detection to identify and filter out malicious content before it arrives at the endpoint.;TITLE:Use Automated Patch Management And Software Update Tools CONTROL:v6 4.5 DESCRIPTION:Deploy automated patch management tools and software update tools for operating system and software/applications on all systems for which such tools are available and safe. Patches should be applied to all systems, even systems that are properly air gapped.;TITLE:Deploy Automated Operating System Patch Management Tools CONTROL:v7 3.4 DESCRIPTION:Deploy automated software update tools in order to ensure that the operating systems are running the most recent security updates provided by the software vendor.;TITLE:Deploy Automated Software Patch Management Tools CONTROL:v7 3.5 DESCRIPTION:Deploy automated software update tools in order to ensure that third-party software on all systems is running the most recent security updates provided by the software vendor.;TITLE:Boundary Defense CONTROL:v7 12 DESCRIPTION:Boundary Defense;",
+            "x_panw_coa_bp_description": "Set the WildFire update schedule to download and install updates every minute.",
+            "x_panw_coa_bp_rationale_statement": "WildFire definitions may contain signatures to block immediate, active threats to the environment. With a 1 minute update schedule, the firewall can ensure threats with new definitions are quickly mitigated.",
+            "x_panw_coa_bp_recommendation_number": "5.7",
+            "x_panw_coa_bp_references": "“Wildfire Administrator's Guide 9.0 (English)' - https://docs.paloaltonetworks.com/wildfire/9-0/wildfire-admin.html:“How to Configure WildFire” - https://live.paloaltonetworks.com/docs/DOC-3252:“Tips for Managing Content Updates” - https://live.paloaltonetworks.com/docs/DOC- 1578",
+            "x_panw_coa_bp_remediation_procedure": "Navigate to `Device > Dynamic Updates > WildFire Update Schedule`.\n\nSet `Action` to `Download and Install`.\n\nSet `Recurrence` to `Every Minute`.",
+            "x_panw_coa_bp_scoring_status": "full",
+            "x_panw_coa_bp_section_number": "5",
+            "x_panw_coa_bp_status": "published",
+            "x_panw_coa_bp_title": "Ensure 'WildFire Update Schedule' is set to download and install updates every minute",
+            "x_panw_coa_source": "best-practices",
+            "x_panw_coa_spreadsheet_id": "5.7"
+        },
+        {
+            "created": "2022-02-16T15:26:04.882Z",
+            "description": "Set Applications and File Types fields to any in WildFire file blocking profiles. With a WildFire license, seven file types are supported, while only PE (Portable Executable) files are supported without a license.\nFor the 'web browsing' application, the action 'continue' can be selected. This still forwards the file to the Wildfire service, but also presents the end user with a confirmation message before they receive the file. Selecting 'continue' for any other application will block the file (because the end user will not see the prompt).\nIf there is a 'continue' rule, there should still be an 'any traffic / any application / forward' rule after that in the list.",
+            "id": "course-of-action--95432623-8819-4f74-a8f9-b10b9c4118c3",
+            "modified": "2022-05-10T18:16:57.138Z",
+            "name": "Ensure forwarding is enabled for all applications and file types in WildFire file blocking profiles",
+            "type": "course-of-action",
+            "x_panw_coa_bp_audit_procedure": "Navigate to `Objects > Security Profiles > File Blocking`.\n\nVerify an appropriate rule exists with `Applications` set to `any`, `File Type` set to `any`, and `Action` set to `forward`.",
+            "x_panw_coa_bp_cis_controls": "TITLE:Deploy Network-based Anti-malware Tools CONTROL:v6 8.5 DESCRIPTION:Use network-based anti-malware tools to identify executables in all network traffic and use techniques other than signature-based detection to identify and filter out malicious content before it arrives at the endpoint.;TITLE:Malware Defenses CONTROL:v7 8 DESCRIPTION:Malware Defenses;",
+            "x_panw_coa_bp_description": "Set Applications and File Types fields to any in WildFire file blocking profiles. With a WildFire license, seven file types are supported, while only PE (Portable Executable) files are supported without a license.\nFor the 'web browsing' application, the action 'continue' can be selected. This still forwards the file to the Wildfire service, but also presents the end user with a confirmation message before they receive the file. Selecting 'continue' for any other application will block the file (because the end user will not see the prompt).\nIf there is a 'continue' rule, there should still be an 'any traffic / any application / forward' rule after that in the list.",
+            "x_panw_coa_bp_rationale_statement": "Selecting 'Any' application and file type ensures WildFire is analyzing as many files as possible.",
+            "x_panw_coa_bp_recommendation_number": "5.2",
+            "x_panw_coa_bp_references": "““Wildfire Administrator's Guide 9.0 (English) -WildFire Best Practices” - https://docs.paloaltonetworks.com/wildfire/9-0/wildfire-admin/wildfire-deployment-best-practices/wildfire-best-practices.html#",
+            "x_panw_coa_bp_remediation_procedure": "Navigate to `Objects > Security Profiles > File Blocking`.\n\nSet a rule so that `Applications` is set to `any`, `File Type` is set to `any`, and `Action` is set to `forward`.",
+            "x_panw_coa_bp_scoring_status": "full",
+            "x_panw_coa_bp_section_number": "5",
+            "x_panw_coa_bp_status": "published",
+            "x_panw_coa_bp_title": "Ensure forwarding is enabled for all applications and file types in WildFire file blocking profiles",
+            "x_panw_coa_source": "best-practices",
+            "x_panw_coa_spreadsheet_id": "5.2"
+        },
+        {
+            "created": "2022-02-16T15:26:04.882Z",
+            "description": "Cortex XDR provides a multi-method protection solution with exploit protection modules that target software vulnerabilities in processes that open non-executable files and malware protection modules that examine executable files, DLLs, and macros for malicious signatures and behavior.",
+            "id": "course-of-action--b00952a1-a17e-4fc5-942f-c2056da31652",
+            "modified": "2022-05-10T18:16:57.138Z",
+            "name": "Enable Anti-Exploit Protection",
+            "type": "course-of-action",
+            "x_panw_coa_description": "Cortex XDR provides a multi-method protection solution with exploit protection modules that target software vulnerabilities in processes that open non-executable files and malware protection modules that examine executable files, DLLs, and macros for malicious signatures and behavior.",
+            "x_panw_coa_source": "unit-42",
+            "x_panw_coa_spreadsheet_id": "x.15",
+            "x_panw_coa_u42_title": "Enable Anti-Exploit Protection"
+        },
+        {
+            "created": "2022-02-16T15:26:04.882Z",
+            "description": "Enable all options under Session Information Settings for WildFire.",
+            "id": "course-of-action--be1d0eb5-a628-4d91-9096-9158e68816cd",
+            "modified": "2022-05-10T18:16:57.138Z",
+            "name": "Ensure all WildFire session information settings are enabled",
+            "type": "course-of-action",
+            "x_panw_coa_bp_audit_procedure": "Navigate to `Device > Setup > WildFire > Session Information Settings`.\n\nVerify that every option is enabled.",
+            "x_panw_coa_bp_cis_controls": "TITLE:Deploy Network-based Anti-malware Tools CONTROL:v6 8.5 DESCRIPTION:Use network-based anti-malware tools to identify executables in all network traffic and use techniques other than signature-based detection to identify and filter out malicious content before it arrives at the endpoint.;TITLE:Ensure Network Boundary Devices Log Verbosely CONTROL:v6 6.5 DESCRIPTION:Configure network boundary devices, including firewalls, network-based IPS, and inbound and outbound proxies, to verbosely log all traffic (both allowed and blocked) arriving at the device.;TITLE:Activate audit logging CONTROL:v7 6.2 DESCRIPTION:Ensure that local logging has been enabled on all systems and networking devices.;TITLE:Malware Defenses CONTROL:v7 8 DESCRIPTION:Malware Defenses;TITLE:Malware Defenses CONTROL:v6 8 DESCRIPTION:Malware Defenses;TITLE:Centralize Anti-malware Logging CONTROL:v7 8.6 DESCRIPTION:Send all malware detection events to enterprise anti-malware administration tools and event log servers for analysis and alerting.;",
+            "x_panw_coa_bp_description": "Enable all options under Session Information Settings for WildFire.",
+            "x_panw_coa_bp_rationale_statement": "Permitting the firewall to send all of this information to WildFire creates more detailed reports, thereby making the process of tracking down potentially infected devices more efficient. This could prevent an infected system from further infecting the environment. Environments with security policies restricting sending this data to the WildFire cloud can instead utilize an on-premises WildFire appliance. In addition, risk can be analyzed in the context of the destination host and user account, either during analysis or during incident response.",
+            "x_panw_coa_bp_recommendation_number": "5.5",
+            "x_panw_coa_bp_references": "“Wildfire Administrator's Guide 9.0 (English)' - https://docs.paloaltonetworks.com/wildfire/9-0/wildfire-admin.html#:“Wildfire Administrator's Guide 9.0 (English) - Wildfire Best Practices' - /https://docs.paloaltonetworks.com/wildfire/9-0/wildfire-admin/wildfire-deployment-best-practices/wildfire-best-practices.html",
+            "x_panw_coa_bp_remediation_procedure": "Navigate to `Device > Setup > WildFire > Session Information Settings`.\n\nSet every option to be enabled.",
+            "x_panw_coa_bp_scoring_status": "full",
+            "x_panw_coa_bp_section_number": "5",
+            "x_panw_coa_bp_status": "published",
+            "x_panw_coa_bp_title": "Ensure all WildFire session information settings are enabled",
+            "x_panw_coa_source": "best-practices",
+            "x_panw_coa_spreadsheet_id": "5.5"
+        },
+        {
+            "created": "2022-02-16T15:26:04.882Z",
+            "description": "Enable Anti-Malware protection to leverage  multi-method protection and prevention techniques to protect your endpoints from both known and unknown malware.",
+            "id": "course-of-action--c9efabbf-c21b-4213-a192-6a8e3b3a0905",
+            "modified": "2022-05-10T18:16:57.138Z",
+            "name": "Enable Anti-Malware Protection",
+            "type": "course-of-action",
+            "x_panw_coa_description": "Enable Anti-Malware protection to leverage  multi-method protection and prevention techniques to protect your endpoints from both known and unknown malware.",
+            "x_panw_coa_source": "unit-42",
+            "x_panw_coa_spreadsheet_id": "x.16",
+            "x_panw_coa_u42_title": "Enable Anti-Malware Protection"
+        },
+        {
+            "created": "2022-02-16T15:26:04.882Z",
+            "description": "Increase WildFire file size limits to the maximum file size supported by the environment. An organization with bandwidth constraints or heavy usage of unique files under a supported file type may require lower settings.\nThe recommendations account for the CPU load on smaller platforms. If an organization consistently has CPU to spare, it's recommended to set some or all of these values to the maximum.",
+            "id": "course-of-action--f1a1d494-3463-4067-abc7-a731f7dfb9ff",
+            "modified": "2022-05-10T18:16:57.138Z",
+            "name": "Ensure that WildFire file size upload limits are maximized",
+            "type": "course-of-action",
+            "x_panw_coa_bp_audit_procedure": "Navigate to `Device > Setup > WildFire`.\n\nNavigate to the `General Settings` sections.\n\nVerify the maximum size for each file type are larger than the defaults, to a size that is as large enough to account for 'large' files, but not large enough to affect performance of the hardware.",
+            "x_panw_coa_bp_cis_controls": "TITLE:Deploy Network-based Anti-malware Tools CONTROL:v6 8.5 DESCRIPTION:Use network-based anti-malware tools to identify executables in all network traffic and use techniques other than signature-based detection to identify and filter out malicious content before it arrives at the endpoint.;TITLE:Malware Defenses CONTROL:v7 8 DESCRIPTION:Malware Defenses;",
+            "x_panw_coa_bp_description": "Increase WildFire file size limits to the maximum file size supported by the environment. An organization with bandwidth constraints or heavy usage of unique files under a supported file type may require lower settings.\nThe recommendations account for the CPU load on smaller platforms. If an organization consistently has CPU to spare, it's recommended to set some or all of these values to the maximum.",
+            "x_panw_coa_bp_impact_statement": "With the default values known, an attacker has only to send an infected file slightly over the 'maximum' size for that filetype to evade detection at the perimeter. Many of the values are significantly lower than is typical for each file size.",
+            "x_panw_coa_bp_rationale_statement": "Increasing file size limits allows the devices to forward more files for WildFire analysis. This increases the chances of identifying, and later preventing, threats in larger files. The default values are configured for files small enough that the majority of files are not assessed by Wildfire.",
+            "x_panw_coa_bp_recommendation_number": "5.1",
+            "x_panw_coa_bp_references": "“Wildfire Administrator's Guide 9.0 (English) - Increased Wildfire File Forwarding Capacity' - https://docs.paloaltonetworks.com/wildfire/u-v/wildfire-whats-new/wildfire-features-in-panos-90/increased-wildfire-file-forwarding-capacity:“How to Configure WildFire” - https://live.paloaltonetworks.com/docs/DOC-3252:“Wildfire Administrator's Guide 9.0 (English) - Wildfire Best Practices' - https://docs.paloaltonetworks.com/wildfire/9-0/wildfire-admin/wildfire-deployment-best-practices/wildfire-best-practices.html#:“Wildfire Administrator's Guide 9.0 (English) - Forward Files for Wildfire Analysis' - https://docs.paloaltonetworks.com/wildfire/9-0/wildfire-admin/submit-files-for-wildfire-analysis/forward-files-for-wildfire-analysis.html#",
+            "x_panw_coa_bp_remediation_procedure": "Navigate to `Device > Setup > WildFire`.\n\nClick the `General Settings` edit icon.\n\nSet the maximum size for each file type are larger than the defaults, to a size that is as large enough to account for 'large' files, but not large enough to affect performance of the hardware. \n\nIn PAN-OS 9.x, the default file sizes for WildFire are: \n\n- pe (Portable Executable) - 16MB\n- apk (Android Application)- 10MB\n- pdf (Portable Document Format) - 3072KB\n- ms-office (Microsoft Office) — 16384KB\n- jar (Packaged Java class file) — 5MB\n- flash (Adobe Flash) — 5MB\n- MacOSX (DMG/MAC-APP/MACH-O PKG files) — 10MB\n- archive (RAR and 7z files) — 50MB\n- linux (ELF files) — 50MB\n- script (JScript, VBScript, PowerShell, and Shell Script)- 20KB\n\nIn PAN-OS 9.x, the maximum file sizes for Wildfire are:\n- pe (Portable Executable) - 50MB\n- apk (Android Application)- 50MB\n- pdf (Portable Document Format) - 51200KB\n- ms-office (Microsoft Office) — 51200KB\n- jar (Packaged Java class file) — 20MB\n- flash (Adobe Flash) — 10MB\n- MacOSX (DMG/MAC-APP/MACH-O PKG files) — 50MB\n- archive (RAR and 7z files) — 50MB\n- linux (ELF files) — 50MB\n- script (JScript, VBScript, PowerShell, and Shell Script)- 4096KB",
+            "x_panw_coa_bp_scoring_status": "full",
+            "x_panw_coa_bp_section_number": "5",
+            "x_panw_coa_bp_status": "published",
+            "x_panw_coa_bp_title": "Ensure that WildFire file size upload limits are maximized",
+            "x_panw_coa_source": "best-practices",
+            "x_panw_coa_spreadsheet_id": "5.1"
+        },
+        {
+            "created": "2022-02-16T15:26:04.882Z",
+            "description": "Allow the firewall to forward decrypted content to WildFire. Note that SSL Forward-Proxy must also be enabled and configured for this setting to take effect on inside-to-outside traffic flows.",
+            "id": "course-of-action--fafab9a4-1478-499e-9088-2043c42720d1",
+            "modified": "2022-05-10T18:16:57.138Z",
+            "name": "Ensure forwarding of decrypted content to WildFire is enabled",
+            "type": "course-of-action",
+            "x_panw_coa_bp_audit_procedure": "Navigate to `Device > Setup > Content-ID > Content-ID Settings`.\n\nVerify that `Allow forwarding of decrypted content` is checked.",
+            "x_panw_coa_bp_cis_controls": "TITLE:Design Network Perimeters To Leverage Proxy CONTROL:v6 12.5 DESCRIPTION:Design and implement network perimeters so that all outgoing network traffic to the Internet must pass through at least one application layer filtering proxy server. The proxy should support decrypting network traffic, logging individual TCP sessions, blocking specific URLs, domain names, and IP addresses to implement a black list, and applying whitelists of allowed sites that can be accessed through the proxy while blocking all other sites. Organizations should force outbound traffic to the Internet through an authenticated proxy server on the enterprise perimeter.;TITLE:Deploy Application Layer Filtering Proxy Server CONTROL:v7 12.9 DESCRIPTION:Ensure that all network traffic to or from the Internet passes through an authenticated application layer proxy that is configured to filter unauthorized connections.;TITLE:Decrypt Network Traffic at Proxy CONTROL:v7 12.10 DESCRIPTION:Decrypt all encrypted network traffic at the boundary proxy prior to analyzing the content. However, the organization may use whitelists of allowed sites that can be accessed through the proxy without decrypting the traffic.;TITLE:Deploy Network-based Anti-malware Tools CONTROL:v6 8.5 DESCRIPTION:Use network-based anti-malware tools to identify executables in all network traffic and use techniques other than signature-based detection to identify and filter out malicious content before it arrives at the endpoint.;TITLE:Malware Defenses CONTROL:v7 8 DESCRIPTION:Malware Defenses;TITLE:Malware Defenses CONTROL:v6 8 DESCRIPTION:Malware Defenses;",
+            "x_panw_coa_bp_description": "Allow the firewall to forward decrypted content to WildFire. Note that SSL Forward-Proxy must also be enabled and configured for this setting to take effect on inside-to-outside traffic flows.",
+            "x_panw_coa_bp_rationale_statement": "As encrypted Internet traffic continues to proliferate, WildFire becomes less effective unless it is allowed to act on decrypted content. For example, if a user downloads a malicious pdf over SSL, WildFire can only provide analysis if 1) the session is decrypted by the firewall and 2) forwarding of decrypted content is enabled. In today's internet, roughly 70-80% of all user traffic is encrypted. If Wildfire is not configured to analyze encrypted content, the effectiveness of Wildfire is drastically reduced.",
+            "x_panw_coa_bp_recommendation_number": "5.4",
+            "x_panw_coa_bp_references": "“WildFire Fails Forwarding File to Cloud for Encrypted Traffic” - https://live.paloaltonetworks.com/docs/DOC-6845:“Wildfire Administrator's Guide 9.0 (English) - Forward Decrypted SSL Traffic for Wildfire Analysis' - https://docs.paloaltonetworks.com/wildfire/9-0/wildfire-admin/submit-files-for-wildfire-analysis/forward-decrypted-ssl-traffic-for-wildfire-analysis.html#:“Wildfire Administrator's Guide 9.0 (English) - Wildfire Best Practices' - https://docs.paloaltonetworks.com/wildfire/9-0/wildfire-admin/wildfire-deployment-best-practices/wildfire-best-practices.html#",
+            "x_panw_coa_bp_remediation_procedure": "Navigate to `Device > Setup > Content-ID > Content-ID Settings`.\n\nSet `Allow forwarding of decrypted content` to be checked.\nNote that SSL Forward Proxy must be configured for this setting to be effective.",
+            "x_panw_coa_bp_scoring_status": "full",
+            "x_panw_coa_bp_section_number": "5",
+            "x_panw_coa_bp_status": "published",
+            "x_panw_coa_bp_title": "Ensure forwarding of decrypted content to WildFire is enabled",
+            "x_panw_coa_source": "best-practices",
+            "x_panw_coa_spreadsheet_id": "5.4"
+        },
+        {
+            "created": "2022-02-16T15:12:38.237Z",
+            "id": "identity--7b5f9716-4cd7-4b6d-bbb5-1add0a7df7e0",
+            "identity_class": [
+                "unknown"
+            ],
+            "modified": "2022-05-10T18:16:57.138Z",
+            "name": "Targeting Information",
+            "type": "identity"
+        },
+        {
+            "created": "2022-02-16T15:26:04.882Z",
+            "id": "indicator--2ef953b5-e33e-48dc-8dec-1c3e268cd512",
+            "labels": [
+                "malicious-activity"
+            ],
+            "modified": "2022-05-10T18:16:57.138Z",
+            "name": "44ede6e1b9be1c013f13d82645f7a9cff7d92b267778f19b46aa5c1f7fa3c10b",
+            "pattern": "[file:hashes.'SHA-256' = '44ede6e1b9be1c013f13d82645f7a9cff7d92b267778f19b46aa5c1f7fa3c10b']",
+            "pattern_type": "stix",
+            "type": "indicator",
+            "valid_from": "2022-02-16T15:26:04.882Z"
+        },
+        {
+            "created": "2022-02-16T15:26:04.882Z",
+            "id": "indicator--fae824b0-2385-4bbf-ae0a-041c91508cdb",
+            "labels": [
+                "malicious-activity"
+            ],
+            "modified": "2022-05-10T18:16:57.138Z",
+            "name": "ce5ee2fd8aa4acda24baf6221b5de66220172da0eb312705936adc5b164cc052",
+            "pattern": "[file:hashes.'SHA-256' = 'ce5ee2fd8aa4acda24baf6221b5de66220172da0eb312705936adc5b164cc052']",
+            "pattern_type": "stix",
+            "type": "indicator",
+            "valid_from": "2022-02-16T15:26:04.882Z"
+        },
+        {
+            "created": "2022-02-16T15:12:38.237Z",
+            "id": "relationship--238ce7cc-9d2e-4fcc-9899-2cc35751d9ad",
+            "modified": "2022-05-10T18:16:57.138Z",
+            "relationship_type": "targets",
+            "source_ref": "campaign--b214b49f-bfd9-4d1f-b265-48861312da24",
+            "target_ref": "identity--7b5f9716-4cd7-4b6d-bbb5-1add0a7df7e0",
+            "type": "relationship"
+        },
+        {
+            "created": "2022-02-16T15:26:04.882Z",
+            "id": "relationship--26b6583b-773c-4858-aadb-941abf4186a7",
+            "modified": "2022-05-10T18:16:57.138Z",
+            "relationship_type": "mitigates",
+            "source_ref": "course-of-action--67289170-1bd4-4944-be31-d680954141f5",
+            "target_ref": "attack-pattern--deb98323-e13f-4b0c-8d94-175379069062",
+            "type": "relationship",
+            "x_panw_coa_u42_panw_product": [
+                "WILDFIRE"
+            ]
+        },
+        {
+            "created": "2022-02-16T15:26:04.882Z",
+            "description": "Zloader Sample",
+            "id": "relationship--26bb8d2d-d333-436b-981f-824af65ae4b3",
+            "modified": "2022-05-10T18:16:57.138Z",
+            "relationship_type": "indicates",
+            "source_ref": "indicator--2ef953b5-e33e-48dc-8dec-1c3e268cd512",
+            "target_ref": "attack-pattern--4bed873f-0b7d-41d4-b93a-b6905d1f90b0",
+            "type": "relationship"
+        },
+        {
+            "created": "2022-02-16T15:26:04.882Z",
+            "id": "relationship--461badf8-b4ce-465f-a4b9-f866a8ca15a9",
+            "modified": "2022-05-10T18:16:57.138Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--b214b49f-bfd9-4d1f-b265-48861312da24",
+            "target_ref": "attack-pattern--deb98323-e13f-4b0c-8d94-175379069062",
+            "type": "relationship"
+        },
+        {
+            "created": "2022-02-16T15:26:04.882Z",
+            "id": "relationship--4d5d3b22-3843-482c-8818-3b1104acd457",
+            "modified": "2022-05-10T18:16:57.138Z",
+            "relationship_type": "mitigates",
+            "source_ref": "course-of-action--f1a1d494-3463-4067-abc7-a731f7dfb9ff",
+            "target_ref": "attack-pattern--deb98323-e13f-4b0c-8d94-175379069062",
+            "type": "relationship",
+            "x_panw_coa_u42_panw_product": [
+                "WILDFIRE"
+            ]
+        },
+        {
+            "created": "2022-02-16T15:26:04.882Z",
+            "id": "relationship--502ffaa9-cee8-4748-ba49-f32a71aa84d2",
+            "modified": "2022-05-10T18:16:57.138Z",
+            "relationship_type": "mitigates",
+            "source_ref": "course-of-action--3de85a76-a879-43e6-80ba-38e09e7e2b0c",
+            "target_ref": "attack-pattern--deb98323-e13f-4b0c-8d94-175379069062",
+            "type": "relationship",
+            "x_panw_coa_u42_panw_product": [
+                "WILDFIRE"
+            ]
+        },
+        {
+            "created": "2022-02-16T15:26:04.882Z",
+            "id": "relationship--51615d66-e5d3-45f7-81b5-eff5c66ffb73",
+            "modified": "2022-05-10T18:16:57.138Z",
+            "relationship_type": "indicates",
+            "source_ref": "indicator--fae824b0-2385-4bbf-ae0a-041c91508cdb",
+            "target_ref": "campaign--b214b49f-bfd9-4d1f-b265-48861312da24",
+            "type": "relationship"
+        },
+        {
+            "created": "2022-02-16T15:26:04.882Z",
+            "id": "relationship--72895433-ae29-4f0e-9d1b-51dbdf388364",
+            "modified": "2022-05-10T18:16:57.138Z",
+            "relationship_type": "mitigates",
+            "source_ref": "course-of-action--c9efabbf-c21b-4213-a192-6a8e3b3a0905",
+            "target_ref": "attack-pattern--deb98323-e13f-4b0c-8d94-175379069062",
+            "type": "relationship",
+            "x_panw_coa_u42_panw_product": [
+                "CORTEX XDR PREVENT"
+            ]
+        },
+        {
+            "created": "2022-02-16T15:26:04.882Z",
+            "id": "relationship--83d7aeed-86c0-462d-b25a-3a365dd37aab",
+            "modified": "2022-05-10T18:16:57.138Z",
+            "relationship_type": "mitigates",
+            "source_ref": "course-of-action--be1d0eb5-a628-4d91-9096-9158e68816cd",
+            "target_ref": "attack-pattern--deb98323-e13f-4b0c-8d94-175379069062",
+            "type": "relationship",
+            "x_panw_coa_u42_panw_product": [
+                "WILDFIRE"
+            ]
+        },
+        {
+            "created": "2022-02-16T15:26:04.882Z",
+            "id": "relationship--9622f068-fe70-44f6-b200-0254b8d30765",
+            "modified": "2022-05-10T18:16:57.138Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--b214b49f-bfd9-4d1f-b265-48861312da24",
+            "target_ref": "attack-pattern--4bed873f-0b7d-41d4-b93a-b6905d1f90b0",
+            "type": "relationship"
+        },
+        {
+            "created": "2022-02-16T15:26:04.882Z",
+            "id": "relationship--9f9924ad-692a-49ad-bfd5-d51bb4b41f43",
+            "modified": "2022-05-10T18:16:57.138Z",
+            "relationship_type": "mitigates",
+            "source_ref": "course-of-action--04a2db1c-3e80-43a4-a9c6-3864195bbf73",
+            "target_ref": "attack-pattern--deb98323-e13f-4b0c-8d94-175379069062",
+            "type": "relationship",
+            "x_panw_coa_u42_panw_product": [
+                "WILDFIRE"
+            ]
+        },
+        {
+            "created": "2022-02-16T15:26:04.882Z",
+            "description": "BazarLoader Sample",
+            "id": "relationship--a194f529-b095-477f-9107-ea863b9927f9",
+            "modified": "2022-05-10T18:16:57.138Z",
+            "relationship_type": "indicates",
+            "source_ref": "indicator--fae824b0-2385-4bbf-ae0a-041c91508cdb",
+            "target_ref": "attack-pattern--4bed873f-0b7d-41d4-b93a-b6905d1f90b0",
+            "type": "relationship"
+        },
+        {
+            "created": "2022-02-16T15:26:04.882Z",
+            "id": "relationship--af83545f-1c6d-480e-8ce5-9cebe6de5681",
+            "modified": "2022-05-10T18:16:57.138Z",
+            "relationship_type": "indicates",
+            "source_ref": "indicator--2ef953b5-e33e-48dc-8dec-1c3e268cd512",
+            "target_ref": "campaign--b214b49f-bfd9-4d1f-b265-48861312da24",
+            "type": "relationship"
+        },
+        {
+            "created": "2022-02-16T15:26:04.882Z",
+            "id": "relationship--b240617b-d777-4f3e-a3dc-2fce09dcf3e9",
+            "modified": "2022-05-10T18:16:57.138Z",
+            "relationship_type": "mitigates",
+            "source_ref": "course-of-action--95432623-8819-4f74-a8f9-b10b9c4118c3",
+            "target_ref": "attack-pattern--deb98323-e13f-4b0c-8d94-175379069062",
+            "type": "relationship",
+            "x_panw_coa_u42_panw_product": [
+                "WILDFIRE"
+            ]
+        },
+        {
+            "created": "2022-02-16T15:26:04.882Z",
+            "id": "relationship--c2eaf42e-698c-4632-a4c4-5d4d2eb6adcc",
+            "modified": "2022-05-10T18:16:57.138Z",
+            "relationship_type": "mitigates",
+            "source_ref": "course-of-action--b00952a1-a17e-4fc5-942f-c2056da31652",
+            "target_ref": "attack-pattern--deb98323-e13f-4b0c-8d94-175379069062",
+            "type": "relationship",
+            "x_panw_coa_u42_panw_product": [
+                "CORTEX XDR PREVENT"
+            ]
+        },
+        {
+            "created": "2022-02-16T15:26:04.882Z",
+            "id": "relationship--c82f7b91-12bb-404e-94f1-33257ed1cef9",
+            "modified": "2022-05-10T18:16:57.138Z",
+            "relationship_type": "mitigates",
+            "source_ref": "course-of-action--fafab9a4-1478-499e-9088-2043c42720d1",
+            "target_ref": "attack-pattern--deb98323-e13f-4b0c-8d94-175379069062",
+            "type": "relationship",
+            "x_panw_coa_u42_panw_product": [
+                "WILDFIRE"
+            ]
+        },
+        {
+            "created": "2022-02-16T15:26:04.882Z",
+            "id": "relationship--d71e70a5-3c78-45ad-b534-96ea1e154ca9",
+            "modified": "2022-05-10T18:16:57.138Z",
+            "relationship_type": "uses",
+            "source_ref": "campaign--b214b49f-bfd9-4d1f-b265-48861312da24",
+            "target_ref": "attack-pattern--82caa33e-d11a-433a-94ea-9b5a5fbef81d",
+            "type": "relationship"
+        },
+        {
+            "created": "2022-02-16T15:12:38.237Z",
+            "id": "report--14ff715a-4979-40e0-a9d2-85b13be87046",
+            "labels": [
+                "campaign"
+            ],
+            "modified": "2022-05-10T18:16:57.138Z",
+            "name": "ATOM Campaign Report",
+            "object_refs": [
+                "attack-pattern--4bed873f-0b7d-41d4-b93a-b6905d1f90b0",
+                "attack-pattern--82caa33e-d11a-433a-94ea-9b5a5fbef81d",
+                "attack-pattern--deb98323-e13f-4b0c-8d94-175379069062",
+                "campaign--b214b49f-bfd9-4d1f-b265-48861312da24",
+                "course-of-action--04a2db1c-3e80-43a4-a9c6-3864195bbf73",
+                "course-of-action--3de85a76-a879-43e6-80ba-38e09e7e2b0c",
+                "course-of-action--67289170-1bd4-4944-be31-d680954141f5",
+                "course-of-action--95432623-8819-4f74-a8f9-b10b9c4118c3",
+                "course-of-action--b00952a1-a17e-4fc5-942f-c2056da31652",
+                "course-of-action--be1d0eb5-a628-4d91-9096-9158e68816cd",
+                "course-of-action--c9efabbf-c21b-4213-a192-6a8e3b3a0905",
+                "course-of-action--f1a1d494-3463-4067-abc7-a731f7dfb9ff",
+                "course-of-action--fafab9a4-1478-499e-9088-2043c42720d1",
+                "identity--7b5f9716-4cd7-4b6d-bbb5-1add0a7df7e0",
+                "indicator--2ef953b5-e33e-48dc-8dec-1c3e268cd512",
+                "indicator--fae824b0-2385-4bbf-ae0a-041c91508cdb",
+                "relationship--238ce7cc-9d2e-4fcc-9899-2cc35751d9ad",
+                "relationship--26b6583b-773c-4858-aadb-941abf4186a7",
+                "relationship--26bb8d2d-d333-436b-981f-824af65ae4b3",
+                "relationship--461badf8-b4ce-465f-a4b9-f866a8ca15a9",
+                "relationship--4d5d3b22-3843-482c-8818-3b1104acd457",
+                "relationship--502ffaa9-cee8-4748-ba49-f32a71aa84d2",
+                "relationship--51615d66-e5d3-45f7-81b5-eff5c66ffb73",
+                "relationship--72895433-ae29-4f0e-9d1b-51dbdf388364",
+                "relationship--83d7aeed-86c0-462d-b25a-3a365dd37aab",
+                "relationship--9622f068-fe70-44f6-b200-0254b8d30765",
+                "relationship--9f9924ad-692a-49ad-bfd5-d51bb4b41f43",
+                "relationship--a194f529-b095-477f-9107-ea863b9927f9",
+                "relationship--af83545f-1c6d-480e-8ce5-9cebe6de5681",
+                "relationship--b240617b-d777-4f3e-a3dc-2fce09dcf3e9",
+                "relationship--c2eaf42e-698c-4632-a4c4-5d4d2eb6adcc",
+                "relationship--c82f7b91-12bb-404e-94f1-33257ed1cef9",
+                "relationship--d71e70a5-3c78-45ad-b534-96ea1e154ca9"
+            ],
+            "published": "2022-02-16T15:12:38.237Z",
+            "type": "report"
+        }
+    ],
+    "spec_version": "2.0",
+    "type": "bundle"
+}
